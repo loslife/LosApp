@@ -5,36 +5,36 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>84384F7B-972F-464E-9440-B7BDF0E7F7FB</string>
+	<string>5C31AB91-BAB2-4A45-8028-47AB48EA4110</string>
 	<key>IDESourceControlProjectName</key>
 	<string>LosApp</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>2504CB08-106A-41B8-B6F2-3B8688E51CD6</key>
-		<string>https://github.com/kyfxbl/bossApp</string>
+		<key>2882A061-B5B2-4B98-9ED3-ADD931C21915</key>
+		<string>https://github.com/kyfxbl/LosApp</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>platform/ios/LosApp.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>2504CB08-106A-41B8-B6F2-3B8688E51CD6</key>
+		<key>2882A061-B5B2-4B98-9ED3-ADD931C21915</key>
 		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/kyfxbl/bossApp</string>
+	<string>https://github.com/kyfxbl/LosApp</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>2504CB08-106A-41B8-B6F2-3B8688E51CD6</string>
+	<string>2882A061-B5B2-4B98-9ED3-ADD931C21915</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>2504CB08-106A-41B8-B6F2-3B8688E51CD6</string>
+			<string>2882A061-B5B2-4B98-9ED3-ADD931C21915</string>
 			<key>IDESourceControlWCCName</key>
-			<string>bossApp</string>
+			<string>LosApp</string>
 		</dict>
 	</array>
 </dict>
