@@ -21,6 +21,9 @@
 		1866672D1949C37E00A345F7 /* client.p12 in Resources */ = {isa = PBXBuildFile; fileRef = 1866672C1949C37E00A345F7 /* client.p12 */; };
 		186667301949C3B700A345F7 /* LosHttpHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866672F1949C3B700A345F7 /* LosHttpHelper.m */; };
 		186667361949CB3F00A345F7 /* TimesHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 186667351949CB3F00A345F7 /* TimesHelper.m */; };
+		1866673C1949F8F100A345F7 /* ReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866673B1949F8F100A345F7 /* ReportViewController.m */; };
+		1866673F1949F98200A345F7 /* ContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866673E1949F98200A345F7 /* ContactViewController.m */; };
+		186667421949FB6100A345F7 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186667411949FB6100A345F7 /* SettingViewController.m */; };
 		18B2EE121946E0EF00264B74 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B2EE111946E0EF00264B74 /* Foundation.framework */; };
 		18B2EE141946E0EF00264B74 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B2EE131946E0EF00264B74 /* CoreGraphics.framework */; };
 		18B2EE161946E0EF00264B74 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B2EE151946E0EF00264B74 /* UIKit.framework */; };
@@ -57,6 +60,12 @@
 		186667311949C5E900A345F7 /* LosAppUrls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LosAppUrls.h; sourceTree = "<group>"; };
 		186667341949CB3F00A345F7 /* TimesHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimesHelper.h; sourceTree = "<group>"; };
 		186667351949CB3F00A345F7 /* TimesHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimesHelper.m; sourceTree = "<group>"; };
+		1866673A1949F8F100A345F7 /* ReportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportViewController.h; sourceTree = "<group>"; };
+		1866673B1949F8F100A345F7 /* ReportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportViewController.m; sourceTree = "<group>"; };
+		1866673D1949F98200A345F7 /* ContactViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactViewController.h; sourceTree = "<group>"; };
+		1866673E1949F98200A345F7 /* ContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactViewController.m; sourceTree = "<group>"; };
+		186667401949FB6100A345F7 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
+		186667411949FB6100A345F7 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		18B2EE0E1946E0EF00264B74 /* LosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18B2EE111946E0EF00264B74 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		18B2EE131946E0EF00264B74 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -211,6 +220,12 @@
 				1866670719498D1C00A345F7 /* LoginViewController.m */,
 				1866670919498F1D00A345F7 /* BootstrapViewController.h */,
 				1866670A19498F1D00A345F7 /* BootstrapViewController.m */,
+				1866673A1949F8F100A345F7 /* ReportViewController.h */,
+				1866673B1949F8F100A345F7 /* ReportViewController.m */,
+				1866673D1949F98200A345F7 /* ContactViewController.h */,
+				1866673E1949F98200A345F7 /* ContactViewController.m */,
+				186667401949FB6100A345F7 /* SettingViewController.h */,
+				186667411949FB6100A345F7 /* SettingViewController.m */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -322,9 +337,11 @@
 			files = (
 				1866671C1949B2E900A345F7 /* UpdateHelper.m in Sources */,
 				18B2EE1E1946E0EF00264B74 /* main.m in Sources */,
+				186667421949FB6100A345F7 /* SettingViewController.m in Sources */,
 				1866670819498D1C00A345F7 /* LoginViewController.m in Sources */,
 				186667181949AD4900A345F7 /* PathResolver.m in Sources */,
 				1866670B19498F1D00A345F7 /* BootstrapViewController.m in Sources */,
+				1866673C1949F8F100A345F7 /* ReportViewController.m in Sources */,
 				186667121949A9D000A345F7 /* BootstrapView.m in Sources */,
 				186667151949ACD600A345F7 /* VersionInfo.m in Sources */,
 				1866670F1949931800A345F7 /* LoginView.m in Sources */,
@@ -332,6 +349,7 @@
 				1866670519498B5600A345F7 /* UserData.m in Sources */,
 				186667201949C2D400A345F7 /* LosHttpsBase.m in Sources */,
 				186667301949C3B700A345F7 /* LosHttpHelper.m in Sources */,
+				1866673F1949F98200A345F7 /* ContactViewController.m in Sources */,
 				186667011949864100A345F7 /* WelcomeViewController.m in Sources */,
 				18B2EE221946E0EF00264B74 /* LosAppDelegate.m in Sources */,
 			);

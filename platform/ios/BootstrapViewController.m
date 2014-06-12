@@ -47,8 +47,25 @@
         
         [httpHelper getSecure:FETCH_URL completionHandler:^(NSDictionary* dict){
         
+            dispatch_async(dispatch_get_main_queue(), ^(void){
+                
+                [indicator stopAnimating];
+                
+                UITabBarController *mainViewController = [[UITabBarController alloc] init];
+                
+                ReportViewController *reportViewController = [[ReportViewController alloc] init];
+                UINavigationController *reportNav = [[UINavigationController alloc] initWithRootViewController:reportViewController];
+                
+                ContactViewController *contactViewController = [[ContactViewController alloc] init];
+                UINavigationController *contactNav = [[UINavigationController alloc] initWithRootViewController:contactViewController];
+                
+                SettingViewController *settingViewController = [[SettingViewController alloc] init];
+                UINavigationController *settingNav = [[UINavigationController alloc] initWithRootViewController:settingViewController];
+                
+                mainViewController.viewControllers = @[reportNav, contactNav, settingNav];
+                [self presentViewController:mainViewController animated:YES completion:nil];
+            });
         }];
-    
     });
 }
 

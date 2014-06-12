@@ -5,6 +5,9 @@
 #import "TimesHelper.h"
 #import "LosHttpHelper.h"
 #import "LosAppUrls.h"
+#import "ReportViewController.h"
+#import "ContactViewController.h"
+#import "SettingViewController.h"
 
 @interface BootstrapViewController : UIViewController
 
