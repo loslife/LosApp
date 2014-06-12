@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		04CFBFE75F2E4F9CA79F1910 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7512DE471E6843E8AFA2C007 /* libPods.a */; };
+		186667011949864100A345F7 /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186667001949864100A345F7 /* WelcomeViewController.m */; };
+		1866670519498B5600A345F7 /* UserData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670419498B5600A345F7 /* UserData.m */; };
+		1866670819498D1C00A345F7 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670719498D1C00A345F7 /* LoginViewController.m */; };
+		1866670B19498F1D00A345F7 /* BootstrapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670A19498F1D00A345F7 /* BootstrapViewController.m */; };
+		1866670F1949931800A345F7 /* LoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670E1949931800A345F7 /* LoginView.m */; };
 		18B2EE121946E0EF00264B74 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B2EE111946E0EF00264B74 /* Foundation.framework */; };
 		18B2EE141946E0EF00264B74 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B2EE131946E0EF00264B74 /* CoreGraphics.framework */; };
 		18B2EE161946E0EF00264B74 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B2EE151946E0EF00264B74 /* UIKit.framework */; };
@@ -15,10 +20,19 @@
 		18B2EE1E1946E0EF00264B74 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B2EE1D1946E0EF00264B74 /* main.m */; };
 		18B2EE221946E0EF00264B74 /* LosAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B2EE211946E0EF00264B74 /* LosAppDelegate.m */; };
 		18B2EE241946E0EF00264B74 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18B2EE231946E0EF00264B74 /* Images.xcassets */; };
-		18B2EE451946E8FF00264B74 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B2EE441946E8FF00264B74 /* FirstViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		186666FF1949864100A345F7 /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
+		186667001949864100A345F7 /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
+		1866670319498B5600A345F7 /* UserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserData.h; sourceTree = "<group>"; };
+		1866670419498B5600A345F7 /* UserData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserData.m; sourceTree = "<group>"; };
+		1866670619498D1C00A345F7 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		1866670719498D1C00A345F7 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		1866670919498F1D00A345F7 /* BootstrapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BootstrapViewController.h; sourceTree = "<group>"; };
+		1866670A19498F1D00A345F7 /* BootstrapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BootstrapViewController.m; sourceTree = "<group>"; };
+		1866670D1949931800A345F7 /* LoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginView.h; sourceTree = "<group>"; };
+		1866670E1949931800A345F7 /* LoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginView.m; sourceTree = "<group>"; };
 		18B2EE0E1946E0EF00264B74 /* LosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18B2EE111946E0EF00264B74 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		18B2EE131946E0EF00264B74 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -31,8 +45,6 @@
 		18B2EE211946E0EF00264B74 /* LosAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = LosAppDelegate.m; path = LosApp/LosAppDelegate.m; sourceTree = "<group>"; };
 		18B2EE231946E0EF00264B74 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = LosApp/Images.xcassets; sourceTree = "<group>"; };
 		18B2EE2A1946E0EF00264B74 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		18B2EE431946E8FF00264B74 /* FirstViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
-		18B2EE441946E8FF00264B74 /* FirstViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
 		7512DE471E6843E8AFA2C007 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F77DB5366FE14651B4C079AC /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -52,6 +64,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1866670219498ACF00A345F7 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				1866670319498B5600A345F7 /* UserData.h */,
+				1866670419498B5600A345F7 /* UserData.m */,
+			);
+			name = utils;
+			sourceTree = "<group>";
+		};
+		1866670C194992F500A345F7 /* views */ = {
+			isa = PBXGroup;
+			children = (
+				1866670D1949931800A345F7 /* LoginView.h */,
+				1866670E1949931800A345F7 /* LoginView.m */,
+			);
+			name = views;
+			sourceTree = "<group>";
+		};
 		18B2EE051946E0EF00264B74 = {
 			isa = PBXGroup;
 			children = (
@@ -99,6 +129,8 @@
 		18B2EE401946E16C00264B74 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				1866670C194992F500A345F7 /* views */,
+				1866670219498ACF00A345F7 /* utils */,
 				18B2EE421946E8E100264B74 /* controllers */,
 				18B2EE201946E0EF00264B74 /* LosAppDelegate.h */,
 				18B2EE211946E0EF00264B74 /* LosAppDelegate.m */,
@@ -117,8 +149,12 @@
 		18B2EE421946E8E100264B74 /* controllers */ = {
 			isa = PBXGroup;
 			children = (
-				18B2EE431946E8FF00264B74 /* FirstViewController.h */,
-				18B2EE441946E8FF00264B74 /* FirstViewController.m */,
+				186666FF1949864100A345F7 /* WelcomeViewController.h */,
+				186667001949864100A345F7 /* WelcomeViewController.m */,
+				1866670619498D1C00A345F7 /* LoginViewController.h */,
+				1866670719498D1C00A345F7 /* LoginViewController.m */,
+				1866670919498F1D00A345F7 /* BootstrapViewController.h */,
+				1866670A19498F1D00A345F7 /* BootstrapViewController.m */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -228,7 +264,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				18B2EE1E1946E0EF00264B74 /* main.m in Sources */,
-				18B2EE451946E8FF00264B74 /* FirstViewController.m in Sources */,
+				1866670819498D1C00A345F7 /* LoginViewController.m in Sources */,
+				1866670B19498F1D00A345F7 /* BootstrapViewController.m in Sources */,
+				1866670F1949931800A345F7 /* LoginView.m in Sources */,
+				1866670519498B5600A345F7 /* UserData.m in Sources */,
+				186667011949864100A345F7 /* WelcomeViewController.m in Sources */,
 				18B2EE221946E0EF00264B74 /* LosAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -282,7 +322,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -314,7 +354,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -329,8 +369,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LosApp/LosApp-Prefix.pch";
 				INFOPLIST_FILE = "LosApp/LosApp-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -345,8 +386,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LosApp/LosApp-Prefix.pch";
 				INFOPLIST_FILE = "LosApp/LosApp-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

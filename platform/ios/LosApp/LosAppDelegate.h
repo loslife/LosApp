@@ -1,5 +1,5 @@
 #import <UIKit/UIKit.h>
-#import "FirstViewController.h"
+#import "WelcomeViewController.h"
 
 @interface LosAppDelegate : UIResponder <UIApplicationDelegate>
 
