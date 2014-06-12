@@ -9,15 +9,19 @@
     return documentsDirectory;
 }
 
-+(NSString*) databaseFilePath
++(NSString*) currentUserDirPath
 {
     NSString *documentsPath = [self documentsDirPath];
     
     UserData *userData = [UserData load];
     NSString* userId = userData.userId;
-    NSString *databaseFileDir = [documentsPath stringByAppendingPathComponent:userId];
-    
-    return [databaseFileDir stringByAppendingPathComponent:@"database.rdb"];
+    return [documentsPath stringByAppendingPathComponent:userId];
+}
+
++(NSString*) databaseFilePath
+{
+    NSString *currentUserDir = [self currentUserDirPath];
+    return [currentUserDir stringByAppendingPathComponent:@"database.rdb"];
 }
 
 @end

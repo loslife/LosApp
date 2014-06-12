@@ -4,6 +4,7 @@
 @interface PathResolver : NSObject
 
 +(NSString*) documentsDirPath;
++(NSString*) currentUserDirPath;
 +(NSString*) databaseFilePath;
 
 @end

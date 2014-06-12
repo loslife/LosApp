@@ -5,6 +5,7 @@
 
 {
     UpdateHelper *updateHelper;
+    LosHttpHelper *httpHelper;
 }
 
 -(id) initWithNibName:(NSString*)nibName bundle:(NSBundle*)bundle
@@ -12,6 +13,7 @@
     self = [super initWithNibName:nibName bundle:bundle];
     if(self){
         updateHelper = [[UpdateHelper alloc] init];
+        httpHelper = [[LosHttpHelper alloc] init];
     }
     return self;
 }
@@ -34,20 +36,69 @@
         VersionInfo *versionInfo = [[VersionInfo alloc] init];
         
         if([versionInfo needInit]){
-            // 初始化流程
+            [self mkdirAndDatabaseFile];
+            [self createSystemTables:[versionInfo currentVersion]];
+            [self createOtherTables];
+        }else{
+            [self refreshVersion:[versionInfo currentVersion]];
         }
-        
-        // everytime
         
         [updateHelper doUpdate:versionInfo];
         
-        // 请求首页数据
+        [httpHelper getSecure:FETCH_URL completionHandler:^(NSDictionary* dict){
+        
+        }];
     
     });
 }
 
 #pragma mark - private method
 
+-(void) mkdirAndDatabaseFile
+{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    NSString *userPath = [PathResolver currentUserDirPath];
 
+    if(![fileManager fileExistsAtPath:userPath]){
+        [fileManager createDirectoryAtPath:userPath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+
+    NSString *dbFilePath = [PathResolver databaseFilePath];
+    FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
+    [db open];
+    [db close];
+}
+
+-(void) createSystemTables:(NSString*)version
+{
+    NSString *createTableSystemConfig = @"CREATE TABLE IF NOT EXISTS system_config (id integer primary key, key varchar(32), value varchar(32));";
+    NSString *insertSystemConfig = @"insert into system_config values (1, 'version', :version)";
+    
+    NSString *dbFilePath = [PathResolver databaseFilePath];
+    FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
+    [db open];
+    
+    [db executeUpdate:createTableSystemConfig];
+    [db executeUpdate:insertSystemConfig, version];
+    
+    [db close];
+}
+
+-(void) createOtherTables
+{
+    
+}
+
+-(void) refreshVersion:(NSString*)version
+{
+    NSString *updateVersion = @"update system_config set value = :version where key = 'version';";
+    
+    NSString *dbFilePath = [PathResolver databaseFilePath];
+    FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
+    [db open];
+    [db executeUpdate:updateVersion, version];
+    [db close];
+}
 
 @end

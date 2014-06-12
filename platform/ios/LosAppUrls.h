@@ -1,3 +1,4 @@
 #define ServerHost @"https://www.yilos.com"
 
-#define TEST_URL [ServerHost stringByAppendingString:@"/svc/losapp/test"]
+#define LOGIN_URL [ServerHost stringByAppendingString:@"/svc/losapp/test"]
+#define FETCH_URL [ServerHost stringByAppendingString:@"/svc/losapp/test2"]

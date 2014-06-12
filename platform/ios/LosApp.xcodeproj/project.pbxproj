@@ -20,6 +20,7 @@
 		186667201949C2D400A345F7 /* LosHttpsBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866671F1949C2D400A345F7 /* LosHttpsBase.m */; };
 		1866672D1949C37E00A345F7 /* client.p12 in Resources */ = {isa = PBXBuildFile; fileRef = 1866672C1949C37E00A345F7 /* client.p12 */; };
 		186667301949C3B700A345F7 /* LosHttpHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866672F1949C3B700A345F7 /* LosHttpHelper.m */; };
+		186667361949CB3F00A345F7 /* TimesHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 186667351949CB3F00A345F7 /* TimesHelper.m */; };
 		18B2EE121946E0EF00264B74 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B2EE111946E0EF00264B74 /* Foundation.framework */; };
 		18B2EE141946E0EF00264B74 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B2EE131946E0EF00264B74 /* CoreGraphics.framework */; };
 		18B2EE161946E0EF00264B74 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B2EE151946E0EF00264B74 /* UIKit.framework */; };
@@ -54,6 +55,8 @@
 		1866672E1949C3B700A345F7 /* LosHttpHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LosHttpHelper.h; sourceTree = "<group>"; };
 		1866672F1949C3B700A345F7 /* LosHttpHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LosHttpHelper.m; sourceTree = "<group>"; };
 		186667311949C5E900A345F7 /* LosAppUrls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LosAppUrls.h; sourceTree = "<group>"; };
+		186667341949CB3F00A345F7 /* TimesHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimesHelper.h; sourceTree = "<group>"; };
+		186667351949CB3F00A345F7 /* TimesHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimesHelper.m; sourceTree = "<group>"; };
 		18B2EE0E1946E0EF00264B74 /* LosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18B2EE111946E0EF00264B74 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		18B2EE131946E0EF00264B74 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -119,15 +122,17 @@
 			name = update;
 			sourceTree = "<group>";
 		};
-		1866671D1949C2B200A345F7 /* https */ = {
+		1866671D1949C2B200A345F7 /* utils */ = {
 			isa = PBXGroup;
 			children = (
 				1866671E1949C2D400A345F7 /* LosHttpsBase.h */,
 				1866671F1949C2D400A345F7 /* LosHttpsBase.m */,
 				1866672E1949C3B700A345F7 /* LosHttpHelper.h */,
 				1866672F1949C3B700A345F7 /* LosHttpHelper.m */,
+				186667341949CB3F00A345F7 /* TimesHelper.h */,
+				186667351949CB3F00A345F7 /* TimesHelper.m */,
 			);
-			name = https;
+			name = utils;
 			sourceTree = "<group>";
 		};
 		18B2EE051946E0EF00264B74 = {
@@ -178,7 +183,7 @@
 		18B2EE401946E16C00264B74 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				1866671D1949C2B200A345F7 /* https */,
+				1866671D1949C2B200A345F7 /* utils */,
 				186667191949B2D700A345F7 /* update */,
 				1866670C194992F500A345F7 /* views */,
 				1866670219498ACF00A345F7 /* environment */,
@@ -323,6 +328,7 @@
 				186667121949A9D000A345F7 /* BootstrapView.m in Sources */,
 				186667151949ACD600A345F7 /* VersionInfo.m in Sources */,
 				1866670F1949931800A345F7 /* LoginView.m in Sources */,
+				186667361949CB3F00A345F7 /* TimesHelper.m in Sources */,
 				1866670519498B5600A345F7 /* UserData.m in Sources */,
 				186667201949C2D400A345F7 /* LosHttpsBase.m in Sources */,
 				186667301949C3B700A345F7 /* LosHttpHelper.m in Sources */,

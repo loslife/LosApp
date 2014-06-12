@@ -23,8 +23,8 @@
 // 跳转到bootstrap
 - (void) jumpToBootstrap
 {
-    BootstrapViewController *login = [[BootstrapViewController alloc] init];
-    [self presentViewController:login animated:YES completion:nil];
+    BootstrapViewController *bootstrap = [[BootstrapViewController alloc] init];
+    [self presentViewController:bootstrap animated:YES completion:nil];
 }
 
 // 跳转到login页面

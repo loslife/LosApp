@@ -24,7 +24,7 @@
 
 -(void) loginButtonPressed
 {
-    [httpHelper getSecure:TEST_URL completionHandler:^(NSDictionary *dict){
+    [httpHelper getSecure:LOGIN_URL completionHandler:^(NSDictionary *dict){
     
     }];
     

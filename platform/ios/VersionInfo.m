@@ -52,8 +52,11 @@
     }
 
     FMResultSet *rs = [db executeQuery:@"select value from system_config where key = 'version';"];
-    [rs next];
-    oldVersion = [rs stringForColumn:@"value"];
+    if([rs next]){
+        oldVersion = [rs stringForColumn:@"value"];
+    }else{
+        oldVersion = @"0";
+    }
     
     [db close];
 }
