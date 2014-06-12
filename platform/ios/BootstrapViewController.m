@@ -1,16 +1,17 @@
 #import "BootstrapViewController.h"
+#import "BootstrapView.h"
 
 @implementation BootstrapViewController
 
 -(void) loadView
 {
-    UIView *view  = [[UIView alloc] init];
-    
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
-    label.text = @"bootstrap";
-    
-    [view addSubview:label];
+    BootstrapView *view = [[BootstrapView alloc] init];
     self.view = view;
+}
+
+-(void) viewDidAppear:(BOOL)animated
+{
+    NSLog(@"1");
 }
 
 @end

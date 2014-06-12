@@ -6,5 +6,6 @@
 @property NSString *enterpriseId;
 
 +(UserData*) load;
++(void) writeUserId:(NSString*)userId;
 
 @end

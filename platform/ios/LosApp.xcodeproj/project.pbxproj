@@ -13,6 +13,7 @@
 		1866670819498D1C00A345F7 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670719498D1C00A345F7 /* LoginViewController.m */; };
 		1866670B19498F1D00A345F7 /* BootstrapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670A19498F1D00A345F7 /* BootstrapViewController.m */; };
 		1866670F1949931800A345F7 /* LoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670E1949931800A345F7 /* LoginView.m */; };
+		186667121949A9D000A345F7 /* BootstrapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186667111949A9D000A345F7 /* BootstrapView.m */; };
 		18B2EE121946E0EF00264B74 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B2EE111946E0EF00264B74 /* Foundation.framework */; };
 		18B2EE141946E0EF00264B74 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B2EE131946E0EF00264B74 /* CoreGraphics.framework */; };
 		18B2EE161946E0EF00264B74 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B2EE151946E0EF00264B74 /* UIKit.framework */; };
@@ -33,6 +34,8 @@
 		1866670A19498F1D00A345F7 /* BootstrapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BootstrapViewController.m; sourceTree = "<group>"; };
 		1866670D1949931800A345F7 /* LoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginView.h; sourceTree = "<group>"; };
 		1866670E1949931800A345F7 /* LoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginView.m; sourceTree = "<group>"; };
+		186667101949A9D000A345F7 /* BootstrapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BootstrapView.h; sourceTree = "<group>"; };
+		186667111949A9D000A345F7 /* BootstrapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BootstrapView.m; sourceTree = "<group>"; };
 		18B2EE0E1946E0EF00264B74 /* LosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18B2EE111946E0EF00264B74 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		18B2EE131946E0EF00264B74 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -78,6 +81,8 @@
 			children = (
 				1866670D1949931800A345F7 /* LoginView.h */,
 				1866670E1949931800A345F7 /* LoginView.m */,
+				186667101949A9D000A345F7 /* BootstrapView.h */,
+				186667111949A9D000A345F7 /* BootstrapView.m */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -266,6 +271,7 @@
 				18B2EE1E1946E0EF00264B74 /* main.m in Sources */,
 				1866670819498D1C00A345F7 /* LoginViewController.m in Sources */,
 				1866670B19498F1D00A345F7 /* BootstrapViewController.m in Sources */,
+				186667121949A9D000A345F7 /* BootstrapView.m in Sources */,
 				1866670F1949931800A345F7 /* LoginView.m in Sources */,
 				1866670519498B5600A345F7 /* UserData.m in Sources */,
 				186667011949864100A345F7 /* WelcomeViewController.m in Sources */,

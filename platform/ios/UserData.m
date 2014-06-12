@@ -16,4 +16,11 @@
     return userData;
 }
 
++(void) writeUserId:(NSString*)userId
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:userId forKey:@"user_id"];
+    [userDefaults synchronize];
+}
+
 @end

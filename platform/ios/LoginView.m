@@ -6,37 +6,38 @@
     id currentResponder;
 }
 
-- (id)initWithFrame:(CGRect)frame
+-(id) initWithController:(LoginViewController*)controller
 {
-    self = [super initWithFrame:frame];
+    self = [super init];
     if (self) {
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(110, 100, 100, 50)];
         label.text = @"乐斯";
         label.textAlignment = NSTextAlignmentCenter;
         
-        UITextField *username = [[UITextField alloc] initWithFrame:CGRectMake(60, 150, 200, 50)];
-        username.placeholder = @"用户名";
-        username.borderStyle = UITextBorderStyleRoundedRect;
-        username.clearButtonMode = UITextFieldViewModeWhileEditing;
-        [username setKeyboardType:UIKeyboardTypeNumberPad];
-        username.delegate = self;
+        self.username = [[UITextField alloc] initWithFrame:CGRectMake(60, 150, 200, 50)];
+        self.username.placeholder = @"用户名";
+        self.username.borderStyle = UITextBorderStyleRoundedRect;
+        self.username.clearButtonMode = UITextFieldViewModeWhileEditing;
+        [self.username setKeyboardType:UIKeyboardTypeNumberPad];
+        self.username.delegate = self;
         
-        UITextField *password = [[UITextField alloc] initWithFrame:CGRectMake(60, 210, 200, 50)];
-        password.placeholder = @"密码";
-        password.borderStyle = UITextBorderStyleRoundedRect;
-        password.clearButtonMode = UITextFieldViewModeWhileEditing;
-        [password setSecureTextEntry:YES];
-        password.delegate = self;
+        self.password = [[UITextField alloc] initWithFrame:CGRectMake(60, 210, 200, 50)];
+        self.password.placeholder = @"密码";
+        self.password.borderStyle = UITextBorderStyleRoundedRect;
+        self.password.clearButtonMode = UITextFieldViewModeWhileEditing;
+        [self.password setSecureTextEntry:YES];
+        self.password.delegate = self;
         
-        UIButton *login = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        login.frame = CGRectMake(60, 400, 200, 50);
-        [login setTitle:@"登陆" forState:UIControlStateNormal];
+        self.login = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        self.login.frame = CGRectMake(60, 400, 200, 50);
+        [self.login setTitle:@"登陆" forState:UIControlStateNormal];
+        [self.login addTarget:controller action:@selector(loginButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         
         [self addSubview:label];
-        [self addSubview:username];
-        [self addSubview:password];
-        [self addSubview:login];
+        [self addSubview:self.username];
+        [self addSubview:self.password];
+        [self addSubview:self.login];
         
         UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignOnTap)];
         [singleTap setNumberOfTapsRequired:1];// 触摸一次
