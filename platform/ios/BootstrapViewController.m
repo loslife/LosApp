@@ -32,6 +32,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     
         VersionInfo *versionInfo = [[VersionInfo alloc] init];
+        
         if([versionInfo needInit]){
             // 初始化流程
         }
@@ -44,5 +45,9 @@
     
     });
 }
+
+#pragma mark - private method
+
+
 
 @end

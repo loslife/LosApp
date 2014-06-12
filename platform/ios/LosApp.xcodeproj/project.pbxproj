@@ -53,6 +53,7 @@
 		1866672C1949C37E00A345F7 /* client.p12 */ = {isa = PBXFileReference; lastKnownFileType = file; path = client.p12; sourceTree = "<group>"; };
 		1866672E1949C3B700A345F7 /* LosHttpHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LosHttpHelper.h; sourceTree = "<group>"; };
 		1866672F1949C3B700A345F7 /* LosHttpHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LosHttpHelper.m; sourceTree = "<group>"; };
+		186667311949C5E900A345F7 /* LosAppUrls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LosAppUrls.h; sourceTree = "<group>"; };
 		18B2EE0E1946E0EF00264B74 /* LosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18B2EE111946E0EF00264B74 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		18B2EE131946E0EF00264B74 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -84,7 +85,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1866670219498ACF00A345F7 /* runtime */ = {
+		1866670219498ACF00A345F7 /* environment */ = {
 			isa = PBXGroup;
 			children = (
 				1866670319498B5600A345F7 /* UserData.h */,
@@ -93,8 +94,9 @@
 				186667141949ACD600A345F7 /* VersionInfo.m */,
 				186667161949AD4900A345F7 /* PathResolver.h */,
 				186667171949AD4900A345F7 /* PathResolver.m */,
+				186667311949C5E900A345F7 /* LosAppUrls.h */,
 			);
-			name = runtime;
+			name = environment;
 			sourceTree = "<group>";
 		};
 		1866670C194992F500A345F7 /* views */ = {
@@ -179,7 +181,7 @@
 				1866671D1949C2B200A345F7 /* https */,
 				186667191949B2D700A345F7 /* update */,
 				1866670C194992F500A345F7 /* views */,
-				1866670219498ACF00A345F7 /* runtime */,
+				1866670219498ACF00A345F7 /* environment */,
 				18B2EE421946E8E100264B74 /* controllers */,
 				18B2EE201946E0EF00264B74 /* LosAppDelegate.h */,
 				18B2EE211946E0EF00264B74 /* LosAppDelegate.m */,
