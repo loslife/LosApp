@@ -11,7 +11,12 @@
 
 -(void) viewDidAppear:(BOOL)animated
 {
-    NSLog(@"1");
+    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    indicator.center = CGPointMake(160, 284);
+    [self.view addSubview:indicator];
+    [indicator startAnimating];
+    
+    
 }
 
 @end
