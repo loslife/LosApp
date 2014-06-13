@@ -1,15 +1,20 @@
-#import "LoginView.h"
+#import "RegisterStepOneView.h"
 
-@implementation LoginView
+@implementation RegisterStepOneView
 
 {
     id currentResponder;
 }
 
--(id) initWithController:(LoginViewController*)controller
+-(id) initWithController:(RegisterStepOneViewController*)controller
 {
     self = [super init];
     if (self) {
+        
+        UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        closeButton.frame = CGRectMake(10, 10, 50, 50);
+        [closeButton setTitle:@"返回" forState:UIControlStateNormal];
+        [closeButton addTarget:controller action:@selector(closeButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(110, 100, 100, 50)];
         label.text = @"乐斯";
@@ -29,20 +34,15 @@
         [self.password setSecureTextEntry:YES];
         self.password.delegate = self;
         
-        self.login = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        self.login.frame = CGRectMake(60, 400, 200, 50);
-        [self.login setTitle:@"登陆" forState:UIControlStateNormal];
-        [self.login addTarget:controller action:@selector(loginButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-        
         UIButton *registerBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         registerBtn.frame = CGRectMake(60, 460, 200, 50);
-        [registerBtn setTitle:@"免费注册" forState:UIControlStateNormal];
+        [registerBtn setTitle:@"注册" forState:UIControlStateNormal];
         [registerBtn addTarget:controller action:@selector(registerButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         
+        [self addSubview:closeButton];
         [self addSubview:label];
         [self addSubview:self.username];
         [self addSubview:self.password];
-        [self addSubview:self.login];
         [self addSubview:registerBtn];
         
         UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignOnTap)];

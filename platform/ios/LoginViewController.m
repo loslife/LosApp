@@ -38,4 +38,11 @@
     [self presentViewController:bootstrap animated:YES completion:nil];
 }
 
+-(void) registerButtonPressed
+{
+    RegisterStepOneViewController *registerStep1 = [[RegisterStepOneViewController alloc] init];
+    registerStep1.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self presentViewController:registerStep1 animated:YES completion:nil];
+}
+
 @end
