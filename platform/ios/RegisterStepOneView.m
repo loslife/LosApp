@@ -17,7 +17,7 @@
         [closeButton addTarget:controller action:@selector(closeButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(110, 100, 100, 50)];
-        label.text = @"乐斯";
+        label.text = @"注册用户";
         label.textAlignment = NSTextAlignmentCenter;
         
         self.username = [[UITextField alloc] initWithFrame:CGRectMake(60, 150, 200, 50)];
@@ -35,7 +35,7 @@
         self.password.delegate = self;
         
         UIButton *registerBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        registerBtn.frame = CGRectMake(60, 460, 200, 50);
+        registerBtn.frame = CGRectMake(60, 400, 200, 50);
         [registerBtn setTitle:@"注册" forState:UIControlStateNormal];
         [registerBtn addTarget:controller action:@selector(registerButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         
