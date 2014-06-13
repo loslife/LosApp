@@ -4,7 +4,7 @@
 
 +(BOOL) isNetworkAvailable
 {
-    Reachability *reach = [Reachability reachabilityWithHostName:@"www.yilos.com"];
+    Reachability *reach = [Reachability reachabilityWithHostName:@"192.168.1.116"];
     int status = [reach currentReachabilityStatus];
     return (status != NotReachable);
 }

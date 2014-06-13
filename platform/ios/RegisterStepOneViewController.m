@@ -84,8 +84,8 @@
             }
             
             // server logic error
-            NSString *code = [parseResult objectForKey:@"code"];
-            if(![code isEqualToString:@"0"]){
+            NSNumber *code = [parseResult objectForKey:@"code"];
+            if([code intValue] != 0){
                 dispatch_async(dispatch_get_main_queue(), ^(void){
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"注册失败，请联系客服" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
                     [alert show];
