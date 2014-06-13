@@ -22,6 +22,12 @@
     self.view = view;
 }
 
+-(void) setUserNameAfterRegister:(NSString*)phoneNumber
+{
+    LoginView* theView = (LoginView*)self.view;
+    theView.username.text = phoneNumber;
+}
+
 -(void) loginButtonPressed
 {
     [httpHelper getSecure:LOGIN_URL completionHandler:^(NSDictionary *dict){

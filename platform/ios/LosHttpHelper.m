@@ -2,6 +2,13 @@
 
 @implementation LosHttpHelper
 
++(BOOL) isNetworkAvailable
+{
+    Reachability *reach = [Reachability reachabilityWithHostName:@"www.yilos.com"];
+    int status = [reach currentReachabilityStatus];
+    return (status != NotReachable);
+}
+
 -(void) postSecure:(NSString*)urlString Data:(NSData*)postData completionHandler:(void(^)(NSData*, NSURLResponse*, NSError*))block
 {
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
@@ -46,7 +53,6 @@
         result = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&parseError];
         if(parseError){
             NSString *body = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            NSLog(@"error code: %li", (long)error.code);
             NSLog(@"parse response error, the http response body is: %@", body);
             block(nil);
             return;
