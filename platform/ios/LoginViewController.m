@@ -30,18 +30,65 @@
 
 -(void) loginButtonPressed
 {
-    [httpHelper getSecure:LOGIN_URL completionHandler:^(NSDictionary *dict){
-    
-    }];
-    
-    
-    LoginView* theView = (LoginView*)self.view;
-    NSString *userId = theView.username.text;
-    
-    [UserData writeUserId:userId];
-    
-    BootstrapViewController *bootstrap = [[BootstrapViewController alloc] init];
-    [self presentViewController:bootstrap animated:YES completion:nil];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        BOOL flag = [LosHttpHelper isNetworkAvailable];
+        if(!flag){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"无网络连接，请检查您的网络" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                [alert show];
+            });
+            return;
+        }
+        
+        LoginView *myView = (LoginView*)self.view;
+        NSString *userName = myView.username.text;
+        NSString *password = myView.password.text;
+        
+        // 拼接成以下格式：username_password
+        NSString *plainText = [NSString stringWithFormat:@"%@_%@", userName, password];
+        NSString *encoded = [StringUtils encodeWithBase64:plainText];
+        NSData *postData = [[@"info=" stringByAppendingString:encoded] dataUsingEncoding:NSUTF8StringEncoding];
+        
+        [httpHelper postSecure:LOGIN_URL Data:postData completionHandler:^(NSDictionary *dict){
+            
+            if(dict == nil){
+                dispatch_async(dispatch_get_main_queue(), ^(void){
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"登陆失败，请联系客服" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                    [alert show];
+                });
+                return;
+            }
+            
+            NSNumber *code = [dict objectForKey:@"code"];
+            NSDictionary *result = [dict objectForKey:@"result"];
+            
+            if([code intValue] != 0){
+                
+                NSString *errorCode = [result objectForKey:@"errorCode"];
+                if([errorCode isEqualToString:@"401"]){
+                    dispatch_async(dispatch_get_main_queue(), ^(void){
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"用户名或密码错误" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                        [alert show];
+                    });
+                    return;
+                }
+                
+                dispatch_async(dispatch_get_main_queue(), ^(void){
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"登陆失败，请联系客服" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                    [alert show];
+                });
+                return;
+            }
+            
+            [UserData writeUserId:userName];
+            
+            dispatch_async(dispatch_get_main_queue(), ^(void){
+                BootstrapViewController *bootstrap = [[BootstrapViewController alloc] init];
+                [self presentViewController:bootstrap animated:YES completion:nil];
+            });
+        }];
+    });
 }
 
 -(void) registerButtonPressed

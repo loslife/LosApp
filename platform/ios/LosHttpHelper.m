@@ -9,7 +9,7 @@
     return (status != NotReachable);
 }
 
--(void) postSecure:(NSString*)urlString Data:(NSData*)postData completionHandler:(void(^)(NSData*, NSURLResponse*, NSError*))block
+-(void) postSecure:(NSString*)urlString Data:(NSData*)postData completionHandler:(void(^)(NSDictionary*))block
 {
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration delegate:self delegateQueue:nil];
@@ -21,7 +21,30 @@
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:postData];
     
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:block];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
+        
+        // 网络错误
+        if(error){
+            NSString *body = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            NSLog(@"error code: %li", (long)error.code);
+            NSLog(@"parse response error, the http response body is: %@", body);
+            block(nil);
+            return;
+        }
+        
+        NSDictionary *result;
+        
+        NSError *parseError = nil;
+        result = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&parseError];
+        if(parseError){
+            NSString *body = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            NSLog(@"parse response error, the http response body is: %@", body);
+            block(nil);
+            return;
+        }
+        
+        block(result);
+    }];
     
     [task resume];
 }

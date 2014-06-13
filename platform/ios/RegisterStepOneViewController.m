@@ -59,23 +59,9 @@
         NSString *encoded = [StringUtils encodeWithBase64:plainText];
         NSData *postData = [[@"info=" stringByAppendingString:encoded] dataUsingEncoding:NSUTF8StringEncoding];
 
-        [httpHelper postSecure:REGISTER_URL Data:postData completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
+        [httpHelper postSecure:REGISTER_URL Data:postData completionHandler:^(NSDictionary *result){
         
-            // network error
-            if(error){
-                dispatch_async(dispatch_get_main_queue(), ^(void){
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"注册失败，请联系客服" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                    [alert show];
-                });
-                return;
-            }
-            
-            // response parse error
-            NSError *parseError = nil;
-            NSDictionary *parseResult = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&parseError];
-            if(parseError){
-                NSString *body = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                NSLog(@"parse response error, the http response body is: %@", body);
+            if(result == nil){
                 dispatch_async(dispatch_get_main_queue(), ^(void){
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"注册失败，请联系客服" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
                     [alert show];
@@ -84,7 +70,7 @@
             }
             
             // server logic error
-            NSNumber *code = [parseResult objectForKey:@"code"];
+            NSNumber *code = [result objectForKey:@"code"];
             if([code intValue] != 0){
                 dispatch_async(dispatch_get_main_queue(), ^(void){
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"注册失败，请联系客服" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];

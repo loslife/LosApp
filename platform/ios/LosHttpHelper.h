@@ -5,7 +5,7 @@
 @interface LosHttpHelper : LosHttpsBase
 
 +(BOOL) isNetworkAvailable;
--(void) postSecure:(NSString*)urlString Data:(NSData*)postData completionHandler:(void(^)(NSData*, NSURLResponse*, NSError*))block;
+-(void) postSecure:(NSString*)urlString Data:(NSData*)postData completionHandler:(void(^)(NSDictionary*))block;
 -(void) getSecure:(NSString*)urlString completionHandler:(void(^)(NSDictionary*))block;
 
 @end
