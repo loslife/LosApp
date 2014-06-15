@@ -1,8 +1,13 @@
 package com.yilos.losapp;
 
 
-import com.yilos.losapp.util.StringUtils;
-import com.yilos.losapp.util.UIHelper;
+
+
+import com.yilos.losapp.api.ApiClient;
+import com.yilos.losapp.bean.Result;
+import com.yilos.losapp.bean.ServerResponse;
+import com.yilos.losapp.common.StringUtils;
+import com.yilos.losapp.common.UIHelper;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -82,8 +87,15 @@ public class LoginActivity extends Activity{
 		};
 		new Thread(){
 			public void run(){
+				AppContext ac = (AppContext)getApplication(); 
 				Message msg = new Message();
-				msg.what = 1;
+				ServerResponse res = ac.loginVerify(userName, pwd);
+				
+				if(res.isSucess())
+				{
+					msg.what = 1;
+				}
+				
 				handle.sendMessage(msg);
 			}
 		}.start();

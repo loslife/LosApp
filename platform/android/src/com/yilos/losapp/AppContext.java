@@ -2,6 +2,8 @@ package com.yilos.losapp;
 
 
 import com.yilos.losapp.api.ApiClient;
+import com.yilos.losapp.bean.Result;
+import com.yilos.losapp.bean.ServerResponse;
 
 import android.app.Application;
 
@@ -13,9 +15,7 @@ public class AppContext extends Application {
 	
 	@Override
 	public void onCreate() {
-		super.onCreate();
-        //注册App异常崩溃处理器
-        
+		super.onCreate(); 
         init();
 	}
 
@@ -26,13 +26,8 @@ public class AppContext extends Application {
 
 	}
 	
-	public String loginVerify(String account, String pwd)  {
-		/*{
-			  "code" : 0,
-			  result:{
-				“message" : "ok"
-			  }
-			}*/
+	public ServerResponse loginVerify(String account, String pwd)  {
+		
 		return ApiClient.login(this, account, pwd);
 	}
 	

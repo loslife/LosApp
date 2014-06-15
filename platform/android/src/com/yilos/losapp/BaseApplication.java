@@ -6,7 +6,7 @@ import java.util.List;
 import android.app.Activity;
 import android.app.Application;
 
-import com.yilos.losapp.util.CrashHandler;
+import com.yilos.losapp.common.CrashHandler;
 
 public class BaseApplication extends Application {
 

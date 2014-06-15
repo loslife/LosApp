@@ -22,7 +22,12 @@ import javax.net.ssl.SSLSession;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
-import com.yilos.losapp.util.LosSSLFactory;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.yilos.losapp.bean.Result;
+import com.yilos.losapp.bean.ServerResponse;
+import com.yilos.losapp.common.LosSSLFactory;
+import com.yilos.losapp.json.JsonUtils;
 
 
 import android.content.Context;
@@ -31,10 +36,6 @@ import android.util.Base64;
 
 public class ApiClient 
 {
-	private Handler handler;
-	private String url;
-	private List<NameValuePair> param;
-	
 	// 请求超时
     private static int connectionTimeout = 3000;
 	// 读取超时
@@ -144,20 +145,32 @@ public class ApiClient
 
 	}
 	
-	public static String login(Context appContext, String username, String pwd) {
-
+	public static ServerResponse login(Context appContext, String username, String pwd) {
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("username", username));
 		params.add(new BasicNameValuePair("pwd", pwd));
 				
 		String loginurl ="";
+		/*{
+		  "code" : 0,
+		  result:{
+			“message" : "ok"
+		  }
+		}*/
 		
-		try{
-			return _post(appContext, loginurl, params);		
-		}catch(Exception e){
-			return "";
-		}
+		//String json = "{'code' : 0,result:{'message' : 'ok'}}";
+		String json = "{\"code\":0,\"result\":{\"message\":\"ok\"}}";
+		ServerResponse res = new ServerResponse();
+		res.setCode(0);
+		Result rt = new Result();
+		rt.setMessage("ok");
+		res.setResult(rt);
+		Gson gson = new Gson();
+		ServerResponse resp = gson.fromJson(gson.toJson(res), ServerResponse.class);
+	
+			return resp;
+
 	}
 	
 	private static String getQuery(List<NameValuePair> params) throws UnsupportedEncodingException

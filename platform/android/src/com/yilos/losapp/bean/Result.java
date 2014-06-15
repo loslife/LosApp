@@ -1,18 +1,26 @@
 package com.yilos.losapp.bean;
 
-public class Result 
+import java.io.Serializable;
+import java.util.Map;
+
+public class Result implements Serializable
 {
-	private int code;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1400507213960001418L;
+
+	private String message;
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
 	
-    private Object obj;
-
-	public int getCode() {
-		return code;
-	}
-
-	public Object getObj() {
-		return obj;
-	}
-
+	
+    
     
 }
