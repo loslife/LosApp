@@ -10,6 +10,7 @@ import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +27,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yilos.losapp.bean.Result;
 import com.yilos.losapp.bean.ServerResponse;
+import com.yilos.losapp.common.Constants;
 import com.yilos.losapp.common.LosSSLFactory;
 import com.yilos.losapp.json.JsonUtils;
 
@@ -145,32 +147,100 @@ public class ApiClient
 
 	}
 	
+	/**
+	 * 登录
+	 * @param appContext
+	 * @param username
+	 * @param pwd
+	 * @return
+	 */
 	public static ServerResponse login(Context appContext, String username, String pwd) {
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("username", username));
-		params.add(new BasicNameValuePair("pwd", pwd));
-				
-		String loginurl ="";
-		/*{
-		  "code" : 0,
-		  result:{
-			“message" : "ok"
-		  }
-		}*/
+		params.add(new BasicNameValuePair("pwd", pwd));				
 		
-		//String json = "{'code' : 0,result:{'message' : 'ok'}}";
-		String json = "{\"code\":0,\"result\":{\"message\":\"ok\"}}";
 		ServerResponse res = new ServerResponse();
 		res.setCode(0);
 		Result rt = new Result();
 		rt.setMessage("ok");
 		res.setResult(rt);
+		
+		//String json = _post(appContext, Constants.LOGIN_URL,params);
+		
 		Gson gson = new Gson();
 		ServerResponse resp = gson.fromJson(gson.toJson(res), ServerResponse.class);
 	
-			return resp;
+		return resp;
+	}
+	
+	/**
+	 * 注册
+	 * @param appContext
+	 * @param username
+	 * @param pwd
+	 * @return
+	 */
+	public static ServerResponse register(Context appContext, String username, String pwd) {
 
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("username", username));
+		params.add(new BasicNameValuePair("pwd", pwd));
+
+		ServerResponse res = new ServerResponse();
+		res.setCode(0);
+		Result rt = new Result();
+		rt.setMessage("ok");
+		res.setResult(rt);
+		
+		//String json = _post(appContext, Constants.REGISTER_URL,params);
+		Gson gson = new Gson();
+		ServerResponse resp = gson.fromJson(gson.toJson(res), ServerResponse.class);
+	
+		return resp;
+	}
+	
+	/**
+	 * 获取验证码
+	 * @param phoneNumber
+	 * @return
+	 */
+	public static ServerResponse getValidateCode(Context appContext,String phoneNumber)
+	{
+
+		ServerResponse res = new ServerResponse();
+		res.setCode(0);
+		Result rt = new Result();
+		rt.setMessage("ok");
+		res.setResult(rt);
+		
+		//String json = _get(appContext, MessageFormat.format(Constants.SEND_VALIDATECODE,phoneNumber));
+		Gson gson = new Gson();
+		ServerResponse resp = gson.fromJson(gson.toJson(res), ServerResponse.class);
+	
+		return resp;
+	}
+	
+	/**
+	 * 检查验证码
+	 * @param params
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	public static ServerResponse checkValidateCode(Context appContext,String mobileNumber,String validateCode)
+	{
+
+		ServerResponse res = new ServerResponse();
+		res.setCode(0);
+		Result rt = new Result();
+		rt.setMessage("ok");
+		res.setResult(rt);
+		
+		//String json = _get(appContext, MessageFormat.format(Constants.CHECK_VALIDATECODE_SERVICE, mobileNumber,validateCode));
+		Gson gson = new Gson();
+		ServerResponse resp = gson.fromJson(gson.toJson(res), ServerResponse.class);
+	
+		return resp;
 	}
 	
 	private static String getQuery(List<NameValuePair> params) throws UnsupportedEncodingException

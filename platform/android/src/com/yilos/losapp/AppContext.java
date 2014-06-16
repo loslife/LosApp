@@ -31,6 +31,20 @@ public class AppContext extends Application {
 		return ApiClient.login(this, account, pwd);
 	}
 	
+    public ServerResponse register(String account, String pwd)  {
+		
+		return ApiClient.register(this, account, pwd);
+	}
+	
+    public ServerResponse getValidatecode(String phoneNumber)  {
+		
+		return ApiClient.getValidateCode(this, phoneNumber);
+	}
+    
+    public ServerResponse checkValidatecode(String phoneNumber)  {
+		
+		return ApiClient.getValidateCode(this, phoneNumber);
+	}
 	
 	/**
 	 * 用户是否登录

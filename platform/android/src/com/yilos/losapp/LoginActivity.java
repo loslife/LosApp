@@ -1,10 +1,5 @@
 package com.yilos.losapp;
 
-
-
-
-import com.yilos.losapp.api.ApiClient;
-import com.yilos.losapp.bean.Result;
 import com.yilos.losapp.bean.ServerResponse;
 import com.yilos.losapp.common.StringUtils;
 import com.yilos.losapp.common.UIHelper;
@@ -18,6 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class LoginActivity extends Activity{
 	
@@ -26,6 +22,8 @@ public class LoginActivity extends Activity{
 	private EditText pwdExt;
 	
 	private Button loginBtn;
+	
+	private TextView registration;
 	
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -39,6 +37,7 @@ public class LoginActivity extends Activity{
 		userNameExt = (EditText)findViewById(R.id.et_user_name);
 		pwdExt = (EditText)findViewById(R.id.et_user_pwd);
 		loginBtn = (Button)findViewById(R.id.btn_signin);
+		registration = (TextView)findViewById(R.id.tv_registration);
 		
 		loginBtn.setOnClickListener(new OnClickListener() {
 			
@@ -55,6 +54,16 @@ public class LoginActivity extends Activity{
 					return;
 				}
 				loginUser(account,pwd);
+			}
+		});
+		
+		registration.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent main = new Intent();
+				main.setClass(LoginActivity.this, RegisterActivity.class);
+				startActivity(main);
 			}
 		});
 	}
@@ -90,10 +99,13 @@ public class LoginActivity extends Activity{
 				AppContext ac = (AppContext)getApplication(); 
 				Message msg = new Message();
 				ServerResponse res = ac.loginVerify(userName, pwd);
-				
 				if(res.isSucess())
 				{
 					msg.what = 1;
+				}
+				if(res.getCode()==1)
+				{
+					msg.what = 0;
 				}
 				
 				handle.sendMessage(msg);
