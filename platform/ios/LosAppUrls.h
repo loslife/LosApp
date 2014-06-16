@@ -2,5 +2,5 @@
 
 #define LOGIN_URL [ServerHost stringByAppendingString:@"/svc/losapp/login"]
 #define REGISTER_URL [ServerHost stringByAppendingString:@"/svc/losapp/register"]
-
-#define FETCH_URL [ServerHost stringByAppendingString:@"/svc/losapp/test2"]
+#define FETCH_ENTERPRISES_URL [ServerHost stringByAppendingString:@"/svc/losapp/attachEnterprises/%@"]
+#define SYNC_MEMBERS_URL [ServerHost stringByAppendingString:@"/svc/losapp/syncMembers/%@?v=%@&t=%@"]
