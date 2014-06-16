@@ -79,21 +79,38 @@
                         
                         [httpHelper getSecure:url completionHandler:^(NSDictionary* dict){
                         
-                            // 做些事
-                            
                             dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                             
+                                if(dict == nil){
+                                    // 报错
+                                }
                                 
-                            
+                                NSNumber *code = [dict objectForKey:@"code"];
+                                if([code intValue] != 0){
+                                    // 报错
+                                }
+                                
+                                NSDictionary *response = [dict objectForKey:@"result"];
+                                NSNumber *lastSync = [response objectForKey:@"last_sync"];
+                                
+                                // 刷新最后同步时间
+                                
+                                NSString *type = [response objectForKey:@"type"];
+                                if([type isEqualToString:@"full"]){
+                                    
+                                    // 解析records
+                                    
+                                }else{
+                                    
+                                    // 解析records
+                                    
+                                }
                             
                             });
-                        
+                    
                         }];
-                            
-                            
                         
                     }
-                    
                     
                     dispatch_group_notify(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                         
