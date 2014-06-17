@@ -183,12 +183,14 @@
 -(void) createOtherTables
 {
     NSString *sql1 = @"CREATE TABLE IF NOT EXISTS enterprises (id integer primary key, enterprise_id varchar(64), latest_sync REAL, display varchar(8), create_date REAL);";
+    NSString *sql2 = @"CREATE TABLE IF NOT EXISTS members (id varchar(64) primary key, enterprise_id varchar(64), name varchar(32), create_date REAL, modify_date REAL);";
     
     NSString *dbFilePath = [PathResolver databaseFilePath];
     FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
     [db open];
     
     [db executeUpdate:sql1];
+    [db executeUpdate:sql2];
     
     [db close];
 }
