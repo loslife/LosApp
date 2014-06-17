@@ -236,7 +236,18 @@
         [db executeUpdate:insert, pk, enterpriseId, name, createDate, modifyDate];
     }
     
-    // 处理update
+    // 处理更新记录
+    NSArray *update = [records objectForKey:@"update"];
+    NSString *statement = @"update members set name = :name, modify_date = :mdate where id = :id";
+    
+    for(NSDictionary *item in update){
+        NSString *pk = [item objectForKey:@"id"];
+        NSString *name = [item objectForKey:@"name"];
+        NSNumber *modifyDate = [item objectForKey:@"modify_date"];
+        [db executeUpdate:statement, name, modifyDate, pk];
+    }
+    
+    
     // 处理remove
     
     [db close];
