@@ -27,7 +27,7 @@
 -(void) viewDidAppear:(BOOL)animated
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    
+        
         VersionInfo *versionInfo = [[VersionInfo alloc] init];
         
         if([versionInfo needInit]){
@@ -45,7 +45,7 @@
         
         NSString *fetchEnterprises = [NSString stringWithFormat:FETCH_ENTERPRISES_URL, userId];
         [httpHelper getSecure:fetchEnterprises completionHandler:^(NSDictionary* dict){
-        
+            
             dispatch_async(dispatch_get_main_queue(), ^(void){
                 
                 if(dict == nil){
@@ -65,35 +65,46 @@
                     FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
                     [db open];
                     
-                    dispatch_group_t group = dispatch_group_create();
-                    
                     NSString *sql = @"select enterprise_id, latest_sync from enterprises";
                     FMResultSet *rs = [db executeQuery:sql];
+                    
+                    dispatch_group_t group = dispatch_group_create();
+                    
+                    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                        sleep(1);
+                    });
+                    
                     while([rs next]){
                         
                         NSString *enterpriseId = [rs objectForColumnName:@"enterprise_id"];
                         NSNumber *latestSyncDate = [rs objectForColumnName:@"latest_sync"];
-                            
-                            
+                        
                         NSString *url = [NSString stringWithFormat:SYNC_MEMBERS_URL, enterpriseId, @"1", [latestSyncDate stringValue]];
                         
                         [httpHelper getSecure:url completionHandler:^(NSDictionary* dict){
-                        
-                            dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                             
+                            dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                
+                                FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
+                                [db open];
+                                
                                 if(dict == nil){
                                     // 报错
+                                    return;
                                 }
                                 
                                 NSNumber *code = [dict objectForKey:@"code"];
                                 if([code intValue] != 0){
                                     // 报错
+                                    return;
                                 }
                                 
                                 NSDictionary *response = [dict objectForKey:@"result"];
                                 NSNumber *lastSync = [response objectForKey:@"last_sync"];
                                 
-                                // 刷新最后同步时间
+                                NSString *refreshLatestSyncTime = @"update enterprises set latest_sync = :sync where enterprise_id = :enterpriseId;";
+                                
+                                [db executeUpdate:refreshLatestSyncTime, lastSync, enterpriseId];
                                 
                                 NSString *type = [response objectForKey:@"type"];
                                 if([type isEqualToString:@"full"]){
@@ -105,16 +116,15 @@
                                     // 解析records
                                     
                                 }
-                            
+                                
+                                [db close];
                             });
-                    
                         }];
-                        
                     }
                     
+                    [db close];
+                    
                     dispatch_group_notify(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                        
-                        [db close];
                         
                         UITabBarController *mainViewController = [[UITabBarController alloc] init];
                         
@@ -144,11 +154,11 @@
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
     NSString *userPath = [PathResolver currentUserDirPath];
-
+    
     if(![fileManager fileExistsAtPath:userPath]){
         [fileManager createDirectoryAtPath:userPath withIntermediateDirectories:YES attributes:nil error:nil];
     }
-
+    
     NSString *dbFilePath = [PathResolver databaseFilePath];
     FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
     [db open];
@@ -172,7 +182,15 @@
 
 -(void) createOtherTables
 {
+    NSString *sql1 = @"CREATE TABLE IF NOT EXISTS enterprises (id integer primary key, enterprise_id varchar(64), latest_sync REAL, display varchar(8), create_date REAL);";
     
+    NSString *dbFilePath = [PathResolver databaseFilePath];
+    FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
+    [db open];
+    
+    [db executeUpdate:sql1];
+    
+    [db close];
 }
 
 -(void) refreshVersion:(NSString*)version
@@ -182,27 +200,30 @@
     NSString *dbFilePath = [PathResolver databaseFilePath];
     FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
     [db open];
+    
     [db executeUpdate:updateVersion, version];
+    
     [db close];
 }
 
 -(void) refreshAttachEnterprises:(NSDictionary*)dict
 {
     NSString *query = @"select count(1) as count from enterprises where enterprise_id = :enterpriseId;";
-    NSString *insert = @"insert into enterprises (enterprise_Id, latest_sync, display, create_date) values (:enterpriseId, :latestSync, :dispaly, :createDate);";
+    NSString *insert = @"insert into enterprises (enterprise_Id, latest_sync, display, create_date) values (:enterpriseId, :latestSync, :display, :createDate);";
     
     NSString *dbFilePath = [PathResolver databaseFilePath];
     FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
     [db open];
     
     NSArray *enterpriseIds = [dict objectForKey:@"result"];
-    for(NSString *enterpriseId in enterpriseIds){
+    for(NSDictionary *item in enterpriseIds){
         
+        NSString *enterpriseId = [item objectForKey:@"enterprise_id"];
         FMResultSet *rs = [db executeQuery:query, enterpriseId];
         [rs next];
         int count = [[rs objectForColumnName:@"count"] intValue];
         if(count == 0){
-            [db executeUpdate:insert, enterpriseId, [NSNumber numberWithInt:0], @"no", [NSNumber numberWithLongLong:[TimesHelper now]]];
+            [db executeUpdate:insert, enterpriseId, [NSNumber numberWithInt:0], @"yes", [NSNumber numberWithLongLong:[TimesHelper now]]];
         }
     }
     

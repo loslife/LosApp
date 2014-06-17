@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "PathResolver.h"
-#import "FMDatabase.h"
+#import "FMDB.h"
 
 @interface VersionInfo : NSObject
 
