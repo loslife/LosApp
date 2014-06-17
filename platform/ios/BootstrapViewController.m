@@ -70,20 +70,18 @@
                     
                     dispatch_group_t group = dispatch_group_create();
                     
-                    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                        sleep(1);
-                    });
-                    
                     while([rs next]){
                         
-                        NSString *enterpriseId = [rs objectForColumnName:@"enterprise_id"];
-                        NSNumber *latestSyncDate = [rs objectForColumnName:@"latest_sync"];
+                        dispatch_group_enter(group);
                         
-                        NSString *url = [NSString stringWithFormat:SYNC_MEMBERS_URL, enterpriseId, @"1", [latestSyncDate stringValue]];
-                        
-                        [httpHelper getSecure:url completionHandler:^(NSDictionary* dict){
+                        dispatch_async(dispatch_get_global_queue(0, 0), ^{
                             
-                            dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                            NSString *enterpriseId = [rs objectForColumnName:@"enterprise_id"];
+                            NSNumber *latestSyncDate = [rs objectForColumnName:@"latest_sync"];
+                            
+                            NSString *url = [NSString stringWithFormat:SYNC_MEMBERS_URL, enterpriseId, @"1", [latestSyncDate stringValue]];
+                            
+                            [httpHelper getSecure:url completionHandler:^(NSDictionary* dict){
                                 
                                 FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
                                 [db open];
@@ -118,13 +116,16 @@
                                 }
                                 
                                 [db close];
-                            });
-                        }];
+                                
+                                dispatch_group_leave(group);
+                            }];
+                        });
+                        
                     }
                     
                     [db close];
                     
-                    dispatch_group_notify(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    dispatch_group_notify(group, dispatch_get_global_queue(0, 0), ^{
                         
                         UITabBarController *mainViewController = [[UITabBarController alloc] init];
                         
