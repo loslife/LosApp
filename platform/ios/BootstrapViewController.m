@@ -40,7 +40,7 @@
         
         [updateHelper doUpdate:versionInfo];
         
-        // 如果没有网络，则直接进入主界面
+        // 没有网络，直接进入主界面
         BOOL network = [LosHttpHelper isNetworkAvailable];
         if(!network){
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -54,88 +54,73 @@
         NSString *userId = userData.userId;
         
         NSString *url = [NSString stringWithFormat:FETCH_ENTERPRISES_URL, userId];
+        
         [httpHelper getSecure:url completionHandler:^(NSDictionary* dict){
             
-            dispatch_async(dispatch_get_main_queue(), ^(void){
+            if(dict == nil){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self jumpToMain];
+                });
+                return;
+            }
+            
+            NSNumber *code = [dict objectForKey:@"code"];
+            if([code intValue] != 0){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self jumpToMain];
+                });
+                return;
+            }
+            
+            [self refreshAttachEnterprises:dict];
+            
+            dispatch_group_t group = dispatch_group_create();
+            
+            NSString *dbFilePath = [PathResolver databaseFilePath];
+            FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
+            [db open];
+            
+            NSString *sql = @"select enterprise_id, latest_sync from enterprises";
+            FMResultSet *rs = [db executeQuery:sql];
+            
+            while([rs next]){
                 
-                if(dict == nil){
-                    // 报错
-                }
+                dispatch_group_enter(group);
                 
-                NSNumber *code = [dict objectForKey:@"code"];
-                if([code intValue] != 0){
-                    // 报错
-                }
+                NSString *enterpriseId = [rs objectForColumnName:@"enterprise_id"];
+                NSNumber *latestSyncDate = [rs objectForColumnName:@"latest_sync"];
                 
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                NSString *url = [NSString stringWithFormat:SYNC_MEMBERS_URL, enterpriseId, @"1", [latestSyncDate stringValue]];
+                
+                [httpHelper getSecure:url completionHandler:^(NSDictionary* dict){
                     
-                    [self refreshAttachEnterprises:dict];
-                    
-                    NSString *dbFilePath = [PathResolver databaseFilePath];
-                    FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
-                    [db open];
-                    
-                    NSString *sql = @"select enterprise_id, latest_sync from enterprises";
-                    FMResultSet *rs = [db executeQuery:sql];
-                    
-                    dispatch_group_t group = dispatch_group_create();
-                    
-                    while([rs next]){
-                        
-                        dispatch_group_enter(group);
-                        
-                        NSString *enterpriseId = [rs objectForColumnName:@"enterprise_id"];
-                        NSNumber *latestSyncDate = [rs objectForColumnName:@"latest_sync"];
-                        
-                        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-                            
-                            NSString *url = [NSString stringWithFormat:SYNC_MEMBERS_URL, enterpriseId, @"1", [latestSyncDate stringValue]];
-                            
-                            [httpHelper getSecure:url completionHandler:^(NSDictionary* dict){
-                                
-                                FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
-                                [db open];
-                                
-                                if(dict == nil){
-                                    // 报错
-                                    return;
-                                }
-                                
-                                NSNumber *code = [dict objectForKey:@"code"];
-                                if([code intValue] != 0){
-                                    // 报错
-                                    return;
-                                }
-                                
-                                NSDictionary *response = [dict objectForKey:@"result"];
-                                NSNumber *lastSync = [response objectForKey:@"last_sync"];
-                                
-                                NSString *refreshLatestSyncTime = @"update enterprises set latest_sync = :sync where enterprise_id = :enterpriseId;";
-                                
-                                [db executeUpdate:refreshLatestSyncTime, lastSync, enterpriseId];
-                                
-                                // 解析records
-                                
-                                [db close];
-                                
-                                dispatch_group_leave(group);
-                            }];
-                        });
-                        
+                    if(dict == nil){
+                        dispatch_group_leave(group);
+                        return;
                     }
                     
-                    [db close];
+                    NSNumber *code = [dict objectForKey:@"code"];
+                    if([code intValue] != 0){
+                        dispatch_group_leave(group);
+                        return;
+                    }
                     
-                    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-                        [self jumpToMain];
-                    });
-                });
+                    [self refreshMembers:dict enterpriseId:enterpriseId];
+                    
+                    dispatch_group_leave(group);
+                }];
+            }
+            
+            [db close];
+            
+            dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+                [self jumpToMain];
             });
         }];
     });
 }
 
-#pragma mark - private method
+#pragma mark - system initial
 
 -(void) mkdirAndDatabaseFile
 {
@@ -170,7 +155,7 @@
 
 -(void) createOtherTables
 {
-    NSString *sql1 = @"CREATE TABLE IF NOT EXISTS enterprises (id integer primary key, enterprise_id varchar(64), latest_sync REAL, display varchar(8), create_date REAL);";
+    NSString *sql1 = @"CREATE TABLE IF NOT EXISTS enterprises (id integer primary key autoincrement, enterprise_id varchar(64), latest_sync REAL, display varchar(8), create_date REAL);";
     NSString *sql2 = @"CREATE TABLE IF NOT EXISTS members (id varchar(64) primary key, enterprise_id varchar(64), name varchar(32), create_date REAL, modify_date REAL);";
     
     NSString *dbFilePath = [PathResolver databaseFilePath];
@@ -195,6 +180,8 @@
     
     [db close];
 }
+
+#pragma mark - sync datas from server
 
 -(void) refreshAttachEnterprises:(NSDictionary*)dict
 {
@@ -222,6 +209,40 @@
     
     [db close];
 }
+
+-(void) refreshMembers:(NSDictionary*)dict enterpriseId:(NSString*)enterpriseId
+{
+    NSDictionary *response = [dict objectForKey:@"result"];
+    NSNumber *lastSync = [response objectForKey:@"last_sync"];
+    NSDictionary *records = [response objectForKey:@"records"];
+    
+    NSString *dbFilePath = [PathResolver databaseFilePath];
+    FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
+    [db open];
+    
+    // 刷新最后同步时间
+    NSString *refreshLatestSyncTime = @"update enterprises set latest_sync = :sync where enterprise_id = :enterpriseId;";
+    [db executeUpdate:refreshLatestSyncTime, lastSync, enterpriseId];
+    
+    // 处理新增记录
+    NSArray *add = [records objectForKey:@"add"];
+    NSString *insert = @"insert into members (id, enterprise_id, name, create_date, modify_date) values (:id, :eid, :name, :cdate, :mdate);";
+    
+    for(NSDictionary *item in add){
+        NSString *pk = [item objectForKey:@"id"];
+        NSString *name = [item objectForKey:@"name"];
+        NSNumber *createDate = [item objectForKey:@"create_date"];
+        NSNumber *modifyDate = [item objectForKey:@"modify_date"];
+        [db executeUpdate:insert, pk, enterpriseId, name, createDate, modifyDate];
+    }
+    
+    // 处理update
+    // 处理remove
+    
+    [db close];
+}
+
+#pragma mark - page jump
 
 -(void) jumpToMain
 {
