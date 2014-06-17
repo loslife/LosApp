@@ -40,11 +40,21 @@
         
         [updateHelper doUpdate:versionInfo];
         
+        // 如果没有网络，则直接进入主界面
+        BOOL network = [LosHttpHelper isNetworkAvailable];
+        if(!network){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self jumpToMain];
+            });
+            return;
+        }
+        
+        // 有网络，尝试拉取最新数据
         UserData *userData = [UserData load];
         NSString *userId = userData.userId;
         
-        NSString *fetchEnterprises = [NSString stringWithFormat:FETCH_ENTERPRISES_URL, userId];
-        [httpHelper getSecure:fetchEnterprises completionHandler:^(NSDictionary* dict){
+        NSString *url = [NSString stringWithFormat:FETCH_ENTERPRISES_URL, userId];
+        [httpHelper getSecure:url completionHandler:^(NSDictionary* dict){
             
             dispatch_async(dispatch_get_main_queue(), ^(void){
                 
@@ -117,21 +127,7 @@
                     [db close];
                     
                     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-                        
-                        UITabBarController *mainViewController = [[UITabBarController alloc] init];
-                        
-                        ReportViewController *reportViewController = [[ReportViewController alloc] init];
-                        UINavigationController *reportNav = [[UINavigationController alloc] initWithRootViewController:reportViewController];
-                        
-                        ContactViewController *contactViewController = [[ContactViewController alloc] init];
-                        UINavigationController *contactNav = [[UINavigationController alloc] initWithRootViewController:contactViewController];
-                        
-                        SettingViewController *settingViewController = [[SettingViewController alloc] init];
-                        UINavigationController *settingNav = [[UINavigationController alloc] initWithRootViewController:settingViewController];
-                        
-                        mainViewController.viewControllers = @[reportNav, contactNav, settingNav];
-                        [self presentViewController:mainViewController animated:YES completion:nil];
-                        
+                        [self jumpToMain];
                     });
                 });
             });
@@ -225,6 +221,23 @@
     }
     
     [db close];
+}
+
+-(void) jumpToMain
+{
+    UITabBarController *mainViewController = [[UITabBarController alloc] init];
+    
+    ReportViewController *reportViewController = [[ReportViewController alloc] init];
+    UINavigationController *reportNav = [[UINavigationController alloc] initWithRootViewController:reportViewController];
+    
+    ContactViewController *contactViewController = [[ContactViewController alloc] init];
+    UINavigationController *contactNav = [[UINavigationController alloc] initWithRootViewController:contactViewController];
+    
+    SettingViewController *settingViewController = [[SettingViewController alloc] init];
+    UINavigationController *settingNav = [[UINavigationController alloc] initWithRootViewController:settingViewController];
+    
+    mainViewController.viewControllers = @[reportNav, contactNav, settingNav];
+    [self presentViewController:mainViewController animated:YES completion:nil];
 }
 
 @end
