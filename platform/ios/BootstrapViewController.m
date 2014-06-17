@@ -249,6 +249,13 @@
     
     
     // 处理remove
+    NSArray *remove = [records objectForKey:@"remove"];
+    NSString *deleteStatement = @"delete from members where id = :id";
+    
+    for(NSDictionary *item in remove){
+        NSString *pk = [item objectForKey:@"id"];
+        [db executeUpdate:deleteStatement, pk];
+    }
     
     [db close];
 }
