@@ -74,10 +74,10 @@
                         
                         dispatch_group_enter(group);
                         
+                        NSString *enterpriseId = [rs objectForColumnName:@"enterprise_id"];
+                        NSNumber *latestSyncDate = [rs objectForColumnName:@"latest_sync"];
+                        
                         dispatch_async(dispatch_get_global_queue(0, 0), ^{
-                            
-                            NSString *enterpriseId = [rs objectForColumnName:@"enterprise_id"];
-                            NSNumber *latestSyncDate = [rs objectForColumnName:@"latest_sync"];
                             
                             NSString *url = [NSString stringWithFormat:SYNC_MEMBERS_URL, enterpriseId, @"1", [latestSyncDate stringValue]];
                             
@@ -104,16 +104,7 @@
                                 
                                 [db executeUpdate:refreshLatestSyncTime, lastSync, enterpriseId];
                                 
-                                NSString *type = [response objectForKey:@"type"];
-                                if([type isEqualToString:@"full"]){
-                                    
-                                    // 解析records
-                                    
-                                }else{
-                                    
-                                    // 解析records
-                                    
-                                }
+                                // 解析records
                                 
                                 [db close];
                                 
@@ -125,7 +116,7 @@
                     
                     [db close];
                     
-                    dispatch_group_notify(group, dispatch_get_global_queue(0, 0), ^{
+                    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
                         
                         UITabBarController *mainViewController = [[UITabBarController alloc] init];
                         
@@ -226,7 +217,10 @@
         [rs next];
         int count = [[rs objectForColumnName:@"count"] intValue];
         if(count == 0){
-            [db executeUpdate:insert, enterpriseId, [NSNumber numberWithInt:0], @"yes", [NSNumber numberWithLongLong:[TimesHelper now]]];
+            BOOL result = [db executeUpdate:insert, enterpriseId, [NSNumber numberWithInt:0], @"yes", [NSNumber numberWithLongLong:[TimesHelper now]]];
+            if(!result){
+                NSLog(@"%@", [db lastErrorMessage]);
+            }
         }
     }
     
