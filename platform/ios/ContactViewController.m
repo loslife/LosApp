@@ -1,4 +1,6 @@
 #import "ContactViewController.h"
+#import "FMDB.h"
+#import "PathResolver.h"
 
 @implementation ContactViewController
 
@@ -46,6 +48,33 @@
 -(void) addButtonTaped
 {
     NSLog(@"hehe");
+}
+
+#pragma mark - datasource
+
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    __block NSInteger memberCount = 0;
+    
+    dispatch_sync(dispatch_get_global_queue(0, 0), ^{
+    
+        NSString *dbFilePath = [PathResolver databaseFilePath];
+        FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
+        [db open];
+        
+        [db executeQuery:@"select count(1) from members where "]
+        
+        [db close];
+    
+    });
+    
+    
+    
+}
+
+- (UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
 }
 
 @end
