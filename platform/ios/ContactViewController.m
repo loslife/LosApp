@@ -27,9 +27,17 @@
         enterprises = [NSMutableArray array];
         currentEnterpriseId = @"";
         
-        UIBarButtonItem *addShop = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addButtonTapped)];
-        UIBarButtonItem *switchShop = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(addButtonTapped)];
-        self.navigationItem.rightBarButtonItems = @[switchShop, addShop];
+        UIButton *addShop = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+        [addShop setBackgroundImage:[UIImage imageNamed:@"add_shop"] forState:UIControlStateNormal];
+        [addShop addTarget:self action:@selector(addButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *addShopItem = [[UIBarButtonItem alloc] initWithCustomView:addShop];
+        
+        UIButton *switchShop = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+        [switchShop setBackgroundImage:[UIImage imageNamed:@"switch_shop"] forState:UIControlStateNormal];
+        [switchShop addTarget:self action:@selector(addButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *switchShopItem = [[UIBarButtonItem alloc] initWithCustomView:switchShop];
+        
+        self.navigationItem.rightBarButtonItems = @[switchShopItem, addShopItem];
         
         self.tabBarItem.title = @"名册";
         self.tabBarItem.image = [UIImage imageNamed:@"logo"];
