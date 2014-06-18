@@ -35,6 +35,7 @@
         self.tabBarItem.image = [UIImage imageNamed:@"logo"];
         
         searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+        searchBar.delegate = self;
         searchBarShow = NO;
     }
     return self;
@@ -157,6 +158,37 @@
     }
     cell.textLabel.text = [[members objectAtIndex:indexPath.row] objectForKey:@"name"];
     return cell;
+}
+
+#pragma mark - search bar delegate
+
+-(void) searchBar:(UISearchBar*)searchBar textDidChange:(NSString*)searchText
+{
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+    
+        [members removeAllObjects];
+        
+        NSString *base = @"select id, name from members where enterprise_id = :eid and name like '%%%@%%';";
+        NSString *statement = [NSString stringWithFormat:base, searchText];
+        
+        NSString *dbFilePath = [PathResolver databaseFilePath];
+        FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
+        [db open];
+        
+        FMResultSet *rs = [db executeQuery:statement, currentEnterpriseId];
+        while([rs next]){
+            NSString *pk = [rs objectForColumnName:@"id"];
+            NSString *name = [rs objectForColumnName:@"name"];
+            NSDictionary *member = [NSDictionary dictionaryWithObjects:@[pk, name] forKeys:@[@"id", @"name"]];
+            [members addObject:member];
+        }
+        
+        [db close];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
+    });
 }
 
 @end
