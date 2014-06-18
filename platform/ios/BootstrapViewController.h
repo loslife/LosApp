@@ -11,6 +11,6 @@
 #import "UserData.h"
 #import "TimesHelper.h"
 
-@interface BootstrapViewController : UIViewController
+@interface BootstrapViewController : UIViewController<UITabBarControllerDelegate>
     
 @end

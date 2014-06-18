@@ -1,15 +1,26 @@
 #import "ContactViewController.h"
 #import "FMDB.h"
 #import "PathResolver.h"
+#import "UITableViewCell+ReuseIdentifier.h"
 
 @implementation ContactViewController
+
+{
+    NSMutableArray *members;
+    BOOL membersLoaded;
+    NSMutableArray *enterprises;
+    NSString *currentEnterpriseId;
+}
 
 -(id) initWithNibName:(NSString*)nibName bundle:(NSBundle*)bundle
 {
     self = [super initWithNibName:nibName bundle:bundle];
     if(self){
         
-        self.navigationItem.title = @"欣欣美甲";
+        members = [NSMutableArray array];
+        membersLoaded = NO;
+        enterprises = [NSMutableArray array];
+        currentEnterpriseId = @"";
         
         UIBarButtonItem *addShop = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addButtonTaped)];
         UIBarButtonItem *switchShop = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(addButtonTaped)];
@@ -23,10 +34,7 @@
 
 -(void) loadView
 {
-    [super loadView];
-    
     UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
-    
     header.backgroundColor = [UIColor grayColor];
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
@@ -41,8 +49,77 @@
     [header addSubview:label];
     [header addSubview:search];
     
+    self.tableView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame] style:UITableViewStylePlain];
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
     self.tableView.tableHeaderView = header;
     [self.tableView setSeparatorInset:UIEdgeInsetsZero];
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [self loadEnterprises];
+        [self loadMembers];
+    });
+}
+
+#pragma mark - private method
+
+-(void) loadEnterprises
+{
+    NSString *dbFilePath = [PathResolver databaseFilePath];
+    FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
+    [db open];
+    
+    FMResultSet *rs = [db executeQuery:@"select enterprise_id, enterprise_name from enterprises;"];
+    while ([rs next]) {
+        NSString *pk = [rs objectForColumnName:@"enterprise_id"];
+        NSString *name = [rs objectForColumnName:@"enterprise_name"];
+        NSDictionary *enterprise = [NSDictionary dictionaryWithObjects:@[pk, name] forKeys:@[@"id", @"name"]];
+        [enterprises addObject:enterprise];
+    }
+    
+    [db close];
+    
+    NSUInteger count = [enterprises count];
+    if(count > 0){
+        currentEnterpriseId = [[enterprises firstObject] objectForKey:@"id"];
+    }else{
+        currentEnterpriseId = @"";
+    }
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if(count > 0){
+            self.navigationItem.title = [[enterprises firstObject] objectForKey:@"name"];
+        }else{
+            self.navigationItem.title = @"我的店铺";
+        }
+    });
+}
+
+-(void) loadMembers
+{
+    // 无关联企业
+    if([@"" isEqualToString:currentEnterpriseId]){
+        membersLoaded = YES;
+        [self.tableView reloadData];
+        return;
+    }
+    
+    NSString *dbFilePath = [PathResolver databaseFilePath];
+    FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
+    [db open];
+    
+    FMResultSet *rs = [db executeQuery:@"select id, name from members where enterprise_id = :eid", currentEnterpriseId];
+    while ([rs next]) {
+        NSString *pk = [rs objectForColumnName:@"id"];
+        NSString *name = [rs objectForColumnName:@"name"];
+        NSDictionary *member = [NSDictionary dictionaryWithObjects:@[pk, name] forKeys:@[@"id", @"name"]];
+        [members addObject:member];
+    }
+    
+    [db close];
+    
+    membersLoaded = YES;
+    [self.tableView reloadData];
 }
 
 -(void) addButtonTaped
@@ -52,29 +129,27 @@
 
 #pragma mark - datasource
 
-- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+-(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    __block NSInteger memberCount = 0;
+    if(!membersLoaded){
+        return 0;
+    }
     
-    dispatch_sync(dispatch_get_global_queue(0, 0), ^{
-    
-        NSString *dbFilePath = [PathResolver databaseFilePath];
-        FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
-        [db open];
-        
-        [db executeQuery:@"select count(1) from members where "]
-        
-        [db close];
-    
-    });
-    
-    
-    
+    return [members count];
 }
 
-- (UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+-(UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if(!membersLoaded){
+        return nil;
+    }
     
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[UITableViewCell reuseIdentifier]];
+    if(!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[UITableViewCell reuseIdentifier]];
+    }
+    cell.textLabel.text = [[members objectAtIndex:indexPath.row] objectForKey:@"name"];
+    return cell;
 }
 
 @end

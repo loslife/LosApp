@@ -155,7 +155,7 @@
 
 -(void) createOtherTables
 {
-    NSString *sql1 = @"CREATE TABLE IF NOT EXISTS enterprises (id integer primary key autoincrement, enterprise_id varchar(64), latest_sync REAL, display varchar(8), create_date REAL);";
+    NSString *sql1 = @"CREATE TABLE IF NOT EXISTS enterprises (id integer primary key autoincrement, enterprise_id varchar(64), enterprise_name varchar(64), latest_sync REAL, display varchar(8), create_date REAL);";
     NSString *sql2 = @"CREATE TABLE IF NOT EXISTS members (id varchar(64) primary key, enterprise_id varchar(64), name varchar(32), create_date REAL, modify_date REAL);";
     
     NSString *dbFilePath = [PathResolver databaseFilePath];
@@ -186,24 +186,26 @@
 -(void) refreshAttachEnterprises:(NSDictionary*)dict
 {
     NSString *query = @"select count(1) as count from enterprises where enterprise_id = :enterpriseId;";
-    NSString *insert = @"insert into enterprises (enterprise_Id, latest_sync, display, create_date) values (:enterpriseId, :latestSync, :display, :createDate);";
+    NSString *insert = @"insert into enterprises (enterprise_Id, enterprise_name, latest_sync, display, create_date) values (:enterpriseId, :name, :latestSync, :display, :createDate);";
+    NSString *update = @"update enterprises set enterprise_name = :name where enterprise_id = :id";
     
     NSString *dbFilePath = [PathResolver databaseFilePath];
     FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
     [db open];
     
-    NSArray *enterpriseIds = [dict objectForKey:@"result"];
-    for(NSDictionary *item in enterpriseIds){
+    NSArray *enterprises = [dict objectForKey:@"result"];
+    
+    for(NSDictionary *item in enterprises){
         
         NSString *enterpriseId = [item objectForKey:@"enterprise_id"];
+        NSString *enterpriseName = [item objectForKey:@"enterprise_name"];
         FMResultSet *rs = [db executeQuery:query, enterpriseId];
         [rs next];
         int count = [[rs objectForColumnName:@"count"] intValue];
         if(count == 0){
-            BOOL result = [db executeUpdate:insert, enterpriseId, [NSNumber numberWithInt:0], @"yes", [NSNumber numberWithLongLong:[TimesHelper now]]];
-            if(!result){
-                NSLog(@"%@", [db lastErrorMessage]);
-            }
+            [db executeUpdate:insert, enterpriseId, enterpriseName, [NSNumber numberWithInt:0], @"yes", [NSNumber numberWithLongLong:[TimesHelper now]]];
+        }else{
+            [db executeUpdate:update, enterpriseName, enterpriseId];
         }
     }
     
@@ -265,6 +267,7 @@
 -(void) jumpToMain
 {
     UITabBarController *mainViewController = [[UITabBarController alloc] init];
+    mainViewController.delegate = self;
     
     ReportViewController *reportViewController = [[ReportViewController alloc] init];
     UINavigationController *reportNav = [[UINavigationController alloc] initWithRootViewController:reportViewController];
@@ -277,6 +280,13 @@
     
     mainViewController.viewControllers = @[reportNav, contactNav, settingNav];
     [self presentViewController:mainViewController animated:YES completion:nil];
+}
+
+#pragma mark - tab bar delegate
+
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
+    NSLog(@"tab switch");
 }
 
 @end
