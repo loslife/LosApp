@@ -222,10 +222,59 @@ public class ApiClient
 	}
 	
 	/**
-	 * 检查验证码
+	 * 找回密码
 	 * @param params
 	 * @return
 	 * @throws UnsupportedEncodingException
+	 */
+	public static ServerResponse findPassword(Context appContext,String username, String pwd)
+	{
+
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("username", username));
+		params.add(new BasicNameValuePair("pwd", pwd));
+
+		ServerResponse res = new ServerResponse();
+		res.setCode(0);
+		Result rt = new Result();
+		rt.setMessage("ok");
+		res.setResult(rt);
+		
+		//String json = _post(appContext, Constants.REGISTER_URL,params);
+		Gson gson = new Gson();
+		ServerResponse resp = gson.fromJson(gson.toJson(res), ServerResponse.class);
+	
+		return resp;
+	}
+	
+	/**
+	 * 检查用户是否存在
+	 * @param params
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	public static ServerResponse checkUserAccount(Context appContext,String mobileNumber)
+	{
+
+		ServerResponse res = new ServerResponse();
+		res.setCode(0);
+		Result rt = new Result();
+		rt.setMessage("ok");
+		res.setResult(rt);
+		
+		//String json = _get(appContext, MessageFormat.format(Constants.CHECK_VALIDATECODE_SERVICE, mobileNumber));
+		Gson gson = new Gson();
+		ServerResponse resp = gson.fromJson(gson.toJson(res), ServerResponse.class);
+	
+		return resp;
+	}
+	
+	/**
+	 * 检查验证码是否正确
+	 * @param appContext
+	 * @param mobileNumber
+	 * @param validateCode
+	 * @return
 	 */
 	public static ServerResponse checkValidateCode(Context appContext,String mobileNumber,String validateCode)
 	{

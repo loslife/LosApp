@@ -11,64 +11,32 @@ public final class R {
     public static final class attr {
     }
     public static final class color {
-        public static final int author_text=0x7f040019;
+        public static final int aqua=0x7f04000f;
+        public static final int author_text=0x7f04001b;
         public static final int black=0x7f040001;
         public static final int blue=0x7f040007;
-        public static final int bright_foreground_light=0x7f040011;
-        public static final int bright_foreground_light_disabled=0x7f040013;
-        public static final int bright_foreground_light_inverse=0x7f040012;
-        /**  二维码扫描颜色值 
-         */
-        public static final int contents_text=0x7f040029;
-        public static final int dim_foreground_light=0x7f040014;
-        public static final int dim_foreground_light_disabled=0x7f040015;
-        public static final int dim_foreground_light_inverse=0x7f040016;
-        public static final int dim_foreground_light_inverse_disabled=0x7f040017;
-        public static final int encode_view=0x7f04002a;
-        public static final int face_bg=0x7f04001a;
-        public static final int ff40ab54=0x7f040028;
-        public static final int fff1f2f3=0x7f040027;
-        public static final int frame_button_text_nor=0x7f04001b;
-        public static final int frame_button_text_select=0x7f04001c;
-        public static final int full_transparent=0x7f04000f;
+        public static final int bright_foreground_light=0x7f040013;
+        public static final int bright_foreground_light_disabled=0x7f040015;
+        public static final int bright_foreground_light_inverse=0x7f040014;
+        public static final int dim_foreground_light=0x7f040016;
+        public static final int dim_foreground_light_disabled=0x7f040017;
+        public static final int dim_foreground_light_inverse=0x7f040018;
+        public static final int dim_foreground_light_inverse_disabled=0x7f040019;
+        public static final int full_transparent=0x7f040011;
         public static final int gold=0x7f040004;
         public static final int gray=0x7f040002;
         public static final int grayslate=0x7f04000d;
         public static final int graywhite=0x7f04000c;
         public static final int green=0x7f040006;
-        public static final int half_transparent=0x7f040010;
-        public static final int head_text=0x7f040018;
+        public static final int half_transparent=0x7f040012;
+        public static final int head_text=0x7f04001a;
         public static final int lemonyellow=0x7f04000b;
         public static final int lightblue=0x7f04000e;
-        public static final int listitem_black=0x7f040020;
-        public static final int listitem_blue=0x7f040022;
-        public static final int listitem_gray=0x7f040023;
-        public static final int listitem_green=0x7f040024;
-        public static final int listitem_greenyellow=0x7f040025;
-        public static final int listitem_transparent=0x7f04001f;
-        public static final int listitem_white=0x7f040021;
-        public static final int listitem_yellow=0x7f040026;
         public static final int orange=0x7f04000a;
         public static final int pink=0x7f040009;
-        public static final int possible_result_points=0x7f04002b;
         public static final int purple=0x7f040008;
         public static final int red=0x7f040003;
-        /**  Android standard ICS color 
-         */
-        public static final int result_minor_text=0x7f04002c;
-        public static final int result_points=0x7f04002d;
-        /**  Android standard ICS color 
-         */
-        public static final int result_text=0x7f04002e;
-        public static final int result_view=0x7f04002f;
-        public static final int status_text=0x7f040030;
-        public static final int transparent=0x7f040031;
-        public static final int viewfinder_laser=0x7f040032;
-        /**  Android standard ICS color 
-         */
-        public static final int viewfinder_mask=0x7f040033;
-        public static final int weight_bar_buttondown=0x7f04001d;
-        public static final int weight_bar_buttonup=0x7f04001e;
+        public static final int turquoise=0x7f040010;
         public static final int white=0x7f040000;
         public static final int yellow=0x7f040005;
     }
@@ -147,57 +115,93 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
-        public static final int pwd_icon37_41=0x7f020001;
-        public static final int register_icon=0x7f020002;
-        public static final int reset_icon=0x7f020003;
-        public static final int welcome_new=0x7f020004;
-        public static final int widget_bar_bg=0x7f020005;
-        public static final int widget_bar_bg_n=0x7f020006;
-        public static final int widget_bar_bg_p=0x7f020007;
-        public static final int widget_bar_cut_off=0x7f020008;
-        public static final int widget_bar_news=0x7f020009;
-        public static final int widget_bar_news_nor=0x7f02000a;
-        public static final int widget_bar_news_over=0x7f02000b;
-        public static final int widget_bar_question=0x7f02000c;
-        public static final int widget_bar_question_nor=0x7f02000d;
-        public static final int widget_bar_question_over=0x7f02000e;
-        public static final int widget_bar_tweet=0x7f02000f;
-        public static final int widget_bar_tweet_nor=0x7f020010;
-        public static final int widget_bar_tweet_over=0x7f020011;
-        public static final int widget_head_bg=0x7f020012;
+        public static final int mm_listitem=0x7f020001;
+        public static final int mm_listitem_pressed=0x7f020002;
+        public static final int mm_listitem_simple=0x7f020003;
+        public static final int mm_text_bg_trans=0x7f020004;
+        public static final int pwd_icon37_41=0x7f020005;
+        public static final int register_icon=0x7f020006;
+        public static final int reset_icon=0x7f020007;
+        public static final int show_head_toast_bg=0x7f020008;
+        public static final int welcome_new=0x7f020009;
+        public static final int widget_bar_bg=0x7f02000a;
+        public static final int widget_bar_bg_n=0x7f02000b;
+        public static final int widget_bar_bg_p=0x7f02000c;
+        public static final int widget_bar_cut_off=0x7f02000d;
+        public static final int widget_bar_news=0x7f02000e;
+        public static final int widget_bar_news_nor=0x7f02000f;
+        public static final int widget_bar_news_over=0x7f020010;
+        public static final int widget_bar_question=0x7f020011;
+        public static final int widget_bar_question_nor=0x7f020012;
+        public static final int widget_bar_question_over=0x7f020013;
+        public static final int widget_bar_tweet=0x7f020014;
+        public static final int widget_bar_tweet_nor=0x7f020015;
+        public static final int widget_bar_tweet_over=0x7f020016;
+        public static final int widget_head_bg=0x7f020017;
     }
     public static final class id {
-        public static final int btn_regcancel=0x7f080010;
-        public static final int btn_register=0x7f08000f;
-        public static final int btn_signin=0x7f080003;
-        public static final int btn_validatecode=0x7f08000c;
-        public static final int confirm_password=0x7f08000e;
-        public static final int et_user_name=0x7f080001;
-        public static final int et_user_pwd=0x7f080002;
-        public static final int main_footbar_news=0x7f080007;
-        public static final int main_footbar_question=0x7f080008;
-        public static final int main_footbar_tweet=0x7f080009;
-        public static final int main_relativelayout_header=0x7f080006;
-        public static final int password=0x7f08000d;
-        public static final int phoneNum=0x7f08000a;
-        public static final int signInRootView=0x7f080000;
-        public static final int tv_forgot_password=0x7f080005;
-        public static final int tv_registration=0x7f080004;
-        public static final int validatecode=0x7f08000b;
+        public static final int btn_regcancel=0x7f080009;
+        public static final int btn_register=0x7f080008;
+        public static final int btn_signin=0x7f08000d;
+        public static final int btn_validatecode=0x7f080005;
+        public static final int confirm_password=0x7f080007;
+        public static final int contactitem_catalog=0x7f080000;
+        public static final int contactitem_layout=0x7f080001;
+        public static final int contactitem_nick=0x7f080002;
+        public static final int contacts=0x7f080011;
+        public static final int et_user_name=0x7f08000b;
+        public static final int et_user_pwd=0x7f08000c;
+        public static final int lvContact=0x7f080017;
+        public static final int main_relativelayout_header=0x7f080013;
+        public static final int operate=0x7f080010;
+        public static final int password=0x7f080006;
+        public static final int phoneNum=0x7f080003;
+        public static final int setting=0x7f080012;
+        public static final int sideBar=0x7f080018;
+        public static final int signInRootView=0x7f08000a;
+        public static final int textView1=0x7f080016;
+        public static final int textView2=0x7f080015;
+        public static final int textView3=0x7f080014;
+        public static final int tv_forgot_password=0x7f08000f;
+        public static final int tv_registration=0x7f08000e;
+        public static final int validatecode=0x7f080004;
     }
     public static final class layout {
-        public static final int login=0x7f030000;
-        public static final int main=0x7f030001;
-        public static final int main_footer=0x7f030002;
-        public static final int register=0x7f030003;
+        public static final int contact_item=0x7f030000;
+        public static final int forgotpassword=0x7f030001;
+        public static final int list_position=0x7f030002;
+        public static final int login=0x7f030003;
+        public static final int main=0x7f030004;
+        public static final int main_footer=0x7f030005;
+        public static final int main_header=0x7f030006;
+        public static final int mebersgroup=0x7f030007;
+        public static final int register=0x7f030008;
     }
     public static final class string {
         public static final int app_name=0x7f060000;
     }
     public static final class style {
+        /** 
+        Base application theme for API 11+. This theme completely replaces
+        AppBaseTheme from res/values/styles.xml on API 11+ devices.
+    
+ API 11 theme customizations can go here. 
+
+        Base application theme for API 14+. This theme completely replaces
+        AppBaseTheme from BOTH res/values/styles.xml and
+        res/values-v11/styles.xml on API 14+ devices.
+    
+ API 14 theme customizations can go here. 
+         */
+        public static final int AppBaseTheme=0x7f07000b;
+        public static final int ChoicePreferenceButton=0x7f070008;
+        public static final int MMFontTipInList=0x7f07000a;
+        public static final int MMFontTitleInList=0x7f070009;
+        public static final int MMFriendListItem=0x7f070006;
+        public static final int MMListCatalog=0x7f070007;
+        public static final int MMListItem=0x7f070005;
         public static final int footbar=0x7f070001;
-        public static final int main_footbar_cutline=0x7f070005;
-        public static final int main_footbar_image=0x7f070004;
+        public static final int main_footbar_cutline=0x7f070004;
         public static final int main_footbar_radio=0x7f070003;
         public static final int notitle=0x7f070000;
         public static final int user_center_footbar=0x7f070002;

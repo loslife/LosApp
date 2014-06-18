@@ -22,6 +22,7 @@
         </activity>
         <activity android:name=".Main" />
         <activity android:name=".RegisterActivity" />
+        <activity android:name=".MemberGoupActivity" />
     </application>
 
 </manifest>

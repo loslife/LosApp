@@ -26,25 +26,58 @@ public class AppContext extends Application {
 
 	}
 	
+	/**
+	 * 登录验证
+	 * @param account
+	 * @param pwd
+	 * @return
+	 */
 	public ServerResponse loginVerify(String account, String pwd)  {
 		
 		return ApiClient.login(this, account, pwd);
 	}
 	
+	/**
+	 * 注册
+	 * @param account
+	 * @param pwd
+	 * @return
+	 */
     public ServerResponse register(String account, String pwd)  {
 		
 		return ApiClient.register(this, account, pwd);
 	}
 	
+    /**
+     * 获取验证码
+     * @param phoneNumber
+     * @return
+     */
     public ServerResponse getValidatecode(String phoneNumber)  {
 		
 		return ApiClient.getValidateCode(this, phoneNumber);
 	}
     
-    public ServerResponse checkValidatecode(String phoneNumber)  {
+    /**
+     * 校验验证码
+     * @param phoneNumber
+     * @return
+     */
+    public ServerResponse checkValidatecode(String phoneNumber,String code)  {
 		
-		return ApiClient.getValidateCode(this, phoneNumber);
+		return ApiClient.checkValidateCode(this, phoneNumber, code);
 	}
+    
+    
+    /**
+     * 判断用户是否存在
+     * @param phoneNumber
+     * @return
+     */
+    public ServerResponse checkUserAccount(String phoneNumber)
+    {
+    	return ApiClient.checkUserAccount(this, phoneNumber);
+    }
 	
 	/**
 	 * 用户是否登录

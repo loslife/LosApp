@@ -25,6 +25,8 @@ public class LoginActivity extends Activity{
 	
 	private TextView registration;
 	
+	private TextView findPassword;
+	
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
@@ -38,6 +40,7 @@ public class LoginActivity extends Activity{
 		pwdExt = (EditText)findViewById(R.id.et_user_pwd);
 		loginBtn = (Button)findViewById(R.id.btn_signin);
 		registration = (TextView)findViewById(R.id.tv_registration);
+		findPassword = (TextView)findViewById(R.id.tv_forgot_password);
 		
 		loginBtn.setOnClickListener(new OnClickListener() {
 			
@@ -61,9 +64,21 @@ public class LoginActivity extends Activity{
 			
 			@Override
 			public void onClick(View v) {
-				Intent main = new Intent();
-				main.setClass(LoginActivity.this, RegisterActivity.class);
-				startActivity(main);
+				Intent register = new Intent();
+				register.setClass(LoginActivity.this, RegisterActivity.class);
+				register.putExtra("forgotpwd", false);
+				startActivity(register);
+			}
+		});
+		
+		findPassword.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent forgotpwd = new Intent();
+				forgotpwd.setClass(LoginActivity.this, RegisterActivity.class);
+				forgotpwd.putExtra("forgotpwd", true);
+				startActivity(forgotpwd);
 			}
 		});
 	}
