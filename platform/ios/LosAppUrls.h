@@ -1,4 +1,4 @@
-#define ServerHost @"http://192.168.1.110:5000"
+#define ServerHost @"http://192.168.1.112:5000"
 
 #define LOGIN_URL [ServerHost stringByAppendingString:@"/svc/losapp/login"]
 #define REGISTER_URL [ServerHost stringByAppendingString:@"/svc/losapp/register"]
