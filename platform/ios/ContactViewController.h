@@ -1,5 +1,5 @@
 #import <UIKit/UIKit.h>
 
-@interface ContactViewController : UITableViewController
+@interface ContactViewController : UITableViewController<UISearchBarDelegate>
 
 @end

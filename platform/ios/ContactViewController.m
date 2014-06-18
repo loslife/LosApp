@@ -10,6 +10,8 @@
     NSMutableArray *members;
     NSMutableArray *enterprises;
     NSString *currentEnterpriseId;
+    
+    UISearchBar *searchBar;
 }
 
 -(id) initWithNibName:(NSString*)nibName bundle:(NSBundle*)bundle
@@ -42,10 +44,15 @@
     label.text = @"会员";
     label.textAlignment = NSTextAlignmentCenter;
     
+    UIImage *magnifier = [UIImage imageNamed:@"magnifier"];
     UIButton *search = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    search.frame = CGRectMake(0, 0, 40, 40);
-    [search setTitle:@"搜索" forState:UIControlStateNormal];
+    search.frame = CGRectMake(10, 10, 20, 20);
+    [search setImage:magnifier forState:UIControlStateNormal];
+    UIColor *color = [UIColor colorWithRed:18/255.0f green:172/255.0f blue:182/255.0f alpha:1.0f];
+    [search setTintColor:color];
     [search addTarget:self action:@selector(searchButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    
+    searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
     
     [header addSubview:label];
     [header addSubview:search];
@@ -55,6 +62,11 @@
     self.tableView.delegate = self;
     self.tableView.tableHeaderView = header;
     [self.tableView setSeparatorInset:UIEdgeInsetsZero];
+    
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignOnTap)];
+    [singleTap setNumberOfTapsRequired:1];// 触摸一次
+    [singleTap setNumberOfTouchesRequired:1];// 单指触摸
+    [self.tableView addGestureRecognizer:singleTap];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         [self loadEnterprises];
@@ -121,6 +133,8 @@
     [self.tableView reloadData];
 }
 
+#pragma mark - responder
+
 -(void) addButtonTapped
 {
     NSLog(@"hehe");
@@ -128,7 +142,13 @@
 
 -(void) searchButtonTapped
 {
-    NSLog(@"search");
+    [self.view addSubview:searchBar];
+}
+
+-(void) resignOnTap
+{
+    [searchBar resignFirstResponder];
+    [searchBar removeFromSuperview];
 }
 
 #pragma mark - datasource
