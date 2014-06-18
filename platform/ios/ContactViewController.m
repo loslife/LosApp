@@ -6,8 +6,8 @@
 @implementation ContactViewController
 
 {
+    BOOL loadMembersDone;
     NSMutableArray *members;
-    BOOL membersLoaded;
     NSMutableArray *enterprises;
     NSString *currentEnterpriseId;
 }
@@ -17,13 +17,14 @@
     self = [super initWithNibName:nibName bundle:bundle];
     if(self){
         
+        loadMembersDone = NO;
+        
         members = [NSMutableArray array];
-        membersLoaded = NO;
         enterprises = [NSMutableArray array];
         currentEnterpriseId = @"";
         
-        UIBarButtonItem *addShop = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addButtonTaped)];
-        UIBarButtonItem *switchShop = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(addButtonTaped)];
+        UIBarButtonItem *addShop = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addButtonTapped)];
+        UIBarButtonItem *switchShop = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(addButtonTapped)];
         self.navigationItem.rightBarButtonItems = @[switchShop, addShop];
         
         self.tabBarItem.title = @"名册";
@@ -44,7 +45,7 @@
     UIButton *search = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     search.frame = CGRectMake(0, 0, 40, 40);
     [search setTitle:@"搜索" forState:UIControlStateNormal];
-    [search addTarget:self action:@selector(addButtonTaped) forControlEvents:UIControlEventTouchUpInside];
+    [search addTarget:self action:@selector(searchButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     
     [header addSubview:label];
     [header addSubview:search];
@@ -99,8 +100,6 @@
 {
     // 无关联企业
     if([@"" isEqualToString:currentEnterpriseId]){
-        membersLoaded = YES;
-        [self.tableView reloadData];
         return;
     }
     
@@ -118,20 +117,25 @@
     
     [db close];
     
-    membersLoaded = YES;
+    loadMembersDone = YES;
     [self.tableView reloadData];
 }
 
--(void) addButtonTaped
+-(void) addButtonTapped
 {
     NSLog(@"hehe");
+}
+
+-(void) searchButtonTapped
+{
+    NSLog(@"search");
 }
 
 #pragma mark - datasource
 
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if(!membersLoaded){
+    if(!loadMembersDone){
         return 0;
     }
     
@@ -140,7 +144,7 @@
 
 -(UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(!membersLoaded){
+    if(!loadMembersDone){
         return nil;
     }
     
