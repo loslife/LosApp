@@ -18,6 +18,7 @@
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
         label.text = @"会员";
         label.textAlignment = NSTextAlignmentCenter;
+        label.textColor = [UIColor colorWithRed:18/255.0f green:172/255.0f blue:182/255.0f alpha:1.0f];
         
         UIImage *magnifier = [UIImage imageNamed:@"magnifier"];
         UIButton *search = [UIButton buttonWithType:UIButtonTypeRoundedRect];
