@@ -13,7 +13,7 @@
     if (self) {
         
         UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
-        header.backgroundColor = [UIColor grayColor];
+        header.backgroundColor = [UIColor colorWithRed:241/255.0f green:241/255.0f blue:241/255.0f alpha:1.0f];
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
         label.text = @"会员";
@@ -23,8 +23,7 @@
         UIButton *search = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         search.frame = CGRectMake(10, 10, 20, 20);
         [search setImage:magnifier forState:UIControlStateNormal];
-        UIColor *color = [UIColor colorWithRed:18/255.0f green:172/255.0f blue:182/255.0f alpha:1.0f];
-        [search setTintColor:color];
+        [search setTintColor:[UIColor colorWithRed:18/255.0f green:172/255.0f blue:182/255.0f alpha:1.0f]];
         [search addTarget:controller action:@selector(searchButtonTapped) forControlEvents:UIControlEventTouchUpInside];
         
         [header addSubview:label];
