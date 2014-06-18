@@ -112,6 +112,7 @@ public class MemberGoupActivity extends Activity{
 		contacts = (TextView)findViewById(R.id.contacts);
 		contacts.setBackgroundColor(color.orange);
 		
+		
 		setting = (TextView)findViewById(R.id.setting);
 		
 		operate.setOnClickListener(new OnClickListener() {
