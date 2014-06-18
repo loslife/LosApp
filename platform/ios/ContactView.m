@@ -1,0 +1,46 @@
+#import "ContactView.h"
+
+@implementation ContactView
+
+{
+    UISearchBar *searchBar;
+}
+
+-(id) initWithController:(ContactViewController*)controller
+{
+    self = [super initWithFrame:[[UIScreen mainScreen] applicationFrame] style:UITableViewStylePlain];
+    
+    if (self) {
+        
+        UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+        header.backgroundColor = [UIColor grayColor];
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+        label.text = @"会员";
+        label.textAlignment = NSTextAlignmentCenter;
+        
+        UIImage *magnifier = [UIImage imageNamed:@"magnifier"];
+        UIButton *search = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        search.frame = CGRectMake(10, 10, 20, 20);
+        [search setImage:magnifier forState:UIControlStateNormal];
+        UIColor *color = [UIColor colorWithRed:18/255.0f green:172/255.0f blue:182/255.0f alpha:1.0f];
+        [search setTintColor:color];
+        [search addTarget:controller action:@selector(searchButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+        
+        [header addSubview:label];
+        [header addSubview:search];
+        
+        self.dataSource = controller;
+        self.delegate = controller;
+        self.tableHeaderView = header;
+        [self setSeparatorInset:UIEdgeInsetsZero];
+        
+        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:controller action:@selector(resignOnTap)];
+        [singleTap setNumberOfTapsRequired:1];// 触摸一次
+        [singleTap setNumberOfTouchesRequired:1];// 单指触摸
+        [self addGestureRecognizer:singleTap];
+    }
+    return self;
+}
+
+@end

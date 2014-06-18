@@ -2,6 +2,7 @@
 #import "FMDB.h"
 #import "PathResolver.h"
 #import "UITableViewCell+ReuseIdentifier.h"
+#import "ContactView.h"
 
 @implementation ContactViewController
 
@@ -12,6 +13,7 @@
     NSString *currentEnterpriseId;
     
     UISearchBar *searchBar;
+    BOOL searchBarShow;
 }
 
 -(id) initWithNibName:(NSString*)nibName bundle:(NSBundle*)bundle
@@ -31,42 +33,17 @@
         
         self.tabBarItem.title = @"名册";
         self.tabBarItem.image = [UIImage imageNamed:@"logo"];
+        
+        searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+        searchBarShow = NO;
     }
     return self;
 }
 
 -(void) loadView
 {
-    UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
-    header.backgroundColor = [UIColor grayColor];
-    
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
-    label.text = @"会员";
-    label.textAlignment = NSTextAlignmentCenter;
-    
-    UIImage *magnifier = [UIImage imageNamed:@"magnifier"];
-    UIButton *search = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    search.frame = CGRectMake(10, 10, 20, 20);
-    [search setImage:magnifier forState:UIControlStateNormal];
-    UIColor *color = [UIColor colorWithRed:18/255.0f green:172/255.0f blue:182/255.0f alpha:1.0f];
-    [search setTintColor:color];
-    [search addTarget:self action:@selector(searchButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    
-    searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
-    
-    [header addSubview:label];
-    [header addSubview:search];
-    
-    self.tableView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame] style:UITableViewStylePlain];
-    self.tableView.dataSource = self;
-    self.tableView.delegate = self;
-    self.tableView.tableHeaderView = header;
-    [self.tableView setSeparatorInset:UIEdgeInsetsZero];
-    
-    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignOnTap)];
-    [singleTap setNumberOfTapsRequired:1];// 触摸一次
-    [singleTap setNumberOfTouchesRequired:1];// 单指触摸
-    [self.tableView addGestureRecognizer:singleTap];
+    ContactView *view = [[ContactView alloc] initWithController:self];
+    self.tableView = view;
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         [self loadEnterprises];
@@ -74,7 +51,7 @@
     });
 }
 
-#pragma mark - private method
+#pragma mark - load data from db
 
 -(void) loadEnterprises
 {
@@ -143,12 +120,18 @@
 -(void) searchButtonTapped
 {
     [self.view addSubview:searchBar];
+    searchBarShow = YES;
 }
 
 -(void) resignOnTap
 {
+    if(!searchBarShow){
+        return;
+    }
+    
     [searchBar resignFirstResponder];
     [searchBar removeFromSuperview];
+    searchBarShow = NO;
 }
 
 #pragma mark - datasource
