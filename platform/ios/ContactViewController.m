@@ -4,6 +4,7 @@
 #import "UITableViewCell+ReuseIdentifier.h"
 #import "ContactView.h"
 #import "Member.h"
+#import "AddShopViewController.h"
 
 @implementation ContactViewController
 
@@ -180,7 +181,8 @@
 
 -(void) addButtonTapped
 {
-    NSLog(@"add shop");
+    AddShopViewController *addShop = [[AddShopViewController alloc] init];
+    [self.navigationController pushViewController:addShop animated:YES];
 }
 
 -(void) switchButtonTapped
