@@ -32,15 +32,17 @@
         [code setKeyboardType:UIKeyboardTypeNumberPad];
         code.delegate = self;
         
-        UIButton *requireCode = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        requireCode.frame = CGRectMake(190, 0, 90, 40);
-        [requireCode setTitle:@"获取验证码" forState:UIControlStateNormal];
-        requireCode.backgroundColor = [UIColor colorWithRed:181/255.0f green:233/255.0f blue:236/255.0f alpha:1.0f];
-        requireCode.tintColor = [UIColor colorWithRed:18/255.0f green:172/255.0f blue:182/255.0f alpha:1.0f];
-        requireCode.layer.cornerRadius = 5;
+        self.requireCodeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        self.requireCodeButton.frame = CGRectMake(190, 0, 90, 40);
+        [self.requireCodeButton setTitle:@"获取验证码" forState:UIControlStateNormal];
+        [self.requireCodeButton setTitle:@"60秒可重发" forState:UIControlStateDisabled];
+        self.requireCodeButton.backgroundColor = [UIColor colorWithRed:181/255.0f green:233/255.0f blue:236/255.0f alpha:1.0f];
+        self.requireCodeButton.tintColor = [UIColor colorWithRed:18/255.0f green:172/255.0f blue:182/255.0f alpha:1.0f];
+        self.requireCodeButton.layer.cornerRadius = 5;
+        [self.requireCodeButton addTarget:controller action:@selector(requireVerificationCode) forControlEvents:UIControlEventTouchUpInside];
         
         [codeWrapper addSubview:code];
-        [codeWrapper addSubview:requireCode];
+        [codeWrapper addSubview:self.requireCodeButton];
         
         UIButton *attach = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         attach.frame = CGRectMake(20, 280, 280, 40);

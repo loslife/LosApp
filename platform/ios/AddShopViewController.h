@@ -2,4 +2,6 @@
 
 @interface AddShopViewController : UIViewController
 
+-(void) requireVerificationCode;
+
 @end
