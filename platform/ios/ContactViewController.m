@@ -38,9 +38,8 @@
         UIBarButtonItem *switchShopItem = [[UIBarButtonItem alloc] initWithCustomView:switchShop];
         
         self.navigationItem.rightBarButtonItems = @[switchShopItem, addShopItem];
-        
-        self.tabBarItem.title = @"名册";
-        self.tabBarItem.image = [UIImage imageNamed:@"logo"];
+
+        self.tabBarItem.image = [UIImage imageNamed:@"tab_contact"];
         
         searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
         searchBar.delegate = self;
