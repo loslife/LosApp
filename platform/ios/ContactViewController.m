@@ -41,6 +41,7 @@
         
         self.navigationItem.rightBarButtonItems = @[switchShopItem, addShopItem];
 
+        self.tabBarItem.title = @"会员";
         self.tabBarItem.image = [UIImage imageNamed:@"tab_contact"];
         
         searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];

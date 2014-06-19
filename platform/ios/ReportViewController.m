@@ -6,6 +6,7 @@
 {
     self = [super initWithNibName:nibName bundle:bundle];
     if(self){
+        self.tabBarItem.title = @"经营";
         self.tabBarItem.image = [UIImage imageNamed:@"tab_report"];
     }
     return self;
