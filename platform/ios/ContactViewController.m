@@ -36,7 +36,7 @@
         
         UIButton *switchShop = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
         [switchShop setBackgroundImage:[UIImage imageNamed:@"switch_shop"] forState:UIControlStateNormal];
-        [switchShop addTarget:self action:@selector(addButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+        [switchShop addTarget:self action:@selector(switchButtonTapped) forControlEvents:UIControlEventTouchUpInside];
         UIBarButtonItem *switchShopItem = [[UIBarButtonItem alloc] initWithCustomView:switchShop];
         
         self.navigationItem.rightBarButtonItems = @[switchShopItem, addShopItem];
@@ -180,7 +180,12 @@
 
 -(void) addButtonTapped
 {
-    NSLog(@"hehe");
+    NSLog(@"add shop");
+}
+
+-(void) switchButtonTapped
+{
+    NSLog(@"switch shop");
 }
 
 -(void) searchButtonTapped
