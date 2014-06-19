@@ -19,6 +19,18 @@
     [timer invalidate];
 }
 
+-(void) viewDidAppear:(BOOL)animated
+{
+    AddShopView *myView = (AddShopView*)self.view;
+    UIButton *button = myView.requireCodeButton;
+    
+    if(button.enabled){
+        return;
+    }
+    
+    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(countdown) userInfo:nil repeats:YES];
+}
+
 -(void) requireVerificationCode
 {
     // 发送验证码
@@ -41,10 +53,10 @@
 -(void) startTick
 {
     resendCountdown = 60;
-    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(countdownResendButton) userInfo:nil repeats:YES];
+    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(countdown) userInfo:nil repeats:YES];
 }
 
--(void) countdownResendButton
+-(void) countdown
 {
     resendCountdown--;
     
