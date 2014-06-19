@@ -3,6 +3,6 @@
 @interface ContactViewController : UITableViewController<UISearchBarDelegate>
 
 -(void) searchButtonTapped;
--(void) resignOnTap;
+-(void) hideSearchBar;
 
 @end

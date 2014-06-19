@@ -35,9 +35,9 @@
         self.tableHeaderView = header;
         [self setSeparatorInset:UIEdgeInsetsZero];
         
-        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:controller action:@selector(resignOnTap)];
-        [singleTap setNumberOfTapsRequired:1];// 触摸一次
-        [singleTap setNumberOfTouchesRequired:1];// 单指触摸
+        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:controller action:@selector(hideSearchBar)];
+        [singleTap setNumberOfTapsRequired:1];
+        [singleTap setNumberOfTouchesRequired:1];
         [self addGestureRecognizer:singleTap];
     }
     return self;

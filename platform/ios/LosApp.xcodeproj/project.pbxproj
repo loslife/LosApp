@@ -31,6 +31,7 @@
 		18666754194AD52400A345F7 /* StringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 18666753194AD52400A345F7 /* StringUtils.m */; };
 		18AFE5F5195178210083C972 /* UITableViewCell+ReuseIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE5F4195178210083C972 /* UITableViewCell+ReuseIdentifier.m */; };
 		18AFE5FC1951986F0083C972 /* ContactView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE5FB1951986F0083C972 /* ContactView.m */; };
+		18AFE600195296D70083C972 /* Member.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE5FF195296D70083C972 /* Member.m */; };
 		18B2EE121946E0EF00264B74 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B2EE111946E0EF00264B74 /* Foundation.framework */; };
 		18B2EE141946E0EF00264B74 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B2EE131946E0EF00264B74 /* CoreGraphics.framework */; };
 		18B2EE161946E0EF00264B74 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B2EE151946E0EF00264B74 /* UIKit.framework */; };
@@ -87,6 +88,8 @@
 		18AFE5F4195178210083C972 /* UITableViewCell+ReuseIdentifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+ReuseIdentifier.m"; sourceTree = "<group>"; };
 		18AFE5FA1951986F0083C972 /* ContactView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactView.h; sourceTree = "<group>"; };
 		18AFE5FB1951986F0083C972 /* ContactView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactView.m; sourceTree = "<group>"; };
+		18AFE5FE195296D70083C972 /* Member.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Member.h; sourceTree = "<group>"; };
+		18AFE5FF195296D70083C972 /* Member.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Member.m; sourceTree = "<group>"; };
 		18B2EE0E1946E0EF00264B74 /* LosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18B2EE111946E0EF00264B74 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		18B2EE131946E0EF00264B74 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -208,6 +211,15 @@
 			name = ReuseableTableCell;
 			sourceTree = "<group>";
 		};
+		18AFE5FD195296BD0083C972 /* domain */ = {
+			isa = PBXGroup;
+			children = (
+				18AFE5FE195296D70083C972 /* Member.h */,
+				18AFE5FF195296D70083C972 /* Member.m */,
+			);
+			name = domain;
+			sourceTree = "<group>";
+		};
 		18B2EE051946E0EF00264B74 = {
 			isa = PBXGroup;
 			children = (
@@ -257,6 +269,7 @@
 		18B2EE401946E16C00264B74 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				18AFE5FD195296BD0083C972 /* domain */,
 				1866671D1949C2B200A345F7 /* utils */,
 				186667191949B2D700A345F7 /* update */,
 				1866670C194992F500A345F7 /* views */,
@@ -416,6 +429,7 @@
 				1866670519498B5600A345F7 /* UserData.m in Sources */,
 				18666754194AD52400A345F7 /* StringUtils.m in Sources */,
 				186667201949C2D400A345F7 /* LosHttpsBase.m in Sources */,
+				18AFE600195296D70083C972 /* Member.m in Sources */,
 				186667301949C3B700A345F7 /* LosHttpHelper.m in Sources */,
 				18AFE5FC1951986F0083C972 /* ContactView.m in Sources */,
 				1866674D194AD1BA00A345F7 /* Reachability.m in Sources */,

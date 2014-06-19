@@ -3,12 +3,14 @@
 #import "PathResolver.h"
 #import "UITableViewCell+ReuseIdentifier.h"
 #import "ContactView.h"
+#import "Member.h"
 
 @implementation ContactViewController
 
 {
-    BOOL loadMembersDone;
+    BOOL membersInitDone;
     NSMutableArray *members;
+    
     NSMutableArray *enterprises;
     NSString *currentEnterpriseId;
     
@@ -21,9 +23,9 @@
     self = [super initWithNibName:nibName bundle:bundle];
     if(self){
         
-        loadMembersDone = NO;
-        
+        membersInitDone = NO;
         members = [NSMutableArray array];
+        
         enterprises = [NSMutableArray array];
         currentEnterpriseId = @"";
         
@@ -54,14 +56,14 @@
     self.tableView = view;
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [self loadEnterprises];
-        [self loadMembers];
+        [self initEnterprises];
+        [self initMembers];
     });
 }
 
-#pragma mark - load data from db
+#pragma mark - init data
 
--(void) loadEnterprises
+-(void) initEnterprises
 {
     NSString *dbFilePath = [PathResolver databaseFilePath];
     FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
@@ -93,32 +95,84 @@
     });
 }
 
--(void) loadMembers
+-(void) initMembers
 {
-    // 无关联企业
+    // 无关联企业，不查询
     if([@"" isEqualToString:currentEnterpriseId]){
         return;
     }
+
+    NSString *statement = @"select id, name from members where enterprise_id = :eid";
+    [self refreshMembers:statement];
+    
+    membersInitDone = YES;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+    });
+}
+
+#pragma mark - search bar delegate
+
+-(void) searchBar:(UISearchBar*)searchBar textDidChange:(NSString*)searchText
+{
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        
+        [members removeAllObjects];
+        
+        NSString *base = @"select id, name from members where enterprise_id = :eid and name like '%%%@%%';";
+        NSString *statement = [NSString stringWithFormat:base, searchText];
+        
+        [self refreshMembers:statement];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
+    });
+}
+
+#pragma mark - private method
+
+-(void) refreshMembers:(NSString*)statement
+{
+    NSMutableArray *membersTemp = [NSMutableArray array];
     
     NSString *dbFilePath = [PathResolver databaseFilePath];
     FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
     [db open];
     
-    FMResultSet *rs = [db executeQuery:@"select id, name from members where enterprise_id = :eid", currentEnterpriseId];
+    FMResultSet *rs = [db executeQuery:statement, currentEnterpriseId];
     while ([rs next]) {
         NSString *pk = [rs objectForColumnName:@"id"];
         NSString *name = [rs objectForColumnName:@"name"];
-        NSDictionary *member = [NSDictionary dictionaryWithObjects:@[pk, name] forKeys:@[@"id", @"name"]];
-        [members addObject:member];
+        Member *member = [[Member alloc] initWithPk:pk Name:name];
+        [membersTemp addObject:member];
     }
     
     [db close];
     
-    loadMembersDone = YES;
+    UILocalizedIndexedCollation *collation = [UILocalizedIndexedCollation currentCollation];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.tableView reloadData];
-    });
+    for (Member *member in membersTemp) {
+        NSInteger sect = [collation sectionForObject:member collationStringSelector:@selector(name)];
+        member.sectionNumber = sect;
+    }
+    
+    NSInteger highSection = [[collation sectionTitles] count];
+    NSMutableArray *sectionArrays = [NSMutableArray arrayWithCapacity:highSection];
+    for (int i = 0; i < highSection; i++) {
+        NSMutableArray *sectionArray = [NSMutableArray arrayWithCapacity:1];
+        [sectionArrays addObject:sectionArray];
+    }
+    
+    for (Member *member in membersTemp) {
+        [(NSMutableArray*)[sectionArrays objectAtIndex:member.sectionNumber] addObject:member];
+    }
+    
+    for (NSMutableArray *sectionArray in sectionArrays) {
+        NSArray *sortedSection = [collation sortedArrayFromArray:sectionArray collationStringSelector:@selector(name)];
+        [members addObject:sortedSection];
+    }
 }
 
 #pragma mark - responder
@@ -134,7 +188,7 @@
     searchBarShow = YES;
 }
 
--(void) resignOnTap
+-(void) hideSearchBar
 {
     if(!searchBarShow){
         return;
@@ -145,20 +199,28 @@
     searchBarShow = NO;
 }
 
-#pragma mark - datasource
+#pragma mark - tableview datasource
 
--(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if(!loadMembersDone){
-        return 0;
+    if(!membersInitDone){
+        return 1;
     }
-    
     return [members count];
 }
 
--(UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if(!loadMembersDone){
+    if(!membersInitDone){
+        return 0;
+    }
+    
+    return [[members objectAtIndex:section] count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(!membersInitDone){
         return nil;
     }
     
@@ -166,39 +228,35 @@
     if(!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[UITableViewCell reuseIdentifier]];
     }
-    cell.textLabel.text = [[members objectAtIndex:indexPath.row] objectForKey:@"name"];
+    
+    Member *member = [[members objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    cell.textLabel.text = member.name;
     return cell;
 }
 
-#pragma mark - search bar delegate
-
--(void) searchBar:(UISearchBar*)searchBar textDidChange:(NSString*)searchText
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
 {
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+    if(!membersInitDone){
+        return @[];
+    }
+    return [[UILocalizedIndexedCollation currentCollation] sectionIndexTitles];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     
-        [members removeAllObjects];
-        
-        NSString *base = @"select id, name from members where enterprise_id = :eid and name like '%%%@%%';";
-        NSString *statement = [NSString stringWithFormat:base, searchText];
-        
-        NSString *dbFilePath = [PathResolver databaseFilePath];
-        FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
-        [db open];
-        
-        FMResultSet *rs = [db executeQuery:statement, currentEnterpriseId];
-        while([rs next]){
-            NSString *pk = [rs objectForColumnName:@"id"];
-            NSString *name = [rs objectForColumnName:@"name"];
-            NSDictionary *member = [NSDictionary dictionaryWithObjects:@[pk, name] forKeys:@[@"id", @"name"]];
-            [members addObject:member];
-        }
-        
-        [db close];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
-        });
-    });
+    if(!membersInitDone){
+        return nil;
+    }
+    
+    if ([[members objectAtIndex:section] count] > 0) {
+        return [[[UILocalizedIndexedCollation currentCollation] sectionTitles] objectAtIndex:section];
+    }
+    return nil;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
+{
+    return [[UILocalizedIndexedCollation currentCollation] sectionForSectionIndexTitleAtIndex:index];
 }
 
 @end
