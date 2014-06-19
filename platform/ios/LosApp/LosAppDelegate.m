@@ -16,6 +16,9 @@
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}];
     
+    [[UITabBar appearance] setBarTintColor:color];// 背景色
+    [[UITabBar appearance] setSelectedImageTintColor:[UIColor whiteColor]];// 选中图标颜色
+    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
