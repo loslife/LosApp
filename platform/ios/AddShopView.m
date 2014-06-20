@@ -25,12 +25,12 @@
         
         UIView *codeWrapper = [[UIView alloc] initWithFrame:CGRectMake(20, 220, 280, 40)];
         
-        UITextField *code = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 180, 40)];
-        code.placeholder = @"输入验证码";
-        code.borderStyle = UITextBorderStyleRoundedRect;
-        code.clearButtonMode = UITextFieldViewModeWhileEditing;
-        [code setKeyboardType:UIKeyboardTypeNumberPad];
-        code.delegate = self;
+        self.code = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 180, 40)];
+        self.code.placeholder = @"输入验证码";
+        self.code.borderStyle = UITextBorderStyleRoundedRect;
+        self.code.clearButtonMode = UITextFieldViewModeWhileEditing;
+        [self.code setKeyboardType:UIKeyboardTypeNumberPad];
+        self.code.delegate = self;
         
         self.requireCodeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         self.requireCodeButton.frame = CGRectMake(190, 0, 90, 40);
@@ -41,7 +41,7 @@
         self.requireCodeButton.layer.cornerRadius = 5;
         [self.requireCodeButton addTarget:controller action:@selector(requireVerificationCode) forControlEvents:UIControlEventTouchUpInside];
         
-        [codeWrapper addSubview:code];
+        [codeWrapper addSubview:self.code];
         [codeWrapper addSubview:self.requireCodeButton];
         
         UIButton *attach = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -50,6 +50,7 @@
         attach.backgroundColor = [UIColor colorWithRed:244/255.0f green:196/255.0f blue:82/255.0f alpha:1.0f];
         attach.tintColor = [UIColor whiteColor];
         attach.layer.cornerRadius = 5;
+        [attach addTarget:controller action:@selector(appendEnterprise) forControlEvents:UIControlEventTouchUpInside];
         
         UITextView *notice = [[UITextView alloc] init];
         notice.frame = CGRectMake(20, 320, 280, 120);
