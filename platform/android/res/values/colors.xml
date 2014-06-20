@@ -10,13 +10,13 @@
 	<color name="blue">#0000FF</color>
 	<color name="purple">#800080</color>
 	<color name="pink">#FFC0CB</color>
-	<color name="orange">#FFA500</color>
+	<color name="orange">#F4C452</color>
 	<color name="lemonyellow">#FFFACD</color>
-	<color name="graywhite">#F5F5F5</color>
+	<color name="graywhite">#F1F1F1</color>
 	<color name="grayslate">#708090</color>
 	<color name="lightblue">#0083FF</color>
 	<color name="aqua">#00FFFF</color>
-	<color name="turquoise">#40e0d0</color>
+	<color name="turquoise">#6BD3D9</color>
 	
 	
     <color name="full_transparent">#00000000</color>

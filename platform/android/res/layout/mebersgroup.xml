@@ -7,6 +7,14 @@
     <include 
         android:layout_height="50.0dip"
     layout="@layout/main_header" /> 
+    <TextView android:id="@+id/title"
+	    android:layout_width="fill_parent"
+	    android:background="@color/graywhite"
+        android:layout_height="40.0dip"
+        android:layout_weight="1" 
+        android:gravity="center"
+        android:text="会员"
+        />
 <FrameLayout 
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" 

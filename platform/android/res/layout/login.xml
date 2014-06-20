@@ -3,7 +3,7 @@
     android:id="@+id/signInRootView"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/welcome_new"
+    android:background="@color/turquoise"
     android:orientation="horizontal" >
 
     <LinearLayout
