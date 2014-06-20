@@ -16,12 +16,12 @@
         label.textAlignment = NSTextAlignmentCenter;
         label.textColor = [UIColor colorWithRed:18/255.0f green:172/255.0f blue:182/255.0f alpha:1.0f];
         
-        UITextField *phone = [[UITextField alloc] initWithFrame:CGRectMake(20, 160, 280, 40)];
-        phone.placeholder = @"输入关联店铺的乐斯登陆账号";
-        phone.borderStyle = UITextBorderStyleRoundedRect;
-        phone.clearButtonMode = UITextFieldViewModeWhileEditing;
-        [phone setKeyboardType:UIKeyboardTypeNumberPad];
-        phone.delegate = self;
+        self.phone = [[UITextField alloc] initWithFrame:CGRectMake(20, 160, 280, 40)];
+        self.phone.placeholder = @"输入关联店铺的乐斯登陆账号";
+        self.phone.borderStyle = UITextBorderStyleRoundedRect;
+        self.phone.clearButtonMode = UITextFieldViewModeWhileEditing;
+        [self.phone setKeyboardType:UIKeyboardTypeNumberPad];
+        self.phone.delegate = self;
         
         UIView *codeWrapper = [[UIView alloc] initWithFrame:CGRectMake(20, 220, 280, 40)];
         
@@ -57,7 +57,7 @@
         notice.delegate = self;
         
         [self addSubview:label];
-        [self addSubview:phone];
+        [self addSubview:self.phone];
         [self addSubview:codeWrapper];
         [self addSubview:attach];
         [self addSubview:notice];

@@ -238,11 +238,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AddShopViewController.m"
-            timestampString = "424864415.778"
+            timestampString = "424930364.110282"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "13"
-            endingLineNumber = "13"
+            startingLineNumber = "23"
+            endingLineNumber = "23"
             landmarkName = "-loadView"
             landmarkType = "5">
          </BreakpointContent>
@@ -254,12 +254,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AddShopViewController.m"
-            timestampString = "424913809.719031"
+            timestampString = "424930364.110282"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "61"
-            endingLineNumber = "61"
-            landmarkName = "-countdownResendButton"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
+            landmarkName = "-countdown"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -270,11 +270,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AddShopViewController.m"
-            timestampString = "424864870.806326"
+            timestampString = "424930364.110282"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "19"
-            endingLineNumber = "19"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
             landmarkName = "-viewWillDisappear:"
             landmarkType = "5">
          </BreakpointContent>
@@ -286,11 +286,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AddShopViewController.m"
-            timestampString = "424913805.537939"
+            timestampString = "424930364.110282"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "24"
-            endingLineNumber = "24"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
             landmarkName = "-viewDidAppear:"
             landmarkType = "5">
          </BreakpointContent>

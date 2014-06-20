@@ -3,6 +3,7 @@
 
 @interface AddShopView : UIView<UITextFieldDelegate, UITextViewDelegate>
 
+@property UITextField *phone;
 @property UIButton *requireCodeButton;
 
 -(id) initWithController:(AddShopViewController*)controller;
