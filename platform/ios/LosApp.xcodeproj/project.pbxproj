@@ -34,10 +34,10 @@
 		18AFE600195296D70083C972 /* Member.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE5FF195296D70083C972 /* Member.m */; };
 		18AFE6031952D1A10083C972 /* AddShopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE6021952D1A10083C972 /* AddShopViewController.m */; };
 		18AFE6061952E2F70083C972 /* AddShopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE6051952E2F70083C972 /* AddShopView.m */; };
+		18AFE61C1953F6450083C972 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18AFE61E1953F6450083C972 /* Localizable.strings */; };
 		18B2EE121946E0EF00264B74 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B2EE111946E0EF00264B74 /* Foundation.framework */; };
 		18B2EE141946E0EF00264B74 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B2EE131946E0EF00264B74 /* CoreGraphics.framework */; };
 		18B2EE161946E0EF00264B74 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B2EE151946E0EF00264B74 /* UIKit.framework */; };
-		18B2EE1C1946E0EF00264B74 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18B2EE1A1946E0EF00264B74 /* InfoPlist.strings */; };
 		18B2EE1E1946E0EF00264B74 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B2EE1D1946E0EF00264B74 /* main.m */; };
 		18B2EE221946E0EF00264B74 /* LosAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B2EE211946E0EF00264B74 /* LosAppDelegate.m */; };
 		18B2EE241946E0EF00264B74 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18B2EE231946E0EF00264B74 /* Images.xcassets */; };
@@ -96,12 +96,13 @@
 		18AFE6021952D1A10083C972 /* AddShopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddShopViewController.m; sourceTree = "<group>"; };
 		18AFE6041952E2F70083C972 /* AddShopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddShopView.h; sourceTree = "<group>"; };
 		18AFE6051952E2F70083C972 /* AddShopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddShopView.m; sourceTree = "<group>"; };
+		18AFE61D1953F6450083C972 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		18AFE61F1953F6520083C972 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		18B2EE0E1946E0EF00264B74 /* LosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18B2EE111946E0EF00264B74 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		18B2EE131946E0EF00264B74 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		18B2EE151946E0EF00264B74 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		18B2EE191946E0EF00264B74 /* LosApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LosApp-Info.plist"; sourceTree = "<group>"; };
-		18B2EE1B1946E0EF00264B74 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		18B2EE1D1946E0EF00264B74 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		18B2EE1F1946E0EF00264B74 /* LosApp-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LosApp-Prefix.pch"; sourceTree = "<group>"; };
 		18B2EE201946E0EF00264B74 /* LosAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LosAppDelegate.h; path = LosApp/LosAppDelegate.h; sourceTree = "<group>"; };
@@ -266,7 +267,6 @@
 			children = (
 				1866672C1949C37E00A345F7 /* client.p12 */,
 				18B2EE191946E0EF00264B74 /* LosApp-Info.plist */,
-				18B2EE1A1946E0EF00264B74 /* InfoPlist.strings */,
 				18B2EE1D1946E0EF00264B74 /* main.m */,
 				18B2EE1F1946E0EF00264B74 /* LosApp-Prefix.pch */,
 			);
@@ -293,6 +293,7 @@
 			isa = PBXGroup;
 			children = (
 				18B2EE231946E0EF00264B74 /* Images.xcassets */,
+				18AFE61E1953F6450083C972 /* Localizable.strings */,
 			);
 			name = resources;
 			sourceTree = "<group>";
@@ -363,6 +364,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				"zh-Hans",
 			);
 			mainGroup = 18B2EE051946E0EF00264B74;
 			productRefGroup = 18B2EE0F1946E0EF00264B74 /* Products */;
@@ -380,7 +382,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1866672D1949C37E00A345F7 /* client.p12 in Resources */,
-				18B2EE1C1946E0EF00264B74 /* InfoPlist.strings in Resources */,
+				18AFE61C1953F6450083C972 /* Localizable.strings in Resources */,
 				18B2EE241946E0EF00264B74 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -458,12 +460,13 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		18B2EE1A1946E0EF00264B74 /* InfoPlist.strings */ = {
+		18AFE61E1953F6450083C972 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				18B2EE1B1946E0EF00264B74 /* en */,
+				18AFE61D1953F6450083C972 /* en */,
+				18AFE61F1953F6520083C972 /* zh-Hans */,
 			);
-			name = InfoPlist.strings;
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
