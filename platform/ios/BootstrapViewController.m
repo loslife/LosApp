@@ -6,6 +6,7 @@
 {
     UpdateHelper *updateHelper;
     LosHttpHelper *httpHelper;
+    DBService *dbService;
 }
 
 -(id) initWithNibName:(NSString*)nibName bundle:(NSBundle*)bundle
@@ -14,6 +15,7 @@
     if(self){
         updateHelper = [[UpdateHelper alloc] init];
         httpHelper = [[LosHttpHelper alloc] init];
+        dbService = [[DBService alloc] init];
     }
     return self;
 }
@@ -52,7 +54,6 @@
         // 有网络，尝试拉取最新数据
         UserData *userData = [UserData load];
         NSString *userId = userData.userId;
-        
         NSString *url = [NSString stringWithFormat:FETCH_ENTERPRISES_URL, userId];
         
         [httpHelper getSecure:url completionHandler:^(NSDictionary* dict){
@@ -72,7 +73,8 @@
                 return;
             }
             
-            [self refreshAttachEnterprises:dict];
+            NSArray *enterprises = [dict objectForKey:@"result"];
+            [dbService refreshAttachEnterprises:enterprises];
             
             dispatch_group_t group = dispatch_group_create();
             
@@ -105,7 +107,11 @@
                         return;
                     }
                     
-                    [self refreshMembers:dict enterpriseId:enterpriseId];
+                    NSDictionary *response = [dict objectForKey:@"result"];
+                    NSNumber *lastSync = [response objectForKey:@"last_sync"];
+                    NSDictionary *records = [response objectForKey:@"records"];
+                    
+                    [dbService refreshMembersWithRecords:records LastSync:lastSync EnterpriseId:enterpriseId];
                     
                     dispatch_group_leave(group);
                 }];
@@ -177,87 +183,6 @@
     [db open];
     
     [db executeUpdate:updateVersion, version];
-    
-    [db close];
-}
-
-#pragma mark - sync datas from server
-
--(void) refreshAttachEnterprises:(NSDictionary*)dict
-{
-    NSString *query = @"select count(1) as count from enterprises where enterprise_id = :enterpriseId;";
-    NSString *insert = @"insert into enterprises (enterprise_Id, enterprise_name, latest_sync, display, create_date) values (:enterpriseId, :name, :latestSync, :display, :createDate);";
-    NSString *update = @"update enterprises set enterprise_name = :name where enterprise_id = :id";
-    
-    NSString *dbFilePath = [PathResolver databaseFilePath];
-    FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
-    [db open];
-    
-    NSArray *enterprises = [dict objectForKey:@"result"];
-    
-    for(NSDictionary *item in enterprises){
-        
-        NSString *enterpriseId = [item objectForKey:@"enterprise_id"];
-        NSString *enterpriseName = [item objectForKey:@"enterprise_name"];
-        FMResultSet *rs = [db executeQuery:query, enterpriseId];
-        [rs next];
-        int count = [[rs objectForColumnName:@"count"] intValue];
-        if(count == 0){
-            [db executeUpdate:insert, enterpriseId, enterpriseName, [NSNumber numberWithInt:0], @"yes", [NSNumber numberWithLongLong:[TimesHelper now]]];
-        }else{
-            [db executeUpdate:update, enterpriseName, enterpriseId];
-        }
-    }
-    
-    [db close];
-}
-
--(void) refreshMembers:(NSDictionary*)dict enterpriseId:(NSString*)enterpriseId
-{
-    NSDictionary *response = [dict objectForKey:@"result"];
-    NSNumber *lastSync = [response objectForKey:@"last_sync"];
-    NSDictionary *records = [response objectForKey:@"records"];
-    
-    NSString *dbFilePath = [PathResolver databaseFilePath];
-    FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
-    [db open];
-    
-    // 刷新最后同步时间
-    NSString *refreshLatestSyncTime = @"update enterprises set latest_sync = :sync where enterprise_id = :enterpriseId;";
-    [db executeUpdate:refreshLatestSyncTime, lastSync, enterpriseId];
-    
-    // 处理新增记录
-    NSArray *add = [records objectForKey:@"add"];
-    NSString *insert = @"insert into members (id, enterprise_id, name, create_date, modify_date) values (:id, :eid, :name, :cdate, :mdate);";
-    
-    for(NSDictionary *item in add){
-        NSString *pk = [item objectForKey:@"id"];
-        NSString *name = [item objectForKey:@"name"];
-        NSNumber *createDate = [item objectForKey:@"create_date"];
-        NSNumber *modifyDate = [item objectForKey:@"modify_date"];
-        [db executeUpdate:insert, pk, enterpriseId, name, createDate, modifyDate];
-    }
-    
-    // 处理更新记录
-    NSArray *update = [records objectForKey:@"update"];
-    NSString *statement = @"update members set name = :name, modify_date = :mdate where id = :id";
-    
-    for(NSDictionary *item in update){
-        NSString *pk = [item objectForKey:@"id"];
-        NSString *name = [item objectForKey:@"name"];
-        NSNumber *modifyDate = [item objectForKey:@"modify_date"];
-        [db executeUpdate:statement, name, modifyDate, pk];
-    }
-    
-    
-    // 处理remove
-    NSArray *remove = [records objectForKey:@"remove"];
-    NSString *deleteStatement = @"delete from members where id = :id";
-    
-    for(NSDictionary *item in remove){
-        NSString *pk = [item objectForKey:@"id"];
-        [db executeUpdate:deleteStatement, pk];
-    }
     
     [db close];
 }

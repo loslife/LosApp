@@ -7,6 +7,7 @@
     NSTimer *timer;
     int resendCountdown;
     LosHttpHelper *httpHelper;
+    DBService *dbService;
 }
 
 -(id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -14,6 +15,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if(self){
         httpHelper = [[LosHttpHelper alloc] init];
+        dbService = [[DBService alloc] init];
     }
     return self;
 }
@@ -113,7 +115,8 @@
         return;
     }
     
-    NSString *checkCodeURL = [NSString stringWithFormat:CHECK_CODE_URL,phone.text, @"attach", code.text];
+    NSString *checkCodeURL = [NSString stringWithFormat:CHECK_CODE_URL, phone.text, @"attach", code.text];
+    
     [httpHelper getSecure:checkCodeURL completionHandler:^(NSDictionary *dict){
         
         if(dict == nil){
@@ -134,7 +137,6 @@
         }
         
         UserData *userData = [UserData load];
-        
         NSString *body = [NSString stringWithFormat:@"account=%@&enterprise_account=%@", userData.userId, phone.text];
         NSData *postData = [body dataUsingEncoding:NSUTF8StringEncoding];
         
@@ -157,36 +159,38 @@
                 return;
             }
             
-            
             NSDictionary *result = [dict objectForKey:@"result"];
             NSString *enterpriseId = [result objectForKey:@"enterprise_id"];
             NSString *enterpriseName = [result objectForKey:@"enterprise_name"];
             
-            NSString *insert = @"insert into enterprises (enterprise_Id, enterprise_name, latest_sync, display, create_date) values (:enterpriseId, :name, :latestSync, :display, :createDate);";
-            
-            NSString *dbFilePath = [PathResolver databaseFilePath];
-            FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
-            [db open];
-            
-            [db executeUpdate:insert, enterpriseId, enterpriseName, [NSNumber numberWithInt:0], @"yes", [NSNumber numberWithLongLong:[TimesHelper now]]];
-            
-            [db close];
+            [dbService addEnterprise:enterpriseId Name:enterpriseName];
             
             NSString *url = [NSString stringWithFormat:SYNC_MEMBERS_URL, enterpriseId, @"1", @"0"];
             
             [httpHelper getSecure:url completionHandler:^(NSDictionary* dict){
                 
-                [self refreshMembers:dict enterpriseId:enterpriseId];
+                NSDictionary *response = [dict objectForKey:@"result"];
+                NSNumber *lastSync = [response objectForKey:@"last_sync"];
+                NSDictionary *records = [response objectForKey:@"records"];
+                
+                [dbService refreshMembersWithRecords:records LastSync:lastSync EnterpriseId:enterpriseId];
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"关联成功" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
                     [alert show];
                 });
-                
             }];
-            
         }];
     }];
+}
+
+#pragma mark - private method
+
+-(BOOL) checkPhone:(NSString*)phone
+{
+    NSString *phoneRegex = @"^((13)|(15)|(18))\\d{9}$";
+    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
+    return [phoneTest evaluateWithObject:phone];
 }
 
 #pragma mark - timer
@@ -225,65 +229,6 @@
     
     button.enabled = YES;
     button.backgroundColor = [UIColor colorWithRed:181/255.0f green:233/255.0f blue:236/255.0f alpha:1.0f];
-}
-
-#pragma mark - private method
-
--(BOOL) checkPhone:(NSString*)phone
-{
-    NSString *phoneRegex = @"^((13)|(15)|(18))\\d{9}$";
-    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
-    return [phoneTest evaluateWithObject:phone];
-}
-
--(void) refreshMembers:(NSDictionary*)dict enterpriseId:(NSString*)enterpriseId
-{
-    NSDictionary *response = [dict objectForKey:@"result"];
-    NSNumber *lastSync = [response objectForKey:@"last_sync"];
-    NSDictionary *records = [response objectForKey:@"records"];
-    
-    NSString *dbFilePath = [PathResolver databaseFilePath];
-    FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
-    [db open];
-    
-    // 刷新最后同步时间
-    NSString *refreshLatestSyncTime = @"update enterprises set latest_sync = :sync where enterprise_id = :enterpriseId;";
-    [db executeUpdate:refreshLatestSyncTime, lastSync, enterpriseId];
-    
-    // 处理新增记录
-    NSArray *add = [records objectForKey:@"add"];
-    NSString *insert = @"insert into members (id, enterprise_id, name, create_date, modify_date) values (:id, :eid, :name, :cdate, :mdate);";
-    
-    for(NSDictionary *item in add){
-        NSString *pk = [item objectForKey:@"id"];
-        NSString *name = [item objectForKey:@"name"];
-        NSNumber *createDate = [item objectForKey:@"create_date"];
-        NSNumber *modifyDate = [item objectForKey:@"modify_date"];
-        [db executeUpdate:insert, pk, enterpriseId, name, createDate, modifyDate];
-    }
-    
-    // 处理更新记录
-    NSArray *update = [records objectForKey:@"update"];
-    NSString *statement = @"update members set name = :name, modify_date = :mdate where id = :id";
-    
-    for(NSDictionary *item in update){
-        NSString *pk = [item objectForKey:@"id"];
-        NSString *name = [item objectForKey:@"name"];
-        NSNumber *modifyDate = [item objectForKey:@"modify_date"];
-        [db executeUpdate:statement, name, modifyDate, pk];
-    }
-    
-    
-    // 处理remove
-    NSArray *remove = [records objectForKey:@"remove"];
-    NSString *deleteStatement = @"delete from members where id = :id";
-    
-    for(NSDictionary *item in remove){
-        NSString *pk = [item objectForKey:@"id"];
-        [db executeUpdate:deleteStatement, pk];
-    }
-    
-    [db close];
 }
 
 @end
