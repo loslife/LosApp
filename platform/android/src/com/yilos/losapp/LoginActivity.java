@@ -3,6 +3,7 @@ package com.yilos.losapp;
 import com.yilos.losapp.bean.ServerResponse;
 import com.yilos.losapp.common.StringUtils;
 import com.yilos.losapp.common.UIHelper;
+import com.yilos.losapp.database.SDBHelper;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -94,6 +95,7 @@ public class LoginActivity extends Activity{
 					
 					//提示登录成功
 					UIHelper.ToastMessage(LoginActivity.this, "登录成功");
+					SDBHelper.createDB(LoginActivity.this, userName+".db");
 					//跳转到主界面
 					Intent main = new Intent();
 					main.setClass(LoginActivity.this, Main.class);

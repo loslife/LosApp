@@ -12,29 +12,31 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSession;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.auth.DigestSchemeFactory;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.CoreConnectionPNames;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.yilos.losapp.bean.Result;
 import com.yilos.losapp.bean.ServerResponse;
 import com.yilos.losapp.common.Constants;
 import com.yilos.losapp.common.LosSSLFactory;
-import com.yilos.losapp.json.JsonUtils;
 
 
 import android.content.Context;
-import android.os.Handler;
-import android.util.Base64;
+import android.os.Bundle;
+import android.os.Message;
 
 public class ApiClient 
 {
@@ -147,6 +149,40 @@ public class ApiClient
 
 	}
 	
+	public static String _httpget(String url)
+	{
+
+		StringBuilder resultData = new StringBuilder();
+		try {
+			HttpGet httpReq = new HttpGet(url);
+			httpReq.setHeader("xhr", "true");
+
+			DefaultHttpClient httpClient = new DefaultHttpClient();
+			// 请求超时
+			httpClient.getParams().setParameter(
+					CoreConnectionPNames.CONNECTION_TIMEOUT,
+					connectionTimeout);
+			// 读取超时
+			httpClient.getParams().setParameter(
+					CoreConnectionPNames.SO_TIMEOUT, soTimeout);
+		
+			HttpResponse httpResponse = httpClient.execute(httpReq);
+
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					httpResponse.getEntity().getContent()));
+			String inputLine = null;
+			// 使用循环来读取获得的数据
+			while (((inputLine = reader.readLine()) != null)) {
+				resultData.append(inputLine);
+			}
+			return resultData.toString();
+			
+		} catch (Exception e) {
+			return "";
+		}
+	
+	}
+	
 	/**
 	 * 登录
 	 * @param appContext
@@ -163,7 +199,6 @@ public class ApiClient
 		ServerResponse res = new ServerResponse();
 		res.setCode(0);
 		Result rt = new Result();
-		rt.setMessage("ok");
 		res.setResult(rt);
 		
 		//String json = _post(appContext, Constants.LOGIN_URL,params);
@@ -190,7 +225,6 @@ public class ApiClient
 		ServerResponse res = new ServerResponse();
 		res.setCode(0);
 		Result rt = new Result();
-		rt.setMessage("ok");
 		res.setResult(rt);
 		
 		//String json = _post(appContext, Constants.REGISTER_URL,params);
@@ -211,7 +245,6 @@ public class ApiClient
 		ServerResponse res = new ServerResponse();
 		res.setCode(0);
 		Result rt = new Result();
-		rt.setMessage("ok");
 		res.setResult(rt);
 		
 		//String json = _get(appContext, MessageFormat.format(Constants.SEND_VALIDATECODE,phoneNumber));
@@ -237,7 +270,6 @@ public class ApiClient
 		ServerResponse res = new ServerResponse();
 		res.setCode(0);
 		Result rt = new Result();
-		rt.setMessage("ok");
 		res.setResult(rt);
 		
 		//String json = _post(appContext, Constants.REGISTER_URL,params);
@@ -259,7 +291,6 @@ public class ApiClient
 		ServerResponse res = new ServerResponse();
 		res.setCode(0);
 		Result rt = new Result();
-		rt.setMessage("ok");
 		res.setResult(rt);
 		
 		//String json = _get(appContext, MessageFormat.format(Constants.CHECK_VALIDATECODE_SERVICE, mobileNumber));
@@ -282,7 +313,6 @@ public class ApiClient
 		ServerResponse res = new ServerResponse();
 		res.setCode(0);
 		Result rt = new Result();
-		rt.setMessage("ok");
 		res.setResult(rt);
 		
 		//String json = _get(appContext, MessageFormat.format(Constants.CHECK_VALIDATECODE_SERVICE, mobileNumber,validateCode));
@@ -291,6 +321,24 @@ public class ApiClient
 	
 		return resp;
 	}
+	
+	public static ServerResponse getMembersContacts(Context appContext,String enterpriseId)
+	{
+
+		ServerResponse res = new ServerResponse();
+		res.setCode(0);
+		Result rt = new Result();
+		res.setResult(rt);
+		//{"code":0,"result":{"last_sync":1403180487257,"records":{"add":[]}}}
+		String json = _httpget(MessageFormat.format(Constants.GET_MEMBERS_URL, "100009803012000300","1","0"));
+		Gson gson = new Gson();
+		ServerResponse resp = (ServerResponse)gson.fromJson(json, ServerResponse.class);
+	
+		return resp;
+	}
+	
+	
+	
 	
 	private static String getQuery(List<NameValuePair> params) throws UnsupportedEncodingException
 	{

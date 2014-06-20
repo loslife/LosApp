@@ -6,12 +6,17 @@ import com.yilos.losapp.bean.Result;
 import com.yilos.losapp.bean.ServerResponse;
 
 import android.app.Application;
+import android.content.Context;
 
 public class AppContext extends Application {
 	
 	private boolean login = false;	//登录状态
+	
+	private String DBName;
+	
 	private int loginUid = 0;	//登录用户的id
 	
+	public static AppContext appContext;
 	
 	@Override
 	public void onCreate() {
@@ -25,6 +30,15 @@ public class AppContext extends Application {
 	private void init(){
 
 	}
+	
+	 public static synchronized AppContext getInstance(Context ctx)
+	    {
+	        if (null == appContext)
+	        {
+	        	appContext = new AppContext();
+	        }
+	        return appContext;
+	    }
 	
 	/**
 	 * 登录验证
@@ -78,6 +92,16 @@ public class AppContext extends Application {
     {
     	return ApiClient.checkUserAccount(this, phoneNumber);
     }
+    
+    /**
+     * 获取通讯录
+     * @param phoneNumber
+     * @return
+     */
+    public ServerResponse getMembersContacts(String phoneNumber)
+    {
+    	return ApiClient.getMembersContacts(this, "");
+    }
 	
 	/**
 	 * 用户是否登录
@@ -86,4 +110,18 @@ public class AppContext extends Application {
 	public boolean isLogin() {
 		return login;
 	}
+	
+	public void setLogin(boolean islogin) {
+		this.login = islogin;
+	}
+
+	public String getDBName() {
+		return DBName;
+	}
+
+	public void setDBName(String dBName) {
+		DBName = dBName;
+	}
+	
+	
 }

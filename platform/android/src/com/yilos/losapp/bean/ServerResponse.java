@@ -1,18 +1,12 @@
 package com.yilos.losapp.bean;
 
-import java.io.Serializable;
 
-public class ServerResponse implements Serializable
+public class ServerResponse
 {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2895783840311969373L;
 
 	private int code;
 	
-	private Result result;
+	private  Result result;
 	
 	public boolean isSucess()
 	{

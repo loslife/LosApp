@@ -2,35 +2,56 @@ package com.yilos.losapp.bean;
 
 public class MemberBean 
 {
-    public String memberName;
+	private String id;
+	
+    private String name;
     
-    public String memberPhone;
+    private String enterprise_id;
+
+    private String create_date;
     
-    public String memberNo;
+    private String modify_date;
 
-	public String getMemberName() {
-		return memberName;
+	public String getName() {
+		return name;
 	}
 
-	public void setMemberName(String memberName) {
-		this.memberName = memberName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getMemberPhone() {
-		return memberPhone;
+	public String getCreate_date() {
+		return create_date;
 	}
 
-	public void setMemberPhone(String memberPhone) {
-		this.memberPhone = memberPhone;
+	public void setCreate_date(String create_date) {
+		this.create_date = create_date;
 	}
 
-	public String getMemberNo() {
-		return memberNo;
+	public String getModify_date() {
+		return modify_date;
 	}
 
-	public void setMemberNo(String memberNo) {
-		this.memberNo = memberNo;
+	public void setModify_date(String modify_date) {
+		this.modify_date = modify_date;
 	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getEnterprise_id() {
+		return enterprise_id;
+	}
+
+	public void setEnterprise_id(String enterprise_id) {
+		this.enterprise_id = enterprise_id;
+	}
+
 	
     
 }

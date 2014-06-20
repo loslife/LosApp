@@ -2,18 +2,25 @@ package com.yilos.losapp;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import com.yilos.losapp.R.color;
 import com.yilos.losapp.adapter.ListViewAdp;
 import com.yilos.losapp.bean.MemberBean;
+import com.yilos.losapp.bean.ServerResponse;
 import com.yilos.losapp.common.Pinyin_Comparator;
 import com.yilos.losapp.common.SideBar;
+import com.yilos.losapp.common.UIHelper;
+import com.yilos.losapp.database.MemberDBManager;
+import com.yilos.losapp.service.MemberService;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -28,7 +35,7 @@ import android.widget.LinearLayout.LayoutParams;
 
 
 public class MemberGoupActivity extends Activity{
-	private static ArrayList<MemberBean> parentData = new ArrayList<MemberBean>();
+	private static List<MemberBean> parentData = new ArrayList<MemberBean>();
 
 	private ListView lvContact;
 	private SideBar indexBar;
@@ -44,6 +51,8 @@ public class MemberGoupActivity extends Activity{
 	private TextView contacts;
 	
 	private TextView setting;
+	
+	private MemberService memberService;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -57,7 +66,6 @@ public class MemberGoupActivity extends Activity{
 		
 		getdata();
 
-		initView();
 	}
 
 	public void initView() {
@@ -65,7 +73,7 @@ public class MemberGoupActivity extends Activity{
 
 		members = new String[parentData.size()];
 		for (int i = 0; i < parentData.size(); i++) {
-			members[i] = parentData.get(i).getMemberName();
+			members[i] = parentData.get(i).getName();
 
 		}
 		Arrays.sort(members, new Pinyin_Comparator());
@@ -129,32 +137,34 @@ public class MemberGoupActivity extends Activity{
 	}
 
 	public void getdata() {
-		MemberBean m1 = new MemberBean();
-		m1.setMemberName("王MM");
+		
+		
+	/*	MemberBean m1 = new MemberBean();
+		m1.setName("王MM");
 
 		MemberBean m2 = new MemberBean();
-		m2.setMemberName("李MM");
+		m2.setName("李MM");
 		MemberBean m3 = new MemberBean();
-		m3.setMemberName("张MM");
+		m3.setName("张MM");
 		MemberBean m4 = new MemberBean();
-		m4.setMemberName("艾MM");
+		m4.setName("艾MM");
 		MemberBean m5 = new MemberBean();
-		m5.setMemberName("江MM");
+		m5.setName("江MM");
 		MemberBean m6 = new MemberBean();
-		m6.setMemberName("郑MM");
+		m6.setName("郑MM");
 		MemberBean m7 = new MemberBean();
-		m7.setMemberName("曹MM");
+		m7.setName("曹MM");
 		MemberBean m8 = new MemberBean();
-		m8.setMemberName("王MM");
+		m8.setName("王MM");
 		MemberBean m9 = new MemberBean();
-		m9.setMemberName("白MM");
+		m9.setName("白MM");
 
 		MemberBean m10 = new MemberBean();
-		m10.setMemberName("赵MM");
+		m10.setName("赵MM");
 		MemberBean m11 = new MemberBean();
-		m11.setMemberName("王MM");
+		m11.setName("王MM");
 		MemberBean m12 = new MemberBean();
-		m12.setMemberName("黄MM");
+		m12.setName("黄MM");
 		parentData.add(m1);
 		parentData.add(m2);
 		parentData.add(m3);
@@ -166,7 +176,45 @@ public class MemberGoupActivity extends Activity{
 		parentData.add(m9);
 		parentData.add(m10);
 		parentData.add(m11);
-		parentData.add(m12);
+		parentData.add(m12);*/
 
+		downMembersContacts();
+	}
+	
+	public void downMembersContacts()
+	{
+		memberService = new MemberService(getBaseContext());
+		final Handler handle =new Handler(){
+			 public void handleMessage(Message msg)
+			{
+				 if(msg.what==1)
+					{
+					    parentData = memberService.queryMembers("100009803012000300");
+					    initView();
+					}
+					if(msg.what==0)
+					{
+						UIHelper.ToastMessage(getBaseContext(), "获取通讯录失败");
+					}
+			}
+			
+		};
+	   new Thread(){
+		   public void run(){
+				AppContext ac = (AppContext)getApplication(); 
+				Message msg = new Message();
+				ServerResponse res = ac.getMembersContacts("dd");
+				if(res.isSucess())
+				{
+					memberService.handleMembers(res.getResult().getRecords());
+					msg.what = 1;
+				}
+				if(res.getCode()==1)
+				{
+					msg.what = 0;
+				}
+				handle.sendMessage(msg);
+			}
+	   }.start();
 	}
 }
