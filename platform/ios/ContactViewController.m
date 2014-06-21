@@ -202,6 +202,9 @@
     for(NSDictionary *dict in enterprises){
         NSString *enterpriseId = [dict objectForKey:@"id"];
         NSString *enterpriseName = [dict objectForKey:@"name"];
+        if((NSNull*)enterpriseName == [NSNull null]){
+            enterpriseName = @"我的店铺";
+        }
         LosDropDownItem *item = [[LosDropDownItem alloc] initWithTitle:enterpriseName value:enterpriseId];
         [items addObject:item];
     }
@@ -291,6 +294,12 @@
 
 -(void) menuItemTapped:(NSString*)value
 {
+    if([currentEnterpriseId isEqualToString:value]){
+        [dropDown removeFromSuperview];
+        dropDownShow = NO;
+        return;
+    }
+    
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
     
         currentEnterpriseId = value;
@@ -301,6 +310,21 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
         
+            NSString* enterpriseName;
+            
+            for(NSDictionary *dict in enterprises){
+                NSString *enterpriseId = [dict objectForKey:@"id"];
+                if(![enterpriseId isEqualToString:value]){
+                    break;
+                }
+                enterpriseName = [dict objectForKey:@"name"];
+            }
+            
+            if(!enterpriseName){
+                enterpriseName = @"我的店铺";
+            }
+            
+            self.navigationItem.title = enterpriseName;
             [self.tableView reloadData];
             [dropDown removeFromSuperview];
             dropDownShow = NO;
