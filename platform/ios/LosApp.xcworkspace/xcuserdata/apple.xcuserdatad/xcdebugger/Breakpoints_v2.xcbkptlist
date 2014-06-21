@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ContactViewController.m"
-            timestampString = "424858200.036424"
+            timestampString = "424951945.518388"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
             landmarkName = "-loadView"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ContactViewController.m"
-            timestampString = "424858200.036424"
+            timestampString = "424951945.518388"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "22"
-            endingLineNumber = "22"
+            startingLineNumber = "24"
+            endingLineNumber = "24"
             landmarkName = "-initWithNibName:bundle:"
             landmarkType = "5">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ContactViewController.m"
-            timestampString = "424858200.036424"
+            timestampString = "424951945.518388"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "103"
-            endingLineNumber = "103"
+            startingLineNumber = "105"
+            endingLineNumber = "105"
             landmarkName = "-initMembers"
             landmarkType = "5">
          </BreakpointContent>
@@ -74,12 +74,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ContactViewController.m"
-            timestampString = "424860551.040337"
+            timestampString = "424951945.518388"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "196"
-            endingLineNumber = "196"
-            landmarkName = "-searchButtonTapped"
+            startingLineNumber = "204"
+            endingLineNumber = "204"
+            landmarkName = "-hideSearchBar"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -90,12 +90,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ContactViewController.m"
-            timestampString = "424860551.040337"
+            timestampString = "424951945.518388"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "196"
-            endingLineNumber = "196"
-            landmarkName = "-searchButtonTapped"
+            startingLineNumber = "204"
+            endingLineNumber = "204"
+            landmarkName = "-hideSearchBar"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -106,12 +106,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ContactViewController.m"
-            timestampString = "424860551.040337"
+            timestampString = "424951945.518388"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "196"
-            endingLineNumber = "196"
-            landmarkName = "-searchButtonTapped"
+            startingLineNumber = "204"
+            endingLineNumber = "204"
+            landmarkName = "-hideSearchBar"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -122,11 +122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ContactViewController.m"
-            timestampString = "424860551.040337"
+            timestampString = "424951945.518388"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "279"
-            endingLineNumber = "279">
+            startingLineNumber = "287"
+            endingLineNumber = "287">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -136,11 +136,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ContactViewController.m"
-            timestampString = "424860551.040337"
+            timestampString = "424951945.518388"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "289"
-            endingLineNumber = "289">
+            startingLineNumber = "297"
+            endingLineNumber = "297">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -150,7 +150,21 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ContactViewController.m"
-            timestampString = "424860551.040337"
+            timestampString = "424951945.518388"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "298"
+            endingLineNumber = "298">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ContactViewController.m"
+            timestampString = "424951945.518388"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "290"
@@ -164,11 +178,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ContactViewController.m"
-            timestampString = "424860551.040337"
+            timestampString = "424951945.518388"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "282"
-            endingLineNumber = "282">
+            startingLineNumber = "292"
+            endingLineNumber = "292">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -178,11 +192,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ContactViewController.m"
-            timestampString = "424860551.040337"
+            timestampString = "424951945.518388"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "284"
-            endingLineNumber = "284">
+            startingLineNumber = "289"
+            endingLineNumber = "289">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -192,25 +206,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ContactViewController.m"
-            timestampString = "424860551.040337"
+            timestampString = "424951945.518388"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "281"
-            endingLineNumber = "281">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ContactViewController.m"
-            timestampString = "424858200.036424"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "179"
-            endingLineNumber = "179"
+            startingLineNumber = "181"
+            endingLineNumber = "181"
             landmarkName = "@implementation ContactViewController"
             landmarkType = "3">
          </BreakpointContent>
