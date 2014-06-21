@@ -182,6 +182,20 @@
     }
 }
 
+-(void) closeSwitchShopMenu{
+    
+    if(!dropDownShow){
+        return;
+    }
+    
+    [dropDown removeFromSuperview];
+    
+    UIBarButtonItem *switchButton = [self.navigationItem.rightBarButtonItems firstObject];
+    [(UIButton*)switchButton.customView setBackgroundImage:[UIImage imageNamed:@"switch_shop"] forState:UIControlStateNormal];
+    
+    dropDownShow = NO;
+}
+
 #pragma mark - responder
 
 -(void) addButtonTapped
@@ -241,20 +255,6 @@
     }
 }
 
--(void) closeSwitchShopMenu{
-    
-    if(!dropDownShow){
-        return;
-    }
-    
-    [dropDown removeFromSuperview];
-    
-    UIBarButtonItem *switchButton = [self.navigationItem.rightBarButtonItems firstObject];
-    [(UIButton*)switchButton.customView setBackgroundImage:[UIImage imageNamed:@"switch_shop"] forState:UIControlStateNormal];
-    
-    dropDownShow = NO;
-}
-
 #pragma mark - tableview datasource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -298,8 +298,8 @@
     return [[UILocalizedIndexedCollation currentCollation] sectionIndexTitles];
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
     if(!membersInitDone){
         return nil;
     }
@@ -310,9 +310,21 @@
     return nil;
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
+{
+    UITableViewHeaderFooterView *headerView = (UITableViewHeaderFooterView*)view;
+    
+    headerView.textLabel.text = [@"    " stringByAppendingString:headerView.textLabel.text];// sorry for this
+}
+
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
 {
     return [[UILocalizedIndexedCollation currentCollation] sectionForSectionIndexTitleAtIndex:index];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 66;
 }
 
 #pragma mark - drop down delegate

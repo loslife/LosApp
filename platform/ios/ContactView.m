@@ -29,7 +29,9 @@
         self.dataSource = controller;
         self.delegate = controller;
         self.tableHeaderView = header;
+        
         [self setSeparatorInset:UIEdgeInsetsZero];
+        self.sectionIndexColor = [UIColor grayColor];
         
         UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:controller action:@selector(hideSubViews:)];
         [singleTap setNumberOfTapsRequired:1];
