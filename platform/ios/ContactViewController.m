@@ -197,6 +197,12 @@
         return;
     }
     
+    if([enterprises count] == 0){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有店铺，请先关联" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    
     NSMutableArray *items = [NSMutableArray arrayWithCapacity:1];
     
     for(NSDictionary *dict in enterprises){
@@ -209,7 +215,7 @@
         [items addObject:item];
     }
     
-    dropDown = [[LosDropDown alloc] initWithFrame:CGRectMake(150, 20, 150, 84) MenuItems:items Delegate:self];
+    dropDown = [[LosDropDown alloc] initWithFrame:CGRectMake(150, 20, 150, 28) MenuItems:items Delegate:self];
     
     [self.view addSubview:dropDown];
     dropDownShow = YES;

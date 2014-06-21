@@ -10,7 +10,15 @@
 
 -(id) initWithFrame:(CGRect)frame MenuItems:(NSArray*)source Delegate:(id<LosDropDownDelegate>)delegate;
 {
-    self = [super initWithFrame:frame style:UITableViewStylePlain];
+    CGFloat x = frame.origin.x;
+    CGFloat y = frame.origin.y;
+    CGFloat width = frame.size.width;
+    CGFloat height = frame.size.height;
+    
+    NSUInteger count = [source count];
+    CGFloat calculatedHeight = height + (count - 1) * 28;
+    
+    self = [super initWithFrame:CGRectMake(x, y, width, calculatedHeight) style:UITableViewStylePlain];
     if(self){
         
         menuItems = source;
@@ -43,12 +51,8 @@
     
     cell.textLabel.text = item.title;
     cell.textLabel.textColor = [UIColor whiteColor];
+    cell.backgroundColor = [UIColor clearColor];
     return cell;
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [cell setBackgroundColor:[UIColor clearColor]];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
