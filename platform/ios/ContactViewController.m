@@ -192,8 +192,7 @@
 -(void) switchButtonTapped
 {
     if(dropDownShow){
-        [dropDown removeFromSuperview];
-        dropDownShow = NO;
+        [self closeSwitchShopMenu];
         return;
     }
     
@@ -218,6 +217,9 @@
     dropDown = [[LosDropDown alloc] initWithFrame:CGRectMake(150, 20, 150, 28) MenuItems:items Delegate:self];
     
     [self.view addSubview:dropDown];
+    
+    UIBarButtonItem *switchButton = [self.navigationItem.rightBarButtonItems firstObject];
+    [(UIButton*)switchButton.customView setBackgroundImage:[UIImage imageNamed:@"switch_shop_close"] forState:UIControlStateNormal];
     dropDownShow = YES;
 }
 
@@ -234,6 +236,20 @@
         [searchBar removeFromSuperview];
         searchBarShow = NO;
     }
+}
+
+-(void) closeSwitchShopMenu{
+    
+    if(!dropDownShow){
+        return;
+    }
+    
+    [dropDown removeFromSuperview];
+    
+    UIBarButtonItem *switchButton = [self.navigationItem.rightBarButtonItems firstObject];
+    [(UIButton*)switchButton.customView setBackgroundImage:[UIImage imageNamed:@"switch_shop"] forState:UIControlStateNormal];
+    
+    dropDownShow = NO;
 }
 
 #pragma mark - tableview datasource
@@ -301,8 +317,7 @@
 -(void) menuItemTapped:(NSString*)value
 {
     if([currentEnterpriseId isEqualToString:value]){
-        [dropDown removeFromSuperview];
-        dropDownShow = NO;
+        [self closeSwitchShopMenu];
         return;
     }
     
@@ -332,8 +347,8 @@
             
             self.navigationItem.title = enterpriseName;
             [self.tableView reloadData];
-            [dropDown removeFromSuperview];
-            dropDownShow = NO;
+            
+            [self closeSwitchShopMenu];
         });
     });
 }
