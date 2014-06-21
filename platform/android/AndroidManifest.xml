@@ -24,6 +24,7 @@
         <activity android:name=".Main" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".MemberGoupActivity" />
+        <activity android:name=".SettingActivity" />
     </application>
 
 </manifest>

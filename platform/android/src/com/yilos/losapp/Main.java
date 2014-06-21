@@ -46,6 +46,17 @@ public class Main extends Activity
 				startActivity(contacts);
 			}
 		});
+		
+		setting.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				Intent contacts = new Intent();
+				contacts.setClass(getBaseContext(), SettingActivity.class);
+				startActivity(contacts);
+			}
+		});
 
 	}
 

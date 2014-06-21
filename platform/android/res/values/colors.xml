@@ -17,6 +17,7 @@
 	<color name="lightblue">#0083FF</color>
 	<color name="aqua">#00FFFF</color>
 	<color name="turquoise">#6BD3D9</color>
+	<color name="hintcolor">#CECECE</color>
 	
 	
     <color name="full_transparent">#00000000</color>

@@ -21,13 +21,16 @@ import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -41,6 +44,11 @@ public class MemberGoupActivity extends Activity{
 	private SideBar indexBar;
 	private WindowManager mWindowManager;
 	private TextView mDialogText;
+	
+	private ImageView seachmember;
+	private  RelativeLayout member_title;
+	private  RelativeLayout member_seach;
+	
 	String[] members;
 	String memberName;
 	static int i;
@@ -62,10 +70,8 @@ public class MemberGoupActivity extends Activity{
 		lvContact = (ListView) this.findViewById(R.id.lvContact);
 		mWindowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
 
-		initFootBar();
-		
 		getdata();
-
+		initFootBar();
 	}
 
 	public void initView() {
@@ -74,7 +80,6 @@ public class MemberGoupActivity extends Activity{
 		members = new String[parentData.size()];
 		for (int i = 0; i < parentData.size(); i++) {
 			members[i] = parentData.get(i).getName();
-
 		}
 		Arrays.sort(members, new Pinyin_Comparator());
 		lAdp = new ListViewAdp(MemberGoupActivity.this, members);
@@ -98,6 +103,18 @@ public class MemberGoupActivity extends Activity{
 		mDialogText = (TextView) LayoutInflater.from(this).inflate(
 				R.layout.list_position, null);
 		mDialogText.setVisibility(View.INVISIBLE);
+		
+		member_title = (RelativeLayout)findViewById(R.id.member_title);
+		member_seach = (RelativeLayout)findViewById(R.id.member_seach);
+		seachmember = (ImageView)findViewById(R.id.seachmember);
+		seachmember.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				member_title.setVisibility(View.GONE);
+				member_seach.setVisibility(View.VISIBLE);
+			}
+		});
 
 		WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,

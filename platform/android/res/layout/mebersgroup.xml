@@ -7,14 +7,58 @@
     <include 
         android:layout_height="50.0dip"
     layout="@layout/main_header" /> 
+    
+    <RelativeLayout 
+    android:id="@+id/member_title"   
+    android:layout_width="fill_parent"
+    android:layout_height="52.0dip"
+    android:background="@color/graywhite">
+    <ImageView 
+        android:id="@+id/seachmember"
+        android:layout_width="wrap_content"
+        android:layout_height="23.0dip"
+        android:layout_alignParentLeft="true"
+        android:layout_weight="1"
+        android:layout_centerVertical="true"
+        android:src="@drawable/search"/>
     <TextView android:id="@+id/title"
-	    android:layout_width="fill_parent"
-	    android:background="@color/graywhite"
-        android:layout_height="40.0dip"
-        android:layout_weight="1" 
-        android:gravity="center"
+	    android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_centerHorizontal="true"
+        android:gravity="fill_vertical"
         android:text="会员"
+        android:layout_weight="6"
+        android:textSize="23.0dip"
+        android:textColor="@color/turquoise"
         />
+    </RelativeLayout>
+    
+     <RelativeLayout 
+    android:id="@+id/member_seach"   
+    android:layout_width="fill_parent"
+    android:layout_height="52.0dip"
+    android:background="@color/graywhite"
+    android:visibility="gone">
+    <ImageView 
+        android:id="@+id/seachmembered"
+        android:layout_width="wrap_content"
+        android:layout_height="23.0dip"
+        android:layout_alignParentLeft="true"
+        android:layout_weight="1"
+        android:layout_centerVertical="true"
+        android:src="@drawable/search"/>
+    <EditText android:id="@+id/seachmemberext"
+	    android:layout_width="320.0dip"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="fill_vertical"
+        android:layout_weight="6"
+        android:textSize="16.0dip"
+        android:textColorHint="@color/hintcolor"
+        android:hint="输入姓名/手机/会员编号"
+        />
+    </RelativeLayout>
+    
 <FrameLayout 
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" 

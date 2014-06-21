@@ -9,34 +9,34 @@
 	    android:id="@+id/operate"
 	    android:layout_width="fill_parent"
 	    android:background="@color/orange"
-        android:layout_height="50.0dip"
+        android:layout_height="65.0dip"
         android:layout_weight="1" 
         android:gravity="center"
-        android:paddingTop="10dip"
-        android:paddingBottom="10dip"
-        android:drawableTop="@drawable/oprate"
+        android:paddingTop="20dip"
+        android:paddingBottom="15dip"
+        android:drawableTop="@drawable/operate"
         />
 	
 	<TextView 
 	    android:id="@+id/contacts"
 	    android:layout_width="fill_parent"
 	    android:background="@color/turquoise"
-        android:layout_height="50.0dip"
+        android:layout_height="65.0dip"
         android:gravity="center"
         android:layout_weight="1" 
-        android:paddingTop="10dip"
-        android:paddingBottom="10dip"
+        android:paddingTop="20dip"
+        android:paddingBottom="15dip"
         android:drawableTop="@drawable/contacts"/>
 	
 	<TextView 
 	    android:id="@+id/setting"
 	    android:layout_width="fill_parent"
 	    android:background="@color/turquoise"
-        android:layout_height="50.0dip"
+        android:layout_height="65.0dip"
         android:gravity="center"
         android:layout_weight="1" 
-        android:paddingTop="10dip"
-        android:paddingBottom="10dip"
+        android:paddingTop="20dip"
+        android:paddingBottom="15dip"
         android:drawableTop="@drawable/setting"/>
 
 </LinearLayout>
