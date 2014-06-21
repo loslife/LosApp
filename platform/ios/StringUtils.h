@@ -3,5 +3,6 @@
 @interface StringUtils : NSObject
 
 +(NSString*) encodeWithBase64:(NSString*)plainText;
++(BOOL) isEmpty:(NSString*)origin;
 
 @end

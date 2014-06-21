@@ -5,6 +5,7 @@
 #import "ContactView.h"
 #import "Member.h"
 #import "AddShopViewController.h"
+#import "StringUtils.h"
 
 @implementation ContactViewController
 
@@ -205,11 +206,13 @@
     NSMutableArray *items = [NSMutableArray arrayWithCapacity:1];
     
     for(NSDictionary *dict in enterprises){
+        
         NSString *enterpriseId = [dict objectForKey:@"id"];
         NSString *enterpriseName = [dict objectForKey:@"name"];
-        if((NSNull*)enterpriseName == [NSNull null]){
+        if([StringUtils isEmpty:enterpriseName]){
             enterpriseName = @"我的店铺";
         }
+        
         LosDropDownItem *item = [[LosDropDownItem alloc] initWithTitle:enterpriseName value:enterpriseId];
         [items addObject:item];
     }

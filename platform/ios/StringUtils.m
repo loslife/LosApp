@@ -9,4 +9,21 @@
     return [data base64EncodedString];
 }
 
++(BOOL) isEmpty:(NSString*)origin
+{
+    if((NSNull*)origin == [NSNull null]){
+        return YES;
+    }
+    
+    if(origin == nil){
+        return YES;
+    }
+    
+    if([origin isEqualToString:@""]){
+        return YES;
+    }
+    
+    return NO;
+}
+
 @end
