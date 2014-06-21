@@ -2,10 +2,6 @@
 
 @implementation ContactView
 
-{
-    UISearchBar *searchBar;
-}
-
 -(id) initWithController:(ContactViewController*)controller
 {
     self = [super initWithFrame:[[UIScreen mainScreen] applicationFrame] style:UITableViewStylePlain];
@@ -35,9 +31,10 @@
         self.tableHeaderView = header;
         [self setSeparatorInset:UIEdgeInsetsZero];
         
-        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:controller action:@selector(hideSearchBar)];
+        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:controller action:@selector(hideSubViews:)];
         [singleTap setNumberOfTapsRequired:1];
         [singleTap setNumberOfTouchesRequired:1];
+        singleTap.cancelsTouchesInView = NO;
         [self addGestureRecognizer:singleTap];
     }
     return self;

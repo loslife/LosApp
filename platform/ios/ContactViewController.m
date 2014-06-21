@@ -17,6 +17,8 @@
     
     UISearchBar *searchBar;
     BOOL searchBarShow;
+    LosDropDown *dropDown;
+    BOOL dropDownShow;
 }
 
 -(id) initWithNibName:(NSString*)nibName bundle:(NSBundle*)bundle
@@ -48,6 +50,8 @@
         searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
         searchBar.delegate = self;
         searchBarShow = NO;
+        
+        dropDownShow = NO;
     }
     return self;
 }
@@ -187,7 +191,25 @@
 
 -(void) switchButtonTapped
 {
-    NSLog(@"switch shop");
+    if(dropDownShow){
+        [dropDown removeFromSuperview];
+        dropDownShow = NO;
+        return;
+    }
+    
+    NSMutableArray *items = [NSMutableArray arrayWithCapacity:1];
+    
+    for(NSDictionary *dict in enterprises){
+        NSString *enterpriseId = [dict objectForKey:@"id"];
+        NSString *enterpriseName = [dict objectForKey:@"name"];
+        LosDropDownItem *item = [[LosDropDownItem alloc] initWithTitle:enterpriseName value:enterpriseId];
+        [items addObject:item];
+    }
+    
+    dropDown = [[LosDropDown alloc] initWithFrame:CGRectMake(150, 20, 150, 84) MenuItems:items Delegate:self];
+    
+    [self.view addSubview:dropDown];
+    dropDownShow = YES;
 }
 
 -(void) searchButtonTapped
@@ -196,15 +218,13 @@
     searchBarShow = YES;
 }
 
--(void) hideSearchBar
+-(void) hideSubViews:(UITapGestureRecognizer *)recognizer
 {
-    if(!searchBarShow){
-        return;
+    if(searchBarShow){
+        [searchBar resignFirstResponder];
+        [searchBar removeFromSuperview];
+        searchBarShow = NO;
     }
-    
-    [searchBar resignFirstResponder];
-    [searchBar removeFromSuperview];
-    searchBarShow = NO;
 }
 
 #pragma mark - tableview datasource
@@ -265,6 +285,27 @@
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
 {
     return [[UILocalizedIndexedCollation currentCollation] sectionForSectionIndexTitleAtIndex:index];
+}
+
+#pragma mark - drop down delegate
+
+-(void) menuItemTapped:(NSString*)value
+{
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+    
+        currentEnterpriseId = value;
+        
+        [members removeAllObjects];
+        NSString *statement = @"select id, name from members where enterprise_id = :eid";
+        [self refreshMembers:statement];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+        
+            [self.tableView reloadData];
+            [dropDown removeFromSuperview];
+            dropDownShow = NO;
+        });
+    });
 }
 
 @end

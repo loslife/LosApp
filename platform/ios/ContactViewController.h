@@ -1,8 +1,9 @@
 #import <UIKit/UIKit.h>
+#import "LosDropDown.h"
 
-@interface ContactViewController : UITableViewController<UISearchBarDelegate>
+@interface ContactViewController : UITableViewController<UISearchBarDelegate, LosDropDownDelegate>
 
 -(void) searchButtonTapped;
--(void) hideSearchBar;
+-(void) hideSubViews:(UITapGestureRecognizer *)recognizer;
 
 @end

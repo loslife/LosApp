@@ -36,6 +36,8 @@
 		18AFE6061952E2F70083C972 /* AddShopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE6051952E2F70083C972 /* AddShopView.m */; };
 		18AFE61C1953F6450083C972 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18AFE61E1953F6450083C972 /* Localizable.strings */; };
 		18AFE623195434B20083C972 /* DBService.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE622195434B20083C972 /* DBService.m */; };
+		18AFE627195527290083C972 /* LosDropDown.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE626195527290083C972 /* LosDropDown.m */; };
+		18AFE62A195542D30083C972 /* LosDropDownItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE629195542D30083C972 /* LosDropDownItem.m */; };
 		18B2EE121946E0EF00264B74 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B2EE111946E0EF00264B74 /* Foundation.framework */; };
 		18B2EE141946E0EF00264B74 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B2EE131946E0EF00264B74 /* CoreGraphics.framework */; };
 		18B2EE161946E0EF00264B74 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B2EE151946E0EF00264B74 /* UIKit.framework */; };
@@ -101,6 +103,9 @@
 		18AFE61F1953F6520083C972 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		18AFE621195434B20083C972 /* DBService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBService.h; sourceTree = "<group>"; };
 		18AFE622195434B20083C972 /* DBService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBService.m; sourceTree = "<group>"; };
+		18AFE625195527290083C972 /* LosDropDown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LosDropDown.h; sourceTree = "<group>"; };
+		18AFE626195527290083C972 /* LosDropDown.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LosDropDown.m; sourceTree = "<group>"; };
+		18AFE629195542D30083C972 /* LosDropDownItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LosDropDownItem.m; sourceTree = "<group>"; };
 		18B2EE0E1946E0EF00264B74 /* LosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18B2EE111946E0EF00264B74 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		18B2EE131946E0EF00264B74 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -241,6 +246,16 @@
 			name = service;
 			sourceTree = "<group>";
 		};
+		18AFE624195525400083C972 /* widget */ = {
+			isa = PBXGroup;
+			children = (
+				18AFE625195527290083C972 /* LosDropDown.h */,
+				18AFE626195527290083C972 /* LosDropDown.m */,
+				18AFE629195542D30083C972 /* LosDropDownItem.m */,
+			);
+			name = widget;
+			sourceTree = "<group>";
+		};
 		18B2EE051946E0EF00264B74 = {
 			isa = PBXGroup;
 			children = (
@@ -289,6 +304,7 @@
 		18B2EE401946E16C00264B74 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				18AFE624195525400083C972 /* widget */,
 				18AFE5FD195296BD0083C972 /* domain */,
 				18AFE620195434500083C972 /* service */,
 				1866671D1949C2B200A345F7 /* utils */,
@@ -452,7 +468,9 @@
 				18AFE623195434B20083C972 /* DBService.m in Sources */,
 				1866670F1949931800A345F7 /* LoginView.m in Sources */,
 				186667361949CB3F00A345F7 /* TimesHelper.m in Sources */,
+				18AFE627195527290083C972 /* LosDropDown.m in Sources */,
 				18AFE6061952E2F70083C972 /* AddShopView.m in Sources */,
+				18AFE62A195542D30083C972 /* LosDropDownItem.m in Sources */,
 				1866670519498B5600A345F7 /* UserData.m in Sources */,
 				18666754194AD52400A345F7 /* StringUtils.m in Sources */,
 				186667201949C2D400A345F7 /* LosHttpsBase.m in Sources */,
