@@ -100,8 +100,8 @@
                 android:text="关于乐斯"
                 android:textColor="@color/black"
                 android:textSize="23.0dip" />
-            <TextView android:layout_width="wrap_content"
-                      android:layout_height="fill_parent"
+            <TextView android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
                       android:layout_below="@id/aboutlosicon"
                       android:background="@drawable/border"/>
         </RelativeLayout>
