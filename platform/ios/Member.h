@@ -5,7 +5,7 @@
 @property(nonatomic,copy) NSString *pk;
 @property(nonatomic,copy) NSString *name;
 @property(nonatomic,copy) NSNumber *birthday;
-@property(nonatomic,copy) NSString *phoneMoble;
+@property(nonatomic,copy) NSString *phoneMobile;
 @property(nonatomic,copy) NSNumber *joinDate;
 @property(nonatomic,copy) NSString *memberNo;
 

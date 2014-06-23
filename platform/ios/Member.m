@@ -9,7 +9,7 @@
         self.pk = pk;
         self.name= name;
         self.birthday = birthday;
-        self.phoneMoble = phone;
+        self.phoneMobile = phone;
         self.joinDate = joinDate;
         self.memberNo = memberNo;
     }

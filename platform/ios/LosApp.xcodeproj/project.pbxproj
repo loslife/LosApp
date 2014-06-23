@@ -10,6 +10,7 @@
 		04CFBFE75F2E4F9CA79F1910 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7512DE471E6843E8AFA2C007 /* libPods.a */; };
 		183F214C1957C860009D54E8 /* MemberDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F214B1957C860009D54E8 /* MemberDetailViewController.m */; };
 		183F214F1957CC61009D54E8 /* MemberDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F214E1957CC61009D54E8 /* MemberDetailView.m */; };
+		183F21521957EAD0009D54E8 /* Line.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F21511957EAD0009D54E8 /* Line.m */; };
 		186667011949864100A345F7 /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186667001949864100A345F7 /* WelcomeViewController.m */; };
 		1866670519498B5600A345F7 /* UserData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670419498B5600A345F7 /* UserData.m */; };
 		1866670819498D1C00A345F7 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670719498D1C00A345F7 /* LoginViewController.m */; };
@@ -53,6 +54,8 @@
 		183F214B1957C860009D54E8 /* MemberDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemberDetailViewController.m; sourceTree = "<group>"; };
 		183F214D1957CC61009D54E8 /* MemberDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemberDetailView.h; sourceTree = "<group>"; };
 		183F214E1957CC61009D54E8 /* MemberDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemberDetailView.m; sourceTree = "<group>"; };
+		183F21501957EAD0009D54E8 /* Line.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Line.h; sourceTree = "<group>"; };
+		183F21511957EAD0009D54E8 /* Line.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Line.m; sourceTree = "<group>"; };
 		186666FF1949864100A345F7 /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
 		186667001949864100A345F7 /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
 		1866670319498B5600A345F7 /* UserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserData.h; sourceTree = "<group>"; };
@@ -260,6 +263,8 @@
 				18AFE625195527290083C972 /* LosDropDown.h */,
 				18AFE626195527290083C972 /* LosDropDown.m */,
 				18AFE629195542D30083C972 /* LosDropDownItem.m */,
+				183F21501957EAD0009D54E8 /* Line.h */,
+				183F21511957EAD0009D54E8 /* Line.m */,
 			);
 			name = widget;
 			sourceTree = "<group>";
@@ -473,6 +478,7 @@
 				186667181949AD4900A345F7 /* PathResolver.m in Sources */,
 				1866670B19498F1D00A345F7 /* BootstrapViewController.m in Sources */,
 				1866673C1949F8F100A345F7 /* ReportViewController.m in Sources */,
+				183F21521957EAD0009D54E8 /* Line.m in Sources */,
 				186667121949A9D000A345F7 /* BootstrapView.m in Sources */,
 				186667151949ACD600A345F7 /* VersionInfo.m in Sources */,
 				183F214C1957C860009D54E8 /* MemberDetailViewController.m in Sources */,
