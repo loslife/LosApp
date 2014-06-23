@@ -65,16 +65,16 @@
         cards.text = [NSString stringWithFormat:@"会员卡类型：%@", @"金卡"];
         cards.textAlignment = NSTextAlignmentLeft;
         
-        UILabel *frequency = [[UILabel alloc] initWithFrame:CGRectMake(20, 360, 280, 40)];
-        frequency.text = @"消费频度：5天消费1次";
-        frequency.textAlignment = NSTextAlignmentLeft;
+        UILabel *latest = [[UILabel alloc] initWithFrame:CGRectMake(20, 360, 280, 40)];
+        latest.text = [NSString stringWithFormat:@"最后消费时间：%@", [StringUtils fromNumber:member.latestConsumeTime]];
+        latest.textAlignment = NSTextAlignmentLeft;
         
         UILabel *total = [[UILabel alloc] initWithFrame:CGRectMake(20, 400, 280, 40)];
-        total.text = @"累计消费：￥1000.0";
+        total.text = [NSString stringWithFormat:@"累计消费：￥%.1f", [member.totalConsume doubleValue]];
         total.textAlignment = NSTextAlignmentLeft;
         
         UILabel *per = [[UILabel alloc] initWithFrame:CGRectMake(20, 440, 280, 40)];
-        per.text = @"客单价：￥105.2";
+        per.text = [NSString stringWithFormat:@"客单价：￥%.1f", [member.averageConsume doubleValue]];
         per.textAlignment = NSTextAlignmentLeft;
         
         [self addSubview:name];
@@ -85,7 +85,7 @@
         [self addSubview:call];
         [self addSubview:line];
         [self addSubview:cards];
-        [self addSubview:frequency];
+        [self addSubview:latest];
         [self addSubview:total];
         [self addSubview:per];
     }

@@ -8,9 +8,12 @@
 @property(nonatomic,copy) NSString *phoneMobile;
 @property(nonatomic,copy) NSNumber *joinDate;
 @property(nonatomic,copy) NSString *memberNo;
+@property(nonatomic,copy) NSNumber *latestConsumeTime;
+@property(nonatomic,copy) NSNumber *totalConsume;
+@property(nonatomic,copy) NSNumber *averageConsume;
 
 @property NSInteger sectionNumber;
 
--(id) initWithPk:(NSString*)pk Name:(NSString*)name Birthday:(NSNumber*)birthday Phone:(NSString*)phone JoinDate:(NSNumber*)joinDate MemberNo:(NSString*)memberNo;
+-(id) initWithPk:(NSString*)pk Name:(NSString*)name Birthday:(NSNumber*)birthday Phone:(NSString*)phone JoinDate:(NSNumber*)joinDate MemberNo:(NSString*)memberNo LatestConsume:(NSNumber*)latestConsume TotalConsume:(NSNumber*)total AverageConsume:(NSNumber*)average;
 
 @end

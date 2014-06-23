@@ -110,7 +110,7 @@
         return;
     }
 
-    NSString *statement = @"select id, name, birthday, phoneMobile, joinDate, memberNo from members where enterprise_id = :eid";
+    NSString *statement = @"select id, name, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume from members where enterprise_id = :eid";
     [self refreshMembers:statement];
     
     membersInitDone = YES;
@@ -128,7 +128,7 @@
         
         [members removeAllObjects];
         
-        NSString *base = @"select id, name, birthday, phoneMobile, joinDate, memberNo from members where enterprise_id = :eid and name like '%%%@%%';";
+        NSString *base = @"select id, name, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume from members where enterprise_id = :eid and name like '%%%@%%';";
         NSString *statement = [NSString stringWithFormat:base, searchText];
         
         [self refreshMembers:statement];
@@ -158,8 +158,11 @@
         NSString *phone = [rs objectForColumnName:@"phoneMobile"];
         NSNumber *joinDate = [rs objectForColumnName:@"joinDate"];
         NSString *memberNo = [rs objectForColumnName:@"memberNo"];
+        NSNumber *latest = [rs objectForColumnName:@"latestConsumeTime"];
+        NSNumber *totalConsume = [rs objectForColumnName:@"totalConsume"];
+        NSNumber *averageConsume = [rs objectForColumnName:@"averageConsume"];
         
-        Member *member = [[Member alloc] initWithPk:pk Name:name Birthday:birthday Phone:phone JoinDate:joinDate MemberNo:memberNo];
+        Member *member = [[Member alloc] initWithPk:pk Name:name Birthday:birthday Phone:phone JoinDate:joinDate MemberNo:memberNo LatestConsume:latest TotalConsume:totalConsume AverageConsume:averageConsume];
         [membersTemp addObject:member];
     }
     
@@ -356,7 +359,7 @@
         currentEnterpriseId = value;
         
         [members removeAllObjects];
-        NSString *statement = @"select id, name, birthday, phoneMobile, joinDate, memberNo from members where enterprise_id = :eid";
+        NSString *statement = @"select id, name, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume from members where enterprise_id = :eid";
         [self refreshMembers:statement];
         
         dispatch_async(dispatch_get_main_queue(), ^{
