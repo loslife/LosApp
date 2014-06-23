@@ -14,6 +14,9 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if(self){
+        
+        self.navigationItem.title = @"关联店铺";
+        
         httpHelper = [[LosHttpHelper alloc] init];
         dbService = [[DBService alloc] init];
     }
