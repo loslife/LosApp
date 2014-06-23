@@ -1,5 +1,5 @@
 #import <UIKit/UIKit.h>
 
-@interface SettingViewController : UIViewController
+@interface SettingViewController : UITableViewController
 
 @end
