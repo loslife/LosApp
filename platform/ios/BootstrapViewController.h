@@ -10,6 +10,6 @@
 #import "UserData.h"
 #import "DBService.h"
 
-@interface BootstrapViewController : UIViewController<UITabBarControllerDelegate>
+@interface BootstrapViewController : UIViewController
     
 @end

@@ -54,14 +54,18 @@
     
     // 处理新增记录
     NSArray *add = [records objectForKey:@"add"];
-    NSString *insert = @"insert into members (id, enterprise_id, name, create_date, modify_date) values (:id, :eid, :name, :cdate, :mdate);";
+    NSString *insert = @"insert into members (id, enterprise_id, name, birthday, phoneMobile, joinDate, memberNo, create_date, modify_date) values (:id, :eid, :name, :birthday, :phoneMobile, :joinDate, :memberNo, :cdate, :mdate);";
     
     for(NSDictionary *item in add){
         NSString *pk = [item objectForKey:@"id"];
         NSString *name = [item objectForKey:@"name"];
+        NSNumber *birthday = [item objectForKey:@"birthday"];
+        NSString *phone = [item objectForKey:@"phoneMobile"];
+        NSNumber *joinDate = [item objectForKey:@"joinDate"];
+        NSString *memberNo = [item objectForKey:@"memberNo"];
         NSNumber *createDate = [item objectForKey:@"create_date"];
         NSNumber *modifyDate = [item objectForKey:@"modify_date"];
-        [db executeUpdate:insert, pk, enterpriseId, name, createDate, modifyDate];
+        [db executeUpdate:insert, pk, enterpriseId, name, birthday, phone, joinDate, memberNo, createDate, modifyDate];
     }
     
     // 处理更新记录

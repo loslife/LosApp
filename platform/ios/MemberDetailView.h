@@ -1,5 +1,6 @@
 #import <UIKit/UIKit.h>
 #import "Member.h"
+#import "StringUtils.h"
 
 @interface MemberDetailView : UIView
 

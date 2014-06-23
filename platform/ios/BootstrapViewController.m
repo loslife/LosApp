@@ -162,7 +162,8 @@
 -(void) createOtherTables
 {
     NSString *sql1 = @"CREATE TABLE IF NOT EXISTS enterprises (id integer primary key autoincrement, enterprise_id varchar(64), enterprise_name varchar(64), latest_sync REAL, display varchar(8), create_date REAL);";
-    NSString *sql2 = @"CREATE TABLE IF NOT EXISTS members (id varchar(64) primary key, enterprise_id varchar(64), name varchar(32), create_date REAL, modify_date REAL);";
+    
+    NSString *sql2 = @"CREATE TABLE IF NOT EXISTS members (id varchar(64) primary key, enterprise_id varchar(64), name varchar(32), birthday REAL, phoneMobile varchar(16), joinDate REAL, memberNo varchar(32), create_date REAL, modify_date REAL);";
     
     NSString *dbFilePath = [PathResolver databaseFilePath];
     FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
@@ -192,7 +193,6 @@
 -(void) jumpToMain
 {
     UITabBarController *mainViewController = [[UITabBarController alloc] init];
-    mainViewController.delegate = self;
     
     ReportViewController *reportViewController = [[ReportViewController alloc] init];
     UINavigationController *reportNav = [[UINavigationController alloc] initWithRootViewController:reportViewController];
@@ -205,13 +205,6 @@
     
     mainViewController.viewControllers = @[reportNav, contactNav, settingNav];
     [self presentViewController:mainViewController animated:YES completion:nil];
-}
-
-#pragma mark - tab bar delegate
-
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
-{
-    NSLog(@"tab switch");
 }
 
 @end

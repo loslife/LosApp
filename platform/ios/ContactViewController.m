@@ -110,7 +110,7 @@
         return;
     }
 
-    NSString *statement = @"select id, name from members where enterprise_id = :eid";
+    NSString *statement = @"select id, name, birthday, phoneMobile, joinDate, memberNo from members where enterprise_id = :eid";
     [self refreshMembers:statement];
     
     membersInitDone = YES;
@@ -128,7 +128,7 @@
         
         [members removeAllObjects];
         
-        NSString *base = @"select id, name from members where enterprise_id = :eid and name like '%%%@%%';";
+        NSString *base = @"select id, name, birthday, phoneMobile, joinDate, memberNo from members where enterprise_id = :eid and name like '%%%@%%';";
         NSString *statement = [NSString stringWithFormat:base, searchText];
         
         [self refreshMembers:statement];
@@ -151,9 +151,15 @@
     
     FMResultSet *rs = [db executeQuery:statement, currentEnterpriseId];
     while ([rs next]) {
+        
         NSString *pk = [rs objectForColumnName:@"id"];
         NSString *name = [rs objectForColumnName:@"name"];
-        Member *member = [[Member alloc] initWithPk:pk Name:name];
+        NSNumber *birthday = [rs objectForColumnName:@"birthday"];
+        NSString *phone = [rs objectForColumnName:@"phoneMobile"];
+        NSNumber *joinDate = [rs objectForColumnName:@"joinDate"];
+        NSString *memberNo = [rs objectForColumnName:@"memberNo"];
+        
+        Member *member = [[Member alloc] initWithPk:pk Name:name Birthday:birthday Phone:phone JoinDate:joinDate MemberNo:memberNo];
         [membersTemp addObject:member];
     }
     
@@ -350,7 +356,7 @@
         currentEnterpriseId = value;
         
         [members removeAllObjects];
-        NSString *statement = @"select id, name from members where enterprise_id = :eid";
+        NSString *statement = @"select id, name, birthday, phoneMobile, joinDate, memberNo from members where enterprise_id = :eid";
         [self refreshMembers:statement];
         
         dispatch_async(dispatch_get_main_queue(), ^{
