@@ -45,10 +45,9 @@
         NSString *userName = myView.username.text;
         NSString *password = myView.password.text;
         
-        // 拼接成以下格式：username_password
-        NSString *plainText = [NSString stringWithFormat:@"%@_%@", userName, password];
-        NSString *encoded = [StringUtils encodeWithBase64:plainText];
-        NSData *postData = [[@"info=" stringByAppendingString:encoded] dataUsingEncoding:NSUTF8StringEncoding];
+        
+        NSString *data = [NSString stringWithFormat:@"username=%@&password=%@", userName, password];
+        NSData *postData = [data dataUsingEncoding:NSUTF8StringEncoding];
         
         [httpHelper postSecure:LOGIN_URL Data:postData completionHandler:^(NSDictionary *dict){
             
