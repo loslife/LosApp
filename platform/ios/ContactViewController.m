@@ -6,6 +6,7 @@
 #import "Member.h"
 #import "AddShopViewController.h"
 #import "StringUtils.h"
+#import "MemberDetailViewController.h"
 
 @implementation ContactViewController
 
@@ -325,6 +326,14 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 66;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Member *member = [[members objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    
+    MemberDetailViewController *detail = [[MemberDetailViewController alloc] initWithMember:member];
+    [self.navigationController pushViewController:detail animated:YES];
 }
 
 #pragma mark - drop down delegate
