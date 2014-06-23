@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class RegisterActivity extends Activity
 {
@@ -21,15 +22,13 @@ public class RegisterActivity extends Activity
 	
 	private EditText validatecode;
 	
-	private Button reqValidatecode;
+	private TextView reqValidatecode;
 	
 	private EditText password;
 	
 	private EditText confirmPwd;
 	
-	private Button registration;
-	
-	private Button regCancel;
+	private TextView registration;
 	
 	private CountDownTimer countDownTimer;
 	
@@ -58,11 +57,11 @@ public class RegisterActivity extends Activity
 	{
 		phoneNum = (EditText)findViewById(R.id.phoneNum);
 		validatecode = (EditText)findViewById(R.id.validatecode);
-		reqValidatecode = (Button)findViewById(R.id.btn_validatecode);
+		reqValidatecode = (TextView)findViewById(R.id.btn_validatecode);
 		password = (EditText)findViewById(R.id.password);
 		confirmPwd = (EditText)findViewById(R.id.confirm_password);
-		registration = (Button)findViewById(R.id.btn_register);
-		regCancel = (Button)findViewById(R.id.btn_regcancel);
+		registration = (TextView)findViewById(R.id.btn_register);
+
 		
 		reqValidatecode.setOnClickListener(new OnClickListener() {
 			
@@ -121,7 +120,7 @@ public class RegisterActivity extends Activity
 					//忘记密码
 					if(checkMobileNumber(phoneNo))
 					{
-						userRegister(phoneNo,pwd);
+						
 					}
 				}
 				else
@@ -133,14 +132,6 @@ public class RegisterActivity extends Activity
 					}
 				}
 				
-			}
-		});
-		
-		regCancel.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				finish();
 			}
 		});
 
@@ -167,7 +158,7 @@ public class RegisterActivity extends Activity
 			public void run(){
 				AppContext ac = (AppContext)getApplication(); 
 				Message msg = new Message();
-				ServerResponse res = ac.checkValidatecode(phoneNumber,vcode);
+				ServerResponse res = ac.checkValidatecode(phoneNumber,"register_losapp",vcode);
 				if(res.isSucess())
 				{
 					msg.what = 1;

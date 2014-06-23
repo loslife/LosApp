@@ -91,6 +91,9 @@ public class MemberGoupActivity extends Activity{
 				memberName = members[arg2];
 				Toast.makeText(MemberGoupActivity.this, memberName,
 						Toast.LENGTH_SHORT).show();
+				Intent memberDetail = new Intent();
+				memberDetail.setClass(getBaseContext(), MemberDetailActivity.class);
+				startActivity(memberDetail);
 			}
 		});
 		findView();

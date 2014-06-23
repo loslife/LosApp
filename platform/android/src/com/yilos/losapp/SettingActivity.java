@@ -2,8 +2,10 @@ package com.yilos.losapp;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -41,5 +43,31 @@ public class SettingActivity extends Activity{
 		linkShop = (RelativeLayout)findViewById(R.id.relativelayout_linkshop);
 		modfiypwd = (RelativeLayout)findViewById(R.id.relativelayout_modfiypwd);
 		aboutlos = (RelativeLayout)findViewById(R.id.relativelayout_aboutlos);
+		
+		linkShop.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent linkshop = new Intent();
+				linkshop.setClass(getBaseContext(), LinkShopActivity.class);
+				startActivity(linkshop);
+			}
+		});
+		
+		modfiypwd.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+			}
+		});
+		
+		aboutlos.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+			}
+		});
 	}
 }

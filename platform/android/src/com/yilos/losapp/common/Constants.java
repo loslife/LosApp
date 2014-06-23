@@ -10,9 +10,6 @@ public class Constants
 	
 	public static final String HTTPS_SERVICE_ADDRESS = "https://" + SERVICE_IP
 			+ "/svc/";
-	public static final String LOGIN_URL = "";
-	
-	public static final String REGISTER_URL = "";
 	
 	public static final String SD_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
 	
@@ -35,22 +32,42 @@ public class Constants
 	// 88888601，发送短信失败
 	
 	/**
-	 * 发送验证码
+	 * 获取验证码
 	 */
-	public static final String SEND_VALIDATECODE = HTTPS_SERVICE_ADDRESS
-			+ "nail/sendValidateCode?username={0}";
+	public static final String SEND_VALIDATECODE = "http://192.168.1.116:5000/svc/getCode/{0}?u={1}";
 	
 	/**
 	 * 检查验证码
 	 */
-	public static final String CHECK_VALIDATECODE_SERVICE = HTTPS_SERVICE_ADDRESS
-			+ "nail/checkValidateCode?username={0}&validateCode={1}";
+	public static final String CHECK_VALIDATECODE_SERVICE = "http://192.168.1.116:5000/svc/checkCode/{0}?u={1}&c={2}";
+	
+	/**
+	 * 注册
+	 */
+	public static final String REGISTER_URL = "http://" + "192.168.1.116:5000"
+			+ "/svc/losapp/register";
+	
+	/**
+	 * 登录
+	 */
+	public static final String LOGIN_URL ="http://" + "192.168.1.116:5000"
+			+ "/svc/losapp/login";
 	
 	/**
 	 * 获取会员通讯录
 	 */
-	public static final String GET_MEMBERS_URL = "http://" + "192.168.1.112:5000"
+	public static final String GET_MEMBERS_URL = "http://" + "192.168.1.116:5000"
 			+ "/svc/"
 			+ "losapp/syncMembers/{0}?v={1}&t={2}";
+	
+	/**
+	 * 查询已关联的店铺
+	 */
+	public static final String GET_APPENDSHOP_RECORD = "http://192.168.1.116:5000/svc/losapp/attachEnterprises/{0}";
+	
+	/**
+	 * 关联店铺
+	 */
+	public static final String APPENDSHOP_URL = "http://192.168.1.116:5000/svc/losapp/appendEnterprise";
 
 }

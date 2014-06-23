@@ -12,20 +12,19 @@
     <LinearLayout
         android:layout_width="330.0dip"
         android:layout_height="match_parent"
-        android:layout_weight="1"
         android:layout_gravity="center"
-        android:orientation="vertical">
+        android:layout_weight="1"
+        android:orientation="vertical" >
 
         <RelativeLayout
             android:id="@+id/relativelayout_linkshop"
             android:layout_width="fill_parent"
-            android:layout_height="80.0dip"
-             >
+            android:layout_height="80.0dip" >
 
             <ImageView
                 android:id="@+id/linkshopicon"
                 android:layout_width="wrap_content"
-                android:layout_height="23.0dip"
+                android:layout_height="48.0dip"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_weight="1"
@@ -35,26 +34,30 @@
                 android:id="@+id/linkshop"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:layout_alignParentTop="true"
                 android:layout_toRightOf="@+id/linkshopicon"
+                android:layout_marginLeft="24.0dip"
                 android:layout_weight="5"
                 android:gravity="fill_vertical"
-                android:textColor="@color/black"
                 android:text="关联店铺"
+                android:textColor="@color/black"
                 android:textSize="23.0dip" />
 
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:layout_alignParentBottom="true"
+                android:background="@color/gray" />
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/relativelayout_modfiypwd"
             android:layout_width="fill_parent"
-            android:layout_height="80.0dip" 
-            >
+            android:layout_height="80.0dip" >
 
             <ImageView
                 android:id="@+id/modfiypwdicon"
                 android:layout_width="wrap_content"
-                android:layout_height="23.0dip"
+                android:layout_height="48.0dip"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_weight="1"
@@ -64,26 +67,30 @@
                 android:id="@+id/modfiypwd"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:layout_centerHorizontal="true"
                 android:layout_toRightOf="@+id/modfiypwdicon"
+                 android:layout_marginLeft="24.0dip"
                 android:layout_weight="5"
                 android:gravity="fill_vertical"
-                android:textColor="@color/black"
                 android:text="修改密码"
+                android:textColor="@color/black"
                 android:textSize="23.0dip" />
-           
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:layout_alignParentBottom="true"
+                android:background="@color/gray" />
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/relativelayout_aboutlos"
             android:layout_width="fill_parent"
-            android:layout_height="80.0dip"
-            >
+            android:layout_height="80.0dip" >
 
             <ImageView
                 android:id="@+id/aboutlosicon"
                 android:layout_width="wrap_content"
-                android:layout_height="23.0dip"
+                android:layout_height="48.0dip"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_weight="1"
@@ -93,20 +100,31 @@
                 android:id="@+id/aboutlos"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:layout_centerHorizontal="true"
+                 android:layout_marginLeft="24.0dip"
                 android:layout_toRightOf="@+id/aboutlosicon"
                 android:layout_weight="5"
                 android:gravity="fill_vertical"
                 android:text="关于乐斯"
                 android:textColor="@color/black"
                 android:textSize="23.0dip" />
-            <TextView android:layout_width="fill_parent"
-                      android:layout_height="wrap_content"
-                      android:layout_below="@id/aboutlosicon"
-                      android:background="@drawable/border"/>
-        </RelativeLayout>
 
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:layout_alignParentBottom="true"
+                android:background="@color/gray" />
+        </RelativeLayout>
     </LinearLayout>
+
+    <TextView
+        android:layout_width="330.0dip"
+        android:layout_height="48.0dip"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="24.0dip"
+        android:background="@drawable/quit_bg"
+        android:gravity="center"
+        android:text="退出"
+        android:textColor="@android:color/white" />
 
     <include layout="@layout/main_footer" />
 

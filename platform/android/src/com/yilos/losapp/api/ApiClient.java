@@ -21,7 +21,9 @@ import javax.net.ssl.SSLSession;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.auth.DigestSchemeFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -180,6 +182,40 @@ public class ApiClient
 		} catch (Exception e) {
 			return "";
 		}
+	}
+	
+	public static String _httppost(String url,List<NameValuePair> params)
+	{
+
+		StringBuilder resultData = new StringBuilder();
+		try {
+			HttpPost httppost = new HttpPost(url);
+			httppost.setHeader("xhr", "true");
+			httppost.setEntity(new UrlEncodedFormEntity(params));
+
+			DefaultHttpClient httpClient = new DefaultHttpClient();
+			// 请求超时
+			httpClient.getParams().setParameter(
+					CoreConnectionPNames.CONNECTION_TIMEOUT,
+					connectionTimeout);
+			// 读取超时
+			httpClient.getParams().setParameter(
+					CoreConnectionPNames.SO_TIMEOUT, soTimeout);
+		
+			HttpResponse httpResponse = httpClient.execute(httppost);
+
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					httpResponse.getEntity().getContent()));
+			String inputLine = null;
+			// 使用循环来读取获得的数据
+			while (((inputLine = reader.readLine()) != null)) {
+				resultData.append(inputLine);
+			}
+			return resultData.toString();
+			
+		} catch (Exception e) {
+			return "";
+		}
 	
 	}
 	
@@ -194,7 +230,7 @@ public class ApiClient
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("username", username));
-		params.add(new BasicNameValuePair("pwd", pwd));				
+		params.add(new BasicNameValuePair("password", pwd));				
 		
 		ServerResponse res = new ServerResponse();
 		res.setCode(0);
@@ -202,9 +238,10 @@ public class ApiClient
 		res.setResult(rt);
 		
 		//String json = _post(appContext, Constants.LOGIN_URL,params);
+		String json = _httppost(Constants.LOGIN_URL,params);
 		
 		Gson gson = new Gson();
-		ServerResponse resp = gson.fromJson(gson.toJson(res), ServerResponse.class);
+		ServerResponse resp = gson.fromJson(json, ServerResponse.class);
 	
 		return resp;
 	}
@@ -220,7 +257,7 @@ public class ApiClient
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("username", username));
-		params.add(new BasicNameValuePair("pwd", pwd));
+		params.add(new BasicNameValuePair("password", pwd));
 
 		ServerResponse res = new ServerResponse();
 		res.setCode(0);
@@ -228,8 +265,9 @@ public class ApiClient
 		res.setResult(rt);
 		
 		//String json = _post(appContext, Constants.REGISTER_URL,params);
+		String json = _httppost(Constants.REGISTER_URL,params);
 		Gson gson = new Gson();
-		ServerResponse resp = gson.fromJson(gson.toJson(res), ServerResponse.class);
+		ServerResponse resp = gson.fromJson(json, ServerResponse.class);
 	
 		return resp;
 	}
@@ -247,9 +285,10 @@ public class ApiClient
 		Result rt = new Result();
 		res.setResult(rt);
 		
-		//String json = _get(appContext, MessageFormat.format(Constants.SEND_VALIDATECODE,phoneNumber));
+		//String json = _httpget(appContext, MessageFormat.format(Constants.SEND_VALIDATECODE,phoneNumber,"register_losapp"));
+		String json = _httpget(MessageFormat.format(Constants.SEND_VALIDATECODE,phoneNumber,"register_losapp"));
 		Gson gson = new Gson();
-		ServerResponse resp = gson.fromJson(gson.toJson(res), ServerResponse.class);
+		ServerResponse resp = gson.fromJson(json, ServerResponse.class);
 	
 		return resp;
 	}
@@ -307,7 +346,7 @@ public class ApiClient
 	 * @param validateCode
 	 * @return
 	 */
-	public static ServerResponse checkValidateCode(Context appContext,String mobileNumber,String validateCode)
+	public static ServerResponse checkValidateCode(Context appContext,String mobileNumber,String checkType,String validateCode)
 	{
 
 		ServerResponse res = new ServerResponse();
@@ -316,6 +355,8 @@ public class ApiClient
 		res.setResult(rt);
 		
 		//String json = _get(appContext, MessageFormat.format(Constants.CHECK_VALIDATECODE_SERVICE, mobileNumber,validateCode));
+		//CHECK_VALIDATECODE_SERVICE = "http://192.168.1.116:5000/svc/checkCode/{0}?u={1}&c={2}"
+		String json = _get(appContext, MessageFormat.format(Constants.CHECK_VALIDATECODE_SERVICE, mobileNumber,checkType,validateCode));
 		Gson gson = new Gson();
 		ServerResponse resp = gson.fromJson(gson.toJson(res), ServerResponse.class);
 	
@@ -331,6 +372,24 @@ public class ApiClient
 		res.setResult(rt);
 		//{"code":0,"result":{"last_sync":1403180487257,"records":{"add":[]}}}
 		String json = _httpget(MessageFormat.format(Constants.GET_MEMBERS_URL, "100009803012000300","1","0"));
+		Gson gson = new Gson();
+		ServerResponse resp = (ServerResponse)gson.fromJson(json, ServerResponse.class);
+	
+		return resp;
+	}
+	
+	public static ServerResponse linkshop(Context appContext,String username, String linkAccount)
+	{
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("account", username));
+		params.add(new BasicNameValuePair("enterprise_account", linkAccount));
+
+		ServerResponse res = new ServerResponse();
+		res.setCode(0);
+		Result rt = new Result();
+		res.setResult(rt);
+		//{"code":0,"result":{"last_sync":1403180487257,"records":{"add":[]}}}
+		String json = _httppost(Constants.APPENDSHOP_URL,params);
 		Gson gson = new Gson();
 		ServerResponse resp = (ServerResponse)gson.fromJson(json, ServerResponse.class);
 	

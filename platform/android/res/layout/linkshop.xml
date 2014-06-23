@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical" >
- <include 
+    <include 
         android:layout_height="50.0dip"
     layout="@layout/main_header" /> 
     <LinearLayout 
@@ -16,64 +16,45 @@
         android:layout_weight="1">
 
         <EditText
-            android:id="@+id/phoneNum"
+            android:id="@+id/shopaccount"
             android:layout_width="fill_parent"
             android:layout_height="48.0dip"
             android:gravity="center_vertical"
             android:hint="输入需要关联店铺的乐斯登录账号"
             android:textColorHint="@color/graywhite"
             android:inputType="phone" />
-        
-            <RelativeLayout android:layout_width="fill_parent"
+        <RelativeLayout android:layout_width="fill_parent"
             android:layout_height="48.0dip"
             android:layout_marginTop="24.0dip"
+            
             >
-            <EditText
-            android:id="@+id/validatecode"
+             <EditText
+            android:id="@+id/shopvcode"
             android:layout_width="212.0dip"
             android:layout_height="48.0dip"
             android:gravity="center_vertical"
             android:hint="输入验证码"
             android:textColorHint="@color/graywhite"
-            />
-            <TextView
-            android:id="@+id/btn_validatecode"
-            android:layout_width="106.0dip"
+             />
+             <TextView android:layout_width="106.0dip"
             android:layout_height="48.0dip"
             android:layout_marginLeft="8.0dip"
-            android:layout_toRightOf="@id/validatecode"
+            android:layout_toRightOf="@id/shopvcode"
             android:background="@drawable/code_bg"
             android:gravity="center"
             android:text="获取验证码"
             android:textColor="@color/turquoise"/>
         </RelativeLayout>
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="fill_parent"
-            android:layout_height="48.0dip"
-            android:gravity="center_vertical"
-            android:hint="输入密码"
-            android:textColorHint="@color/graywhite"
-            android:inputType="phone" />
-        <EditText
-            android:id="@+id/confirm_password"
-            android:layout_width="fill_parent"
-            android:layout_height="48.0dip"
-            android:gravity="center_vertical"
-            android:hint="再次输入密码"
-            android:textColorHint="@color/graywhite"
-            android:inputType="phone" />
         <TextView
-        android:id="@+id/btn_register"
         android:layout_width="330.0dip"
         android:layout_height="48.0dip"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="24.0dip"
         android:background="@drawable/login_bg"
         android:gravity="center"
-        android:text="注册"
+        android:text="立即关联"
         android:textColor="@android:color/white" />
         
     </LinearLayout>
-<include layout="@layout/main_footer" />
+    <include layout="@layout/main_footer" />
 </LinearLayout>
