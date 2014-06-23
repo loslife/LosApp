@@ -1,5 +1,7 @@
 #import <UIKit/UIKit.h>
 
-@interface SettingViewController : UITableViewController
+@interface SettingViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+
+-(void) logout;
 
 @end

@@ -1,5 +1,6 @@
 #import "SettingViewController.h"
 #import "UITableViewCell+ReuseIdentifier.h"
+#import "SettingView.h"
 
 @interface MenuItem : NSObject
 
@@ -48,11 +49,17 @@
     return self;
 }
 
--(void) viewDidLoad
+-(void) loadView
 {
-    [self.tableView setScrollEnabled:NO];
-    self.tableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 10);
-    self.tableView.tableFooterView = [[UIView alloc] init];
+    SettingView *view = [[SettingView alloc] initWithController:self];
+    self.view = view;
+}
+
+#pragma mark - responder
+
+-(void) logout
+{
+    NSLog(@"hehe");
 }
 
 #pragma mark - tableview datasource
