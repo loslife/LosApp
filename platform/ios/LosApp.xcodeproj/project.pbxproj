@@ -355,12 +355,12 @@
 				1866673B1949F8F100A345F7 /* ReportViewController.m */,
 				1866673D1949F98200A345F7 /* ContactViewController.h */,
 				1866673E1949F98200A345F7 /* ContactViewController.m */,
+				183F214A1957C860009D54E8 /* MemberDetailViewController.h */,
+				183F214B1957C860009D54E8 /* MemberDetailViewController.m */,
 				186667401949FB6100A345F7 /* SettingViewController.h */,
 				186667411949FB6100A345F7 /* SettingViewController.m */,
 				18AFE6011952D1A10083C972 /* AddShopViewController.h */,
 				18AFE6021952D1A10083C972 /* AddShopViewController.m */,
-				183F214A1957C860009D54E8 /* MemberDetailViewController.h */,
-				183F214B1957C860009D54E8 /* MemberDetailViewController.m */,
 			);
 			name = controllers;
 			sourceTree = "<group>";

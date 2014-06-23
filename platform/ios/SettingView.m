@@ -7,12 +7,12 @@
     self = [super initWithFrame:[[UIScreen mainScreen] applicationFrame]];
     if(self){
         
-        UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 468) style:UITableViewStylePlain];
-        tableView.dataSource = controller;
-        tableView.delegate = controller;
-        [tableView setScrollEnabled:NO];
-        tableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 10);
-        tableView.tableFooterView = [[UIView alloc] init];
+        self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 468) style:UITableViewStylePlain];
+        self.tableView.dataSource = controller;
+        self.tableView.delegate = controller;
+        [self.tableView setScrollEnabled:NO];
+        self.tableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 10);
+        self.tableView.tableFooterView = [[UIView alloc] init];
         
         UIButton *logout = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         logout.frame = CGRectMake(10, 450, 300, 50);
@@ -22,7 +22,7 @@
         logout.layer.cornerRadius = 5;
         [logout addTarget:controller action:@selector(logout) forControlEvents:UIControlEventTouchUpInside];
         
-        [self addSubview:tableView];
+        [self addSubview:self.tableView];
         [self addSubview:logout];
     }
     return self;

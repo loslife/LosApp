@@ -4,7 +4,6 @@
 #import "UITableViewCell+ReuseIdentifier.h"
 #import "ContactView.h"
 #import "Member.h"
-#import "AddShopViewController.h"
 #import "StringUtils.h"
 #import "MemberDetailViewController.h"
 
@@ -34,17 +33,10 @@
         enterprises = [NSMutableArray array];
         currentEnterpriseId = @"";
         
-        UIButton *addShop = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-        [addShop setBackgroundImage:[UIImage imageNamed:@"add_shop"] forState:UIControlStateNormal];
-        [addShop addTarget:self action:@selector(addButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-        UIBarButtonItem *addShopItem = [[UIBarButtonItem alloc] initWithCustomView:addShop];
-        
         UIButton *switchShop = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
         [switchShop setBackgroundImage:[UIImage imageNamed:@"switch_shop"] forState:UIControlStateNormal];
         [switchShop addTarget:self action:@selector(switchButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-        UIBarButtonItem *switchShopItem = [[UIBarButtonItem alloc] initWithCustomView:switchShop];
-        
-        self.navigationItem.rightBarButtonItems = @[switchShopItem, addShopItem];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:switchShop];
 
         self.tabBarItem.title = @"会员";
         self.tabBarItem.image = [UIImage imageNamed:@"tab_contact"];
@@ -207,12 +199,6 @@
 }
 
 #pragma mark - responder
-
--(void) addButtonTapped
-{
-    AddShopViewController *addShop = [[AddShopViewController alloc] init];
-    [self.navigationController pushViewController:addShop animated:YES];
-}
 
 -(void) switchButtonTapped
 {

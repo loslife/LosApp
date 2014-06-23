@@ -1,6 +1,7 @@
 #import "SettingViewController.h"
 #import "UITableViewCell+ReuseIdentifier.h"
 #import "SettingView.h"
+#import "AddShopViewController.h"
 
 @interface MenuItem : NSObject
 
@@ -55,6 +56,14 @@
     self.view = view;
 }
 
+-(void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    SettingView *myView = (SettingView*)self.view;
+    [myView.tableView deselectRowAtIndexPath:[myView.tableView indexPathForSelectedRow] animated:YES];
+}
+
 #pragma mark - responder
 
 -(void) logout
@@ -86,6 +95,19 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 66;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    MenuItem *item = [menus objectAtIndex:indexPath.row];
+    
+    NSString *title = item.title;
+    
+    if([title isEqualToString:@"关联店铺"]){
+        AddShopViewController *controller = [[AddShopViewController alloc] init];
+        [self.navigationController pushViewController:controller animated:YES];
+        return;
+    }
 }
 
 @end
