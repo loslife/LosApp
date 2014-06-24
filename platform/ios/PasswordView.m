@@ -11,7 +11,7 @@
     self = [super init];
     if (self) {
         
-        UIView *oldPasswordArea = [[UIView alloc] initWithFrame:CGRectMake(20, 100, 280, 40)];
+        UIView *oldPasswordArea = [[UIView alloc] initWithFrame:CGRectMake(20, 80, 280, 40)];
         
         UILabel *oldPasswordLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 80, 40)];
         oldPasswordLabel.text = @"当前密码";
@@ -27,7 +27,7 @@
         [oldPasswordArea addSubview:oldPasswordLabel];
         [oldPasswordArea addSubview:self.oldPassword];
         
-        UIView *newPasswordArea = [[UIView alloc] initWithFrame:CGRectMake(20, 160, 280, 40)];
+        UIView *newPasswordArea = [[UIView alloc] initWithFrame:CGRectMake(20, 140, 280, 40)];
         
         UILabel *newPasswordLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 80, 40)];
         newPasswordLabel.text = @"新密码";
@@ -43,7 +43,7 @@
         [newPasswordArea addSubview:newPasswordLabel];
         [newPasswordArea addSubview:self.password];
         
-        UIView *repeatPasswordArea = [[UIView alloc] initWithFrame:CGRectMake(20, 220, 280, 40)];
+        UIView *repeatPasswordArea = [[UIView alloc] initWithFrame:CGRectMake(20, 200, 280, 40)];
         
         UILabel *repeatPasswordLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 80, 40)];
         repeatPasswordLabel.text = @"确认密码";
@@ -60,7 +60,7 @@
         [repeatPasswordArea addSubview:self.passwordRepeat];
         
         UIButton *submit = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        submit.frame = CGRectMake(20, 280, 280, 40);
+        submit.frame = CGRectMake(20, 260, 280, 40);
         [submit setTitle:@"确定" forState:UIControlStateNormal];
         submit.backgroundColor = [UIColor colorWithRed:244/255.0f green:196/255.0f blue:82/255.0f alpha:1.0f];
         submit.tintColor = [UIColor whiteColor];
