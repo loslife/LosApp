@@ -96,4 +96,9 @@
     [self presentViewController:registerStep1 animated:YES completion:nil];
 }
 
+-(void) resetButtonPressed
+{
+    NSLog(@"hehe");
+}
+
 @end

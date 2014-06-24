@@ -10,5 +10,6 @@
 -(void) setUserNameAfterRegister:(NSString*)phoneNumber;
 -(void) loginButtonPressed;
 -(void) registerButtonPressed;
+-(void) resetButtonPressed;
 
 @end
