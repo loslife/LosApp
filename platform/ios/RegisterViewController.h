@@ -5,7 +5,8 @@
 
 @interface RegisterViewController : UIViewController
 
--(void) closeButtonPressed;
+@property NSString* type;
+
 -(void) registerButtonPressed;
 
 @end

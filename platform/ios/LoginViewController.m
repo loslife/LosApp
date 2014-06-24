@@ -97,14 +97,16 @@
 
 -(void) registerButtonPressed
 {
-    RegisterViewController *registerStep1 = [[RegisterViewController alloc] init];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:registerStep1];
-    [self presentViewController:nav animated:YES completion:nil];
+    RegisterViewController *vc = [[RegisterViewController alloc] init];
+    vc.type = @"register";
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 -(void) resetButtonPressed
 {
-    NSLog(@"hehe");
+    RegisterViewController *vc = [[RegisterViewController alloc] init];
+    vc.type = @"reset";
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 @end

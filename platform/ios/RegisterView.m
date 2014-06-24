@@ -11,15 +11,6 @@
     self = [super init];
     if (self) {
         
-        UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        closeButton.frame = CGRectMake(10, 10, 50, 50);
-        [closeButton setTitle:@"返回" forState:UIControlStateNormal];
-        [closeButton addTarget:controller action:@selector(closeButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-        
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(110, 100, 100, 50)];
-        label.text = @"注册用户";
-        label.textAlignment = NSTextAlignmentCenter;
-        
         self.username = [[UITextField alloc] initWithFrame:CGRectMake(60, 150, 200, 50)];
         self.username.placeholder = @"用户名";
         self.username.borderStyle = UITextBorderStyleRoundedRect;
@@ -39,15 +30,13 @@
         [registerBtn setTitle:@"注册" forState:UIControlStateNormal];
         [registerBtn addTarget:controller action:@selector(registerButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         
-        [self addSubview:closeButton];
-        [self addSubview:label];
         [self addSubview:self.username];
         [self addSubview:self.password];
         [self addSubview:registerBtn];
         
         UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignOnTap)];
-        [singleTap setNumberOfTapsRequired:1];// 触摸一次
-        [singleTap setNumberOfTouchesRequired:1];// 单指触摸
+        [singleTap setNumberOfTapsRequired:1];
+        [singleTap setNumberOfTouchesRequired:1];
         [self addGestureRecognizer:singleTap];
     }
     return self;
