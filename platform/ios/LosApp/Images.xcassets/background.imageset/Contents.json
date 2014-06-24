@@ -3,12 +3,12 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "background.png"
+      "filename" : "background~R4.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "background-1.png"
+      "filename" : "background~R4-1.png"
     }
   ],
   "info" : {
