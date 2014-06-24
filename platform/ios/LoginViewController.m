@@ -1,5 +1,6 @@
 #import "LoginViewController.h"
 #import "LoginView.h"
+#import "StringUtils.h"
 
 @implementation LoginViewController
 
@@ -30,6 +31,15 @@
 
 -(void) loginButtonPressed
 {
+    LoginView* myView = (LoginView*)self.view;
+    NSString *userName = myView.username.text;
+    NSString *password = myView.password.text;
+    if([StringUtils isEmpty:userName] || [StringUtils isEmpty:password]){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"请输入用户名和密码" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
         BOOL flag = [LosHttpHelper isNetworkAvailable];
@@ -40,10 +50,6 @@
             });
             return;
         }
-        
-        LoginView *myView = (LoginView*)self.view;
-        NSString *userName = myView.username.text;
-        NSString *password = myView.password.text;
         
         NSString *data = [NSString stringWithFormat:@"username=%@&password=%@", userName, password];
         NSData *postData = [data dataUsingEncoding:NSUTF8StringEncoding];

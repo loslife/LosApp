@@ -73,7 +73,8 @@
                 return;
             }
             
-            NSArray *enterprises = [dict objectForKey:@"result"];
+            NSDictionary *result = [dict objectForKey:@"result"];
+            NSArray *enterprises = [result objectForKey:@"myShopList"];
             [dbService refreshAttachEnterprises:enterprises];
             
             dispatch_group_t group = dispatch_group_create();
