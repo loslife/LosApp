@@ -2,6 +2,12 @@
 
 @implementation WelcomeViewController
 
+-(void) loadView
+{
+    [super loadView];
+    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"background"]];
+}
+
 -(void) viewDidAppear:(BOOL)animated
 {
     if([self hasLogin]){

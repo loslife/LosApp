@@ -1,4 +1,5 @@
 #import "LoginView.h"
+#import "LosTextField.h"
 
 @implementation LoginView
 
@@ -11,18 +12,16 @@
     self = [super init];
     if (self) {
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(110, 100, 100, 50)];
-        label.text = @"乐斯";
-        label.textAlignment = NSTextAlignmentCenter;
+        self.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"background"]];
         
-        self.username = [[UITextField alloc] initWithFrame:CGRectMake(60, 150, 200, 50)];
+        self.username = [[LosTextField alloc] initWithFrame:CGRectMake(20, 150, 280, 40) Icon:@"login_username"];
         self.username.placeholder = @"用户名";
         self.username.borderStyle = UITextBorderStyleRoundedRect;
         self.username.clearButtonMode = UITextFieldViewModeWhileEditing;
         [self.username setKeyboardType:UIKeyboardTypeNumberPad];
         self.username.delegate = self;
-        
-        self.password = [[UITextField alloc] initWithFrame:CGRectMake(60, 210, 200, 50)];
+
+        self.password = [[LosTextField alloc] initWithFrame:CGRectMake(20, 200, 280, 40) Icon:@"login_password"];
         self.password.placeholder = @"密码";
         self.password.borderStyle = UITextBorderStyleRoundedRect;
         self.password.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -39,7 +38,6 @@
         [registerBtn setTitle:@"免费注册" forState:UIControlStateNormal];
         [registerBtn addTarget:controller action:@selector(registerButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         
-        [self addSubview:label];
         [self addSubview:self.username];
         [self addSubview:self.password];
         [self addSubview:self.login];

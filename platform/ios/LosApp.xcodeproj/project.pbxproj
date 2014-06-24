@@ -15,6 +15,7 @@
 		1844724E1958429000B4A543 /* PasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844724D1958429000B4A543 /* PasswordView.m */; };
 		184472511959171E00B4A543 /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472501959171E00B4A543 /* AboutUsViewController.m */; };
 		1844725419591EEA00B4A543 /* AboutUsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844725319591EEA00B4A543 /* AboutUsView.m */; };
+		184472571959545B00B4A543 /* LosTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472561959545B00B4A543 /* LosTextField.m */; };
 		186667011949864100A345F7 /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186667001949864100A345F7 /* WelcomeViewController.m */; };
 		1866670519498B5600A345F7 /* UserData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670419498B5600A345F7 /* UserData.m */; };
 		1866670819498D1C00A345F7 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670719498D1C00A345F7 /* LoginViewController.m */; };
@@ -68,6 +69,8 @@
 		184472501959171E00B4A543 /* AboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutUsViewController.m; sourceTree = "<group>"; };
 		1844725219591EEA00B4A543 /* AboutUsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutUsView.h; sourceTree = "<group>"; };
 		1844725319591EEA00B4A543 /* AboutUsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutUsView.m; sourceTree = "<group>"; };
+		184472551959545B00B4A543 /* LosTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LosTextField.h; sourceTree = "<group>"; };
+		184472561959545B00B4A543 /* LosTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LosTextField.m; sourceTree = "<group>"; };
 		186666FF1949864100A345F7 /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
 		186667001949864100A345F7 /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
 		1866670319498B5600A345F7 /* UserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserData.h; sourceTree = "<group>"; };
@@ -281,6 +284,8 @@
 				18AFE625195527290083C972 /* LosDropDown.h */,
 				18AFE626195527290083C972 /* LosDropDown.m */,
 				18AFE629195542D30083C972 /* LosDropDownItem.m */,
+				184472551959545B00B4A543 /* LosTextField.h */,
+				184472561959545B00B4A543 /* LosTextField.m */,
 			);
 			name = widget;
 			sourceTree = "<group>";
@@ -525,6 +530,7 @@
 				18666751194AD50B00A345F7 /* NSData+Base64.m in Sources */,
 				18AFE6031952D1A10083C972 /* AddShopViewController.m in Sources */,
 				18666748194A9FFF00A345F7 /* RegisterStepOneView.m in Sources */,
+				184472571959545B00B4A543 /* LosTextField.m in Sources */,
 				186667011949864100A345F7 /* WelcomeViewController.m in Sources */,
 				1844724E1958429000B4A543 /* PasswordView.m in Sources */,
 				18B2EE221946E0EF00264B74 /* LosAppDelegate.m in Sources */,
