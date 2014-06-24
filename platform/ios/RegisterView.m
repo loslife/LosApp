@@ -95,7 +95,7 @@
         submit.backgroundColor = [UIColor colorWithRed:244/255.0f green:196/255.0f blue:82/255.0f alpha:1.0f];
         submit.tintColor = [UIColor whiteColor];
         submit.layer.cornerRadius = 5;
-        [submit addTarget:controller action:@selector(registerButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+        [submit addTarget:controller action:@selector(submitButtonTapped) forControlEvents:UIControlEventTouchUpInside];
         
         [self addSubview:phoneArea];
         [self addSubview:codeWrapper];

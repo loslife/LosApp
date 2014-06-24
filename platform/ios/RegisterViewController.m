@@ -124,7 +124,7 @@
     });
 }
 
--(void) registerButtonPressed
+-(void) submitButtonTapped
 {
     RegisterView *myView = (RegisterView*)self.view;
     
