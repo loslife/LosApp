@@ -4,6 +4,8 @@
 #import "AddShopViewController.h"
 #import "PasswordViewController.h"
 #import "AboutUsViewController.h"
+#import "LosAppDelegate.h"
+#import "UserData.h"
 
 @interface MenuItem : NSObject
 
@@ -66,11 +68,21 @@
     [myView.tableView deselectRowAtIndexPath:[myView.tableView indexPathForSelectedRow] animated:YES];
 }
 
-#pragma mark - responder
-
 -(void) logout
 {
-    NSLog(@"hehe");
+    UIActionSheet *logoutConfirm = [[UIActionSheet alloc] initWithTitle:@"退出不删除任何历史数据，下次登录依然可以使用本账号。" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"退出登录" otherButtonTitles:nil];
+    [logoutConfirm showFromTabBar:self.tabBarController.tabBar];
+}
+
+#pragma mark - actionsheet delegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if(buttonIndex == 0){
+        [UserData removeUserId];
+        LosAppDelegate* appDelegate = (LosAppDelegate*)[UIApplication sharedApplication].delegate;
+        [appDelegate.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 #pragma mark - tableview datasource

@@ -45,7 +45,6 @@
         NSString *userName = myView.username.text;
         NSString *password = myView.password.text;
         
-        
         NSString *data = [NSString stringWithFormat:@"username=%@&password=%@", userName, password];
         NSData *postData = [data dataUsingEncoding:NSUTF8StringEncoding];
         

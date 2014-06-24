@@ -21,4 +21,11 @@
     [userDefaults synchronize];
 }
 
++(void) removeUserId
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults removeObjectForKey:@"user_id"];
+    [userDefaults synchronize];
+}
+
 @end

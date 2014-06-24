@@ -6,5 +6,6 @@
 
 +(UserData*) load;
 +(void) writeUserId:(NSString*)userId;
++(void) removeUserId;
 
 @end
