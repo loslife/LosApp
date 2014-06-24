@@ -7,6 +7,7 @@
 
 @property NSString* type;
 
+-(void) requireVerificationCode;
 -(void) registerButtonPressed;
 
 @end

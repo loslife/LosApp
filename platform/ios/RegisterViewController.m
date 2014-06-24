@@ -29,10 +29,10 @@
     if([self.type isEqualToString:@"register"]){
         navigationItem.title = @"注册";
     }else{
-        navigationItem.title = @"重置密码";
+        navigationItem.title = @"重设密码";
     }
     
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStyleBordered target:self action:@selector(back)];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStyleBordered target:self action:@selector(backToLogin)];
     navigationItem.leftBarButtonItem = backButton;
     
     [navigationBar pushNavigationItem:navigationItem animated:NO];
@@ -40,9 +40,14 @@
     [self.view addSubview:navigationBar];
 }
 
--(void) back
+-(void) backToLogin
 {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void) requireVerificationCode
+{
+    NSLog(@"hehe");
 }
 
 -(void) registerButtonPressed
