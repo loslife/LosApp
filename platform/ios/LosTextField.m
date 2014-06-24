@@ -22,10 +22,6 @@
         maskLayer.path = maskPath.CGPath;
         leftView.layer.mask = maskLayer;
         
-        [leftView.layer setShadowOffset:CGSizeMake(10, 10)];
-        [leftView.layer setShadowColor:[[UIColor redColor] CGColor]];
-        [leftView.layer setShadowOpacity:1.0];
-        
         self.leftView = leftView;
         self.leftViewMode = UITextFieldViewModeAlways;
     }
