@@ -1,8 +1,8 @@
-#import "RegisterStepOneViewController.h"
-#import "RegisterStepOneView.h"
+#import "RegisterViewController.h"
+#import "RegisterView.h"
 #import "LoginViewController.h"
 
-@implementation RegisterStepOneViewController
+@implementation RegisterViewController
 
 {
     LosHttpHelper *httpHelper;
@@ -19,7 +19,7 @@
 
 -(void) loadView
 {
-    RegisterStepOneView *view = [[RegisterStepOneView alloc] initWithController:self];
+    RegisterView *view = [[RegisterView alloc] initWithController:self];
     self.view = view;
 }
 
@@ -41,7 +41,7 @@
             return;
         }
         
-        RegisterStepOneView *myView = (RegisterStepOneView*)self.view;
+        RegisterView *myView = (RegisterView*)self.view;
         NSString *userName = myView.username.text;
         NSString *password = myView.password.text;
         

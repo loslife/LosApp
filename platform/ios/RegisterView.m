@@ -1,12 +1,12 @@
-#import "RegisterStepOneView.h"
+#import "RegisterView.h"
 
-@implementation RegisterStepOneView
+@implementation RegisterView
 
 {
     id currentResponder;
 }
 
--(id) initWithController:(RegisterStepOneViewController*)controller
+-(id) initWithController:(RegisterViewController*)controller
 {
     self = [super init];
     if (self) {

@@ -32,8 +32,8 @@
 		1866673C1949F8F100A345F7 /* ReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866673B1949F8F100A345F7 /* ReportViewController.m */; };
 		1866673F1949F98200A345F7 /* ContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866673E1949F98200A345F7 /* ContactViewController.m */; };
 		186667421949FB6100A345F7 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186667411949FB6100A345F7 /* SettingViewController.m */; };
-		18666745194A9FC900A345F7 /* RegisterStepOneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18666744194A9FC900A345F7 /* RegisterStepOneViewController.m */; };
-		18666748194A9FFF00A345F7 /* RegisterStepOneView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18666747194A9FFF00A345F7 /* RegisterStepOneView.m */; };
+		18666745194A9FC900A345F7 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18666744194A9FC900A345F7 /* RegisterViewController.m */; };
+		18666748194A9FFF00A345F7 /* RegisterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18666747194A9FFF00A345F7 /* RegisterView.m */; };
 		1866674D194AD1BA00A345F7 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866674C194AD1BA00A345F7 /* Reachability.m */; };
 		18666751194AD50B00A345F7 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 18666750194AD50B00A345F7 /* NSData+Base64.m */; };
 		18666754194AD52400A345F7 /* StringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 18666753194AD52400A345F7 /* StringUtils.m */; };
@@ -103,10 +103,10 @@
 		1866673E1949F98200A345F7 /* ContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactViewController.m; sourceTree = "<group>"; };
 		186667401949FB6100A345F7 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		186667411949FB6100A345F7 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
-		18666743194A9FC900A345F7 /* RegisterStepOneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterStepOneViewController.h; sourceTree = "<group>"; };
-		18666744194A9FC900A345F7 /* RegisterStepOneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterStepOneViewController.m; sourceTree = "<group>"; };
-		18666746194A9FFF00A345F7 /* RegisterStepOneView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterStepOneView.h; sourceTree = "<group>"; };
-		18666747194A9FFF00A345F7 /* RegisterStepOneView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterStepOneView.m; sourceTree = "<group>"; };
+		18666743194A9FC900A345F7 /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
+		18666744194A9FC900A345F7 /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		18666746194A9FFF00A345F7 /* RegisterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterView.h; sourceTree = "<group>"; };
+		18666747194A9FFF00A345F7 /* RegisterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterView.m; sourceTree = "<group>"; };
 		1866674B194AD1BA00A345F7 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		1866674C194AD1BA00A345F7 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		1866674F194AD50B00A345F7 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
@@ -179,8 +179,8 @@
 			children = (
 				1866670D1949931800A345F7 /* LoginView.h */,
 				1866670E1949931800A345F7 /* LoginView.m */,
-				18666746194A9FFF00A345F7 /* RegisterStepOneView.h */,
-				18666747194A9FFF00A345F7 /* RegisterStepOneView.m */,
+				18666746194A9FFF00A345F7 /* RegisterView.h */,
+				18666747194A9FFF00A345F7 /* RegisterView.m */,
 				186667101949A9D000A345F7 /* BootstrapView.h */,
 				186667111949A9D000A345F7 /* BootstrapView.m */,
 				18AFE5FA1951986F0083C972 /* ContactView.h */,
@@ -368,8 +368,8 @@
 				186667001949864100A345F7 /* WelcomeViewController.m */,
 				1866670619498D1C00A345F7 /* LoginViewController.h */,
 				1866670719498D1C00A345F7 /* LoginViewController.m */,
-				18666743194A9FC900A345F7 /* RegisterStepOneViewController.h */,
-				18666744194A9FC900A345F7 /* RegisterStepOneViewController.m */,
+				18666743194A9FC900A345F7 /* RegisterViewController.h */,
+				18666744194A9FC900A345F7 /* RegisterViewController.m */,
 				1866670919498F1D00A345F7 /* BootstrapViewController.h */,
 				1866670A19498F1D00A345F7 /* BootstrapViewController.m */,
 				1866673A1949F8F100A345F7 /* ReportViewController.h */,
@@ -524,12 +524,12 @@
 				186667301949C3B700A345F7 /* LosHttpHelper.m in Sources */,
 				18AFE5FC1951986F0083C972 /* ContactView.m in Sources */,
 				1866674D194AD1BA00A345F7 /* Reachability.m in Sources */,
-				18666745194A9FC900A345F7 /* RegisterStepOneViewController.m in Sources */,
+				18666745194A9FC900A345F7 /* RegisterViewController.m in Sources */,
 				18AFE5F5195178210083C972 /* UITableViewCell+ReuseIdentifier.m in Sources */,
 				1866673F1949F98200A345F7 /* ContactViewController.m in Sources */,
 				18666751194AD50B00A345F7 /* NSData+Base64.m in Sources */,
 				18AFE6031952D1A10083C972 /* AddShopViewController.m in Sources */,
-				18666748194A9FFF00A345F7 /* RegisterStepOneView.m in Sources */,
+				18666748194A9FFF00A345F7 /* RegisterView.m in Sources */,
 				184472571959545B00B4A543 /* LosTextField.m in Sources */,
 				186667011949864100A345F7 /* WelcomeViewController.m in Sources */,
 				1844724E1958429000B4A543 /* PasswordView.m in Sources */,

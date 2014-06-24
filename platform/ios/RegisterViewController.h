@@ -3,7 +3,7 @@
 #import "LosAppUrls.h"
 #import "StringUtils.h"
 
-@interface RegisterStepOneViewController : UIViewController
+@interface RegisterViewController : UIViewController
 
 -(void) closeButtonPressed;
 -(void) registerButtonPressed;

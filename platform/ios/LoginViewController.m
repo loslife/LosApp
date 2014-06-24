@@ -97,9 +97,9 @@
 
 -(void) registerButtonPressed
 {
-    RegisterStepOneViewController *registerStep1 = [[RegisterStepOneViewController alloc] init];
-    registerStep1.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    [self presentViewController:registerStep1 animated:YES completion:nil];
+    RegisterViewController *registerStep1 = [[RegisterViewController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:registerStep1];
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 -(void) resetButtonPressed
