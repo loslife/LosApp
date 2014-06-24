@@ -3,6 +3,7 @@
 #import "SettingView.h"
 #import "AddShopViewController.h"
 #import "PasswordViewController.h"
+#import "AboutUsViewController.h"
 
 @interface MenuItem : NSObject
 
@@ -107,13 +108,16 @@
     if([title isEqualToString:@"关联店铺"]){
         AddShopViewController *controller = [[AddShopViewController alloc] init];
         [self.navigationController pushViewController:controller animated:YES];
-        return;
     }
     
     if([title isEqualToString:@"修改密码"]){
         PasswordViewController *controller = [[PasswordViewController alloc] init];
         [self.navigationController pushViewController:controller animated:YES];
-        return;
+    }
+    
+    if([title isEqualToString:@"关于乐斯"]){
+        AboutUsViewController *controller = [[AboutUsViewController alloc] init];
+        [self.navigationController pushViewController:controller animated:YES];
     }
 }
 

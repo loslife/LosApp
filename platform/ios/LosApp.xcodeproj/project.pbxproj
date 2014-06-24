@@ -13,6 +13,8 @@
 		183F215519583392009D54E8 /* SettingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F215419583392009D54E8 /* SettingView.m */; };
 		1844724B195840C200B4A543 /* PasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844724A195840C200B4A543 /* PasswordViewController.m */; };
 		1844724E1958429000B4A543 /* PasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844724D1958429000B4A543 /* PasswordView.m */; };
+		184472511959171E00B4A543 /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472501959171E00B4A543 /* AboutUsViewController.m */; };
+		1844725419591EEA00B4A543 /* AboutUsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844725319591EEA00B4A543 /* AboutUsView.m */; };
 		186667011949864100A345F7 /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186667001949864100A345F7 /* WelcomeViewController.m */; };
 		1866670519498B5600A345F7 /* UserData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670419498B5600A345F7 /* UserData.m */; };
 		1866670819498D1C00A345F7 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670719498D1C00A345F7 /* LoginViewController.m */; };
@@ -62,6 +64,10 @@
 		1844724A195840C200B4A543 /* PasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PasswordViewController.m; sourceTree = "<group>"; };
 		1844724C1958429000B4A543 /* PasswordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PasswordView.h; sourceTree = "<group>"; };
 		1844724D1958429000B4A543 /* PasswordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PasswordView.m; sourceTree = "<group>"; };
+		1844724F1959171E00B4A543 /* AboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutUsViewController.h; sourceTree = "<group>"; };
+		184472501959171E00B4A543 /* AboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutUsViewController.m; sourceTree = "<group>"; };
+		1844725219591EEA00B4A543 /* AboutUsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutUsView.h; sourceTree = "<group>"; };
+		1844725319591EEA00B4A543 /* AboutUsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutUsView.m; sourceTree = "<group>"; };
 		186666FF1949864100A345F7 /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
 		186667001949864100A345F7 /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
 		1866670319498B5600A345F7 /* UserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserData.h; sourceTree = "<group>"; };
@@ -176,14 +182,16 @@
 				186667111949A9D000A345F7 /* BootstrapView.m */,
 				18AFE5FA1951986F0083C972 /* ContactView.h */,
 				18AFE5FB1951986F0083C972 /* ContactView.m */,
-				18AFE6041952E2F70083C972 /* AddShopView.h */,
-				18AFE6051952E2F70083C972 /* AddShopView.m */,
 				183F214D1957CC61009D54E8 /* MemberDetailView.h */,
 				183F214E1957CC61009D54E8 /* MemberDetailView.m */,
 				183F215319583392009D54E8 /* SettingView.h */,
 				183F215419583392009D54E8 /* SettingView.m */,
+				18AFE6041952E2F70083C972 /* AddShopView.h */,
+				18AFE6051952E2F70083C972 /* AddShopView.m */,
 				1844724C1958429000B4A543 /* PasswordView.h */,
 				1844724D1958429000B4A543 /* PasswordView.m */,
+				1844725219591EEA00B4A543 /* AboutUsView.h */,
+				1844725319591EEA00B4A543 /* AboutUsView.m */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -371,6 +379,8 @@
 				18AFE6021952D1A10083C972 /* AddShopViewController.m */,
 				18447249195840C200B4A543 /* PasswordViewController.h */,
 				1844724A195840C200B4A543 /* PasswordViewController.m */,
+				1844724F1959171E00B4A543 /* AboutUsViewController.h */,
+				184472501959171E00B4A543 /* AboutUsViewController.m */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -481,6 +491,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1844725419591EEA00B4A543 /* AboutUsView.m in Sources */,
 				1866671C1949B2E900A345F7 /* UpdateHelper.m in Sources */,
 				18B2EE1E1946E0EF00264B74 /* main.m in Sources */,
 				186667421949FB6100A345F7 /* SettingViewController.m in Sources */,
@@ -489,6 +500,7 @@
 				1844724B195840C200B4A543 /* PasswordViewController.m in Sources */,
 				1866670B19498F1D00A345F7 /* BootstrapViewController.m in Sources */,
 				1866673C1949F8F100A345F7 /* ReportViewController.m in Sources */,
+				184472511959171E00B4A543 /* AboutUsViewController.m in Sources */,
 				186667121949A9D000A345F7 /* BootstrapView.m in Sources */,
 				186667151949ACD600A345F7 /* VersionInfo.m in Sources */,
 				183F214C1957C860009D54E8 /* MemberDetailViewController.m in Sources */,
