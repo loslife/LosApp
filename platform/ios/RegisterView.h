@@ -9,6 +9,6 @@
 @property UITextField *passwordRepeat;
 @property UIButton *requireCodeButton;
 
--(id) initWithController:(RegisterViewController*)controller;
+-(id) initWithController:(RegisterViewController*)controller Type:(NSString*)type;
 
 @end

@@ -8,3 +8,4 @@
 #define CHECK_CODE_URL [ServerHost stringByAppendingString:@"/svc/checkCode/%@?u=%@&c=%@"]
 #define APPEND_ENERPRISE_URL [ServerHost stringByAppendingString:@"/svc/losapp/appendEnterprise"]
 #define MODIFY_PASSWORD_URL [ServerHost stringByAppendingString:@"/svc/losapp/modifyPassword"]
+#define RESET_PASSWORD_URL [ServerHost stringByAppendingString:@"/svc/losapp/resetPassword"]
