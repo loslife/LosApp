@@ -26,7 +26,7 @@
         // 网络错误
         if(error){
             NSString *body = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            NSLog(@"error code: %li", (long)error.code);
+            NSLog(@"error: %@", [error localizedDescription]);
             NSLog(@"parse response error, the http response body is: %@", body);
             block(nil);
             return;
@@ -64,7 +64,7 @@
         
         if(error){
             NSString *body = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            NSLog(@"error code: %li", (long)error.code);
+            NSLog(@"error: %@", [error localizedDescription]);
             NSLog(@"parse response error, the http response body is: %@", body);
             block(nil);
             return;
