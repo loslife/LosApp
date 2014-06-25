@@ -78,6 +78,7 @@
             android:id="@+id/relativelayout_aboutlos"
             android:layout_width="fill_parent"
             android:layout_height="80.0dip"
+            
             >
 
             <ImageView
@@ -100,10 +101,7 @@
                 android:text="关于乐斯"
                 android:textColor="@color/black"
                 android:textSize="23.0dip" />
-            <TextView android:layout_width="fill_parent"
-                      android:layout_height="wrap_content"
-                      android:layout_below="@id/aboutlosicon"
-                      android:background="@drawable/border"/>
+
         </RelativeLayout>
 
     </LinearLayout>
