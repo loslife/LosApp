@@ -28,6 +28,11 @@
 
 -(void) viewDidAppear:(BOOL)animated
 {
+    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [indicator setCenter:CGPointMake(160, 250)];
+    [self.view addSubview:indicator];
+    [indicator startAnimating];
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
         VersionInfo *versionInfo = [[VersionInfo alloc] init];
@@ -46,6 +51,7 @@
         BOOL network = [LosHttpHelper isNetworkAvailable];
         if(!network){
             dispatch_async(dispatch_get_main_queue(), ^{
+                [indicator stopAnimating];
                 [self jumpToMain];
             });
             return;
@@ -60,6 +66,7 @@
             
             if(dict == nil){
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    [indicator stopAnimating];
                     [self jumpToMain];
                 });
                 return;
@@ -68,6 +75,7 @@
             NSNumber *code = [dict objectForKey:@"code"];
             if([code intValue] != 0){
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    [indicator stopAnimating];
                     [self jumpToMain];
                 });
                 return;
@@ -121,6 +129,7 @@
             [db close];
             
             dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+                [indicator stopAnimating];
                 [self jumpToMain];
             });
         }];

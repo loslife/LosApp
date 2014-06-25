@@ -7,8 +7,10 @@
     self = [super initWithFrame:frame];
     if (self) {
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(110, 100, 100, 50)];
-        label.text = @"请稍候";
+        self.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"background"]];
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 200, 280, 40)];
+        label.text = @"数据加载中，请稍候";
         label.textAlignment = NSTextAlignmentCenter;
         
         [self addSubview:label];
