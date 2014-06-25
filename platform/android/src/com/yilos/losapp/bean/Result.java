@@ -1,5 +1,7 @@
 package com.yilos.losapp.bean;
 
+import java.util.List;
+
 
 public class Result
 {
@@ -9,6 +11,8 @@ public class Result
 	private String enterprise_name;
 	
 	private String enterprise_id;
+	
+	private List<MyShopBean> myShopList;
 	
 	private  Records  records;
 
@@ -49,6 +53,16 @@ public class Result
 
 	public void setEnterprise_id(String enterprise_id) {
 		this.enterprise_id = enterprise_id;
+	}
+
+
+	public List<MyShopBean> getMyShopList() {
+		return myShopList;
+	}
+
+
+	public void setMyShopList(List<MyShopBean> myShopList) {
+		this.myShopList = myShopList;
 	}
     
 	

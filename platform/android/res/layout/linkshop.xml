@@ -16,7 +16,7 @@
         android:layout_weight="1">
 
         <EditText
-            android:id="@+id/shopaccount"
+            android:id="@+id/phoneNum"
             android:layout_width="fill_parent"
             android:layout_height="48.0dip"
             android:gravity="center_vertical"
@@ -29,23 +29,26 @@
             
             >
              <EditText
-            android:id="@+id/shopvcode"
+            android:id="@+id/validatecode"
             android:layout_width="212.0dip"
             android:layout_height="48.0dip"
             android:gravity="center_vertical"
             android:hint="输入验证码"
             android:textColorHint="@color/graywhite"
              />
-             <TextView android:layout_width="106.0dip"
+             <TextView 
+            android:id="@+id/btn_validatecode"
+            android:layout_width="106.0dip"
             android:layout_height="48.0dip"
             android:layout_marginLeft="8.0dip"
-            android:layout_toRightOf="@id/shopvcode"
+            android:layout_toRightOf="@id/validatecode"
             android:background="@drawable/code_bg"
             android:gravity="center"
             android:text="获取验证码"
             android:textColor="@color/turquoise"/>
         </RelativeLayout>
         <TextView
+            android:id="@+id/linkshopbtn"
         android:layout_width="330.0dip"
         android:layout_height="48.0dip"
         android:layout_gravity="center_horizontal"

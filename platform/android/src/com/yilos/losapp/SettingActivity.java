@@ -34,7 +34,7 @@ public class SettingActivity extends Activity{
 	
 	private void initView()
 	{
-		headtitle = (TextView)findViewById(R.id.headtitle);
+		headtitle = (TextView)findViewById(R.id.shopname);
 		headtitle.setText("设置");
 		
 		headmore = (ImageView)findViewById(R.id.headmore);
@@ -58,6 +58,9 @@ public class SettingActivity extends Activity{
 			
 			@Override
 			public void onClick(View v) {
+				Intent modifypwd = new Intent();
+				modifypwd.setClass(getBaseContext(), ModifyPwdActivity.class);
+			startActivity(modifypwd);
 				
 			}
 		});

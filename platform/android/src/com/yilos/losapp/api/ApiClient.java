@@ -272,6 +272,21 @@ public class ApiClient
 		return resp;
 	}
 	
+	public static ServerResponse modifyUserPwd(Context appContext, String username, String pwd,String newpwd) {
+
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("account", username));
+		params.add(new BasicNameValuePair("old_password", pwd));
+		params.add(new BasicNameValuePair("new_password", newpwd));
+
+		//String json = _post(appContext, Constants.REGISTER_URL,params);
+		String json = _httppost(Constants.MODIFYPWD_URL,params);
+		Gson gson = new Gson();
+		ServerResponse resp = gson.fromJson(json, ServerResponse.class);
+	
+		return resp;
+	}
+	
 	/**
 	 * 获取验证码
 	 * @param phoneNumber
@@ -340,6 +355,28 @@ public class ApiClient
 	}
 	
 	/**
+	 * 检查用户是否存在
+	 * @param params
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	public static ServerResponse checkShopAccount(Context appContext,String mobileNumber)
+	{
+
+		ServerResponse res = new ServerResponse();
+		res.setCode(0);
+		Result rt = new Result();
+		res.setResult(rt);
+		
+		//String json = _get(appContext, MessageFormat.format(Constants.CHECK_VALIDATECODE_SERVICE, mobileNumber));
+		String json = _httpget(MessageFormat.format(Constants.CHECK_VALIDATECODE_SERVICE, mobileNumber));
+		Gson gson = new Gson();
+		ServerResponse resp = gson.fromJson(gson.toJson(res), ServerResponse.class);
+	
+		return resp;
+	}
+	
+	/**
 	 * 检查验证码是否正确
 	 * @param appContext
 	 * @param mobileNumber
@@ -356,14 +393,28 @@ public class ApiClient
 		
 		//String json = _get(appContext, MessageFormat.format(Constants.CHECK_VALIDATECODE_SERVICE, mobileNumber,validateCode));
 		//CHECK_VALIDATECODE_SERVICE = "http://192.168.1.116:5000/svc/checkCode/{0}?u={1}&c={2}"
-		String json = _get(appContext, MessageFormat.format(Constants.CHECK_VALIDATECODE_SERVICE, mobileNumber,checkType,validateCode));
+		String json = _httpget(MessageFormat.format(Constants.CHECK_VALIDATECODE_SERVICE, mobileNumber,checkType,validateCode));
 		Gson gson = new Gson();
-		ServerResponse resp = gson.fromJson(gson.toJson(res), ServerResponse.class);
+		ServerResponse resp = gson.fromJson(json, ServerResponse.class);
 	
 		return resp;
 	}
 	
-	public static ServerResponse getMembersContacts(Context appContext,String enterpriseId)
+	public static ServerResponse getMembersContacts(Context appContext,String enterpriseId,String lasSyncTime)
+	{
+
+		ServerResponse res = new ServerResponse();
+		res.setCode(0);
+		Result rt = new Result();
+		res.setResult(rt);
+		String json = _httpget(MessageFormat.format(Constants.GET_MEMBERS_URL, enterpriseId,"1",lasSyncTime));
+		Gson gson = new Gson();
+		ServerResponse resp = (ServerResponse)gson.fromJson(json, ServerResponse.class);
+	
+		return resp;
+	}
+	
+	public static ServerResponse getMyshopList(Context appContext,String phoneNumber)
 	{
 
 		ServerResponse res = new ServerResponse();
@@ -371,7 +422,7 @@ public class ApiClient
 		Result rt = new Result();
 		res.setResult(rt);
 		//{"code":0,"result":{"last_sync":1403180487257,"records":{"add":[]}}}
-		String json = _httpget(MessageFormat.format(Constants.GET_MEMBERS_URL, "100009803012000300","1","0"));
+		String json = _httpget(MessageFormat.format(Constants.GET_APPENDSHOP_RECORD, phoneNumber));
 		Gson gson = new Gson();
 		ServerResponse resp = (ServerResponse)gson.fromJson(json, ServerResponse.class);
 	

@@ -23,15 +23,14 @@ public class MyShopDBManager {
      * add member 
      * @param member 
      */  
-    public void add(List<MyShopBean> shops) { 
+    public void add(MyShopBean shop) { 
     	//enterprise_id varchar(64), enterprise_name varchar(64), latest_sync REAL, display varchar(8), create_date REAL
         db.beginTransaction();  //开始事务  
         try {  
-            for (MyShopBean shop : shops) {  
-                db.execSQL("INSERT INTO t_myshops VALUES(null,?, ?, ?, ?,?,?,?)", 
+                db.execSQL("INSERT INTO t_myshops VALUES(null,?,?,?,?,?,?)", 
                 		new Object[]{shop.getEnterprise_id(), shop.getEnterprise_name(),shop.getLatest_sync(), 
                 		             shop.isDisplay(),shop.getCreate_date(),shop.getOrder()});  
-            }  
+             
             db.setTransactionSuccessful();  //设置事务成功完成  
         } finally {  
             db.endTransaction();    //结束事务  
@@ -74,7 +73,7 @@ public class MyShopDBManager {
         	shop.setEnterprise_name(c.getString(c.getColumnIndex("enterprise_name")));  
         	shop.setEnterprise_id(c.getString(c.getColumnIndex("enterprise_id")));
         	shop.setCreate_date(c.getString(c.getColumnIndex("create_date")));
-        	shop.setOrder(c.getInt(c.getColumnIndex("order")));
+        	shop.setOrder(c.getInt(c.getColumnIndex("order_number")));
         	shops.add(shop);  
         }  
         c.close();  
