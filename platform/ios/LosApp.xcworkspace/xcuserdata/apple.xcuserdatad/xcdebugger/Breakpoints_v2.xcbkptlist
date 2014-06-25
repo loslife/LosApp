@@ -9,13 +9,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "RegisterViewController.m"
-            timestampString = "425357818.009351"
+            filePath = "ContactViewController.m"
+            timestampString = "425384653.615723"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "218"
-            endingLineNumber = "218"
-            landmarkName = "-doSubmit:Password:"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
+            landmarkName = "-initEnterprises"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,29 +25,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BootstrapViewController.m"
-            timestampString = "425365261.251744"
+            filePath = "ContactViewController.m"
+            timestampString = "425384771.592291"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
-            landmarkName = "-viewDidAppear:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BootstrapViewController.m"
-            timestampString = "425365261.251744"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "46"
-            endingLineNumber = "46"
-            landmarkName = "-viewDidAppear:"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
+            landmarkName = "-initEnterprises"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

@@ -88,7 +88,13 @@
     
     dispatch_async(dispatch_get_main_queue(), ^{
         if(count > 0){
-            self.navigationItem.title = [[enterprises firstObject] objectForKey:@"name"];
+            NSString *enterpriseName = [[enterprises firstObject] objectForKey:@"name"];
+            if([StringUtils isEmpty:enterpriseName]){
+                self.navigationItem.title = @"我的店铺";
+            }else{
+                self.navigationItem.title = enterpriseName;
+            }
+            
         }else{
             self.navigationItem.title = @"我的店铺";
         }
