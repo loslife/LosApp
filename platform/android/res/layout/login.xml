@@ -28,28 +28,35 @@
             <EditText
                 android:id="@+id/et_user_name"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48.0dip"
                 android:drawablePadding="10dp"
                 android:hint="用户名"
-                android:textColorHint="@android:color/white" >
+                android:gravity="center_vertical"
+                android:textColorHint="@android:color/white" 
+                android:background="@drawable/border">
             </EditText>
 
             <EditText
                 android:id="@+id/et_user_pwd"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48.0dip"
+                android:layout_marginTop="8.0dip"
                 android:drawablePadding="10dp"
                 android:hint="密码"
+                android:gravity="center_vertical"
                 android:inputType="textPassword"
-                android:textColorHint="@android:color/white" />
+                android:textColorHint="@android:color/white"
+                android:background="@drawable/border"
+                />
 
             <Button
                 android:id="@+id/btn_signin"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48.0dip"
                 android:layout_marginTop="15.0dip"
-                android:background="@color/orange"                
+                android:background="@drawable/login_bg"                
                 android:text="登录"
+                android:gravity="center"
                 android:textColor="@android:color/white" />
 
             <RelativeLayout

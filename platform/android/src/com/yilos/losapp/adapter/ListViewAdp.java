@@ -77,7 +77,8 @@ public class ListViewAdp extends BaseAdapter implements SectionIndexer {
 		}
 
 		// viewHolder.ivAvatar.setImageResource(R.drawable.default_avatar);
-		viewHolder.tvNick.setText(members[position]);
+		int i = members[position].indexOf("|");
+		viewHolder.tvNick.setText(members[position].substring(0, i));
 		return convertView;
 	}
 

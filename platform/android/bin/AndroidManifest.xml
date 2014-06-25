@@ -25,6 +25,10 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".MemberGoupActivity" />
         <activity android:name=".SettingActivity" />
+        <activity android:name=".MemberDetailActivity" />
+        <activity android:name=".LinkShopActivity" />
+        <activity android:name=".ModifyPwdActivity" />
+        <activity android:name=".MainTabActivity" />
     </application>
 
 </manifest>

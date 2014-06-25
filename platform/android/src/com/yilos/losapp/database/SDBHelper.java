@@ -15,7 +15,7 @@ public class SDBHelper
 			if (!databasefloder.exists()) {
 				databasefloder.mkdirs();
 			}
-			String DBName = Constants.YILOS_SDPATH + ".database/" + "13652360097.db";
+			String DBName = Constants.YILOS_SDPATH + ".database/" + name;
 			File f = new File(DBName);
 
 			if (!f.exists()) { // 判断文件是否存在

@@ -86,5 +86,5 @@
         android:layout_gravity="right|center_vertical"
         />
     </FrameLayout>
-<include layout="@layout/main_footer" />   
+   
 </LinearLayout>

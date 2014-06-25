@@ -57,7 +57,11 @@ public class LoginActivity extends Activity{
 					UIHelper.ToastMessage(v.getContext(), "请输入密码");
 					return;
 				}
-				loginUser(account,pwd);
+				//loginUser(account,pwd);
+				//跳转到主界面
+				Intent main = new Intent();
+				main.setClass(LoginActivity.this, MainTabActivity.class);
+				startActivity(main);
 			}
 		});
 		
@@ -91,14 +95,14 @@ public class LoginActivity extends Activity{
 			{
 				if(msg.what== 1)
 				{
-					//保存登录信息
-					
 					//提示登录成功
 					UIHelper.ToastMessage(LoginActivity.this, "登录成功");
 					SDBHelper.createDB(LoginActivity.this, userName+".db");
+					AppContext.getInstance(getBaseContext()).setLogin(true);
+					AppContext.getInstance(getBaseContext()).setUserAccount(userName);
 					//跳转到主界面
 					Intent main = new Intent();
-					main.setClass(LoginActivity.this, Main.class);
+					main.setClass(LoginActivity.this, MainTabActivity.class);
 					startActivity(main);
 				}
 				else if(msg.what == 0)

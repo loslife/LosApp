@@ -50,6 +50,8 @@ public class MemberGoupActivity extends Activity{
 	private  RelativeLayout member_seach;
 	
 	String[] members;
+	String[] memberNames;
+	String[] memberIds;
 	String memberName;
 	static int i;
 	ListViewAdp lAdp;
@@ -61,6 +63,10 @@ public class MemberGoupActivity extends Activity{
 	private TextView setting;
 	
 	private MemberService memberService;
+	
+	private String shopId;
+	
+	private String last_sync = "0";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -71,17 +77,20 @@ public class MemberGoupActivity extends Activity{
 		mWindowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
 
 		getdata();
-		initFootBar();
+		//initFootBar();
 	}
 
 	public void initView() {
+		
 		members = null;
-
+	
 		members = new String[parentData.size()];
+
 		for (int i = 0; i < parentData.size(); i++) {
-			members[i] = parentData.get(i).getName();
+			members[i] = parentData.get(i).getName()+"|"+i;
 		}
 		Arrays.sort(members, new Pinyin_Comparator());
+
 		lAdp = new ListViewAdp(MemberGoupActivity.this, members);
 		lvContact.setAdapter(lAdp);
 		lvContact.setOnItemClickListener(new OnItemClickListener() {
@@ -89,8 +98,15 @@ public class MemberGoupActivity extends Activity{
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				memberName = members[arg2];
+				int index = memberName.indexOf("|");
+				String p = memberName.substring(index+1, memberName.length());
+				
 				Toast.makeText(MemberGoupActivity.this, memberName,
 						Toast.LENGTH_SHORT).show();
+				Intent memberDetail = new Intent();
+				memberDetail.putExtra("memberInfo", parentData.get(Integer.parseInt(p)));
+				memberDetail.setClass(getBaseContext(), MemberDetailActivity.class);
+				startActivity(memberDetail);
 			}
 		});
 		findView();
@@ -195,18 +211,20 @@ public class MemberGoupActivity extends Activity{
 		parentData.add(m11);
 		parentData.add(m12);*/
 
-		downMembersContacts();
+		//downMembersContacts();
 	}
 	
 	public void downMembersContacts()
 	{
+		last_sync = AppContext.getInstance(getBaseContext()).getLastSyncTime();
+		shopId = AppContext.getInstance(getBaseContext()).getCurrentDisplayShopId();
 		memberService = new MemberService(getBaseContext());
 		final Handler handle =new Handler(){
 			 public void handleMessage(Message msg)
 			{
 				 if(msg.what==1)
 					{
-					    parentData = memberService.queryMembers("100009803012000300");
+					    parentData = memberService.queryMembers(shopId);
 					    initView();
 					}
 					if(msg.what==0)
@@ -220,10 +238,11 @@ public class MemberGoupActivity extends Activity{
 		   public void run(){
 				AppContext ac = (AppContext)getApplication(); 
 				Message msg = new Message();
-				ServerResponse res = ac.getMembersContacts("dd");
+				ServerResponse res = ac.getMembersContacts(shopId,last_sync);
 				if(res.isSucess())
 				{
 					memberService.handleMembers(res.getResult().getRecords());
+					last_sync = String.valueOf(res.getResult().getLast_sync());
 					msg.what = 1;
 				}
 				if(res.getCode()==1)

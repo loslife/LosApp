@@ -60,5 +60,10 @@ public class MemberService {
 	{
 		return memberDBManager.query(enterpriseId);
 	}
+	
+	public MemberBean queryMemberInfo(String id)
+	{
+		return memberDBManager.queryDetailById(id);
+	}
 
 }

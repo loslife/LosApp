@@ -1,7 +1,14 @@
 package com.yilos.losapp.bean;
 
-public class MemberBean 
+import java.io.Serializable;
+
+public class MemberBean  implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -23224764617311794L;
+
 	private String id;
 	
     private String name;
@@ -11,7 +18,22 @@ public class MemberBean
     private String create_date;
     
     private String modify_date;
-
+    
+    private String latestConsumeTime;
+    
+    private String birthday;
+    
+    private String totalConsume;
+    
+    private String memberNo;
+    
+    private String joinDate;
+    
+    private String phoneMobile;
+    
+    private String averageConsume;
+    
+    
 	public String getName() {
 		return name;
 	}
@@ -52,6 +74,60 @@ public class MemberBean
 		this.enterprise_id = enterprise_id;
 	}
 
-	
-    
+	public String getLatestConsumeTime() {
+		return latestConsumeTime;
+	}
+
+	public void setLatestConsumeTime(String latestConsumeTime) {
+		this.latestConsumeTime = latestConsumeTime;
+	}
+
+	public String getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
+	}
+
+	public String getTotalConsume() {
+		return totalConsume;
+	}
+
+	public void setTotalConsume(String totalConsume) {
+		this.totalConsume = totalConsume;
+	}
+
+	public String getMemberNo() {
+		return memberNo;
+	}
+
+	public void setMemberNo(String memberNo) {
+		this.memberNo = memberNo;
+	}
+
+	public String getJoinDate() {
+		return joinDate;
+	}
+
+	public void setJoinDate(String joinDate) {
+		this.joinDate = joinDate;
+	}
+
+	public String getPhoneMobile() {
+		return phoneMobile;
+	}
+
+	public void setPhoneMobile(String phoneMobile) {
+		this.phoneMobile = phoneMobile;
+	}
+
+	public String getAverageConsume() {
+		return averageConsume;
+	}
+
+	public void setAverageConsume(String averageConsume) {
+		this.averageConsume = averageConsume;
+	}
+
 }
