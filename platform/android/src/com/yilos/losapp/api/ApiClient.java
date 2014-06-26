@@ -90,7 +90,8 @@ public class ApiClient
 			}
 			return response.toString();
 		} catch (Exception e) {
-			return null;
+			e.printStackTrace();
+			return codeToJson("404");
 		} finally
 		{
 			conn.disconnect();
@@ -138,7 +139,8 @@ public class ApiClient
 			}
 			return response.toString();
 		} catch (Exception e) {
-			return null;
+			e.printStackTrace();
+			return codeToJson("404");
 		} finally
 		{
 			conn.disconnect();
@@ -180,7 +182,8 @@ public class ApiClient
 			return resultData.toString();
 			
 		} catch (Exception e) {
-			return "";
+			e.printStackTrace();
+			return codeToJson("404");
 		}
 	}
 	
@@ -214,7 +217,8 @@ public class ApiClient
 			return resultData.toString();
 			
 		} catch (Exception e) {
-			return "";
+			e.printStackTrace();
+			return codeToJson("404");
 		}
 	
 	}
@@ -468,6 +472,17 @@ public class ApiClient
 	    }
 
 	    return result.toString();
+	}
+	
+	private static String codeToJson(String code)
+	{
+		ServerResponse res = new ServerResponse();
+		res.setCode(1);
+		Result rt = new Result();
+		rt.setErrorCode(code);
+		res.setResult(rt);
+		Gson gson = new Gson();
+		return gson.toJson(res);
 	}
 	
 }

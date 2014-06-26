@@ -29,6 +29,7 @@
         <activity android:name=".LinkShopActivity" />
         <activity android:name=".ModifyPwdActivity" />
         <activity android:name=".MainTabActivity" />
+        <activity android:name=".LaunchActivity" />
     </application>
 
 </manifest>

@@ -26,7 +26,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 public class Main extends Activity {
@@ -153,7 +152,7 @@ public class Main extends Activity {
 						 shopId = myshops.get(0).getEnterprise_id();
 						 last_sync = myshops.get(0).getLatest_sync();
 					     AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(shopId);
-					     AppContext.getInstance(getBaseContext()).setLastSyncTime(last_sync);
+					     //AppContext.getInstance(getBaseContext()).setLastSyncTime(last_sync);
 					 }
 					 else
 					 {

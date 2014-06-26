@@ -60,7 +60,7 @@ public class LoginActivity extends Activity{
 				//loginUser(account,pwd);
 				//跳转到主界面
 				Intent main = new Intent();
-				main.setClass(LoginActivity.this, MainTabActivity.class);
+				main.setClass(LoginActivity.this, LaunchActivity.class);
 				startActivity(main);
 			}
 		});
@@ -97,7 +97,7 @@ public class LoginActivity extends Activity{
 				{
 					//提示登录成功
 					UIHelper.ToastMessage(LoginActivity.this, "登录成功");
-					SDBHelper.createDB(LoginActivity.this, userName+".db");
+					
 					AppContext.getInstance(getBaseContext()).setLogin(true);
 					AppContext.getInstance(getBaseContext()).setUserAccount(userName);
 					//跳转到主界面

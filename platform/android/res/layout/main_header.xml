@@ -27,7 +27,7 @@
             android:layout_centerHorizontal="true"
             android:gravity="fill_vertical"
             android:layout_weight="5"
-            android:text="宝安一店"
+            android:text=""
             android:textColor="@color/white"
             android:textSize="23.0dip" />
 

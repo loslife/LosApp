@@ -33,7 +33,18 @@ public class MyshopManageService {
 		myShopDB.update(shop);
 	}
 	
-	
+	public void updateLatestSync(String latestSync,String shopId,String SyncType)
+	{ 
+		if(SyncType == "Contacts")
+		{
+			myShopDB.updateContactLatestSync(shopId, latestSync);
+		}
+		
+		if(SyncType == "reports")
+		{
+			myShopDB.updateReportLatestSync(shopId, latestSync);
+		}
+	}
 	
 	public List<MyShopBean> queryShops()
 	{

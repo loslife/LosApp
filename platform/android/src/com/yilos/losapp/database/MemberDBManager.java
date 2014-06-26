@@ -3,6 +3,7 @@ package com.yilos.losapp.database;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.yilos.losapp.AppContext;
 import com.yilos.losapp.bean.MemberBean;
 
 import android.content.ContentValues;
@@ -18,12 +19,15 @@ import android.database.sqlite.SQLiteDatabase;
 public class MemberDBManager {
 	private DatabaseHelper helper;  
     private SQLiteDatabase db;  
+    private Context context;
       
     public MemberDBManager(Context context) {  
         helper = new DatabaseHelper(context);  
         //因为getWritableDatabase内部调用了mContext.openOrCreateDatabase(mName, 0, mFactory);  
         //所以要确保context已初始化,我们可以把实例化DBManager的步骤放在Activity的onCreate里  
         db = helper.getWritableDatabase();  
+        
+        this.context = context;
     }  
       
     /** 
@@ -37,7 +41,7 @@ public class MemberDBManager {
             for (MemberBean person : memberS) {  
                 db.execSQL("INSERT INTO t_members VALUES(?, ?, ?, ?,?,?,?,?,?,?,?,?)", 
                 		new Object[]{person.getId(), 
-                		person.getEnterprise_id(),
+                		AppContext.getInstance(context).getCurrentDisplayShopId(),
                 		person.getName(),
                 		person.getBirthday(),
                 		person.getPhoneMobile(),
@@ -154,8 +158,8 @@ public class MemberDBManager {
      * @return  Cursor 
      */  
     public Cursor queryRecords(String eid) {  
-        //Cursor c = db.rawQuery("SELECT * FROM t_members Where enterprise_id = ?", new String[]{eid}); 
-        Cursor c = db.rawQuery("SELECT * FROM t_members", null);  
+        Cursor c = db.rawQuery("SELECT * FROM t_members Where enterprise_id = ?", new String[]{eid});
+        //Cursor c = db.rawQuery("SELECT * FROM t_members", null);  
         return c;  
     }  
     

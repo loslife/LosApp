@@ -23,5 +23,7 @@ public class UIHelper {
 	public static void ToastMessage(Context cont, String msg, int time) {
 		Toast.makeText(cont, msg, time).show();
 	}
+	
+	
 
 }

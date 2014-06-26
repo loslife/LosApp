@@ -24,11 +24,11 @@ public class MyShopDBManager {
      * @param member 
      */  
     public void add(MyShopBean shop) { 
-    	//enterprise_id varchar(64), enterprise_name varchar(64), latest_sync REAL, display varchar(8), create_date REAL
+    	//enterprise_id varchar(64), enterprise_name varchar(64), contact_latest_sync REAL, report_latest_sync REAL, display varchar(8), create_date REAL
         db.beginTransaction();  //开始事务  
         try {  
-                db.execSQL("INSERT INTO t_myshops VALUES(null,?,?,?,?,?,?)", 
-                		new Object[]{shop.getEnterprise_id(), shop.getEnterprise_name(),shop.getLatest_sync(), 
+                db.execSQL("INSERT INTO t_myshops VALUES(null,?,?,?,?,?,?,?)", 
+                		new Object[]{shop.getEnterprise_id(), shop.getEnterprise_name(),shop.getLatest_sync(), shop.getLatest_sync(),
                 		             shop.isDisplay(),shop.getCreate_date(),shop.getOrder()});  
              
             db.setTransactionSuccessful();  //设置事务成功完成  
@@ -37,6 +37,24 @@ public class MyShopDBManager {
         }  
     }  
       
+    /** 
+     * update report_latest_sync
+     * @param  
+     */  
+    public void updateReportLatestSync(String shopId,String latestTime) {  
+
+        db.execSQL("update t_myshops set report_latest_sync=? where enterprise_id=?", new String[]{latestTime,shopId});
+    } 
+    
+    /** 
+     * update contact_latest_sync
+     * @param  
+     */  
+    public void updateContactLatestSync(String shopId,String latestTime) {  
+
+        db.execSQL("update t_myshops set contact_latest_sync=? where enterprise_id=?", new String[]{latestTime,shopId});
+    }
+    
     /** 
      * update
      * @param person 

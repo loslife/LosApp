@@ -14,6 +14,8 @@ public class Result
 	
 	private List<MyShopBean> myShopList;
 	
+	private String errorCode;
+	
 	private  Records  records;
 
 	public long getLast_sync() {
@@ -63,6 +65,16 @@ public class Result
 
 	public void setMyShopList(List<MyShopBean> myShopList) {
 		this.myShopList = myShopList;
+	}
+
+
+	public String getErrorCode() {
+		return errorCode;
+	}
+
+
+	public void setErrorCode(String errorCode) {
+		this.errorCode = errorCode;
 	}
     
 	

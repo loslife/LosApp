@@ -133,17 +133,16 @@ public final class R {
         public static final int mm_text_bg_trans=0x7f02000d;
         public static final int modfiypwd=0x7f02000e;
         public static final int operate=0x7f02000f;
-        public static final int oprate=0x7f020010;
-        public static final int quit_bg=0x7f020011;
-        public static final int register_icon=0x7f020012;
-        public static final int reset_icon=0x7f020013;
-        public static final int search=0x7f020014;
-        public static final int select=0x7f020015;
-        public static final int select_shop=0x7f020016;
-        public static final int selected_shop=0x7f020017;
-        public static final int setting=0x7f020018;
-        public static final int show_head_toast_bg=0x7f020019;
-        public static final int widget_bar_bg=0x7f02001a;
+        public static final int quit_bg=0x7f020010;
+        public static final int register_icon=0x7f020011;
+        public static final int reset_icon=0x7f020012;
+        public static final int search=0x7f020013;
+        public static final int select=0x7f020014;
+        public static final int select_shop=0x7f020015;
+        public static final int selected_shop=0x7f020016;
+        public static final int setting=0x7f020017;
+        public static final int show_head_toast_bg=0x7f020018;
+        public static final int widget_bar_bg=0x7f020019;
     }
     public static final class id {
         public static final int aboutlos=0x7f080040;
@@ -217,18 +216,19 @@ public final class R {
         public static final int contact_item=0x7f030000;
         public static final int dialog=0x7f030001;
         public static final int forgotpassword=0x7f030002;
-        public static final int linkshop=0x7f030003;
-        public static final int list_position=0x7f030004;
-        public static final int login=0x7f030005;
-        public static final int main=0x7f030006;
-        public static final int main_footer=0x7f030007;
-        public static final int main_header=0x7f030008;
-        public static final int mebersgroup=0x7f030009;
-        public static final int memberdetail=0x7f03000a;
-        public static final int modifypwd=0x7f03000b;
-        public static final int register=0x7f03000c;
-        public static final int setting=0x7f03000d;
-        public static final int text=0x7f03000e;
+        public static final int launch=0x7f030003;
+        public static final int linkshop=0x7f030004;
+        public static final int list_position=0x7f030005;
+        public static final int login=0x7f030006;
+        public static final int main=0x7f030007;
+        public static final int main_footer=0x7f030008;
+        public static final int main_header=0x7f030009;
+        public static final int mebersgroup=0x7f03000a;
+        public static final int memberdetail=0x7f03000b;
+        public static final int modifypwd=0x7f03000c;
+        public static final int register=0x7f03000d;
+        public static final int setting=0x7f03000e;
+        public static final int text=0x7f03000f;
     }
     public static final class string {
         public static final int app_name=0x7f060000;

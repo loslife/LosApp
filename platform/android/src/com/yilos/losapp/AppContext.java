@@ -18,7 +18,9 @@ public class AppContext extends Application {
 	
 	private String currentDisplayShopId;
 	
-	private String lastSyncTime;
+	private String contactLastSyncTime;
+	
+	private String reportLastSyncTime;
 	
 	private int loginUid = 0;	//登录用户的id
 	
@@ -175,14 +177,20 @@ public class AppContext extends Application {
 		this.currentDisplayShopId = currentDisplayShopId;
 	}
 
-	public String getLastSyncTime() {
-		
-		return lastSyncTime;
+	public String getContactLastSyncTime() {
+		return contactLastSyncTime;
 	}
 
-	public void setLastSyncTime(String lastSyncTime) {
-		this.lastSyncTime = lastSyncTime;
+	public void setContactLastSyncTime(String contactLastSyncTime) {
+		this.contactLastSyncTime = contactLastSyncTime;
 	}
-	
-	
+
+	public String getReportLastSyncTime() {
+		return reportLastSyncTime;
+	}
+
+	public void setReportLastSyncTime(String reportLastSyncTime) {
+		this.reportLastSyncTime = reportLastSyncTime;
+	}
+
 }

@@ -7,29 +7,36 @@ import java.util.List;
 import com.yilos.losapp.R.color;
 import com.yilos.losapp.adapter.ListViewAdp;
 import com.yilos.losapp.bean.MemberBean;
+import com.yilos.losapp.bean.MyShopBean;
 import com.yilos.losapp.bean.ServerResponse;
 import com.yilos.losapp.common.Pinyin_Comparator;
 import com.yilos.losapp.common.SideBar;
 import com.yilos.losapp.common.UIHelper;
 import com.yilos.losapp.database.MemberDBManager;
 import com.yilos.losapp.service.MemberService;
+import com.yilos.losapp.service.MyshopManageService;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Layout;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,17 +63,21 @@ public class MemberGoupActivity extends Activity{
 	static int i;
 	ListViewAdp lAdp;
 	
-    private TextView operate;
-	
-	private TextView contacts;
-	
-	private TextView setting;
-	
+	private PopupWindow popupWindow;
+	private LinearLayout layout;
+	private ListView listView;
+	private String title[] = null;
+	private String shopIds[] = null;
+
 	private MemberService memberService;
+	
+	private MyshopManageService myshopService;
 	
 	private String shopId;
 	
 	private String last_sync = "0";
+	
+	private TextView  shopname;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -77,7 +88,6 @@ public class MemberGoupActivity extends Activity{
 		mWindowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
 
 		getdata();
-		//initFootBar();
 	}
 
 	public void initView() {
@@ -120,6 +130,7 @@ public class MemberGoupActivity extends Activity{
 				R.layout.list_position, null);
 		mDialogText.setVisibility(View.INVISIBLE);
 		
+		shopname = (TextView)findViewById(R.id.shopname);
 		member_title = (RelativeLayout)findViewById(R.id.member_title);
 		member_seach = (RelativeLayout)findViewById(R.id.member_seach);
 		seachmember = (ImageView)findViewById(R.id.seachmember);
@@ -142,33 +153,7 @@ public class MemberGoupActivity extends Activity{
 		indexBar.setTextView(mDialogText);
 	}
 	
-	/**
-	 * 初始化底部栏
-	 */
-	private void initFootBar() {
-
-		operate = (TextView)findViewById(R.id.operate);
-		operate.setBackgroundColor(color.turquoise);
-		
-		contacts = (TextView)findViewById(R.id.contacts);
-		contacts.setBackgroundColor(color.orange);
-		
-		
-		setting = (TextView)findViewById(R.id.setting);
-		
-		operate.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				
-				Intent contacts = new Intent();
-				contacts.setClass(getBaseContext(), Main.class);
-				startActivity(contacts);
-			}
-		});
-
-	}
-
+	
 	public void getdata() {
 		
 		
@@ -210,15 +195,34 @@ public class MemberGoupActivity extends Activity{
 		parentData.add(m10);
 		parentData.add(m11);
 		parentData.add(m12);*/
-
+		
+		last_sync = AppContext.getInstance(getBaseContext()).getContactLastSyncTime();
+		shopId = AppContext.getInstance(getBaseContext()).getCurrentDisplayShopId();
+		memberService = new MemberService(getBaseContext());
+		myshopService = new MyshopManageService(getBaseContext());
+		parentData = memberService.queryMembers(shopId);
+		initView();
+		
 		//downMembersContacts();
+		
+		myshopService = new MyshopManageService(getBaseContext());
+		// 查询本地的关联数据
+		List<MyShopBean> myshops = myshopService.queryShops();
+		if (myshops != null && myshops.size() > 0) 
+		{
+			title = new String[myshops.size()];
+			shopIds = new String[myshops.size()];
+			for(int i=0;i<myshops.size();i++)
+			{
+				title[i] = myshops.get(i).getEnterprise_name();
+				shopIds[i] = myshops.get(i).getEnterprise_id();
+			}
+		}
 	}
 	
 	public void downMembersContacts()
 	{
-		last_sync = AppContext.getInstance(getBaseContext()).getLastSyncTime();
-		shopId = AppContext.getInstance(getBaseContext()).getCurrentDisplayShopId();
-		memberService = new MemberService(getBaseContext());
+		
 		final Handler handle =new Handler(){
 			 public void handleMessage(Message msg)
 			{
@@ -243,6 +247,7 @@ public class MemberGoupActivity extends Activity{
 				{
 					memberService.handleMembers(res.getResult().getRecords());
 					last_sync = String.valueOf(res.getResult().getLast_sync());
+					myshopService.updateLatestSync(last_sync, shopId, "Contacts");
 					msg.what = 1;
 				}
 				if(res.getCode()==1)
@@ -253,4 +258,38 @@ public class MemberGoupActivity extends Activity{
 			}
 	   }.start();
 	}
+	
+	public void showPopupWindow(int x, int y) {
+		layout = (LinearLayout) LayoutInflater.from(getBaseContext()).inflate(
+				R.layout.dialog, null);
+		listView = (ListView) layout.findViewById(R.id.lv_dialog);
+		listView.setAdapter(new ArrayAdapter<String>(getBaseContext(),
+				R.layout.text, R.id.tv_text, title));
+
+		popupWindow = new PopupWindow(getBaseContext());
+		popupWindow.setBackgroundDrawable(new BitmapDrawable());
+		popupWindow
+				.setWidth(getWindowManager().getDefaultDisplay().getWidth() / 2);
+		popupWindow.setHeight(300);
+		popupWindow.setOutsideTouchable(true);
+		popupWindow.setFocusable(true);
+		popupWindow.setContentView(layout);
+		// showAsDropDown会把里面的view作为参照物，所以要那满屏幕parent
+		popupWindow.showAtLocation(findViewById(R.id.headmore), Gravity.LEFT
+				| Gravity.TOP, x, y);//需要指定Gravity，默认情况是center.
+
+		listView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				shopname.setText(title[arg2]);
+				AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(shopIds[i]);
+				popupWindow.dismiss();
+				popupWindow = null;
+			}
+		});
+	}
+
+	
 }
