@@ -8,7 +8,7 @@
 #import "ContactViewController.h"
 #import "SettingViewController.h"
 #import "UserData.h"
-#import "DBService.h"
+#import "SyncService.h"
 
 @interface BootstrapViewController : UIViewController
     

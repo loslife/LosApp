@@ -1,6 +1,6 @@
-#import "DBService.h"
+#import "SyncService.h"
 
-@implementation DBService
+@implementation SyncService
 
 -(void) addEnterprise:(NSString*)enterpriseId Name:(NSString*)enterpriseName
 {

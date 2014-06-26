@@ -2,7 +2,7 @@
 #import "LosHttpHelper.h"
 #import "LosAppUrls.h"
 #import "UserData.h"
-#import "DBService.h"
+#import "SyncService.h"
 
 @interface AddShopViewController : UIViewController
 

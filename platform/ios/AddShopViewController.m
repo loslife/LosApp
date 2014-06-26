@@ -7,7 +7,7 @@
     NSTimer *timer;
     int resendCountdown;
     LosHttpHelper *httpHelper;
-    DBService *dbService;
+    SyncService *dbService;
 }
 
 -(id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -18,7 +18,7 @@
         self.navigationItem.title = @"关联店铺";
         
         httpHelper = [[LosHttpHelper alloc] init];
-        dbService = [[DBService alloc] init];
+        dbService = [[SyncService alloc] init];
     }
     return self;
 }

@@ -3,7 +3,7 @@
 #import "FMDB.h"
 #import "TimesHelper.h"
 
-@interface DBService : NSObject
+@interface SyncService : NSObject
 
 -(void) addEnterprise:(NSString*)enterpriseId Name:(NSString*)enterpriseName;
 -(void) refreshAttachEnterprises:(NSArray*)enterprises;

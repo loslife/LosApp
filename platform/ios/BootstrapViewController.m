@@ -6,7 +6,7 @@
 {
     UpdateHelper *updateHelper;
     LosHttpHelper *httpHelper;
-    DBService *dbService;
+    SyncService *dbService;
 }
 
 -(id) initWithNibName:(NSString*)nibName bundle:(NSBundle*)bundle
@@ -15,7 +15,7 @@
     if(self){
         updateHelper = [[UpdateHelper alloc] init];
         httpHelper = [[LosHttpHelper alloc] init];
-        dbService = [[DBService alloc] init];
+        dbService = [[SyncService alloc] init];
     }
     return self;
 }
