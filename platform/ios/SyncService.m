@@ -48,13 +48,13 @@
 
 -(void) handleDatabase:(NSString*)enterpriseId Name:(NSString*)enterpriseName
 {
-    NSString *insert = @"insert into enterprises (enterprise_Id, enterprise_name, latest_sync, display, create_date) values (:enterpriseId, :name, :latestSync, :display, :createDate);";
+    NSString *insert = @"insert into enterprises (enterprise_Id, enterprise_name, contact_latest_sync, report_latest_sync, display, create_date) values (:enterpriseId, :name, :contactLatestSync, :reportLatestSync, :display, :createDate);";
     
     NSString *dbFilePath = [PathResolver databaseFilePath];
     FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
     [db open];
     
-    [db executeUpdate:insert, enterpriseId, enterpriseName, [NSNumber numberWithInt:0], @"yes", [NSNumber numberWithLongLong:[TimesHelper now]]];
+    [db executeUpdate:insert, enterpriseId, enterpriseName, [NSNumber numberWithInt:0], [NSNumber numberWithInt:0], @"yes", [NSNumber numberWithLongLong:[TimesHelper now]]];
     
     [db close];
 }
@@ -87,7 +87,7 @@
 -(void) handleEnterprises:(NSArray*)enterprises
 {
     NSString *query = @"select count(1) as count from enterprises where enterprise_id = :enterpriseId;";
-    NSString *insert = @"insert into enterprises (enterprise_Id, enterprise_name, latest_sync, display, create_date) values (:enterpriseId, :name, :latestSync, :display, :createDate);";
+    NSString *insert = @"insert into enterprises (enterprise_Id, enterprise_name, contact_latest_sync, report_latest_sync, display, create_date) values (:enterpriseId, :name, :contactLatestSync, :reportLatestSync, :display, :createDate);";
     NSString *update = @"update enterprises set enterprise_name = :name where enterprise_id = :id";
     
     NSString *dbFilePath = [PathResolver databaseFilePath];
@@ -102,7 +102,7 @@
         [rs next];
         int count = [[rs objectForColumnName:@"count"] intValue];
         if(count == 0){
-            [db executeUpdate:insert, enterpriseId, enterpriseName, [NSNumber numberWithInt:0], @"yes", [NSNumber numberWithLongLong:[TimesHelper now]]];
+            [db executeUpdate:insert, enterpriseId, enterpriseName, [NSNumber numberWithInt:0], [NSNumber numberWithInt:0], @"yes", [NSNumber numberWithLongLong:[TimesHelper now]]];
         }else{
             [db executeUpdate:update, enterpriseName, enterpriseId];
         }
@@ -145,7 +145,7 @@
     [db open];
     
     // 刷新最后同步时间
-    NSString *refreshLatestSyncTime = @"update enterprises set latest_sync = :sync where enterprise_id = :enterpriseId;";
+    NSString *refreshLatestSyncTime = @"update enterprises set contact_latest_sync = :sync where enterprise_id = :enterpriseId;";
     [db executeUpdate:refreshLatestSyncTime, lastSync, enterpriseId];
     
     // 处理新增记录
