@@ -6,7 +6,7 @@
 {
     UpdateHelper *updateHelper;
     LosHttpHelper *httpHelper;
-    SyncService *dbService;
+    SyncService *syncService;
 }
 
 -(id) initWithNibName:(NSString*)nibName bundle:(NSBundle*)bundle
@@ -15,7 +15,7 @@
     if(self){
         updateHelper = [[UpdateHelper alloc] init];
         httpHelper = [[LosHttpHelper alloc] init];
-        dbService = [[SyncService alloc] init];
+        syncService = [[SyncService alloc] init];
     }
     return self;
 }
@@ -60,30 +60,16 @@
         // 有网络，尝试拉取最新数据
         UserData *userData = [UserData load];
         NSString *userId = userData.userId;
-        NSString *url = [NSString stringWithFormat:FETCH_ENTERPRISES_URL, userId];
         
-        [httpHelper getSecure:url completionHandler:^(NSDictionary* dict){
-            
-            if(dict == nil){
+        [syncService refreshAttachEnterprisesUserId:userId Block:^(BOOL flag){
+        
+            if(!flag){
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [indicator stopAnimating];
                     [self jumpToMain];
                 });
                 return;
             }
-            
-            NSNumber *code = [dict objectForKey:@"code"];
-            if([code intValue] != 0){
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [indicator stopAnimating];
-                    [self jumpToMain];
-                });
-                return;
-            }
-            
-            NSDictionary *result = [dict objectForKey:@"result"];
-            NSArray *enterprises = [result objectForKey:@"myShopList"];
-            [dbService refreshAttachEnterprises:enterprises];
             
             dispatch_group_t group = dispatch_group_create();
             
@@ -100,28 +86,11 @@
                 
                 NSString *enterpriseId = [rs objectForColumnName:@"enterprise_id"];
                 NSNumber *latestSyncDate = [rs objectForColumnName:@"latest_sync"];
+                if([latestSyncDate isEqual:[NSNull null]]){
+                    latestSyncDate = [NSNumber numberWithInt:0];
+                }
                 
-                NSString *url = [NSString stringWithFormat:SYNC_MEMBERS_URL, enterpriseId, @"1", [latestSyncDate stringValue]];
-                
-                [httpHelper getSecure:url completionHandler:^(NSDictionary* dict){
-                    
-                    if(dict == nil){
-                        dispatch_group_leave(group);
-                        return;
-                    }
-                    
-                    NSNumber *code = [dict objectForKey:@"code"];
-                    if([code intValue] != 0){
-                        dispatch_group_leave(group);
-                        return;
-                    }
-                    
-                    NSDictionary *response = [dict objectForKey:@"result"];
-                    NSNumber *lastSync = [response objectForKey:@"last_sync"];
-                    NSDictionary *records = [response objectForKey:@"records"];
-                    
-                    [dbService refreshMembersWithRecords:records LastSync:lastSync EnterpriseId:enterpriseId];
-                    
+                [syncService refreshMembersWithEnterpriseId:enterpriseId LatestSyncTime:latestSyncDate Block:^(BOOL flag){
                     dispatch_group_leave(group);
                 }];
             }

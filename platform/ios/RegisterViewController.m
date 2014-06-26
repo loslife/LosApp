@@ -1,6 +1,7 @@
 #import "RegisterViewController.h"
 #import "RegisterView.h"
 #import "LoginViewController.h"
+#import "StringUtils.h"
 
 @implementation RegisterViewController
 
@@ -71,7 +72,7 @@
     RegisterView *myView = (RegisterView*)self.view;
     UITextField *phone = myView.username;
     
-    BOOL flag = [self checkPhone:phone.text];
+    BOOL flag = [StringUtils isPhone:phone.text];
     if(!flag){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"请输入正确手机号" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
         [alert show];
@@ -265,13 +266,6 @@
 }
 
 #pragma mark - frontend validate
-
--(BOOL) checkPhone:(NSString*)phone
-{
-    NSString *phoneRegex = @"^((13)|(15)|(18))\\d{9}$";
-    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
-    return [phoneTest evaluateWithObject:phone];
-}
 
 -(int) checkInputWithPhone:(NSString*)phone Code:(NSString*)code Password:(NSString*)password Repeat:(NSString*)repeat
 {

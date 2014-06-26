@@ -4,7 +4,7 @@
 
 +(BOOL) isNetworkAvailable
 {
-    Reachability *reach = [Reachability reachabilityWithHostName:@"192.168.1.116"];
+    Reachability *reach = [Reachability reachabilityWithHostName:@"192.168.1.104"];
     int status = [reach currentReachabilityStatus];
     return (status != NotReachable);
 }

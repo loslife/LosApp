@@ -1,8 +1,52 @@
 #import "SyncService.h"
+#import "LosAppUrls.h"
+#import "LosHttpHelper.h"
 
 @implementation SyncService
 
--(void) addEnterprise:(NSString*)enterpriseId Name:(NSString*)enterpriseName
+{
+    LosHttpHelper *httpHelper;
+}
+
+-(id) init
+{
+    self = [super init];
+    if(self){
+        httpHelper = [[LosHttpHelper alloc] init];
+    }
+    return self;
+}
+
+-(void) addEnterprise:(NSString*)userId EnterpriseAccount:(NSString*)phone Block:(void(^)(int flag))block
+{
+    NSString *body = [NSString stringWithFormat:@"account=%@&enterprise_account=%@", userId, phone];
+    NSData *postData = [body dataUsingEncoding:NSUTF8StringEncoding];
+    
+    [httpHelper postSecure:APPEND_ENERPRISE_URL Data:postData completionHandler:^(NSDictionary *dict){
+        
+        if(dict == nil){
+            block(1);
+            return;
+        }
+        
+        NSNumber *code = [dict objectForKey:@"code"];
+        if([code intValue] != 0){
+            block(2);
+        }
+        
+        NSDictionary *result = [dict objectForKey:@"result"];
+        NSString *enterpriseId = [result objectForKey:@"enterprise_id"];
+        NSString *enterpriseName = [result objectForKey:@"enterprise_name"];
+        
+        [self handleDatabase:enterpriseId Name:enterpriseName];
+        
+        [self refreshMembersWithEnterpriseId:enterpriseId LatestSyncTime:[NSNumber numberWithInt:0] Block:^(BOOL flag){
+            block(0);
+        }];
+    }];
+}
+
+-(void) handleDatabase:(NSString*)enterpriseId Name:(NSString*)enterpriseName
 {
     NSString *insert = @"insert into enterprises (enterprise_Id, enterprise_name, latest_sync, display, create_date) values (:enterpriseId, :name, :latestSync, :display, :createDate);";
     
@@ -15,7 +59,32 @@
     [db close];
 }
 
--(void) refreshAttachEnterprises:(NSArray*)enterprises
+-(void) refreshAttachEnterprisesUserId:(NSString*)userId Block:(void(^)(BOOL flag))block
+{
+    NSString *url = [NSString stringWithFormat:FETCH_ENTERPRISES_URL, userId];
+    
+    [httpHelper getSecure:url completionHandler:^(NSDictionary* dict){
+        
+        if(dict == nil){
+            block(NO);
+            return;
+        }
+        
+        NSNumber *code = [dict objectForKey:@"code"];
+        if([code intValue] != 0){
+            block(NO);
+            return;
+        }
+        
+        NSDictionary *result = [dict objectForKey:@"result"];
+        NSArray *enterprises = [result objectForKey:@"myShopList"];
+        [self handleEnterprises:enterprises];
+        
+        block(YES);
+    }];
+}
+
+-(void) handleEnterprises:(NSArray*)enterprises
 {
     NSString *query = @"select count(1) as count from enterprises where enterprise_id = :enterpriseId;";
     NSString *insert = @"insert into enterprises (enterprise_Id, enterprise_name, latest_sync, display, create_date) values (:enterpriseId, :name, :latestSync, :display, :createDate);";
@@ -42,7 +111,34 @@
     [db close];
 }
 
--(void) refreshMembersWithRecords:(NSDictionary*)records LastSync:(NSNumber*)lastSync EnterpriseId:(NSString*)enterpriseId
+-(void) refreshMembersWithEnterpriseId:(NSString*)enterpriseId LatestSyncTime:(NSNumber*)latestSyncTime Block:(void(^)(BOOL flag))block
+{
+    NSString *url = [NSString stringWithFormat:SYNC_MEMBERS_URL, enterpriseId, @"1", [latestSyncTime stringValue]];
+    
+    [httpHelper getSecure:url completionHandler:^(NSDictionary* dict){
+        
+        if(dict == nil){
+            block(NO);
+            return;
+        }
+        
+        NSNumber *code = [dict objectForKey:@"code"];
+        if([code intValue] != 0){
+            block(NO);
+            return;
+        }
+        
+        NSDictionary *response = [dict objectForKey:@"result"];
+        NSNumber *lastSync = [response objectForKey:@"last_sync"];
+        NSDictionary *records = [response objectForKey:@"records"];
+        
+        [self handleDatabase:records LastSync:lastSync EnterpriseId:enterpriseId];
+        
+        block(YES);
+    }];
+}
+
+-(void) handleDatabase:(NSDictionary*)records LastSync:(NSNumber*)lastSync EnterpriseId:(NSString*)enterpriseId
 {
     NSString *dbFilePath = [PathResolver databaseFilePath];
     FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];

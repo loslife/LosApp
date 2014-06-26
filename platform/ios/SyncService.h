@@ -5,8 +5,8 @@
 
 @interface SyncService : NSObject
 
--(void) addEnterprise:(NSString*)enterpriseId Name:(NSString*)enterpriseName;
--(void) refreshAttachEnterprises:(NSArray*)enterprises;
--(void) refreshMembersWithRecords:(NSDictionary*)records LastSync:(NSNumber*)lastSync EnterpriseId:(NSString*)enterpriseId;
+-(void) addEnterprise:(NSString*)userId EnterpriseAccount:(NSString*)phone Block:(void(^)(int flag))block;
+-(void) refreshAttachEnterprisesUserId:(NSString*)userId Block:(void(^)(BOOL flag))block;
+-(void) refreshMembersWithEnterpriseId:(NSString*)enterpriseId LatestSyncTime:(NSNumber*)latestSyncTime Block:(void(^)(BOOL flag))block;
 
 @end

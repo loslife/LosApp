@@ -35,7 +35,6 @@
 		18666745194A9FC900A345F7 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18666744194A9FC900A345F7 /* RegisterViewController.m */; };
 		18666748194A9FFF00A345F7 /* RegisterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18666747194A9FFF00A345F7 /* RegisterView.m */; };
 		1866674D194AD1BA00A345F7 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866674C194AD1BA00A345F7 /* Reachability.m */; };
-		18666751194AD50B00A345F7 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 18666750194AD50B00A345F7 /* NSData+Base64.m */; };
 		18666754194AD52400A345F7 /* StringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 18666753194AD52400A345F7 /* StringUtils.m */; };
 		18AFE5F5195178210083C972 /* UITableViewCell+ReuseIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE5F4195178210083C972 /* UITableViewCell+ReuseIdentifier.m */; };
 		18AFE5FC1951986F0083C972 /* ContactView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE5FB1951986F0083C972 /* ContactView.m */; };
@@ -109,8 +108,6 @@
 		18666747194A9FFF00A345F7 /* RegisterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterView.m; sourceTree = "<group>"; };
 		1866674B194AD1BA00A345F7 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		1866674C194AD1BA00A345F7 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
-		1866674F194AD50B00A345F7 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
-		18666750194AD50B00A345F7 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
 		18666752194AD52400A345F7 /* StringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringUtils.h; sourceTree = "<group>"; };
 		18666753194AD52400A345F7 /* StringUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringUtils.m; sourceTree = "<group>"; };
 		18AFE5F3195178210083C972 /* UITableViewCell+ReuseIdentifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+ReuseIdentifier.h"; sourceTree = "<group>"; };
@@ -227,7 +224,6 @@
 			isa = PBXGroup;
 			children = (
 				18AFE5F2195177FB0083C972 /* ReuseableTableCell */,
-				1866674E194AD50B00A345F7 /* Base64 */,
 				1866674A194AD1BA00A345F7 /* Reachability */,
 			);
 			name = "3rd-lib";
@@ -240,15 +236,6 @@
 				1866674C194AD1BA00A345F7 /* Reachability.m */,
 			);
 			path = Reachability;
-			sourceTree = "<group>";
-		};
-		1866674E194AD50B00A345F7 /* Base64 */ = {
-			isa = PBXGroup;
-			children = (
-				1866674F194AD50B00A345F7 /* NSData+Base64.h */,
-				18666750194AD50B00A345F7 /* NSData+Base64.m */,
-			);
-			path = Base64;
 			sourceTree = "<group>";
 		};
 		18AFE5F2195177FB0083C972 /* ReuseableTableCell */ = {
@@ -527,7 +514,6 @@
 				18666745194A9FC900A345F7 /* RegisterViewController.m in Sources */,
 				18AFE5F5195178210083C972 /* UITableViewCell+ReuseIdentifier.m in Sources */,
 				1866673F1949F98200A345F7 /* ContactViewController.m in Sources */,
-				18666751194AD50B00A345F7 /* NSData+Base64.m in Sources */,
 				18AFE6031952D1A10083C972 /* AddShopViewController.m in Sources */,
 				18666748194A9FFF00A345F7 /* RegisterView.m in Sources */,
 				184472571959545B00B4A543 /* LosTextField.m in Sources */,

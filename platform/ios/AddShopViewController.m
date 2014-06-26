@@ -1,5 +1,6 @@
 #import "AddShopViewController.h"
 #import "AddShopView.h"
+#import "StringUtils.h"
 
 @implementation AddShopViewController
 
@@ -7,7 +8,7 @@
     NSTimer *timer;
     int resendCountdown;
     LosHttpHelper *httpHelper;
-    SyncService *dbService;
+    SyncService *syncService;
 }
 
 -(id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -18,7 +19,7 @@
         self.navigationItem.title = @"关联店铺";
         
         httpHelper = [[LosHttpHelper alloc] init];
-        dbService = [[SyncService alloc] init];
+        syncService = [[SyncService alloc] init];
     }
     return self;
 }
@@ -51,7 +52,7 @@
     AddShopView *myView = (AddShopView*)self.view;
     UITextField *phone = myView.phone;
     
-    BOOL flag = [self checkPhone:phone.text];
+    BOOL flag = [StringUtils isPhone:phone.text];
     if(!flag){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"请输入正确手机号" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
         [alert show];
@@ -105,7 +106,7 @@
     
     BOOL inputCheck;
     
-    inputCheck = [self checkPhone:phone.text];
+    inputCheck = [StringUtils isPhone:phone.text];
     if(!inputCheck){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"请输入正确手机号" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
         [alert show];
@@ -140,60 +141,29 @@
         }
         
         UserData *userData = [UserData load];
-        NSString *body = [NSString stringWithFormat:@"account=%@&enterprise_account=%@", userData.userId, phone.text];
-        NSData *postData = [body dataUsingEncoding:NSUTF8StringEncoding];
+        NSString *userId = userData.userId;
         
-        [httpHelper postSecure:APPEND_ENERPRISE_URL Data:postData completionHandler:^(NSDictionary *dict){
+        [syncService addEnterprise:userId EnterpriseAccount:phone.text Block:^(int flag){
         
-            if(dict == nil){
-                dispatch_async(dispatch_get_main_queue(), ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+            
+                if(flag == 1){
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"关联失败，请联系客服" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
                     [alert show];
-                });
-                return;
-            }
-            
-            NSNumber *code = [dict objectForKey:@"code"];
-            if([code intValue] != 0){
-                dispatch_async(dispatch_get_main_queue(), ^{
+                    return;
+                }
+                
+                if(flag == 2){
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"关联失败" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
                     [alert show];
-                });
-                return;
-            }
-            
-            NSDictionary *result = [dict objectForKey:@"result"];
-            NSString *enterpriseId = [result objectForKey:@"enterprise_id"];
-            NSString *enterpriseName = [result objectForKey:@"enterprise_name"];
-            
-            [dbService addEnterprise:enterpriseId Name:enterpriseName];
-            
-            NSString *url = [NSString stringWithFormat:SYNC_MEMBERS_URL, enterpriseId, @"1", @"0"];
-            
-            [httpHelper getSecure:url completionHandler:^(NSDictionary* dict){
+                    return;
+                }
                 
-                NSDictionary *response = [dict objectForKey:@"result"];
-                NSNumber *lastSync = [response objectForKey:@"last_sync"];
-                NSDictionary *records = [response objectForKey:@"records"];
-                
-                [dbService refreshMembersWithRecords:records LastSync:lastSync EnterpriseId:enterpriseId];
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"关联成功" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
-                    [alert show];
-                });
-            }];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"关联成功" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
+                [alert show];
+            });
         }];
     }];
-}
-
-#pragma mark - private method
-
--(BOOL) checkPhone:(NSString*)phone
-{
-    NSString *phoneRegex = @"^((13)|(15)|(18))\\d{9}$";
-    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
-    return [phoneTest evaluateWithObject:phone];
 }
 
 #pragma mark - timer
