@@ -16,6 +16,8 @@
 		184472511959171E00B4A543 /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472501959171E00B4A543 /* AboutUsViewController.m */; };
 		1844725419591EEA00B4A543 /* AboutUsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844725319591EEA00B4A543 /* AboutUsView.m */; };
 		184472571959545B00B4A543 /* LosTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472561959545B00B4A543 /* LosTextField.m */; };
+		1844725A195C060400B4A543 /* EmployeePerformance.m in Sources */ = {isa = PBXBuildFile; fileRef = 18447259195C060400B4A543 /* EmployeePerformance.m */; };
+		1844725E195C0BB300B4A543 /* LosDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844725D195C0BB300B4A543 /* LosDao.m */; };
 		186667011949864100A345F7 /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186667001949864100A345F7 /* WelcomeViewController.m */; };
 		1866670519498B5600A345F7 /* UserData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670419498B5600A345F7 /* UserData.m */; };
 		1866670819498D1C00A345F7 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670719498D1C00A345F7 /* LoginViewController.m */; };
@@ -70,6 +72,10 @@
 		1844725319591EEA00B4A543 /* AboutUsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutUsView.m; sourceTree = "<group>"; };
 		184472551959545B00B4A543 /* LosTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LosTextField.h; sourceTree = "<group>"; };
 		184472561959545B00B4A543 /* LosTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LosTextField.m; sourceTree = "<group>"; };
+		18447258195C060400B4A543 /* EmployeePerformance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmployeePerformance.h; sourceTree = "<group>"; };
+		18447259195C060400B4A543 /* EmployeePerformance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmployeePerformance.m; sourceTree = "<group>"; };
+		1844725C195C0BB300B4A543 /* LosDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LosDao.h; sourceTree = "<group>"; };
+		1844725D195C0BB300B4A543 /* LosDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LosDao.m; sourceTree = "<group>"; };
 		186666FF1949864100A345F7 /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
 		186667001949864100A345F7 /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
 		1866670319498B5600A345F7 /* UserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserData.h; sourceTree = "<group>"; };
@@ -157,6 +163,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1844725B195C0B9300B4A543 /* dao */ = {
+			isa = PBXGroup;
+			children = (
+				1844725C195C0BB300B4A543 /* LosDao.h */,
+				1844725D195C0BB300B4A543 /* LosDao.m */,
+			);
+			name = dao;
+			sourceTree = "<group>";
+		};
 		1866670219498ACF00A345F7 /* environment */ = {
 			isa = PBXGroup;
 			children = (
@@ -252,6 +267,8 @@
 			children = (
 				18AFE5FE195296D70083C972 /* Member.h */,
 				18AFE5FF195296D70083C972 /* Member.m */,
+				18447258195C060400B4A543 /* EmployeePerformance.h */,
+				18447259195C060400B4A543 /* EmployeePerformance.m */,
 			);
 			name = domain;
 			sourceTree = "<group>";
@@ -327,6 +344,7 @@
 			children = (
 				18AFE624195525400083C972 /* widget */,
 				18AFE5FD195296BD0083C972 /* domain */,
+				1844725B195C0B9300B4A543 /* dao */,
 				18AFE620195434500083C972 /* service */,
 				1866671D1949C2B200A345F7 /* utils */,
 				186667191949B2D700A345F7 /* update */,
@@ -513,8 +531,10 @@
 				1866674D194AD1BA00A345F7 /* Reachability.m in Sources */,
 				18666745194A9FC900A345F7 /* RegisterViewController.m in Sources */,
 				18AFE5F5195178210083C972 /* UITableViewCell+ReuseIdentifier.m in Sources */,
+				1844725E195C0BB300B4A543 /* LosDao.m in Sources */,
 				1866673F1949F98200A345F7 /* ContactViewController.m in Sources */,
 				18AFE6031952D1A10083C972 /* AddShopViewController.m in Sources */,
+				1844725A195C060400B4A543 /* EmployeePerformance.m in Sources */,
 				18666748194A9FFF00A345F7 /* RegisterView.m in Sources */,
 				184472571959545B00B4A543 /* LosTextField.m in Sources */,
 				186667011949864100A345F7 /* WelcomeViewController.m in Sources */,
