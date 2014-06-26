@@ -71,8 +71,6 @@
                 return;
             }
             
-            dispatch_group_t group = dispatch_group_create();
-            
             NSString *dbFilePath = [PathResolver databaseFilePath];
             FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
             [db open];
@@ -80,17 +78,28 @@
             NSString *sql = @"select enterprise_id, contact_latest_sync from enterprises";
             FMResultSet *rs = [db executeQuery:sql];
             
+            dispatch_group_t group = dispatch_group_create();
+            
             while([rs next]){
                 
-                dispatch_group_enter(group);
-                
                 NSString *enterpriseId = [rs objectForColumnName:@"enterprise_id"];
-                NSNumber *latestSyncDate = [rs objectForColumnName:@"contact_latest_sync"];
-                if([latestSyncDate isEqual:[NSNull null]]){
-                    latestSyncDate = [NSNumber numberWithInt:0];
+                
+                NSNumber *contactLatestSync = [rs objectForColumnName:@"contact_latest_sync"];
+                if([contactLatestSync isEqual:[NSNull null]]){
+                    contactLatestSync = [NSNumber numberWithInt:0];
+                }
+                NSNumber *reportLatestSync = [rs objectForColumnName:@"report_latest_sync"];
+                if([reportLatestSync isEqual:[NSNull null]]){
+                    reportLatestSync = [NSNumber numberWithInt:0];
                 }
                 
-                [syncService refreshMembersWithEnterpriseId:enterpriseId LatestSyncTime:latestSyncDate Block:^(BOOL flag){
+                dispatch_group_enter(group);
+                [syncService refreshMembersWithEnterpriseId:enterpriseId LatestSyncTime:contactLatestSync Block:^(BOOL flag){
+                    dispatch_group_leave(group);
+                }];
+                
+                dispatch_group_enter(group);
+                [syncService refreshReportsWithEnterpriseId:enterpriseId LatestSyncTime:reportLatestSync Block:^(BOOL flag){
                     dispatch_group_leave(group);
                 }];
             }
