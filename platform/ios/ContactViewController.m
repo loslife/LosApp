@@ -13,9 +13,6 @@
     BOOL membersInitDone;
     NSMutableArray *members;
     
-    NSMutableArray *enterprises;
-    NSString *currentEnterpriseId;
-    
     UISearchBar *searchBar;
     BOOL searchBarShow;
     LosDropDown *dropDown;
@@ -29,9 +26,6 @@
         
         membersInitDone = NO;
         members = [NSMutableArray array];
-        
-        enterprises = [NSMutableArray array];
-        currentEnterpriseId = @"";
         
         UIButton *switchShop = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
         [switchShop setBackgroundImage:[UIImage imageNamed:@"switch_shop"] forState:UIControlStateNormal];
@@ -65,45 +59,41 @@
 
 -(void) initEnterprises
 {
+    UserData *userData = [UserData load];
+    NSString *currentEnterpriseId = userData.enterpriseId;
+    
+    if(!currentEnterpriseId){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.navigationItem.title = @"我的店铺";
+        });
+        return;
+    }
+    
     NSString *dbFilePath = [PathResolver databaseFilePath];
     FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
     [db open];
     
-    FMResultSet *rs = [db executeQuery:@"select enterprise_id, enterprise_name from enterprises;"];
-    while ([rs next]) {
-        NSString *pk = [rs objectForColumnName:@"enterprise_id"];
-        NSString *name = [rs objectForColumnName:@"enterprise_name"];
-        NSDictionary *enterprise = [NSDictionary dictionaryWithObjects:@[pk, name] forKeys:@[@"id", @"name"]];
-        [enterprises addObject:enterprise];
-    }
+    FMResultSet *rs = [db executeQuery:@"select enterprise_name from enterprises where enterprise_id = :eid;", currentEnterpriseId];
+    [rs next];
+    NSString *enterpriseName = [rs objectForColumnName:@"enterprise_name"];
     
     [db close];
     
-    NSUInteger count = [enterprises count];
-    if(count > 0){
-        currentEnterpriseId = [[enterprises firstObject] objectForKey:@"id"];
-    }else{
-        currentEnterpriseId = @"";
-    }
-    
     dispatch_async(dispatch_get_main_queue(), ^{
-        if(count > 0){
-            NSString *enterpriseName = [[enterprises firstObject] objectForKey:@"name"];
-            if([StringUtils isEmpty:enterpriseName]){
-                self.navigationItem.title = @"我的店铺";
-            }else{
-                self.navigationItem.title = enterpriseName;
-            }
-            
-        }else{
+        
+        if([StringUtils isEmpty:enterpriseName]){
             self.navigationItem.title = @"我的店铺";
+        }else{
+            self.navigationItem.title = enterpriseName;
         }
     });
 }
 
 -(void) initMembers
 {
-    // 无关联企业，不查询
+    UserData *userData = [UserData load];
+    NSString *currentEnterpriseId = userData.enterpriseId;
+    
     if([@"" isEqualToString:currentEnterpriseId]){
         return;
     }
@@ -141,6 +131,9 @@
 
 -(void) refreshMembers:(NSString*)statement
 {
+    UserData *userData = [UserData load];
+    NSString *currentEnterpriseId = userData.enterpriseId;
+    
     NSMutableArray *membersTemp = [NSMutableArray array];
     
     NSString *dbFilePath = [PathResolver databaseFilePath];
@@ -212,34 +205,48 @@
         [self closeSwitchShopMenu];
         return;
     }
+
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
     
-    if([enterprises count] == 0){
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有店铺，请先关联" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
-        [alert show];
-        return;
-    }
-    
-    NSMutableArray *items = [NSMutableArray arrayWithCapacity:1];
-    
-    for(NSDictionary *dict in enterprises){
+        NSString *dbFilePath = [PathResolver databaseFilePath];
+        FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
+        [db open];
         
-        NSString *enterpriseId = [dict objectForKey:@"id"];
-        NSString *enterpriseName = [dict objectForKey:@"name"];
-        if([StringUtils isEmpty:enterpriseName]){
-            enterpriseName = @"我的店铺";
+        FMResultSet *rs = [db executeQuery:@"select count(1) as count from enterprises;"];
+        [rs next];
+        int count = [[rs objectForColumnName:@"count"] intValue];
+        if(count == 0){
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有店铺，请先关联" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
+            [alert show];
+            return;
         }
         
-        LosDropDownItem *item = [[LosDropDownItem alloc] initWithTitle:enterpriseName value:enterpriseId];
-        [items addObject:item];
-    }
-    
-    dropDown = [[LosDropDown alloc] initWithFrame:CGRectMake(150, 20, 150, 28) MenuItems:items Delegate:self];
-    
-    [self.view addSubview:dropDown];
-    
-    UIBarButtonItem *switchButton = [self.navigationItem.rightBarButtonItems firstObject];
-    [(UIButton*)switchButton.customView setBackgroundImage:[UIImage imageNamed:@"switch_shop_close"] forState:UIControlStateNormal];
-    dropDownShow = YES;
+        NSMutableArray *items = [NSMutableArray arrayWithCapacity:1];
+        
+        rs = [db executeQuery:@"select enterprise_id, enterprise_name from enterprises;"];
+        while ([rs next]) {
+            NSString *pk = [rs objectForColumnName:@"enterprise_id"];
+            NSString *name = [rs objectForColumnName:@"enterprise_name"];
+            if([StringUtils isEmpty:name]){
+                name = @"我的店铺";
+            }
+            LosDropDownItem *item = [[LosDropDownItem alloc] initWithTitle:name value:pk];
+            [items addObject:item];
+        }
+        
+        [db close];
+        
+        dropDown = [[LosDropDown alloc] initWithFrame:CGRectMake(150, 20, 150, 28) MenuItems:items Delegate:self];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [self.view addSubview:dropDown];
+            
+            UIBarButtonItem *switchButton = [self.navigationItem.rightBarButtonItems firstObject];
+            [(UIButton*)switchButton.customView setBackgroundImage:[UIImage imageNamed:@"switch_shop_close"] forState:UIControlStateNormal];
+            dropDownShow = YES;
+        });
+    });
 }
 
 -(void) searchButtonTapped
@@ -341,6 +348,9 @@
 
 -(void) menuItemTapped:(NSString*)value
 {
+    UserData *userData = [UserData load];
+    NSString *currentEnterpriseId = userData.enterpriseId;
+    
     if([currentEnterpriseId isEqualToString:value]){
         [self closeSwitchShopMenu];
         return;
@@ -348,28 +358,27 @@
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
     
-        currentEnterpriseId = value;
+        [UserData writeCurrentEnterprise:value];
         
         [members removeAllObjects];
         NSString *statement = @"select id, name, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume from members where enterprise_id = :eid";
         [self refreshMembers:statement];
         
+        NSString *dbFilePath = [PathResolver databaseFilePath];
+        FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
+        [db open];
+        
+        FMResultSet *rs = [db executeQuery:@"select enterprise_name from enterprises where enterprise_id = :eid;", value];
+        [rs next];
+        NSString *enterpriseName = [rs objectForColumnName:@"enterprise_name"];
+        if([StringUtils isEmpty:enterpriseName]){
+            enterpriseName = @"我的店铺";
+        }
+        
+        [db close];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
         
-            NSString* enterpriseName;
-            
-            for(NSDictionary *dict in enterprises){
-                NSString *enterpriseId = [dict objectForKey:@"id"];
-                if(![enterpriseId isEqualToString:value]){
-                    break;
-                }
-                enterpriseName = [dict objectForKey:@"name"];
-            }
-            
-            if(!enterpriseName){
-                enterpriseName = @"我的店铺";
-            }
-            
             self.navigationItem.title = enterpriseName;
             [self.tableView reloadData];
             
