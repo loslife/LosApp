@@ -3,9 +3,11 @@
 @interface UserData : NSObject
 
 @property NSString *userId;
+@property NSString *enterpriseId;
 
 +(UserData*) load;
 +(void) writeUserId:(NSString*)userId;
-+(void) removeUserId;
++(void) writeCurrentEnterprise:(NSString*)enterpirseId;
++(void) remove;
 
 @end

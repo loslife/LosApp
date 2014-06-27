@@ -79,7 +79,7 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     if(buttonIndex == 0){
-        [UserData removeUserId];
+        [UserData remove];
         LosAppDelegate* appDelegate = (LosAppDelegate*)[UIApplication sharedApplication].delegate;
         [appDelegate.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
     }
