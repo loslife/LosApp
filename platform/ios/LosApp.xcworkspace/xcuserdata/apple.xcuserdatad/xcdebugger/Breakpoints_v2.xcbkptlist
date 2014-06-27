@@ -202,12 +202,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LosTimePicker.m"
-            timestampString = "425549626.933298"
+            timestampString = "425553055.970688"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7"
-            endingLineNumber = "7"
+            startingLineNumber = "15"
+            endingLineNumber = "15"
             landmarkName = "-initWithFrame:Delegate:InitDate:type:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LosTimePicker.m"
+            timestampString = "425553310.757633"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "-previousDate"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
