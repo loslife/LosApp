@@ -296,7 +296,7 @@ public class ApiClient
 	 * @param phoneNumber
 	 * @return
 	 */
-	public static ServerResponse getValidateCode(Context appContext,String phoneNumber)
+	public static ServerResponse getValidateCode(Context appContext,String phoneNumber,String codeType)
 	{
 
 		ServerResponse res = new ServerResponse();
@@ -305,7 +305,7 @@ public class ApiClient
 		res.setResult(rt);
 		
 		//String json = _httpget(appContext, MessageFormat.format(Constants.SEND_VALIDATECODE,phoneNumber,"register_losapp"));
-		String json = _httpget(MessageFormat.format(Constants.SEND_VALIDATECODE,phoneNumber,"register_losapp"));
+		String json = _httpget(MessageFormat.format(Constants.SEND_VALIDATECODE,phoneNumber,codeType));
 		Gson gson = new Gson();
 		ServerResponse resp = gson.fromJson(json, ServerResponse.class);
 	

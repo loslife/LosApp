@@ -65,7 +65,7 @@ public class Main extends Activity {
 	{
 		select_shop = (ImageView)findViewById(R.id.headmore);
 		shopname = (TextView)findViewById(R.id.shopname);
-
+		shopname.setText(getIntent().getStringExtra("shopName"));
 		select_shop.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

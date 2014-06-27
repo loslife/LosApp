@@ -89,6 +89,13 @@ public class MemberGoupActivity extends Activity{
 
 		getdata();
 	}
+	
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		getdata();
+	}
 
 	public void initView() {
 		

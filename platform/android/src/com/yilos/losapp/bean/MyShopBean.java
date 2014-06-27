@@ -10,6 +10,10 @@ public class MyShopBean {
 	
 	private String latest_sync;
 	
+	private String contactSyncTime;
+	
+	private String reportSyncTime;
+	
 	private boolean display;
 	
 	private String create_date;
@@ -71,4 +75,22 @@ public class MyShopBean {
 	public void setId(int id) {
 		this.id = id;
 	}
+
+	public String getContactSyncTime() {
+		return contactSyncTime;
+	}
+
+	public void setContactSyncTime(String contactSyncTime) {
+		this.contactSyncTime = contactSyncTime;
+	}
+
+	public String getReportSyncTime() {
+		return reportSyncTime;
+	}
+
+	public void setReportSyncTime(String reportSyncTime) {
+		this.reportSyncTime = reportSyncTime;
+	}
+	
+	
 }

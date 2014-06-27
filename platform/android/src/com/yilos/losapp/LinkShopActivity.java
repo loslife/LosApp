@@ -118,6 +118,11 @@ public class LinkShopActivity extends Activity
 					myshop.setEnterprise_id(res.getResult().getEnterprise_id());
 					myshop.setEnterprise_name(res.getResult().getEnterprise_name());
 					myshopService.addShop(myshop);
+					
+					if(AppContext.getInstance(getBaseContext()).getCurrentDisplayShopId()==null)
+					{
+						AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(res.getResult().getEnterprise_id());
+					}
 					msg.what = 1;
 					
 				}
@@ -195,7 +200,7 @@ public class LinkShopActivity extends Activity
 			public void run(){
 				AppContext ac = (AppContext)getApplication(); 
 				Message msg = new Message();
-				ServerResponse res = ac.getValidatecode(phoneNumber);
+				ServerResponse res = ac.getValidatecode(phoneNumber,"attach");
 				if(res.isSucess())
 				{
 					msg.what = 1;
@@ -231,7 +236,7 @@ public class LinkShopActivity extends Activity
 			public void run(){
 				AppContext ac = (AppContext)getApplication(); 
 				Message msg = new Message();
-				ServerResponse res = ac.checkValidatecode(phoneNumber,"register_losapp",vcode);
+				ServerResponse res = ac.checkValidatecode(phoneNumber,"attach",vcode);
 				if(res.isSucess())
 				{
 					msg.what = 1;

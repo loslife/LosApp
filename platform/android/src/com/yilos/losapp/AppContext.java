@@ -75,9 +75,9 @@ public class AppContext extends Application {
      * @param phoneNumber
      * @return
      */
-    public ServerResponse getValidatecode(String phoneNumber)  {
+    public ServerResponse getValidatecode(String phoneNumber,String codeTyep)  {
 		
-		return ApiClient.getValidateCode(this, phoneNumber);
+		return ApiClient.getValidateCode(this, phoneNumber,codeTyep);
 	}
     
     /**

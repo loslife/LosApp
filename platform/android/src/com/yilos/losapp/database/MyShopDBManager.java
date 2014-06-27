@@ -92,6 +92,8 @@ public class MyShopDBManager {
         	shop.setEnterprise_id(c.getString(c.getColumnIndex("enterprise_id")));
         	shop.setCreate_date(c.getString(c.getColumnIndex("create_date")));
         	shop.setOrder(c.getInt(c.getColumnIndex("order_number")));
+        	shop.setContactSyncTime(c.getString(c.getColumnIndex("contact_latest_sync")));
+        	shop.setReportSyncTime(c.getString(c.getColumnIndex("report_latest_sync")));
         	shops.add(shop);  
         }  
         c.close();  

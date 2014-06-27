@@ -278,7 +278,7 @@ public class RegisterActivity extends Activity
 			public void run(){
 				AppContext ac = (AppContext)getApplication(); 
 				Message msg = new Message();
-				ServerResponse res = ac.getValidatecode(phoneNumber);
+				ServerResponse res = ac.getValidatecode(phoneNumber,"register_losapp");
 				if(res.isSucess())
 				{
 					msg.what = 1;
