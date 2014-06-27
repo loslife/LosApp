@@ -75,7 +75,7 @@
             FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
             [db open];
             
-            NSString *sql = @"select enterprise_id, contact_latest_sync from enterprises";
+            NSString *sql = @"select enterprise_id, contact_latest_sync, report_latest_sync from enterprises";
             FMResultSet *rs = [db executeQuery:sql];
             
             dispatch_group_t group = dispatch_group_create();

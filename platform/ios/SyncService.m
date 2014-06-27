@@ -43,9 +43,21 @@
         
         [dao insertEnterprisesWith:enterpriseId Name:enterpriseName];
         
+        dispatch_group_t group = dispatch_group_create();
+        
+        dispatch_group_enter(group);
         [self refreshMembersWithEnterpriseId:enterpriseId LatestSyncTime:[NSNumber numberWithInt:0] Block:^(BOOL flag){
-            block(0);
+            dispatch_group_leave(group);
         }];
+        
+        dispatch_group_enter(group);
+        [self refreshReportsWithEnterpriseId:enterpriseId LatestSyncTime:[NSNumber numberWithInt:0] Block:^(BOOL flag){
+            dispatch_group_leave(group);
+        }];
+        
+        dispatch_group_notify(group, dispatch_get_global_queue(0, 0), ^{
+            block(0);
+        });
     }];
 }
 
