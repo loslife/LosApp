@@ -1,5 +1,6 @@
 #import <UIKit/UIKit.h>
+#import "LosTimePicker.h"
 
-@interface ReportViewController : UIViewController
+@interface ReportViewController : UIViewController<LosTimePickerDelegate>
 
 @end

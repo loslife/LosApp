@@ -1,4 +1,5 @@
 #import "ReportViewController.h"
+#import "ReportView.h"
 
 @implementation ReportViewController
 
@@ -6,6 +7,14 @@
 {
     self = [super initWithNibName:nibName bundle:bundle];
     if(self){
+        
+        UIButton *switchShop = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+        [switchShop setBackgroundImage:[UIImage imageNamed:@"switch_shop"] forState:UIControlStateNormal];
+        [switchShop addTarget:self action:@selector(switchButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:switchShop];
+        
+        self.navigationItem.title = @"一家好店";
+        
         self.tabBarItem.title = @"经营";
         self.tabBarItem.image = [UIImage imageNamed:@"tab_report"];
     }
@@ -14,15 +23,18 @@
 
 -(void) loadView
 {
-    UIView *view = [[UIView alloc] init];
-    
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(110, 100, 100, 50)];
-    label.text = @"报表";
-    label.textAlignment = NSTextAlignmentCenter;
-    
-    [view addSubview:label];
-    
+    ReportView *view = [[ReportView alloc] initWithController:self];
     self.view = view;
+}
+
+-(void) switchButtonTapped
+{
+    NSLog(@"hehe");
+}
+
+-(void) dateSelected:(NSDate*)date
+{
+    NSLog(@"date picked");
 }
 
 @end
