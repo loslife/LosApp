@@ -8,6 +8,52 @@
     
     <include android:layout_height="50.0dip"
         layout="@layout/main_header" />
+    
+    
+
+    
+     <LinearLayout
+        android:id="@+id/main_relativelayout_header"
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@color/graywhite" >
+
+       <TextView
+            android:id="@+id/lefttime"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="左"
+            android:textColor="@color/black"
+            android:textSize="23.0dip" />
+
+        <TextView
+            android:id="@+id/showtime"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:layout_height="fill_parent"
+            android:layout_weight="2"
+            android:text="2012"
+            android:textColor="@color/black"
+            android:textSize="23.0dip" />
+        
+        <TextView
+            android:id="@+id/righttime"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="右"
+            android:textColor="@color/black"
+            android:textSize="23.0dip" />
+    </LinearLayout>
+    
+     
+    
+
    
     <LinearLayout
         android:layout_width="fill_parent"

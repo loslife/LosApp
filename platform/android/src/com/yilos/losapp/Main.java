@@ -1,5 +1,9 @@
 package com.yilos.losapp;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import com.yilos.losapp.bean.MyShopBean;
@@ -48,11 +52,18 @@ public class Main extends Activity {
 	
 	private TextView  shopname;
 	
+	private TextView showTime;
+	private TextView lefttime;
+	private TextView righttime;
+	
 	private Button button;
 	private PopupWindow popupWindow;
 	private LinearLayout layout;
 	private ListView listView;
 	private String title[] = null;
+	
+	private String dateType = "month";
+	
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -65,7 +76,13 @@ public class Main extends Activity {
 	{
 		select_shop = (ImageView)findViewById(R.id.headmore);
 		shopname = (TextView)findViewById(R.id.shopname);
+		showTime = (TextView) findViewById(R.id.showtime);
+		lefttime = (TextView) findViewById(R.id.lefttime);
+		righttime = (TextView) findViewById(R.id.righttime);
+		
 		shopname.setText(getIntent().getStringExtra("shopName"));
+		showTime.setText(getDateNow());
+		
 		select_shop.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -76,7 +93,58 @@ public class Main extends Activity {
 				showPopupWindow(x, y);
 			}
 		});
-		//initFootBar();
+		
+		lefttime.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				if(dateType=="month")
+				{
+					SimpleDateFormat   formatter   =   new   SimpleDateFormat   ("yyyy年MM月");
+					Calendar   c   =   dateToCal(showTime.getText().toString(),formatter);   
+					c.add(c.MONTH,-1);//得到上个月的月份   
+					     
+					 Date   curDate   =   new   Date(c.getTimeInMillis());//获取当前时间     
+					String   str   =   formatter.format(curDate); 
+					showTime.setText(str);
+				}
+				else
+				{
+					SimpleDateFormat   formatter   =   new   SimpleDateFormat   ("yyyy年MM月dd日");     
+					 Date   curDate   =   new   Date(dateToCal(showTime.getText().toString(),formatter).getTimeInMillis()-86400000);//获取当前时间     
+					String   str   =   formatter.format(curDate); 
+					showTime.setText(str);
+				}
+				
+			}
+		});
+		
+		righttime.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				if(dateType=="month")
+				{
+					SimpleDateFormat   formatter   =   new   SimpleDateFormat   ("yyyy年MM月");
+					Calendar   c   =   dateToCal(showTime.getText().toString(),formatter);  
+					c.add(c.MONTH,+1);//得到下个月的月份   
+					 Date   curDate   =   new   Date(c.getTimeInMillis());//获取当前时间     
+					String   str   =   formatter.format(curDate); 
+					showTime.setText(str);
+				}
+				else
+				{
+					SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日");     
+					Date curDate   =  new   Date(dateToCal(showTime.getText().toString(),formatter).getTimeInMillis()+86400000);//获取当前时间     
+					String   str   =   formatter.format(curDate); 
+					showTime.setText(str);
+				}
+				
+			}
+		});
+		
 	}
 
 	/**
@@ -89,6 +157,8 @@ public class Main extends Activity {
 		contacts = (TextView) findViewById(R.id.contacts);
 
 		setting = (TextView) findViewById(R.id.setting);
+		
+		
 
 		contacts.setOnClickListener(new OnClickListener() {
 
@@ -118,6 +188,8 @@ public class Main extends Activity {
 
 		myshopService = new MyshopManageService(getBaseContext());
 		userAccount = AppContext.getInstance(getBaseContext()).getUserAccount();
+
+		
 		// 查询本地的关联数据
 		List<MyShopBean> myshops = myshopService.queryShops();
 		if (myshops != null && myshops.size() > 0) 
@@ -222,5 +294,28 @@ public class Main extends Activity {
 			}
 		});
 	}
+	
+	public String getDateNow()
+	{
+		SimpleDateFormat   formatter   =   new   SimpleDateFormat   ("yyyy年MM月dd日");     
+		 Date   curDate   =   new   Date(System.currentTimeMillis());//获取当前时间     
+		String   str   =   formatter.format(curDate); 
+		return str;
+	}
+	
+	public Calendar dateToCal (String in,SimpleDateFormat format) {
+  
+        Date date;
+        Calendar cal = Calendar.getInstance();
+		try {
+			date = format.parse(in);
+	        cal.setTime(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+        
+        return cal;
+}
 
 }

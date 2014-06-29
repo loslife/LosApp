@@ -57,11 +57,11 @@ public class LoginActivity extends Activity{
 					UIHelper.ToastMessage(v.getContext(), "请输入密码");
 					return;
 				}
-				loginUser(account,pwd);
+				//loginUser(account,pwd);
 				//跳转到主界面
-				/*Intent main = new Intent();
-				main.setClass(LoginActivity.this, LaunchActivity.class);
-				startActivity(main);*/
+				Intent main = new Intent();
+				main.setClass(LoginActivity.this, Main.class);
+				startActivity(main);
 			}
 		});
 		

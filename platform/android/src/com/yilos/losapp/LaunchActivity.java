@@ -35,7 +35,7 @@ public class LaunchActivity extends Activity {
 		Handler x = new Handler();// 定义一个handle对象
 		userAccount = AppContext.getInstance(getBaseContext()).getUserAccount();
 		boolean isLogin = AppContext.getInstance(getBaseContext()).isLogin();
-		if(isLogin)
+		if(true)
 		{
 			toMain();
 		}
