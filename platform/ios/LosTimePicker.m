@@ -59,7 +59,7 @@
     currentDate = [currentDate dateByAddingTimeInterval:-secondsPerDay];
     
     label.text = [self resolveDateLabel];
-    [myDelegate dateSelected:currentDate];
+    [myDelegate dateSelected:currentDate Type:dateType];
 }
 
 -(void) nextDate
@@ -68,7 +68,7 @@
     currentDate = [currentDate dateByAddingTimeInterval:secondsPerDay];
     
     label.text = [self resolveDateLabel];
-    [myDelegate dateSelected:currentDate];
+    [myDelegate dateSelected:currentDate Type:dateType];
 }
 
 -(void) switchType
@@ -80,6 +80,7 @@
     
     displayTag.text = [self resolveDisplayTag];
     label.text = [self resolveDateLabel];
+    [myDelegate dateSelected:currentDate Type:dateType];
 }
 
 -(NSString*) resolveDateLabel
