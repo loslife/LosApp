@@ -16,30 +16,20 @@
         label.textAlignment = NSTextAlignmentCenter;
         label.backgroundColor = [UIColor redColor];
         
-        UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(pullRight)];
-        swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
-        
-        UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(pullLeft)];
-        swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
-        
-        [label addGestureRecognizer:swipeLeft];
-        [label addGestureRecognizer:swipeRight];
-        label.userInteractionEnabled = YES;
-        
         [self addSubview:dateSelectionBar];
         [self addSubview:label];
     }
     return self;
 }
 
--(void) pullRight
+- (void) handleSwipeLeft
 {
-    NSLog(@"pull right");
+    NSLog(@"swipe left");
 }
 
--(void) pullLeft
+- (void) handleSwipeRight
 {
-    NSLog(@"pull left");
+    NSLog(@"swipe right");
 }
 
 @end

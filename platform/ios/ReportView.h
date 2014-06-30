@@ -1,7 +1,8 @@
 #import <UIKit/UIKit.h>
+#import "ReportViewBase.h"
 #import "ReportViewController.h"
 
-@interface ReportView : UIView
+@interface ReportView : ReportViewBase
 
 -(id) initWithController:(ReportViewController*)controller;
 
