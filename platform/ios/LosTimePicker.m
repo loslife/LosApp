@@ -41,7 +41,7 @@
         UIButton *change = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         change.frame = CGRectMake(300, 10, 20, 20);
         [change setTitle:@"换" forState:UIControlStateNormal];
-        [change addTarget:self action:@selector(switchType) forControlEvents:UIControlEventTouchUpInside];
+        [change addTarget:self action:@selector(switchDateType) forControlEvents:UIControlEventTouchUpInside];
         
         self.backgroundColor = [UIColor colorWithRed:241/255.0f green:241/255.0f blue:241/255.0f alpha:1.0f];
         [self addSubview:previous];
@@ -53,10 +53,23 @@
     return self;
 }
 
+#pragma mark - button pressed
+
 -(void) previousDate
 {
-    NSTimeInterval secondsPerDay = 60 * 60 * 24;
-    currentDate = [currentDate dateByAddingTimeInterval:-secondsPerDay];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekOfYear fromDate:currentDate];
+    
+    if(dateType == DateDisplayTypeDay){
+        components.day --;
+    }else if (dateType == DateDisplayTypeMonth){
+        components.month --;
+    }else{
+        components.weekOfYear --;
+    }
+    NSDate *yesterday = [calendar dateFromComponents:components];
+    
+    currentDate = yesterday;
     
     label.text = [self resolveDateLabel];
     [myDelegate dateSelected:currentDate Type:dateType];
@@ -64,14 +77,25 @@
 
 -(void) nextDate
 {
-    NSTimeInterval secondsPerDay = 60 * 60 * 24;
-    currentDate = [currentDate dateByAddingTimeInterval:secondsPerDay];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekOfYear fromDate:currentDate];
+    
+    if(dateType == DateDisplayTypeDay){
+        components.day ++;
+    }else if (dateType == DateDisplayTypeMonth){
+        components.month ++;
+    }else{
+        components.weekOfYear ++;
+    }
+    NSDate *tomorrow = [calendar dateFromComponents:components];
+    
+    currentDate = tomorrow;
     
     label.text = [self resolveDateLabel];
     [myDelegate dateSelected:currentDate Type:dateType];
 }
 
--(void) switchType
+-(void) switchDateType
 {
     dateType++;
     if(dateType > DateDisplayTypeWeek){
@@ -83,14 +107,19 @@
     [myDelegate dateSelected:currentDate Type:dateType];
 }
 
+#pragma mark - change label text
+
 -(NSString*) resolveDateLabel
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     if(dateType == DateDisplayTypeDay){
         [dateFormatter setDateFormat:@"yyyy年MM月dd日"];
-    }else{
+    }else if(dateType == DateDisplayTypeMonth){
         [dateFormatter setDateFormat:@"yyyy年MM月"];
+    }else{
+        [dateFormatter setDateFormat:@"ww周"];
     }
+    
     return [dateFormatter stringFromDate:currentDate];
 }
 
