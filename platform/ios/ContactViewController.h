@@ -1,7 +1,7 @@
 #import <UIKit/UIKit.h>
-#import "LosDropDown.h"
+#import "SwitchShopButton.h"
 
-@interface ContactViewController : UITableViewController<UISearchBarDelegate, LosDropDownDelegate>
+@interface ContactViewController : UITableViewController<UISearchBarDelegate, SwitchShopButtonDelegate>
 
 -(void) searchButtonTapped;
 -(void) hideSubViews:(UITapGestureRecognizer *)recognizer;

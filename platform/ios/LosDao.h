@@ -7,5 +7,8 @@
 -(void) batchUpdateMembers:(NSDictionary*)records LastSync:(NSNumber*)lastSync EnterpriseId:(NSString*)enterpriseId;
 -(void) batchUpdateReports:(NSDictionary*)records LastSync:(NSNumber*)lastSync EnterpriseId:(NSString*)enterpriseId;
 -(NSArray*) queryEmployeePerformanceByDate:(NSDate*)date EnterpriseId:(NSString*)enterpriseId Type:(int)type;
+-(int) countEnterprises;
+-(NSArray*) queryAllEnterprises;
+-(NSString*) queryEnterpriseNameById:(NSString*)pk;
 
 @end

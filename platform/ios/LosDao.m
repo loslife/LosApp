@@ -3,6 +3,7 @@
 #import "FMDB.h"
 #import "TimesHelper.h"
 #import "EmployeePerformance.h"
+#import "Enterprise.h"
 
 @implementation LosDao
 
@@ -173,6 +174,57 @@
     [db close];
     
     return performances;
+}
+
+-(int) countEnterprises
+{
+    NSString *dbFilePath = [PathResolver databaseFilePath];
+    FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
+    [db open];
+    
+    FMResultSet *rs = [db executeQuery:@"select count(1) as count from enterprises;"];
+    [rs next];
+    int count = [[rs objectForColumnName:@"count"] intValue];
+    
+    [db close];
+    
+    return count;
+}
+
+-(NSArray*) queryAllEnterprises
+{
+    NSString *dbFilePath = [PathResolver databaseFilePath];
+    FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
+    [db open];
+    
+    NSMutableArray *enterprises = [NSMutableArray arrayWithCapacity:1];
+    
+    FMResultSet *rs = [db executeQuery:@"select enterprise_id, enterprise_name from enterprises;"];
+    while ([rs next]) {
+        NSString *pk = [rs objectForColumnName:@"enterprise_id"];
+        NSString *name = [rs objectForColumnName:@"enterprise_name"];
+        Enterprise *enterprise = [[Enterprise alloc] initWithId:pk Name:name];
+        [enterprises addObject:enterprise];
+    }
+    
+    [db close];
+    
+    return enterprises;
+}
+
+-(NSString*) queryEnterpriseNameById:(NSString*)pk
+{
+    NSString *dbFilePath = [PathResolver databaseFilePath];
+    FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
+    [db open];
+    
+    FMResultSet *rs = [db executeQuery:@"select enterprise_name from enterprises where enterprise_id = :eid;", pk];
+    [rs next];
+    NSString *name = [rs objectForColumnName:@"enterprise_name"];
+    
+    [db close];
+    
+    return name;
 }
 
 @end

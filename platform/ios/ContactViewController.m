@@ -15,8 +15,6 @@
     
     UISearchBar *searchBar;
     BOOL searchBarShow;
-    LosDropDown *dropDown;
-    BOOL dropDownShow;
 }
 
 -(id) initWithNibName:(NSString*)nibName bundle:(NSBundle*)bundle
@@ -27,19 +25,14 @@
         membersInitDone = NO;
         members = [NSMutableArray array];
         
-        UIButton *switchShop = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-        [switchShop setBackgroundImage:[UIImage imageNamed:@"switch_shop"] forState:UIControlStateNormal];
-        [switchShop addTarget:self action:@selector(switchButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:switchShop];
-
+        self.navigationItem.rightBarButtonItem = [[SwitchShopButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20) Delegate:self];
+        
         self.tabBarItem.title = @"会员";
         self.tabBarItem.image = [UIImage imageNamed:@"tab_contact"];
         
         searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
         searchBar.delegate = self;
         searchBarShow = NO;
-        
-        dropDownShow = NO;
     }
     return self;
 }
@@ -183,72 +176,6 @@
     }
 }
 
--(void) closeSwitchShopMenu{
-    
-    if(!dropDownShow){
-        return;
-    }
-    
-    [dropDown removeFromSuperview];
-    
-    UIBarButtonItem *switchButton = [self.navigationItem.rightBarButtonItems firstObject];
-    [(UIButton*)switchButton.customView setBackgroundImage:[UIImage imageNamed:@"switch_shop"] forState:UIControlStateNormal];
-    
-    dropDownShow = NO;
-}
-
-#pragma mark - responder
-
--(void) switchButtonTapped
-{
-    if(dropDownShow){
-        [self closeSwitchShopMenu];
-        return;
-    }
-
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-    
-        NSString *dbFilePath = [PathResolver databaseFilePath];
-        FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
-        [db open];
-        
-        FMResultSet *rs = [db executeQuery:@"select count(1) as count from enterprises;"];
-        [rs next];
-        int count = [[rs objectForColumnName:@"count"] intValue];
-        if(count == 0){
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有店铺，请先关联" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
-            [alert show];
-            return;
-        }
-        
-        NSMutableArray *items = [NSMutableArray arrayWithCapacity:1];
-        
-        rs = [db executeQuery:@"select enterprise_id, enterprise_name from enterprises;"];
-        while ([rs next]) {
-            NSString *pk = [rs objectForColumnName:@"enterprise_id"];
-            NSString *name = [rs objectForColumnName:@"enterprise_name"];
-            if([StringUtils isEmpty:name]){
-                name = @"我的店铺";
-            }
-            LosDropDownItem *item = [[LosDropDownItem alloc] initWithTitle:name value:pk];
-            [items addObject:item];
-        }
-        
-        [db close];
-        
-        dropDown = [[LosDropDown alloc] initWithFrame:CGRectMake(150, 20, 150, 28) MenuItems:items Delegate:self];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            [self.view addSubview:dropDown];
-            
-            UIBarButtonItem *switchButton = [self.navigationItem.rightBarButtonItems firstObject];
-            [(UIButton*)switchButton.customView setBackgroundImage:[UIImage imageNamed:@"switch_shop_close"] forState:UIControlStateNormal];
-            dropDownShow = YES;
-        });
-    });
-}
-
 -(void) searchButtonTapped
 {
     [self.view addSubview:searchBar];
@@ -344,45 +271,18 @@
     [self.navigationController pushViewController:detail animated:YES];
 }
 
-#pragma mark - drop down delegate
+#pragma mark - SwitchShopButtonDelegate
 
--(void) menuItemTapped:(NSString*)value
+-(void) enterpriseSelected:(NSString*)enterpriseId
 {
-    UserData *userData = [UserData load];
-    NSString *currentEnterpriseId = userData.enterpriseId;
-    
-    if([currentEnterpriseId isEqualToString:value]){
-        [self closeSwitchShopMenu];
-        return;
-    }
-    
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-    
-        [UserData writeCurrentEnterprise:value];
         
         [members removeAllObjects];
         NSString *statement = @"select id, name, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume from members where enterprise_id = :eid";
         [self refreshMembers:statement];
         
-        NSString *dbFilePath = [PathResolver databaseFilePath];
-        FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
-        [db open];
-        
-        FMResultSet *rs = [db executeQuery:@"select enterprise_name from enterprises where enterprise_id = :eid;", value];
-        [rs next];
-        NSString *enterpriseName = [rs objectForColumnName:@"enterprise_name"];
-        if([StringUtils isEmpty:enterpriseName]){
-            enterpriseName = @"我的店铺";
-        }
-        
-        [db close];
-        
         dispatch_async(dispatch_get_main_queue(), ^{
-        
-            self.navigationItem.title = enterpriseName;
             [self.tableView reloadData];
-            
-            [self closeSwitchShopMenu];
         });
     });
 }

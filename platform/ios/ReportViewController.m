@@ -16,10 +16,7 @@
         
         dao = [[LosDao alloc] init];
         
-        UIButton *switchShop = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-        [switchShop setBackgroundImage:[UIImage imageNamed:@"switch_shop"] forState:UIControlStateNormal];
-        [switchShop addTarget:self action:@selector(switchButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:switchShop];
+        self.navigationItem.rightBarButtonItem = [[SwitchShopButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20) Delegate:self];
         
         self.navigationItem.title = @"一家好店";
         
@@ -60,14 +57,16 @@
     });
 }
 
--(void) switchButtonTapped
-{
-    NSLog(@"hehe");
-}
-
 -(void) dateSelected:(NSDate*)date Type:(DateDisplayType)type
 {
     NSLog(@"date picked");
+}
+
+#pragma mark - SwitchShopButtonDelegate
+
+-(void) enterpriseSelected:(NSString*)enterpriseId
+{
+    NSLog(@"enterprise switch");
 }
 
 @end

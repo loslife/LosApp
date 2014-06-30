@@ -20,6 +20,8 @@
 		1844725E195C0BB300B4A543 /* LosDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844725D195C0BB300B4A543 /* LosDao.m */; };
 		18447261195D532600B4A543 /* LosTimePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 18447260195D532600B4A543 /* LosTimePicker.m */; };
 		18447264195D562B00B4A543 /* ReportView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18447263195D562B00B4A543 /* ReportView.m */; };
+		1844726719614A4300B4A543 /* SwitchShopButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844726619614A4300B4A543 /* SwitchShopButton.m */; };
+		1844726A196151E400B4A543 /* Enterprise.m in Sources */ = {isa = PBXBuildFile; fileRef = 18447269196151E400B4A543 /* Enterprise.m */; };
 		186667011949864100A345F7 /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186667001949864100A345F7 /* WelcomeViewController.m */; };
 		1866670519498B5600A345F7 /* UserData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670419498B5600A345F7 /* UserData.m */; };
 		1866670819498D1C00A345F7 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670719498D1C00A345F7 /* LoginViewController.m */; };
@@ -82,6 +84,10 @@
 		18447260195D532600B4A543 /* LosTimePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LosTimePicker.m; sourceTree = "<group>"; };
 		18447262195D562B00B4A543 /* ReportView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportView.h; sourceTree = "<group>"; };
 		18447263195D562B00B4A543 /* ReportView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportView.m; sourceTree = "<group>"; };
+		1844726519614A4300B4A543 /* SwitchShopButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchShopButton.h; sourceTree = "<group>"; };
+		1844726619614A4300B4A543 /* SwitchShopButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchShopButton.m; sourceTree = "<group>"; };
+		18447268196151E400B4A543 /* Enterprise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Enterprise.h; sourceTree = "<group>"; };
+		18447269196151E400B4A543 /* Enterprise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Enterprise.m; sourceTree = "<group>"; };
 		186666FF1949864100A345F7 /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
 		186667001949864100A345F7 /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
 		1866670319498B5600A345F7 /* UserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserData.h; sourceTree = "<group>"; };
@@ -277,6 +283,8 @@
 				18AFE5FF195296D70083C972 /* Member.m */,
 				18447258195C060400B4A543 /* EmployeePerformance.h */,
 				18447259195C060400B4A543 /* EmployeePerformance.m */,
+				18447268196151E400B4A543 /* Enterprise.h */,
+				18447269196151E400B4A543 /* Enterprise.m */,
 			);
 			name = domain;
 			sourceTree = "<group>";
@@ -300,6 +308,8 @@
 				184472561959545B00B4A543 /* LosTextField.m */,
 				1844725F195D532600B4A543 /* LosTimePicker.h */,
 				18447260195D532600B4A543 /* LosTimePicker.m */,
+				1844726519614A4300B4A543 /* SwitchShopButton.h */,
+				1844726619614A4300B4A543 /* SwitchShopButton.m */,
 			);
 			name = widget;
 			sourceTree = "<group>";
@@ -517,6 +527,7 @@
 				186667421949FB6100A345F7 /* SettingViewController.m in Sources */,
 				1866670819498D1C00A345F7 /* LoginViewController.m in Sources */,
 				186667181949AD4900A345F7 /* PathResolver.m in Sources */,
+				1844726A196151E400B4A543 /* Enterprise.m in Sources */,
 				1844724B195840C200B4A543 /* PasswordViewController.m in Sources */,
 				1866670B19498F1D00A345F7 /* BootstrapViewController.m in Sources */,
 				1866673C1949F8F100A345F7 /* ReportViewController.m in Sources */,
@@ -544,6 +555,7 @@
 				18447261195D532600B4A543 /* LosTimePicker.m in Sources */,
 				18AFE5F5195178210083C972 /* UITableViewCell+ReuseIdentifier.m in Sources */,
 				1844725E195C0BB300B4A543 /* LosDao.m in Sources */,
+				1844726719614A4300B4A543 /* SwitchShopButton.m in Sources */,
 				1866673F1949F98200A345F7 /* ContactViewController.m in Sources */,
 				18AFE6031952D1A10083C972 /* AddShopViewController.m in Sources */,
 				1844725A195C060400B4A543 /* EmployeePerformance.m in Sources */,
