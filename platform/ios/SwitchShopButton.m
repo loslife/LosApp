@@ -59,12 +59,11 @@
             [items addObject:item];
         }
         
-        dropDown = [[LosDropDown alloc] initWithFrame:CGRectMake(150, 20, 150, 28) MenuItems:items Delegate:self];
+        dropDown = [[LosDropDown alloc] initWithFrame:CGRectMake(150, 70, 150, 28) MenuItems:items Delegate:self];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            
-            UIViewController *controller = (UIViewController*)myDelegate;
-            [controller.view addSubview:dropDown];
+
+            [[[UIApplication sharedApplication] keyWindow] addSubview:dropDown];
             
             [(UIButton*)self.customView setBackgroundImage:[UIImage imageNamed:@"switch_shop_close"] forState:UIControlStateNormal];
             dropDownShow = YES;
