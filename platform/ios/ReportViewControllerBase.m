@@ -1,4 +1,5 @@
 #import "ReportViewControllerBase.h"
+#import "ReportDateStatus.h"
 
 @implementation ReportViewControllerBase
 
@@ -14,7 +15,9 @@
 
 -(void) dateSelected:(NSDate*)date Type:(DateDisplayType)type
 {
-    [self doesNotRecognizeSelector:_cmd];
+    ReportDateStatus *status = [ReportDateStatus sharedInstance];
+    [status setDate:date];
+    [status setDateType:type];
 }
 
 -(void) enterpriseSelected:(NSString*)enterpriseId

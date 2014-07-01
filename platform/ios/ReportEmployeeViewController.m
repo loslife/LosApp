@@ -26,7 +26,7 @@
     return self;
 }
 
--(void) loadView
+-(void) viewWillAppear:(BOOL)animated
 {
     ReportEmployeeView *view = [[ReportEmployeeView alloc] initWithController:self];
     self.view = view;
@@ -61,7 +61,8 @@
 
 -(void) dateSelected:(NSDate*)date Type:(DateDisplayType)type
 {
-    NSLog(@"date picked");
+    [super dateSelected:date Type:type];
+    NSLog(@"employee date picked");
 }
 
 -(void) enterpriseSelected:(NSString*)enterpriseId

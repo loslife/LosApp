@@ -25,7 +25,8 @@
 
 -(void) dateSelected:(NSDate*)date Type:(DateDisplayType)type
 {
-    NSLog(@"date picked");
+    [super dateSelected:date Type:type];
+    NSLog(@"custom date picked");
 }
 
 -(void) enterpriseSelected:(NSString*)enterpriseId
