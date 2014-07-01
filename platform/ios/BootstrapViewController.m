@@ -197,7 +197,7 @@
     
     UITabBarController *mainViewController = [[UITabBarController alloc] init];
     
-    ReportViewController *reportViewController = [[ReportViewController alloc] init];
+    ReportEmployeeViewController *reportViewController = [[ReportEmployeeViewController alloc] init];
     UINavigationController *reportNav = [[UINavigationController alloc] initWithRootViewController:reportViewController];
     
     ContactViewController *contactViewController = [[ContactViewController alloc] init];

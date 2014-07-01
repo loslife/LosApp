@@ -1,9 +1,10 @@
-#import "ReportViewController.h"
-#import "ReportView.h"
+#import "ReportEmployeeViewController.h"
+#import "ReportEmployeeView.h"
 #import "LosDao.h"
 #import "UserData.h"
+#import "ReportCustomViewController.h"
 
-@implementation ReportViewController
+@implementation ReportEmployeeViewController
 
 {
     LosDao *dao;
@@ -17,7 +18,6 @@
         dao = [[LosDao alloc] init];
         
         self.navigationItem.rightBarButtonItem = [[SwitchShopButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20) Delegate:self];
-        
         self.navigationItem.title = @"一家好店";
         
         self.tabBarItem.title = @"经营";
@@ -28,7 +28,7 @@
 
 -(void) loadView
 {
-    ReportView *view = [[ReportView alloc] initWithController:self];
+    ReportEmployeeView *view = [[ReportEmployeeView alloc] initWithController:self];
     self.view = view;
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -57,16 +57,27 @@
     });
 }
 
+#pragma mark - abstract method implementation
+
 -(void) dateSelected:(NSDate*)date Type:(DateDisplayType)type
 {
     NSLog(@"date picked");
 }
 
-#pragma mark - SwitchShopButtonDelegate
-
 -(void) enterpriseSelected:(NSString*)enterpriseId
 {
     NSLog(@"enterprise switch");
+}
+
+- (void) handleSwipeLeft
+{
+    ReportCustomViewController *custom = [[ReportCustomViewController alloc] init];
+    [self.navigationController pushViewController:custom animated:YES];
+}
+
+- (void) handleSwipeRight
+{
+    
 }
 
 @end
