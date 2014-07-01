@@ -3,7 +3,7 @@ package com.yilos.losapp;
 
 import com.yilos.losapp.api.ApiClient;
 import com.yilos.losapp.bean.Result;
-import com.yilos.losapp.bean.ServerResponse;
+import com.yilos.losapp.bean.ServerMemberResponse;
 
 import android.app.Application;
 import android.content.Context;
@@ -54,7 +54,7 @@ public class AppContext extends Application {
 	 * @param pwd
 	 * @return
 	 */
-	public ServerResponse loginVerify(String account, String pwd)  {
+	public ServerMemberResponse loginVerify(String account, String pwd)  {
 		
 		return ApiClient.login(this, account, pwd);
 	}
@@ -65,7 +65,7 @@ public class AppContext extends Application {
 	 * @param pwd
 	 * @return
 	 */
-    public ServerResponse register(String account, String pwd)  {
+    public ServerMemberResponse register(String account, String pwd)  {
 		
 		return ApiClient.register(this, account, pwd);
 	}
@@ -75,7 +75,7 @@ public class AppContext extends Application {
      * @param phoneNumber
      * @return
      */
-    public ServerResponse getValidatecode(String phoneNumber,String codeTyep)  {
+    public ServerMemberResponse getValidatecode(String phoneNumber,String codeTyep)  {
 		
 		return ApiClient.getValidateCode(this, phoneNumber,codeTyep);
 	}
@@ -85,7 +85,7 @@ public class AppContext extends Application {
      * @param phoneNumber
      * @return
      */
-    public ServerResponse checkValidatecode(String phoneNumber,String checkType,String code)  {
+    public ServerMemberResponse checkValidatecode(String phoneNumber,String checkType,String code)  {
 		
 		return ApiClient.checkValidateCode(this, phoneNumber, checkType,code);
 	}
@@ -96,12 +96,12 @@ public class AppContext extends Application {
      * @param phoneNumber
      * @return
      */
-    public ServerResponse checkUserAccount(String phoneNumber)
+    public ServerMemberResponse checkUserAccount(String phoneNumber)
     {
     	return ApiClient.checkUserAccount(this, phoneNumber);
     }
     
-    public ServerResponse modifyPwd(String phoneNumber,String pwd,String newpwd)
+    public ServerMemberResponse modifyPwd(String phoneNumber,String pwd,String newpwd)
     {
     	return ApiClient.modifyUserPwd(this, phoneNumber,pwd,newpwd);
     }
@@ -111,7 +111,7 @@ public class AppContext extends Application {
      * @param phoneNumber
      * @return
      */
-    public ServerResponse checkShopAccount(String phoneNumber)
+    public ServerMemberResponse checkShopAccount(String phoneNumber)
     {
     	return ApiClient.checkShopAccount(this, phoneNumber);
     }
@@ -121,7 +121,7 @@ public class AppContext extends Application {
      * @param phoneNumber
      * @return
      */
-    public ServerResponse getMembersContacts(String shopId,String lasSyncTime)
+    public ServerMemberResponse getMembersContacts(String shopId,String lasSyncTime)
     {
     	return ApiClient.getMembersContacts(this, shopId,lasSyncTime);
     }
@@ -131,12 +131,12 @@ public class AppContext extends Application {
      * @param phoneNumber
      * @return
      */
-    public ServerResponse getMyshopList(String phoneNumber)
+    public ServerMemberResponse getMyshopList(String phoneNumber)
     {
     	return ApiClient.getMyshopList(this, phoneNumber);
     }
     
-    public ServerResponse linkshop(String userAccount,String shopAccount)
+    public ServerMemberResponse linkshop(String userAccount,String shopAccount)
     {
     	return ApiClient.linkshop(appContext, userAccount, shopAccount);
     }

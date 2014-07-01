@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.MessageFormat;
@@ -31,7 +32,7 @@ import org.apache.http.params.CoreConnectionPNames;
 
 import com.google.gson.Gson;
 import com.yilos.losapp.bean.Result;
-import com.yilos.losapp.bean.ServerResponse;
+import com.yilos.losapp.bean.ServerMemberResponse;
 import com.yilos.losapp.common.Constants;
 import com.yilos.losapp.common.LosSSLFactory;
 
@@ -230,13 +231,13 @@ public class ApiClient
 	 * @param pwd
 	 * @return
 	 */
-	public static ServerResponse login(Context appContext, String username, String pwd) {
+	public static ServerMemberResponse login(Context appContext, String username, String pwd) {
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("username", username));
 		params.add(new BasicNameValuePair("password", pwd));				
 		
-		ServerResponse res = new ServerResponse();
+		ServerMemberResponse res = new ServerMemberResponse();
 		res.setCode(0);
 		Result rt = new Result();
 		res.setResult(rt);
@@ -245,7 +246,7 @@ public class ApiClient
 		String json = _httppost(Constants.LOGIN_URL,params);
 		
 		Gson gson = new Gson();
-		ServerResponse resp = gson.fromJson(json, ServerResponse.class);
+		ServerMemberResponse resp = gson.fromJson(json, ServerMemberResponse.class);
 	
 		return resp;
 	}
@@ -257,13 +258,13 @@ public class ApiClient
 	 * @param pwd
 	 * @return
 	 */
-	public static ServerResponse register(Context appContext, String username, String pwd) {
+	public static ServerMemberResponse register(Context appContext, String username, String pwd) {
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("username", username));
 		params.add(new BasicNameValuePair("password", pwd));
 
-		ServerResponse res = new ServerResponse();
+		ServerMemberResponse res = new ServerMemberResponse();
 		res.setCode(0);
 		Result rt = new Result();
 		res.setResult(rt);
@@ -271,12 +272,12 @@ public class ApiClient
 		//String json = _post(appContext, Constants.REGISTER_URL,params);
 		String json = _httppost(Constants.REGISTER_URL,params);
 		Gson gson = new Gson();
-		ServerResponse resp = gson.fromJson(json, ServerResponse.class);
+		ServerMemberResponse resp = gson.fromJson(json, ServerMemberResponse.class);
 	
 		return resp;
 	}
 	
-	public static ServerResponse modifyUserPwd(Context appContext, String username, String pwd,String newpwd) {
+	public static ServerMemberResponse modifyUserPwd(Context appContext, String username, String pwd,String newpwd) {
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("account", username));
@@ -286,7 +287,7 @@ public class ApiClient
 		//String json = _post(appContext, Constants.REGISTER_URL,params);
 		String json = _httppost(Constants.MODIFYPWD_URL,params);
 		Gson gson = new Gson();
-		ServerResponse resp = gson.fromJson(json, ServerResponse.class);
+		ServerMemberResponse resp = gson.fromJson(json, ServerMemberResponse.class);
 	
 		return resp;
 	}
@@ -296,10 +297,10 @@ public class ApiClient
 	 * @param phoneNumber
 	 * @return
 	 */
-	public static ServerResponse getValidateCode(Context appContext,String phoneNumber,String codeType)
+	public static ServerMemberResponse getValidateCode(Context appContext,String phoneNumber,String codeType)
 	{
 
-		ServerResponse res = new ServerResponse();
+		ServerMemberResponse res = new ServerMemberResponse();
 		res.setCode(0);
 		Result rt = new Result();
 		res.setResult(rt);
@@ -307,7 +308,7 @@ public class ApiClient
 		//String json = _httpget(appContext, MessageFormat.format(Constants.SEND_VALIDATECODE,phoneNumber,"register_losapp"));
 		String json = _httpget(MessageFormat.format(Constants.SEND_VALIDATECODE,phoneNumber,codeType));
 		Gson gson = new Gson();
-		ServerResponse resp = gson.fromJson(json, ServerResponse.class);
+		ServerMemberResponse resp = gson.fromJson(json, ServerMemberResponse.class);
 	
 		return resp;
 	}
@@ -318,21 +319,21 @@ public class ApiClient
 	 * @return
 	 * @throws UnsupportedEncodingException
 	 */
-	public static ServerResponse findPassword(Context appContext,String username, String pwd)
+	public static ServerMemberResponse findPassword(Context appContext,String username, String pwd)
 	{
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("username", username));
 		params.add(new BasicNameValuePair("pwd", pwd));
 
-		ServerResponse res = new ServerResponse();
+		ServerMemberResponse res = new ServerMemberResponse();
 		res.setCode(0);
 		Result rt = new Result();
 		res.setResult(rt);
 		
 		//String json = _post(appContext, Constants.REGISTER_URL,params);
 		Gson gson = new Gson();
-		ServerResponse resp = gson.fromJson(gson.toJson(res), ServerResponse.class);
+		ServerMemberResponse resp = gson.fromJson(gson.toJson(res), ServerMemberResponse.class);
 	
 		return resp;
 	}
@@ -343,17 +344,17 @@ public class ApiClient
 	 * @return
 	 * @throws UnsupportedEncodingException
 	 */
-	public static ServerResponse checkUserAccount(Context appContext,String mobileNumber)
+	public static ServerMemberResponse checkUserAccount(Context appContext,String mobileNumber)
 	{
 
-		ServerResponse res = new ServerResponse();
+		ServerMemberResponse res = new ServerMemberResponse();
 		res.setCode(0);
 		Result rt = new Result();
 		res.setResult(rt);
 		
 		//String json = _get(appContext, MessageFormat.format(Constants.CHECK_VALIDATECODE_SERVICE, mobileNumber));
 		Gson gson = new Gson();
-		ServerResponse resp = gson.fromJson(gson.toJson(res), ServerResponse.class);
+		ServerMemberResponse resp = gson.fromJson(gson.toJson(res), ServerMemberResponse.class);
 	
 		return resp;
 	}
@@ -364,10 +365,10 @@ public class ApiClient
 	 * @return
 	 * @throws UnsupportedEncodingException
 	 */
-	public static ServerResponse checkShopAccount(Context appContext,String mobileNumber)
+	public static ServerMemberResponse checkShopAccount(Context appContext,String mobileNumber)
 	{
 
-		ServerResponse res = new ServerResponse();
+		ServerMemberResponse res = new ServerMemberResponse();
 		res.setCode(0);
 		Result rt = new Result();
 		res.setResult(rt);
@@ -375,7 +376,7 @@ public class ApiClient
 		//String json = _get(appContext, MessageFormat.format(Constants.CHECK_VALIDATECODE_SERVICE, mobileNumber));
 		String json = _httpget(MessageFormat.format(Constants.CHECK_VALIDATECODE_SERVICE, mobileNumber));
 		Gson gson = new Gson();
-		ServerResponse resp = gson.fromJson(gson.toJson(res), ServerResponse.class);
+		ServerMemberResponse resp = gson.fromJson(gson.toJson(res), ServerMemberResponse.class);
 	
 		return resp;
 	}
@@ -387,10 +388,10 @@ public class ApiClient
 	 * @param validateCode
 	 * @return
 	 */
-	public static ServerResponse checkValidateCode(Context appContext,String mobileNumber,String checkType,String validateCode)
+	public static ServerMemberResponse checkValidateCode(Context appContext,String mobileNumber,String checkType,String validateCode)
 	{
 
-		ServerResponse res = new ServerResponse();
+		ServerMemberResponse res = new ServerMemberResponse();
 		res.setCode(0);
 		Result rt = new Result();
 		res.setResult(rt);
@@ -399,54 +400,55 @@ public class ApiClient
 		//CHECK_VALIDATECODE_SERVICE = "http://192.168.1.116:5000/svc/checkCode/{0}?u={1}&c={2}"
 		String json = _httpget(MessageFormat.format(Constants.CHECK_VALIDATECODE_SERVICE, mobileNumber,checkType,validateCode));
 		Gson gson = new Gson();
-		ServerResponse resp = gson.fromJson(json, ServerResponse.class);
+		ServerMemberResponse resp = gson.fromJson(json, ServerMemberResponse.class);
 	
 		return resp;
 	}
 	
-	public static ServerResponse getMembersContacts(Context appContext,String enterpriseId,String lasSyncTime)
+	public static ServerMemberResponse getMembersContacts(Context appContext,String enterpriseId,String lasSyncTime)
 	{
 
-		ServerResponse res = new ServerResponse();
+		ServerMemberResponse res = new ServerMemberResponse();
 		res.setCode(0);
 		Result rt = new Result();
 		res.setResult(rt);
-		String json = _httpget(MessageFormat.format(Constants.GET_MEMBERS_URL, enterpriseId,"1",lasSyncTime));
+		BigDecimal time = new BigDecimal(lasSyncTime); 
+		String json = _httpget(MessageFormat.format(Constants.GET_MEMBERS_URL, enterpriseId,"1",time.toPlainString()));
 		Gson gson = new Gson();
-		ServerResponse resp = (ServerResponse)gson.fromJson(json, ServerResponse.class);
+		ServerMemberResponse resp = (ServerMemberResponse)gson.fromJson(json, ServerMemberResponse.class);
 	
 		return resp;
 	}
 	
-	public static ServerResponse getMyshopList(Context appContext,String phoneNumber)
+	public static ServerMemberResponse getMyshopList(Context appContext,String phoneNumber)
 	{
 
-		ServerResponse res = new ServerResponse();
+		ServerMemberResponse res = new ServerMemberResponse();
 		res.setCode(0);
 		Result rt = new Result();
 		res.setResult(rt);
 		//{"code":0,"result":{"last_sync":1403180487257,"records":{"add":[]}}}
 		String json = _httpget(MessageFormat.format(Constants.GET_APPENDSHOP_RECORD, phoneNumber));
 		Gson gson = new Gson();
-		ServerResponse resp = (ServerResponse)gson.fromJson(json, ServerResponse.class);
+		ServerMemberResponse resp = (ServerMemberResponse)gson.fromJson(json, ServerMemberResponse.class);
 	
 		return resp;
 	}
 	
-	public static ServerResponse linkshop(Context appContext,String username, String linkAccount)
+	public static ServerMemberResponse linkshop(Context appContext,String username, String linkAccount)
 	{
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("account", username));
 		params.add(new BasicNameValuePair("enterprise_account", linkAccount));
 
-		ServerResponse res = new ServerResponse();
+		ServerMemberResponse res = new ServerMemberResponse();
 		res.setCode(0);
 		Result rt = new Result();
 		res.setResult(rt);
 		//{"code":0,"result":{"last_sync":1403180487257,"records":{"add":[]}}}
 		String json = _httppost(Constants.APPENDSHOP_URL,params);
 		Gson gson = new Gson();
-		ServerResponse resp = (ServerResponse)gson.fromJson(json, ServerResponse.class);
+		ServerMemberResponse resp = (ServerMemberResponse)gson.fromJson(json, ServerMemberResponse.class);
 	
 		return resp;
 	}
@@ -476,7 +478,7 @@ public class ApiClient
 	
 	private static String codeToJson(String code)
 	{
-		ServerResponse res = new ServerResponse();
+		ServerMemberResponse res = new ServerMemberResponse();
 		res.setCode(1);
 		Result rt = new Result();
 		rt.setErrorCode(code);

@@ -3,7 +3,7 @@ package com.yilos.losapp;
 import java.util.List;
 
 import com.yilos.losapp.bean.MyShopBean;
-import com.yilos.losapp.bean.ServerResponse;
+import com.yilos.losapp.bean.ServerMemberResponse;
 import com.yilos.losapp.common.UIHelper;
 import com.yilos.losapp.database.SDBHelper;
 import com.yilos.losapp.service.MemberService;
@@ -23,10 +23,10 @@ public class LaunchActivity extends Activity {
 
 	private String shopName;
 
-	String userAccount;
+	private String userAccount;
 
-	String shopId;
-	String last_sync;
+	private String shopId;
+	private String last_sync = "0";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class LaunchActivity extends Activity {
 		Handler x = new Handler();// 定义一个handle对象
 		userAccount = AppContext.getInstance(getBaseContext()).getUserAccount();
 		boolean isLogin = AppContext.getInstance(getBaseContext()).isLogin();
-		if(true)
+		if(isLogin)
 		{
 			toMain();
 		}
@@ -95,7 +95,7 @@ public class LaunchActivity extends Activity {
 			public void run() {
 				AppContext ac = (AppContext) getApplication();
 				Message msg = new Message();
-				ServerResponse res = ac.getMyshopList(userAccount);
+				ServerMemberResponse res = ac.getMyshopList(userAccount);
 				if (res.isSucess()) {
 					myshopService.addShops(res.getResult().getMyShopList());
 					List<MyShopBean> myshops = myshopService.queryShops();
@@ -124,7 +124,7 @@ public class LaunchActivity extends Activity {
 				AppContext ac = (AppContext) getApplication();
 				Message msg = new Message();
 
-				ServerResponse res = ac.getMembersContacts(shopId, last_sync);
+				ServerMemberResponse res = ac.getMembersContacts(shopId, last_sync);
 				if (res.isSucess()) {
 					AppContext.getInstance(getBaseContext())
 					.setCurrentDisplayShopId(shopId);

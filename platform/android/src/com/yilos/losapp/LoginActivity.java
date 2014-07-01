@@ -1,6 +1,6 @@
 package com.yilos.losapp;
 
-import com.yilos.losapp.bean.ServerResponse;
+import com.yilos.losapp.bean.ServerMemberResponse;
 import com.yilos.losapp.common.StringUtils;
 import com.yilos.losapp.common.UIHelper;
 import com.yilos.losapp.database.SDBHelper;
@@ -57,11 +57,11 @@ public class LoginActivity extends Activity{
 					UIHelper.ToastMessage(v.getContext(), "请输入密码");
 					return;
 				}
-				//loginUser(account,pwd);
+				loginUser(account,pwd);
 				//跳转到主界面
-				Intent main = new Intent();
-				main.setClass(LoginActivity.this, Main.class);
-				startActivity(main);
+				/*Intent main = new Intent();
+				main.setClass(LoginActivity.this, MainTabActivity.class);
+				startActivity(main);*/
 			}
 		});
 		
@@ -117,7 +117,7 @@ public class LoginActivity extends Activity{
 			public void run(){
 				AppContext ac = (AppContext)getApplication(); 
 				Message msg = new Message();
-				ServerResponse res = ac.loginVerify(userName, pwd);
+				ServerMemberResponse res = ac.loginVerify(userName, pwd);
 				if(res.isSucess())
 				{
 					msg.what = 1;

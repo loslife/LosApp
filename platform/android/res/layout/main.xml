@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/white"
-    android:id="@+id/main"
     android:orientation="vertical" >
-    
-    <include android:layout_height="50.0dip"
-        layout="@layout/main_header" />
-    
-    
 
-    
-     <LinearLayout
+    <include
+        android:layout_height="50.0dip"
+        layout="@layout/main_header" />
+
+    <LinearLayout
         android:id="@+id/main_relativelayout_header"
         android:layout_width="fill_parent"
         android:layout_height="50dip"
-        android:orientation="horizontal"
+        android:background="@color/graywhite"
         android:gravity="center"
-        android:background="@color/graywhite" >
+        android:orientation="horizontal" >
 
-       <TextView
+        <TextView
             android:id="@+id/lefttime"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
@@ -33,13 +31,13 @@
         <TextView
             android:id="@+id/showtime"
             android:layout_width="wrap_content"
-            android:gravity="center"
             android:layout_height="fill_parent"
             android:layout_weight="2"
+            android:gravity="center"
             android:text="2012"
-            android:textColor="@color/black"
+            android:textColor="@color/turquoise"
             android:textSize="23.0dip" />
-        
+
         <TextView
             android:id="@+id/righttime"
             android:layout_width="wrap_content"
@@ -50,18 +48,12 @@
             android:textColor="@color/black"
             android:textSize="23.0dip" />
     </LinearLayout>
-    
-     
-    
 
-   
     <LinearLayout
+        android:id="@+id/configLayout"
         android:layout_width="fill_parent"
-        android:layout_height="35.0dip"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
+        android:layout_height="fill_parent"
         android:orientation="horizontal" >
     </LinearLayout>
-    
 
 </LinearLayout>

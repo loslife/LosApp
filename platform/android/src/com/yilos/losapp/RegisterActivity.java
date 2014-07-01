@@ -1,6 +1,6 @@
 package com.yilos.losapp;
 
-import com.yilos.losapp.bean.ServerResponse;
+import com.yilos.losapp.bean.ServerMemberResponse;
 import com.yilos.losapp.common.StringUtils;
 import com.yilos.losapp.common.UIHelper;
 
@@ -158,7 +158,7 @@ public class RegisterActivity extends Activity
 			public void run(){
 				AppContext ac = (AppContext)getApplication(); 
 				Message msg = new Message();
-				ServerResponse res = ac.checkValidatecode(phoneNumber,"register_losapp",vcode);
+				ServerMemberResponse res = ac.checkValidatecode(phoneNumber,"register_losapp",vcode);
 				if(res.isSucess())
 				{
 					msg.what = 1;
@@ -196,7 +196,7 @@ public class RegisterActivity extends Activity
 			public void run(){
 				AppContext ac = (AppContext)getApplication(); 
 				Message msg = new Message();
-				ServerResponse res = ac.checkUserAccount(phoneNumber);
+				ServerMemberResponse res = ac.checkUserAccount(phoneNumber);
 				if(res.isSucess())
 				{
 					msg.what = 1;
@@ -239,7 +239,7 @@ public class RegisterActivity extends Activity
 			public void run(){
 				AppContext ac = (AppContext)getApplication(); 
 				Message msg = new Message();
-				ServerResponse res = ac.register(phoneNumber,pwd);
+				ServerMemberResponse res = ac.register(phoneNumber,pwd);
 				if(res.isSucess())
 				{
 					msg.what = 1;
@@ -278,7 +278,7 @@ public class RegisterActivity extends Activity
 			public void run(){
 				AppContext ac = (AppContext)getApplication(); 
 				Message msg = new Message();
-				ServerResponse res = ac.getValidatecode(phoneNumber,"register_losapp");
+				ServerMemberResponse res = ac.getValidatecode(phoneNumber,"register_losapp");
 				if(res.isSucess())
 				{
 					msg.what = 1;

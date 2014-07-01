@@ -152,6 +152,38 @@ public class MemberDBManager {
         c.close();  
         return person;  
     } 
+    
+    /** 
+     * query one persons
+     * @return List<MemberBean> 
+     */  
+    public List<MemberBean> queryListByseach(String id,String seach) {  
+    	 ArrayList<MemberBean> persons = new ArrayList<MemberBean>();  
+        Cursor c = filterRecords(id,seach);  
+        while (c.moveToNext()) {  
+        	//t_members (id varchar(64) primary key, enterprise_id varchar(64), name varchar(32), birthday REAL, 
+        	//phoneMobile varchar(16), joinDate REAL, memberNo varchar(32), 
+        	//latestConsumeTime REAL, totalConsume REAL, averageConsume REAL, create_date REAL, modify_date REAL);";
+        	MemberBean person = new MemberBean();  
+            person.setId(c.getString(c.getColumnIndex("id")));  
+            person.setName(c.getString(c.getColumnIndex("name")));  
+            person.setEnterprise_id(c.getString(c.getColumnIndex("enterprise_id")));
+            person.setCreate_date(c.getString(c.getColumnIndex("create_date")));
+            person.setModify_date(c.getString(c.getColumnIndex("modify_date")));
+            
+            person.setBirthday(c.getString(c.getColumnIndex("birthday")));
+            person.setPhoneMobile(c.getString(c.getColumnIndex("phoneMobile")));
+            person.setJoinDate(c.getString(c.getColumnIndex("joinDate")));
+            person.setMemberNo(c.getString(c.getColumnIndex("memberNo")));
+            person.setLatestConsumeTime(c.getString(c.getColumnIndex("latestConsumeTime")));
+            person.setTotalConsume(c.getString(c.getColumnIndex("totalConsume")));
+            person.setAverageConsume(c.getString(c.getColumnIndex("averageConsume")));
+            
+            persons.add(person);  
+        }  
+        c.close();  
+        return persons;   
+    } 
       
     /** 
      * query member
@@ -161,7 +193,17 @@ public class MemberDBManager {
         Cursor c = db.rawQuery("SELECT * FROM t_members Where enterprise_id = ?", new String[]{eid});
         //Cursor c = db.rawQuery("SELECT * FROM t_members", null);  
         return c;  
-    }  
+    } 
+    
+    /** 
+     * query member
+     * @return  Cursor 
+     */  
+    public Cursor filterRecords(String eid,String seach) {  
+        Cursor c = db.rawQuery("SELECT * FROM t_members Where enterprise_id = ? and  name like ? or phoneMobile like ? or memberNo like ? ", new String[]{eid,"%"+seach+"%","%"+seach+"%","%"+seach+"%"});
+        //Cursor c = db.rawQuery("SELECT * FROM t_members", null);  
+        return c;  
+    } 
     
     public Cursor queryDetail(String id) {  
         //Cursor c = db.rawQuery("SELECT * FROM t_members Where enterprise_id = ?", new String[]{eid}); 

@@ -11,7 +11,7 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.yilos.losapp.bean.ServerResponse;
+import com.yilos.losapp.bean.ServerMemberResponse;
 import com.yilos.losapp.common.StringUtils;
 import com.yilos.losapp.common.UIHelper;
 
@@ -111,7 +111,7 @@ public class ModifyPwdActivity  extends Activity
 			public void run(){
 				AppContext ac = (AppContext)getApplication(); 
 				Message msg = new Message();
-				ServerResponse res = ac.modifyPwd(phoneNumber,pwd,newpwd);
+				ServerMemberResponse res = ac.modifyPwd(phoneNumber,pwd,newpwd);
 				if(res.isSucess())
 				{
 					msg.what = 1;

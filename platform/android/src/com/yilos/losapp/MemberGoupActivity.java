@@ -8,7 +8,7 @@ import com.yilos.losapp.R.color;
 import com.yilos.losapp.adapter.ListViewAdp;
 import com.yilos.losapp.bean.MemberBean;
 import com.yilos.losapp.bean.MyShopBean;
-import com.yilos.losapp.bean.ServerResponse;
+import com.yilos.losapp.bean.ServerMemberResponse;
 import com.yilos.losapp.common.Pinyin_Comparator;
 import com.yilos.losapp.common.SideBar;
 import com.yilos.losapp.common.UIHelper;
@@ -24,7 +24,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
 import android.text.Layout;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +35,7 @@ import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -51,6 +54,7 @@ public class MemberGoupActivity extends Activity{
 	private SideBar indexBar;
 	private WindowManager mWindowManager;
 	private TextView mDialogText;
+	private EditText seachmemberext;
 	
 	private ImageView seachmember;
 	private  RelativeLayout member_title;
@@ -86,7 +90,7 @@ public class MemberGoupActivity extends Activity{
 		setContentView(R.layout.mebersgroup);
 		lvContact = (ListView) this.findViewById(R.id.lvContact);
 		mWindowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-
+		memberService = new MemberService(getBaseContext());
 		getdata();
 	}
 	
@@ -126,6 +130,31 @@ public class MemberGoupActivity extends Activity{
 				startActivity(memberDetail);
 			}
 		});
+		
+		seachmemberext = (EditText)findViewById(R.id.seachmemberext);
+		
+		seachmemberext.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				parentData = memberService.seachRecords(shopId,s.toString());
+				initView();
+			}           
+           
+        }); 
+		
 		findView();
 	}
 
@@ -207,7 +236,11 @@ public class MemberGoupActivity extends Activity{
 		shopId = AppContext.getInstance(getBaseContext()).getCurrentDisplayShopId();
 		memberService = new MemberService(getBaseContext());
 		myshopService = new MyshopManageService(getBaseContext());
-		parentData = memberService.queryMembers(shopId);
+		if(null != shopId && !"".equals(shopId))
+		{
+			parentData = memberService.queryMembers(shopId);
+		}
+		
 		initView();
 		
 		//downMembersContacts();
@@ -249,7 +282,7 @@ public class MemberGoupActivity extends Activity{
 		   public void run(){
 				AppContext ac = (AppContext)getApplication(); 
 				Message msg = new Message();
-				ServerResponse res = ac.getMembersContacts(shopId,last_sync);
+				ServerMemberResponse res = ac.getMembersContacts(shopId,last_sync);
 				if(res.isSucess())
 				{
 					memberService.handleMembers(res.getResult().getRecords());

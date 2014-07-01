@@ -65,5 +65,10 @@ public class MemberService {
 	{
 		return memberDBManager.queryDetailById(id);
 	}
+	
+	public List<MemberBean> seachRecords(String enterpriseId,String filter)
+	{
+		return memberDBManager.queryListByseach(enterpriseId,filter);
+	}
 
 }

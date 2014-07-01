@@ -1,7 +1,7 @@
 package com.yilos.losapp;
 
 import com.yilos.losapp.bean.MyShopBean;
-import com.yilos.losapp.bean.ServerResponse;
+import com.yilos.losapp.bean.ServerMemberResponse;
 import com.yilos.losapp.common.StringUtils;
 import com.yilos.losapp.common.UIHelper;
 import com.yilos.losapp.service.MyshopManageService;
@@ -111,7 +111,7 @@ public class LinkShopActivity extends Activity
 			public void run(){
 				AppContext ac = (AppContext)getApplication(); 
 				Message msg = new Message();
-				ServerResponse res = ac.linkshop(userAccount, shopAccount);
+				ServerMemberResponse res = ac.linkshop(userAccount, shopAccount);
 				if(res.isSucess())
 				{
 					MyShopBean myshop = new MyShopBean();
@@ -160,7 +160,7 @@ public class LinkShopActivity extends Activity
 			public void run(){
 				AppContext ac = (AppContext)getApplication(); 
 				Message msg = new Message();
-				ServerResponse res = ac.checkShopAccount(phoneNumber);
+				ServerMemberResponse res = ac.checkShopAccount(phoneNumber);
 				if(res.isSucess())
 				{
 					msg.what = 1;
@@ -200,7 +200,7 @@ public class LinkShopActivity extends Activity
 			public void run(){
 				AppContext ac = (AppContext)getApplication(); 
 				Message msg = new Message();
-				ServerResponse res = ac.getValidatecode(phoneNumber,"attach");
+				ServerMemberResponse res = ac.getValidatecode(phoneNumber,"attach");
 				if(res.isSucess())
 				{
 					msg.what = 1;
@@ -236,7 +236,7 @@ public class LinkShopActivity extends Activity
 			public void run(){
 				AppContext ac = (AppContext)getApplication(); 
 				Message msg = new Message();
-				ServerResponse res = ac.checkValidatecode(phoneNumber,"attach",vcode);
+				ServerMemberResponse res = ac.checkValidatecode(phoneNumber,"attach",vcode);
 				if(res.isSucess())
 				{
 					msg.what = 1;

@@ -1,7 +1,7 @@
 package com.yilos.losapp.bean;
 
 
-public class ServerResponse
+public class ServerMemberResponse
 {
 
 	private int code;
