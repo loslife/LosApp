@@ -189,6 +189,9 @@
         [searchBar removeFromSuperview];
         searchBarShow = NO;
     }
+    
+    SwitchShopButton* barButton = (SwitchShopButton*)self.navigationItem.rightBarButtonItem;
+    [barButton closeSwitchShopMenu];
 }
 
 #pragma mark - tableview datasource

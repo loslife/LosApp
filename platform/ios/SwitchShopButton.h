@@ -10,5 +10,6 @@
 @interface SwitchShopButton : UIBarButtonItem<LosDropDownDelegate>
 
 -(id) initWithFrame:(CGRect)frame Delegate:(id<SwitchShopButtonDelegate>)delegate;
+-(void) closeSwitchShopMenu;
 
 @end

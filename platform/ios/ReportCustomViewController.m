@@ -36,11 +36,13 @@
 
 - (void) handleSwipeLeft
 {
-    
+    [super handleSwipeLeft];
 }
 
 - (void) handleSwipeRight
 {
+    [super handleSwipeRight];
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 

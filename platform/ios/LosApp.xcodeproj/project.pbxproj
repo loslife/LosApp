@@ -199,6 +199,15 @@
 			name = dao;
 			sourceTree = "<group>";
 		};
+		1844727D1962AAB200B4A543 /* controller.base */ = {
+			isa = PBXGroup;
+			children = (
+				184472741962563700B4A543 /* ReportViewControllerBase.h */,
+				184472751962563700B4A543 /* ReportViewControllerBase.m */,
+			);
+			name = controller.base;
+			sourceTree = "<group>";
+		};
 		1866670219498ACF00A345F7 /* environment */ = {
 			isa = PBXGroup;
 			children = (
@@ -391,6 +400,7 @@
 				186667191949B2D700A345F7 /* update */,
 				1866670C194992F500A345F7 /* views */,
 				1866670219498ACF00A345F7 /* environment */,
+				1844727D1962AAB200B4A543 /* controller.base */,
 				18B2EE421946E8E100264B74 /* controllers */,
 				18B2EE201946E0EF00264B74 /* LosAppDelegate.h */,
 				18B2EE211946E0EF00264B74 /* LosAppDelegate.m */,
@@ -418,8 +428,6 @@
 				18666744194A9FC900A345F7 /* RegisterViewController.m */,
 				1866670919498F1D00A345F7 /* BootstrapViewController.h */,
 				1866670A19498F1D00A345F7 /* BootstrapViewController.m */,
-				184472741962563700B4A543 /* ReportViewControllerBase.h */,
-				184472751962563700B4A543 /* ReportViewControllerBase.m */,
 				1866673A1949F8F100A345F7 /* ReportEmployeeViewController.h */,
 				1866673B1949F8F100A345F7 /* ReportEmployeeViewController.m */,
 				18447271196250CE00B4A543 /* ReportCustomViewController.h */,

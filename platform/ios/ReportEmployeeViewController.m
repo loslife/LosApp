@@ -72,13 +72,15 @@
 
 - (void) handleSwipeLeft
 {
+    [super handleSwipeLeft];
+    
     ReportCustomViewController *custom = [[ReportCustomViewController alloc] init];
     [self.navigationController pushViewController:custom animated:YES];
 }
 
 - (void) handleSwipeRight
 {
-    
+    [super handleSwipeRight];
 }
 
 @end

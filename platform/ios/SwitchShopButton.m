@@ -60,7 +60,7 @@
         }
         
         dropDown = [[LosDropDown alloc] initWithFrame:CGRectMake(150, 70, 150, 28) MenuItems:items Delegate:self];
-        
+    
         dispatch_async(dispatch_get_main_queue(), ^{
 
             [[[UIApplication sharedApplication] keyWindow] addSubview:dropDown];
@@ -70,6 +70,21 @@
         });
     });
 }
+
+-(void) closeSwitchShopMenu{
+    
+    if(!dropDownShow){
+        return;
+    }
+    
+    [dropDown removeFromSuperview];
+    
+    [(UIButton*)self.customView setBackgroundImage:[UIImage imageNamed:@"switch_shop"] forState:UIControlStateNormal];
+    
+    dropDownShow = NO;
+}
+
+#pragma mark - dropdown delegate
 
 -(void) menuItemTapped:(NSString*)value
 {
@@ -99,19 +114,6 @@
             [myDelegate enterpriseSelected:value];
         });
     });
-}
-
--(void) closeSwitchShopMenu{
-    
-    if(!dropDownShow){
-        return;
-    }
-    
-    [dropDown removeFromSuperview];
-    
-    [(UIButton*)self.customView setBackgroundImage:[UIImage imageNamed:@"switch_shop"] forState:UIControlStateNormal];
-    
-    dropDownShow = NO;
 }
 
 @end

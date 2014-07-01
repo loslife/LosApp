@@ -5,13 +5,21 @@
 
 - (void) handleSwipeLeft
 {
-    [self doesNotRecognizeSelector:_cmd];
+    [self closeDropdown];
 }
 
 - (void) handleSwipeRight
 {
-    [self doesNotRecognizeSelector:_cmd];
+    [self closeDropdown];
 }
+
+-(void) closeDropdown
+{
+    SwitchShopButton* barButton = (SwitchShopButton*)self.navigationItem.rightBarButtonItem;
+    [barButton closeSwitchShopMenu];
+}
+
+#pragma mark - delegate
 
 -(void) dateSelected:(NSDate*)date Type:(DateDisplayType)type
 {
