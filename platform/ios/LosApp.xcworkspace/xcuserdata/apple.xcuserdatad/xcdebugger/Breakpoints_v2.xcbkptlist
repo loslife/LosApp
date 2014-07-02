@@ -170,11 +170,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ReportEmployeeViewController.m"
-            timestampString = "425965099.696931"
+            timestampString = "425984575.278982"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84">
+            startingLineNumber = "128"
+            endingLineNumber = "128">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -216,11 +216,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ReportEmployeeViewController.m"
-            timestampString = "425965099.696931"
+            timestampString = "425984575.278982"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "102"
-            endingLineNumber = "102">
+            startingLineNumber = "146"
+            endingLineNumber = "146">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -230,11 +230,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ReportEmployeeViewController.m"
-            timestampString = "425965099.696931"
+            timestampString = "425984575.278982"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "103"
-            endingLineNumber = "103">
+            startingLineNumber = "147"
+            endingLineNumber = "147">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -282,6 +282,86 @@
             startingLineNumber = "19"
             endingLineNumber = "19"
             landmarkName = "-initWithController:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ReportEmployeeViewController.m"
+            timestampString = "425984570.546896"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "-loadReport"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LosBarChart.m"
+            timestampString = "425984610.520664"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
+            landmarkName = "-reload"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ReportEmployeeViewController.m"
+            timestampString = "425984629.030754"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
+            landmarkName = "-loadReport"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ReportEmployeeViewController.m"
+            timestampString = "425984630.948485"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
+            landmarkName = "-loadReport"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ReportEmployeeViewController.m"
+            timestampString = "425984633.544975"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
+            landmarkName = "-loadReport"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

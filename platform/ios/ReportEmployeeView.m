@@ -7,12 +7,8 @@
     self = [super initWithController:controller];
     if (self) {
         
-        UILabel *label = [[UILabel alloc] init];
-        label.frame = CGRectMake(0, 100, 320, 468);
-        label.text = @"员工业绩";
-        label.textAlignment = NSTextAlignmentCenter;
-        
-        [self addSubview:label];
+        self.barView = [[LosBarChart alloc] initWithFrame:CGRectMake(0, 100, 320, 468) DataSource:controller];
+        [self addSubview:self.barView];
     }
     return self;
 }

@@ -27,6 +27,7 @@
 		18447273196250CE00B4A543 /* ReportCustomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18447272196250CE00B4A543 /* ReportCustomViewController.m */; };
 		184472761962563700B4A543 /* ReportViewControllerBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472751962563700B4A543 /* ReportViewControllerBase.m */; };
 		184472791962749D00B4A543 /* ReportDateStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472781962749D00B4A543 /* ReportDateStatus.m */; };
+		184472831963F18B00B4A543 /* LosBarChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472821963F18B00B4A543 /* LosBarChart.m */; };
 		186667011949864100A345F7 /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186667001949864100A345F7 /* WelcomeViewController.m */; };
 		1866670519498B5600A345F7 /* UserData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670419498B5600A345F7 /* UserData.m */; };
 		1866670819498D1C00A345F7 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670719498D1C00A345F7 /* LoginViewController.m */; };
@@ -103,6 +104,8 @@
 		184472751962563700B4A543 /* ReportViewControllerBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportViewControllerBase.m; sourceTree = "<group>"; };
 		184472771962749D00B4A543 /* ReportDateStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportDateStatus.h; sourceTree = "<group>"; };
 		184472781962749D00B4A543 /* ReportDateStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportDateStatus.m; sourceTree = "<group>"; };
+		184472811963F18B00B4A543 /* LosBarChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LosBarChart.h; sourceTree = "<group>"; };
+		184472821963F18B00B4A543 /* LosBarChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LosBarChart.m; sourceTree = "<group>"; };
 		186666FF1949864100A345F7 /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
 		186667001949864100A345F7 /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
 		1866670319498B5600A345F7 /* UserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserData.h; sourceTree = "<group>"; };
@@ -206,6 +209,22 @@
 				184472751962563700B4A543 /* ReportViewControllerBase.m */,
 			);
 			name = controller.base;
+			sourceTree = "<group>";
+		};
+		184472801963E11200B4A543 /* widget.common */ = {
+			isa = PBXGroup;
+			children = (
+				18AFE625195527290083C972 /* LosDropDown.h */,
+				18AFE626195527290083C972 /* LosDropDown.m */,
+				18AFE629195542D30083C972 /* LosDropDownItem.m */,
+				184472551959545B00B4A543 /* LosTextField.h */,
+				184472561959545B00B4A543 /* LosTextField.m */,
+				1844725F195D532600B4A543 /* LosTimePicker.h */,
+				18447260195D532600B4A543 /* LosTimePicker.m */,
+				184472811963F18B00B4A543 /* LosBarChart.h */,
+				184472821963F18B00B4A543 /* LosBarChart.m */,
+			);
+			name = widget.common;
 			sourceTree = "<group>";
 		};
 		1866670219498ACF00A345F7 /* environment */ = {
@@ -331,13 +350,6 @@
 		18AFE624195525400083C972 /* widget */ = {
 			isa = PBXGroup;
 			children = (
-				18AFE625195527290083C972 /* LosDropDown.h */,
-				18AFE626195527290083C972 /* LosDropDown.m */,
-				18AFE629195542D30083C972 /* LosDropDownItem.m */,
-				184472551959545B00B4A543 /* LosTextField.h */,
-				184472561959545B00B4A543 /* LosTextField.m */,
-				1844725F195D532600B4A543 /* LosTimePicker.h */,
-				18447260195D532600B4A543 /* LosTimePicker.m */,
 				1844726519614A4300B4A543 /* SwitchShopButton.h */,
 				1844726619614A4300B4A543 /* SwitchShopButton.m */,
 			);
@@ -392,6 +404,7 @@
 		18B2EE401946E16C00264B74 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				184472801963E11200B4A543 /* widget.common */,
 				18AFE624195525400083C972 /* widget */,
 				18AFE5FD195296BD0083C972 /* domain */,
 				1844725B195C0B9300B4A543 /* dao */,
@@ -566,6 +579,7 @@
 				1866673C1949F8F100A345F7 /* ReportEmployeeViewController.m in Sources */,
 				184472511959171E00B4A543 /* AboutUsViewController.m in Sources */,
 				186667121949A9D000A345F7 /* BootstrapView.m in Sources */,
+				184472831963F18B00B4A543 /* LosBarChart.m in Sources */,
 				186667151949ACD600A345F7 /* VersionInfo.m in Sources */,
 				1844726D1961652F00B4A543 /* ReportViewBase.m in Sources */,
 				183F214C1957C860009D54E8 /* MemberDetailViewController.m in Sources */,

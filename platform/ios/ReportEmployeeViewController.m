@@ -5,13 +5,20 @@
 #import "ReportCustomViewController.h"
 #import "ReportDateStatus.h"
 #import "StringUtils.h"
+#import "EmployeePerformance.h"
 
 @implementation ReportEmployeeViewController
+
+{
+    NSArray *records;
+}
 
 -(id) init
 {
     self = [super init];
     if(self){
+        
+        records = [NSArray array];
         
         self.navigationItem.rightBarButtonItem = [[SwitchShopButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20) Delegate:self];
         
@@ -43,13 +50,12 @@
     
     ReportDateStatus *status = [ReportDateStatus sharedInstance];
     
-    NSArray *records = [self.dao queryEmployeePerformanceByDate:status.date EnterpriseId:currentEnterpriseId Type:status.dateType];
+    records = [self.dao queryEmployeePerformanceByDate:status.date EnterpriseId:currentEnterpriseId Type:status.dateType];
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSUInteger count = [records count];
-        NSString *message = [NSString stringWithFormat:@"%lu条记录", count];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:message delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
-        [alert show];
+        
+        ReportEmployeeView *myView = (ReportEmployeeView*)self.view;
+        [myView.barView reload];
     });
 }
 
@@ -77,6 +83,44 @@
 - (void) handleSwipeRight
 {
     [super handleSwipeRight];
+}
+
+#pragma mark - BarChart datasource
+
+-(int) totalValue
+{
+    int sum = 0;
+    for(EmployeePerformance *item in records){
+        sum += [item.total intValue];
+    }
+    return sum;
+}
+
+-(NSUInteger) rowCount
+{
+    return [records count];
+}
+
+-(int) maxValue
+{
+    if([records count] == 0){
+        return 0;
+    }
+    
+    EmployeePerformance *max = [records firstObject];
+    return [max.total intValue];
+}
+
+-(NSString*) nameAtIndex:(int)index
+{
+    EmployeePerformance *item = [records objectAtIndex:index];
+    return item.employeeName;
+}
+
+-(int) valueAtIndex:(int)index
+{
+    EmployeePerformance *item = [records objectAtIndex:index];
+    return [item.total intValue];
 }
 
 @end
