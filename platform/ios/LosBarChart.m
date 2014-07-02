@@ -37,7 +37,7 @@
 @implementation LosBarChart
 
 {
-    id<LosBarChartDataSource> delegate;
+    id<LosBarChartDataSource> dataSource;
     UILabel *total;
     UIView *mainArea;
 }
@@ -47,7 +47,7 @@
     self = [super initWithFrame:frame];
     if(self){
         
-        delegate = ds;
+        dataSource = ds;
 
         UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
         
@@ -79,18 +79,18 @@
 
 -(void) reload
 {
-    total.text = [NSString stringWithFormat:@"￥%d", [delegate totalValue]];
+    total.text = [NSString stringWithFormat:@"￥%d", [dataSource totalValue]];
     
     for(UIView *sub in mainArea.subviews){
         [sub removeFromSuperview];
     }
     
-    NSUInteger count = [delegate rowCount];
+    NSUInteger count = [dataSource rowCount];
     if(count == 0){
         return;
     }
     
-    int maxValue = [delegate maxValue];
+    int maxValue = [dataSource maxValue];
     CGFloat lengthPerValue = 180.0 / maxValue;
 
     for(int i = 0; i < count; i++){
@@ -98,12 +98,13 @@
         UIView *row = [[UIView alloc] initWithFrame:CGRectMake(0, 10 + 40 * i, 320, 40)];
         
         UILabel *name = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 40, 40)];
-        name.text = [delegate nameAtIndex:i];
+        name.text = [dataSource nameAtIndex:i];
         name.textAlignment = NSTextAlignmentLeft;
         name.textColor = [UIColor colorWithRed:114/255.0f green:128/255.0f blue:137/255.0f alpha:1.0f];
         name.font = [UIFont systemFontOfSize:14.0];
         
-        CGFloat barLength = [delegate valueAtIndex:i] * lengthPerValue;
+        int value = [dataSource valueAtIndex:i];
+        CGFloat barLength = value * lengthPerValue;
         UILabel *bar = [[UILabel alloc] initWithFrame:CGRectMake(61, 5, barLength, 30)];
         if(i == 0){
             bar.backgroundColor = [UIColor colorWithRed:255/255.0f green:122/255.0f blue:75/255.0f alpha:1.0f];
@@ -116,7 +117,7 @@
         }
         
         UILabel *money = [[UILabel alloc] initWithFrame:CGRectMake(61 + barLength, 0, 59, 40)];
-        money.text = [NSString stringWithFormat:@"￥%d", [delegate valueAtIndex:i]];
+        money.text = [NSString stringWithFormat:@"￥%d", value];
         money.textAlignment = NSTextAlignmentLeft;
         money.textColor = [UIColor colorWithRed:114/255.0f green:128/255.0f blue:137/255.0f alpha:1.0f];
         money.font = [UIFont systemFontOfSize:14.0];
