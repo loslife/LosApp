@@ -44,9 +44,9 @@ import android.os.Message;
 public class ApiClient 
 {
 	// 请求超时
-    private static int connectionTimeout = 3000;
+    private static int connectionTimeout = 30000;
 	// 读取超时
-	private static int soTimeout = 5000;
+	private static int soTimeout = 50000;
 	
 	public static String _post(Context appContext,String url,List<NameValuePair> param)
 	{
@@ -185,6 +185,10 @@ public class ApiClient
 		} catch (Exception e) {
 			e.printStackTrace();
 			return codeToJson("404");
+		}
+		finally
+		{
+			
 		}
 	}
 	
@@ -412,6 +416,10 @@ public class ApiClient
 		res.setCode(0);
 		Result rt = new Result();
 		res.setResult(rt);
+		if(lasSyncTime==null)
+		{
+			lasSyncTime = "0";
+		}
 		BigDecimal time = new BigDecimal(lasSyncTime); 
 		String json = _httpget(MessageFormat.format(Constants.GET_MEMBERS_URL, enterpriseId,"1",time.toPlainString()));
 		Gson gson = new Gson();

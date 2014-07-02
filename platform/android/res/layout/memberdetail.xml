@@ -9,13 +9,6 @@
         android:layout_height="50.0dip"
         layout="@layout/main_header" />
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:orientation="vertical"
-       >
-    
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="52.0dip"
@@ -249,7 +242,5 @@
             android:textColor="@color/graywhite"
             android:text="TextView" />
     </RelativeLayout>
-</LinearLayout>
-    <include layout="@layout/main_footer" />
 
 </LinearLayout>

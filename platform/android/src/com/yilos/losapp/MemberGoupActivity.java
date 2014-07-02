@@ -82,6 +82,7 @@ public class MemberGoupActivity extends Activity{
 	private String last_sync = "0";
 	
 	private TextView  shopname;
+	private ImageView select_shop;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -91,7 +92,6 @@ public class MemberGoupActivity extends Activity{
 		lvContact = (ListView) this.findViewById(R.id.lvContact);
 		mWindowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
 		memberService = new MemberService(getBaseContext());
-		getdata();
 	}
 	
 	@Override
@@ -102,6 +102,8 @@ public class MemberGoupActivity extends Activity{
 	}
 
 	public void initView() {
+		
+		findView();
 		
 		members = null;
 	
@@ -121,9 +123,7 @@ public class MemberGoupActivity extends Activity{
 				memberName = members[arg2];
 				int index = memberName.indexOf("|");
 				String p = memberName.substring(index+1, memberName.length());
-				
-				Toast.makeText(MemberGoupActivity.this, memberName,
-						Toast.LENGTH_SHORT).show();
+			
 				Intent memberDetail = new Intent();
 				memberDetail.putExtra("memberInfo", parentData.get(Integer.parseInt(p)));
 				memberDetail.setClass(getBaseContext(), MemberDetailActivity.class);
@@ -153,9 +153,24 @@ public class MemberGoupActivity extends Activity{
 				initView();
 			}           
            
-        }); 
+        });
 		
-		findView();
+		select_shop = (ImageView) findViewById(R.id.headmore);
+		if(title == null||!(title.length>0))
+		{
+			select_shop.setVisibility(View.GONE);
+		}
+		select_shop.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				select_shop.getRight();
+				int y = select_shop.getBottom() * 2;
+				int x = getWindowManager().getDefaultDisplay().getWidth() / 2;
+
+				showPopupWindow(x, y);
+			}
+		});
+
 	}
 
 	private void findView() {
@@ -241,10 +256,6 @@ public class MemberGoupActivity extends Activity{
 			parentData = memberService.queryMembers(shopId);
 		}
 		
-		initView();
-		
-		//downMembersContacts();
-		
 		myshopService = new MyshopManageService(getBaseContext());
 		// 查询本地的关联数据
 		List<MyShopBean> myshops = myshopService.queryShops();
@@ -258,47 +269,11 @@ public class MemberGoupActivity extends Activity{
 				shopIds[i] = myshops.get(i).getEnterprise_id();
 			}
 		}
-	}
-	
-	public void downMembersContacts()
-	{
 		
-		final Handler handle =new Handler(){
-			 public void handleMessage(Message msg)
-			{
-				 if(msg.what==1)
-					{
-					    parentData = memberService.queryMembers(shopId);
-					    initView();
-					}
-					if(msg.what==0)
-					{
-						UIHelper.ToastMessage(getBaseContext(), "获取通讯录失败");
-					}
-			}
-			
-		};
-	   new Thread(){
-		   public void run(){
-				AppContext ac = (AppContext)getApplication(); 
-				Message msg = new Message();
-				ServerMemberResponse res = ac.getMembersContacts(shopId,last_sync);
-				if(res.isSucess())
-				{
-					memberService.handleMembers(res.getResult().getRecords());
-					last_sync = String.valueOf(res.getResult().getLast_sync());
-					myshopService.updateLatestSync(last_sync, shopId, "Contacts");
-					msg.what = 1;
-				}
-				if(res.getCode()==1)
-				{
-					msg.what = 0;
-				}
-				handle.sendMessage(msg);
-			}
-	   }.start();
+		initView();
 	}
 	
+
 	public void showPopupWindow(int x, int y) {
 		layout = (LinearLayout) LayoutInflater.from(getBaseContext()).inflate(
 				R.layout.dialog, null);
@@ -324,12 +299,13 @@ public class MemberGoupActivity extends Activity{
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				shopname.setText(title[arg2]);
-				AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(shopIds[i]);
+				AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(shopIds[arg2]);
+				parentData = memberService.queryMembers(shopIds[arg2]);
+				initView();
 				popupWindow.dismiss();
 				popupWindow = null;
 			}
 		});
 	}
 
-	
 }

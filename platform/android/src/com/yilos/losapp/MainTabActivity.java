@@ -29,7 +29,8 @@ public class MainTabActivity extends TabActivity implements OnCheckedChangeListe
         requestWindowFeature(Window.FEATURE_NO_TITLE);  
         setContentView(R.layout.main_footer);  
           
-        this.mainIntent = new Intent(this,Main.class);  
+        this.mainIntent = new Intent(this,Main.class);
+        mainIntent.putExtra("shopName", getIntent().getStringExtra("shopName"));
         this.concactsIntent = new Intent(this,MemberGoupActivity.class);  
         this.settingCIntent = new Intent(this,SettingActivity.class);  
        

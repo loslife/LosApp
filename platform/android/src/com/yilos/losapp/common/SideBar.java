@@ -79,8 +79,7 @@ public class SideBar extends View {
 	protected void onDraw(Canvas canvas) {
 
 		paint.setColor(0xff595c61);
-		paint.setTextSize(25);
-		paint.setTypeface(Typeface.SERIF);
+		paint.setTextSize(18);
 		paint.setTextAlign(Paint.Align.CENTER);
 		paint.setTextScaleX(2.0f);
 		paint.setAntiAlias(true);

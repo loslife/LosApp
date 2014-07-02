@@ -4,6 +4,7 @@ import com.yilos.losapp.bean.MyShopBean;
 import com.yilos.losapp.bean.ServerMemberResponse;
 import com.yilos.losapp.common.StringUtils;
 import com.yilos.losapp.common.UIHelper;
+import com.yilos.losapp.service.MemberService;
 import com.yilos.losapp.service.MyshopManageService;
 
 import android.app.Activity;
@@ -27,8 +28,10 @@ public class LinkShopActivity extends Activity
 	
 	private CountDownTimer countDownTimer;
 	private MyshopManageService myshopService;
+	private MemberService memberService;
 	
 	private boolean isUserExist = false;
+	private String shopId;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -98,7 +101,9 @@ public class LinkShopActivity extends Activity
 			{
 				if(msg.what==1)
 				{
+					getMemberContact(shopId);
 					UIHelper.ToastMessage(getBaseContext(), "关联成功");
+					
 				}
 				if(msg.what==0)
 				{
@@ -115,13 +120,14 @@ public class LinkShopActivity extends Activity
 				if(res.isSucess())
 				{
 					MyShopBean myshop = new MyShopBean();
-					myshop.setEnterprise_id(res.getResult().getEnterprise_id());
+					shopId = res.getResult().getEnterprise_id();
+					myshop.setEnterprise_id(shopId);
 					myshop.setEnterprise_name(res.getResult().getEnterprise_name());
 					myshopService.addShop(myshop);
 					
 					if(AppContext.getInstance(getBaseContext()).getCurrentDisplayShopId()==null)
 					{
-						AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(res.getResult().getEnterprise_id());
+						AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(shopId);
 					}
 					msg.what = 1;
 					
@@ -134,6 +140,28 @@ public class LinkShopActivity extends Activity
 			}
 		}.start();
 		
+	}
+	
+	public void getMemberContact(final String shopId) {
+
+		new Thread() {
+			public void run() {
+				AppContext ac = (AppContext) getApplication();
+				Message msg = new Message();
+
+				ServerMemberResponse res = ac.getMembersContacts(shopId, "0");
+				if (res.isSucess()) {
+					AppContext.getInstance(getBaseContext())
+					.setCurrentDisplayShopId(shopId);
+					memberService.handleMembers(res.getResult().getRecords());
+					String last_sync = String.valueOf(res.getResult().getLast_sync());
+					myshopService.updateLatestSync(last_sync, shopId,
+							"Contacts");
+					AppContext.getInstance(getBaseContext())
+							.setContactLastSyncTime(last_sync);
+				}
+			}
+		}.start();
 	}
 	
 	/**

@@ -27,6 +27,7 @@ public class LaunchActivity extends Activity {
 
 	private String shopId;
 	private String last_sync = "0";
+	private List<MyShopBean> myshops;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,18 +36,23 @@ public class LaunchActivity extends Activity {
 		Handler x = new Handler();// 定义一个handle对象
 		userAccount = AppContext.getInstance(getBaseContext()).getUserAccount();
 		boolean isLogin = AppContext.getInstance(getBaseContext()).isLogin();
+		
+		initdata(); 
+		
 		if(isLogin)
 		{
 			toMain();
 		}
-
-		initdata(); 
 	}
 
 	final Handler handle = new Handler() {
 		public void handleMessage(Message msg) {
 			if (msg.what == 1) {
-				getMemberContact();
+				List<MyShopBean> myshops = myshopService.queryShops();
+				for(int i=0;i<myshops.size();i++)
+				{
+					getMemberContact(myshops.get(i).getEnterprise_id(),myshops.get(i).getContactSyncTime());	
+				}
 			}
 			if (msg.what == 2||msg.what == 3) {
 				UIHelper.ToastMessage(getBaseContext(), "登录成功");
@@ -60,6 +66,9 @@ public class LaunchActivity extends Activity {
 
 	};
 
+	/**
+	 * 初始化数据
+	 */
 	public void initdata() {
 		// 创建数据库
 		String userAccount = AppContext.getInstance(getBaseContext())
@@ -68,19 +77,25 @@ public class LaunchActivity extends Activity {
 		memberService = new MemberService(getBaseContext());
 		myshopService = new MyshopManageService(getBaseContext());
 		
-		List<MyShopBean> myshops = myshopService.queryShops();
+		myshops = myshopService.queryShops();
 		if (myshops == null || myshops.size() == 0) {
 			getLinkShop();
 		}
 		if (myshops != null && myshops.size() > 0) {
 			shopId = myshops.get(0).getEnterprise_id();
-			last_sync = myshops.get(0).getContactSyncTime();
 			shopName = myshops.get(0).getEnterprise_name();
-			getMemberContact();
+			for(int i=0;i<myshops.size();i++)
+			{
+				
+				getMemberContact(myshops.get(i).getEnterprise_id(),myshops.get(i).getContactSyncTime());	
+			}
+			
 		}
 	}
 
-	
+	/**
+	 * 进到主界面
+	 */
 	public void toMain()
 	{
 		Intent mainIntent = new Intent();
@@ -90,6 +105,9 @@ public class LaunchActivity extends Activity {
 		LaunchActivity.this.finish();
 	}
 
+	/**
+	 * 获取关联的店铺
+	 */
 	public void getLinkShop() {
 		new Thread() {
 			public void run() {
@@ -98,7 +116,7 @@ public class LaunchActivity extends Activity {
 				ServerMemberResponse res = ac.getMyshopList(userAccount);
 				if (res.isSucess()) {
 					myshopService.addShops(res.getResult().getMyShopList());
-					List<MyShopBean> myshops = myshopService.queryShops();
+					myshops = myshopService.queryShops();
 					if (myshops != null && myshops.size() > 0) {
 						shopId = myshops.get(0).getEnterprise_id();
 						last_sync = myshops.get(0).getContactSyncTime();
@@ -117,27 +135,29 @@ public class LaunchActivity extends Activity {
 		}.start();
 	}
 
-	public void getMemberContact() {
+	/**
+	 * 获取会员通讯录
+	 * @param linkshopId
+	 */
+	public void getMemberContact(final String linkshopId,final String lasSync) {
 
 		new Thread() {
 			public void run() {
 				AppContext ac = (AppContext) getApplication();
 				Message msg = new Message();
 
-				ServerMemberResponse res = ac.getMembersContacts(shopId, last_sync);
+				ServerMemberResponse res = ac.getMembersContacts(linkshopId, lasSync);
 				if (res.isSucess()) {
-					AppContext.getInstance(getBaseContext())
-					.setCurrentDisplayShopId(shopId);
 					memberService.handleMembers(res.getResult().getRecords());
 					last_sync = String.valueOf(res.getResult().getLast_sync());
-					myshopService.updateLatestSync(last_sync, shopId,
+					myshopService.updateLatestSync(last_sync, linkshopId,
 							"Contacts");
 					AppContext.getInstance(getBaseContext())
 							.setContactLastSyncTime(last_sync);
-					msg.what = 3;
-				}
-				if (res.getCode() == 1) {
-					msg.what = 0;
+					if(linkshopId.equals(myshops.get(myshops.size()-1)));
+					{
+						msg.what = 3;
+					}
 				}
 				handle.sendMessage(msg);
 			}

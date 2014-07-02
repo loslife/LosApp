@@ -77,7 +77,7 @@ public class Main extends Activity {
 		setContentView(R.layout.main);
 		initData();
 		initView();
-		int[] num = {980,650,450,300};
+		int[] num = {300,450,650,980};
 		configLayout = (LinearLayout) findViewById(R.id.configLayout);
 		view = new PanelBar(this, num);
 		configLayout.addView(view);

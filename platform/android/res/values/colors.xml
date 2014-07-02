@@ -21,6 +21,12 @@
 	<color name="crimson">#f46767</color>
 	<color name="aquamarine">#B5E9EC</color>
 	
+	<color name="vone">#ff7a4b</color>
+	<color name="vtwo">#fca788</color>
+	<color name="vthree">#fecfbe</color>
+	<color name="vgeneral">#cad3da</color>
+	      
+	
 	
 	
     <color name="full_transparent">#00000000</color>

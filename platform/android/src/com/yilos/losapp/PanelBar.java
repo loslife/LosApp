@@ -25,10 +25,10 @@ public class PanelBar extends View {
      private Paint PaintText = null;       
        
      final int[] colors = new int[]{           
-             R.color.red,  
-             R.color.white,  
-             R.color.green,  
-             R.color.yellow,  
+             R.color.vone,  
+             R.color.vtwo,  
+             R.color.vthree,  
+             R.color.vgeneral,  
              R.color.blue,                 
          };  
        
@@ -68,7 +68,7 @@ public class PanelBar extends View {
          }  
                
          PaintText = new Paint();  
-         PaintText.setColor(Color.BLUE);  
+         PaintText.setColor(Color.GRAY);  
          PaintText.setTextSize(30);  
          PaintText.setTypeface(Typeface.DEFAULT_BOLD);  
      }  
@@ -80,24 +80,23 @@ public class PanelBar extends View {
          //饼图标题  
          canvas.drawText("员工业绩", 100,50, PaintText);      
            
-         arrPaintArc[0].setTextSize(25);  
-         arrPaintArc[3].setTextSize(25);  
+         arrPaintArc[3].setTextSize(40);  
            
          int i= 0;         
            
          int lnWidth = 0; //标识线宽度  
-         int lnSpace = 50; //标识间距  
+         int lnSpace = 60; //标识间距  
            
          int startx = 120;  
          int endx = startx + 20;  
            
-         int starty =  270;  
+         int starty = 350;  
          int endy = 270;  
            
          int initX = startx;  
          int initY = starty;  
            
-         int rectHeight = 12; //柱形框高度  
+         int rectHeight = 40; //柱形框高度  
            
    
          /////////////////////////  
@@ -116,14 +115,26 @@ public class PanelBar extends View {
          for(i=0; i<arrNum.length; i++)   
          {                 
              starty =  initY - (i+1) * lnSpace; //起始线要提高一位  
-             endy = starty;  
+             endy = starty-rectHeight;  
                
-             canvas.drawLine( startx - lnWidth  ,starty  ,initX,endy , PaintText);  
+             canvas.drawLine( startx - lnWidth  ,starty  ,initX,endy , PaintText);
+             
              //文字 偏移30，下移10  
-             canvas.drawText(Integer.toString(arrNum[i]), initX -50,endy + 10, arrPaintArc[3]);       
+             canvas.drawText("￥"+Integer.toString(arrNum[i]), initX + (Float.valueOf(arrNum[i]) /200) * lnSpace+50,endy+40, arrPaintArc[3]);
+             
+             Paint  paint = null;
+             if(i<3)
+             {
+                 paint =  arrPaintArc[i];
+             }
+             else
+             {
+            	 paint = arrPaintArc[3];
+             }
              //柱形  
              canvas.drawRect(initX   ,endy,  
-                     initX + (Float.valueOf(arrNum[i]) /100) * lnSpace ,endy + rectHeight, arrPaintArc[3]);                     
+                         initX + (Float.valueOf(arrNum[i]) /200) * lnSpace ,endy+rectHeight, paint);    
+                            
          }  
          //canvas.drawLine( startx ,starty - 30 ,initX ,initY , PaintText);  
          // Y 轴  
