@@ -67,7 +67,7 @@
         
         mainArea = [[UIView alloc] initWithFrame:CGRectMake(0, 41, 320, 427)];
         
-        VerticalLine *vertical = [[VerticalLine alloc] initWithFrame:CGRectMake(80, 56, 1, 357)];
+        VerticalLine *vertical = [[VerticalLine alloc] initWithFrame:CGRectMake(60, 56, 1, 357)];
         
         [self addSubview:header];
         [self addSubview:horizon];
@@ -91,7 +91,7 @@
     }
     
     int maxValue = [delegate maxValue];
-    CGFloat lengthPerValue = 120.0 / maxValue;
+    CGFloat lengthPerValue = 180.0 / maxValue;
 
     for(int i = 0; i < count; i++){
         
@@ -104,7 +104,7 @@
         name.font = [UIFont systemFontOfSize:14.0];
         
         CGFloat barLength = [delegate valueAtIndex:i] * lengthPerValue;
-        UILabel *bar = [[UILabel alloc] initWithFrame:CGRectMake(81, 5, barLength, 30)];
+        UILabel *bar = [[UILabel alloc] initWithFrame:CGRectMake(61, 5, barLength, 30)];
         if(i == 0){
             bar.backgroundColor = [UIColor colorWithRed:255/255.0f green:122/255.0f blue:75/255.0f alpha:1.0f];
         }else if(i == 1){
@@ -115,7 +115,7 @@
             bar.backgroundColor = [UIColor colorWithRed:202/255.0f green:211/255.0f blue:218/255.0f alpha:1.0f];
         }
         
-        UILabel *money = [[UILabel alloc] initWithFrame:CGRectMake(81 + barLength, 0, 59, 40)];
+        UILabel *money = [[UILabel alloc] initWithFrame:CGRectMake(61 + barLength, 0, 59, 40)];
         money.text = [NSString stringWithFormat:@"￥%d", [delegate valueAtIndex:i]];
         money.textAlignment = NSTextAlignmentLeft;
         money.textColor = [UIColor colorWithRed:114/255.0f green:128/255.0f blue:137/255.0f alpha:1.0f];
