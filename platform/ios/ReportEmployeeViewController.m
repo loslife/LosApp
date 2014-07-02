@@ -3,6 +3,8 @@
 #import "LosDao.h"
 #import "UserData.h"
 #import "ReportCustomViewController.h"
+#import "ReportDateStatus.h"
+#import "StringUtils.h"
 
 @implementation ReportEmployeeViewController
 
@@ -32,22 +34,22 @@
 
 -(void) loadReport
 {
-    NSDateComponents* components = [[NSDateComponents alloc] init];
-    [components setYear:2014];
-    [components setMonth:6];
-    [components setDay:26];
-    
-    NSCalendar *current = [NSCalendar currentCalendar];
-    NSDate* date = [current dateFromComponents:components];
-    
     UserData *userData = [UserData load];
     NSString *currentEnterpriseId = userData.enterpriseId;
     
-    NSArray *records = [self.dao queryEmployeePerformanceByDate:date EnterpriseId:currentEnterpriseId Type:0];
+    if([StringUtils isEmpty:currentEnterpriseId]){
+        return;
+    }
+    
+    ReportDateStatus *status = [ReportDateStatus sharedInstance];
+    
+    NSArray *records = [self.dao queryEmployeePerformanceByDate:status.date EnterpriseId:currentEnterpriseId Type:status.dateType];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         NSUInteger count = [records count];
-        NSLog(@"%lu", (unsigned long)count);
+        NSString *message = [NSString stringWithFormat:@"%lu条记录", count];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:message delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+        [alert show];
     });
 }
 
