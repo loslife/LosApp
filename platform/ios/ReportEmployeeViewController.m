@@ -58,12 +58,12 @@
 -(void) dateSelected:(NSDate*)date Type:(DateDisplayType)type
 {
     [super dateSelected:date Type:type];
-    NSLog(@"employee date picked");
+    [self loadReport];
 }
 
 -(void) enterpriseSelected:(NSString*)enterpriseId
 {
-    NSLog(@"enterprise switch");
+    [self loadReport];
 }
 
 - (void) handleSwipeLeft
