@@ -43,7 +43,7 @@
         [change setTitle:@"换" forState:UIControlStateNormal];
         [change addTarget:self action:@selector(switchDateType) forControlEvents:UIControlEventTouchUpInside];
         
-        self.backgroundColor = [UIColor colorWithRed:241/255.0f green:241/255.0f blue:241/255.0f alpha:1.0f];
+        self.backgroundColor = [UIColor colorWithRed:247/255.0f green:248/255.0f blue:249/255.0f alpha:1.0f];
         [self addSubview:previous];
         [self addSubview:label];
         [self addSubview:next];
