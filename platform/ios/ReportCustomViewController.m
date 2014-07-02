@@ -10,7 +10,6 @@
         
         self.navigationItem.hidesBackButton = YES;
         self.navigationItem.rightBarButtonItem = [[SwitchShopButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20) Delegate:self];
-        self.navigationItem.title = @"一家好店";
     }
     return self;
 }
@@ -19,6 +18,10 @@
 {
     ReportCustomView *view = [[ReportCustomView alloc] initWithController:self];
     self.view = view;
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [super initEnterprises];
+    });
 }
 
 #pragma mark - abstract method implementation

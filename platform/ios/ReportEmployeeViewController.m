@@ -6,19 +6,12 @@
 
 @implementation ReportEmployeeViewController
 
+-(id) init
 {
-    LosDao *dao;
-}
-
--(id) initWithNibName:(NSString*)nibName bundle:(NSBundle*)bundle
-{
-    self = [super initWithNibName:nibName bundle:bundle];
+    self = [super init];
     if(self){
         
-        dao = [[LosDao alloc] init];
-        
         self.navigationItem.rightBarButtonItem = [[SwitchShopButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20) Delegate:self];
-        self.navigationItem.title = @"一家好店";
         
         self.tabBarItem.title = @"经营";
         self.tabBarItem.image = [UIImage imageNamed:@"tab_report"];
@@ -32,6 +25,7 @@
     self.view = view;
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [super initEnterprises];
         [self loadReport];
     });
 }
@@ -49,7 +43,7 @@
     UserData *userData = [UserData load];
     NSString *currentEnterpriseId = userData.enterpriseId;
     
-    NSArray *records = [dao queryEmployeePerformanceByDate:date EnterpriseId:currentEnterpriseId Type:0];
+    NSArray *records = [self.dao queryEmployeePerformanceByDate:date EnterpriseId:currentEnterpriseId Type:0];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         NSUInteger count = [records count];

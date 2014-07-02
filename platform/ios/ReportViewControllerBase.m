@@ -1,7 +1,21 @@
 #import "ReportViewControllerBase.h"
 #import "ReportDateStatus.h"
+#import "UserData.h"
+#import "FMDB.h"
+#import "PathResolver.h"
+#import "StringUtils.h"
+
 
 @implementation ReportViewControllerBase
+
+-(id) init
+{
+    self = [super init];
+    if(self){
+        self.dao = [[LosDao alloc] init];
+    }
+    return self;
+}
 
 - (void) handleSwipeLeft
 {
@@ -17,6 +31,30 @@
 {
     SwitchShopButton* barButton = (SwitchShopButton*)self.navigationItem.rightBarButtonItem;
     [barButton closeSwitchShopMenu];
+}
+
+-(void) initEnterprises
+{
+    UserData *userData = [UserData load];
+    NSString *currentEnterpriseId = userData.enterpriseId;
+    
+    if(!currentEnterpriseId){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.navigationItem.title = @"我的店铺";
+        });
+        return;
+    }
+    
+    NSString *enterpriseName = [self.dao queryEnterpriseNameById:currentEnterpriseId];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        if([StringUtils isEmpty:enterpriseName]){
+            self.navigationItem.title = @"我的店铺";
+        }else{
+            self.navigationItem.title = enterpriseName;
+        }
+    });
 }
 
 #pragma mark - delegate
