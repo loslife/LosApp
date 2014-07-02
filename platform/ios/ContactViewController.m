@@ -12,9 +12,6 @@
 {
     BOOL membersInitDone;
     NSMutableArray *members;
-    
-    UISearchBar *searchBar;
-    BOOL searchBarShow;
 }
 
 -(id) initWithNibName:(NSString*)nibName bundle:(NSBundle*)bundle
@@ -29,10 +26,6 @@
         
         self.tabBarItem.title = @"会员";
         self.tabBarItem.image = [UIImage imageNamed:@"tab_contact"];
-        
-        searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
-        searchBar.delegate = self;
-        searchBarShow = NO;
     }
     return self;
 }
@@ -40,7 +33,7 @@
 -(void) loadView
 {
     ContactView *view = [[ContactView alloc] initWithController:self];
-    self.tableView = view;
+    self.view = view;
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         [self initEnterprises];
@@ -97,26 +90,8 @@
     membersInitDone = YES;
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.tableView reloadData];
-    });
-}
-
-#pragma mark - search bar delegate
-
--(void) searchBar:(UISearchBar*)searchBar textDidChange:(NSString*)searchText
-{
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        
-        [members removeAllObjects];
-        
-        NSString *base = @"select id, name, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume from members where enterprise_id = :eid and name like '%%%@%%';";
-        NSString *statement = [NSString stringWithFormat:base, searchText];
-        
-        [self refreshMembers:statement];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
-        });
+        ContactView* myView = (ContactView*)self.view;
+        [myView.tableView reloadData];
     });
 }
 
@@ -174,24 +149,6 @@
         NSArray *sortedSection = [collation sortedArrayFromArray:sectionArray collationStringSelector:@selector(name)];
         [members addObject:sortedSection];
     }
-}
-
--(void) searchButtonTapped
-{
-    [self.view addSubview:searchBar];
-    searchBarShow = YES;
-}
-
--(void) hideSubViews:(UITapGestureRecognizer *)recognizer
-{
-    if(searchBarShow){
-        [searchBar resignFirstResponder];
-        [searchBar removeFromSuperview];
-        searchBarShow = NO;
-    }
-    
-    SwitchShopButton* barButton = (SwitchShopButton*)self.navigationItem.rightBarButtonItem;
-    [barButton closeSwitchShopMenu];
 }
 
 #pragma mark - tableview datasource
@@ -274,6 +231,26 @@
     [self.navigationController pushViewController:detail animated:YES];
 }
 
+#pragma mark - search bar delegate
+
+-(void) searchBar:(UISearchBar*)searchBar textDidChange:(NSString*)searchText
+{
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        
+        [members removeAllObjects];
+        
+        NSString *base = @"select id, name, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume from members where enterprise_id = :eid and name like '%%%@%%';";
+        NSString *statement = [NSString stringWithFormat:base, searchText];
+        
+        [self refreshMembers:statement];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            ContactView* myView = (ContactView*)self.view;
+            [myView.tableView reloadData];
+        });
+    });
+}
+
 #pragma mark - SwitchShopButtonDelegate
 
 -(void) enterpriseSelected:(NSString*)enterpriseId
@@ -285,7 +262,8 @@
         [self refreshMembers:statement];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
+            ContactView* myView = (ContactView*)self.view;
+            [myView.tableView reloadData];
         });
     });
 }
