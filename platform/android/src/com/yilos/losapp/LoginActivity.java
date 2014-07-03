@@ -60,7 +60,7 @@ public class LoginActivity extends Activity{
 				//loginUser(account,pwd);
 				//跳转到主界面
 				Intent main = new Intent();
-				main.setClass(LoginActivity.this, Main.class);
+				main.setClass(LoginActivity.this, MainTabActivity.class);
 				startActivity(main);
 			}
 		});

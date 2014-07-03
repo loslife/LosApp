@@ -68,7 +68,8 @@ public class Main extends Activity {
 	
 	public static final int WIDTH = 280;
 	public static final int HEIGHT = 250;
-	private PanelBar view, view1, view2, view3, view4;
+	private PanelBar view;
+	private PanelDountChart panelDountView;
 	private LinearLayout configLayout;
 
 	@SuppressWarnings("deprecation")
@@ -77,11 +78,25 @@ public class Main extends Activity {
 		setContentView(R.layout.main);
 		initData();
 		initView();
-		int[] num = {300,450,650,980};
+		
+		/*int[] num = {300,450,650,980};
 		configLayout = (LinearLayout) findViewById(R.id.configLayout);
 		view = new PanelBar(this, num);
-		configLayout.addView(view);
+		configLayout.addView(view);*/
 		
+		float[] num = new float[]{20f,30f,10f,40f};;
+		configLayout = (LinearLayout) findViewById(R.id.configLayout);
+		panelDountView = new PanelDountChart(this, num);
+		configLayout.addView(panelDountView);
+		
+		/*ChartView myView = (ChartView) this.findViewById(R.id.myView);
+	       System.out.println("1");
+	     myView.SetInfo(new String[] { "7-11", "7-12", "7-13", "7-14", "7-15",
+	                "7-16", "7-17" }, // X轴刻度
+	                new String[] { "", "5", "10", "15", "20", "25" }, // Y轴刻度
+	               new int[] { 15, 23, 10, 36, 45, 40, 12 } // 数据
+	             );*/
+
 	}
 
 	public void initView() {

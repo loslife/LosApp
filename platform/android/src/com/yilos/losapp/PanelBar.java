@@ -75,10 +75,7 @@ public class PanelBar extends View {
        
      public void onDraw(Canvas canvas){  
          //画布背景  
-         canvas.drawColor(Color.WHITE);  
-                   
-         //饼图标题  
-         canvas.drawText("员工业绩", 100,50, PaintText);      
+         canvas.drawColor(Color.WHITE);      
            
          arrPaintArc[3].setTextSize(40);  
            
