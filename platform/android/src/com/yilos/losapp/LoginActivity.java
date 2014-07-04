@@ -22,7 +22,7 @@ public class LoginActivity extends Activity{
 	
 	private EditText pwdExt;
 	
-	private Button loginBtn;
+	private TextView loginBtn;
 	
 	private TextView findPassword;
 	
@@ -37,7 +37,7 @@ public class LoginActivity extends Activity{
 	{
 		userNameExt = (EditText)findViewById(R.id.et_user_name);
 		pwdExt = (EditText)findViewById(R.id.et_user_pwd);
-		loginBtn = (Button)findViewById(R.id.btn_signin);
+		loginBtn = (TextView)findViewById(R.id.btn_signin);
 		findPassword = (TextView)findViewById(R.id.tv_forgot_password);
 		
 		loginBtn.setOnClickListener(new OnClickListener() {
