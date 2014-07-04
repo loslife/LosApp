@@ -9,6 +9,7 @@ import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yilos.losapp.bean.ServerMemberResponse;
@@ -25,6 +26,10 @@ public class ModifyPwdActivity  extends Activity
 	private EditText confirmPwd;
 	
 	private TextView modifybtn;
+	
+	private ImageView headmore;
+	
+	private TextView  shopname;
 
 
 	public void onCreate(Bundle savedInstanceState)
@@ -43,6 +48,10 @@ public class ModifyPwdActivity  extends Activity
 		newPassword = (EditText)findViewById(R.id.newpassword);
 		confirmPwd = (EditText)findViewById(R.id.confirm_newpassword);
 		modifybtn = (TextView)findViewById(R.id.btn_modifypwd);
+		shopname = (TextView)findViewById(R.id.shopname);
+		headmore = (ImageView)findViewById(R.id.headmore);
+		headmore.setVisibility(View.GONE);
+		shopname.setText("修改密码");
 
 		modifybtn.setOnClickListener(new OnClickListener() {
 			

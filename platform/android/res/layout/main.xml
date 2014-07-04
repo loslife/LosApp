@@ -3,8 +3,9 @@
     android:id="@+id/main"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/white"
     android:layout_gravity="center"
+    android:background="@color/white"
+    android:gravity="center_horizontal"
     android:orientation="vertical" >
 
     <include
@@ -18,16 +19,19 @@
         android:background="@color/graywhite"
         android:gravity="center"
         android:orientation="horizontal" >
-
         <TextView
-            android:id="@+id/lefttime"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
+            android:layout_weight="4"
+        />
+        <ImageView
+            android:id="@+id/lefttime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="左"
-            android:textColor="@color/black"
-            android:textSize="23.0dip" />
+            android:src="@drawable/toleft"
+        />
 
         <TextView
             android:id="@+id/showtime"
@@ -36,37 +40,41 @@
             android:layout_weight="2"
             android:gravity="center"
             android:text="2012"
-            android:textColor="@color/turquoise"
-            android:textSize="23.0dip" />
+            android:textColor="@color/black_text"
+            android:textSize="20.0dip" />
 
-        <TextView
+        <ImageView
             android:id="@+id/righttime"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="右"
-            android:textColor="@color/black"
-            android:textSize="23.0dip" />
+            android:src="@drawable/toright" />
+         <TextView
+            android:id="@+id/timetype"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="4"
+            android:gravity="center"
+            android:text="日"
+            android:textSize="20.0dip" 
+            android:textColor="@color/blue_text"/>
     </LinearLayout>
     
-    
     <RelativeLayout
-            android:id="@+id/relativelayout_title"
-            android:layout_width="330dip"
-            android:layout_height="60.0dip" >
+        android:id="@+id/relativelayout_title"
+        android:layout_width="300.0dip"
+        android:layout_height="60.0dip"
+        android:gravity="center" >
 
             <TextView
                 android:id="@+id/charviewtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:layout_toRightOf="@+id/linkshopicon"
-                android:layout_marginLeft="24.0dip"
-                android:layout_weight="5"
                 android:gravity="fill_vertical"
                 android:text="员工业绩"
-                android:textColor="@color/black"
-                android:textSize="23.0dip" />
+                android:textColor="@color/black_text"
+                android:textSize="20.0dip" />
 
             <View
                 android:layout_width="fill_parent"

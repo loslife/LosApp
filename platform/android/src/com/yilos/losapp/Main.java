@@ -55,8 +55,9 @@ public class Main extends Activity {
 	private TextView shopname;
 
 	private TextView showTime;
-	private TextView lefttime;
-	private TextView righttime;
+	private ImageView lefttime;
+	private ImageView righttime;
+	private TextView timetype;
 
 	private Button button;
 	private PopupWindow popupWindow;
@@ -71,6 +72,7 @@ public class Main extends Activity {
 	private PanelBar view;
 	private PanelDountChart panelDountView;
 	private LinearLayout configLayout;
+	
 
 	@SuppressWarnings("deprecation")
 	public void onCreate(Bundle savedInstanceState) {
@@ -103,9 +105,10 @@ public class Main extends Activity {
 		select_shop = (ImageView) findViewById(R.id.headmore);
 		shopname = (TextView) findViewById(R.id.shopname);
 		showTime = (TextView) findViewById(R.id.showtime);
-		lefttime = (TextView) findViewById(R.id.lefttime);
-		righttime = (TextView) findViewById(R.id.righttime);
-
+		lefttime = (ImageView) findViewById(R.id.lefttime);
+		righttime = (ImageView) findViewById(R.id.righttime);
+		timetype = (TextView) findViewById(R.id.timetype);
+		
 		shopname.setText(getIntent().getStringExtra("shopName"));
 		showTime.setText(getDateNow());
 
@@ -122,6 +125,36 @@ public class Main extends Activity {
 
 				showPopupWindow(x, y);
 			}
+		});
+		
+		timetype.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if("日".equals(timetype.getText().toString()))
+				{
+					dateType = "week";
+					timetype.setText("周");
+					DateUtil dateUtil = new DateUtil();
+					String weeks = dateUtil.getCurrentMonday()+"--"+dateUtil.getSunday();
+					showTime.setText(weeks);
+					
+				}
+				else if("周".equals(timetype.getText().toString()))
+				{
+					dateType = "month";
+					timetype.setText("月");
+					showTime.setText(getDateNow().substring(0, 8));
+				}
+				else
+				{
+					dateType = "day";
+					timetype.setText("日");
+					showTime.setText(getDateNow());
+				}
+				
+			}
+			
 		});
 
 		lefttime.setOnClickListener(new OnClickListener() {

@@ -8,17 +8,27 @@
         android:id="@+id/main_relativelayout_header"
         android:layout_width="fill_parent"
         android:layout_height="50dip"
-        android:background="@color/turquoise" >
+        android:background="@color/blue_title" >
 
         <ImageView
             android:id="@+id/headmore"
             android:layout_width="wrap_content"
-            android:layout_height="23.0dip"
+            android:layout_height="22.0dip"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_weight="1"
             android:src="@drawable/select_shop"
-             />
+        />
+        
+        <ImageView
+            android:id="@+id/headmore"
+            android:layout_width="wrap_content"
+            android:layout_height="22.0dip"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_weight="1"
+            android:src="@drawable/goback"
+        />
 
         <TextView
             android:id="@+id/shopname"
@@ -29,7 +39,7 @@
             android:layout_weight="5"
             android:text=""
             android:textColor="@color/white"
-            android:textSize="23.0dip" />
+            android:textSize="22.0dip" />
 
     </RelativeLayout>
     

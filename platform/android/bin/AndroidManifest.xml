@@ -14,13 +14,14 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/notitle">
-        <activity android:name=".LoginActivity"
+        <activity android:name=".FirstActivity"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"></action>
                 <category android:name="android.intent.category.LAUNCHER"></category>
             </intent-filter>
         </activity>
+         <activity android:name=".LoginActivity" />
         <activity android:name=".Main" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".MemberGoupActivity" />

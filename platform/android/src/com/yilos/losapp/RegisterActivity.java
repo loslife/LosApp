@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class RegisterActivity extends Activity
@@ -30,7 +31,13 @@ public class RegisterActivity extends Activity
 	
 	private TextView registration;
 	
+	private TextView register_next;
+	
 	private CountDownTimer countDownTimer;
+	
+	private LinearLayout checkvcodelayout;
+	
+	private LinearLayout registerlayout;
 	
 	private boolean isUserExist = false;
 	
@@ -61,7 +68,9 @@ public class RegisterActivity extends Activity
 		password = (EditText)findViewById(R.id.password);
 		confirmPwd = (EditText)findViewById(R.id.confirm_password);
 		registration = (TextView)findViewById(R.id.btn_register);
-
+		checkvcodelayout = (LinearLayout)findViewById(R.id.checkvcodelayout);
+		registerlayout = (LinearLayout)findViewById(R.id.registerlayout);
+		register_next = (TextView)findViewById(R.id.register_next);
 		
 		reqValidatecode.setOnClickListener(new OnClickListener() {
 			
@@ -77,6 +86,16 @@ public class RegisterActivity extends Activity
 					getValidatecode(phoneNum.getText().toString());
 				}
 			}
+		});
+		
+		register_next.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				checkvcodelayout.setVisibility(View.GONE);
+				registerlayout.setVisibility(View.VISIBLE);
+			}
+			
 		});
 		
 		registration.setOnClickListener(new OnClickListener() {

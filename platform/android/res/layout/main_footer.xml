@@ -10,41 +10,27 @@
                 android:layout_width="fill_parent" android:layout_height="wrap_content">  
 	<RadioButton 
 	    android:id="@+id/operate"
-	    android:layout_width="fill_parent"
-	    android:background="@drawable/widget_bar_bg"
-        android:layout_height="65.0dip"
-        android:layout_weight="1" 
-        android:gravity="center"
-        android:paddingTop="20dip"
-        android:paddingBottom="15dip"
-        android:button ="@null"
-        android:drawableTop="@drawable/operate"
+	    style="@style/footbar"
+        android:drawableTop="@drawable/operatetab_bg"
+        android:text="经营分析"
+        android:textColor="@drawable/tabtext_color"
         android:checked="true"
         />
 	
 	<RadioButton 
 	    android:id="@+id/contacts"
-	    android:layout_width="fill_parent"
-	    android:background="@drawable/widget_bar_bg"
-        android:layout_height="65.0dip"
-        android:gravity="center"
-        android:layout_weight="1" 
-        android:button ="@null"
-        android:paddingTop="20dip"
-        android:paddingBottom="15dip"
-        android:drawableTop="@drawable/contacts"/>
+	    style="@style/footbar"
+	    android:text="会员"
+	    android:textColor="@drawable/tabtext_color"
+        android:drawableTop="@drawable/contactstab_bg"/>
 
 	<RadioButton
 	    android:id="@+id/setting"
-	    android:layout_width="fill_parent"
-	    android:layout_height="65.0dip"
-	    android:layout_weight="1"
-	    android:background="@drawable/widget_bar_bg"
-	    android:drawableTop="@drawable/setting"
-	    android:gravity="center"
-	    android:button ="@null"
-	    android:paddingBottom="15dip"
-	    android:paddingTop="20dip" />
+	    style="@style/footbar"
+	    android:text="设置"
+	    android:textColor="@drawable/tabtext_color"
+	    android:drawableTop="@drawable/settingtab_bg"
+	     />
 </RadioGroup>
 </LinearLayout>
 </TabHost>
