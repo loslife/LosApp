@@ -116,19 +116,32 @@
     NSString *refreshLatestSyncTime = @"update enterprises set report_latest_sync = :sync where enterprise_id = :enterpriseId;";
     [db executeUpdate:refreshLatestSyncTime, lastSync, enterpriseId];
     
-    NSString *query = @"select count(1) as count from employee_performance where id = :id and enterprise_id = :eid;";
+    NSArray *days = [records objectForKey:@"day"];
+    [self updateDays:days Database:db EnterpriseId:enterpriseId];
     
-    NSString *insert = @"insert into employee_performance (id, enterprise_id, total, create_date, modify_date, type, employee_name, year, month, day, week) values (:id, :eid, :total, :cdate, :mdate, :type, :employeeName, :year, :month, :day, :week);";
+    NSArray *months = [records objectForKey:@"month"];
+    [self updateMonths:months Database:db EnterpriseId:enterpriseId];
     
-    NSString *update = @"update employee_performance set total = :total, modify_date = :mdate, employee_name = :employeeName where id = :id and enterprise_id = :eid;";
+    NSArray *weeks = [records objectForKey:@"week"];
+    [self updateWeeks:weeks Database:db EnterpriseId:enterpriseId];
     
-    for(NSDictionary *item in records){
+    [db close];
+}
+
+-(void) updateDays:(NSArray*)datas Database:(FMDatabase*)db EnterpriseId:(NSString*)enterpriseId
+{
+    NSString *query = @"select count(1) as count from employee_performance_day where id = :id and enterprise_id = :eid;";
+    
+    NSString *insert = @"insert into employee_performance_day (id, enterprise_id, total, create_date, modify_date, employee_name, year, month, day, week) values (:id, :eid, :total, :cdate, :mdate, :employeeName, :year, :month, :day, :week);";
+    
+    NSString *update = @"update employee_performance_day set total = :total, modify_date = :mdate, employee_name = :employeeName where id = :id and enterprise_id = :eid;";
+    
+    for(NSDictionary *item in datas){
         
         NSString *pk = [item objectForKey:@"id"];
         NSNumber *total = [item objectForKey:@"total"];
         NSNumber *createDate = [item objectForKey:@"create_date"];
         NSNumber *modifyDate = [item objectForKey:@"modify_date"];
-        NSNumber *type = [item objectForKey:@"type"];
         NSString *employeeName = [item objectForKey:@"employee_name"];
         NSNumber *year = [item objectForKey:@"year"];
         NSNumber *month = [item objectForKey:@"month"];
@@ -139,13 +152,73 @@
         [rs next];
         int count = [[rs objectForColumnName:@"count"] intValue];
         if(count == 0){
-            [db executeUpdate:insert, pk, enterpriseId, total, createDate, modifyDate, type, employeeName, year, month, day, week];
+            [db executeUpdate:insert, pk, enterpriseId, total, createDate, modifyDate, employeeName, year, month, day, week];
         }else{
             [db executeUpdate:update, total, modifyDate, employeeName, pk, enterpriseId];
         }
     }
+}
+
+-(void) updateMonths:(NSArray*)datas Database:(FMDatabase*)db EnterpriseId:(NSString*)enterpriseId
+{
+    NSString *query = @"select count(1) as count from employee_performance_month where id = :id and enterprise_id = :eid;";
     
-    [db close];
+    NSString *insert = @"insert into employee_performance_month (id, enterprise_id, total, create_date, modify_date, employee_name, year, month, day, week) values (:id, :eid, :total, :cdate, :mdate, :employeeName, :year, :month, :day, :week);";
+    
+    NSString *update = @"update employee_performance_month set total = :total, modify_date = :mdate, employee_name = :employeeName where id = :id and enterprise_id = :eid;";
+    
+    for(NSDictionary *item in datas){
+        
+        NSString *pk = [item objectForKey:@"id"];
+        NSNumber *total = [item objectForKey:@"total"];
+        NSNumber *createDate = [item objectForKey:@"create_date"];
+        NSNumber *modifyDate = [item objectForKey:@"modify_date"];
+        NSString *employeeName = [item objectForKey:@"employee_name"];
+        NSNumber *year = [item objectForKey:@"year"];
+        NSNumber *month = [item objectForKey:@"month"];
+        NSNumber *day = [item objectForKey:@"day"];
+        NSNumber *week = [item objectForKey:@"week"];
+        
+        FMResultSet *rs = [db executeQuery:query, pk, enterpriseId];
+        [rs next];
+        int count = [[rs objectForColumnName:@"count"] intValue];
+        if(count == 0){
+            [db executeUpdate:insert, pk, enterpriseId, total, createDate, modifyDate, employeeName, year, month, day, week];
+        }else{
+            [db executeUpdate:update, total, modifyDate, employeeName, pk, enterpriseId];
+        }
+    }
+}
+
+-(void) updateWeeks:(NSArray*)datas Database:(FMDatabase*)db EnterpriseId:(NSString*)enterpriseId
+{
+    NSString *query = @"select count(1) as count from employee_performance_week where id = :id and enterprise_id = :eid;";
+    
+    NSString *insert = @"insert into employee_performance_week (id, enterprise_id, total, create_date, modify_date, employee_name, year, month, day, week) values (:id, :eid, :total, :cdate, :mdate, :employeeName, :year, :month, :day, :week);";
+    
+    NSString *update = @"update employee_performance_week set total = :total, modify_date = :mdate, employee_name = :employeeName where id = :id and enterprise_id = :eid;";
+    
+    for(NSDictionary *item in datas){
+        
+        NSString *pk = [item objectForKey:@"id"];
+        NSNumber *total = [item objectForKey:@"total"];
+        NSNumber *createDate = [item objectForKey:@"create_date"];
+        NSNumber *modifyDate = [item objectForKey:@"modify_date"];
+        NSString *employeeName = [item objectForKey:@"employee_name"];
+        NSNumber *year = [item objectForKey:@"year"];
+        NSNumber *month = [item objectForKey:@"month"];
+        NSNumber *day = [item objectForKey:@"day"];
+        NSNumber *week = [item objectForKey:@"week"];
+        
+        FMResultSet *rs = [db executeQuery:query, pk, enterpriseId];
+        [rs next];
+        int count = [[rs objectForColumnName:@"count"] intValue];
+        if(count == 0){
+            [db executeUpdate:insert, pk, enterpriseId, total, createDate, modifyDate, employeeName, year, month, day, week];
+        }else{
+            [db executeUpdate:update, total, modifyDate, employeeName, pk, enterpriseId];
+        }
+    }
 }
 
 -(NSArray*) queryEmployeePerformanceByDate:(NSDate*)date EnterpriseId:(NSString*)enterpriseId Type:(int)type
@@ -161,7 +234,15 @@
     FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
     [db open];
     
-    FMResultSet *rs = [db executeQuery:@"select id, total, employee_name from employee_performance where enterprise_id = :eid and type = :type and year = :year and month = :month and day = :day order by total desc", enterpriseId, [NSNumber numberWithInt:type], [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
+    FMResultSet *rs;
+    
+    if(type == 0){
+        rs = [db executeQuery:@"select id, total, employee_name from employee_performance_day where enterprise_id = :eid and year = :year and month = :month and day = :day order by total desc", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
+    }else if(type == 1){
+        rs = [db executeQuery:@"select id, total, employee_name from employee_performance_month where enterprise_id = :eid and year = :year and month = :month and day = :day order by total desc", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
+    }else{
+        rs = [db executeQuery:@"select id, total, employee_name from employee_performance_week where enterprise_id = :eid and year = :year and month = :month and day = :day order by total desc", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
+    }
     
     NSMutableArray *performances = [NSMutableArray arrayWithCapacity:1];
     while([rs next]){
