@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class LoginActivity extends Activity{
@@ -25,6 +26,8 @@ public class LoginActivity extends Activity{
 	private TextView loginBtn;
 	
 	private TextView findPassword;
+	
+	private TextView shopName;
 	
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -39,6 +42,25 @@ public class LoginActivity extends Activity{
 		pwdExt = (EditText)findViewById(R.id.et_user_pwd);
 		loginBtn = (TextView)findViewById(R.id.btn_signin);
 		findPassword = (TextView)findViewById(R.id.tv_forgot_password);
+		shopName = (TextView)findViewById(R.id.shopname);
+		shopName.setText("登录");
+		
+		 findViewById(R.id.goback).setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					finish();
+				}
+			});
+		
+		findViewById(R.id.goback).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+		
 		
 		loginBtn.setOnClickListener(new OnClickListener() {
 			

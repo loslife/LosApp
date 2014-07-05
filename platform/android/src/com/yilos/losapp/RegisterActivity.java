@@ -31,7 +31,7 @@ public class RegisterActivity extends Activity
 	
 	private TextView registration;
 	
-	private TextView register_next;
+	private TextView operat_next;
 	
 	private CountDownTimer countDownTimer;
 	
@@ -70,7 +70,23 @@ public class RegisterActivity extends Activity
 		registration = (TextView)findViewById(R.id.btn_register);
 		checkvcodelayout = (LinearLayout)findViewById(R.id.checkvcodelayout);
 		registerlayout = (LinearLayout)findViewById(R.id.registerlayout);
-		register_next = (TextView)findViewById(R.id.register_next);
+		operat_next = (TextView)findViewById(R.id.operat_next);
+		
+		 findViewById(R.id.goback).setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					finish();
+				}
+			});
+		
+        findViewById(R.id.goback).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 		
 		reqValidatecode.setOnClickListener(new OnClickListener() {
 			
@@ -88,24 +104,12 @@ public class RegisterActivity extends Activity
 			}
 		});
 		
-		register_next.setOnClickListener(new OnClickListener() {
+		operat_next.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				checkvcodelayout.setVisibility(View.GONE);
-				registerlayout.setVisibility(View.VISIBLE);
-			}
-			
-		});
-		
-		registration.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				String phoneNo = phoneNum.getText().toString();
 				String code = validatecode.getText().toString();
-				String pwd = password.getText().toString();
-				String cPwd = confirmPwd.getText().toString();
 				if(StringUtils.isEmpty(phoneNo))
 				{
 					UIHelper.ToastMessage(v.getContext(), "请输入注册的手机号码");
@@ -116,6 +120,21 @@ public class RegisterActivity extends Activity
 					UIHelper.ToastMessage(v.getContext(), "请输入验证码");
 					return;
 				}
+				//校验验证码
+				checkValidatecode(phoneNo,code);
+				
+			}
+			
+		});
+		
+		registration.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				String pwd = password.getText().toString();
+				String cPwd = confirmPwd.getText().toString();
+				String phoneNo = phoneNum.getText().toString();
 				
 				if(StringUtils.isEmpty(pwd))
 				{
@@ -132,24 +151,12 @@ public class RegisterActivity extends Activity
 					UIHelper.ToastMessage(v.getContext(), "两次输入的密码不一致");
 					return;
 				}
-				//校验验证码
-				checkValidatecode(phoneNo,code);
-				if(!StringUtils.isEmpty(code)&&forgotpwd)
-				{
-					//忘记密码
-					if(checkMobileNumber(phoneNo))
-					{
-						
-					}
-				}
-				else
-				{
+
 					//注册
 					if(!checkMobileNumber(phoneNo))
 					{
 						userRegister(phoneNo,pwd);
 					}
-				}
 				
 			}
 		});
@@ -165,8 +172,14 @@ public class RegisterActivity extends Activity
 		final Handler handle =new Handler(){
 			public void handleMessage(Message msg)
 			{
+				if(msg.what==1)
+				{
+					checkvcodelayout.setVisibility(View.GONE);
+					registerlayout.setVisibility(View.VISIBLE);
+				}
 				if(msg.what==0)
 				{
+					
 					validatecode.setText("");
 					UIHelper.ToastMessage(RegisterActivity.this, "验证码错误，请重新输入");
 				}

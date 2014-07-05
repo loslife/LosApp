@@ -66,13 +66,13 @@ public class Main extends Activity {
 	private String title[] = null;
 
 	private String dateType = "week";
-	
+
 	public static final int WIDTH = 280;
 	public static final int HEIGHT = 250;
 	private PanelBar view;
 	private PanelDountChart panelDountView;
-	private LinearLayout configLayout;
-	
+	private LinearLayout columnarLayout;
+	private LinearLayout annularLayout;
 
 	@SuppressWarnings("deprecation")
 	public void onCreate(Bundle savedInstanceState) {
@@ -80,24 +80,26 @@ public class Main extends Activity {
 		setContentView(R.layout.main);
 		initData();
 		initView();
-		
-		/*int[] num = {300,450,650,980};
-		configLayout = (LinearLayout) findViewById(R.id.configLayout);
+
+		// 柱状图
+		int[] num = { 300, 450, 650, 980 };
+		columnarLayout = (LinearLayout) findViewById(R.id.columnarLayout);
 		view = new PanelBar(this, num);
-		configLayout.addView(view);*/
-		
-		float[] num = new float[]{20f,30f,10f,40f};;
-		configLayout = (LinearLayout) findViewById(R.id.configLayout);
-		panelDountView = new PanelDountChart(this, num);
-		configLayout.addView(panelDountView);
-		
-		/*ChartView myView = (ChartView) this.findViewById(R.id.myView);
-	       System.out.println("1");
-	     myView.SetInfo(new String[] { "7-11", "7-12", "7-13", "7-14", "7-15",
-	                "7-16", "7-17" }, // X轴刻度
-	                new String[] { "", "5", "10", "15", "20", "25" }, // Y轴刻度
-	               new int[] { 15, 23, 10, 36, 45, 40, 12 } // 数据
-	             );*/
+		columnarLayout.addView(view);
+
+		// 环形图
+		float[] num2 = new float[] { 20f, 30f, 10f, 40f };
+		annularLayout = (LinearLayout) findViewById(R.id.annularLayout);
+		panelDountView = new PanelDountChart(this, num2);
+		annularLayout.addView(panelDountView);
+
+		// 折线图
+		ChartView myView = (ChartView) this.findViewById(R.id.myView);
+		myView.SetInfo(new String[] { "7-11", "7-12", "7-13", "7-14", "7-15",
+				"7-16", "7-17" }, // X轴刻度
+				new String[] { "", "5", "10", "15", "20", "25" }, // Y轴刻度
+				new int[] { 15, 23, 10, 36, 45, 40, 12 } // 数据
+		);
 
 	}
 
@@ -108,12 +110,13 @@ public class Main extends Activity {
 		lefttime = (ImageView) findViewById(R.id.lefttime);
 		righttime = (ImageView) findViewById(R.id.righttime);
 		timetype = (TextView) findViewById(R.id.timetype);
-		
+
 		shopname.setText(getIntent().getStringExtra("shopName"));
 		showTime.setText(getDateNow());
 
-		if(title == null||!(title.length>0))
-		{
+		findViewById(R.id.goback).setVisibility(View.GONE);
+		 
+		if (title == null || !(title.length > 0)) {
 			select_shop.setVisibility(View.GONE);
 		}
 		select_shop.setOnClickListener(new OnClickListener() {
@@ -126,35 +129,31 @@ public class Main extends Activity {
 				showPopupWindow(x, y);
 			}
 		});
-		
+
 		timetype.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				if("日".equals(timetype.getText().toString()))
-				{
+				if ("日".equals(timetype.getText().toString())) {
 					dateType = "week";
 					timetype.setText("周");
 					DateUtil dateUtil = new DateUtil();
-					String weeks = dateUtil.getCurrentMonday()+"--"+dateUtil.getSunday();
+					String weeks = dateUtil.getCurrentMonday() + "--"
+							+ dateUtil.getSunday();
 					showTime.setText(weeks);
-					
-				}
-				else if("周".equals(timetype.getText().toString()))
-				{
+
+				} else if ("周".equals(timetype.getText().toString())) {
 					dateType = "month";
 					timetype.setText("月");
 					showTime.setText(getDateNow().substring(0, 8));
-				}
-				else
-				{
+				} else {
 					dateType = "day";
 					timetype.setText("日");
 					showTime.setText(getDateNow());
 				}
-				
+
 			}
-			
+
 		});
 
 		lefttime.setOnClickListener(new OnClickListener() {
@@ -172,14 +171,12 @@ public class Main extends Activity {
 					Date curDate = new Date(c.getTimeInMillis());// 获取当前时间
 					String str = formatter.format(curDate);
 					showTime.setText(str);
-				}
-				else if(dateType == "week")
-				{
+				} else if (dateType == "week") {
 					DateUtil dateUtil = new DateUtil();
-					String weeks = dateUtil.getPreviousMonday()+"--"+dateUtil.getSunday();
+					String weeks = dateUtil.getPreviousMonday() + "--"
+							+ dateUtil.getSunday();
 					showTime.setText(weeks);
-				}
-				else {
+				} else {
 					SimpleDateFormat formatter = new SimpleDateFormat(
 							"yyyy年MM月dd日");
 					Date curDate = new Date(dateToCal(
@@ -206,14 +203,12 @@ public class Main extends Activity {
 					Date curDate = new Date(c.getTimeInMillis());// 获取当前时间
 					String str = formatter.format(curDate);
 					showTime.setText(str);
-				} 
-				else if(dateType == "week")
-				{
+				} else if (dateType == "week") {
 					DateUtil dateUtil = new DateUtil();
-					String weeks = dateUtil.getNextMonday()+"--"+dateUtil.getSunday();
+					String weeks = dateUtil.getNextMonday() + "--"
+							+ dateUtil.getSunday();
 					showTime.setText(weeks);
-				}
-				else {
+				} else {
 					SimpleDateFormat formatter = new SimpleDateFormat(
 							"yyyy年MM月dd日");
 					Date curDate = new Date(dateToCal(

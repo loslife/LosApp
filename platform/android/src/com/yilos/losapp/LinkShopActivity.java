@@ -46,8 +46,16 @@ public class LinkShopActivity extends Activity
 		validatecode = (EditText)findViewById(R.id.validatecode);
 		reqValidatecode = (TextView)findViewById(R.id.btn_validatecode);
 		linkshopbtn = (TextView)findViewById(R.id.linkshopbtn);
+		
+		 findViewById(R.id.goback).setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					finish();
+				}
+			});
+		
 		reqValidatecode.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				String phoneNo = phoneNum.getText().toString();

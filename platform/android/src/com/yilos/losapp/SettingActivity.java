@@ -40,9 +40,12 @@ public class SettingActivity extends Activity{
 		headmore = (ImageView)findViewById(R.id.headmore);
 		headmore.setVisibility(View.GONE);
 		
+		findViewById(R.id.goback).setVisibility(View.GONE);
+		
 		linkShop = (RelativeLayout)findViewById(R.id.relativelayout_linkshop);
 		modfiypwd = (RelativeLayout)findViewById(R.id.relativelayout_modfiypwd);
 		aboutlos = (RelativeLayout)findViewById(R.id.relativelayout_aboutlos);
+		findViewById(R.id.goback).setVisibility(View.GONE);
 		
 		linkShop.setOnClickListener(new OnClickListener() {
 			

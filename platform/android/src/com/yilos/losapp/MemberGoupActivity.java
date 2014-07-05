@@ -185,6 +185,8 @@ public class MemberGoupActivity extends Activity{
 		member_title = (RelativeLayout)findViewById(R.id.member_title);
 		member_seach = (RelativeLayout)findViewById(R.id.member_seach);
 		seachmember = (ImageView)findViewById(R.id.seachmember);
+		findViewById(R.id.goback).setVisibility(View.GONE);
+		
 		seachmember.setOnClickListener(new OnClickListener() {
 			
 			@Override

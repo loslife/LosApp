@@ -52,6 +52,14 @@ public class ModifyPwdActivity  extends Activity
 		headmore = (ImageView)findViewById(R.id.headmore);
 		headmore.setVisibility(View.GONE);
 		shopname.setText("修改密码");
+		
+       findViewById(R.id.goback).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 
 		modifybtn.setOnClickListener(new OnClickListener() {
 			

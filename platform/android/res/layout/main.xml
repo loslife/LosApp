@@ -3,35 +3,32 @@
     android:id="@+id/main"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:layout_gravity="center"
     android:background="@color/white"
-    android:gravity="center_horizontal"
     android:orientation="vertical" >
 
     <include
-        android:layout_height="50.0dip"
         layout="@layout/main_header" />
-
-    <LinearLayout
+    
+      <LinearLayout
         android:id="@+id/main_relativelayout_header"
         android:layout_width="fill_parent"
         android:layout_height="50dip"
         android:background="@color/graywhite"
         android:gravity="center"
         android:orientation="horizontal" >
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_weight="4"
-        />
+            android:layout_weight="4" />
+
         <ImageView
             android:id="@+id/lefttime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:src="@drawable/toleft"
-        />
+            android:src="@drawable/toleft" />
 
         <TextView
             android:id="@+id/showtime"
@@ -50,47 +47,39 @@
             android:layout_weight="1"
             android:gravity="center"
             android:src="@drawable/toright" />
-         <TextView
+
+        <TextView
             android:id="@+id/timetype"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_weight="4"
+            android:layout_weight="3"
             android:gravity="center"
             android:text="日"
-            android:textSize="20.0dip" 
-            android:textColor="@color/blue_text"/>
+            android:textColor="@color/blue_text"
+            android:textSize="20.0dip" />
+
+        <ImageView
+            android:id="@+id/headmore"
+            android:layout_width="wrap_content"
+            android:layout_height="22.0dip"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_weight="1"
+            android:src="@drawable/select_shop" />
     </LinearLayout>
-    
-    <RelativeLayout
-        android:id="@+id/relativelayout_title"
-        android:layout_width="300.0dip"
-        android:layout_height="60.0dip"
-        android:gravity="center" >
 
-            <TextView
-                android:id="@+id/charviewtitle"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:gravity="fill_vertical"
-                android:text="员工业绩"
-                android:textColor="@color/black_text"
-                android:textSize="20.0dip" />
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1px"
-                android:layout_alignParentBottom="true"
-                android:background="@color/gray" />
-        </RelativeLayout>
-
-     <LinearLayout
-        android:id="@+id/configLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-    </LinearLayout>
-    
-    <!-- <com.yilos.losapp.ChartView android:layout_width="fill_parent"
-     android:id="@+id/myView" android:layout_height="wrap_content" /> -->
-
+      <com.yilos.losapp.common.ScrollLayout 
+      android:id="@+id/main_scrolllayout"    
+	  android:layout_width="fill_parent"    
+	  android:layout_height="0dip"
+   	  android:layout_weight="1"
+        >
+     <include layout="@layout/employee_chart" />
+     
+     <include layout="@layout/traffic_chart" />
+            
+     <include layout="@layout/performance_chart" />
+     
+    </com.yilos.losapp.common.ScrollLayout>
+   
 </LinearLayout>
