@@ -1,6 +1,6 @@
-#import "LosCircleChart.h"
+#import "LosPieChart.h"
 
-@implementation LosCircleItem
+@implementation LosPieChartItem
 
 -(id) initWithTitle:(NSString*)title Ratio:(double)ratio
 {
@@ -14,13 +14,13 @@
 
 @end
 
-@implementation LosCircleChart
+@implementation LosPieChart
 
 {
-    id<LosCircleDelegate> myDelegate;
+    id<LosPieChartDelegate> myDelegate;
 }
 
--(id) initWithFrame:(CGRect)frame Delegate:(id<LosCircleDelegate>)delegate
+-(id) initWithFrame:(CGRect)frame Delegate:(id<LosPieChartDelegate>)delegate
 {
     self = [super initWithFrame:frame];
     if(self){
@@ -44,7 +44,7 @@
     
     for(int i = 0; i < count; i++){
         
-        LosCircleItem *item = [myDelegate itemAtIndex:i];
+        LosPieChartItem *item = [myDelegate itemAtIndex:i];
         
         CGFloat startAngle = 2 * M_PI * drawedRatio;
         CGFloat endAngle = 2 * M_PI * (item.ratio + drawedRatio);

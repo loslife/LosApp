@@ -30,9 +30,9 @@
         
         items = [NSMutableArray arrayWithCapacity:1];
         
-        LosCircleItem *item1 = [[LosCircleItem alloc] initWithTitle:@"hehe" Ratio:0.3];
-        LosCircleItem *item2 = [[LosCircleItem alloc] initWithTitle:@"haha" Ratio:0.3];
-        LosCircleItem *item3 = [[LosCircleItem alloc] initWithTitle:@"xixi" Ratio:0.4];
+        LosPieChartItem *item1 = [[LosPieChartItem alloc] initWithTitle:@"hehe" Ratio:0.3];
+        LosPieChartItem *item2 = [[LosPieChartItem alloc] initWithTitle:@"haha" Ratio:0.3];
+        LosPieChartItem *item3 = [[LosPieChartItem alloc] initWithTitle:@"xixi" Ratio:0.4];
         [items addObject:item1];
         [items addObject:item2];
         [items addObject:item3];
@@ -43,8 +43,8 @@
         
         MyLine *line = [[MyLine alloc] initWithFrame:CGRectMake(0, 140, 320, 1)];
         
-        LosCircleChart *circle = [[LosCircleChart alloc] initWithFrame:CGRectMake(0, 141, 320, 180) Delegate:self];
-        circle.backgroundColor = [UIColor whiteColor];
+        LosPieChart *pie = [[LosPieChart alloc] initWithFrame:CGRectMake(0, 141, 320, 180) Delegate:self];
+        pie.backgroundColor = [UIColor whiteColor];
         
         UILabel *footer = [[UILabel alloc] initWithFrame:CGRectMake(0, 321, 320, 247)];
         footer.text = @"列表在此";
@@ -53,7 +53,7 @@
         
         [self addSubview:header];
         [self addSubview:line];
-        [self addSubview:circle];
+        [self addSubview:pie];
         [self addSubview:footer];
     }
     return self;
@@ -64,7 +64,7 @@
     return 3;
 }
 
--(LosCircleItem*) itemAtIndex:(int)index
+-(LosPieChartItem*) itemAtIndex:(int)index
 {
     return [items objectAtIndex:index];
 }

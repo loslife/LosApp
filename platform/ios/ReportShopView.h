@@ -1,8 +1,8 @@
 #import "ReportViewBase.h"
 #import "ReportShopViewController.h"
-#import "LosCircleChart.h"
+#import "LosPieChart.h"
 
-@interface ReportShopView : ReportViewBase<LosCircleDelegate>
+@interface ReportShopView : ReportViewBase<LosPieChartDelegate>
 
 -(id) initWithController:(ReportShopViewController*)controller;
 

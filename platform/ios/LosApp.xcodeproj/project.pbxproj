@@ -30,7 +30,7 @@
 		184472831963F18B00B4A543 /* LosBarChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472821963F18B00B4A543 /* LosBarChart.m */; };
 		184472861967A57800B4A543 /* ReportShopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472851967A57800B4A543 /* ReportShopViewController.m */; };
 		184472891967A5D200B4A543 /* ReportShopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472881967A5D200B4A543 /* ReportShopView.m */; };
-		1844728F1967E97300B4A543 /* LosCircleChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844728E1967E97300B4A543 /* LosCircleChart.m */; };
+		1844728F1967E97300B4A543 /* LosPieChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844728E1967E97300B4A543 /* LosPieChart.m */; };
 		186667011949864100A345F7 /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186667001949864100A345F7 /* WelcomeViewController.m */; };
 		1866670519498B5600A345F7 /* UserData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670419498B5600A345F7 /* UserData.m */; };
 		1866670819498D1C00A345F7 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670719498D1C00A345F7 /* LoginViewController.m */; };
@@ -113,8 +113,8 @@
 		184472851967A57800B4A543 /* ReportShopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportShopViewController.m; sourceTree = "<group>"; };
 		184472871967A5D200B4A543 /* ReportShopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportShopView.h; sourceTree = "<group>"; };
 		184472881967A5D200B4A543 /* ReportShopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportShopView.m; sourceTree = "<group>"; };
-		1844728D1967E97300B4A543 /* LosCircleChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LosCircleChart.h; sourceTree = "<group>"; };
-		1844728E1967E97300B4A543 /* LosCircleChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LosCircleChart.m; sourceTree = "<group>"; };
+		1844728D1967E97300B4A543 /* LosPieChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LosPieChart.h; sourceTree = "<group>"; };
+		1844728E1967E97300B4A543 /* LosPieChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LosPieChart.m; sourceTree = "<group>"; };
 		186666FF1949864100A345F7 /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
 		186667001949864100A345F7 /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
 		1866670319498B5600A345F7 /* UserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserData.h; sourceTree = "<group>"; };
@@ -232,8 +232,8 @@
 				18447260195D532600B4A543 /* LosTimePicker.m */,
 				184472811963F18B00B4A543 /* LosBarChart.h */,
 				184472821963F18B00B4A543 /* LosBarChart.m */,
-				1844728D1967E97300B4A543 /* LosCircleChart.h */,
-				1844728E1967E97300B4A543 /* LosCircleChart.m */,
+				1844728D1967E97300B4A543 /* LosPieChart.h */,
+				1844728E1967E97300B4A543 /* LosPieChart.m */,
 			);
 			name = widget.common;
 			sourceTree = "<group>";
@@ -628,7 +628,7 @@
 				18AFE6031952D1A10083C972 /* AddShopViewController.m in Sources */,
 				1844725A195C060400B4A543 /* EmployeePerformance.m in Sources */,
 				18666748194A9FFF00A345F7 /* RegisterView.m in Sources */,
-				1844728F1967E97300B4A543 /* LosCircleChart.m in Sources */,
+				1844728F1967E97300B4A543 /* LosPieChart.m in Sources */,
 				184472571959545B00B4A543 /* LosTextField.m in Sources */,
 				186667011949864100A345F7 /* WelcomeViewController.m in Sources */,
 				184472891967A5D200B4A543 /* ReportShopView.m in Sources */,
