@@ -2,7 +2,7 @@
 #import "ReportEmployeeView.h"
 #import "LosDao.h"
 #import "UserData.h"
-#import "ReportCustomViewController.h"
+#import "ReportShopViewController.h"
 #import "ReportDateStatus.h"
 #import "StringUtils.h"
 #import "EmployeePerformance.h"
@@ -76,8 +76,8 @@
 {
     [super handleSwipeLeft];
     
-    ReportCustomViewController *custom = [[ReportCustomViewController alloc] init];
-    [self.navigationController pushViewController:custom animated:YES];
+    ReportShopViewController *shop = [[ReportShopViewController alloc] init];
+    [self.navigationController pushViewController:shop animated:YES];
 }
 
 - (void) handleSwipeRight
