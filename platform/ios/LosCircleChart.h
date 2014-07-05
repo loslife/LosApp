@@ -1,5 +1,4 @@
 #import <UIKit/UIKit.h>
-#define PI 3.1415926535897932384626
 
 @interface LosCircleItem : NSObject
 

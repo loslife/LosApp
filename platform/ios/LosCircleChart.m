@@ -1,5 +1,4 @@
 #import "LosCircleChart.h"
-#import <math.h>
 
 @implementation LosCircleItem
 
@@ -47,12 +46,8 @@
         
         LosCircleItem *item = [myDelegate itemAtIndex:i];
         
-        CGFloat startAngle = 2 * PI * drawedRatio;
-        CGFloat endAngle = 2 * PI * (item.ratio + drawedRatio);
-        
-        CGFloat angle =  360 * drawedRatio;
-        CGFloat sinValue = sin(angle);
-        CGFloat cosValue = cos(angle);
+        CGFloat startAngle = 2 * M_PI * drawedRatio;
+        CGFloat endAngle = 2 * M_PI * (item.ratio + drawedRatio);
         
         [item.title drawAtPoint:CGPointMake(160, 104) withAttributes:nil];
         
