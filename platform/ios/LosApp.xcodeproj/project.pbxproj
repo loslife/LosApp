@@ -31,6 +31,7 @@
 		184472861967A57800B4A543 /* ReportShopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472851967A57800B4A543 /* ReportShopViewController.m */; };
 		184472891967A5D200B4A543 /* ReportShopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472881967A5D200B4A543 /* ReportShopView.m */; };
 		1844728F1967E97300B4A543 /* LosPieChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844728E1967E97300B4A543 /* LosPieChart.m */; };
+		1844729C196820D100B4A543 /* PerformanceCompareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844729B196820D100B4A543 /* PerformanceCompareView.m */; };
 		186667011949864100A345F7 /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186667001949864100A345F7 /* WelcomeViewController.m */; };
 		1866670519498B5600A345F7 /* UserData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670419498B5600A345F7 /* UserData.m */; };
 		1866670819498D1C00A345F7 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670719498D1C00A345F7 /* LoginViewController.m */; };
@@ -115,6 +116,8 @@
 		184472881967A5D200B4A543 /* ReportShopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportShopView.m; sourceTree = "<group>"; };
 		1844728D1967E97300B4A543 /* LosPieChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LosPieChart.h; sourceTree = "<group>"; };
 		1844728E1967E97300B4A543 /* LosPieChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LosPieChart.m; sourceTree = "<group>"; };
+		1844729A196820D100B4A543 /* PerformanceCompareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PerformanceCompareView.h; sourceTree = "<group>"; };
+		1844729B196820D100B4A543 /* PerformanceCompareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PerformanceCompareView.m; sourceTree = "<group>"; };
 		186666FF1949864100A345F7 /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
 		186667001949864100A345F7 /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
 		1866670319498B5600A345F7 /* UserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserData.h; sourceTree = "<group>"; };
@@ -365,6 +368,8 @@
 			children = (
 				1844726519614A4300B4A543 /* SwitchShopButton.h */,
 				1844726619614A4300B4A543 /* SwitchShopButton.m */,
+				1844729A196820D100B4A543 /* PerformanceCompareView.h */,
+				1844729B196820D100B4A543 /* PerformanceCompareView.m */,
 			);
 			name = widget;
 			sourceTree = "<group>";
@@ -595,6 +600,7 @@
 				184472511959171E00B4A543 /* AboutUsViewController.m in Sources */,
 				186667121949A9D000A345F7 /* BootstrapView.m in Sources */,
 				184472831963F18B00B4A543 /* LosBarChart.m in Sources */,
+				1844729C196820D100B4A543 /* PerformanceCompareView.m in Sources */,
 				186667151949ACD600A345F7 /* VersionInfo.m in Sources */,
 				1844726D1961652F00B4A543 /* ReportViewBase.m in Sources */,
 				183F214C1957C860009D54E8 /* MemberDetailViewController.m in Sources */,

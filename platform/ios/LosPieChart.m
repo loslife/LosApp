@@ -18,9 +18,9 @@
 
 {
     id<LosPieChartDelegate> myDelegate;
-    CGFloat centerX;
-    CGFloat centerY;
+    CGPoint pieCenter;
     CGFloat radius;
+    CGFloat drawedRatio;
 }
 
 -(id) initWithFrame:(CGRect)frame Delegate:(id<LosPieChartDelegate>)delegate
@@ -30,9 +30,10 @@
         
         myDelegate = delegate;
         
-        centerX = frame.size.width / 2;
-        centerY = frame.size.height / 2;
+        pieCenter = CGPointMake(frame.size.width / 2, frame.size.height / 2);
         radius =  frame.size.width / 8;
+        
+        drawedRatio = 0;
     }
     return self;
 }
@@ -45,8 +46,6 @@
     
     int count = [myDelegate itemCount];
     
-    CGFloat drawedRatio = 0;
-    
     for(int i = 0; i < count; i++){
         
         LosPieChartItem *item = [myDelegate itemAtIndex:i];
@@ -55,10 +54,15 @@
         CGFloat endAngle = 2 * M_PI * (item.ratio + drawedRatio);
         drawedRatio += item.ratio;
         
-        [item.title drawAtPoint:CGPointMake(160, 104) withAttributes:nil];
+        CGFloat midAngle = (startAngle + endAngle) / 2;
+        CGFloat cos_value = cos(midAngle);
+        CGFloat x_offset = radius * (cos_value > 0 ? cos_value * 1.5 : cos_value * 3);
+        CGFloat y_offset = radius * sin(midAngle) * 1.5;
+        CGPoint textPoint = CGPointMake(pieCenter.x + x_offset, pieCenter.y + y_offset);
+        [item.title drawAtPoint:textPoint withAttributes:nil];
         
         CGContextSetStrokeColorWithColor(context, [myDelegate colorAtIndex:i].CGColor);
-        CGContextAddArc(context, centerX, centerY, radius, startAngle, endAngle, 0);
+        CGContextAddArc(context, pieCenter.x, pieCenter.y, radius, startAngle, endAngle, 0);
         
         CGContextDrawPath(context, kCGPathStroke);
     }
