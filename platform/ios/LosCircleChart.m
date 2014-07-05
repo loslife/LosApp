@@ -1,4 +1,5 @@
 #import "LosCircleChart.h"
+#import <math.h>
 
 @implementation LosCircleItem
 
@@ -46,13 +47,16 @@
         
         LosCircleItem *item = [myDelegate itemAtIndex:i];
         
-        CGContextSetStrokeColorWithColor(context, [myDelegate colorAtIndex:i].CGColor);
-        
         CGFloat startAngle = 2 * PI * drawedRatio;
         CGFloat endAngle = 2 * PI * (item.ratio + drawedRatio);
         
+        CGFloat angle =  360 * drawedRatio;
+        CGFloat sinValue = sin(angle);
+        CGFloat cosValue = cos(angle);
+        
         [item.title drawAtPoint:CGPointMake(160, 104) withAttributes:nil];
         
+        CGContextSetStrokeColorWithColor(context, [myDelegate colorAtIndex:i].CGColor);
         CGContextAddArc(context, x, y, radius, startAngle, endAngle, 0);
         drawedRatio += item.ratio;
         
