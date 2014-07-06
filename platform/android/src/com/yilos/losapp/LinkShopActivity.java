@@ -18,7 +18,7 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class LinkShopActivity extends Activity
+public class LinkShopActivity extends BaseActivity
 {
     private EditText phoneNum;
 	

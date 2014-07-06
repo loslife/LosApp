@@ -47,7 +47,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout.LayoutParams;
 
 
-public class MemberGoupActivity extends Activity{
+public class MemberGoupActivity extends BaseActivity{
 	private static List<MemberBean> parentData = new ArrayList<MemberBean>();
 
 	private ListView lvContact;

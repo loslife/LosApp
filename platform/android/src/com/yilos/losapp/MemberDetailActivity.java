@@ -7,7 +7,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class MemberDetailActivity extends Activity
+public class MemberDetailActivity extends BaseActivity
 {
 	private TextView memberName;
 

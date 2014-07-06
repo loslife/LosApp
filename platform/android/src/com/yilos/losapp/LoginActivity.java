@@ -17,7 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class LoginActivity extends Activity{
+public class LoginActivity extends BaseActivity{
 	
 	private EditText userNameExt;
 	

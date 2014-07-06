@@ -34,7 +34,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.view.ViewGroup.LayoutParams;
 
-public class Main extends Activity {
+public class Main extends BaseActivity {
 
 	private TextView operate;
 

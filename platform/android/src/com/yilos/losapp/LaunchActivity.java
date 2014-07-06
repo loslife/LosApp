@@ -2,18 +2,18 @@ package com.yilos.losapp;
 
 import java.util.List;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+
 import com.yilos.losapp.bean.MyShopBean;
 import com.yilos.losapp.bean.ServerMemberResponse;
 import com.yilos.losapp.common.UIHelper;
 import com.yilos.losapp.database.SDBHelper;
 import com.yilos.losapp.service.MemberService;
 import com.yilos.losapp.service.MyshopManageService;
-
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 
 public class LaunchActivity extends Activity {
 
@@ -35,18 +35,27 @@ public class LaunchActivity extends Activity {
 		setContentView(R.layout.launch);
 		Handler x = new Handler();// 定义一个handle对象
 		userAccount = AppContext.getInstance(getBaseContext()).getUserAccount();
-		boolean isLogin = AppContext.getInstance(getBaseContext()).isLogin();
 		
 		initdata(); 
-		
-		if(isLogin)
-		{
-			toMain();
-		}
+
 	}
 
 	final Handler handle = new Handler() {
+		
 		public void handleMessage(Message msg) {
+			
+			boolean isLogin = AppContext.getInstance(getBaseContext()).isLogin();
+			if(isLogin)
+			{
+				toMain();
+			}
+			else
+			{
+				// 未登录，跳转到登录页面
+                Intent intent = new Intent(LaunchActivity.this, LoginActivity.class);
+                startActivity(intent);
+			}
+			
 			if (msg.what == 1) {
 				List<MyShopBean> myshops = myshopService.queryShops();
 				for(int i=0;i<myshops.size();i++)

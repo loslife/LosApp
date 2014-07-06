@@ -1,10 +1,5 @@
 package com.yilos.losapp;
 
-import com.yilos.losapp.bean.ServerMemberResponse;
-import com.yilos.losapp.common.StringUtils;
-import com.yilos.losapp.common.UIHelper;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -12,12 +7,15 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class RegisterActivity extends Activity
+import com.yilos.losapp.bean.ServerMemberResponse;
+import com.yilos.losapp.common.StringUtils;
+import com.yilos.losapp.common.UIHelper;
+
+public class RegisterActivity extends BaseActivity
 {
 	private EditText phoneNum;
 	

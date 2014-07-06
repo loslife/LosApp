@@ -8,7 +8,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class FirstActivity extends Activity
+public class FirstActivity extends BaseActivity
 {
     private TextView loginBtn;
 	

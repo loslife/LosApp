@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/white"
     android:gravity="center_horizontal"
     android:layout_gravity="center"
     android:orientation="vertical" >
@@ -13,6 +12,7 @@
         android:layout_height="60.0dip"
         android:paddingLeft="20.0dip"
         android:paddingRight="20.0dip"
+         android:background="@color/white"
         android:gravity="center" >
 
         <TextView
@@ -21,6 +21,16 @@
             android:layout_height="fill_parent"
             android:gravity="fill_vertical"
             android:text="经营业绩"
+            android:textColor="@color/black_text"
+            android:textSize="20.0dip" />
+        
+        <TextView
+            android:id="@+id/showdata"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="fill_vertical"
+             android:layout_alignParentRight="true"
+            android:text="￥4500.00"
             android:textColor="@color/black_text"
             android:textSize="20.0dip" />
 
@@ -33,9 +43,23 @@
 
     <LinearLayout
         android:id="@+id/annularLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="200.0dip"
+        android:background="@color/white"
         android:orientation="horizontal" >
+    </LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="12.0dip"
+       />
+    
+    <LinearLayout
+        android:id="@+id/performacncetext"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="horizontal" >
+        
     </LinearLayout>
 
 </LinearLayout>
