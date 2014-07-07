@@ -9,13 +9,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ReportShopViewController.m"
-            timestampString = "426431490.22605"
+            filePath = "ReportDao.m"
+            timestampString = "426434698.690471"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "137"
-            endingLineNumber = "137"
-            landmarkName = "-pieItemAtIndex:"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
+            landmarkName = "-queryBusinessPerformanceByDate:EnterpriseId:Type:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ReportShopViewController.m"
-            timestampString = "426431487.295146"
+            filePath = "ReportDao.m"
+            timestampString = "426434929.123763"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
-            landmarkName = "-loadReport"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
+            landmarkName = "-queryBusinessPerformanceByDate:EnterpriseId:Type:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

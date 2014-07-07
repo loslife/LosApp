@@ -1,6 +1,9 @@
 #import "ReportShopViewController.h"
 #import "ReportCustomViewController.h"
 #import "BusinessPerformance.h"
+#import "ReportDateStatus.h"
+#import "UserData.h"
+#import "StringUtils.h"
 
 @implementation ReportShopViewController
 
@@ -34,38 +37,16 @@
 
 -(void) loadReport
 {
-    [records removeAllObjects];
+    UserData *userData = [UserData load];
+    NSString *currentEnterpriseId = userData.enterpriseId;
     
-    double total = 4533.0;
+    if([StringUtils isEmpty:currentEnterpriseId]){
+        return;
+    }
     
-    double r1 = 1344.0 / total;
-    BusinessPerformance *p1 = [[BusinessPerformance alloc] initWithTitle:@"卖品业绩" Value:1344 Ratio:r1];
-    p1.increased = YES;
-    p1.compareToPrev = 300;
-    p1.compareToPrevRatio = (1344 - 300) / 300;
+    ReportDateStatus *status = [ReportDateStatus sharedInstance];
     
-    double r2 = 566.0 / total;
-    BusinessPerformance *p2 = [[BusinessPerformance alloc] initWithTitle:@"服务业绩" Value:566 Ratio:r2];
-    p2.increased = YES;
-    p2.compareToPrev = 200;
-    p2.compareToPrevRatio = (566 - 200) / 200;
-    
-    double r3 = 2000.0 / total;
-    BusinessPerformance *p3 = [[BusinessPerformance alloc] initWithTitle:@"开卡业绩" Value:2000 Ratio:r3];
-    p3.increased = NO;
-    p3.compareToPrev = 1000;
-    p3.compareToPrevRatio = (2000 - 1000) / 1000;
-    
-    double r4 = 623.0 / total;
-    BusinessPerformance *p4 = [[BusinessPerformance alloc] initWithTitle:@"充值业绩" Value:623 Ratio:r4];
-    p4.increased = YES;
-    p4.compareToPrev = 500;
-    p4.compareToPrevRatio = (623 - 500) / 500;
-    
-    [records addObject:p1];
-    [records addObject:p2];
-    [records addObject:p3];
-    [records addObject:p4];
+    records = [self.reportDao queryBusinessPerformanceByDate:status.date EnterpriseId:currentEnterpriseId Type:status.dateType];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
@@ -110,11 +91,11 @@
 
 -(NSString*) total
 {
-    NSUInteger sum = 0;
+    double sum = 0;
     for(BusinessPerformance *item in records){
         sum += item.value;
     }
-    return [NSString stringWithFormat:@"￥%ld", sum];
+    return [NSString stringWithFormat:@"￥%f", sum];
 }
 
 -(NSUInteger) itemCount

@@ -94,7 +94,7 @@
     NSInteger month = [components month];
     NSInteger day = [components day];
     
-    components.day --;
+    components.day--;
     NSDate *yesterday = [calendar dateFromComponents:components];
     NSDateComponents* prevComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:yesterday];
     NSInteger prev_year = [prevComponents year];
