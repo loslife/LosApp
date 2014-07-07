@@ -4,10 +4,16 @@
 
 @implementation ReportShopViewController
 
+{
+    NSMutableArray *records;
+}
+
 -(id) init
 {
     self = [super init];
     if(self){
+        
+        records = [NSMutableArray array];
         
         self.navigationItem.hidesBackButton = YES;
         self.navigationItem.rightBarButtonItem = [[SwitchShopButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20) Delegate:self];
@@ -28,6 +34,17 @@
 
 -(void) loadReport
 {
+    [records removeAllObjects];
+    
+    LosPieChartItem *item1 = [[LosPieChartItem alloc] initWithTitle:@"卖品业绩28%" Ratio:0.28];
+    LosPieChartItem *item2 = [[LosPieChartItem alloc] initWithTitle:@"充值业绩9.8%" Ratio:0.10];
+    LosPieChartItem *item3 = [[LosPieChartItem alloc] initWithTitle:@"开卡业绩14.2%" Ratio:0.14];
+    LosPieChartItem *item4 = [[LosPieChartItem alloc] initWithTitle:@"服务业绩48%" Ratio:0.48];
+    [records addObject:item1];
+    [records addObject:item2];
+    [records addObject:item3];
+    [records addObject:item4];
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         
         ReportShopView *myView = (ReportShopView*)self.view;
@@ -69,25 +86,14 @@
 
 #pragma mark - PieChart delegate
 
--(int) itemCount
+-(NSUInteger) itemCount
 {
-    return 4;
+    return [records count];
 }
 
 -(LosPieChartItem*) itemAtIndex:(int)index
 {
-    NSMutableArray *items = [NSMutableArray arrayWithCapacity:1];
-    
-    LosPieChartItem *item1 = [[LosPieChartItem alloc] initWithTitle:@"卖品业绩28%" Ratio:0.28];
-    LosPieChartItem *item2 = [[LosPieChartItem alloc] initWithTitle:@"充值业绩9.8%" Ratio:0.10];
-    LosPieChartItem *item3 = [[LosPieChartItem alloc] initWithTitle:@"开卡业绩14.2%" Ratio:0.14];
-    LosPieChartItem *item4 = [[LosPieChartItem alloc] initWithTitle:@"服务业绩48%" Ratio:0.48];
-    [items addObject:item1];
-    [items addObject:item2];
-    [items addObject:item3];
-    [items addObject:item4];
-    
-    return [items objectAtIndex:index];
+    return [records objectAtIndex:index];
 }
 
 -(UIColor*) colorAtIndex:(int)index

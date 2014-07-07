@@ -44,7 +44,7 @@
     
     CGContextSetLineWidth(context, 25.0);
     
-    int count = [myDelegate itemCount];
+    NSUInteger count = [myDelegate itemCount];
     
     for(int i = 0; i < count; i++){
         

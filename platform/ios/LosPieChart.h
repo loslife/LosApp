@@ -11,7 +11,7 @@
 
 @protocol LosPieChartDelegate <NSObject>
 
--(int) itemCount;
+-(NSUInteger) itemCount;
 -(LosPieChartItem*) itemAtIndex:(int)index;
 -(UIColor*) colorAtIndex:(int)index;
 
