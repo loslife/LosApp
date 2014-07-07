@@ -8,7 +8,7 @@
 @implementation SwitchShopButton
 
 {
-    LosDao *dao;
+    EnterpriseDao *dao;
     
     BOOL dropDownShow;
     LosDropDown *dropDown;
@@ -18,7 +18,7 @@
 
 -(id) initWithFrame:(CGRect)frame Delegate:(id<SwitchShopButtonDelegate>)delegate;
 {
-    dao = [[LosDao alloc] init];
+    dao = [[EnterpriseDao alloc] init];
     dropDownShow = NO;
     myDelegate = delegate;
     

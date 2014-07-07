@@ -7,7 +7,8 @@
 
 {
     LosHttpHelper *httpHelper;
-    LosDao *dao;
+    EnterpriseDao *enterpriseDao;
+    MemberDao *memberDao;
 }
 
 -(id) init
@@ -15,7 +16,8 @@
     self = [super init];
     if(self){
         httpHelper = [[LosHttpHelper alloc] init];
-        dao = [[LosDao alloc] init];
+        enterpriseDao = [[EnterpriseDao alloc] init];
+        memberDao = [[MemberDao alloc] init];
     }
     return self;
 }
@@ -41,7 +43,7 @@
         NSString *enterpriseId = [result objectForKey:@"enterprise_id"];
         NSString *enterpriseName = [result objectForKey:@"enterprise_name"];
         
-        [dao insertEnterprisesWith:enterpriseId Name:enterpriseName];
+        [enterpriseDao insertEnterprisesWith:enterpriseId Name:enterpriseName];
         
         [self refreshMembersWithEnterpriseId:enterpriseId LatestSyncTime:[NSNumber numberWithInt:0] Block:^(BOOL flag){
             block(0);
@@ -68,7 +70,7 @@
         
         NSDictionary *result = [dict objectForKey:@"result"];
         NSArray *enterprises = [result objectForKey:@"myShopList"];
-        [dao batchInsertEnterprises:enterprises];
+        [enterpriseDao batchInsertEnterprises:enterprises];
         
         block(YES);
     }];
@@ -95,7 +97,7 @@
         NSNumber *lastSync = [response objectForKey:@"last_sync"];
         NSDictionary *records = [response objectForKey:@"records"];
         
-        [dao batchUpdateMembers:records LastSync:lastSync EnterpriseId:enterpriseId];
+        [memberDao batchUpdateMembers:records LastSync:lastSync EnterpriseId:enterpriseId];
         
         block(YES);
     }];

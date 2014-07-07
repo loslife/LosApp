@@ -144,11 +144,17 @@
     
     NSString *sql2 = @"CREATE TABLE IF NOT EXISTS members (id varchar(64) primary key, enterprise_id varchar(64), name varchar(32), birthday REAL, phoneMobile varchar(16), joinDate REAL, memberNo varchar(32), latestConsumeTime REAL, totalConsume REAL, averageConsume REAL, create_date REAL, modify_date REAL);";
     
-    NSString *sql3 = @"CREATE TABLE IF NOT EXISTS employee_performance_day (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), total REAL, cash REAL, card REAL, bank REAL, service REAL, product REAL, newcard REAL, recharge REAL, create_date REAL, modify_date REAL, type integer, employee_name varchar(16), year integer, month integer, day integer, week integer);";
+    NSString *sql3 = @"CREATE TABLE IF NOT EXISTS employee_performance_day (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), total REAL, cash REAL, card REAL, bank REAL, service REAL, product REAL, newcard REAL, recharge REAL, create_date REAL, modify_date REAL, employee_name varchar(16), year integer, month integer, day integer);";
     
-    NSString *sql4 = @"CREATE TABLE IF NOT EXISTS employee_performance_month (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), total REAL, cash REAL, card REAL, bank REAL, service REAL, product REAL, newcard REAL, recharge REAL, create_date REAL, modify_date REAL, type integer, employee_name varchar(16), year integer, month integer, day integer, week integer);";
+    NSString *sql4 = @"CREATE TABLE IF NOT EXISTS employee_performance_month (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), total REAL, cash REAL, card REAL, bank REAL, service REAL, product REAL, newcard REAL, recharge REAL, create_date REAL, modify_date REAL, employee_name varchar(16), year integer, month integer, day integer);";
     
-    NSString *sql5 = @"CREATE TABLE IF NOT EXISTS employee_performance_week (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), total REAL, cash REAL, card REAL, bank REAL, service REAL, product REAL, newcard REAL, recharge REAL, create_date REAL, modify_date REAL, type integer, employee_name varchar(16), year integer, month integer, day integer, week integer);";
+    NSString *sql5 = @"CREATE TABLE IF NOT EXISTS employee_performance_week (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), total REAL, cash REAL, card REAL, bank REAL, service REAL, product REAL, newcard REAL, recharge REAL, create_date REAL, modify_date REAL, employee_name varchar(16), year integer, month integer, day integer);";
+    
+    NSString *sql6 = @"CREATE TABLE IF NOT EXISTS biz_performance_day (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), total REAL, cash REAL, card REAL, bank REAL, service REAL, product REAL, newcard REAL, recharge REAL, create_date REAL, modify_date REAL, year integer, month integer, day integer);";
+    
+    NSString *sql7 = @"CREATE TABLE IF NOT EXISTS biz_performance_month (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), total REAL, cash REAL, card REAL, bank REAL, service REAL, product REAL, newcard REAL, recharge REAL, create_date REAL, modify_date REAL, year integer, month integer, day integer);";
+    
+    NSString *sql8 = @"CREATE TABLE IF NOT EXISTS biz_performance_week (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), total REAL, cash REAL, card REAL, bank REAL, service REAL, product REAL, newcard REAL, recharge REAL, create_date REAL, modify_date REAL, year integer, month integer, day integer);";
     
     NSString *dbFilePath = [PathResolver databaseFilePath];
     FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
@@ -159,6 +165,9 @@
     [db executeUpdate:sql3];
     [db executeUpdate:sql4];
     [db executeUpdate:sql5];
+    [db executeUpdate:sql6];
+    [db executeUpdate:sql7];
+    [db executeUpdate:sql8];
     
     [db close];
 }

@@ -1,11 +1,13 @@
 #import <UIKit/UIKit.h>
 #import "LosTimePicker.h"
 #import "SwitchShopButton.h"
-#import "LosDao.h"
+#import "ReportDao.h"
+#import "EnterpriseDao.h"
 
 @interface ReportViewControllerBase : UIViewController<LosTimePickerDelegate, SwitchShopButtonDelegate>
 
-@property LosDao *dao;
+@property ReportDao *reportDao;
+@property EnterpriseDao *enterpriseDao;
 
 -(void) initEnterprises;
 - (void) handleSwipeLeft;

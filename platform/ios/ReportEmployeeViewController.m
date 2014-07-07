@@ -1,6 +1,6 @@
 #import "ReportEmployeeViewController.h"
 #import "ReportEmployeeView.h"
-#import "LosDao.h"
+#import "ReportDao.h"
 #import "UserData.h"
 #import "ReportShopViewController.h"
 #import "ReportDateStatus.h"
@@ -50,7 +50,7 @@
     
     ReportDateStatus *status = [ReportDateStatus sharedInstance];
     
-    records = [self.dao queryEmployeePerformanceByDate:status.date EnterpriseId:currentEnterpriseId Type:status.dateType];
+    records = [self.reportDao queryEmployeePerformanceByDate:status.date EnterpriseId:currentEnterpriseId Type:status.dateType];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         

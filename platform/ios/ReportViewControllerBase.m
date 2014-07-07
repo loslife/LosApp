@@ -12,7 +12,8 @@
 {
     self = [super init];
     if(self){
-        self.dao = [[LosDao alloc] init];
+        self.reportDao = [[ReportDao alloc] init];
+        self.enterpriseDao = [[EnterpriseDao alloc] init];
     }
     return self;
 }
@@ -45,7 +46,7 @@
         return;
     }
     
-    NSString *enterpriseName = [self.dao queryEnterpriseNameById:currentEnterpriseId];
+    NSString *enterpriseName = [self.enterpriseDao queryEnterpriseNameById:currentEnterpriseId];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
