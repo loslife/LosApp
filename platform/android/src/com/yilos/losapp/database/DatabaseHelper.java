@@ -29,9 +29,12 @@ public class DatabaseHelper extends SQLiteOpenHelper
     
     public static final String MYSHOP_SQL = "CREATE TABLE IF NOT EXISTS t_myshops (id integer primary key autoincrement, enterprise_id varchar(64), enterprise_name varchar(64), contact_latest_sync REAL, report_latest_sync REAL,display varchar(8), create_date REAL,order_number INTEGER);";
     public static final String MEMBER_SQL = "CREATE TABLE IF NOT EXISTS t_members (id varchar(64) primary key, enterprise_id varchar(64), name varchar(32), birthday REAL, phoneMobile varchar(16), joinDate REAL, memberNo varchar(32), latestConsumeTime REAL, totalConsume REAL, averageConsume REAL, create_date REAL, modify_date REAL);";
-    public static final String EMPLOYEE_PER_SQL ="CREATE TABLE IF NOT EXISTS employee_performance (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), total REAL, cash REAL, card REAL, bank REAL, service REAL, product REAL, newcard REAL, recharge REAL, create_date REAL, modify_date REAL, type integer, employee_name varchar(16), year integer, month integer, day integer, week integer);";
 
-   
+    public static final String EMPLOYEE_DAY_SQL = "CREATE TABLE IF NOT EXISTS employee_performance_day (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), total REAL, cash REAL, card REAL, bank REAL, service REAL, product REAL, newcard REAL, recharge REAL, create_date REAL, modify_date REAL, type integer, employee_name varchar(16), year integer, month integer, day integer, week integer);";
+
+    public static final String EMPLOYEE_MONTH_SQL = "CREATE TABLE IF NOT EXISTS employee_performance_month (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), total REAL, cash REAL, card REAL, bank REAL, service REAL, product REAL, newcard REAL, recharge REAL, create_date REAL, modify_date REAL, type integer, employee_name varchar(16), year integer, month integer, day integer, week integer);";
+    
+    public static final String EMPLOYEE_WEEK_SQL = "CREATE TABLE IF NOT EXISTS employee_performance_week (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), total REAL, cash REAL, card REAL, bank REAL, service REAL, product REAL, newcard REAL, recharge REAL, create_date REAL, modify_date REAL, type integer, employee_name varchar(16), year integer, month integer, day integer, week integer);";
 
 
     // 构造函数，调用父类SQLiteOpenHelper的构造函数
@@ -65,6 +68,9 @@ public class DatabaseHelper extends SQLiteOpenHelper
         // 执行创建表的SQL语句
         db.execSQL(MYSHOP_SQL);
         db.execSQL(MEMBER_SQL);
+        db.execSQL(EMPLOYEE_DAY_SQL);
+        db.execSQL(EMPLOYEE_MONTH_SQL);
+        db.execSQL(EMPLOYEE_WEEK_SQL);
 
         // 即便程序修改重新运行，只要数据库已经创建过，就不会再进入这个onCreate方法
     }
@@ -75,6 +81,9 @@ public class DatabaseHelper extends SQLiteOpenHelper
         // 这个方法中主要完成更改数据库版本的操作
         db.execSQL("DROP TABLE IF EXISTS " + T_MEMBERS);
         db.execSQL("DROP TABLE IF EXISTS " + T_MYSHOPS);
+        db.execSQL("DROP TABLE IF EXISTS " + EMPLOYEE_DAY_SQL);
+        db.execSQL("DROP TABLE IF EXISTS " + EMPLOYEE_MONTH_SQL);
+        db.execSQL("DROP TABLE IF EXISTS " + EMPLOYEE_WEEK_SQL);
         onCreate(db);
     }
 

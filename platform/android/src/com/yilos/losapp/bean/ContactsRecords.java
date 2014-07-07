@@ -3,7 +3,7 @@ package com.yilos.losapp.bean;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Records {
+public class ContactsRecords {
 	
 	private List<MemberBean> add = new ArrayList<MemberBean>();
 	

@@ -21,6 +21,8 @@ public class PanelDountChart extends View{
                                           {148, 159, 181},    
                                           {253, 180, 90},  
                                           {52, 194, 188}} ;  
+    
+   private final String strPer[] = {"服务业绩","卖品业绩","开卡业绩","充值业绩"};
       
       
 public PanelDountChart(Context context,float arr[]) {  
@@ -39,8 +41,8 @@ public PanelDountChart(Context context,float arr[]) {
         canvas.drawColor(Color.WHITE);                  
             
         float cirX = ScrWidth / 2;    
-        float cirY = ScrHeight/ 6;    
-        float radius = 150;//150;    
+        float cirY = ScrHeight/ 8;    
+        float radius = 120;//150;    
                                     
         float arcLeft = cirX - radius;    
         float arcTop  = cirY - radius ;    
@@ -81,11 +83,11 @@ public PanelDountChart(Context context,float arr[]) {
             float textY = 0.0f;
             if(xcalc.getPosX()>cirX)
             {
-            	textX = xcalc.getPosX()+100;
+            	textX = xcalc.getPosX()+50;
             }
             else
             {
-            	textX = xcalc.getPosX()-200;
+            	textX = xcalc.getPosX()-250;
             }
             
             if(xcalc.getPosY()>cirY)
@@ -98,14 +100,14 @@ public PanelDountChart(Context context,float arr[]) {
             }
             
             //标识  
-            canvas.drawText(Float.toString(arrPer[i])+"%",textX, textY ,PaintLabel);              
+            canvas.drawText(strPer[i]+Float.toString(arrPer[i])+"%",textX, textY ,PaintLabel);              
             //下次的起始角度    
             CurrPer += Percentage;    
         }    
                            
         //画圆心  
         PaintArc.setColor(Color.WHITE);  
-        canvas.drawCircle(cirX,cirY,radius*3/4,PaintArc);    
+        canvas.drawCircle(cirX,cirY,radius*3/5,PaintArc);    
               
     }  
 }

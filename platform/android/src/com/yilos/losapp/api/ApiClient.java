@@ -31,7 +31,8 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.CoreConnectionPNames;
 
 import com.google.gson.Gson;
-import com.yilos.losapp.bean.Result;
+import com.yilos.losapp.bean.ContactsResult;
+import com.yilos.losapp.bean.ServerManageResponse;
 import com.yilos.losapp.bean.ServerMemberResponse;
 import com.yilos.losapp.common.Constants;
 import com.yilos.losapp.common.LosSSLFactory;
@@ -243,7 +244,7 @@ public class ApiClient
 		
 		ServerMemberResponse res = new ServerMemberResponse();
 		res.setCode(0);
-		Result rt = new Result();
+		ContactsResult rt = new ContactsResult();
 		res.setResult(rt);
 		
 		//String json = _post(appContext, Constants.LOGIN_URL,params);
@@ -270,7 +271,7 @@ public class ApiClient
 
 		ServerMemberResponse res = new ServerMemberResponse();
 		res.setCode(0);
-		Result rt = new Result();
+		ContactsResult rt = new ContactsResult();
 		res.setResult(rt);
 		
 		//String json = _post(appContext, Constants.REGISTER_URL,params);
@@ -306,7 +307,7 @@ public class ApiClient
 
 		ServerMemberResponse res = new ServerMemberResponse();
 		res.setCode(0);
-		Result rt = new Result();
+		ContactsResult rt = new ContactsResult();
 		res.setResult(rt);
 		
 		//String json = _httpget(appContext, MessageFormat.format(Constants.SEND_VALIDATECODE,phoneNumber,"register_losapp"));
@@ -332,7 +333,7 @@ public class ApiClient
 
 		ServerMemberResponse res = new ServerMemberResponse();
 		res.setCode(0);
-		Result rt = new Result();
+		ContactsResult rt = new ContactsResult();
 		res.setResult(rt);
 		
 		//String json = _post(appContext, Constants.REGISTER_URL,params);
@@ -353,7 +354,7 @@ public class ApiClient
 
 		ServerMemberResponse res = new ServerMemberResponse();
 		res.setCode(0);
-		Result rt = new Result();
+		ContactsResult rt = new ContactsResult();
 		res.setResult(rt);
 		
 		//String json = _get(appContext, MessageFormat.format(Constants.CHECK_VALIDATECODE_SERVICE, mobileNumber));
@@ -374,7 +375,7 @@ public class ApiClient
 
 		ServerMemberResponse res = new ServerMemberResponse();
 		res.setCode(0);
-		Result rt = new Result();
+		ContactsResult rt = new ContactsResult();
 		res.setResult(rt);
 		
 		//String json = _get(appContext, MessageFormat.format(Constants.CHECK_VALIDATECODE_SERVICE, mobileNumber));
@@ -397,7 +398,7 @@ public class ApiClient
 
 		ServerMemberResponse res = new ServerMemberResponse();
 		res.setCode(0);
-		Result rt = new Result();
+		ContactsResult rt = new ContactsResult();
 		res.setResult(rt);
 		
 		//String json = _get(appContext, MessageFormat.format(Constants.CHECK_VALIDATECODE_SERVICE, mobileNumber,validateCode));
@@ -414,7 +415,7 @@ public class ApiClient
 
 		ServerMemberResponse res = new ServerMemberResponse();
 		res.setCode(0);
-		Result rt = new Result();
+		ContactsResult rt = new ContactsResult();
 		res.setResult(rt);
 		if(lasSyncTime==null)
 		{
@@ -433,7 +434,7 @@ public class ApiClient
 
 		ServerMemberResponse res = new ServerMemberResponse();
 		res.setCode(0);
-		Result rt = new Result();
+		ContactsResult rt = new ContactsResult();
 		res.setResult(rt);
 		//{"code":0,"result":{"last_sync":1403180487257,"records":{"add":[]}}}
 		String json = _httpget(MessageFormat.format(Constants.GET_APPENDSHOP_RECORD, phoneNumber));
@@ -449,10 +450,7 @@ public class ApiClient
 		params.add(new BasicNameValuePair("account", username));
 		params.add(new BasicNameValuePair("enterprise_account", linkAccount));
 
-		ServerMemberResponse res = new ServerMemberResponse();
-		res.setCode(0);
-		Result rt = new Result();
-		res.setResult(rt);
+
 		//{"code":0,"result":{"last_sync":1403180487257,"records":{"add":[]}}}
 		String json = _httppost(Constants.APPENDSHOP_URL,params);
 		Gson gson = new Gson();
@@ -461,7 +459,19 @@ public class ApiClient
 		return resp;
 	}
 	
-	
+	/**
+	 * http://192.168.1.108:5000/svc/report/probe/query/100043209618000500?year=2014&month=4&type=day&day=14&report=business
+	 * @param appContext
+	 * @return
+	 */
+	public static ServerManageResponse getEmployeePer(Context appContext,String shopid,String year,String month,String type,String day)
+	{
+		String json = _httpget(MessageFormat.format(Constants.CHECK_VALIDATECODE_SERVICE, shopid,year,month,type,day));
+		Gson gson = new Gson();
+		ServerManageResponse resp = gson.fromJson(json, ServerManageResponse.class);
+		
+		return resp;
+	}
 	
 	
 	private static String getQuery(List<NameValuePair> params) throws UnsupportedEncodingException
@@ -488,7 +498,7 @@ public class ApiClient
 	{
 		ServerMemberResponse res = new ServerMemberResponse();
 		res.setCode(1);
-		Result rt = new Result();
+		ContactsResult rt = new ContactsResult();
 		rt.setErrorCode(code);
 		res.setResult(rt);
 		Gson gson = new Gson();

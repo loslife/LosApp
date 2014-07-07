@@ -31,6 +31,8 @@ public class PanelBar extends View {
              R.color.vgeneral,  
              R.color.blue,                 
          };  
+     
+     private String[] ename = {"张天天", "田雨橙", "王诗龄" ,"郭子睿"};
        
      //饼图演示用的比例,实际使用中，即为外部传入的比例参数  
      final float arrPer[] = new float[]{20f,30f,10f,40f};  
@@ -68,7 +70,7 @@ public class PanelBar extends View {
          }  
                
          PaintText = new Paint();  
-         PaintText.setColor(Color.GRAY);  
+         PaintText.setColor((res.getColor(colors[3])));  
          PaintText.setTextSize(30);  
          PaintText.setTypeface(Typeface.DEFAULT_BOLD);  
      }  
@@ -82,31 +84,24 @@ public class PanelBar extends View {
          int i= 0;         
            
          int lnWidth = 0; //标识线宽度  
-         int lnSpace = 60; //标识间距  
+         int lnSpace = 65; //标识间距  
            
-         int startx = 120;  
+         int startx = 180;  
          int endx = startx + 20;  
            
-         int starty = 350;  
-         int endy = 270;  
+         int starty = 320;  
+         int endy = 280;  
            
          int initX = startx;  
          int initY = starty;  
            
-         int rectHeight = 40; //柱形框高度  
+         int rectHeight = 50; //柱形框高度  
            
    
          /////////////////////////  
          //横向柱形图  
          ///////////////////////////  
-         /*startx = 120;// ScrWidth / 2 - 50;  
-         endx = startx + 20;  
-           
-         starty = ScrHeight - ScrHeight / 3 ;  
-         endy = ScrHeight - ScrHeight / 3 ;  */
-           
-         initX = startx;  
-         initY = starty;  
+         
            
          // Y 轴  传入参数及柱形  
          for(i=0; i<arrNum.length; i++)   
@@ -114,10 +109,11 @@ public class PanelBar extends View {
              starty =  initY - (i+1) * lnSpace; //起始线要提高一位  
              endy = starty-rectHeight;  
                
-             canvas.drawLine( startx - lnWidth  ,starty  ,initX,endy , PaintText);
              
              //文字 偏移30，下移10  
-             canvas.drawText("￥"+Integer.toString(arrNum[i]), initX + (Float.valueOf(arrNum[i]) /200) * lnSpace+50,endy+40, arrPaintArc[3]);
+             canvas.drawText("￥"+Integer.toString(arrNum[i]), initX + (Float.valueOf(arrNum[i]) /200) * lnSpace+10,endy+40, arrPaintArc[3]);
+             
+             canvas.drawText(ename[i], initX-130,endy+40, arrPaintArc[3]);
              
              Paint  paint = null;
              if(i<3)
@@ -135,7 +131,7 @@ public class PanelBar extends View {
          }  
          //canvas.drawLine( startx ,starty - 30 ,initX ,initY , PaintText);  
          // Y 轴  
-         canvas.drawLine( startx ,ScrHeight-300,initX ,70, PaintText);  
+         canvas.drawLine( startx ,ScrHeight-350,initX ,30, PaintText);  
             
          // X 轴 刻度与标识                  
          for(i=0; i< 6 ; i++)   

@@ -45,6 +45,8 @@ public class LoginActivity extends BaseActivity{
 		shopName = (TextView)findViewById(R.id.shopname);
 		shopName.setText("登录");
 		
+		findViewById(R.id.headmore).setVisibility(View.GONE);
+		
 		 findViewById(R.id.goback).setOnClickListener(new OnClickListener() {
 				
 				@Override

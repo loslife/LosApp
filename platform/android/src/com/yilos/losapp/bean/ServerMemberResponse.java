@@ -6,18 +6,18 @@ public class ServerMemberResponse
 
 	private int code;
 	
-	private  Result result;
+	private  ContactsResult result;
 	
 	public boolean isSucess()
 	{
 		return code==0;
 	}
 
-	public Result getResult() {
+	public ContactsResult getResult() {
 		return result;
 	}
 
-	public void setResult(Result result) {
+	public void setResult(ContactsResult result) {
 		this.result = result;
 	}
 

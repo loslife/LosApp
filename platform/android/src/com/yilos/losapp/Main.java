@@ -82,7 +82,7 @@ public class Main extends BaseActivity {
 		initView();
 
 		// 柱状图
-		int[] num = { 300, 450, 650, 980 };
+		int[] num = {980, 650, 450,300 };
 		columnarLayout = (LinearLayout) findViewById(R.id.columnarLayout);
 		view = new PanelBar(this, num);
 		columnarLayout.addView(view);
@@ -97,7 +97,7 @@ public class Main extends BaseActivity {
 		ChartView myView = (ChartView) this.findViewById(R.id.myView);
 		myView.SetInfo(new String[] { "7-11", "7-12", "7-13", "7-14", "7-15",
 				"7-16", "7-17" }, // X轴刻度
-				new String[] { "", "5", "10", "15", "20", "25" }, // Y轴刻度
+				new String[] { "0", "10", "20", "30", "40", "50" }, // Y轴刻度
 				new int[] { 15, 23, 10, 36, 45, 40, 12 } // 数据
 		);
 

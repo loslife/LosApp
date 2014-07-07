@@ -2,7 +2,8 @@ package com.yilos.losapp;
 
 
 import com.yilos.losapp.api.ApiClient;
-import com.yilos.losapp.bean.Result;
+import com.yilos.losapp.bean.ContactsResult;
+import com.yilos.losapp.bean.ServerManageResponse;
 import com.yilos.losapp.bean.ServerMemberResponse;
 
 import android.app.Application;
@@ -140,6 +141,15 @@ public class AppContext extends Application {
     {
     	return ApiClient.linkshop(appContext, userAccount, shopAccount);
     }
+    
+    /**
+     * @return 
+     * 
+     */
+    public ServerManageResponse getEmployeePer(String shopid,String year,String month,String type,String day)
+    {
+    	return ApiClient.getEmployeePer(appContext, shopid,year, month, type, day);
+    }
 	
 	/**
 	 * 用户是否登录
@@ -192,5 +202,5 @@ public class AppContext extends Application {
 	public void setReportLastSyncTime(String reportLastSyncTime) {
 		this.reportLastSyncTime = reportLastSyncTime;
 	}
-
+	
 }

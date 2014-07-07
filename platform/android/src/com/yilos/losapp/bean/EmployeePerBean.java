@@ -2,6 +2,16 @@ package com.yilos.losapp.bean;
 
 public class EmployeePerBean 
 {
+	
+/**
+ *   id varchar(64) NOT NULL primary key,
+ *   enterprise_id varchar(64), total REAL,
+ *   cash REAL, card REAL, bank REAL, service REAL, 
+ *   product REAL, newcard REAL, recharge REAL, 
+ *   create_date REAL, modify_date REAL, 
+ *   type integer, employee_name varchar(16), 
+ *   year integer, month integer, day integer, week integer
+ */
 	 String  id;
      String  create_date ;
      String  enterprise_id;
@@ -11,7 +21,6 @@ public class EmployeePerBean
      String  total;
      String  day;
      String  recharge;
-     String  type;
      String  cash;
      String  newcard ;
      String  card;
@@ -20,6 +29,7 @@ public class EmployeePerBean
      String  year ;
      String  month; 
      String  week ;
+     
 	public String getId() {
 		return id;
 	}
@@ -74,12 +84,7 @@ public class EmployeePerBean
 	public void setRecharge(String recharge) {
 		this.recharge = recharge;
 	}
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
-	}
+	
 	public String getCash() {
 		return cash;
 	}

@@ -3,7 +3,7 @@ package com.yilos.losapp.bean;
 import java.util.List;
 
 
-public class Result
+public class ContactsResult
 {
 
 	private  long  last_sync;
@@ -16,7 +16,7 @@ public class Result
 	
 	private String errorCode;
 	
-	private  Records  records;
+	private  ContactsRecords  records;
 
 	public long getLast_sync() {
 		return last_sync;
@@ -28,12 +28,12 @@ public class Result
 	}
 
 
-	public Records getRecords() {
+	public ContactsRecords getRecords() {
 		return records;
 	}
 
 
-	public void setRecords(Records records) {
+	public void setRecords(ContactsRecords records) {
 		this.records = records;
 	}
 

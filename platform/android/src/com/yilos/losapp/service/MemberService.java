@@ -3,7 +3,7 @@ package com.yilos.losapp.service;
 import java.util.List;
 
 import com.yilos.losapp.bean.MemberBean;
-import com.yilos.losapp.bean.Records;
+import com.yilos.losapp.bean.ContactsRecords;
 import com.yilos.losapp.database.MemberDBManager;
 
 import android.content.Context;
@@ -22,7 +22,7 @@ public class MemberService {
 		memberDBManager = new MemberDBManager(context);
 	}
 	
-	public void handleMembers(Records recotds)
+	public void handleMembers(ContactsRecords recotds)
 	{
 		//添加
 		addMembers(recotds.getAdd());
