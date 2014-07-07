@@ -80,14 +80,24 @@
     for(UIView *temp in footer.subviews){
         [temp removeFromSuperview];
     }
-    PerformanceCompareView *c1 = [[PerformanceCompareView alloc] initWithFrame:CGRectMake(0, 10, 320, 40) Title:@"服务业绩" CompareText:@"比昨日： -637" Value:@"￥2300.0"];
-    PerformanceCompareView *c2 = [[PerformanceCompareView alloc] initWithFrame:CGRectMake(0, 60, 320, 40) Title:@"卖品业绩" CompareText:@"比昨日： -637" Value:@"￥2300.0"];
-    PerformanceCompareView *c3 = [[PerformanceCompareView alloc] initWithFrame:CGRectMake(0, 110, 320, 40) Title:@"开卡业绩" CompareText:@"比昨日： -637" Value:@"￥2300.0"];
-    PerformanceCompareView *c4 = [[PerformanceCompareView alloc] initWithFrame:CGRectMake(0, 160, 320, 40) Title:@"充值业绩" CompareText:@"比昨日： -637" Value:@"￥2300.0"];
-    [footer addSubview:c1];
-    [footer addSubview:c2];
-    [footer addSubview:c3];
-    [footer addSubview:c4];
+    
+    NSUInteger count = [dataSource itemCount];
+    for(int i = 0; i < count; i++){
+        
+        BusinessPerformance *item = [dataSource itemAtIndex:i];
+        
+        NSString *value = [NSString stringWithFormat:@"￥%ld", item.value];
+        
+        NSString *compareText;
+        if(item.increased){
+            compareText = [NSString stringWithFormat:@"比昨日：+%ld +%f%%", item.compareToPrev, item.compareToPrevRatio];
+        }else{
+            compareText = [NSString stringWithFormat:@"比昨日：-%ld -%f%%", item.compareToPrev, item.compareToPrevRatio];
+        }
+        
+        PerformanceCompareView *label = [[PerformanceCompareView alloc] initWithFrame:CGRectMake(0, 50 * i + 10, 320, 40) Title:item.title CompareText:compareText Value:value Increase:item.increased];
+        [footer addSubview:label];
+    }
 }
 
 @end

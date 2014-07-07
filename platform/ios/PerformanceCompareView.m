@@ -2,7 +2,7 @@
 
 @implementation PerformanceCompareView
 
-- (id)initWithFrame:(CGRect)frame Title:(NSString*)title CompareText:(NSString*)text Value:(NSString*)value
+- (id)initWithFrame:(CGRect)frame Title:(NSString*)title CompareText:(NSString*)text Value:(NSString*)value Increase:(BOOL)increase
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -10,7 +10,12 @@
         CGFloat maxY = frame.size.height;
         
         UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, maxY)];
-        UIImage *arrow = [UIImage imageNamed:@"arrow_up"];
+        UIImage *arrow;
+        if(increase){
+            arrow = [UIImage imageNamed:@"arrow_up"];
+        }else{
+            arrow = [UIImage imageNamed:@"arrow_down"];
+        }
         UIImageView *imageView = [[UIImageView alloc] initWithImage:arrow];
         imageView.frame = CGRectMake(15, 5, 10, 10);
         [leftView addSubview:imageView];
@@ -35,7 +40,11 @@
         UILabel *valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 80, maxY / 2)];
         valueLabel.text = value;
         valueLabel.textAlignment = NSTextAlignmentRight;
-        valueLabel.textColor = [UIColor colorWithRed:114/255.0f green:128/255.0f blue:137/255.0f alpha:1.0f];
+        if(increase){
+            valueLabel.textColor = [UIColor colorWithRed:227/255.0f green:110/255.0f blue:66/255.0f alpha:1.0f];
+        }else{
+            valueLabel.textColor = [UIColor colorWithRed:114/255.0f green:128/255.0f blue:137/255.0f alpha:1.0f];
+        }
         
         [rightView addSubview:valueLabel];
         

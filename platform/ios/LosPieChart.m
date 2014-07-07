@@ -48,7 +48,7 @@
     
     for(int i = 0; i < count; i++){
         
-        LosPieChartItem *item = [myDelegate itemAtIndex:i];
+        LosPieChartItem *item = [myDelegate pieItemAtIndex:i];
         
         CGFloat startAngle = 2 * M_PI * drawedRatio;
         CGFloat endAngle = 2 * M_PI * (item.ratio + drawedRatio);

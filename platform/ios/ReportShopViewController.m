@@ -1,5 +1,6 @@
 #import "ReportShopViewController.h"
 #import "ReportCustomViewController.h"
+#import "BusinessPerformance.h"
 
 @implementation ReportShopViewController
 
@@ -35,14 +36,36 @@
 {
     [records removeAllObjects];
     
-    LosPieChartItem *item1 = [[LosPieChartItem alloc] initWithTitle:@"卖品业绩28%" Ratio:0.28];
-    LosPieChartItem *item2 = [[LosPieChartItem alloc] initWithTitle:@"充值业绩9.8%" Ratio:0.10];
-    LosPieChartItem *item3 = [[LosPieChartItem alloc] initWithTitle:@"开卡业绩14.2%" Ratio:0.14];
-    LosPieChartItem *item4 = [[LosPieChartItem alloc] initWithTitle:@"服务业绩48%" Ratio:0.48];
-    [records addObject:item1];
-    [records addObject:item2];
-    [records addObject:item3];
-    [records addObject:item4];
+    double total = 4533.0;
+    
+    double r1 = 1344.0 / total;
+    BusinessPerformance *p1 = [[BusinessPerformance alloc] initWithTitle:@"卖品业绩" Value:1344 Ratio:r1];
+    p1.increased = YES;
+    p1.compareToPrev = 300;
+    p1.compareToPrevRatio = (1344 - 300) / 300;
+    
+    double r2 = 566.0 / total;
+    BusinessPerformance *p2 = [[BusinessPerformance alloc] initWithTitle:@"服务业绩" Value:566 Ratio:r2];
+    p2.increased = YES;
+    p2.compareToPrev = 200;
+    p2.compareToPrevRatio = (566 - 200) / 200;
+    
+    double r3 = 2000.0 / total;
+    BusinessPerformance *p3 = [[BusinessPerformance alloc] initWithTitle:@"开卡业绩" Value:2000 Ratio:r3];
+    p3.increased = NO;
+    p3.compareToPrev = 1000;
+    p3.compareToPrevRatio = (2000 - 1000) / 1000;
+    
+    double r4 = 623.0 / total;
+    BusinessPerformance *p4 = [[BusinessPerformance alloc] initWithTitle:@"充值业绩" Value:623 Ratio:r4];
+    p4.increased = YES;
+    p4.compareToPrev = 500;
+    p4.compareToPrevRatio = (623 - 500) / 500;
+    
+    [records addObject:p1];
+    [records addObject:p2];
+    [records addObject:p3];
+    [records addObject:p4];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
@@ -87,19 +110,32 @@
 
 -(NSString*) total
 {
-    return @"￥3300.0";
+    NSUInteger sum = 0;
+    for(BusinessPerformance *item in records){
+        sum += item.value;
+    }
+    return [NSString stringWithFormat:@"￥%ld", sum];
 }
-
-#pragma mark - PieChart delegate
 
 -(NSUInteger) itemCount
 {
     return [records count];
 }
 
--(LosPieChartItem*) itemAtIndex:(int)index
+-(BusinessPerformance*) itemAtIndex:(int)index
 {
     return [records objectAtIndex:index];
+}
+
+#pragma mark - PieChart delegate
+
+-(LosPieChartItem*) pieItemAtIndex:(int)index
+{
+    BusinessPerformance *performance = [records objectAtIndex:index];
+    
+    NSString *title = [NSString stringWithFormat:@"%@%f", performance.title, performance.ratio];
+    LosPieChartItem *item = [[LosPieChartItem alloc] initWithTitle:title Ratio:performance.ratio];
+    return item;
 }
 
 -(UIColor*) colorAtIndex:(int)index
