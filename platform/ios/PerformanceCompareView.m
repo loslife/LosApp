@@ -10,6 +10,10 @@
         CGFloat maxY = frame.size.height;
         
         UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, maxY)];
+        UIImage *arrow = [UIImage imageNamed:@"arrow_up"];
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:arrow];
+        imageView.frame = CGRectMake(15, 5, 10, 10);
+        [leftView addSubview:imageView];
         
         UIView *middleView = [[UIView alloc] initWithFrame:CGRectMake(40, 0, 180, maxY)];
         
