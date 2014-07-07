@@ -62,7 +62,6 @@
 		18AFE61C1953F6450083C972 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18AFE61E1953F6450083C972 /* Localizable.strings */; };
 		18AFE623195434B20083C972 /* SyncService.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE622195434B20083C972 /* SyncService.m */; };
 		18AFE627195527290083C972 /* LosDropDown.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE626195527290083C972 /* LosDropDown.m */; };
-		18AFE62A195542D30083C972 /* LosDropDownItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE629195542D30083C972 /* LosDropDownItem.m */; };
 		18B2EE121946E0EF00264B74 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B2EE111946E0EF00264B74 /* Foundation.framework */; };
 		18B2EE141946E0EF00264B74 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B2EE131946E0EF00264B74 /* CoreGraphics.framework */; };
 		18B2EE161946E0EF00264B74 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B2EE151946E0EF00264B74 /* UIKit.framework */; };
@@ -181,7 +180,6 @@
 		18AFE622195434B20083C972 /* SyncService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncService.m; sourceTree = "<group>"; };
 		18AFE625195527290083C972 /* LosDropDown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LosDropDown.h; sourceTree = "<group>"; };
 		18AFE626195527290083C972 /* LosDropDown.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LosDropDown.m; sourceTree = "<group>"; };
-		18AFE629195542D30083C972 /* LosDropDownItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LosDropDownItem.m; sourceTree = "<group>"; };
 		18B2EE0E1946E0EF00264B74 /* LosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18B2EE111946E0EF00264B74 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		18B2EE131946E0EF00264B74 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -240,7 +238,6 @@
 			children = (
 				18AFE625195527290083C972 /* LosDropDown.h */,
 				18AFE626195527290083C972 /* LosDropDown.m */,
-				18AFE629195542D30083C972 /* LosDropDownItem.m */,
 				184472551959545B00B4A543 /* LosTextField.h */,
 				184472561959545B00B4A543 /* LosTextField.m */,
 				1844725F195D532600B4A543 /* LosTimePicker.h */,
@@ -622,7 +619,6 @@
 				186667361949CB3F00A345F7 /* TimesHelper.m in Sources */,
 				18AFE627195527290083C972 /* LosDropDown.m in Sources */,
 				18AFE6061952E2F70083C972 /* AddShopView.m in Sources */,
-				18AFE62A195542D30083C972 /* LosDropDownItem.m in Sources */,
 				1866670519498B5600A345F7 /* UserData.m in Sources */,
 				184472701962509B00B4A543 /* ReportCustomView.m in Sources */,
 				184472861967A57800B4A543 /* ReportShopViewController.m in Sources */,
