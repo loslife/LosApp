@@ -1,5 +1,4 @@
 #import "ReportShopViewController.h"
-#import "ReportShopView.h"
 #import "ReportCustomViewController.h"
 
 @implementation ReportShopViewController
@@ -82,6 +81,13 @@
     [super handleSwipeRight];
     
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - ReportShopView datasource
+
+-(NSString*) total
+{
+    return @"￥3300.0";
 }
 
 #pragma mark - PieChart delegate
