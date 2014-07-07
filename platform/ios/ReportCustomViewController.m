@@ -14,7 +14,7 @@
     return self;
 }
 
--(void) loadView
+-(void) viewWillAppear:(BOOL)animated
 {
     ReportCustomView *view = [[ReportCustomView alloc] initWithController:self];
     self.view = view;

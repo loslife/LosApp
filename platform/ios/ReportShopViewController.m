@@ -15,7 +15,7 @@
     return self;
 }
 
--(void) loadView
+-(void) viewWillAppear:(BOOL)animated
 {
     ReportShopView *view = [[ReportShopView alloc] initWithController:self];
     self.view = view;
