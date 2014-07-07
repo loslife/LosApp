@@ -24,6 +24,8 @@
 {
     id<ReportShopViewDataSource> dataSource;
     UILabel *total;
+    LosPieChart *pie;
+    UIView *footer;
 }
 
 -(id) initWithController:(id<ReportShopViewDataSource>)controller
@@ -49,21 +51,13 @@
         
         MyLine *line = [[MyLine alloc] initWithFrame:CGRectMake(20, 140, 280, 1)];
         
-        LosPieChart *pie = [[LosPieChart alloc] initWithFrame:CGRectMake(0, 141, 320, 160) Delegate:(ReportShopViewController*)controller];
+        pie = [[LosPieChart alloc] initWithFrame:CGRectMake(0, 141, 320, 160) Delegate:(ReportShopViewController*)controller];
         pie.backgroundColor = [UIColor whiteColor];
         
         UILabel *bar = [[UILabel alloc] initWithFrame:CGRectMake(0, 301, 320, 10)];
         bar.backgroundColor = [UIColor colorWithRed:231/255.0f green:236/255.0f blue:240/255.0f alpha:1.0f];
         
-        UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 311, 320, 287)];
-        PerformanceCompareView *c1 = [[PerformanceCompareView alloc] initWithFrame:CGRectMake(0, 10, 320, 40) Title:@"服务业绩" CompareText:@"比昨日： -637" Value:@"￥2300.0"];
-        PerformanceCompareView *c2 = [[PerformanceCompareView alloc] initWithFrame:CGRectMake(0, 60, 320, 40) Title:@"卖品业绩" CompareText:@"比昨日： -637" Value:@"￥2300.0"];
-        PerformanceCompareView *c3 = [[PerformanceCompareView alloc] initWithFrame:CGRectMake(0, 110, 320, 40) Title:@"开卡业绩" CompareText:@"比昨日： -637" Value:@"￥2300.0"];
-        PerformanceCompareView *c4 = [[PerformanceCompareView alloc] initWithFrame:CGRectMake(0, 160, 320, 40) Title:@"充值业绩" CompareText:@"比昨日： -637" Value:@"￥2300.0"];
-        [footer addSubview:c1];
-        [footer addSubview:c2];
-        [footer addSubview:c3];
-        [footer addSubview:c4];
+        footer = [[UIView alloc] initWithFrame:CGRectMake(0, 311, 320, 287)];
         
         [self addSubview:header];
         [self addSubview:line];
@@ -77,6 +71,23 @@
 -(void) reload
 {
     total.text = [dataSource total];
+    
+    [pie removeFromSuperview];
+    pie = [[LosPieChart alloc] initWithFrame:CGRectMake(0, 141, 320, 160) Delegate:(ReportShopViewController*)dataSource];
+    pie.backgroundColor = [UIColor whiteColor];
+    [self addSubview:pie];
+    
+    for(UIView *temp in footer.subviews){
+        [temp removeFromSuperview];
+    }
+    PerformanceCompareView *c1 = [[PerformanceCompareView alloc] initWithFrame:CGRectMake(0, 10, 320, 40) Title:@"服务业绩" CompareText:@"比昨日： -637" Value:@"￥2300.0"];
+    PerformanceCompareView *c2 = [[PerformanceCompareView alloc] initWithFrame:CGRectMake(0, 60, 320, 40) Title:@"卖品业绩" CompareText:@"比昨日： -637" Value:@"￥2300.0"];
+    PerformanceCompareView *c3 = [[PerformanceCompareView alloc] initWithFrame:CGRectMake(0, 110, 320, 40) Title:@"开卡业绩" CompareText:@"比昨日： -637" Value:@"￥2300.0"];
+    PerformanceCompareView *c4 = [[PerformanceCompareView alloc] initWithFrame:CGRectMake(0, 160, 320, 40) Title:@"充值业绩" CompareText:@"比昨日： -637" Value:@"￥2300.0"];
+    [footer addSubview:c1];
+    [footer addSubview:c2];
+    [footer addSubview:c3];
+    [footer addSubview:c4];
 }
 
 @end
