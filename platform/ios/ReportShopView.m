@@ -21,7 +21,7 @@
 @implementation ReportShopView
 
 {
-    NSMutableArray *items;
+    UILabel *total;
 }
 
 -(id) initWithController:(ReportShopViewController*)controller
@@ -36,7 +36,7 @@
         label.textAlignment = NSTextAlignmentLeft;
         label.textColor = [UIColor colorWithRed:32/255.0f green:37/255.0f blue:41/255.0f alpha:1.0f];
         
-        UILabel *total = [[UILabel alloc] initWithFrame:CGRectMake(200, 0, 100, 40)];
+        total = [[UILabel alloc] initWithFrame:CGRectMake(200, 0, 100, 40)];
         total.text = @"￥4300.0";
         total.textAlignment = NSTextAlignmentRight;
         total.textColor = [UIColor colorWithRed:32/255.0f green:37/255.0f blue:41/255.0f alpha:1.0f];
@@ -73,7 +73,7 @@
 
 -(void) reload
 {
-    
+    total.text = @"2b";
 }
 
 @end
