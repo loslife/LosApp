@@ -34,6 +34,7 @@
 		1844729F196A50F400B4A543 /* EnterpriseDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844729E196A50F400B4A543 /* EnterpriseDao.m */; };
 		184472A2196A515A00B4A543 /* MemberDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472A1196A515A00B4A543 /* MemberDao.m */; };
 		184472A5196A51AC00B4A543 /* ReportDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472A4196A51AC00B4A543 /* ReportDao.m */; };
+		184472AB196ABFBA00B4A543 /* BusinessPerformance.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472AA196ABFBA00B4A543 /* BusinessPerformance.m */; };
 		186667011949864100A345F7 /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186667001949864100A345F7 /* WelcomeViewController.m */; };
 		1866670519498B5600A345F7 /* UserData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670419498B5600A345F7 /* UserData.m */; };
 		1866670819498D1C00A345F7 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670719498D1C00A345F7 /* LoginViewController.m */; };
@@ -124,6 +125,8 @@
 		184472A3196A51AC00B4A543 /* ReportDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportDao.h; sourceTree = "<group>"; };
 		184472A4196A51AC00B4A543 /* ReportDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportDao.m; sourceTree = "<group>"; };
 		184472A6196A529800B4A543 /* LosDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LosDao.h; sourceTree = "<group>"; };
+		184472A9196ABFBA00B4A543 /* BusinessPerformance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusinessPerformance.h; sourceTree = "<group>"; };
+		184472AA196ABFBA00B4A543 /* BusinessPerformance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BusinessPerformance.m; sourceTree = "<group>"; };
 		186666FF1949864100A345F7 /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
 		186667001949864100A345F7 /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
 		1866670319498B5600A345F7 /* UserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserData.h; sourceTree = "<group>"; };
@@ -353,12 +356,14 @@
 		18AFE5FD195296BD0083C972 /* domain */ = {
 			isa = PBXGroup;
 			children = (
+				18447268196151E400B4A543 /* Enterprise.h */,
+				18447269196151E400B4A543 /* Enterprise.m */,
 				18AFE5FE195296D70083C972 /* Member.h */,
 				18AFE5FF195296D70083C972 /* Member.m */,
 				18447258195C060400B4A543 /* EmployeePerformance.h */,
 				18447259195C060400B4A543 /* EmployeePerformance.m */,
-				18447268196151E400B4A543 /* Enterprise.h */,
-				18447269196151E400B4A543 /* Enterprise.m */,
+				184472A9196ABFBA00B4A543 /* BusinessPerformance.h */,
+				184472AA196ABFBA00B4A543 /* BusinessPerformance.m */,
 			);
 			name = domain;
 			sourceTree = "<group>";
@@ -638,6 +643,7 @@
 				18AFE5F5195178210083C972 /* UITableViewCell+ReuseIdentifier.m in Sources */,
 				184472761962563700B4A543 /* ReportViewControllerBase.m in Sources */,
 				18447273196250CE00B4A543 /* ReportCustomViewController.m in Sources */,
+				184472AB196ABFBA00B4A543 /* BusinessPerformance.m in Sources */,
 				1844726719614A4300B4A543 /* SwitchShopButton.m in Sources */,
 				1866673F1949F98200A345F7 /* ContactViewController.m in Sources */,
 				18AFE6031952D1A10083C972 /* AddShopViewController.m in Sources */,

@@ -2,8 +2,9 @@
 #import "ReportShopViewController.h"
 #import "LosPieChart.h"
 
-@interface ReportShopView : ReportViewBase<LosPieChartDelegate>
+@interface ReportShopView : ReportViewBase
 
 -(id) initWithController:(ReportShopViewController*)controller;
+-(void) reload;
 
 @end
