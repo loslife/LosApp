@@ -2,6 +2,7 @@
 
 @interface ReportDao : NSObject
 
--(NSArray*) queryEmployeePerformanceByDate:(NSDate*)date EnterpriseId:(NSString*)enterpriseId Type:(int)type;
+-(NSMutableArray*) queryEmployeePerformanceByDate:(NSDate*)date EnterpriseId:(NSString*)enterpriseId Type:(int)type;
+-(void) batchInsertEmployeePerformance:(NSArray*)array type:(NSString*)type;
 
 @end

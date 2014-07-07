@@ -8,5 +8,9 @@
 -(void) setDate:(NSDate*)newDate;
 -(DateDisplayType) dateType;
 -(void) setDateType:(DateDisplayType)newType;
+-(NSString*) yearStr;
+-(NSString*) monthStr;
+-(NSString*) dayStr;
+-(NSString*) typeStr;
 
 @end

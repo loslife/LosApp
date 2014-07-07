@@ -10,7 +10,7 @@
 @implementation ReportEmployeeViewController
 
 {
-    NSArray *records;
+    NSMutableArray *records;
 }
 
 -(id) init
@@ -18,7 +18,7 @@
     self = [super init];
     if(self){
         
-        records = [NSArray array];
+        records = [NSMutableArray array];
         
         self.navigationItem.rightBarButtonItem = [[SwitchShopButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20) Delegate:self];
         
@@ -50,13 +50,49 @@
     
     ReportDateStatus *status = [ReportDateStatus sharedInstance];
     
-    records = [self.reportDao queryEmployeePerformanceByDate:status.date EnterpriseId:currentEnterpriseId Type:status.dateType];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
+    if(![LosHttpHelper isNetworkAvailable]){
         
-        ReportEmployeeView *myView = (ReportEmployeeView*)self.view;
-        [myView.barView reload];
-    });
+        records = [self.reportDao queryEmployeePerformanceByDate:status.date EnterpriseId:currentEnterpriseId Type:status.dateType];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            ReportEmployeeView *myView = (ReportEmployeeView*)self.view;
+            [myView.barView reload];
+        });
+        
+        return;
+    }
+    
+    NSString *url = [NSString stringWithFormat:SYNC_REPORT_EMPLOYEE_URL, currentEnterpriseId, [status yearStr], [status monthStr], [status dayStr], [status typeStr]];
+    
+    [self.httpHelper getSecure:url completionHandler:^(NSDictionary *response){
+        
+        NSDictionary *result = [response objectForKey:@"result"];
+        NSDictionary *current = [result objectForKey:@"current"];
+        NSDictionary *emp = [current objectForKey:@"tb_emp_performance"];
+        NSArray *array = [emp objectForKey:[status typeStr]];
+        
+        [self.reportDao batchInsertEmployeePerformance:array type:[status typeStr]];
+        
+        [records removeAllObjects];
+        
+        for(NSDictionary *item in array){
+            
+            NSString *pk = [item objectForKey:@"_id"];
+            NSNumber *total = [item objectForKey:@"total"];
+            NSString *name = [item objectForKey:@"employee_name"];
+            EmployeePerformance *performance = [[EmployeePerformance alloc] initWithPk:pk Total:total Name:name];
+            [records addObject:performance];
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            ReportEmployeeView *myView = (ReportEmployeeView*)self.view;
+            [myView.barView reload];
+        });
+    }];
+    
+    return;
 }
 
 #pragma mark - abstract method implementation
@@ -64,12 +100,16 @@
 -(void) dateSelected:(NSDate*)date Type:(DateDisplayType)type
 {
     [super dateSelected:date Type:type];
-    [self loadReport];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [self loadReport];
+    });
 }
 
 -(void) enterpriseSelected:(NSString*)enterpriseId
 {
-    [self loadReport];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [self loadReport];
+    });
 }
 
 - (void) handleSwipeLeft

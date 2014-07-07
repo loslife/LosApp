@@ -47,4 +47,42 @@
     return _sharedObject;
 }
 
+-(NSString*) yearStr
+{
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    NSDateComponents* components = [calendar components:NSCalendarUnitYear fromDate:date];
+    
+    NSInteger year = [components year];
+    return [NSString stringWithFormat:@"%ld", year];
+}
+
+-(NSString*) monthStr
+{
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    NSDateComponents* components = [calendar components:NSCalendarUnitMonth fromDate:date];
+    
+    NSInteger month = [components month];
+    return [NSString stringWithFormat:@"%ld", month];
+}
+
+-(NSString*) dayStr
+{
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    NSDateComponents* components = [calendar components:NSCalendarUnitDay fromDate:date];
+    
+    NSInteger day = [components day];
+    return [NSString stringWithFormat:@"%ld", day];
+}
+
+-(NSString*) typeStr
+{
+    if(dateType == DateDisplayTypeDay){
+        return @"day";
+    }else if(dateType == DateDisplayTypeMonth){
+        return @"month";
+    }else{
+        return @"week";
+    }
+}
+
 @end

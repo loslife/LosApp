@@ -14,6 +14,7 @@
     if(self){
         self.reportDao = [[ReportDao alloc] init];
         self.enterpriseDao = [[EnterpriseDao alloc] init];
+        self.httpHelper = [[LosHttpHelper alloc] init];
     }
     return self;
 }
