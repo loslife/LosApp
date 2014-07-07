@@ -3,6 +3,7 @@
 #import "FMDB.h"
 #import "TimesHelper.h"
 #import "EmployeePerformance.h"
+#import "BusinessPerformance.h"
 
 @implementation ReportDao
 
@@ -80,6 +81,84 @@
     }
     
     [db close];
+}
+
+-(NSMutableArray*) queryBusinessPerformanceByDate:(NSDate*)date EnterpriseId:(NSString*)enterpriseId Type:(int)type
+{
+    NSString *sql = @"select total, service, product, newcard, recharge from biz_performance_day where enterprise_id = :eid and year = :year and month = :month and day = :day;";
+    
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    
+    NSDateComponents* components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:date];
+    NSInteger year = [components year];
+    NSInteger month = [components month];
+    NSInteger day = [components day];
+    
+    components.day --;
+    NSDate *yesterday = [calendar dateFromComponents:components];
+    NSDateComponents* prevComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:yesterday];
+    NSInteger prev_year = [prevComponents year];
+    NSInteger prev_month = [prevComponents month];
+    NSInteger prev_day = [prevComponents day];
+    
+    NSString *dbFilePath = [PathResolver databaseFilePath];
+    FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
+    [db open];
+    
+    FMResultSet *rs = [db executeQuery:sql, enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
+    
+    FMResultSet *rs2 = [db executeQuery:sql, enterpriseId, [NSNumber numberWithLong:prev_year], [NSNumber numberWithLong:prev_month], [NSNumber numberWithLong:prev_day]];
+    
+    NSMutableArray *performances = [NSMutableArray arrayWithCapacity:1];
+    
+    if([rs next]){
+        
+        double total = [[rs objectForColumnName:@"total"] doubleValue];
+        double service = [[rs objectForColumnName:@"service"] doubleValue];
+        double product = [[rs objectForColumnName:@"product"] doubleValue];
+        double newcard = [[rs objectForColumnName:@"newcard"] doubleValue];
+        double recharge = [[rs objectForColumnName:@"recharge"] doubleValue];
+        
+        BusinessPerformance *p1 = [[BusinessPerformance alloc] initWithTitle:@"服务业绩" Value:service Ratio:service / total];
+        BusinessPerformance *p2 = [[BusinessPerformance alloc] initWithTitle:@"卖品业绩" Value:product Ratio:product / total];
+        BusinessPerformance *p3 = [[BusinessPerformance alloc] initWithTitle:@"开卡业绩" Value:newcard Ratio:newcard / total];
+        BusinessPerformance *p4 = [[BusinessPerformance alloc] initWithTitle:@"充值业绩" Value:recharge Ratio:recharge / total];
+        
+        if([rs2 next]){
+            
+            double service_prev = [[rs2 objectForColumnName:@"service"] doubleValue];
+            double product_prev = [[rs2 objectForColumnName:@"product"] doubleValue];
+            double newcard_prev = [[rs2 objectForColumnName:@"newcard"] doubleValue];
+            double recharge_prev = [[rs2 objectForColumnName:@"recharge"] doubleValue];
+            
+            [self assembleCompare:p1 currentValue:service prevValue:service_prev];
+            [self assembleCompare:p2 currentValue:product prevValue:product_prev];
+            [self assembleCompare:p3 currentValue:newcard prevValue:newcard_prev];
+            [self assembleCompare:p4 currentValue:recharge prevValue:recharge_prev];
+        }
+        
+        [performances addObject:p1];
+        [performances addObject:p2];
+        [performances addObject:p3];
+        [performances addObject:p4];
+    }
+    
+    [db close];
+    
+    return performances;
+}
+
+-(void) assembleCompare:(BusinessPerformance*)p currentValue:(double)current prevValue:(double)previous
+{
+    if(current >= previous){
+        p.increased = YES;
+        p.compareToPrev = current - previous;
+        p.compareToPrevRatio = (current - previous) / previous;
+    }else{
+        p.increased = NO;
+        p.compareToPrev = previous - current;
+        p.compareToPrevRatio = (previous - current) / previous;
+    }
 }
 
 @end

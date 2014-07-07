@@ -3,12 +3,12 @@
 @interface BusinessPerformance : NSObject
 
 @property NSString *title;
-@property NSUInteger value;
+@property double value;
 @property double ratio;
-@property NSInteger compareToPrev;
+@property double compareToPrev;
 @property double compareToPrevRatio;
 @property BOOL increased;
 
--(id) initWithTitle:(NSString*)title Value:(NSUInteger)value Ratio:(double)ratio;
+-(id) initWithTitle:(NSString*)title Value:(double)value Ratio:(double)ratio;
 
 @end

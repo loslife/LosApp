@@ -2,7 +2,7 @@
 
 @implementation BusinessPerformance
 
--(id) initWithTitle:(NSString*)title Value:(NSUInteger)value Ratio:(double)ratio
+-(id) initWithTitle:(NSString*)title Value:(double)value Ratio:(double)ratio
 {
     self = [super init];
     if(self){
