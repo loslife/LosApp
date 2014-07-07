@@ -25,6 +25,7 @@
         compareLabel.text = text;
         compareLabel.textAlignment = NSTextAlignmentLeft;
         compareLabel.font = [UIFont systemFontOfSize:14.0];
+        compareLabel.textColor = [UIColor colorWithRed:114/255.0f green:128/255.0f blue:137/255.0f alpha:1.0f];
         
         [middleView addSubview:titleLabel];
         [middleView addSubview:compareLabel];
@@ -34,6 +35,7 @@
         UILabel *valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 80, maxY / 2)];
         valueLabel.text = value;
         valueLabel.textAlignment = NSTextAlignmentRight;
+        valueLabel.textColor = [UIColor colorWithRed:114/255.0f green:128/255.0f blue:137/255.0f alpha:1.0f];
         
         [rightView addSubview:valueLabel];
         

@@ -61,7 +61,7 @@
         pie.backgroundColor = [UIColor whiteColor];
         
         UILabel *bar = [[UILabel alloc] initWithFrame:CGRectMake(0, 301, 320, 10)];
-        bar.backgroundColor = [UIColor colorWithRed:247/255.0f green:248/255.0f blue:249/255.0f alpha:1.0f];
+        bar.backgroundColor = [UIColor colorWithRed:231/255.0f green:236/255.0f blue:240/255.0f alpha:1.0f];
         
         UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 311, 320, 287)];
         PerformanceCompareView *c1 = [[PerformanceCompareView alloc] initWithFrame:CGRectMake(0, 10, 320, 40) Title:@"服务业绩" CompareText:@"比昨日： -637" Value:@"￥2300.0"];
@@ -95,13 +95,13 @@
 -(UIColor*) colorAtIndex:(int)index
 {
     if(index == 0){
-        return [UIColor redColor];
+        return [UIColor colorWithRed:227/255.0f green:110/255.0f blue:66/255.0f alpha:1.0f];
     }else if(index == 1){
-        return [UIColor yellowColor];
+        return [UIColor colorWithRed:249/255.0f green:208/255.0f blue:92/255.0f alpha:1.0f];
     }else if(index == 2){
-        return [UIColor greenColor];
+        return [UIColor colorWithRed:85/255.0f green:214/255.0f blue:255/255.0f alpha:1.0f];
     }else{
-        return [UIColor blueColor];
+        return [UIColor colorWithRed:134/255.0f green:121/255.0f blue:201/255.0f alpha:1.0f];
     }
 }
 

@@ -42,7 +42,7 @@
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
     
-    CGContextSetLineWidth(context, 20.0);
+    CGContextSetLineWidth(context, 25.0);
     
     int count = [myDelegate itemCount];
     
@@ -56,10 +56,13 @@
         
         CGFloat midAngle = (startAngle + endAngle) / 2;
         CGFloat cos_value = cos(midAngle);
-        CGFloat x_offset = radius * (cos_value > 0 ? cos_value * 1.5 : cos_value * 3);
-        CGFloat y_offset = radius * sin(midAngle) * 1.5;
+        CGFloat x_offset = radius * (cos_value > 0 ? cos_value * 1.5 : cos_value * 3.6);
+        CGFloat y_offset = radius * sin(midAngle) * 1.7;
         CGPoint textPoint = CGPointMake(pieCenter.x + x_offset, pieCenter.y + y_offset);
-        [item.title drawAtPoint:textPoint withAttributes:nil];
+        
+        NSDictionary *attrs = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:14], NSFontAttributeName,
+         [UIColor colorWithRed:114/255.0f green:128/255.0f blue:137/255.0f alpha:1.0f], NSForegroundColorAttributeName, nil];
+        [item.title drawAtPoint:textPoint withAttributes:attrs];
         
         CGContextSetStrokeColorWithColor(context, [myDelegate colorAtIndex:i].CGColor);
         CGContextAddArc(context, pieCenter.x, pieCenter.y, radius, startAngle, endAngle, 0);
