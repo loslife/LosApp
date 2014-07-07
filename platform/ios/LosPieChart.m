@@ -62,6 +62,7 @@
         
         NSDictionary *attrs = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:14], NSFontAttributeName,
          [UIColor colorWithRed:114/255.0f green:128/255.0f blue:137/255.0f alpha:1.0f], NSForegroundColorAttributeName, nil];
+        
         [item.title drawAtPoint:textPoint withAttributes:attrs];
         
         CGContextSetStrokeColorWithColor(context, [myDelegate colorAtIndex:i].CGColor);
