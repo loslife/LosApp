@@ -75,7 +75,7 @@
             FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
             [db open];
             
-            NSString *sql = @"select enterprise_id, contact_latest_sync, report_latest_sync from enterprises";
+            NSString *sql = @"select enterprise_id, contact_latest_sync from enterprises";
             FMResultSet *rs = [db executeQuery:sql];
             
             dispatch_group_t group = dispatch_group_create();
@@ -88,18 +88,9 @@
                 if([contactLatestSync isEqual:[NSNull null]]){
                     contactLatestSync = [NSNumber numberWithInt:0];
                 }
-                NSNumber *reportLatestSync = [rs objectForColumnName:@"report_latest_sync"];
-                if([reportLatestSync isEqual:[NSNull null]]){
-                    reportLatestSync = [NSNumber numberWithInt:0];
-                }
                 
                 dispatch_group_enter(group);
                 [syncService refreshMembersWithEnterpriseId:enterpriseId LatestSyncTime:contactLatestSync Block:^(BOOL flag){
-                    dispatch_group_leave(group);
-                }];
-                
-                dispatch_group_enter(group);
-                [syncService refreshReportsWithEnterpriseId:enterpriseId LatestSyncTime:reportLatestSync Block:^(BOOL flag){
                     dispatch_group_leave(group);
                 }];
             }
@@ -149,7 +140,7 @@
 
 -(void) createOtherTables
 {
-    NSString *sql1 = @"CREATE TABLE IF NOT EXISTS enterprises (id integer primary key autoincrement, enterprise_id varchar(64), enterprise_name varchar(64), contact_latest_sync REAL, report_latest_sync REAL, display varchar(8), default_shop integer, create_date REAL);";
+    NSString *sql1 = @"CREATE TABLE IF NOT EXISTS enterprises (id integer primary key autoincrement, enterprise_id varchar(64), enterprise_name varchar(64), contact_latest_sync REAL, display varchar(8), default_shop integer, create_date REAL);";
     
     NSString *sql2 = @"CREATE TABLE IF NOT EXISTS members (id varchar(64) primary key, enterprise_id varchar(64), name varchar(32), birthday REAL, phoneMobile varchar(16), joinDate REAL, memberNo varchar(32), latestConsumeTime REAL, totalConsume REAL, averageConsume REAL, create_date REAL, modify_date REAL);";
     

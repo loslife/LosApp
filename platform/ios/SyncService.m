@@ -43,21 +43,9 @@
         
         [dao insertEnterprisesWith:enterpriseId Name:enterpriseName];
         
-        dispatch_group_t group = dispatch_group_create();
-        
-        dispatch_group_enter(group);
         [self refreshMembersWithEnterpriseId:enterpriseId LatestSyncTime:[NSNumber numberWithInt:0] Block:^(BOOL flag){
-            dispatch_group_leave(group);
-        }];
-        
-        dispatch_group_enter(group);
-        [self refreshReportsWithEnterpriseId:enterpriseId LatestSyncTime:[NSNumber numberWithInt:0] Block:^(BOOL flag){
-            dispatch_group_leave(group);
-        }];
-        
-        dispatch_group_notify(group, dispatch_get_global_queue(0, 0), ^{
             block(0);
-        });
+        }];
     }];
 }
 
@@ -108,33 +96,6 @@
         NSDictionary *records = [response objectForKey:@"records"];
         
         [dao batchUpdateMembers:records LastSync:lastSync EnterpriseId:enterpriseId];
-        
-        block(YES);
-    }];
-}
-
--(void) refreshReportsWithEnterpriseId:(NSString*)enterpriseId LatestSyncTime:(NSNumber*)latestSyncTime Block:(void(^)(BOOL flag))block
-{
-    NSString *url = [NSString stringWithFormat:SYNC_REPORT_EMPLOYEE_URL, enterpriseId, @"1", [latestSyncTime stringValue]];
-    
-    [httpHelper getSecure:url completionHandler:^(NSDictionary* dict){
-        
-        if(dict == nil){
-            block(NO);
-            return;
-        }
-        
-        NSNumber *code = [dict objectForKey:@"code"];
-        if([code intValue] != 0){
-            block(NO);
-            return;
-        }
-        
-        NSDictionary *response = [dict objectForKey:@"result"];
-        NSNumber *lastSync = [response objectForKey:@"last_sync"];
-        NSDictionary *records = [response objectForKey:@"records"];
-        
-        [dao batchUpdateReports:records LastSync:lastSync EnterpriseId:enterpriseId];
         
         block(YES);
     }];
