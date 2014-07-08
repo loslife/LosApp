@@ -72,6 +72,7 @@
         NSNumber *createDate = [item objectForKey:@"create_date"];
         
         FMResultSet *rs = [db executeQuery:query, year, month, day, employeeId, enterpriseId];
+        [rs next];
         int count = [[rs objectForColumnName:@"count"] intValue];
         if(count == 0){
             [db executeUpdate:insert, _id, enterpriseId, total, createDate, employeeId, employeeName, year, month, day];
