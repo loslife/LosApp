@@ -72,11 +72,20 @@
         NSDictionary *prev = [result objectForKey:@"prev"];
         NSDictionary *biz2 = [prev objectForKey:@"tb_biz_performance"];
         NSDictionary *record2 = [biz2 objectForKey:[status typeStr]];
-
-        [self.reportDao insertBusinessPerformance:record type:[status typeStr]];
-        [self.reportDao insertBusinessPerformance:record2 type:[status typeStr]];
         
         [records removeAllObjects];
+        
+        if(![record objectForKey:@"_id"]){
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                ReportShopView *myView = (ReportShopView*)self.view;
+                [myView reload];
+            });
+            return;
+        }
+        
+        [self.reportDao insertBusinessPerformance:record type:[status typeStr]];
         
         double total = [[record objectForKey:@"total"] doubleValue];
         double service = [[record objectForKey:@"service"] doubleValue];
@@ -89,7 +98,7 @@
         BusinessPerformance *p3 = [[BusinessPerformance alloc] initWithTitle:@"开卡业绩" Value:newcard Ratio:newcard / total];
         BusinessPerformance *p4 = [[BusinessPerformance alloc] initWithTitle:@"充值业绩" Value:recharge Ratio:recharge / total];
         
-        if([record objectForKey:@"_id"]){
+        if([record2 objectForKey:@"_id"]){
             
             double service_prev = [[record2 objectForKey:@"service"] doubleValue];
             double product_prev = [[record2 objectForKey:@"product"] doubleValue];
@@ -100,6 +109,8 @@
             [self assembleCompare:p2 currentValue:product prevValue:product_prev];
             [self assembleCompare:p3 currentValue:newcard prevValue:newcard_prev];
             [self assembleCompare:p4 currentValue:recharge prevValue:recharge_prev];
+            
+            [self.reportDao insertBusinessPerformance:record2 type:[status typeStr]];
         }
         
         [records addObject:p1];
