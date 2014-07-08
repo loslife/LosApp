@@ -1,5 +1,10 @@
 package com.yilos.losapp.bean;
 
+/**
+ * 
+ *员工业绩
+ *
+ */
 public class EmployeePerBean 
 {
 	
@@ -12,23 +17,24 @@ public class EmployeePerBean
  *   type integer, employee_name varchar(16), 
  *   year integer, month integer, day integer, week integer
  */
-	 String  id;
-     String  create_date ;
-     String  enterprise_id;
-     String  modify_date;
-     String  product;
-     String  employee_name;
-     String  total;
-     String  day;
-     String  recharge;
-     String  cash;
-     String  newcard ;
-     String  card;
-     String  service; 
-     String  bank ;
-     String  year ;
-     String  month; 
-     String  week ;
+	private String  id;
+	private String  create_date ;
+	private String  enterprise_id;
+	private String  modify_date;
+	private String  product;
+	private String  employee_name;
+	private String  total;
+	private String  day;
+	private String  recharge;
+	private String  cash;
+	private String  newcard ;
+	private String  card;
+	private String  service; 
+	private String  bank ;
+	private String  year ;
+	private String  month; 
+	private String  week ;
+	private String employee_id;
      
 	public String getId() {
 		return id;
@@ -132,6 +138,12 @@ public class EmployeePerBean
 	}
 	public void setWeek(String week) {
 		this.week = week;
+	}
+	public String getEmployee_id() {
+		return employee_id;
+	}
+	public void setEmployee_id(String employee_id) {
+		this.employee_id = employee_id;
 	}
 
 }

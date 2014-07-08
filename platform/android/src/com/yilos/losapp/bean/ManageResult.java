@@ -2,16 +2,28 @@ package com.yilos.losapp.bean;
 
 public class ManageResult 
 {
-	private  ManageRecords  records;
+	private  ManageRecords  current;
+	
+	private  ManageRecords  prev;
 	
 	private String errorCode;
 
-	public ManageRecords getRecords() {
-		return records;
+	
+
+	public ManageRecords getCurrent() {
+		return current;
 	}
 
-	public void setRecords(ManageRecords records) {
-		this.records = records;
+	public void setCurrent(ManageRecords current) {
+		this.current = current;
+	}
+
+	public ManageRecords getPrev() {
+		return prev;
+	}
+
+	public void setPrev(ManageRecords prev) {
+		this.prev = prev;
 	}
 
 	public String getErrorCode() {

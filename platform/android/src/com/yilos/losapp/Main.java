@@ -65,7 +65,7 @@ public class Main extends BaseActivity {
 	private ListView listView;
 	private String title[] = null;
 
-	private String dateType = "week";
+	private String dateType = "day";
 
 	public static final int WIDTH = 280;
 	public static final int HEIGHT = 250;
@@ -73,6 +73,12 @@ public class Main extends BaseActivity {
 	private PanelDountChart panelDountView;
 	private LinearLayout columnarLayout;
 	private LinearLayout annularLayout;
+	
+	private String year;
+	
+	private String day;
+	
+	private String month;
 
 	@SuppressWarnings("deprecation")
 	public void onCreate(Bundle savedInstanceState) {
@@ -151,7 +157,6 @@ public class Main extends BaseActivity {
 					timetype.setText("日");
 					showTime.setText(getDateNow());
 				}
-
 			}
 
 		});
@@ -161,6 +166,8 @@ public class Main extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 
+				String showtime ="";
+				Date curDate;
 				if (dateType == "month") {
 					SimpleDateFormat formatter = new SimpleDateFormat(
 							"yyyy年MM月");
@@ -168,23 +175,28 @@ public class Main extends BaseActivity {
 							formatter);
 					c.add(c.MONTH, -1);// 得到上个月的月份
 
-					Date curDate = new Date(c.getTimeInMillis());// 获取当前时间
-					String str = formatter.format(curDate);
-					showTime.setText(str);
+					curDate = new Date(c.getTimeInMillis());// 获取当前时间
+					showtime = formatter.format(curDate);
+					showTime.setText(showtime);
 				} else if (dateType == "week") {
 					DateUtil dateUtil = new DateUtil();
-					String weeks = dateUtil.getPreviousMonday() + "--"
+					showtime = dateUtil.getPreviousMonday() + "--"
 							+ dateUtil.getSunday();
-					showTime.setText(weeks);
+					curDate = dateUtil.getCurDate();
+					showTime.setText(showtime);
 				} else {
 					SimpleDateFormat formatter = new SimpleDateFormat(
 							"yyyy年MM月dd日");
-					Date curDate = new Date(dateToCal(
+					curDate = new Date(dateToCal(
 							showTime.getText().toString(), formatter)
 							.getTimeInMillis() - 86400000);// 获取当前时间
-					String str = formatter.format(curDate);
-					showTime.setText(str);
+					showtime = formatter.format(curDate);
+					showTime.setText(showtime);
 				}
+				
+				year = String.valueOf(curDate.getYear());
+				day = String.valueOf(curDate.getDay());
+				month = String.valueOf(curDate.getMonth());
 
 			}
 		});
@@ -193,34 +205,113 @@ public class Main extends BaseActivity {
 
 			@Override
 			public void onClick(View v) {
-
+				String showtime ="";
+				Date curDate;
 				if (dateType == "month") {
 					SimpleDateFormat formatter = new SimpleDateFormat(
 							"yyyy年MM月");
 					Calendar c = dateToCal(showTime.getText().toString(),
 							formatter);
 					c.add(c.MONTH, +1);// 得到下个月的月份
-					Date curDate = new Date(c.getTimeInMillis());// 获取当前时间
-					String str = formatter.format(curDate);
-					showTime.setText(str);
+					curDate = new Date(c.getTimeInMillis());// 获取当前时间
+					showtime = formatter.format(curDate);
+					showTime.setText(showtime);
 				} else if (dateType == "week") {
 					DateUtil dateUtil = new DateUtil();
-					String weeks = dateUtil.getNextMonday() + "--"
+					showtime = dateUtil.getNextMonday() + "--"
 							+ dateUtil.getSunday();
-					showTime.setText(weeks);
+					curDate = dateUtil.getCurDate();
+					showTime.setText(showtime);
 				} else {
 					SimpleDateFormat formatter = new SimpleDateFormat(
 							"yyyy年MM月dd日");
-					Date curDate = new Date(dateToCal(
+					curDate = new Date(dateToCal(
 							showTime.getText().toString(), formatter)
 							.getTimeInMillis() + 86400000);// 获取当前时间
-					String str = formatter.format(curDate);
-					showTime.setText(str);
+					showtime = formatter.format(curDate);
+					showTime.setText(showtime);
 				}
+				
+                year = String.valueOf(curDate.getYear());
+				day = String.valueOf(curDate.getDay());
+				month = String.valueOf(curDate.getMonth());
 
 			}
 		});
 
+	}
+	
+	private void shiftView()
+	{
+		
+	}
+	
+	/**
+	 * 员工业绩
+	 */
+	public void getEmployeePerData()
+	{
+		final Handler handle = new Handler() {
+			public void handleMessage(Message msg) {
+				
+			}
+		};
+			new Thread() {
+				public void run() {
+					
+				}
+			}.start();
+	}
+	
+	/**
+	 * 服务业绩
+	 */
+	public void getBizPerformanceData()
+	{
+		final Handler handle = new Handler() {
+			public void handleMessage(Message msg) {
+				
+			}
+		};
+			new Thread() {
+				public void run() {
+					
+				}
+			}.start();
+	}
+	
+	/**
+	 * 产品业绩
+	 */
+	public void getServicePerformanceData()
+	{
+		final Handler handle = new Handler() {
+			public void handleMessage(Message msg) {
+				
+			}
+		};
+			new Thread() {
+				public void run() {
+					
+				}
+			}.start();
+	}
+	
+	/**
+	 * 客流量
+	 */
+	public void getBcustomerCount()
+	{
+		final Handler handle = new Handler() {
+			public void handleMessage(Message msg) {
+				
+			}
+		};
+			new Thread() {
+				public void run() {
+					
+				}
+			}.start();
 	}
 
 	/**

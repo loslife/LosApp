@@ -74,5 +74,14 @@ public class DateUtil
         String preMonday = df.format(monday);
         return preMonday;
     }
+    
+    public Date getCurDate() {
+        int mondayPlus = this.getMondayPlus();
+        GregorianCalendar currentDate = new GregorianCalendar();
+        currentDate.add(GregorianCalendar.DATE, mondayPlus + 7 * weeks + 6);
+        Date monday = currentDate.getTime();
+
+        return monday;
+    }
 
 }
