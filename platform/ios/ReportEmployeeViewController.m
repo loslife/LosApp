@@ -63,7 +63,7 @@
         return;
     }
     
-    NSString *url = [NSString stringWithFormat:SYNC_REPORT_EMPLOYEE_URL, currentEnterpriseId, [status yearStr], [status monthStr], [status dayStr], [status typeStr]];
+    NSString *url = [NSString stringWithFormat:FETCH_REPORT_URL, currentEnterpriseId, [status yearStr], [status monthStr], [status dayStr], [status typeStr], @"employee"];
     
     [self.httpHelper getSecure:url completionHandler:^(NSDictionary *response){
         
@@ -91,8 +91,6 @@
             [myView.barView reload];
         });
     }];
-    
-    return;
 }
 
 #pragma mark - abstract method implementation

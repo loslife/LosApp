@@ -9,4 +9,4 @@
 #define APPEND_ENERPRISE_URL [ServerHost stringByAppendingString:@"/svc/losapp/appendEnterprise"]
 #define MODIFY_PASSWORD_URL [ServerHost stringByAppendingString:@"/svc/losapp/modifyPassword"]
 #define RESET_PASSWORD_URL [ServerHost stringByAppendingString:@"/svc/losapp/resetPassword"]
-#define SYNC_REPORT_EMPLOYEE_URL [ServerHost stringByAppendingString:@"/svc/report/probe/query/%@?year=%@&month=%@&day=%@&type=%@&report=employee"]
+#define FETCH_REPORT_URL [ServerHost stringByAppendingString:@"/svc/report/probe/query/%@?year=%@&month=%@&day=%@&type=%@&report=%@"]

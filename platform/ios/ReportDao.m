@@ -162,4 +162,9 @@
     }
 }
 
+-(void) insertBusinessPerformance:(NSDictionary*)entity type:(NSString*)type
+{
+    
+}
+
 @end

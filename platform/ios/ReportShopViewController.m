@@ -46,13 +46,46 @@
     
     ReportDateStatus *status = [ReportDateStatus sharedInstance];
     
-    records = [self.reportDao queryBusinessPerformanceByDate:status.date EnterpriseId:currentEnterpriseId Type:status.dateType];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
+    if(![LosHttpHelper isNetworkAvailable]){
         
-        ReportShopView *myView = (ReportShopView*)self.view;
-        [myView reload];
-    });
+        records = [self.reportDao queryBusinessPerformanceByDate:status.date EnterpriseId:currentEnterpriseId Type:status.dateType];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            ReportShopView *myView = (ReportShopView*)self.view;
+            [myView reload];
+        });
+        
+        return;
+    }
+    
+    NSString *url = [NSString stringWithFormat:FETCH_REPORT_URL, currentEnterpriseId, [status yearStr], [status monthStr], [status dayStr], [status typeStr], @"business"];
+    
+    [self.httpHelper getSecure:url completionHandler:^(NSDictionary *response){
+        
+        NSDictionary *result = [response objectForKey:@"result"];
+        
+        NSDictionary *current = [result objectForKey:@"current"];
+        NSDictionary *biz = [current objectForKey:@"tb_biz_performance"];
+        NSDictionary *record = [biz objectForKey:[status typeStr]];
+        
+        NSDictionary *prev = [result objectForKey:@"prev"];
+        NSDictionary *biz2 = [prev objectForKey:@"tb_biz_performance"];
+        NSDictionary *record2 = [biz2 objectForKey:[status typeStr]];
+
+        [self.reportDao insertBusinessPerformance:record type:[status typeStr]];
+        [self.reportDao insertBusinessPerformance:record2 type:[status typeStr]];
+        
+        [records removeAllObjects];
+        
+        // 把response变成BusinessPerformance
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            ReportShopView *myView = (ReportShopView*)self.view;
+            [myView reload];
+        });
+    }];
 }
 
 #pragma mark - abstract method implementation
