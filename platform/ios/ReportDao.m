@@ -51,7 +51,7 @@
     
     NSString *insert = [NSString stringWithFormat:@"insert into %@ (id, enterprise_id, total, create_date, employee_id, employee_name, year, month, day) values (:id, :eid, :total, :cdate, :employeeId, :employeeName, :year, :month, :day);", tableName];
     
-    NSString *update = [NSString stringWithFormat:@"update %@ set total = :total, modify_date = :mdate, employee_name = :employeeName where year = :year, month = :month, day = :day, employee_id = :employeeId, enterprise_id = :eid;", tableName];
+    NSString *update = [NSString stringWithFormat:@"update %@ set total = :total, modify_date = :mdate, employee_name = :employeeName where year = :year and month = :month and day = :day and employee_id = :employeeId and enterprise_id = :eid;", tableName];
     
     NSNumber *now = [NSNumber numberWithLongLong:[TimesHelper now]];
     
