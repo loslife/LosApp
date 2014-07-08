@@ -164,7 +164,45 @@
 
 -(void) insertBusinessPerformance:(NSDictionary*)entity type:(NSString*)type
 {
+    NSString *tableName = [NSString stringWithFormat:@"biz_performance_%@", type];
     
+    NSString *query = [NSString stringWithFormat:@"select count(1) as count from %@ where year = :year and month = :month and day = :day and enterprise_id = :eid", tableName];
+    
+    NSString *insert = [NSString stringWithFormat:@"insert into %@ (id, enterprise_id, total, cash, card, bank, service, product, newcard, recharge, create_date, year, month, day) values (:id, :eid, :total, :cash, :card, :bank, :service, :product, :newcard, :recharge, :cdate, :year, :month, :day);", tableName];
+    
+    NSString *update = [NSString stringWithFormat:@"update %@ set total = :total, cash = :cash, card = :card, bank = :bank, service = :service, product = :product, newcard = :newcard, recharge = :recharge, modify_date = :mdate where year = :year and month = :month and day = :day and enterprise_id = :eid;", tableName];
+    
+    NSNumber *now = [NSNumber numberWithLongLong:[TimesHelper now]];
+    
+    NSString *dbFilePath = [PathResolver databaseFilePath];
+    FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
+    [db open];
+    
+    NSNumber *createDate = [entity objectForKey:@"create_date"];
+    NSString *enterpriseId = [entity objectForKey:@"enterprise_id"];
+    NSNumber *total = [entity objectForKey:@"total"];
+    NSString *_id = [entity objectForKey:@"_id"];
+    NSNumber *cash = [entity objectForKey:@"cash"];
+    NSNumber *card = [entity objectForKey:@"card"];
+    NSNumber *bank = [entity objectForKey:@"bank"];
+    NSNumber *service = [entity objectForKey:@"service"];
+    NSNumber *product = [entity objectForKey:@"product"];
+    NSNumber *newcard = [entity objectForKey:@"newcard"];
+    NSNumber *recharge = [entity objectForKey:@"recharge"];
+    NSNumber *year = [entity objectForKey:@"year"];
+    NSNumber *month = [entity objectForKey:@"month"];
+    NSNumber *day = [entity objectForKey:@"day"];
+    
+    FMResultSet *rs = [db executeQuery:query, year, month, day, enterpriseId];
+    [rs next];
+    int count = [[rs objectForColumnName:@"count"] intValue];
+    if(count == 0){
+        [db executeUpdate:insert, _id, enterpriseId, total, cash, card, bank, service, product, newcard, recharge, createDate, year, month, day];
+    }else{
+        [db executeUpdate:update, total, cash, card, bank, service, product, newcard, recharge, now, year, month, day, enterpriseId];
+    }
+    
+    [db close];
 }
 
 @end
