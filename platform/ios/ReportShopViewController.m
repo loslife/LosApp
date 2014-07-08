@@ -78,7 +78,34 @@
         
         [records removeAllObjects];
         
-        // 把response变成BusinessPerformance
+        double total = [[record objectForKey:@"total"] doubleValue];
+        double service = [[record objectForKey:@"service"] doubleValue];
+        double product = [[record objectForKey:@"product"] doubleValue];
+        double newcard = [[record objectForKey:@"newcard"] doubleValue];
+        double recharge = [[record objectForKey:@"recharge"] doubleValue];
+        
+        BusinessPerformance *p1 = [[BusinessPerformance alloc] initWithTitle:@"服务业绩" Value:service Ratio:service / total];
+        BusinessPerformance *p2 = [[BusinessPerformance alloc] initWithTitle:@"卖品业绩" Value:product Ratio:product / total];
+        BusinessPerformance *p3 = [[BusinessPerformance alloc] initWithTitle:@"开卡业绩" Value:newcard Ratio:newcard / total];
+        BusinessPerformance *p4 = [[BusinessPerformance alloc] initWithTitle:@"充值业绩" Value:recharge Ratio:recharge / total];
+        
+        if([record objectForKey:@"_id"]){
+            
+            double service_prev = [[record2 objectForKey:@"service"] doubleValue];
+            double product_prev = [[record2 objectForKey:@"product"] doubleValue];
+            double newcard_prev = [[record2 objectForKey:@"newcard"] doubleValue];
+            double recharge_prev = [[record2 objectForKey:@"recharge"] doubleValue];
+            
+            [self assembleCompare:p1 currentValue:service prevValue:service_prev];
+            [self assembleCompare:p2 currentValue:product prevValue:product_prev];
+            [self assembleCompare:p3 currentValue:newcard prevValue:newcard_prev];
+            [self assembleCompare:p4 currentValue:recharge prevValue:recharge_prev];
+        }
+        
+        [records addObject:p1];
+        [records addObject:p2];
+        [records addObject:p3];
+        [records addObject:p4];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             
@@ -86,6 +113,19 @@
             [myView reload];
         });
     }];
+}
+
+-(void) assembleCompare:(BusinessPerformance*)p currentValue:(double)current prevValue:(double)previous
+{
+    if(current >= previous){
+        p.increased = YES;
+        p.compareToPrev = current - previous;
+        p.compareToPrevRatio = (current - previous) / previous;
+    }else{
+        p.increased = NO;
+        p.compareToPrev = previous - current;
+        p.compareToPrevRatio = (previous - current) / previous;
+    }
 }
 
 #pragma mark - abstract method implementation
