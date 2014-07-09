@@ -1,5 +1,5 @@
 #import "ReportShopViewController.h"
-#import "ReportCustomViewController.h"
+#import "ReportServiceViewController.h"
 #import "BusinessPerformance.h"
 #import "ReportDateStatus.h"
 #import "UserData.h"
@@ -160,8 +160,8 @@
 {
     [super handleSwipeLeft];
     
-    ReportCustomViewController *custom = [[ReportCustomViewController alloc] init];
-    [self.navigationController pushViewController:custom animated:YES];
+    ReportServiceViewController *service = [[ReportServiceViewController alloc] init];
+    [self.navigationController pushViewController:service animated:YES];
 }
 
 - (void) handleSwipeRight
@@ -193,6 +193,11 @@
 }
 
 #pragma mark - PieChart delegate
+
+-(NSUInteger) pieItemCount
+{
+    return [records count];
+}
 
 -(LosPieChartItem*) pieItemAtIndex:(int)index
 {

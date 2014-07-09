@@ -44,7 +44,7 @@
     
     CGContextSetLineWidth(context, 25.0);
     
-    NSUInteger count = [myDelegate itemCount];
+    NSUInteger count = [myDelegate pieItemCount];
     
     for(int i = 0; i < count; i++){
         

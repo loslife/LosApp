@@ -35,6 +35,8 @@
 		184472A2196A515A00B4A543 /* MemberDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472A1196A515A00B4A543 /* MemberDao.m */; };
 		184472A5196A51AC00B4A543 /* ReportDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472A4196A51AC00B4A543 /* ReportDao.m */; };
 		184472AB196ABFBA00B4A543 /* BusinessPerformance.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472AA196ABFBA00B4A543 /* BusinessPerformance.m */; };
+		184472AE196CF11000B4A543 /* ReportServiceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472AD196CF11000B4A543 /* ReportServiceView.m */; };
+		184472B1196CF19300B4A543 /* ReportServiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472B0196CF19300B4A543 /* ReportServiceViewController.m */; };
 		186667011949864100A345F7 /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186667001949864100A345F7 /* WelcomeViewController.m */; };
 		1866670519498B5600A345F7 /* UserData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670419498B5600A345F7 /* UserData.m */; };
 		1866670819498D1C00A345F7 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670719498D1C00A345F7 /* LoginViewController.m */; };
@@ -127,6 +129,10 @@
 		184472A6196A529800B4A543 /* LosDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LosDao.h; sourceTree = "<group>"; };
 		184472A9196ABFBA00B4A543 /* BusinessPerformance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusinessPerformance.h; sourceTree = "<group>"; };
 		184472AA196ABFBA00B4A543 /* BusinessPerformance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BusinessPerformance.m; sourceTree = "<group>"; };
+		184472AC196CF11000B4A543 /* ReportServiceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportServiceView.h; sourceTree = "<group>"; };
+		184472AD196CF11000B4A543 /* ReportServiceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportServiceView.m; sourceTree = "<group>"; };
+		184472AF196CF19300B4A543 /* ReportServiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportServiceViewController.h; sourceTree = "<group>"; };
+		184472B0196CF19300B4A543 /* ReportServiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportServiceViewController.m; sourceTree = "<group>"; };
 		186666FF1949864100A345F7 /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
 		186667001949864100A345F7 /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
 		1866670319498B5600A345F7 /* UserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserData.h; sourceTree = "<group>"; };
@@ -284,6 +290,8 @@
 				18447263195D562B00B4A543 /* ReportEmployeeView.m */,
 				184472871967A5D200B4A543 /* ReportShopView.h */,
 				184472881967A5D200B4A543 /* ReportShopView.m */,
+				184472AC196CF11000B4A543 /* ReportServiceView.h */,
+				184472AD196CF11000B4A543 /* ReportServiceView.m */,
 				1844726E1962509B00B4A543 /* ReportCustomView.h */,
 				1844726F1962509B00B4A543 /* ReportCustomView.m */,
 				18AFE5FA1951986F0083C972 /* ContactView.h */,
@@ -477,6 +485,8 @@
 				1866673B1949F8F100A345F7 /* ReportEmployeeViewController.m */,
 				184472841967A57800B4A543 /* ReportShopViewController.h */,
 				184472851967A57800B4A543 /* ReportShopViewController.m */,
+				184472AF196CF19300B4A543 /* ReportServiceViewController.h */,
+				184472B0196CF19300B4A543 /* ReportServiceViewController.m */,
 				18447271196250CE00B4A543 /* ReportCustomViewController.h */,
 				18447272196250CE00B4A543 /* ReportCustomViewController.m */,
 				1866673D1949F98200A345F7 /* ContactViewController.h */,
@@ -615,6 +625,7 @@
 				184472511959171E00B4A543 /* AboutUsViewController.m in Sources */,
 				186667121949A9D000A345F7 /* BootstrapView.m in Sources */,
 				184472831963F18B00B4A543 /* LosBarChart.m in Sources */,
+				184472B1196CF19300B4A543 /* ReportServiceViewController.m in Sources */,
 				1844729C196820D100B4A543 /* PerformanceCompareView.m in Sources */,
 				186667151949ACD600A345F7 /* VersionInfo.m in Sources */,
 				1844726D1961652F00B4A543 /* ReportViewBase.m in Sources */,
@@ -639,6 +650,7 @@
 				18AFE5FC1951986F0083C972 /* ContactView.m in Sources */,
 				1866674D194AD1BA00A345F7 /* Reachability.m in Sources */,
 				18666745194A9FC900A345F7 /* RegisterViewController.m in Sources */,
+				184472AE196CF11000B4A543 /* ReportServiceView.m in Sources */,
 				18447261195D532600B4A543 /* LosTimePicker.m in Sources */,
 				18AFE5F5195178210083C972 /* UITableViewCell+ReuseIdentifier.m in Sources */,
 				184472761962563700B4A543 /* ReportViewControllerBase.m in Sources */,
