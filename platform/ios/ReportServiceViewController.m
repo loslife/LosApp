@@ -35,7 +35,31 @@
 
 -(void) loadReport
 {
+    [records removeAllObjects];
     
+    double total = 9999;
+    
+    ServicePerformance *p1 = [[ServicePerformance alloc] initWithTitle:@"修手" Value:888 Ratio:888 / total];
+    ServicePerformance *p2 = [[ServicePerformance alloc] initWithTitle:@"做脚" Value:2999 Ratio:2999 / 9999];
+    ServicePerformance *p3 = [[ServicePerformance alloc] initWithTitle:@"修眉" Value:1112 Ratio:1112 / 9999];
+    ServicePerformance *p4 = [[ServicePerformance alloc] initWithTitle:@"剪头发" Value:1000 Ratio:1000 / 9999];
+    ServicePerformance *p5 = [[ServicePerformance alloc] initWithTitle:@"洗剪吹" Value:1000 Ratio:1000 / 9999];
+    ServicePerformance *p6 = [[ServicePerformance alloc] initWithTitle:@"按摩" Value:2000 Ratio:2000 / 9999];
+    ServicePerformance *p7 = [[ServicePerformance alloc] initWithTitle:@"泡澡" Value:1000 Ratio:1000 / 9999];
+    
+    [records addObject:p1];
+    [records addObject:p2];
+    [records addObject:p3];
+    [records addObject:p4];
+    [records addObject:p5];
+    [records addObject:p6];
+    [records addObject:p7];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        ReportServiceView *myView = (ReportServiceView*)self.view;
+        [myView reload];
+    });
 }
 
 - (void) handleSwipeLeft

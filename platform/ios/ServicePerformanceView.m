@@ -9,11 +9,11 @@
         
         CGFloat maxY = frame.size.height;
         
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 140, maxY)];
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, maxY)];
         titleLabel.text = title;
         titleLabel.textAlignment = NSTextAlignmentLeft;
         
-        UILabel *ratioLabel = [[UILabel alloc] initWithFrame:CGRectMake(140, 0, 60, maxY)];
+        UILabel *ratioLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 0, 100, maxY)];
         ratioLabel.text = ratio;
         ratioLabel.textAlignment = NSTextAlignmentLeft;
         
