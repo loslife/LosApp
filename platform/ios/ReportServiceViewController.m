@@ -37,15 +37,15 @@
 {
     [records removeAllObjects];
     
-    double total = 9999;
+    double total = 9999.0;
     
-    ServicePerformance *p1 = [[ServicePerformance alloc] initWithTitle:@"修手" Value:888 Ratio:888 / total];
-    ServicePerformance *p2 = [[ServicePerformance alloc] initWithTitle:@"做脚" Value:2999 Ratio:2999 / 9999];
-    ServicePerformance *p3 = [[ServicePerformance alloc] initWithTitle:@"修眉" Value:1112 Ratio:1112 / 9999];
-    ServicePerformance *p4 = [[ServicePerformance alloc] initWithTitle:@"剪头发" Value:1000 Ratio:1000 / 9999];
-    ServicePerformance *p5 = [[ServicePerformance alloc] initWithTitle:@"洗剪吹" Value:1000 Ratio:1000 / 9999];
-    ServicePerformance *p6 = [[ServicePerformance alloc] initWithTitle:@"按摩" Value:2000 Ratio:2000 / 9999];
-    ServicePerformance *p7 = [[ServicePerformance alloc] initWithTitle:@"泡澡" Value:1000 Ratio:1000 / 9999];
+    ServicePerformance *p1 = [[ServicePerformance alloc] initWithTitle:@"修手" Value:888.0 Ratio:888.0 / total];
+    ServicePerformance *p2 = [[ServicePerformance alloc] initWithTitle:@"做脚" Value:2999.0 Ratio:2999.0 / total];
+    ServicePerformance *p3 = [[ServicePerformance alloc] initWithTitle:@"修眉" Value:1112.0 Ratio:1112.0 / total];
+    ServicePerformance *p4 = [[ServicePerformance alloc] initWithTitle:@"剪头发" Value:1000.0 Ratio:1000.0 / total];
+    ServicePerformance *p5 = [[ServicePerformance alloc] initWithTitle:@"洗剪吹" Value:1000.0 Ratio:1000.0 / total];
+    ServicePerformance *p6 = [[ServicePerformance alloc] initWithTitle:@"按摩" Value:2000.0 Ratio:2000.0 / total];
+    ServicePerformance *p7 = [[ServicePerformance alloc] initWithTitle:@"泡澡" Value:1000.0 Ratio:1000.0 / total];
     
     [records addObject:p1];
     [records addObject:p2];
@@ -116,7 +116,7 @@
 {
     if(index < 3){
         ServicePerformance *performance = [records objectAtIndex:index];
-        NSString *title = [NSString stringWithFormat:@"%d.%@%f", index + 1, performance.title, performance.ratio];
+        NSString *title = [NSString stringWithFormat:@"%d.%@ %f", index + 1, performance.title, performance.ratio];
         return [[LosPieChartItem alloc] initWithTitle:title Ratio:performance.ratio];
     }
     
@@ -126,19 +126,20 @@
         ServicePerformance *performance = [records objectAtIndex:i];
         sum += performance.ratio;
     }
-    return [[LosPieChartItem alloc] initWithTitle:@"其他" Ratio:sum];
+    NSString *title = [NSString stringWithFormat:@"其他 %f", sum];
+    return [[LosPieChartItem alloc] initWithTitle:title Ratio:sum];
 }
 
 -(UIColor*) colorAtIndex:(int)index
 {
     if(index == 0){
-        return [UIColor colorWithRed:227/255.0f green:110/255.0f blue:66/255.0f alpha:1.0f];
+        return [UIColor colorWithRed:255/255.0f green:122/255.0f blue:75/255.0f alpha:1.0f];
     }else if(index == 1){
-        return [UIColor colorWithRed:249/255.0f green:208/255.0f blue:92/255.0f alpha:1.0f];
+        return [UIColor colorWithRed:252/255.0f green:167/255.0f blue:136/255.0f alpha:1.0f];
     }else if(index == 2){
-        return [UIColor colorWithRed:85/255.0f green:214/255.0f blue:255/255.0f alpha:1.0f];
+        return [UIColor colorWithRed:254/255.0f green:207/255.0f blue:190/255.0f alpha:1.0f];
     }else{
-        return [UIColor colorWithRed:134/255.0f green:121/255.0f blue:201/255.0f alpha:1.0f];
+        return [UIColor colorWithRed:202/255.0f green:211/255.0f blue:218/255.0f alpha:1.0f];
     }
 }
 

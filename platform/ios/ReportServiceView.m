@@ -75,7 +75,7 @@
         
         NSString *value = [NSString stringWithFormat:@"￥%f", item.value];
         NSString *ratio = [NSString stringWithFormat:@"%f%%", item.ratio];
-        NSString *title = [NSString stringWithFormat:@"%d.%@", i + 3, item.title];
+        NSString *title = [NSString stringWithFormat:@"%d.%@", i + 4, item.title];
         
         ServicePerformanceView *row = [[ServicePerformanceView alloc] initWithFrame:CGRectMake(20, 40 * i + 10, 280, 40) title:title ratio:ratio value:value];
         
