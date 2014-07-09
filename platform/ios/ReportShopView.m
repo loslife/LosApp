@@ -1,23 +1,7 @@
 #import "ReportShopView.h"
 #import "PerformanceCompareView.h"
 #import "ReportShopViewController.h"
-
-@interface MyLine : UIView
-
-@end
-
-@implementation MyLine
-
-- (void)drawRect:(CGRect)rect
-{
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    CGContextSetStrokeColorWithColor(ctx, [UIColor colorWithRed:202/255.0f green:211/255.0f blue:218/255.0f alpha:1.0f].CGColor);
-    CGContextMoveToPoint(ctx, 0, 0);
-    CGContextAddLineToPoint(ctx, CGRectGetMaxX(rect), 0);
-    CGContextStrokePath(ctx);
-}
-
-@end
+#import "HorizontalLine.h"
 
 @implementation ReportShopView
 
@@ -49,7 +33,7 @@
         [header addSubview:label];
         [header addSubview:total];
         
-        MyLine *line = [[MyLine alloc] initWithFrame:CGRectMake(20, 140, 280, 1)];
+        HorizontalLine *line = [[HorizontalLine alloc] initWithFrame:CGRectMake(20, 140, 280, 1)];
         
         pie = [[LosPieChart alloc] initWithFrame:CGRectMake(0, 141, 320, 160) Delegate:(ReportShopViewController*)controller];
         pie.backgroundColor = [UIColor whiteColor];

@@ -37,6 +37,7 @@
 		184472AB196ABFBA00B4A543 /* BusinessPerformance.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472AA196ABFBA00B4A543 /* BusinessPerformance.m */; };
 		184472AE196CF11000B4A543 /* ReportServiceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472AD196CF11000B4A543 /* ReportServiceView.m */; };
 		184472B1196CF19300B4A543 /* ReportServiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472B0196CF19300B4A543 /* ReportServiceViewController.m */; };
+		184472B4196D279A00B4A543 /* HorizontalLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472B3196D279A00B4A543 /* HorizontalLine.m */; };
 		186667011949864100A345F7 /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186667001949864100A345F7 /* WelcomeViewController.m */; };
 		1866670519498B5600A345F7 /* UserData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670419498B5600A345F7 /* UserData.m */; };
 		1866670819498D1C00A345F7 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670719498D1C00A345F7 /* LoginViewController.m */; };
@@ -133,6 +134,8 @@
 		184472AD196CF11000B4A543 /* ReportServiceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportServiceView.m; sourceTree = "<group>"; };
 		184472AF196CF19300B4A543 /* ReportServiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportServiceViewController.h; sourceTree = "<group>"; };
 		184472B0196CF19300B4A543 /* ReportServiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportServiceViewController.m; sourceTree = "<group>"; };
+		184472B2196D279A00B4A543 /* HorizontalLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HorizontalLine.h; sourceTree = "<group>"; };
+		184472B3196D279A00B4A543 /* HorizontalLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HorizontalLine.m; sourceTree = "<group>"; };
 		186666FF1949864100A345F7 /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
 		186667001949864100A345F7 /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
 		1866670319498B5600A345F7 /* UserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserData.h; sourceTree = "<group>"; };
@@ -255,6 +258,8 @@
 				184472821963F18B00B4A543 /* LosBarChart.m */,
 				1844728D1967E97300B4A543 /* LosPieChart.h */,
 				1844728E1967E97300B4A543 /* LosPieChart.m */,
+				184472B2196D279A00B4A543 /* HorizontalLine.h */,
+				184472B3196D279A00B4A543 /* HorizontalLine.m */,
 			);
 			name = widget.common;
 			sourceTree = "<group>";
@@ -660,6 +665,7 @@
 				1866673F1949F98200A345F7 /* ContactViewController.m in Sources */,
 				18AFE6031952D1A10083C972 /* AddShopViewController.m in Sources */,
 				1844729F196A50F400B4A543 /* EnterpriseDao.m in Sources */,
+				184472B4196D279A00B4A543 /* HorizontalLine.m in Sources */,
 				1844725A195C060400B4A543 /* EmployeePerformance.m in Sources */,
 				18666748194A9FFF00A345F7 /* RegisterView.m in Sources */,
 				1844728F1967E97300B4A543 /* LosPieChart.m in Sources */,
