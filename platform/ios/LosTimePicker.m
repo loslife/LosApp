@@ -8,7 +8,7 @@
     id<LosTimePickerDelegate> myDelegate;
     
     UILabel *label;
-    UILabel *displayTag;
+    UIButton *displayTag;
 }
 
 -(id) initWithFrame:(CGRect)frame Delegate:(id<LosTimePickerDelegate>)delegate InitDate:(NSDate*)date type:(DateDisplayType)type
@@ -22,33 +22,29 @@
         
         UIButton *previous = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         previous.frame = CGRectMake(60, 10, 20, 20);
-        [previous setTitle:@"前" forState:UIControlStateNormal];
+        [previous setImage:[UIImage imageNamed:@"arrow_left"] forState:UIControlStateNormal];
         [previous addTarget:self action:@selector(previousDate) forControlEvents:UIControlEventTouchUpInside];
         
         label = [[UILabel alloc] initWithFrame:CGRectMake(80, 0, 160, 40)];
         label.text = [self resolveDateLabel];
         label.textAlignment = NSTextAlignmentCenter;
+        label.font = [UIFont systemFontOfSize:14.0];
         
         UIButton *next = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         next.frame = CGRectMake(240, 10, 20, 20);
-        [next setTitle:@"后" forState:UIControlStateNormal];
+        [next setImage:[UIImage imageNamed:@"arrow_right"] forState:UIControlStateNormal];
         [next addTarget:self action:@selector(nextDate) forControlEvents:UIControlEventTouchUpInside];
         
-        displayTag = [[UILabel alloc] initWithFrame:CGRectMake(260, 0, 40, 40)];
-        displayTag.text = [self resolveDisplayTag];
-        displayTag.textAlignment = NSTextAlignmentCenter;
-        
-        UIButton *change = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        change.frame = CGRectMake(300, 10, 20, 20);
-        [change setTitle:@"换" forState:UIControlStateNormal];
-        [change addTarget:self action:@selector(switchDateType) forControlEvents:UIControlEventTouchUpInside];
-        
+        displayTag = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        displayTag.frame = CGRectMake(275, 0, 40, 40);
+        [displayTag setTitle:[self resolveDisplayTag] forState:UIControlStateNormal];
+        [displayTag addTarget:self action:@selector(switchDateType) forControlEvents:UIControlEventTouchUpInside];
+
         self.backgroundColor = [UIColor colorWithRed:247/255.0f green:248/255.0f blue:249/255.0f alpha:1.0f];
         [self addSubview:previous];
         [self addSubview:label];
         [self addSubview:next];
         [self addSubview:displayTag];
-        [self addSubview:change];
     }
     return self;
 }
@@ -102,7 +98,7 @@
         dateType = DateDisplayTypeDay;
     }
     
-    displayTag.text = [self resolveDisplayTag];
+    [displayTag setTitle:[self resolveDisplayTag] forState:UIControlStateNormal];
     label.text = [self resolveDateLabel];
     [myDelegate dateSelected:currentDate Type:dateType];
 }
