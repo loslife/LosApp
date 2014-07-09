@@ -38,6 +38,8 @@
 		184472AE196CF11000B4A543 /* ReportServiceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472AD196CF11000B4A543 /* ReportServiceView.m */; };
 		184472B1196CF19300B4A543 /* ReportServiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472B0196CF19300B4A543 /* ReportServiceViewController.m */; };
 		184472B4196D279A00B4A543 /* HorizontalLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472B3196D279A00B4A543 /* HorizontalLine.m */; };
+		184472B7196D299600B4A543 /* ServicePerformance.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472B6196D299600B4A543 /* ServicePerformance.m */; };
+		184472BA196D2DB300B4A543 /* ServicePerformanceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472B9196D2DB300B4A543 /* ServicePerformanceView.m */; };
 		186667011949864100A345F7 /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186667001949864100A345F7 /* WelcomeViewController.m */; };
 		1866670519498B5600A345F7 /* UserData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670419498B5600A345F7 /* UserData.m */; };
 		1866670819498D1C00A345F7 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670719498D1C00A345F7 /* LoginViewController.m */; };
@@ -136,6 +138,10 @@
 		184472B0196CF19300B4A543 /* ReportServiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportServiceViewController.m; sourceTree = "<group>"; };
 		184472B2196D279A00B4A543 /* HorizontalLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HorizontalLine.h; sourceTree = "<group>"; };
 		184472B3196D279A00B4A543 /* HorizontalLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HorizontalLine.m; sourceTree = "<group>"; };
+		184472B5196D299600B4A543 /* ServicePerformance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicePerformance.h; sourceTree = "<group>"; };
+		184472B6196D299600B4A543 /* ServicePerformance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicePerformance.m; sourceTree = "<group>"; };
+		184472B8196D2DB300B4A543 /* ServicePerformanceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicePerformanceView.h; sourceTree = "<group>"; };
+		184472B9196D2DB300B4A543 /* ServicePerformanceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicePerformanceView.m; sourceTree = "<group>"; };
 		186666FF1949864100A345F7 /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
 		186667001949864100A345F7 /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
 		1866670319498B5600A345F7 /* UserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserData.h; sourceTree = "<group>"; };
@@ -377,6 +383,8 @@
 				18447259195C060400B4A543 /* EmployeePerformance.m */,
 				184472A9196ABFBA00B4A543 /* BusinessPerformance.h */,
 				184472AA196ABFBA00B4A543 /* BusinessPerformance.m */,
+				184472B5196D299600B4A543 /* ServicePerformance.h */,
+				184472B6196D299600B4A543 /* ServicePerformance.m */,
 			);
 			name = domain;
 			sourceTree = "<group>";
@@ -397,6 +405,8 @@
 				1844726619614A4300B4A543 /* SwitchShopButton.m */,
 				1844729A196820D100B4A543 /* PerformanceCompareView.h */,
 				1844729B196820D100B4A543 /* PerformanceCompareView.m */,
+				184472B8196D2DB300B4A543 /* ServicePerformanceView.h */,
+				184472B9196D2DB300B4A543 /* ServicePerformanceView.m */,
 			);
 			name = widget;
 			sourceTree = "<group>";
@@ -617,6 +627,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1844725419591EEA00B4A543 /* AboutUsView.m in Sources */,
+				184472B7196D299600B4A543 /* ServicePerformance.m in Sources */,
 				1866671C1949B2E900A345F7 /* UpdateHelper.m in Sources */,
 				18B2EE1E1946E0EF00264B74 /* main.m in Sources */,
 				186667421949FB6100A345F7 /* SettingViewController.m in Sources */,
@@ -628,6 +639,7 @@
 				1866670B19498F1D00A345F7 /* BootstrapViewController.m in Sources */,
 				1866673C1949F8F100A345F7 /* ReportEmployeeViewController.m in Sources */,
 				184472511959171E00B4A543 /* AboutUsViewController.m in Sources */,
+				184472BA196D2DB300B4A543 /* ServicePerformanceView.m in Sources */,
 				186667121949A9D000A345F7 /* BootstrapView.m in Sources */,
 				184472831963F18B00B4A543 /* LosBarChart.m in Sources */,
 				184472B1196CF19300B4A543 /* ReportServiceViewController.m in Sources */,

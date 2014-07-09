@@ -1,6 +1,7 @@
 #import "ReportServiceViewController.h"
 #import "ReportServiceView.h"
 #import "ReportCustomViewController.h"
+#import "ServicePerformance.h"
 
 @implementation ReportServiceViewController
 
@@ -50,6 +51,23 @@
     [super handleSwipeRight];
     
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - Service View DataSource
+
+-(NSString*) total
+{
+    return @"￥8888";
+}
+
+-(NSUInteger) itemCount
+{
+    return 0;
+}
+
+-(ServicePerformance*) itemAtIndex:(int)index
+{
+    return nil;
 }
 
 #pragma mark - PieChart delegate

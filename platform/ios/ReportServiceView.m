@@ -2,6 +2,8 @@
 #import "LosPieChart.h"
 #import "HorizontalLine.h"
 #import "ReportServiceViewController.h"
+#import "ServicePerformance.h"
+#import "ServicePerformanceView.h"
 
 @implementation ReportServiceView
 
@@ -54,7 +56,30 @@
 
 -(void) reload
 {
+    total.text = [dataSource total];
     
+    [pie removeFromSuperview];
+    pie = [[LosPieChart alloc] initWithFrame:CGRectMake(0, 141, 320, 160) Delegate:(ReportServiceViewController*)dataSource];
+    pie.backgroundColor = [UIColor whiteColor];
+    [self addSubview:pie];
+    
+    for(UIView *temp in footer.subviews){
+        [temp removeFromSuperview];
+    }
+    
+    NSUInteger count = [dataSource itemCount];
+    
+    for(int i = 0; i < count; i++){
+        
+        ServicePerformance *item = [dataSource itemAtIndex:i];
+        
+        NSString *value = [NSString stringWithFormat:@"￥%f", item.value];
+        NSString *ratio = [NSString stringWithFormat:@"%f%%", item.ratio];
+        
+        ServicePerformanceView *row = [[ServicePerformanceView alloc] initWithFrame:CGRectMake(20, 40 * i + 10, 280, 40) title:item.title ratio:ratio value:value];
+        
+        [footer addSubview:row];
+    }
 }
 
 @end

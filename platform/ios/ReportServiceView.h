@@ -1,6 +1,11 @@
 #import "ReportViewBase.h"
+#import "ServicePerformance.h"
 
 @protocol ReportServiceViewDataSource <NSObject>
+
+-(NSString*) total;
+-(NSUInteger) itemCount;
+-(ServicePerformance*) itemAtIndex:(int)index;
 
 @end
 
