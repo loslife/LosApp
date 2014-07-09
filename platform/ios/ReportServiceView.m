@@ -67,6 +67,12 @@
         [temp removeFromSuperview];
     }
     
+    UILabel *other = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 280, 40)];
+    other.text = @"其他";
+    other.textAlignment = NSTextAlignmentLeft;
+    other.textColor = [UIColor colorWithRed:114/255.0f green:128/255.0f blue:137/255.0f alpha:1.0f];
+    [footer addSubview:other];
+    
     NSUInteger count = [dataSource itemCount];
     
     for(int i = 0; i < count; i++){
@@ -77,7 +83,7 @@
         NSString *ratio = [NSString stringWithFormat:@"%f%%", item.ratio];
         NSString *title = [NSString stringWithFormat:@"%d.%@", i + 4, item.title];
         
-        ServicePerformanceView *row = [[ServicePerformanceView alloc] initWithFrame:CGRectMake(20, 40 * i + 10, 280, 40) title:title ratio:ratio value:value];
+        ServicePerformanceView *row = [[ServicePerformanceView alloc] initWithFrame:CGRectMake(20, 40 * i + 40, 280, 40) title:title ratio:ratio value:value];
         
         [footer addSubview:row];
     }
