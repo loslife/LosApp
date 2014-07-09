@@ -30,13 +30,24 @@ public class DatabaseHelper extends SQLiteOpenHelper
     public static final String MYSHOP_SQL = "CREATE TABLE IF NOT EXISTS t_myshops (id integer primary key autoincrement, enterprise_id varchar(64), enterprise_name varchar(64), contact_latest_sync REAL, report_latest_sync REAL,display varchar(8), create_date REAL,order_number INTEGER);";
     public static final String MEMBER_SQL = "CREATE TABLE IF NOT EXISTS t_members (id varchar(64) primary key, enterprise_id varchar(64), name varchar(32), birthday REAL, phoneMobile varchar(16), joinDate REAL, memberNo varchar(32), latestConsumeTime REAL, totalConsume REAL, averageConsume REAL, create_date REAL, modify_date REAL);";
 
-    public static final String EMPLOYEE_DAY_SQL = "CREATE TABLE IF NOT EXISTS employee_performance_day (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), total REAL, cash REAL, card REAL, bank REAL, service REAL, product REAL, newcard REAL, recharge REAL, create_date REAL, modify_date REAL,  employee_name varchar(16), year integer, month integer, day integer, week integer);";
+    public static final String EMPLOYEE_DAY_SQL = "CREATE TABLE IF NOT EXISTS employee_performance_day (id integer primary key autoincrement, record_id varchar(64), enterprise_id varchar(64), total REAL, cash REAL, card REAL, bank REAL, service REAL, product REAL, newcard REAL, recharge REAL, create_date REAL, modify_date REAL,  employee_name varchar(16), year integer, month integer, day integer);";
 
-    public static final String EMPLOYEE_MONTH_SQL = "CREATE TABLE IF NOT EXISTS employee_performance_month (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), total REAL, cash REAL, card REAL, bank REAL, service REAL, product REAL, newcard REAL, recharge REAL, create_date REAL, modify_date REAL,employee_name varchar(16), year integer, month integer, day integer, week integer);";
+    public static final String EMPLOYEE_MONTH_SQL = "CREATE TABLE IF NOT EXISTS employee_performance_month (id integer primary key autoincrement, record_id varchar(64), enterprise_id varchar(64), total REAL, cash REAL, card REAL, bank REAL, service REAL, product REAL, newcard REAL, recharge REAL, create_date REAL, modify_date REAL,employee_name varchar(16), year integer, month integer, day integer);";
     
-    public static final String EMPLOYEE_WEEK_SQL = "CREATE TABLE IF NOT EXISTS employee_performance_week (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), total REAL, cash REAL, card REAL, bank REAL, service REAL, product REAL, newcard REAL, recharge REAL, create_date REAL, modify_date REAL, employee_name varchar(16), year integer, month integer, day integer, week integer);";
+    public static final String EMPLOYEE_WEEK_SQL = "CREATE TABLE IF NOT EXISTS employee_performance_week (id integer primary key autoincrement, record_id varchar(64), enterprise_id varchar(64), total REAL, cash REAL, card REAL, bank REAL, service REAL, product REAL, newcard REAL, recharge REAL, create_date REAL, modify_date REAL, employee_name varchar(16), year integer, month integer, day integer);";
 
+    public static final String SERVICE_PERFORMANCE_DAY = "CREATE TABLE IF NOT EXISTS service_performance_day (id integer primary key autoincrement, enterprise_id varchar(64), total REAL, project_id varchar(64), project_name varchar(32), project_cateName varchar(32), project_cateId varchar(64), create_date REAL, modify_date REAL, year integer, month integer, day integer);";
+    
+    public static final String SERVICE_PERFORMANCE_WEEK = "CREATE TABLE IF NOT EXISTS service_performance_week (id integer primary key autoincrement, enterprise_id varchar(64), total REAL, project_id varchar(64), project_name varchar(32), project_cateName varchar(32), project_cateId varchar(64), create_date REAL, modify_date REAL, year integer, month integer, day integer);";
+    
+    public static final String SERVICE_PERFORMANCE_MONTH = "CREATE TABLE IF NOT EXISTS service_performance_month (id integer primary key autoincrement, enterprise_id varchar(64), total REAL, project_id varchar(64), project_name varchar(32), project_cateName varchar(32), project_cateId varchar(64), create_date REAL, modify_date REAL, year integer, month integer, day integer);";
 
+    public static final String BIZ_PERFORMANCE_DAY = "CREATE TABLE IF NOT EXISTS biz_performance_day (id integer primary key autoincrement, enterprise_id varchar(64), total REAL, cash REAL, card REAL, bank REAL, service REAL, product REAL, newcard REAL, recharge REAL, create_date REAL, modify_date REAL, year integer, month integer, day integer);";
+
+    public static final String BIZ_PERFORMANCE_WEEK = "CREATE TABLE IF NOT EXISTS biz_performance_week (id integer primary key autoincrement, enterprise_id varchar(64), total REAL, cash REAL, card REAL, bank REAL, service REAL, product REAL, newcard REAL, recharge REAL, create_date REAL, modify_date REAL, year integer, month integer, day integer);";
+    
+    public static final String BIZ_PERFORMANCE_MONTH = "CREATE TABLE IF NOT EXISTS biz_performance_month (id integer primary key autoincrement, enterprise_id varchar(64), total REAL, cash REAL, card REAL, bank REAL, service REAL, product REAL, newcard REAL, recharge REAL, create_date REAL, modify_date REAL, year integer, month integer, day integer);";
+    
     // 构造函数，调用父类SQLiteOpenHelper的构造函数
     @SuppressLint("NewApi")
 	public DatabaseHelper(Context context, String name, CursorFactory factory,

@@ -92,6 +92,7 @@ public class MemberGoupActivity extends BaseActivity{
 		lvContact = (ListView) this.findViewById(R.id.lvContact);
 		mWindowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
 		memberService = new MemberService(getBaseContext());
+		getdata();
 	}
 	
 	@Override

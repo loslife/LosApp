@@ -145,8 +145,41 @@ public class ManageRecords
 			public void setMonth(List<BcustomerCountBean> month) {
 				this.month = month;
 			}
-			
-			
 	 }
+
+	public TbbizPerformance getTb_biz_performance() {
+		return tb_biz_performance;
+	}
+
+	public void setTb_biz_performance(TbbizPerformance tb_biz_performance) {
+		this.tb_biz_performance = tb_biz_performance;
+	}
+
+	public TbempPerformance getTb_emp_performance() {
+		return tb_emp_performance;
+	}
+
+	public void setTb_emp_performance(TbempPerformance tb_emp_performance) {
+		this.tb_emp_performance = tb_emp_performance;
+	}
+
+	public TbservicePerformance getTb_service_performance() {
+		return tb_service_performance;
+	}
+
+	public void setTb_service_performance(
+			TbservicePerformance tb_service_performance) {
+		this.tb_service_performance = tb_service_performance;
+	}
+
+	public BcustomerCount getB_customer_count() {
+		return b_customer_count;
+	}
+
+	public void setB_customer_count(BcustomerCount b_customer_count) {
+		this.b_customer_count = b_customer_count;
+	}
+	 
+	 
 
 }

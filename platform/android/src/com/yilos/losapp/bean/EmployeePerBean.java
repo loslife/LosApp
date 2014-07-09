@@ -18,6 +18,7 @@ public class EmployeePerBean
  *   year integer, month integer, day integer, week integer
  */
 	private String  id;
+	private String _id;
 	private String  create_date ;
 	private String  enterprise_id;
 	private String  modify_date;
@@ -42,6 +43,14 @@ public class EmployeePerBean
 	public void setId(String id) {
 		this.id = id;
 	}
+	
+	public String get_id() {
+		return _id;
+	}
+	public void set_id(String _id) {
+		this._id = _id;
+	}
+	
 	public String getCreate_date() {
 		return create_date;
 	}

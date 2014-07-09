@@ -92,6 +92,8 @@ public class LaunchActivity extends Activity {
 		}
 		if (myshops != null && myshops.size() > 0) {
 			shopId = myshops.get(0).getEnterprise_id();
+			AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(
+					shopId);
 			shopName = myshops.get(0).getEnterprise_name();
 			for(int i=0;i<myshops.size();i++)
 			{
@@ -128,6 +130,8 @@ public class LaunchActivity extends Activity {
 					myshops = myshopService.queryShops();
 					if (myshops != null && myshops.size() > 0) {
 						shopId = myshops.get(0).getEnterprise_id();
+						AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(
+								shopId);
 						last_sync = myshops.get(0).getContactSyncTime();
 						shopName = myshops.get(0).getEnterprise_name();
 						msg.what = 1;

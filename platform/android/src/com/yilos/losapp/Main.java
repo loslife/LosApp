@@ -6,10 +6,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import com.yilos.losapp.bean.EmployeePerBean;
 import com.yilos.losapp.bean.MyShopBean;
+import com.yilos.losapp.bean.ServerManageResponse;
 import com.yilos.losapp.bean.ServerMemberResponse;
 import com.yilos.losapp.common.DateUtil;
 import com.yilos.losapp.common.UIHelper;
+import com.yilos.losapp.service.EmployeePerService;
 import com.yilos.losapp.service.MemberService;
 import com.yilos.losapp.service.MyshopManageService;
 
@@ -45,6 +48,7 @@ public class Main extends BaseActivity {
 	private String shopId;
 
 	private MyshopManageService myshopService;
+	private EmployeePerService employeePerService;
 
 	private String userAccount;
 
@@ -79,7 +83,7 @@ public class Main extends BaseActivity {
 	private String day;
 	
 	private String month;
-
+	
 	@SuppressWarnings("deprecation")
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -119,6 +123,7 @@ public class Main extends BaseActivity {
 
 		shopname.setText(getIntent().getStringExtra("shopName"));
 		showTime.setText(getDateNow());
+		
 
 		findViewById(R.id.goback).setVisibility(View.GONE);
 		 
@@ -197,7 +202,7 @@ public class Main extends BaseActivity {
 				year = String.valueOf(curDate.getYear());
 				day = String.valueOf(curDate.getDay());
 				month = String.valueOf(curDate.getMonth());
-
+				getEmployeePerData();
 			}
 		});
 
@@ -231,11 +236,11 @@ public class Main extends BaseActivity {
 					showtime = formatter.format(curDate);
 					showTime.setText(showtime);
 				}
-				
+				//100048101900800200?year=2014&month=6&day=8&type=day&report=employee
                 year = String.valueOf(curDate.getYear());
 				day = String.valueOf(curDate.getDay());
 				month = String.valueOf(curDate.getMonth());
-
+				getEmployeePerData();
 			}
 		});
 
@@ -258,7 +263,33 @@ public class Main extends BaseActivity {
 		};
 			new Thread() {
 				public void run() {
-					
+					AppContext ac = (AppContext) getApplication();
+					Message msg = new Message();
+					//100048101900800200?year=2014&month=6&day=8&type=day&report=employee
+					//ServerManageResponse res = ac.getReportsData(shopId, year, month, dateType, day,"employee");
+					ServerManageResponse res = ac.getReportsData("100048101900800200", "2014", "5", dateType, "21","employee");
+					if (res.isSucess()) {
+						List<EmployeePerBean> employPerList;
+						String tableName = "employee_performance_day";
+						if (dateType == "day") 
+						{
+							employPerList = res.getResult().getCurrent().getTb_emp_performance().getDay();
+							tableName = "employee_performance_day";
+						}
+						else if(dateType == "month")
+						{
+							employPerList = res.getResult().getCurrent().getTb_emp_performance().getMonth();
+							tableName = "employee_performance_month";
+						}
+						else
+						{
+							employPerList = res.getResult().getCurrent().getTb_emp_performance().getWeek();
+							tableName = "employee_performance_week";
+						}
+						//employeePerService.deltel(year, month, day, dateType, tableName);
+						employeePerService.deltel("2014", "4","21",dateType, tableName);
+						employeePerService.addEmployeePer(employPerList, tableName);
+					}
 				}
 			}.start();
 	}
@@ -275,7 +306,9 @@ public class Main extends BaseActivity {
 		};
 			new Thread() {
 				public void run() {
-					
+					AppContext ac = (AppContext) getApplication();
+					Message msg = new Message();
+					ServerManageResponse res = ac.getReportsData(shopId, year, month, dateType, day,"business");
 				}
 			}.start();
 	}
@@ -292,6 +325,9 @@ public class Main extends BaseActivity {
 		};
 			new Thread() {
 				public void run() {
+					AppContext ac = (AppContext) getApplication();
+					Message msg = new Message();
+					ac.getReportsData(shopId, year, month, dateType, day,"service");
 					
 				}
 			}.start();
@@ -309,6 +345,9 @@ public class Main extends BaseActivity {
 		};
 			new Thread() {
 				public void run() {
+					AppContext ac = (AppContext) getApplication();
+					Message msg = new Message();
+					ac.getReportsData(shopId, year, month, dateType, day,"customer");
 					
 				}
 			}.start();
@@ -352,19 +391,18 @@ public class Main extends BaseActivity {
 	public void initData() {
 
 		myshopService = new MyshopManageService(getBaseContext());
+		employeePerService = new EmployeePerService(getBaseContext());
 		userAccount = AppContext.getInstance(getBaseContext()).getUserAccount();
+		getEmployeePerData();
 
 		// 查询本地的关联数据
 		List<MyShopBean> myshops = myshopService.queryShops();
 		if (myshops != null && myshops.size() > 0) {
 			shopId = myshops.get(0).getEnterprise_id();
-			AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(
-					shopId);
 			title = new String[myshops.size()];
 			for (int i = 0; i < myshops.size(); i++) {
 				title[i] = myshops.get(i).getEnterprise_name();
 			}
-
 		} else {
 			// getLinkShop();
 		}
@@ -449,6 +487,9 @@ public class Main extends BaseActivity {
 	public String getDateNow() {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日");
 		Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
+		year = String.valueOf(curDate.getYear());
+		day = String.valueOf(curDate.getDay());
+		month = String.valueOf(curDate.getMonth());
 		String str = formatter.format(curDate);
 		return str;
 	}

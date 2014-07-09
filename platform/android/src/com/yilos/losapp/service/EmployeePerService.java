@@ -28,4 +28,14 @@ public class EmployeePerService
 			employeePerDBManager.update(bean,tableName);
 		}
 	}
+	
+	public List<EmployeePerBean> queryListBydate(String year, String month, String day, String type, String tableName)
+	{
+		return employeePerDBManager.queryListBydate(year, month, day, type, tableName);
+	}
+	
+	public void deltel(String year, String month, String day, String type, String tableName)
+	{
+		employeePerDBManager.deleteBydate( year, month, day, type, tableName);
+	}
 }

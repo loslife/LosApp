@@ -5,6 +5,11 @@ public class ServerManageResponse
     private int code;
 	
 	private  ManageResult result;
+	
+	public boolean isSucess()
+	{
+		return code==0;
+	}
 
 	public int getCode() {
 		return code;

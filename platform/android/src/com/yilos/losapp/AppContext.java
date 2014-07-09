@@ -146,9 +146,9 @@ public class AppContext extends Application {
      * @return 
      * 
      */
-    public ServerManageResponse getEmployeePer(String shopid,String year,String month,String type,String day)
+    public ServerManageResponse getReportsData(String shopid,String year,String month,String type,String day,String report)
     {
-    	return ApiClient.getEmployeePer(appContext, shopid,year, month, type, day);
+    	return ApiClient.getReports(appContext, shopid,year, month, type, day, report);
     }
 	
 	/**

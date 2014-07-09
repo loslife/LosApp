@@ -31,6 +31,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.CoreConnectionPNames;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.yilos.losapp.bean.ContactsResult;
 import com.yilos.losapp.bean.ServerManageResponse;
 import com.yilos.losapp.bean.ServerMemberResponse;
@@ -464,11 +465,20 @@ public class ApiClient
 	 * @param appContext
 	 * @return
 	 */
-	public static ServerManageResponse getEmployeePer(Context appContext,String shopid,String year,String month,String type,String day)
+	public static ServerManageResponse getReports(Context appContext,String shopid,String year,String month,String type,String day,String report)
 	{
-		String json = _httpget(MessageFormat.format(Constants.CHECK_VALIDATECODE_SERVICE, shopid,year,month,type,day));
+		String json = _httpget(MessageFormat.format(Constants.SYNCREPORTS_URL, shopid,year,month,day,type,report));
 		Gson gson = new Gson();
-		ServerManageResponse resp = gson.fromJson(json, ServerManageResponse.class);
+		ServerManageResponse resp ;
+		try
+		{
+			resp = gson.fromJson(json, ServerManageResponse.class);
+		}catch(JsonSyntaxException e)
+		{
+			e.printStackTrace();
+			resp =null;
+		}
+		
 		
 		return resp;
 	}
