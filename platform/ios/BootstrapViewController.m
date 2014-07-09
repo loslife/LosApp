@@ -156,6 +156,12 @@
     
     NSString *sql8 = @"CREATE TABLE IF NOT EXISTS biz_performance_week (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), total REAL, cash REAL, card REAL, bank REAL, service REAL, product REAL, newcard REAL, recharge REAL, create_date REAL, modify_date REAL, year integer, month integer, day integer);";
     
+    NSString *sql9 = @"CREATE TABLE IF NOT EXISTS service_performance_day (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), total REAL, project_id varchar(64), project_name varchar(32), project_cateName varchar(32), project_cateId varchar(64), create_date REAL, modify_date REAL, year integer, month integer, day integer);";
+    
+    NSString *sql10 = @"CREATE TABLE IF NOT EXISTS service_performance_month (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), total REAL, project_id varchar(64), project_name varchar(32), project_cateName varchar(32), project_cateId varchar(64), create_date REAL, modify_date REAL, year integer, month integer, day integer);";
+    
+    NSString *sql11 = @"CREATE TABLE IF NOT EXISTS service_performance_week (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), total REAL, project_id varchar(64), project_name varchar(32), project_cateName varchar(32), project_cateId varchar(64), create_date REAL, modify_date REAL, year integer, month integer, day integer);";
+    
     NSString *dbFilePath = [PathResolver databaseFilePath];
     FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
     [db open];
@@ -168,6 +174,9 @@
     [db executeUpdate:sql6];
     [db executeUpdate:sql7];
     [db executeUpdate:sql8];
+    [db executeUpdate:sql9];
+    [db executeUpdate:sql10];
+    [db executeUpdate:sql11];
     
     [db close];
 }

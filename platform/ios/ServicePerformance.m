@@ -13,4 +13,14 @@
     return self;
 }
 
+-(id) initWithTitle:(NSString*)title value:(double)value
+{
+    self = [super init];
+    if(self){
+        self.title = title;
+        self.value = value;
+    }
+    return self;
+}
+
 @end

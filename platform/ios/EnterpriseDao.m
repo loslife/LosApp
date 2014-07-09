@@ -8,7 +8,7 @@
 
 -(void) insertEnterprisesWith:(NSString*)enterpriseId Name:(NSString*)enterpriseName
 {
-    NSString *insert = @"insert into enterprises (enterprise_Id, enterprise_name, contact_latest_sync, display, default_shop, create_date) values (:enterpriseId, :name, :contactLatestSync, :reportLatestSync, :display, :default, :createDate);";
+    NSString *insert = @"insert into enterprises (enterprise_Id, enterprise_name, contact_latest_sync, display, default_shop, create_date) values (:enterpriseId, :name, :contactLatestSync, :display, :default, :createDate);";
     
     NSString *dbFilePath = [PathResolver databaseFilePath];
     FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];

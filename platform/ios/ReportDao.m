@@ -4,6 +4,7 @@
 #import "TimesHelper.h"
 #import "EmployeePerformance.h"
 #import "BusinessPerformance.h"
+#import "ServicePerformance.h"
 
 @implementation ReportDao
 
@@ -200,6 +201,87 @@
         [db executeUpdate:insert, _id, enterpriseId, total, cash, card, bank, service, product, newcard, recharge, createDate, year, month, day];
     }else{
         [db executeUpdate:update, total, cash, card, bank, service, product, newcard, recharge, now, year, month, day, enterpriseId];
+    }
+    
+    [db close];
+}
+
+-(NSMutableArray*) queryServicePerformanceByDate:(NSDate*)date EnterpriseId:(NSString*)enterpriseId Type:(int)type
+{
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    NSDateComponents* components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:date];
+    
+    NSInteger year = [components year];
+    NSInteger month = [components month];
+    NSInteger day = [components day];
+    
+    NSString *dbFilePath = [PathResolver databaseFilePath];
+    FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
+    [db open];
+    
+    FMResultSet *rs;
+    
+    if(type == 0){
+        rs = [db executeQuery:@"select sum(total) as total_sum, total, project_name from service_performance_day where enterprise_id = :eid and year = :year and month = :month and day = :day order by total desc", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
+    }else if(type == 1){
+        rs = [db executeQuery:@"select sum(total) as total_sum, total, project_name from service_performance_month where enterprise_id = :eid and year = :year and month = :month and day = :day order by total desc", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
+    }else{
+        rs = [db executeQuery:@"select sum(total) as total_sum, total, project_name from service_performance_week where enterprise_id = :eid and year = :year and month = :month and day = :day order by total desc", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
+    }
+    
+    NSMutableArray *performances = [NSMutableArray arrayWithCapacity:1];
+    while([rs next]){
+        
+        double sum = [[rs objectForColumnName:@"total_sum"] doubleValue];
+        double total = [[rs objectForColumnName:@"total"] doubleValue];
+        NSString *name = [rs objectForColumnName:@"project_name"];
+        
+        ServicePerformance *performance = [[ServicePerformance alloc] initWithTitle:name Value:total Ratio:total / sum];
+        [performances addObject:performance];
+    }
+    [db close];
+    
+    return performances;
+}
+
+-(void) batchInsertServicePerformance:(NSArray*)array type:(NSString*)type
+{
+    NSString *tableName = [NSString stringWithFormat:@"service_performance_%@", type];
+    
+    NSString *query = [NSString stringWithFormat:@"select count(1) as count from %@ where year = :year and month = :month and day = :day and project_id = :projectId and enterprise_id = :eid", tableName];
+    
+    NSString *insert = [NSString stringWithFormat:@"insert into %@ (id, enterprise_id, total, project_id, project_name, project_cateName, project_cateId, create_date, year, month, day) values (:id, :eid, :total, :pid, :pname, :pCateName, :pCateId, :cdate, :year, :month, :day);", tableName];
+    
+    NSString *update = [NSString stringWithFormat:@"update %@ set total = :total, modify_date = :mdate, project_name = :pname where year = :year and month = :month and day = :day and project_id = :pid and enterprise_id = :eid;", tableName];
+    
+    NSNumber *now = [NSNumber numberWithLongLong:[TimesHelper now]];
+    
+    NSString *dbFilePath = [PathResolver databaseFilePath];
+    FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
+    [db open];
+    
+    for(NSDictionary *item in array){
+        
+        NSNumber *year = [item objectForKey:@"year"];
+        NSNumber *month = [item objectForKey:@"month"];
+        NSNumber *day = [item objectForKey:@"day"];
+        NSString *enterpriseId = [item objectForKey:@"enterprise_id"];
+        NSString *_id = [item objectForKey:@"_id"];
+        NSNumber *total = [item objectForKey:@"total"];
+        NSNumber *createDate = [item objectForKey:@"create_date"];
+        NSString *projectName = [item objectForKey:@"project_name"];
+        NSString *projectId = [item objectForKey:@"project_id"];
+        NSString *projectCateId = [item objectForKey:@"project_cateId"];
+        NSString *projectCateName = [item objectForKey:@"project_cateName"];
+        
+        FMResultSet *rs = [db executeQuery:query, year, month, day, projectId, enterpriseId];
+        [rs next];
+        int count = [[rs objectForColumnName:@"count"] intValue];
+        if(count == 0){
+            [db executeUpdate:insert, _id, enterpriseId, total, projectId, projectName, projectCateName, projectCateId, createDate, year, month, day];
+        }else{
+            [db executeUpdate:update, total, now, projectName, year, month, day, projectId, enterpriseId];
+        }
     }
     
     [db close];

@@ -2,6 +2,9 @@
 #import "ReportServiceView.h"
 #import "ReportCustomViewController.h"
 #import "ServicePerformance.h"
+#import "UserData.h"
+#import "StringUtils.h"
+#import "ReportDateStatus.h"
 
 @implementation ReportServiceViewController
 
@@ -35,31 +38,62 @@
 
 -(void) loadReport
 {
-    [records removeAllObjects];
+    UserData *userData = [UserData load];
+    NSString *currentEnterpriseId = userData.enterpriseId;
     
-    double total = 9999.0;
+    if([StringUtils isEmpty:currentEnterpriseId]){
+        return;
+    }
     
-    ServicePerformance *p1 = [[ServicePerformance alloc] initWithTitle:@"修手" Value:888.0 Ratio:888.0 / total];
-    ServicePerformance *p2 = [[ServicePerformance alloc] initWithTitle:@"做脚" Value:2999.0 Ratio:2999.0 / total];
-    ServicePerformance *p3 = [[ServicePerformance alloc] initWithTitle:@"修眉" Value:1112.0 Ratio:1112.0 / total];
-    ServicePerformance *p4 = [[ServicePerformance alloc] initWithTitle:@"剪头发" Value:1000.0 Ratio:1000.0 / total];
-    ServicePerformance *p5 = [[ServicePerformance alloc] initWithTitle:@"洗剪吹" Value:1000.0 Ratio:1000.0 / total];
-    ServicePerformance *p6 = [[ServicePerformance alloc] initWithTitle:@"按摩" Value:2000.0 Ratio:2000.0 / total];
-    ServicePerformance *p7 = [[ServicePerformance alloc] initWithTitle:@"泡澡" Value:1000.0 Ratio:1000.0 / total];
+    ReportDateStatus *status = [ReportDateStatus sharedInstance];
     
-    [records addObject:p1];
-    [records addObject:p2];
-    [records addObject:p3];
-    [records addObject:p4];
-    [records addObject:p5];
-    [records addObject:p6];
-    [records addObject:p7];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
+    if(![LosHttpHelper isNetworkAvailable]){
         
-        ReportServiceView *myView = (ReportServiceView*)self.view;
-        [myView reload];
-    });
+        records = [self.reportDao queryServicePerformanceByDate:status.date EnterpriseId:currentEnterpriseId Type:status.dateType];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            ReportServiceView *myView = (ReportServiceView*)self.view;
+            [myView reload];
+        });
+        
+        return;
+    }
+    
+    NSString *url = [NSString stringWithFormat:FETCH_REPORT_URL, currentEnterpriseId, [status yearStr], [status monthStr], [status dayStr], [status typeStr], @"service"];
+    
+    [self.httpHelper getSecure:url completionHandler:^(NSDictionary *response){
+        
+        NSDictionary *result = [response objectForKey:@"result"];
+        NSDictionary *current = [result objectForKey:@"current"];
+        NSDictionary *services = [current objectForKey:@"tb_service_performance"];
+        NSArray *array = [services objectForKey:[status typeStr]];
+        
+        [self.reportDao batchInsertServicePerformance:array type:[status typeStr]];
+        
+        [records removeAllObjects];
+        
+        double sum = 0.0;
+        
+        for(NSDictionary *item in array){
+            
+            NSString *title = [item objectForKey:@"project_name"];
+            double total = [[item objectForKey:@"total"] doubleValue];
+            sum += total;
+            ServicePerformance *performance = [[ServicePerformance alloc] initWithTitle:title value:total];
+            [records addObject:performance];
+        }
+        
+        for(ServicePerformance *item in records){
+            item.ratio = item.value / sum;
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            ReportServiceView *myView = (ReportServiceView*)self.view;
+            [myView reload];
+        });
+    }];
 }
 
 - (void) handleSwipeLeft

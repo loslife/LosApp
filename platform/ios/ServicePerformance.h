@@ -7,5 +7,6 @@
 @property double ratio;
 
 -(id) initWithTitle:(NSString*)title Value:(double)value Ratio:(double)ratio;
+-(id) initWithTitle:(NSString*)title value:(double)value;
 
 @end
