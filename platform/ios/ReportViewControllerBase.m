@@ -5,7 +5,6 @@
 #import "PathResolver.h"
 #import "StringUtils.h"
 
-
 @implementation ReportViewControllerBase
 
 -(id) init
@@ -66,9 +65,22 @@
     ReportDateStatus *status = [ReportDateStatus sharedInstance];
     [status setDate:date];
     [status setDateType:type];
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [self loadReport];
+    });
 }
 
 -(void) enterpriseSelected:(NSString*)enterpriseId
+{
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [self loadReport];
+    });
+}
+
+#pragma mark - abstract method
+
+-(void) loadReport
 {
     [self doesNotRecognizeSelector:_cmd];
 }

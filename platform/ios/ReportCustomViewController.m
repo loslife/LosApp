@@ -26,17 +26,6 @@
 
 #pragma mark - abstract method implementation
 
--(void) dateSelected:(NSDate*)date Type:(DateDisplayType)type
-{
-    [super dateSelected:date Type:type];
-    NSLog(@"custom date picked");
-}
-
--(void) enterpriseSelected:(NSString*)enterpriseId
-{
-    NSLog(@"enterprise switch");
-}
-
 - (void) handleSwipeLeft
 {
     [super handleSwipeLeft];

@@ -139,23 +139,6 @@
     }
 }
 
-#pragma mark - abstract method implementation
-
--(void) dateSelected:(NSDate*)date Type:(DateDisplayType)type
-{
-    [super dateSelected:date Type:type];
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [self loadReport];
-    });
-}
-
--(void) enterpriseSelected:(NSString*)enterpriseId
-{
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [self loadReport];
-    });
-}
-
 - (void) handleSwipeLeft
 {
     [super handleSwipeLeft];
