@@ -85,6 +85,18 @@
             [records addObject:performance];
         }
         
+        [records sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+            EmployeePerformance *p1 = (EmployeePerformance*) obj1;
+            EmployeePerformance *p2 = (EmployeePerformance*) obj2;
+            if([p1.total doubleValue] < [p2.total doubleValue]){
+                return NSOrderedDescending;
+            }else if([p1.total doubleValue] == [p2.total doubleValue]){
+                return NSOrderedSame;
+            }else{
+                return NSOrderedAscending;
+            }
+        }];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             
             ReportEmployeeView *myView = (ReportEmployeeView*)self.view;
