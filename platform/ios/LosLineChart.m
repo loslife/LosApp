@@ -79,7 +79,7 @@
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     
-    CGContextSetLineWidth(context, 1.f);
+    CGContextSetLineWidth(context, .1f);
     CGContextSetStrokeColorWithColor(context, [UIColor blackColor].CGColor);
     
     // Y轴
@@ -102,6 +102,7 @@
         NSString *title = [NSString stringWithFormat:@"%lu", sectionValue * i];
         label.text = title;
         label.font = [UIFont systemFontOfSize:14];
+        label.textColor = [UIColor colorWithRed:32/255.0f green:37/255.0f blue:41/255.0f alpha:1.0f];
         [self addSubview:label];
     }
     
@@ -115,9 +116,10 @@
         
         // Y轴title
         UILabel *yAxisLabel = [[UILabel alloc] initWithFrame:CGRectMake(anchorPoint.x - 40, anchorPoint.y + insets * i, insets, insets)];
-        yAxisLabel.textAlignment = NSTextAlignmentCenter;
+        yAxisLabel.textAlignment = NSTextAlignmentLeft;
         yAxisLabel.text = item.yAxisTitle;
         yAxisLabel.font = [UIFont systemFontOfSize:14];
+        yAxisLabel.textColor = [UIColor colorWithRed:32/255.0f green:37/255.0f blue:41/255.0f alpha:1.0f];
         [self addSubview:yAxisLabel];
         
         CGPoint center = CGPointMake(anchorPoint.x + (item.value * lengthPerValue) + (insets / 2), anchorPoint.y + insets * i + (insets / 2));
