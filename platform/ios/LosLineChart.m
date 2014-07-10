@@ -2,13 +2,13 @@
 
 @interface GridView : UIView
 
--(id) initWithCenter:(CGPoint)position title:(NSString*)title;
+-(id) initWithCenter:(CGPoint)position title:(NSString*)title color:(UIColor*)color;
 
 @end
 
 @implementation GridView
 
--(id) initWithCenter:(CGPoint)position title:(NSString*)title
+-(id) initWithCenter:(CGPoint)position title:(NSString*)title color:(UIColor*)color
 {
     self = [super init];
     
@@ -19,7 +19,7 @@
         
         UILabel *grid = [[UILabel alloc] init];
         grid.frame = CGRectMake(0, 15, 10, 10);
-        grid.backgroundColor = [UIColor greenColor];
+        grid.backgroundColor = color;
         
         UILabel *text = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 30, 40)];
         text.textAlignment = NSTextAlignmentCenter;
@@ -37,12 +37,13 @@
 
 @implementation LosLineChartItem
 
--(id) initWithTitle:(NSString*)yAxisTitle value:(int)value
+-(id) initWithTitle:(NSString*)yAxisTitle value:(int)value order:(int)order
 {
     self = [super init];
     if(self){
         self.yAxisTitle = yAxisTitle;
         self.value = value;
+        self.order = order;
     }
     return self;
 }
@@ -97,9 +98,10 @@
     for(int i = 0; i < 6; i++){
         
         UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(anchorPoint.x + insets * i, anchorPoint.y - 40, insets, insets)];
-        [label setTextAlignment:NSTextAlignmentCenter];
+        label.textAlignment = NSTextAlignmentCenter;
         NSString *title = [NSString stringWithFormat:@"%lu", sectionValue * i];
-        [label setText:title];
+        label.text = title;
+        label.font = [UIFont systemFontOfSize:14];
         [self addSubview:label];
     }
     
@@ -113,8 +115,9 @@
         
         // Y轴title
         UILabel *yAxisLabel = [[UILabel alloc] initWithFrame:CGRectMake(anchorPoint.x - 40, anchorPoint.y + insets * i, insets, insets)];
-        [yAxisLabel setTextAlignment:NSTextAlignmentCenter];
-        [yAxisLabel setText:item.yAxisTitle];
+        yAxisLabel.textAlignment = NSTextAlignmentCenter;
+        yAxisLabel.text = item.yAxisTitle;
+        yAxisLabel.font = [UIFont systemFontOfSize:14];
         [self addSubview:yAxisLabel];
         
         CGPoint center = CGPointMake(anchorPoint.x + (item.value * lengthPerValue) + (insets / 2), anchorPoint.y + insets * i + (insets / 2));
@@ -128,7 +131,20 @@
         
         // 小方格
         NSString *title = [NSString stringWithFormat:@"%d人", item.value];
-        GridView *grid = [[GridView alloc] initWithCenter:center title:title];
+        
+        int order = item.order;
+        UIColor *color;
+        if(order == 1){
+            color = [UIColor colorWithRed:255/255.0f green:122/255.0f blue:75/255.0f alpha:1.0f];
+        }else if(order == 2){
+            color = [UIColor colorWithRed:252/255.0f green:167/255.0f blue:136/255.0f alpha:1.0f];
+        }else if(order == 3){
+            color = [UIColor colorWithRed:254/255.0f green:207/255.0f blue:190/255.0f alpha:1.0f];
+        }else{
+            color = [UIColor colorWithRed:202/255.0f green:211/255.0f blue:218/255.0f alpha:1.0f];
+        }
+        
+        GridView *grid = [[GridView alloc] initWithCenter:center title:title color:color];
         [self addSubview:grid];
     }
     

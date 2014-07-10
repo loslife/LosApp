@@ -4,8 +4,9 @@
 
 @property int value;
 @property NSString* yAxisTitle;
+@property int order;
 
--(id) initWithTitle:(NSString*)yAxisTitle value:(int)value;
+-(id) initWithTitle:(NSString*)yAxisTitle value:(int)value order:(int)order;
 
 @end
 
