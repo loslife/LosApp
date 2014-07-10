@@ -40,6 +40,7 @@
 		184472B4196D279A00B4A543 /* HorizontalLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472B3196D279A00B4A543 /* HorizontalLine.m */; };
 		184472B7196D299600B4A543 /* ServicePerformance.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472B6196D299600B4A543 /* ServicePerformance.m */; };
 		184472BA196D2DB300B4A543 /* ServicePerformanceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472B9196D2DB300B4A543 /* ServicePerformanceView.m */; };
+		184472BD196E856D00B4A543 /* LosLineChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472BC196E856D00B4A543 /* LosLineChart.m */; };
 		186667011949864100A345F7 /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186667001949864100A345F7 /* WelcomeViewController.m */; };
 		1866670519498B5600A345F7 /* UserData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670419498B5600A345F7 /* UserData.m */; };
 		1866670819498D1C00A345F7 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670719498D1C00A345F7 /* LoginViewController.m */; };
@@ -142,6 +143,8 @@
 		184472B6196D299600B4A543 /* ServicePerformance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicePerformance.m; sourceTree = "<group>"; };
 		184472B8196D2DB300B4A543 /* ServicePerformanceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicePerformanceView.h; sourceTree = "<group>"; };
 		184472B9196D2DB300B4A543 /* ServicePerformanceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicePerformanceView.m; sourceTree = "<group>"; };
+		184472BB196E856D00B4A543 /* LosLineChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LosLineChart.h; sourceTree = "<group>"; };
+		184472BC196E856D00B4A543 /* LosLineChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LosLineChart.m; sourceTree = "<group>"; };
 		186666FF1949864100A345F7 /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
 		186667001949864100A345F7 /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
 		1866670319498B5600A345F7 /* UserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserData.h; sourceTree = "<group>"; };
@@ -266,6 +269,8 @@
 				1844728E1967E97300B4A543 /* LosPieChart.m */,
 				184472B2196D279A00B4A543 /* HorizontalLine.h */,
 				184472B3196D279A00B4A543 /* HorizontalLine.m */,
+				184472BB196E856D00B4A543 /* LosLineChart.h */,
+				184472BC196E856D00B4A543 /* LosLineChart.m */,
 			);
 			name = widget.common;
 			sourceTree = "<group>";
@@ -653,6 +658,7 @@
 				18AFE627195527290083C972 /* LosDropDown.m in Sources */,
 				18AFE6061952E2F70083C972 /* AddShopView.m in Sources */,
 				1866670519498B5600A345F7 /* UserData.m in Sources */,
+				184472BD196E856D00B4A543 /* LosLineChart.m in Sources */,
 				184472701962509B00B4A543 /* ReportCustomView.m in Sources */,
 				184472861967A57800B4A543 /* ReportShopViewController.m in Sources */,
 				18666754194AD52400A345F7 /* StringUtils.m in Sources */,
