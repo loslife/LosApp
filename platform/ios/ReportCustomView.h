@@ -1,8 +1,11 @@
 #import "ReportViewBase.h"
-#import "ReportCustomViewController.h"
+
+@protocol ReportCustomerViewDataSource <NSObject>
+
+@end
 
 @interface ReportCustomView : ReportViewBase
 
--(id) initWithController:(ReportCustomViewController*)controller;
+-(id) initWithController:(id<ReportCustomerViewDataSource>)controller;
 
 @end

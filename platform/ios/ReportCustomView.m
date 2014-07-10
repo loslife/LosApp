@@ -1,10 +1,11 @@
 #import "ReportCustomView.h"
+#import "ReportCustomViewController.h"
 
 @implementation ReportCustomView
 
--(id) initWithController:(ReportCustomViewController*)controller
+-(id) initWithController:(id<ReportCustomerViewDataSource>)controller
 {
-    self = [super initWithController:controller];
+    self = [super initWithController:(ReportViewControllerBase*)controller];
     if (self) {
         
         UILabel *label = [[UILabel alloc] init];
