@@ -50,4 +50,11 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+#pragma mark - line chart datasource
+
+-(NSUInteger) valuePerSection
+{
+    return 7;
+}
+
 @end

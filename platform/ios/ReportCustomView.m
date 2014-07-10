@@ -17,7 +17,7 @@
         
         HorizontalLine *line = [[HorizontalLine alloc] initWithFrame:CGRectMake(20, 140, 280, 1)];
         
-        LosLineChart *chart = [[LosLineChart alloc] initWithFrame:CGRectMake(0, 141, 320, 427)];
+        LosLineChart *chart = [[LosLineChart alloc] initWithFrame:CGRectMake(0, 141, 320, 427) dataSource:(ReportCustomViewController*)controller];
         
         [self addSubview:label];
         [self addSubview:line];
