@@ -57,4 +57,30 @@
     return 7;
 }
 
+-(NSUInteger) itemCount
+{
+    return 6;
+}
+
+-(LosLineChartItem*) itemAtIndex:(int)index
+{
+    NSMutableArray *items = [NSMutableArray arrayWithCapacity:1];
+    
+    LosLineChartItem *item1 = [[LosLineChartItem alloc] initWithTitle:@"1" value:8];
+    LosLineChartItem *item2 = [[LosLineChartItem alloc] initWithTitle:@"2" value:35];
+    LosLineChartItem *item3 = [[LosLineChartItem alloc] initWithTitle:@"3" value:0];
+    LosLineChartItem *item4 = [[LosLineChartItem alloc] initWithTitle:@"4" value:14];
+    LosLineChartItem *item5 = [[LosLineChartItem alloc] initWithTitle:@"5" value:15];
+    LosLineChartItem *item6 = [[LosLineChartItem alloc] initWithTitle:@"6" value:23];
+    
+    [items addObject:item1];
+    [items addObject:item2];
+    [items addObject:item3];
+    [items addObject:item4];
+    [items addObject:item5];
+    [items addObject:item6];
+    
+    return [items objectAtIndex:index];
+}
+
 @end

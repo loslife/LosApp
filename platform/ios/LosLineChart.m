@@ -1,10 +1,60 @@
 #import "LosLineChart.h"
 
+@interface GridView : UIView
+
+-(id) initWithCenter:(CGPoint)position title:(NSString*)title;
+
+@end
+
+@implementation GridView
+
+-(id) initWithCenter:(CGPoint)position title:(NSString*)title
+{
+    self = [super init];
+    
+    if(self){
+        
+        self.frame = CGRectMake(0, 0, 40, 40);
+        self.center = CGPointMake(position.x + 15, position.y);
+        
+        UILabel *grid = [[UILabel alloc] init];
+        grid.frame = CGRectMake(0, 15, 10, 10);
+        grid.backgroundColor = [UIColor greenColor];
+        
+        UILabel *text = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 30, 40)];
+        text.textAlignment = NSTextAlignmentCenter;
+        text.text = title;
+        text.font = [UIFont systemFontOfSize:12];
+        
+        [self addSubview:grid];
+        [self addSubview:text];
+    }
+    
+    return self;
+}
+
+@end
+
+@implementation LosLineChartItem
+
+-(id) initWithTitle:(NSString*)yAxisTitle value:(int)value
+{
+    self = [super init];
+    if(self){
+        self.yAxisTitle = yAxisTitle;
+        self.value = value;
+    }
+    return self;
+}
+
+@end
+
 @implementation LosLineChart
 
 {
     id<LosLineChartDataSource> dataSource;
     CGPoint anchorPoint;
+    CGFloat insets;
 }
 
 -(id) initWithFrame:(CGRect)frame dataSource:(id<LosLineChartDataSource>)ds
@@ -14,9 +64,10 @@
         
         dataSource = ds;
         
-        self.backgroundColor = [UIColor whiteColor];
-        
         anchorPoint = CGPointMake(60, 40);
+        insets = 40;
+        
+        self.backgroundColor = [UIColor whiteColor];
     }
     return self;
 }
@@ -30,96 +81,56 @@
     CGContextSetLineWidth(context, 1.f);
     CGContextSetStrokeColorWithColor(context, [UIColor blackColor].CGColor);
     
+    // Y轴
     CGContextMoveToPoint(context, anchorPoint.x, anchorPoint.y);
     CGContextAddLineToPoint(context, anchorPoint.x, 400);
     CGContextStrokePath(context);
     
+    // X轴
     CGContextMoveToPoint(context, anchorPoint.x, anchorPoint.y);
     CGContextAddLineToPoint(context, 300, anchorPoint.y);
     CGContextStrokePath(context);
     
     NSUInteger sectionValue = [dataSource valuePerSection];
     
+    // X轴title
     for(int i = 0; i < 6; i++){
         
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(anchorPoint.x + 40 * i, anchorPoint.y - 40, 40, 40)];
+        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(anchorPoint.x + insets * i, anchorPoint.y - 40, insets, insets)];
         [label setTextAlignment:NSTextAlignmentCenter];
         NSString *title = [NSString stringWithFormat:@"%lu", sectionValue * i];
         [label setText:title];
         [self addSubview:label];
     }
     
-    UILabel *y_label1 = [[UILabel alloc]initWithFrame:CGRectMake(anchorPoint.x - 40, anchorPoint.y, 40, 40)];
-    [y_label1 setTextAlignment:NSTextAlignmentCenter];
-    [y_label1 setText:@"1"];
-    [self addSubview:y_label1];
+    NSUInteger max = sectionValue * 5;
+    CGFloat lengthPerValue = insets * 5 / max;
+    NSUInteger count = [dataSource itemCount];
     
-    UILabel *y_label2 = [[UILabel alloc]initWithFrame:CGRectMake(anchorPoint.x - 40, anchorPoint.y + 40, 40, 40)];
-    [y_label2 setTextAlignment:NSTextAlignmentCenter];
-    [y_label2 setText:@"2"];
-    [self addSubview:y_label2];
-    
-    UILabel *y_label3 = [[UILabel alloc]initWithFrame:CGRectMake(anchorPoint.x - 40, anchorPoint.y + 80, 40, 40)];
-    [y_label3 setTextAlignment:NSTextAlignmentCenter];
-    [y_label3 setText:@"3"];
-    [self addSubview:y_label3];
-    
-    UILabel *y_label4 = [[UILabel alloc]initWithFrame:CGRectMake(anchorPoint.x - 40, anchorPoint.y + 120, 40, 40)];
-    [y_label4 setTextAlignment:NSTextAlignmentCenter];
-    [y_label4 setText:@"4"];
-    [self addSubview:y_label4];
-    
-    UILabel *y_label5 = [[UILabel alloc]initWithFrame:CGRectMake(anchorPoint.x - 40, anchorPoint.y + 160, 40, 40)];
-    [y_label5 setTextAlignment:NSTextAlignmentCenter];
-    [y_label5 setText:@"5"];
-    [self addSubview:y_label5];
-    
-    UILabel *y_label6 = [[UILabel alloc]initWithFrame:CGRectMake(anchorPoint.x - 40, anchorPoint.y + 200, 40, 40)];
-    [y_label6 setTextAlignment:NSTextAlignmentCenter];
-    [y_label6 setText:@"6"];
-    [self addSubview:y_label6];
-    
-	CGContextMoveToPoint(context, anchorPoint.x + 120 + 20, anchorPoint.y + 20);
-    UILabel *point1 = [[UILabel alloc] init];
-    point1.frame = CGRectMake(0, 0, 10, 10);
-    point1.center = CGPointMake(anchorPoint.x + 120 + 20, anchorPoint.y + 20);
-    point1.backgroundColor = [UIColor greenColor];
-    [self addSubview:point1];
-    
-    CGContextAddLineToPoint(context, anchorPoint.x + 20, anchorPoint.y + 60);
-    UILabel *point2 = [[UILabel alloc] init];
-    point2.frame = CGRectMake(0, 0, 10, 10);
-    point2.center = CGPointMake(anchorPoint.x + 20, anchorPoint.y + 40 + 20);
-    point2.backgroundColor = [UIColor greenColor];
-    [self addSubview:point2];
-    
-    CGContextAddLineToPoint(context, anchorPoint.x + 70, anchorPoint.y + 100);
-    UILabel *point3 = [[UILabel alloc] init];
-    point3.frame = CGRectMake(0, 0, 10, 10);
-    point3.center = CGPointMake(anchorPoint.x + 70, anchorPoint.y + 100);
-    point3.backgroundColor = [UIColor greenColor];
-    [self addSubview:point3];
-    
-    CGContextAddLineToPoint(context, anchorPoint.x + 90, anchorPoint.y + 140);
-    UILabel *point4 = [[UILabel alloc] init];
-    point4.frame = CGRectMake(0, 0, 10, 10);
-    point4.center = CGPointMake(anchorPoint.x + 90, anchorPoint.y + 140);
-    point4.backgroundColor = [UIColor greenColor];
-    [self addSubview:point4];
-    
-    CGContextAddLineToPoint(context, anchorPoint.x + 144, anchorPoint.y + 180);
-    UILabel *point5 = [[UILabel alloc] init];
-    point5.frame = CGRectMake(0, 0, 10, 10);
-    point5.center = CGPointMake(anchorPoint.x + 144, anchorPoint.y + 180);
-    point5.backgroundColor = [UIColor greenColor];
-    [self addSubview:point5];
-    
-    CGContextAddLineToPoint(context, anchorPoint.x + 120, anchorPoint.y + 220);
-    UILabel *point6 = [[UILabel alloc] init];
-    point6.frame = CGRectMake(0, 0, 10, 10);
-    point6.center = CGPointMake(anchorPoint.x + 120, anchorPoint.y + 220);
-    point6.backgroundColor = [UIColor greenColor];
-    [self addSubview:point6];
+    for(int i = 0; i < count; i++){
+        
+        LosLineChartItem *item = [dataSource itemAtIndex:i];
+        
+        // Y轴title
+        UILabel *yAxisLabel = [[UILabel alloc] initWithFrame:CGRectMake(anchorPoint.x - 40, anchorPoint.y + insets * i, insets, insets)];
+        [yAxisLabel setTextAlignment:NSTextAlignmentCenter];
+        [yAxisLabel setText:item.yAxisTitle];
+        [self addSubview:yAxisLabel];
+        
+        CGPoint center = CGPointMake(anchorPoint.x + (item.value * lengthPerValue) + (insets / 2), anchorPoint.y + insets * i + (insets / 2));
+        
+        // 折线端点
+        if(i == 0){
+            CGContextMoveToPoint(context, center.x, center.y);
+        }else{
+            CGContextAddLineToPoint(context, center.x, center.y);
+        }
+        
+        // 小方格
+        NSString *title = [NSString stringWithFormat:@"%d人", item.value];
+        GridView *grid = [[GridView alloc] initWithCenter:center title:title];
+        [self addSubview:grid];
+    }
     
     CGContextStrokePath(context);
 }
