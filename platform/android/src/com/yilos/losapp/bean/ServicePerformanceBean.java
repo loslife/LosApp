@@ -6,12 +6,14 @@ package com.yilos.losapp.bean;
  * 产品业绩
  *
  */
-public class TbservicePerformanceBean 
+public class ServicePerformanceBean 
 {
 
 	//"enterprise_id":"100048101900800200","total":1300,"project_id":"100048101900800200-8660f540-e6e4-11e3-a12b-a3472b85461a",
 	//"project_name":"套盒","project_cateName":"卖品","project_cateId":"100048101900800200-29cbe5c0-e6e3-11e3-a12b-a3472b85461a",
 	//"week":0,"create_date":1403570273174,"syncindex":0,"synctag":0,"status":0,"year":2014,"month":5,"day":22,"_id":"53bb890066daed530600013d"
+	
+	private String _id;
 	
 	private String enterprise_id;
 	
@@ -29,11 +31,23 @@ public class TbservicePerformanceBean
 	
 	private String create_date;
 	
+	private String modify_date;
+	
 	private String year;
 	
 	private String month;
 	
 	private String day;
+	
+	
+
+	public String get_id() {
+		return _id;
+	}
+
+	public void set_id(String _id) {
+		this._id = _id;
+	}
 
 	public String getEnterprise_id() {
 		return enterprise_id;
@@ -121,6 +135,14 @@ public class TbservicePerformanceBean
 
 	public void setDay(String day) {
 		this.day = day;
+	}
+
+	public String getModify_date() {
+		return modify_date;
+	}
+
+	public void setModify_date(String modify_date) {
+		this.modify_date = modify_date;
 	}
 	
 	

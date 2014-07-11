@@ -3,6 +3,7 @@ package com.yilos.losapp;
 import com.yilos.losapp.common.ChartCalc;
 
 import android.content.Context;  
+import android.content.res.Resources;
 import android.graphics.Canvas;  
 import android.graphics.Color;  
 import android.graphics.Paint;  
@@ -17,15 +18,15 @@ public class PanelDountChart extends View{
      //演示用的百分比例,实际使用中，即为外部传入的比例参数    
     private float arrPer[] = null;    
     //RGB颜色数组  
-    private final int arrColorRgb[][] = { {77, 83, 97},    
-                                          {148, 159, 181},    
-                                          {253, 180, 90},  
-                                          {52, 194, 188}} ;  
+    private final int arrColorRgb[] = {  R.color.vone,  
+            R.color.vtwo,  
+            R.color.vthree,  
+            R.color.vgeneral} ;  
     
-   private final String strPer[] = {"服务业绩","卖品业绩","开卡业绩","充值业绩"};
+   private  String strPer[] = null;
       
       
-public PanelDountChart(Context context,float arr[]) {  
+public PanelDountChart(Context context,float arr[],String textName[]) {  
         super(context);  
           
         //屏幕信息  
@@ -33,6 +34,7 @@ public PanelDountChart(Context context,float arr[]) {
         ScrHeight = dm.heightPixels;  
         ScrWidth = dm.widthPixels; 
         this.arrPer = arr;
+        this.strPer = textName;
     }  
   
       
@@ -42,7 +44,7 @@ public PanelDountChart(Context context,float arr[]) {
             
         float cirX = ScrWidth / 2;    
         float cirY = ScrHeight/ 8;    
-        float radius = 120;//150;    
+        float radius = ScrWidth/6;//150;    
                                     
         float arcLeft = cirX - radius;    
         float arcTop  = cirY - radius ;    
@@ -69,10 +71,11 @@ public PanelDountChart(Context context,float arr[]) {
         for(i=0; i<arrPer.length; i++)     
         {    
             //将百分比转换为饼图显示角度    
-            Percentage = 360 * (arrPer[i]/ 100);    
+            Percentage = 360 * (arrPer[i]/100);    
             Percentage = (float)(Math.round(Percentage *100))/100;    
-            //分配颜色              
-            PaintArc.setARGB(255,arrColorRgb[i][0], arrColorRgb[i][1], arrColorRgb[i][2]);  
+            //分配颜色   
+            Resources res = this.getResources();  
+            PaintArc.setColor(res.getColor(arrColorRgb[i]));  
                  
             //在饼图中显示所占比例    
             canvas.drawArc(arcRF0, CurrPer, Percentage, true, PaintArc);                   
@@ -83,20 +86,20 @@ public PanelDountChart(Context context,float arr[]) {
             float textY = 0.0f;
             if(xcalc.getPosX()>cirX)
             {
-            	textX = xcalc.getPosX()+50;
+            	textX = xcalc.getPosX()+40;
             }
             else
             {
-            	textX = xcalc.getPosX()-250;
+            	textX = xcalc.getPosX()-280;
             }
             
             if(xcalc.getPosY()>cirY)
             {
-            	textY = xcalc.getPosY()+20;
+            	textY = xcalc.getPosY()+10;
             }
             else
             {
-            	textY = xcalc.getPosY()-20;
+            	textY = xcalc.getPosY();
             }
             
             //标识  
@@ -107,7 +110,7 @@ public PanelDountChart(Context context,float arr[]) {
                            
         //画圆心  
         PaintArc.setColor(Color.WHITE);  
-        canvas.drawCircle(cirX,cirY,radius*3/5,PaintArc);    
+        canvas.drawCircle(cirX,cirY,radius*4/7,PaintArc);    
               
     }  
 }

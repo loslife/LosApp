@@ -58,14 +58,6 @@
             android:textColor="@color/blue_text"
             android:textSize="20.0dip" />
 
-        <ImageView
-            android:id="@+id/headmore"
-            android:layout_width="wrap_content"
-            android:layout_height="22.0dip"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_weight="1"
-            android:src="@drawable/select_shop" />
     </LinearLayout>
 
       <com.yilos.losapp.common.ScrollLayout 
@@ -78,7 +70,9 @@
      
      <include layout="@layout/traffic_chart" />
             
-     <include layout="@layout/performance_chart" />
+     <include layout="@layout/business_chart" />
+     
+     <include layout="@layout/service_chart" />
      
     </com.yilos.losapp.common.ScrollLayout>
    

@@ -15,33 +15,33 @@ public class ManageRecords
 	
 	 public static class TbservicePerformance {
 		 
-		    private List<TbservicePerformanceBean> day = new ArrayList<TbservicePerformanceBean>();
+		    private List<ServicePerformanceBean> day = new ArrayList<ServicePerformanceBean>();
 			
-			private List<TbservicePerformanceBean> week = new ArrayList<TbservicePerformanceBean>();
+			private List<ServicePerformanceBean> week = new ArrayList<ServicePerformanceBean>();
 			
-			private List<TbservicePerformanceBean> month = new ArrayList<TbservicePerformanceBean>();
+			private List<ServicePerformanceBean> month = new ArrayList<ServicePerformanceBean>();
 
-			public List<TbservicePerformanceBean> getDay() {
+			public List<ServicePerformanceBean> getDay() {
 				return day;
 			}
 
-			public void setDay(List<TbservicePerformanceBean> day) {
+			public void setDay(List<ServicePerformanceBean> day) {
 				this.day = day;
 			}
 
-			public List<TbservicePerformanceBean> getWeek() {
+			public List<ServicePerformanceBean> getWeek() {
 				return week;
 			}
 
-			public void setWeek(List<TbservicePerformanceBean> week) {
+			public void setWeek(List<ServicePerformanceBean> week) {
 				this.week = week;
 			}
 
-			public List<TbservicePerformanceBean> getMonth() {
+			public List<ServicePerformanceBean> getMonth() {
 				return month;
 			}
 
-			public void setMonth(List<TbservicePerformanceBean> month) {
+			public void setMonth(List<ServicePerformanceBean> month) {
 				this.month = month;
 			}
 
@@ -82,33 +82,33 @@ public class ManageRecords
 	 
 	 public static class TbbizPerformance {
 		 
-		    private List<BizPerformanceBean> day = new ArrayList<BizPerformanceBean>();
+		    private BizPerformanceBean day = new BizPerformanceBean();
 			
-			private List<BizPerformanceBean> week = new ArrayList<BizPerformanceBean>();
+			private BizPerformanceBean week = new BizPerformanceBean();
 			
-			private List<BizPerformanceBean> month = new ArrayList<BizPerformanceBean>();
+			private BizPerformanceBean month = new BizPerformanceBean();
 
-			public List<BizPerformanceBean> getDay() {
+			public BizPerformanceBean getDay() {
 				return day;
 			}
 
-			public void setDay(List<BizPerformanceBean> day) {
+			public void setDay(BizPerformanceBean day) {
 				this.day = day;
 			}
 
-			public List<BizPerformanceBean> getWeek() {
+			public BizPerformanceBean getWeek() {
 				return week;
 			}
 
-			public void setWeek(List<BizPerformanceBean> week) {
+			public void setWeek(BizPerformanceBean week) {
 				this.week = week;
 			}
 
-			public List<BizPerformanceBean> getMonth() {
+			public BizPerformanceBean getMonth() {
 				return month;
 			}
 
-			public void setMonth(List<BizPerformanceBean> month) {
+			public void setMonth(BizPerformanceBean month) {
 				this.month = month;
 			}
 
@@ -116,35 +116,26 @@ public class ManageRecords
 	 
 	 public static class BcustomerCount {
 		 
-		    private List<BcustomerCountBean> day = new ArrayList<BcustomerCountBean>();
+		    private List<BcustomerCountBean> days = new ArrayList<BcustomerCountBean>();
 			
-			private List<BcustomerCountBean> week = new ArrayList<BcustomerCountBean>();
+			private List<BcustomerCountBean> hours = new ArrayList<BcustomerCountBean>();
+
+			public List<BcustomerCountBean> getDays() {
+				return days;
+			}
+
+			public void setDays(List<BcustomerCountBean> days) {
+				this.days = days;
+			}
+
+			public List<BcustomerCountBean> getHours() {
+				return hours;
+			}
+
+			public void setHours(List<BcustomerCountBean> hours) {
+				this.hours = hours;
+			}
 			
-			private List<BcustomerCountBean> month = new ArrayList<BcustomerCountBean>();
-
-			public List<BcustomerCountBean> getDay() {
-				return day;
-			}
-
-			public void setDay(List<BcustomerCountBean> day) {
-				this.day = day;
-			}
-
-			public List<BcustomerCountBean> getWeek() {
-				return week;
-			}
-
-			public void setWeek(List<BcustomerCountBean> week) {
-				this.week = week;
-			}
-
-			public List<BcustomerCountBean> getMonth() {
-				return month;
-			}
-
-			public void setMonth(List<BcustomerCountBean> month) {
-				this.month = month;
-			}
 	 }
 
 	public TbbizPerformance getTb_biz_performance() {

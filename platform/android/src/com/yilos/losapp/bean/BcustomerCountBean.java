@@ -11,13 +11,15 @@ public class BcustomerCountBean
 	//enterprise_id":"100051602194600110","member":0,"temp":1,"create_date":1404809340264,"syncindex":0,
 	//"synctag":0,"status":0,"year":2014,"month":6,"day":8,"hour":16,"_id":"53bbb32699d64ed49e000241"
 	
+	private String _id;
+	
 	private String enterprise_id;
 	
 	private String member;
 	
 	private String temp;
 	
-	private String create_date;
+	private String dateTime;
 	
 	private String year;
 	
@@ -25,7 +27,7 @@ public class BcustomerCountBean
 	
 	private String day;
 	
-	private String hours;
+	private String hour;
 
 	public String getEnterprise_id() {
 		return enterprise_id;
@@ -51,12 +53,12 @@ public class BcustomerCountBean
 		this.temp = temp;
 	}
 
-	public String getCreate_date() {
-		return create_date;
+	public String getDateTime() {
+		return dateTime;
 	}
 
-	public void setCreate_date(String create_date) {
-		this.create_date = create_date;
+	public void setDateTime(String dateTime) {
+		this.dateTime = dateTime;
 	}
 
 	public String getYear() {
@@ -83,12 +85,20 @@ public class BcustomerCountBean
 		this.day = day;
 	}
 
-	public String getHours() {
-		return hours;
+	public String getHour() {
+		return hour;
 	}
 
-	public void setHours(String hours) {
-		this.hours = hours;
+	public void setHour(String hour) {
+		this.hour = hour;
+	}
+
+	public String get_id() {
+		return _id;
+	}
+
+	public void set_id(String _id) {
+		this._id = _id;
 	}
 	
 	

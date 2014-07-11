@@ -25,7 +25,7 @@
             android:textSize="20.0dip" />
         
         <TextView
-            android:id="@+id/showdata"
+            android:id="@+id/biztotal"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:gravity="fill_vertical"
@@ -137,7 +137,7 @@
                 android:textSize="20.0dip" />
             
             <TextView
-                android:id="@+id/sevicedata"
+                android:id="@+id/saledata"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_alignParentRight="true"
@@ -185,7 +185,7 @@
                 android:textSize="20.0dip" />
             
             <TextView
-                android:id="@+id/sevicedata"
+                android:id="@+id/carddata"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_alignParentRight="true"
@@ -233,7 +233,7 @@
                 android:textSize="20.0dip" />
             
             <TextView
-                android:id="@+id/sevicedata"
+                android:id="@+id/rechargedata"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_alignParentRight="true"

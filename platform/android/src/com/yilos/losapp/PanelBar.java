@@ -32,16 +32,18 @@ public class PanelBar extends View {
              R.color.blue,                 
          };  
      
-     private String[] ename = {"张天天", "田雨橙", "王诗龄" ,"郭子睿"};
+     private String[] name = null;
+     
+     float numSpace = 0.0f;
        
      //饼图演示用的比例,实际使用中，即为外部传入的比例参数  
      final float arrPer[] = new float[]{20f,30f,10f,40f};  
        
      //柱形图演示用的比例,实际使用中，即为外部传入的比例参数  
-     private  int[] arrNum = null;  
+     private  String[] arrNum = null;  
        
      @SuppressLint("NewApi")
-	public PanelBar(Context context,int[] num){  
+	public PanelBar(Context context,String[] num,String[] ename){  
          super(context);  
            
          //解决4.1版本 以下canvas.drawTextOnPath()不显示问题              
@@ -51,7 +53,9 @@ public class PanelBar extends View {
          DisplayMetrics dm = getResources().getDisplayMetrics();  
          ScrHeight = dm.heightPixels;  
          ScrWidth = dm.widthPixels;  
-         arrNum =  num;         
+         arrNum =  num; 
+         name = ename;
+         numSpace = Float.valueOf(arrNum[0])/5;
       
          //设置边缘特殊效果  
          BlurMaskFilter PaintBGBlur = new BlurMaskFilter(  
@@ -111,9 +115,9 @@ public class PanelBar extends View {
                
              
              //文字 偏移30，下移10  
-             canvas.drawText("￥"+Integer.toString(arrNum[i]), initX + (Float.valueOf(arrNum[i]) /200) * lnSpace+10,endy+40, arrPaintArc[3]);
+             canvas.drawText("￥"+arrNum[i], initX + (Float.valueOf(arrNum[i]) /numSpace) * lnSpace+10,endy+40, arrPaintArc[3]);
              
-             canvas.drawText(ename[i], initX-130,endy+40, arrPaintArc[3]);
+             canvas.drawText(name[i], initX-130,endy+40, arrPaintArc[3]);
              
              Paint  paint = null;
              if(i<3)
@@ -126,7 +130,7 @@ public class PanelBar extends View {
              }
              //柱形  
              canvas.drawRect(initX   ,endy,  
-                         initX + (Float.valueOf(arrNum[i]) /200) * lnSpace ,endy+rectHeight, paint);    
+                         initX + (Float.valueOf(arrNum[i]) /numSpace) * lnSpace ,endy+rectHeight, paint);    
                             
          }  
          //canvas.drawLine( startx ,starty - 30 ,initX ,initY , PaintText);  

@@ -12,6 +12,8 @@ public class BizPerformanceBean
 	//"card":4,"newcard":0,"recharge":0,"service":64,"product":0,"week":0,"create_date":1404809340264,
 	//"syncindex":0,"synctag":0,"status":0,"year":2014,"month":6,"day":8,"_id":"53bbcc39e488d31cb7000028"
 	
+	
+	private String _id;
 	private String enterprise_id;
 	
 	private String total;
@@ -25,6 +27,7 @@ public class BizPerformanceBean
 	private String product;
 	private String week;
 	private String create_date;
+	private String modify_date;
 	private String year;
 	private String month;
 	private String day;
@@ -112,6 +115,18 @@ public class BizPerformanceBean
 	}
 	public void setDay(String day) {
 		this.day = day;
+	}
+	public String get_id() {
+		return _id;
+	}
+	public void set_id(String _id) {
+		this._id = _id;
+	}
+	public String getModify_date() {
+		return modify_date;
+	}
+	public void setModify_date(String modify_date) {
+		this.modify_date = modify_date;
 	}
 	
 	

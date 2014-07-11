@@ -23,7 +23,7 @@
                 android:textColor="@color/black_text"
                 android:textSize="20.0dip" />
             <TextView
-            android:id="@+id/showdata"
+            android:id="@+id/employeetotal"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:gravity="fill_vertical"
