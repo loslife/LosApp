@@ -1,5 +1,8 @@
 #import "ReportCustomViewController.h"
 #import "ReportCustomView.h"
+#import "UserData.h"
+#import "StringUtils.h"
+#import "ReportDateStatus.h"
 
 @implementation ReportCustomViewController
 
@@ -33,7 +36,38 @@
 
 -(void) loadReport
 {
-    NSLog(@"hehe");
+    UserData *userData = [UserData load];
+    NSString *currentEnterpriseId = userData.enterpriseId;
+    
+    if([StringUtils isEmpty:currentEnterpriseId]){
+        return;
+    }
+    
+    //ReportDateStatus *status = [ReportDateStatus sharedInstance];
+    
+    [records removeAllObjects];
+    
+    LosLineChartItem *item1 = [[LosLineChartItem alloc] initWithTitle:@"09:00" value:8 order:4];
+    LosLineChartItem *item2 = [[LosLineChartItem alloc] initWithTitle:@"10:00" value:35 order:1];
+    LosLineChartItem *item3 = [[LosLineChartItem alloc] initWithTitle:@"11:00" value:0 order:4];
+    LosLineChartItem *item4 = [[LosLineChartItem alloc] initWithTitle:@"12:00" value:14 order:4];
+    LosLineChartItem *item5 = [[LosLineChartItem alloc] initWithTitle:@"13:00" value:15 order:3];
+    LosLineChartItem *item6 = [[LosLineChartItem alloc] initWithTitle:@"14:00" value:23 order:2];
+    LosLineChartItem *item7 = [[LosLineChartItem alloc] initWithTitle:@"15:00" value:0 order:4];
+    
+    [records addObject:item1];
+    [records addObject:item2];
+    [records addObject:item3];
+    [records addObject:item4];
+    [records addObject:item5];
+    [records addObject:item6];
+    [records addObject:item7];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        ReportCustomView *myView = (ReportCustomView*)self.view;
+        [myView reload];
+    });
 }
 
 #pragma mark - abstract method implementation
@@ -50,6 +84,18 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+#pragma mark - customer view datasource
+
+-(NSUInteger) memberCount
+{
+    return 5;
+}
+
+-(NSUInteger) walkinCount
+{
+    return 23;
+}
+
 #pragma mark - line chart datasource
 
 -(NSUInteger) valuePerSection
@@ -59,30 +105,12 @@
 
 -(NSUInteger) itemCount
 {
-    return 7;
+    return [records count];
 }
 
 -(LosLineChartItem*) itemAtIndex:(int)index
 {
-    NSMutableArray *items = [NSMutableArray arrayWithCapacity:1];
-    
-    LosLineChartItem *item1 = [[LosLineChartItem alloc] initWithTitle:@"09:00" value:8 order:4];
-    LosLineChartItem *item2 = [[LosLineChartItem alloc] initWithTitle:@"10:00" value:35 order:1];
-    LosLineChartItem *item3 = [[LosLineChartItem alloc] initWithTitle:@"11:00" value:0 order:4];
-    LosLineChartItem *item4 = [[LosLineChartItem alloc] initWithTitle:@"12:00" value:14 order:4];
-    LosLineChartItem *item5 = [[LosLineChartItem alloc] initWithTitle:@"13:00" value:15 order:3];
-    LosLineChartItem *item6 = [[LosLineChartItem alloc] initWithTitle:@"14:00" value:23 order:2];
-    LosLineChartItem *item7 = [[LosLineChartItem alloc] initWithTitle:@"15:00" value:0 order:4];
-    
-    [items addObject:item1];
-    [items addObject:item2];
-    [items addObject:item3];
-    [items addObject:item4];
-    [items addObject:item5];
-    [items addObject:item6];
-    [items addObject:item7];
-    
-    return [items objectAtIndex:index];
+    return [records objectAtIndex:index];
 }
 
 @end

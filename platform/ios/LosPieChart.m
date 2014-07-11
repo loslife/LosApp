@@ -34,6 +34,8 @@
         radius =  frame.size.width / 8;
         
         drawedRatio = 0;
+        
+        self.backgroundColor = [UIColor whiteColor];
     }
     return self;
 }

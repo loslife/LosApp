@@ -38,7 +38,6 @@
         HorizontalLine *line = [[HorizontalLine alloc] initWithFrame:CGRectMake(20, 140, 280, 1)];
         
         pie = [[LosPieChart alloc] initWithFrame:CGRectMake(0, 141, 320, 160) Delegate:(ReportServiceViewController*)controller];
-        pie.backgroundColor = [UIColor whiteColor];
         
         UILabel *bar = [[UILabel alloc] initWithFrame:CGRectMake(0, 301, 320, 10)];
         bar.backgroundColor = [UIColor colorWithRed:231/255.0f green:236/255.0f blue:240/255.0f alpha:1.0f];
@@ -60,7 +59,6 @@
     
     [pie removeFromSuperview];
     pie = [[LosPieChart alloc] initWithFrame:CGRectMake(0, 141, 320, 160) Delegate:(ReportServiceViewController*)dataSource];
-    pie.backgroundColor = [UIColor whiteColor];
     [self addSubview:pie];
     
     for(UIView *temp in footer.subviews){
