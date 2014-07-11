@@ -305,7 +305,7 @@
     
     if(type == 0){
         
-        FMResultSet *rs = [db executeQuery:@"select sum(walkin) as total_walkin, sum(member) as total_member, walkin + member as count, hour from customer_count_day where enterprise_id = :eid and year = :year and month = :month and day = :day order by count desc", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
+        FMResultSet *rs = [db executeQuery:@"select sum(walkin) as total_walkin, sum(member) as total_member, walkin + member as count, hour from customer_count_day where enterprise_id = :eid and year = :year and month = :month and day = :day order by hour desc", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
         
         while([rs next]){
             
@@ -320,7 +320,7 @@
         }
     }else if(type == 1){
         
-        FMResultSet *rs = [db executeQuery:@"select sum(walkin) as total_walkin, sum(member) as total_member, walkin + member as count, day from customer_count_month where enterprise_id = :eid and year = :year and month = :month order by count desc", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month]];
+        FMResultSet *rs = [db executeQuery:@"select sum(walkin) as total_walkin, sum(member) as total_member, walkin + member as count, day from customer_count_month where enterprise_id = :eid and year = :year and month = :month order by day desc", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month]];
         
         while([rs next]){
             
@@ -335,7 +335,7 @@
         }
     }else{
         
-        FMResultSet *rs = [db executeQuery:@"select sum(walkin) as total_walkin, sum(member) as total_member, walkin + member as count, day from customer_count_week where enterprise_id = :eid and year = :year and month = :month and day = :day order by count desc", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
+        FMResultSet *rs = [db executeQuery:@"select sum(walkin) as total_walkin, sum(member) as total_member, walkin + member as count, day from customer_count_week where enterprise_id = :eid and year = :year and month = :month and day = :day order by day desc", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
         
         while([rs next]){
             
@@ -353,6 +353,11 @@
     [db close];
     
     return counts;
+}
+
+-(void) batchInsertCustomerCount:(NSArray*)array type:(NSString*)type
+{
+    
 }
 
 @end

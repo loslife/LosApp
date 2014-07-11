@@ -46,42 +46,115 @@
         return;
     }
     
-    //ReportDateStatus *status = [ReportDateStatus sharedInstance];
+    ReportDateStatus *status = [ReportDateStatus sharedInstance];
     
-    [records removeAllObjects];
+    if(![LosHttpHelper isNetworkAvailable]){
+        
+        records = [self.reportDao queryCustomerCountByDate:status.date EnterpriseId:currentEnterpriseId Type:status.dateType];
+        [self resolveTop3];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            ReportCustomView *myView = (ReportCustomView*)self.view;
+            [myView reload];
+        });
+        
+        return;
+    }
+    
+    NSString *type = [status typeStr];
+    
+    NSString *url = [NSString stringWithFormat:FETCH_REPORT_URL, currentEnterpriseId, [status yearStr], [status monthStr], [status dayStr], type, @"customer"];
+    
+    [self.httpHelper getSecure:url completionHandler:^(NSDictionary *response){
+        
+        NSDictionary *result = [response objectForKey:@"result"];
+        NSDictionary *current = [result objectForKey:@"current"];
+        NSDictionary *b_customer = [current objectForKey:@"b_customer_count"];
+        
+        NSDictionary *summary = [b_customer objectForKey:type];
+        NSNumber *member_total = [summary objectForKey:@"member"];
+        NSNumber *walkin_total = [summary objectForKey:@"temp"];
+        
+        NSArray *details;
+        if([type isEqualToString:@"day"]){
+            details = [b_customer objectForKey:@"hours"];
+        }else{
+            details = [b_customer objectForKey:@"days"];
+        }
+        
+        [self.reportDao batchInsertCustomerCount:details type:type];
+        
+        [records removeAllObjects];
+        
+        for(NSDictionary *item in details){
+            
+            NSNumber *member_count = [item objectForKey:@"member"];
+            NSNumber *walkin_count = [item objectForKey:@"temp"];
+            NSNumber *day = [item objectForKey:@"day"];
+            NSNumber *hour = [item objectForKey:@"hour"];
+            
+            CustomerCount *entity;
+            
+            if([type isEqualToString:@"day"]){
+                NSString *title = [NSString stringWithFormat:@"%d:00", [hour intValue]];
+                entity = [[CustomerCount alloc] initWithTotalMember:[member_total intValue] walkin:[walkin_total intValue] count:[member_count intValue] + [walkin_count intValue] title:title];
+            }else{
+                NSString *title = [NSString stringWithFormat:@"%d", [day intValue]];
+                entity = [[CustomerCount alloc] initWithTotalMember:[member_total intValue] walkin:[walkin_total intValue] count:[member_count intValue] + [walkin_count intValue] title:title];
+            }
+    
+            [records addObject:entity];
+        }
+        
+        [self resolveTop3];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            ReportCustomView *myView = (ReportCustomView*)self.view;
+            [myView reload];
+        });
+    }];
+}
+
+-(void) resolveTop3
+{
     [top3 removeAllObjects];
     
-    CustomerCount *entity1 = [[CustomerCount alloc] initWithTotalMember:5 walkin:23 count:0 title:@"09:00"];
-    CustomerCount *entity2 = [[CustomerCount alloc] initWithTotalMember:5 walkin:23 count:5 title:@"10:00"];
-    CustomerCount *entity3 = [[CustomerCount alloc] initWithTotalMember:5 walkin:23 count:12 title:@"11:00"];
-    CustomerCount *entity4 = [[CustomerCount alloc] initWithTotalMember:5 walkin:23 count:32 title:@"12:00"];
-    CustomerCount *entity5 = [[CustomerCount alloc] initWithTotalMember:5 walkin:23 count:7 title:@"13:00"];
-    CustomerCount *entity6 = [[CustomerCount alloc] initWithTotalMember:5 walkin:23 count:12 title:@"14:00"];
-    CustomerCount *entity7 = [[CustomerCount alloc] initWithTotalMember:5 walkin:23 count:13 title:@"15:00"];
-    CustomerCount *entity8 = [[CustomerCount alloc] initWithTotalMember:5 walkin:23 count:0 title:@"16:00"];
-    CustomerCount *entity9 = [[CustomerCount alloc] initWithTotalMember:5 walkin:23 count:8 title:@"17:00"];
-    CustomerCount *entity10 = [[CustomerCount alloc] initWithTotalMember:5 walkin:23 count:7 title:@"18:00"];
+    NSArray *sorted = [records sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        CustomerCount *entity1 = (CustomerCount*)obj1;
+        CustomerCount *entity2 = (CustomerCount*)obj2;
+        if(entity1.count < entity2.count){
+            return NSOrderedDescending;
+        }else if(entity1.count == entity2.count){
+            return NSOrderedSame;
+        }else{
+            return NSOrderedAscending;
+        }
+    }];
     
-    [records addObject:entity1];
-    [records addObject:entity2];
-    [records addObject:entity3];
-    [records addObject:entity4];
-    [records addObject:entity5];
-    [records addObject:entity6];
-    [records addObject:entity7];
-    [records addObject:entity8];
-    [records addObject:entity9];
-    [records addObject:entity10];
+    int itemInTop3 = 0;
     
-    [top3 addObject:[NSNumber numberWithInt:32]];
-    [top3 addObject:[NSNumber numberWithInt:13]];
-    [top3 addObject:[NSNumber numberWithInt:12]];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
+    for(int i = 0; i < [sorted count]; i++){
+
+        CustomerCount *entity = [records objectAtIndex:i];
         
-        ReportCustomView *myView = (ReportCustomView*)self.view;
-        [myView reload];
-    });
+        if(i == 0){
+            [top3 addObject:[NSNumber numberWithInt:entity.count]];
+            itemInTop3 ++;
+            return;
+        }
+        
+        if(itemInTop3 == 3){
+            return;
+        }
+        
+        CustomerCount *prev = [records objectAtIndex:i-1];
+        if(entity.count != prev.count){
+            [top3 addObject:[NSNumber numberWithInt:entity.count]];
+            itemInTop3 ++;
+        }
+    }
 }
 
 #pragma mark - abstract method implementation
