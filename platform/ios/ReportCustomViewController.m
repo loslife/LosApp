@@ -3,11 +3,13 @@
 #import "UserData.h"
 #import "StringUtils.h"
 #import "ReportDateStatus.h"
+#import "CustomerCount.h"
 
 @implementation ReportCustomViewController
 
 {
     NSMutableArray *records;
+    NSMutableArray *top3;
 }
 
 -(id) init
@@ -15,7 +17,8 @@
     self = [super init];
     if(self){
         
-        records = [NSMutableArray array];
+        records = [NSMutableArray arrayWithCapacity:1];
+        top3 = [NSMutableArray arrayWithCapacity:1];
         
         self.navigationItem.hidesBackButton = YES;
         self.navigationItem.rightBarButtonItem = [[SwitchShopButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20) Delegate:self];
@@ -46,22 +49,33 @@
     //ReportDateStatus *status = [ReportDateStatus sharedInstance];
     
     [records removeAllObjects];
+    [top3 removeAllObjects];
     
-    LosLineChartItem *item1 = [[LosLineChartItem alloc] initWithTitle:@"09:00" value:8 order:4];
-    LosLineChartItem *item2 = [[LosLineChartItem alloc] initWithTitle:@"10:00" value:35 order:1];
-    LosLineChartItem *item3 = [[LosLineChartItem alloc] initWithTitle:@"11:00" value:0 order:4];
-    LosLineChartItem *item4 = [[LosLineChartItem alloc] initWithTitle:@"12:00" value:14 order:4];
-    LosLineChartItem *item5 = [[LosLineChartItem alloc] initWithTitle:@"13:00" value:15 order:3];
-    LosLineChartItem *item6 = [[LosLineChartItem alloc] initWithTitle:@"14:00" value:23 order:2];
-    LosLineChartItem *item7 = [[LosLineChartItem alloc] initWithTitle:@"15:00" value:0 order:4];
+    CustomerCount *entity1 = [[CustomerCount alloc] initWithTotalMember:5 walkin:23 count:0 title:@"09:00"];
+    CustomerCount *entity2 = [[CustomerCount alloc] initWithTotalMember:5 walkin:23 count:5 title:@"10:00"];
+    CustomerCount *entity3 = [[CustomerCount alloc] initWithTotalMember:5 walkin:23 count:12 title:@"11:00"];
+    CustomerCount *entity4 = [[CustomerCount alloc] initWithTotalMember:5 walkin:23 count:32 title:@"12:00"];
+    CustomerCount *entity5 = [[CustomerCount alloc] initWithTotalMember:5 walkin:23 count:7 title:@"13:00"];
+    CustomerCount *entity6 = [[CustomerCount alloc] initWithTotalMember:5 walkin:23 count:12 title:@"14:00"];
+    CustomerCount *entity7 = [[CustomerCount alloc] initWithTotalMember:5 walkin:23 count:13 title:@"15:00"];
+    CustomerCount *entity8 = [[CustomerCount alloc] initWithTotalMember:5 walkin:23 count:0 title:@"16:00"];
+    CustomerCount *entity9 = [[CustomerCount alloc] initWithTotalMember:5 walkin:23 count:8 title:@"17:00"];
+    CustomerCount *entity10 = [[CustomerCount alloc] initWithTotalMember:5 walkin:23 count:7 title:@"18:00"];
     
-    [records addObject:item1];
-    [records addObject:item2];
-    [records addObject:item3];
-    [records addObject:item4];
-    [records addObject:item5];
-    [records addObject:item6];
-    [records addObject:item7];
+    [records addObject:entity1];
+    [records addObject:entity2];
+    [records addObject:entity3];
+    [records addObject:entity4];
+    [records addObject:entity5];
+    [records addObject:entity6];
+    [records addObject:entity7];
+    [records addObject:entity8];
+    [records addObject:entity9];
+    [records addObject:entity10];
+    
+    [top3 addObject:[NSNumber numberWithInt:32]];
+    [top3 addObject:[NSNumber numberWithInt:13]];
+    [top3 addObject:[NSNumber numberWithInt:12]];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
@@ -88,19 +102,29 @@
 
 -(NSUInteger) memberCount
 {
-    return 5;
+    CustomerCount *entity = [records firstObject];
+    return entity.totalMember;
 }
 
 -(NSUInteger) walkinCount
 {
-    return 23;
+    CustomerCount *entity = [records firstObject];
+    return entity.totalWalkin;
 }
 
 #pragma mark - line chart datasource
 
 -(NSUInteger) valuePerSection
 {
-    return 7;
+    double max = 0.0;
+    
+    for(CustomerCount *entity in records){
+        if(entity.count > max){
+            max = entity.count;
+        }
+    }
+    
+    return ceil(max / 5);
 }
 
 -(NSUInteger) itemCount
@@ -110,7 +134,20 @@
 
 -(LosLineChartItem*) itemAtIndex:(int)index
 {
-    return [records objectAtIndex:index];
+    CustomerCount *entity = [records objectAtIndex:index];
+    
+    int order = 4;
+    
+    if(entity.count == [[top3 firstObject] intValue]){
+        order = 1;
+    }else if(entity.count == [[top3 objectAtIndex:1] intValue]){
+        order = 2;
+    }else if(entity.count == [[top3 objectAtIndex:2] intValue]){
+        order = 3;
+    }
+    
+    LosLineChartItem *item = [[LosLineChartItem alloc] initWithTitle:entity.title value:entity.count order:order];
+    return item;
 }
 
 @end

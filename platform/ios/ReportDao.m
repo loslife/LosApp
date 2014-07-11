@@ -5,6 +5,7 @@
 #import "EmployeePerformance.h"
 #import "BusinessPerformance.h"
 #import "ServicePerformance.h"
+#import "CustomerCount.h"
 
 @implementation ReportDao
 
@@ -285,6 +286,73 @@
     }
     
     [db close];
+}
+
+-(NSMutableArray*) queryCustomerCountByDate:(NSDate*)date EnterpriseId:(NSString*)enterpriseId Type:(int)type
+{
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    NSDateComponents* components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:date];
+    
+    NSInteger year = [components year];
+    NSInteger month = [components month];
+    NSInteger day = [components day];
+    
+    NSString *dbFilePath = [PathResolver databaseFilePath];
+    FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
+    [db open];
+    
+    NSMutableArray *counts = [NSMutableArray arrayWithCapacity:1];
+    
+    if(type == 0){
+        
+        FMResultSet *rs = [db executeQuery:@"select sum(walkin) as total_walkin, sum(member) as total_member, walkin + member as count, hour from customer_count_day where enterprise_id = :eid and year = :year and month = :month and day = :day order by count desc", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
+        
+        while([rs next]){
+            
+            int walkin = [[rs objectForColumnName:@"total_walkin"] intValue];
+            int member = [[rs objectForColumnName:@"total_member"] intValue];
+            int count = [[rs objectForColumnName:@"count"] intValue];
+            int hour = [[rs objectForColumnName:@"hour"] intValue];
+            NSString *hour_str = [NSString stringWithFormat:@"%d:00", hour];
+            
+            CustomerCount *entity = [[CustomerCount alloc] initWithTotalMember:member walkin:walkin count:count title:hour_str];
+            [counts addObject:entity];
+        }
+    }else if(type == 1){
+        
+        FMResultSet *rs = [db executeQuery:@"select sum(walkin) as total_walkin, sum(member) as total_member, walkin + member as count, day from customer_count_month where enterprise_id = :eid and year = :year and month = :month order by count desc", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month]];
+        
+        while([rs next]){
+            
+            int walkin = [[rs objectForColumnName:@"total_walkin"] intValue];
+            int member = [[rs objectForColumnName:@"total_member"] intValue];
+            int count = [[rs objectForColumnName:@"count"] intValue];
+            int day = [[rs objectForColumnName:@"day"] intValue];
+            NSString *day_str = [NSString stringWithFormat:@"%d", day];
+            
+            CustomerCount *entity = [[CustomerCount alloc] initWithTotalMember:member walkin:walkin count:count title:day_str];
+            [counts addObject:entity];
+        }
+    }else{
+        
+        FMResultSet *rs = [db executeQuery:@"select sum(walkin) as total_walkin, sum(member) as total_member, walkin + member as count, day from customer_count_week where enterprise_id = :eid and year = :year and month = :month and day = :day order by count desc", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
+        
+        while([rs next]){
+            
+            int walkin = [[rs objectForColumnName:@"total_walkin"] intValue];
+            int member = [[rs objectForColumnName:@"total_member"] intValue];
+            int count = [[rs objectForColumnName:@"count"] intValue];
+            int day = [[rs objectForColumnName:@"day"] intValue];
+            NSString *day_str = [NSString stringWithFormat:@"%d", day];
+            
+            CustomerCount *entity = [[CustomerCount alloc] initWithTotalMember:member walkin:walkin count:count title:day_str];
+            [counts addObject:entity];
+        }
+    }
+    
+    [db close];
+    
+    return counts;
 }
 
 @end

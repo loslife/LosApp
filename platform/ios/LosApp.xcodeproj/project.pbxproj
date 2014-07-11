@@ -41,6 +41,7 @@
 		184472B7196D299600B4A543 /* ServicePerformance.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472B6196D299600B4A543 /* ServicePerformance.m */; };
 		184472BA196D2DB300B4A543 /* ServicePerformanceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472B9196D2DB300B4A543 /* ServicePerformanceView.m */; };
 		184472BD196E856D00B4A543 /* LosLineChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472BC196E856D00B4A543 /* LosLineChart.m */; };
+		184472C0196F8DC200B4A543 /* CustomerCount.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472BF196F8DC200B4A543 /* CustomerCount.m */; };
 		186667011949864100A345F7 /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186667001949864100A345F7 /* WelcomeViewController.m */; };
 		1866670519498B5600A345F7 /* UserData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670419498B5600A345F7 /* UserData.m */; };
 		1866670819498D1C00A345F7 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670719498D1C00A345F7 /* LoginViewController.m */; };
@@ -145,6 +146,8 @@
 		184472B9196D2DB300B4A543 /* ServicePerformanceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicePerformanceView.m; sourceTree = "<group>"; };
 		184472BB196E856D00B4A543 /* LosLineChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LosLineChart.h; sourceTree = "<group>"; };
 		184472BC196E856D00B4A543 /* LosLineChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LosLineChart.m; sourceTree = "<group>"; };
+		184472BE196F8DC200B4A543 /* CustomerCount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerCount.h; sourceTree = "<group>"; };
+		184472BF196F8DC200B4A543 /* CustomerCount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerCount.m; sourceTree = "<group>"; };
 		186666FF1949864100A345F7 /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
 		186667001949864100A345F7 /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
 		1866670319498B5600A345F7 /* UserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserData.h; sourceTree = "<group>"; };
@@ -390,6 +393,8 @@
 				184472AA196ABFBA00B4A543 /* BusinessPerformance.m */,
 				184472B5196D299600B4A543 /* ServicePerformance.h */,
 				184472B6196D299600B4A543 /* ServicePerformance.m */,
+				184472BE196F8DC200B4A543 /* CustomerCount.h */,
+				184472BF196F8DC200B4A543 /* CustomerCount.m */,
 			);
 			name = domain;
 			sourceTree = "<group>";
@@ -650,6 +655,7 @@
 				184472B1196CF19300B4A543 /* ReportServiceViewController.m in Sources */,
 				1844729C196820D100B4A543 /* PerformanceCompareView.m in Sources */,
 				186667151949ACD600A345F7 /* VersionInfo.m in Sources */,
+				184472C0196F8DC200B4A543 /* CustomerCount.m in Sources */,
 				1844726D1961652F00B4A543 /* ReportViewBase.m in Sources */,
 				183F214C1957C860009D54E8 /* MemberDetailViewController.m in Sources */,
 				18AFE623195434B20083C972 /* SyncService.m in Sources */,
