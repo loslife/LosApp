@@ -162,11 +162,11 @@
     
     NSString *sql11 = @"CREATE TABLE IF NOT EXISTS service_performance_week (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), total REAL, project_id varchar(64), project_name varchar(32), project_cateName varchar(32), project_cateId varchar(64), create_date REAL, modify_date REAL, year integer, month integer, day integer);";
     
-    NSString *sql12 = @"CREATE TABLE IF NOT EXISTS customer_count_day (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), walkin integer, member integer, year integer, month integer, day integer, hour integer, create_date REAL);";
+    NSString *sql12 = @"CREATE TABLE IF NOT EXISTS customer_count_day (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), walkin integer, member integer, year integer, month integer, day integer, hour integer, dateTime REAL);";
     
-    NSString *sql13 = @"CREATE TABLE IF NOT EXISTS customer_count_month (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), walkin integer, member integer, year integer, month integer, day integer, hour integer, create_date REAL);";
+    NSString *sql13 = @"CREATE TABLE IF NOT EXISTS customer_count_month (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), walkin integer, member integer, year integer, month integer, day integer, hour integer, dateTime REAL);";
     
-    NSString *sql14 = @"CREATE TABLE IF NOT EXISTS customer_count_week (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), walkin integer, member integer, year integer, month integer, day integer, hour integer, create_date REAL);";
+    NSString *sql14 = @"CREATE TABLE IF NOT EXISTS customer_count_week (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), walkin integer, member integer, year integer, month integer, day integer, hour integer, dateTime REAL);";
     
     NSString *dbFilePath = [PathResolver databaseFilePath];
     FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];

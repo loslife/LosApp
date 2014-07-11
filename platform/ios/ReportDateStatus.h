@@ -12,5 +12,8 @@
 -(NSString*) monthStr;
 -(NSString*) dayStr;
 -(NSString*) typeStr;
+-(int) year;
+-(int) month;
+-(int) day;
 
 @end

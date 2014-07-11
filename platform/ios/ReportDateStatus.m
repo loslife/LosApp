@@ -85,4 +85,28 @@
     }
 }
 
+-(int) year
+{
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    NSDateComponents* components = [calendar components:NSCalendarUnitYear fromDate:date];
+    
+    return (int)[components year];
+}
+
+-(int) month
+{
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    NSDateComponents* components = [calendar components:NSCalendarUnitMonth fromDate:date];
+    
+    return (int)[components month];
+}
+
+-(int) day
+{
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    NSDateComponents* components = [calendar components:NSCalendarUnitDay fromDate:date];
+    
+    return (int)[components day];
+}
+
 @end

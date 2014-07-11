@@ -4,6 +4,7 @@
 #import "StringUtils.h"
 #import "ReportDateStatus.h"
 #import "CustomerCount.h"
+#import "TimesHelper.h"
 
 @implementation ReportCustomViewController
 
@@ -76,6 +77,14 @@
         NSNumber *member_total = [summary objectForKey:@"member"];
         NSNumber *walkin_total = [summary objectForKey:@"temp"];
         
+        if(!member_total){
+            member_total = [NSNumber numberWithInt:0];
+        }
+        
+        if(!walkin_total){
+            walkin_total = [NSNumber numberWithInt:0];
+        }
+        
         NSArray *details;
         if([type isEqualToString:@"day"]){
             details = [b_customer objectForKey:@"hours"];
@@ -83,27 +92,28 @@
             details = [b_customer objectForKey:@"days"];
         }
         
-        [self.reportDao batchInsertCustomerCount:details type:type];
+        NSArray *filled = [self filledArray:details forType:type];// 填充数组缺失数据
+        
+        [self.reportDao batchInsertCustomerCount:filled type:type];
         
         [records removeAllObjects];
         
-        for(NSDictionary *item in details){
-            
+        for(NSDictionary *item in filled){
+        
             NSNumber *member_count = [item objectForKey:@"member"];
             NSNumber *walkin_count = [item objectForKey:@"temp"];
             NSNumber *day = [item objectForKey:@"day"];
             NSNumber *hour = [item objectForKey:@"hour"];
             
-            CustomerCount *entity;
-            
+            NSString *title;
             if([type isEqualToString:@"day"]){
-                NSString *title = [NSString stringWithFormat:@"%d:00", [hour intValue]];
-                entity = [[CustomerCount alloc] initWithTotalMember:[member_total intValue] walkin:[walkin_total intValue] count:[member_count intValue] + [walkin_count intValue] title:title];
+                title = [NSString stringWithFormat:@"%d:00", [hour intValue]];
             }else{
-                NSString *title = [NSString stringWithFormat:@"%d", [day intValue]];
-                entity = [[CustomerCount alloc] initWithTotalMember:[member_total intValue] walkin:[walkin_total intValue] count:[member_count intValue] + [walkin_count intValue] title:title];
+                title = [NSString stringWithFormat:@"%d", [day intValue]];
             }
-    
+            
+            CustomerCount *entity = [[CustomerCount alloc] initWithTotalMember:[member_total intValue] walkin:[walkin_total intValue] count:[member_count intValue] + [walkin_count intValue] title:title];
+            
             [records addObject:entity];
         }
         
@@ -115,6 +125,61 @@
             [myView reload];
         });
     }];
+}
+
+-(NSArray*) filledArray:(NSArray*)origin forType:(NSString*)type
+{
+    NSMutableArray *filled = [NSMutableArray arrayWithCapacity:1];
+    
+    ReportDateStatus *status = [ReportDateStatus sharedInstance];
+    int year = [status year];
+    int month = [status month];
+    int day = [status day];
+    
+    UserData *userData = [UserData load];
+    NSString *currentEnterpriseId = userData.enterpriseId;
+    
+    for(int i = 0; i < [origin count]; i++){
+        
+        NSDictionary *item = [origin objectAtIndex:i];
+        
+        NSString *_id = [item objectForKey:@"_id"];
+        
+        if(![StringUtils isEmpty:_id]){
+            [filled addObject:item];
+            continue;
+        }
+        
+        NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:1];
+       
+        [dict setObject:[[NSUUID UUID] UUIDString] forKey:@"_id"];
+        [dict setObject:currentEnterpriseId forKey:@"enterprise_id"];
+        [dict setObject:[NSNumber numberWithInt:0] forKey:@"member"];
+        [dict setObject:[NSNumber numberWithInt:0] forKey:@"temp"];
+        [dict setObject:[NSNumber numberWithInt:year] forKey:@"year"];
+        [dict setObject:[NSNumber numberWithInt:month] forKey:@"month"];
+        
+        if([type isEqualToString:@"day"]){
+            [dict setObject:[NSNumber numberWithInt:day] forKey:@"day"];
+            [dict setObject:[NSNumber numberWithInt:i] forKey:@"hour"];
+            NSTimeInterval time = [TimesHelper timeWithYear:year month:month day:day];
+            [dict setObject:[NSNumber numberWithLongLong:time] forKey:@"create_date"];
+        }else if([type isEqualToString:@"month"]){
+            [dict setObject:[NSNumber numberWithInt:i + 1] forKey:@"day"];
+            [dict setObject:[NSNumber numberWithInt:0] forKey:@"hour"];
+            NSTimeInterval time = [TimesHelper timeWithYear:year month:month day:i + 1];
+            [dict setObject:[NSNumber numberWithLongLong:time] forKey:@"create_date"];
+        }else{
+            [dict setObject:[NSNumber numberWithInt:i + 1] forKey:@"day"];
+            [dict setObject:[NSNumber numberWithInt:0] forKey:@"hour"];
+            NSTimeInterval time = [TimesHelper timeWithYear:year month:month day:i + 1];
+            [dict setObject:[NSNumber numberWithLongLong:time] forKey:@"create_date"];
+        }
+        
+        [filled addObject:dict];
+    }
+    
+    return filled;
 }
 
 -(void) resolveTop3
@@ -136,20 +201,20 @@
     int itemInTop3 = 0;
     
     for(int i = 0; i < [sorted count]; i++){
-
-        CustomerCount *entity = [records objectAtIndex:i];
+        
+        if(itemInTop3 == 3){
+            break;
+        }
+        
+        CustomerCount *entity = [sorted objectAtIndex:i];
         
         if(i == 0){
             [top3 addObject:[NSNumber numberWithInt:entity.count]];
             itemInTop3 ++;
-            return;
+            continue;
         }
         
-        if(itemInTop3 == 3){
-            return;
-        }
-        
-        CustomerCount *prev = [records objectAtIndex:i-1];
+        CustomerCount *prev = [sorted objectAtIndex:i-1];
         if(entity.count != prev.count){
             [top3 addObject:[NSNumber numberWithInt:entity.count]];
             itemInTop3 ++;
@@ -195,6 +260,10 @@
         if(entity.count > max){
             max = entity.count;
         }
+    }
+    
+    if(max < 5){
+        return 1;
     }
     
     return ceil(max / 5);
