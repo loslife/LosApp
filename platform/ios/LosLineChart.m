@@ -56,6 +56,7 @@
     id<LosLineChartDataSource> dataSource;
     CGPoint anchorPoint;
     CGFloat insets;
+    CGFloat maxHeight;
 }
 
 -(id) initWithFrame:(CGRect)frame dataSource:(id<LosLineChartDataSource>)ds
@@ -67,7 +68,9 @@
         
         anchorPoint = CGPointMake(60, 40);
         insets = 40;
+        maxHeight = insets * ([dataSource itemCount] + 1);
         
+        self.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, maxHeight);
         self.backgroundColor = [UIColor whiteColor];
     }
     return self;
@@ -84,7 +87,7 @@
     
     // Y轴
     CGContextMoveToPoint(context, anchorPoint.x, anchorPoint.y);
-    CGContextAddLineToPoint(context, anchorPoint.x, 400);
+    CGContextAddLineToPoint(context, anchorPoint.x, anchorPoint.y + maxHeight);
     CGContextStrokePath(context);
     
     // X轴

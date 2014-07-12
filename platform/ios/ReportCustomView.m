@@ -51,10 +51,11 @@
     NSString *title = [NSString stringWithFormat:@"会员%lu人次 散客%lu人次", [dataSource memberCount], [dataSource walkinCount]];
     summary.text = title;
 
-    scroll.contentSize = CGSizeMake(320, 1000);
+    CGFloat contentHeight = ([(id<LosLineChartDataSource>)dataSource itemCount] + 1) * 40;
+    scroll.contentSize = CGSizeMake(320, contentHeight);
     
     [chart removeFromSuperview];
-    chart = [[LosLineChart alloc] initWithFrame:CGRectMake(0, 141, 320, 427) dataSource:(ReportCustomViewController*)dataSource];
+    chart = [[LosLineChart alloc] initWithFrame:CGRectMake(0, 0, 320, 0) dataSource:(ReportCustomViewController*)dataSource];
     [scroll addSubview:chart];
 }
 
