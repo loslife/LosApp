@@ -8,6 +8,7 @@
 {
     id<ReportCustomerViewDataSource> dataSource;
     UILabel *summary;
+    UIScrollView *scroll;
     LosLineChart *chart;
 }
 
@@ -36,8 +37,11 @@
 
         HorizontalLine *line = [[HorizontalLine alloc] initWithFrame:CGRectMake(20, 140, 280, 1)];
         
+        scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 141, 320, 427)];
+        
         [self addSubview:header];
         [self addSubview:line];
+        [self addSubview:scroll];
     }
     return self;
 }
@@ -46,10 +50,12 @@
 {
     NSString *title = [NSString stringWithFormat:@"会员%lu人次 散客%lu人次", [dataSource memberCount], [dataSource walkinCount]];
     summary.text = title;
+
+    scroll.contentSize = CGSizeMake(320, 1000);
     
     [chart removeFromSuperview];
     chart = [[LosLineChart alloc] initWithFrame:CGRectMake(0, 141, 320, 427) dataSource:(ReportCustomViewController*)dataSource];
-    [self addSubview:chart];
+    [scroll addSubview:chart];
 }
 
 @end
