@@ -27,7 +27,7 @@ public class BcustomerCountBean
 	
 	private String day;
 	
-	private String hour;
+	private int hour;
 
 	public String getEnterprise_id() {
 		return enterprise_id;
@@ -85,11 +85,11 @@ public class BcustomerCountBean
 		this.day = day;
 	}
 
-	public String getHour() {
+	public int getHour() {
 		return hour;
 	}
 
-	public void setHour(String hour) {
+	public void setHour(int hour) {
 		this.hour = hour;
 	}
 

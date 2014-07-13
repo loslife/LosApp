@@ -101,7 +101,7 @@ public class CustomerCountDBManager
         	bean.setEnterprise_id(c.getString(c.getColumnIndex("enterprise_id")));
         	bean.setMember(c.getString(c.getColumnIndex("member")));
         	bean.setTemp(c.getString(c.getColumnIndex("walkin")));
-        	bean.setHour(c.getString(c.getColumnIndex("hour")));
+        	bean.setHour(c.getInt(c.getColumnIndex("hour")));
         	bean.setDateTime(c.getString(c.getColumnIndex("dateTime")));
         	bean.setYear(c.getString(c.getColumnIndex("year")));
         	bean.setMonth(c.getString(c.getColumnIndex("month")));

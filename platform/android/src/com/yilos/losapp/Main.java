@@ -188,13 +188,33 @@ public class Main extends BaseActivity {
 
 			}
 			
-			// 折线图
-			ChartView myView = (ChartView)findViewById(R.id.myView);
-			myView.SetInfo(new String[] { "7-11", "7-12", "7-13", "7-14", "7-15",
-					"7-16", "7-17" }, // X轴刻度
-					new String[] { "0", "10", "20", "30", "40", "50" }, // Y轴刻度
-					new int[] { 15, 23, 10, 36, 45, 40, 12 } // 数据
-			);
+			if(msg.what==4)
+			{
+				DateUtil  dateUtil = new DateUtil();
+				String[] xNum= dateUtil.getDayarr(year,month,dateType);
+				String[] count = new String[xNum.length];
+					for(int i=1;i<=xNum.length;i++)
+					{
+						count[i] = "0";
+						for(BcustomerCountBean bean:customerCountList)
+						{
+							if(i==bean.getHour())
+							{
+								int daytotal = Integer.valueOf(bean.getMember()) +Integer.valueOf(bean.getMember());
+								count[i] = String.valueOf(daytotal);
+							}
+						}
+					}
+					
+				
+				// 折线图
+				ChartView myView = (ChartView)findViewById(R.id.myView);
+				myView.SetInfo(xNum, // X轴刻度
+						new String[] { "0", "10", "20", "30", "40", "50" }, // Y轴刻度
+						new int[] { 15, 23, 10, 36, 45, 40, 12 } // 数据
+				);
+			}
+			
 		}
 	};
 
