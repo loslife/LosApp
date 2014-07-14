@@ -78,11 +78,11 @@ public class LoginActivity extends BaseActivity{
 					UIHelper.ToastMessage(v.getContext(), "请输入密码");
 					return;
 				}
-				loginUser(account,pwd);
-				/*//跳转到主界面
+				//loginUser(account,pwd);
+				//跳转到主界面
 				Intent main = new Intent();
 				main.setClass(LoginActivity.this, MainTabActivity.class);
-				startActivity(main);*/
+				startActivity(main);
 			}
 		});
 		

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/white"
+    android:background="@color/base_bg"
     android:orientation="vertical" >
 
     <include
@@ -18,8 +18,9 @@
 
         <RelativeLayout
             android:id="@+id/relativelayout_linkshop"
-             android:layout_width="wrap_content"
+            android:layout_width="wrap_content"
             android:layout_height="80.0dip"
+            android:background="@color/white"
             android:paddingLeft="20.0dip"
             android:paddingRight="20.0dip" >
 
@@ -30,14 +31,14 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_weight="1"
-                android:src="@drawable/linkshop" />
+                android:src="@drawable/linkshopicon" />
 
             <TextView
                 android:id="@+id/linkshop"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:layout_toRightOf="@+id/linkshopicon"
                 android:layout_marginLeft="24.0dip"
+                android:layout_toRightOf="@+id/linkshopicon"
                 android:layout_weight="5"
                 android:gravity="fill_vertical"
                 android:text="关联店铺"
@@ -53,10 +54,11 @@
 
         <RelativeLayout
             android:id="@+id/relativelayout_modfiypwd"
-             android:layout_width="wrap_content"
+            android:layout_width="wrap_content"
             android:layout_height="80.0dip"
+            android:background="@color/white"
             android:paddingLeft="20.0dip"
-            android:paddingRight="20.0dip">
+            android:paddingRight="20.0dip" >
 
             <ImageView
                 android:id="@+id/modfiypwdicon"
@@ -65,14 +67,14 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_weight="1"
-                android:src="@drawable/modfiypwd" />
+                android:src="@drawable/modfiypwdicon" />
 
             <TextView
                 android:id="@+id/modfiypwd"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
+                android:layout_marginLeft="24.0dip"
                 android:layout_toRightOf="@+id/modfiypwdicon"
-                 android:layout_marginLeft="24.0dip"
                 android:layout_weight="5"
                 android:gravity="fill_vertical"
                 android:text="修改密码"
@@ -90,6 +92,7 @@
             android:id="@+id/relativelayout_aboutlos"
             android:layout_width="wrap_content"
             android:layout_height="80.0dip"
+            android:background="@color/white"
             android:paddingLeft="20.0dip"
             android:paddingRight="20.0dip" >
 
@@ -100,13 +103,13 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_weight="1"
-                android:src="@drawable/aboutlos" />
+                android:src="@drawable/aboutlosicon" />
 
             <TextView
                 android:id="@+id/aboutlos"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                 android:layout_marginLeft="24.0dip"
+                android:layout_marginLeft="24.0dip"
                 android:layout_toRightOf="@+id/aboutlosicon"
                 android:layout_weight="5"
                 android:gravity="fill_vertical"
@@ -120,17 +123,67 @@
                 android:layout_alignParentBottom="true"
                 android:background="@color/gray" />
         </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativelayout_update"
+            android:layout_width="match_parent"
+            android:layout_height="80.0dip"
+            android:background="@color/white"
+            android:paddingLeft="20.0dip"
+            android:paddingRight="20.0dip" >
+
+            <ImageView
+                android:id="@+id/updateicon"
+                android:layout_width="wrap_content"
+                android:layout_height="48.0dip"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_weight="1"
+                android:src="@drawable/updateicon" />
+
+            <TextView
+                android:id="@+id/updateversion"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="24.0dip"
+                android:layout_toRightOf="@+id/updateicon"
+                android:layout_weight="5"
+                android:gravity="fill_vertical"
+                android:text="版本更新"
+                android:textColor="@color/black"
+                android:textSize="23.0dip" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativelayout_lgout"
+            android:layout_width="match_parent"
+            android:layout_height="80.0dip"
+            android:background="@color/white"
+            android:paddingLeft="20.0dip"
+            android:paddingRight="20.0dip"
+            android:layout_marginTop="12.0dip" >
+
+            <ImageView
+                android:id="@+id/exiticon"
+                android:layout_width="wrap_content"
+                android:layout_height="48.0dip"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_weight="1"
+                android:src="@drawable/exiticon" />
+
+            <TextView
+                android:id="@+id/lgout"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="24.0dip"
+                android:layout_toRightOf="@+id/exiticon"
+                android:layout_weight="5"
+                android:gravity="fill_vertical"
+                android:text="退出登录"
+                android:textColor="@color/black"
+                android:textSize="23.0dip" />
+        </RelativeLayout>
     </LinearLayout>
-
-    <TextView
-        android:layout_width="330.0dip"
-        android:layout_height="48.0dip"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="24.0dip"
-        android:background="@drawable/quit_bg"
-        android:gravity="center"
-        android:text="退出"
-        android:textColor="@android:color/white" />
-
-
+    
 </LinearLayout>
