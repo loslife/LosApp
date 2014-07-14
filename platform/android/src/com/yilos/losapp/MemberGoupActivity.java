@@ -4,47 +4,38 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.yilos.losapp.R.color;
-import com.yilos.losapp.adapter.ListViewAdp;
-import com.yilos.losapp.bean.MemberBean;
-import com.yilos.losapp.bean.MyShopBean;
-import com.yilos.losapp.bean.ServerMemberResponse;
-import com.yilos.losapp.common.Pinyin_Comparator;
-import com.yilos.losapp.common.SideBar;
-import com.yilos.losapp.common.UIHelper;
-import com.yilos.losapp.database.MemberDBManager;
-import com.yilos.losapp.service.MemberService;
-import com.yilos.losapp.service.MyshopManageService;
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.Editable;
-import android.text.Layout;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.LinearLayout.LayoutParams;
+
+import com.yilos.losapp.adapter.ListViewAdp;
+import com.yilos.losapp.bean.MemberBean;
+import com.yilos.losapp.bean.MyShopBean;
+import com.yilos.losapp.common.Pinyin_Comparator;
+import com.yilos.losapp.common.SideBar;
+import com.yilos.losapp.service.MemberService;
+import com.yilos.losapp.service.MyshopManageService;
 
 
 public class MemberGoupActivity extends BaseActivity{
@@ -55,10 +46,6 @@ public class MemberGoupActivity extends BaseActivity{
 	private WindowManager mWindowManager;
 	private TextView mDialogText;
 	private EditText seachmemberext;
-	
-	private ImageView seachmember;
-	private  RelativeLayout member_title;
-	private  RelativeLayout member_seach;
 	
 	String[] members;
 	String[] memberNames;
@@ -182,19 +169,9 @@ public class MemberGoupActivity extends BaseActivity{
 		mDialogText.setVisibility(View.INVISIBLE);
 		
 		shopname = (TextView)findViewById(R.id.shopname);
-		member_title = (RelativeLayout)findViewById(R.id.member_title);
-		member_seach = (RelativeLayout)findViewById(R.id.member_seach);
-		seachmember = (ImageView)findViewById(R.id.seachmember);
 		findViewById(R.id.goback).setVisibility(View.GONE);
 		
-		seachmember.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				member_title.setVisibility(View.GONE);
-				member_seach.setVisibility(View.VISIBLE);
-			}
-		});
+		
 
 		WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,

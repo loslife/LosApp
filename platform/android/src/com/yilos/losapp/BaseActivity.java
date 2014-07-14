@@ -73,7 +73,7 @@ public class BaseActivity extends Activity
     /**
      * 退出系统
      */
-    private void exit()
+    public void exit()
     {
     	if (!isExit) {  
             isExit = true;  
@@ -82,11 +82,16 @@ public class BaseActivity extends Activity
         } 
     	else
     	{
-    		//保存登出状态
-        	AppContext.getInstance(getBaseContext()).setLogin(false);
-            ActivityControlUtil.finishAllActivities();// finish所有Activity
+    		lgout();
     	}
-    	
+    }
+    
+    public void lgout()
+    {
+    	//保存登出状态
+    	AppContext.getInstance(getBaseContext()).setLogin(false);
+        ActivityControlUtil.finishAllActivities();// finish所有Activity
+        System.exit(0);
     }
 
 }

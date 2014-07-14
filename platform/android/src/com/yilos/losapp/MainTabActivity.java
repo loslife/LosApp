@@ -1,6 +1,7 @@
 package com.yilos.losapp;
 
 
+import android.annotation.SuppressLint;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -42,17 +43,31 @@ public class MainTabActivity extends TabActivity implements OnCheckedChangeListe
         setupIntent();  
     }  
   
-    @Override  
+    @SuppressLint("ResourceAsColor")
+	@Override  
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {  
+    	
         if(isChecked){  
             switch (buttonView.getId()) {  
-            case R.id.operate:  
-                this.mTabHost.setCurrentTabByTag("OPERATE");  
+            case R.id.operate: 
+            	
+            	((View)findViewById(R.id.oneline)).setBackgroundResource(R.color.blue_bg);
+            	((View)findViewById(R.id.twoline)).setBackgroundResource(R.color.gray_text);
+            	((View)findViewById(R.id.threeline)).setBackgroundResource(R.color.gray_text);
+                this.mTabHost.setCurrentTabByTag("OPERATE"); 
                 break;  
             case R.id.contacts:  
+            
+            	((View)findViewById(R.id.twoline)).setBackgroundResource(R.color.blue_bg);
+            	((View)findViewById(R.id.threeline)).setBackgroundResource(R.color.gray_text);
+            	((View)findViewById(R.id.oneline)).setBackgroundResource(R.color.gray_text);
                 this.mTabHost.setCurrentTabByTag("CONTACTS");  
                 break;  
             case R.id.setting:  
+           
+            	((View)findViewById(R.id.threeline)).setBackgroundResource(R.color.blue_bg);
+            	((View)findViewById(R.id.oneline)).setBackgroundResource(R.color.gray_text);
+            	((View)findViewById(R.id.twoline)).setBackgroundResource(R.color.gray_text);
                 this.mTabHost.setCurrentTabByTag("SETTING");  
                 break;  
             

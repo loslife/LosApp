@@ -305,7 +305,7 @@ public class Main extends BaseActivity {
 				year = String.valueOf(curDate.getYear());
 				day = String.valueOf(curDate.getDay());
 				month = String.valueOf(curDate.getMonth());
-				getShowData();
+				//getShowData();
 			}
 		});
 
@@ -342,7 +342,7 @@ public class Main extends BaseActivity {
 				year = String.valueOf(curDate.getYear());
 				day = String.valueOf(curDate.getDay());
 				month = String.valueOf(curDate.getMonth());
-				getShowData();
+				//getShowData();
 			}
 		});
 
@@ -574,7 +574,7 @@ public class Main extends BaseActivity {
 		customerCountService = new CustomerCountService(getBaseContext());
 		
 		userAccount = AppContext.getInstance(getBaseContext()).getUserAccount();
-		getShowData();
+		//getShowData();
 
 		// 查询本地的关联数据
 		List<MyShopBean> myshops = myshopService.queryShops();
