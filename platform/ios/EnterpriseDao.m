@@ -69,11 +69,18 @@
     
     NSMutableArray *enterprises = [NSMutableArray arrayWithCapacity:1];
     
-    FMResultSet *rs = [db executeQuery:@"select enterprise_id, enterprise_name from enterprises;"];
+    FMResultSet *rs = [db executeQuery:@"select enterprise_id, enterprise_name, display from enterprises order by display desc;"];
     while ([rs next]) {
         NSString *pk = [rs objectForColumnName:@"enterprise_id"];
         NSString *name = [rs objectForColumnName:@"enterprise_name"];
-        Enterprise *enterprise = [[Enterprise alloc] initWithId:pk Name:name];
+        NSString *display = [rs objectForColumnName:@"display"];
+        int state;
+        if([display isEqualToString:@"yes"]){
+            state = 1;
+        }else{
+            state = 0;
+        }
+        Enterprise *enterprise = [[Enterprise alloc] initWithId:pk Name:name state:state];
         [enterprises addObject:enterprise];
     }
     

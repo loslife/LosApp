@@ -1,4 +1,5 @@
 #import "EnterpriseListView.h"
+#import "StringUtils.h"
 
 @implementation EnterpriseListView
 
@@ -70,7 +71,11 @@
         }
         
         UILabel *middleView = [[UILabel alloc] initWithFrame:CGRectMake(40, 0, 160, 40)];
-        middleView.text = enterprise.name;
+        if([StringUtils isEmpty:enterprise.name]){
+            middleView.text = @"我的店铺";
+        }else{
+            middleView.text = enterprise.name;
+        }
         middleView.textAlignment = NSTextAlignmentLeft;
         
         UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
