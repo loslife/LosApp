@@ -9,9 +9,9 @@
     UIView *form;
 
     BOOL isUnfold;
-    CGFloat listContentHeight;
-    CGFloat formHeight;
     CGFloat labelHeight;
+    CGFloat formHeight;
+    CGFloat listHeight;
 }
 
 -(id) initWithController:(AddShopViewController*)controller
@@ -24,7 +24,7 @@
         isUnfold = NO;
         labelHeight = 50;
         formHeight = 280;
-        [self calculateListHeight];
+        listHeight = 454;
         
         label = [[UIView alloc] initWithFrame:CGRectMake(0, 64, 320, labelHeight)];
         
@@ -89,7 +89,7 @@
         [form addSubview:attach];
         [form addSubview:notice];
         
-        self.list = [[EnterpriseListView alloc] initWithFrame:CGRectMake(0, 110, 320, listContentHeight) Delegate:controller];
+        self.list = [[EnterpriseListView alloc] initWithFrame:CGRectMake(0, 110, 320, listHeight) Delegate:controller];
         
         [self addSubview:label];
         [self addSubview:form];
@@ -101,19 +101,11 @@
 -(void) calculateListHeight
 {
     CGFloat actualHeight = 568 - 64;
-    
-    CGFloat minHeight;
+
     if(isUnfold){
-        minHeight = actualHeight - formHeight;
+        listHeight = actualHeight - formHeight;
     }else{
-        minHeight = actualHeight - labelHeight;
-    }
-    
-    CGFloat contentHeight = 5 + 40 * [myDelegate count];
-    if(contentHeight < minHeight){
-        listContentHeight = minHeight;
-    }else{
-        listContentHeight = contentHeight;
+        listHeight = actualHeight - labelHeight;
     }
 }
 
@@ -126,7 +118,9 @@
     
         form.frame = CGRectMake(0, 64, 320, formHeight);
         label.frame = CGRectMake(0, -labelHeight, 320, labelHeight);
-        self.list.frame = CGRectMake(0, 64 + formHeight, 320, listContentHeight);
+        self.list.frame = CGRectMake(0, 64 + formHeight, 320, listHeight);
+    } completion:^(BOOL finished){
+        [self.list reload];
     }];
 }
 
@@ -139,7 +133,9 @@
         
         form.frame = CGRectMake(0, -formHeight, 320, formHeight);
         label.frame = CGRectMake(0, 64, 320, labelHeight);
-        self.list.frame = CGRectMake(0, 64 + labelHeight, 320, listContentHeight);
+        self.list.frame = CGRectMake(0, 64 + labelHeight, 320, listHeight);
+    } completion:^(BOOL finished){
+        [self.list reload];
     }];
 }
 

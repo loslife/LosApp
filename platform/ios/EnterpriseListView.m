@@ -16,7 +16,7 @@
         myDelegate = delegate;
         
         indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        [indicator setCenter:CGPointMake(160, 100)];
+        [indicator setCenter:CGPointMake(frame.size.width / 2, frame.size.height / 2)];
         [self addSubview:indicator];
         
         self.backgroundColor = [UIColor whiteColor];
@@ -36,6 +36,8 @@
     for(UIView *subview in self.subviews){
         [subview removeFromSuperview];
     }
+    
+    [self calculateContentSize];
     
     NSUInteger count = [myDelegate count];
     
@@ -100,6 +102,12 @@
         
         [self addSubview:item];
     }
+}
+
+-(void) calculateContentSize
+{
+    CGFloat contentHeight = 5 + 40 * [myDelegate count];
+    self.contentSize = CGSizeMake(320, contentHeight);
 }
 
 -(void) reAttach:(id)sender

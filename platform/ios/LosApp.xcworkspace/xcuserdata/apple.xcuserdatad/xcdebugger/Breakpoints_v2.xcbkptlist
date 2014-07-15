@@ -208,11 +208,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AddShopView.m"
-            timestampString = "427107959.233405"
+            timestampString = "427110219.405967"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
             landmarkName = "-unfold"
             landmarkType = "5">
             <Locations>
@@ -254,11 +254,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AddShopView.m"
-            timestampString = "427107959.233405"
+            timestampString = "427110219.405967"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "127"
-            endingLineNumber = "127"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
             landmarkName = "-unfold"
             landmarkType = "5">
          </BreakpointContent>
@@ -302,11 +302,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EnterpriseListView.m"
-            timestampString = "427109460.519341"
+            timestampString = "427110219.405967"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "109"
-            endingLineNumber = "109"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
             landmarkName = "-reAttach:"
             landmarkType = "5">
          </BreakpointContent>
@@ -350,12 +350,44 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EnterpriseListView.m"
-            timestampString = "427109460.519341"
+            timestampString = "427110219.405967"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "74"
-            endingLineNumber = "74"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
             landmarkName = "-reload"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "EnterpriseListView.m"
+            timestampString = "427110403.609175"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "-reload"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AddShopView.m"
+            timestampString = "427110553.974888"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
+            landmarkName = "-unfold"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

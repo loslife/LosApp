@@ -11,7 +11,7 @@
 
 @end
 
-@interface EnterpriseListView : UIView
+@interface EnterpriseListView : UIScrollView
 
 -(id) initWithFrame:(CGRect)frame Delegate:(id<EnterpriseListViewDelegate>)delegate;
 -(void) reload;
