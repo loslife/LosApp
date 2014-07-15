@@ -75,5 +75,18 @@
      <include layout="@layout/service_chart" />
      
     </com.yilos.losapp.common.ScrollLayout>
+    
+      <LinearLayout
+      android:id="@+id/noshop"
+      android:layout_width="fill_parent"
+	  android:layout_height="fill_parent"
+	  android:gravity="center"
+	  android:visibility="gone">
+          <TextView android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:textColor="@color/gray_text"
+	                android:textSize="16.0dip"
+	                android:text="您还未添加关联店铺信息，去设置-关联店铺添加"/>
+      </LinearLayout>
    
 </LinearLayout>

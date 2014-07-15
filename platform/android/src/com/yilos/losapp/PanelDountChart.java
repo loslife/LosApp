@@ -60,8 +60,6 @@ public PanelDountChart(Context context,float arr[],String textName[]) {
         PaintLabel.setColor(Color.GRAY);
         PaintLabel.setTextSize(36);        
            
-     
-                  
         //位置计算类    
         ChartCalc xcalc = new ChartCalc();      
           

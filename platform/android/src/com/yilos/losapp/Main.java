@@ -33,6 +33,7 @@ import com.yilos.losapp.bean.ServerManageResponse;
 import com.yilos.losapp.bean.ServerMemberResponse;
 import com.yilos.losapp.bean.ServicePerformanceBean;
 import com.yilos.losapp.common.DateUtil;
+import com.yilos.losapp.common.ScrollLayout;
 import com.yilos.losapp.common.UIHelper;
 import com.yilos.losapp.service.BizPerformanceService;
 import com.yilos.losapp.service.CustomerCountService;
@@ -41,12 +42,6 @@ import com.yilos.losapp.service.MyshopManageService;
 import com.yilos.losapp.service.ProductPerformanceService;
 
 public class Main extends BaseActivity {
-
-	private TextView operate;
-
-	private TextView contacts;
-
-	private TextView setting;
 
 	private String shopId;
 
@@ -62,8 +57,6 @@ public class Main extends BaseActivity {
 	private List<BcustomerCountBean> customerCountList;
 
 	private String userAccount;
-
-	private String last_sync = "0";
 
 	private ImageView select_shop;
 
@@ -84,10 +77,14 @@ public class Main extends BaseActivity {
 
 	public static final int WIDTH = 280;
 	public static final int HEIGHT = 250;
+	
 	private PanelBar view;
 	private LinearLayout columnarLayout;
 	private LinearLayout annularLayout;
 	private LinearLayout annular2Layout;
+	
+	private ScrollLayout mainScrollLayout;
+	private LinearLayout noshop;
 
 	private String year;
 
@@ -99,9 +96,9 @@ public class Main extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		initData();
 		initView();
-
+		initData();
+		
 	}
 	
 	Handler handle = new Handler() {
@@ -192,21 +189,27 @@ public class Main extends BaseActivity {
 			{
 				DateUtil  dateUtil = new DateUtil();
 				String[] yNum= dateUtil.getDayarr(year,month,dateType);
+				
+				int walkinCount = 0;
+				int memberCount = 0;
 				int[] count = new int[yNum.length];
-					for(int i=1;i<=yNum.length;i++)
+					for(int i=0;i<yNum.length;i++)
 					{
 						count[i] = 0;
 						for(BcustomerCountBean bean:customerCountList)
 						{
-							if(i==bean.getHour())
+							if(null!=bean.get_id()&&i==bean.getHour())
 							{
-								int daytotal = Integer.valueOf(bean.getMember()) +Integer.valueOf(bean.getMember());
+								walkinCount += Integer.valueOf(bean.getTemp());
+								memberCount += Integer.valueOf(bean.getMember());
+								int daytotal = Integer.valueOf(bean.getTemp()) +Integer.valueOf(bean.getMember());
 								count[i] = daytotal;
-							}
+								break;
+							}	
 						}
 					}
-					
-				
+					((TextView)findViewById(R.id.personNum)).setText("会员"+memberCount+"人次  散客"+walkinCount+"人次");
+
 				// 折线图
 				ChartView myView = (ChartView)findViewById(R.id.myView);
 				myView.SetInfo(yNum, // Y轴刻度
@@ -214,7 +217,6 @@ public class Main extends BaseActivity {
 						count// 数据
 				);
 			}
-			
 		}
 	};
 
@@ -225,6 +227,9 @@ public class Main extends BaseActivity {
 		lefttime = (ImageView) findViewById(R.id.lefttime);
 		righttime = (ImageView) findViewById(R.id.righttime);
 		timetype = (TextView) findViewById(R.id.timetype);
+		
+		mainScrollLayout = (ScrollLayout)findViewById(R.id.main_scrolllayout);
+		noshop = (LinearLayout)findViewById(R.id.noshop);
 
 		shopname.setText(getIntent().getStringExtra("shopName"));
 		showTime.setText(getDateNow());
@@ -305,7 +310,7 @@ public class Main extends BaseActivity {
 				year = String.valueOf(curDate.getYear());
 				day = String.valueOf(curDate.getDay());
 				month = String.valueOf(curDate.getMonth());
-				//getShowData();
+				getShowData();
 			}
 		});
 
@@ -342,7 +347,7 @@ public class Main extends BaseActivity {
 				year = String.valueOf(curDate.getYear());
 				day = String.valueOf(curDate.getDay());
 				month = String.valueOf(curDate.getMonth());
-				//getShowData();
+				getShowData();
 			}
 		});
 
@@ -368,7 +373,7 @@ public class Main extends BaseActivity {
 				// ServerManageResponse res = ac.getReportsData(shopId, year,
 				// month, dateType, day,"employee");
 				ServerManageResponse res = ac.getReportsData(
-						"100048101900800200", "2014", "5", dateType, "21",
+						"100048101900800200", "2014", "6", dateType, "7",
 						"employee");
 				if (res.isSucess()) {
 					
@@ -388,7 +393,7 @@ public class Main extends BaseActivity {
 					}
 					// employeePerService.deltel(year, month, day, dateType,
 					// tableName);
-					employeePerService.deltel("2014", "4", "21", dateType,
+					employeePerService.deltel("2014", "5", "7", dateType,
 							tableName);
 					
 					employeePerService.addEmployeePer(employPerList, tableName);
@@ -529,41 +534,6 @@ public class Main extends BaseActivity {
 		}.start();
 	}
 
-	/**
-	 * 初始化底部栏
-	 */
-	private void initFootBar() {
-
-		operate = (TextView) findViewById(R.id.operate);
-
-		contacts = (TextView) findViewById(R.id.contacts);
-
-		setting = (TextView) findViewById(R.id.setting);
-
-		contacts.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-
-				Intent contacts = new Intent();
-				contacts.setClass(getBaseContext(), MemberGoupActivity.class);
-				startActivity(contacts);
-			}
-		});
-
-		setting.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-
-				Intent contacts = new Intent();
-				contacts.setClass(getBaseContext(), SettingActivity.class);
-				startActivity(contacts);
-			}
-		});
-
-	}
-
 	public void initData() {
 
 		myshopService = new MyshopManageService(getBaseContext());
@@ -574,18 +544,23 @@ public class Main extends BaseActivity {
 		customerCountService = new CustomerCountService(getBaseContext());
 		
 		userAccount = AppContext.getInstance(getBaseContext()).getUserAccount();
-		//getShowData();
+		getShowData();
 
 		// 查询本地的关联数据
 		List<MyShopBean> myshops = myshopService.queryShops();
 		if (myshops != null && myshops.size() > 0) {
+			mainScrollLayout.setVisibility(View.VISIBLE);
+			noshop.setVisibility(View.GONE);
 			shopId = myshops.get(0).getEnterprise_id();
 			title = new String[myshops.size()];
 			for (int i = 0; i < myshops.size(); i++) {
 				title[i] = myshops.get(i).getEnterprise_name();
 			}
-		} else {
-			// getLinkShop();
+		}
+		else
+		{
+			mainScrollLayout.setVisibility(View.GONE);
+			noshop.setVisibility(View.VISIBLE);
 		}
 
 	}

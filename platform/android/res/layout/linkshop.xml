@@ -2,24 +2,39 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/base_bg"
     android:orientation="vertical" >
     <include 
         android:layout_height="50.0dip"
     layout="@layout/main_header" /> 
-     <LinearLayout 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="48.0dip"
+        android:gravity="center" 
+        android:background="@color/white">
+    <TextView
+        android:id="@+id/linkshopbtn"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_gravity="center"
-        android:orientation="vertical" 
-        android:background="@color/base_bg"
-        android:layout_weight="1">
+        android:layout_height="48.0dip"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:text="关联店铺"
+        android:textSize="14.0dip"
+        android:textColor="@color/blue_text" />
+    </RelativeLayout>
+
+     <LinearLayout
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:layout_gravity="center"
+         android:background="@color/white"
+         android:orientation="vertical" >
+
     <RelativeLayout
         android:id="@+id/relativelayout_linkshop"
         android:layout_width="fill_parent"
         android:layout_height="48.0dip"
-        android:layout_marginTop="24.0dip"
-        android:background="@color/white" >
+        android:background="@drawable/textborder" >
 
         <TextView
             android:id="@+id/phonetext"
@@ -54,8 +69,8 @@
         android:id="@+id/relativelayout_modfiypwd"
         android:layout_width="fill_parent"
         android:layout_height="48.0dip"
-        android:layout_marginTop="24.0dip"
-        android:background="@color/white" >
+        android:layout_marginTop="12.0dip"
+        android:background="@drawable/textborder" >
 
         <TextView
             android:id="@+id/validatecodetext"
@@ -90,7 +105,7 @@
         android:id="@+id/relativelayout_modfiypwd"
         android:layout_width="fill_parent"
         android:layout_height="24.0dip"
-        android:layout_marginTop="24.0dip"
+        android:layout_marginTop="12.0dip"
       >
         <TextView
             android:id="@+id/btn_validatecode"
@@ -112,7 +127,7 @@
     
    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="48.0dip"
+        android:layout_height="100.0dip"
         android:paddingLeft="20.0dip"
         android:paddingRight="20.0dip"
         android:layout_marginTop="24.0dip"
@@ -120,15 +135,39 @@
     <TextView
         android:id="@+id/linkshopbtn"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="48.0dip"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/login_bg"
         android:gravity="center"
         android:text="立即关联"
         android:textSize="22.0dip"
         android:textColor="@color/white" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="50.0dip"
+        android:layout_below="@id/linkshopbtn"
+        android:gravity="left"
+        android:text="小贴士：关联店铺完成后，在手机中可以查看店铺中的实时经营数据以及所有的会员资料信息"
+        android:textColor="@color/gray_text"
+        android:textSize="12.0dip" />
     </RelativeLayout>
     </LinearLayout>
-
+    
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="12.0dip"
+        android:paddingLeft="20.0dip"
+        android:paddingRight="20.0dip"
+        android:background="@color/white"
+        android:orientation="vertical" >
+        <ListView
+            android:id="@+id/shoplist"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none" >
+        </ListView>
+    </LinearLayout>
 
 </LinearLayout>

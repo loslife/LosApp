@@ -125,7 +125,7 @@ public class DateUtil {
 			
 			for(int i = 1;i<=maxlength;i++)
 			{
-				days[i]= String.valueOf(i);
+				days[i-1]= String.valueOf(i);
 			}
 		
 		return days;

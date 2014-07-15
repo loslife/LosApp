@@ -1,21 +1,15 @@
 package com.yilos.losapp;
 
-import android.os.Bundle;  
-import android.annotation.SuppressLint;  
-import android.app.Activity;  
-import android.content.Context;  
-import android.content.res.Resources;  
-import android.graphics.BlurMaskFilter;  
-import android.graphics.Canvas;  
-import android.graphics.Color;  
-import android.graphics.Paint;  
-import android.graphics.Path;  
-import android.graphics.Typeface;  
-import android.graphics.Path.Direction;  
-import android.graphics.RectF;  
-import android.util.DisplayMetrics;  
-import android.view.Menu;  
-import android.view.View; 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.BlurMaskFilter;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
+import android.util.DisplayMetrics;
+import android.view.View;
 
 public class PanelBar extends View {
 	 private int ScrHeight;  
@@ -90,7 +84,7 @@ public class PanelBar extends View {
          int lnWidth = 0; //标识线宽度  
          int lnSpace = 65; //标识间距  
            
-         int startx = 180;  
+         int startx = 200;  
          int endx = startx + 20;  
            
          int starty = 320;  
@@ -110,14 +104,14 @@ public class PanelBar extends View {
          // Y 轴  传入参数及柱形  
          for(i=0; i<arrNum.length; i++)   
          {                 
-             starty =  initY - (i+1) * lnSpace; //起始线要提高一位  
+             starty =  70 + i* lnSpace; //起始线要提高一位  
              endy = starty-rectHeight;  
                
              
              //文字 偏移30，下移10  
              canvas.drawText("￥"+arrNum[i], initX + (Float.valueOf(arrNum[i]) /numSpace) * lnSpace+10,endy+40, arrPaintArc[3]);
              
-             canvas.drawText(name[i], initX-130,endy+40, arrPaintArc[3]);
+             canvas.drawText(name[i], initX-name[i].length()*40,endy+40, arrPaintArc[3]);
              
              Paint  paint = null;
              if(i<3)
@@ -149,8 +143,7 @@ public class PanelBar extends View {
          }  
          // X 轴            
          //canvas.drawLine( initX ,initY  ,ScrWidth - 10  ,initY, PaintText);  
-           
-           
+
      }         
  }  
 

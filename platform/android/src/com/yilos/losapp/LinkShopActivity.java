@@ -1,5 +1,9 @@
 package com.yilos.losapp;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import com.yilos.losapp.bean.MyShopBean;
 import com.yilos.losapp.bean.ServerMemberResponse;
 import com.yilos.losapp.common.StringUtils;
@@ -16,6 +20,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 public class LinkShopActivity extends BaseActivity
@@ -30,6 +36,8 @@ public class LinkShopActivity extends BaseActivity
 	private MyshopManageService myshopService;
 	private MemberService memberService;
 	
+	private List<MyShopBean> myshops;
+	
 	private boolean isUserExist = false;
 	private String shopId;
 	
@@ -37,7 +45,9 @@ public class LinkShopActivity extends BaseActivity
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.linkshop);
+		myshopService = new MyshopManageService(getBaseContext());
 		initView();
+		
 	}
 	
 	public void initView()
@@ -46,6 +56,36 @@ public class LinkShopActivity extends BaseActivity
 		validatecode = (EditText)findViewById(R.id.validatecode);
 		reqValidatecode = (TextView)findViewById(R.id.btn_validatecode);
 		linkshopbtn = (TextView)findViewById(R.id.linkshopbtn);
+		
+		//绑定Layout里面的ListView  
+        ListView list = (ListView) findViewById(R.id.shoplist);  
+        myshops = myshopService.queryShops();
+          
+        //生成动态数组，加入数据  
+        ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();  
+        for(MyShopBean bean:myshops)  
+        {  
+        	String shopName = bean.getEnterprise_name();
+        	if(shopName.length()>10)
+        	{
+        		shopName = shopName.substring(0, 10)+"...";
+        	}
+            HashMap<String, Object> map = new HashMap<String, Object>();  
+            map.put("linkshopname", shopName);  
+            listItem.add(map);  
+        } 
+        
+        //生成适配器的Item和动态数组对应的元素  
+        SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,//数据源   
+            R.layout.shop_item,//ListItem的XML实现  
+            //动态数组与ImageItem对应的子项          
+            new String[] {"linkshopname"},   
+            //ImageItem的XML文件里面的一个ImageView,两个TextView ID  
+            new int[] {R.id.linkshopname}  
+        );  
+         
+        //添加并且显示  
+        list.setAdapter(listItemAdapter); 
 		
 		 findViewById(R.id.goback).setOnClickListener(new OnClickListener() {
 				

@@ -52,7 +52,7 @@ public class ChartView extends View {
 		XLabel = XLabels;
 		YLabel = YLabels;
 		Data = AllData;
-
+		YLength = XLabels.length*YScale;
 	}
 
 	@Override
@@ -75,11 +75,11 @@ public class ChartView extends View {
 
 		// 设置Y轴(对于系统来讲屏幕的原点在左上角）
 		canvas.drawLine(XPoint, YPoint - YLength, XPoint, YPoint, paint); // 轴线
-		for (int i = 1; i * YScale <= YLength; i++) {
+		for (int i = 1; i  <= XLabel.length; i++) {
 			// canvas.drawLine(XPoint, YPoint - YLength +i * YScale, XPoint + 5,
 			// YPoint - YLength +i * YScale, paint); // 刻度 XPoint+5画出了一条短的小横线
 			try {
-				canvas.drawText(XLabel[i], XPoint - 90, YPoint - YLength + i
+				canvas.drawText(XLabel[i-1], XPoint - XLabel[i-1].length()*20, YPoint - YLength + i
 						* YScale + 5, paint1); // 文字
 			} catch (Exception e) {
 			}
@@ -88,13 +88,16 @@ public class ChartView extends View {
 		// 设置X轴
 		canvas.drawLine(XPoint, YPoint - YLength, XPoint + XLength, YPoint
 				- YLength, paint); // 轴线
-		for (int i = 0; i * XScale < XLength; i++) {
+		for(int i = 0; i < YLabel.length; i++)
+		{
+			canvas.drawText(YLabel[i], XPoint + i * XScale - 5, YPoint
+					- YLength, paint1); // 文字
+		}
+		for (int i = 0; i < XLabel.length; i++) {
 			/*
 			 * canvas.drawLine(XPoint + i * XScale, YPoint-YLength, XPoint + i *
 			 * XScale, YPoint- YLength- 5, paint); // 刻度
 			 */try {
-				canvas.drawText(YLabel[i], XPoint + i * XScale - 5, YPoint
-						- YLength, paint1); // 文字
 				
 				paint.setColor(res.getColor(colors[3]));
 				// 数据值
