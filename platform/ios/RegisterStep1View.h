@@ -6,9 +6,8 @@
 
 @property UITextField *username;
 @property UITextField *code;
-@property UITextField *password;
-@property UITextField *passwordRepeat;
 @property UIButton *requireCodeButton;
+@property UIButton *submit;
 
 -(id) initWithController:(RegisterStep1ViewController*)controller Type:(NSString*)type;
 

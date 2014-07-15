@@ -131,28 +131,28 @@
     
     NSString* phone = myView.username.text;
     NSString* code = myView.code.text;
-    NSString* password = myView.password.text;
-    NSString* repeat = myView.passwordRepeat.text;
+//    NSString* password = myView.password.text;
+//    NSString* repeat = myView.passwordRepeat.text;
     
-    int flag = [self checkInputWithPhone:phone Code:code Password:password Repeat:repeat];
-    
-    if(flag != 0){
-        if(flag == 1){
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"请输入密码和验证码" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-            [alert show];
-        }
-        if(flag == 2){
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"密码输入不一致" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-            [alert show];
-        }
-        if(flag == 3){
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"密码长度错误" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-            [alert show];
-        }
-        return;
-    }
-    
-    [self doCheckPhone:phone Code:code Password:password];
+//    int flag = [self checkInputWithPhone:phone Code:code Password:password Repeat:repeat];
+//    
+//    if(flag != 0){
+//        if(flag == 1){
+//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"请输入密码和验证码" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+//            [alert show];
+//        }
+//        if(flag == 2){
+//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"密码输入不一致" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+//            [alert show];
+//        }
+//        if(flag == 3){
+//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"密码长度错误" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+//            [alert show];
+//        }
+//        return;
+//    }
+//    
+//    [self doCheckPhone:phone Code:code Password:password];
 }
 
 -(void) doCheckPhone:(NSString*)phone Code:(NSString*)code Password:(NSString*)password
