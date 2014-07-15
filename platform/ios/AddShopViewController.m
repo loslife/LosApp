@@ -9,6 +9,7 @@
     int resendCountdown;
     LosHttpHelper *httpHelper;
     SyncService *syncService;
+    NSMutableArray *records;
 }
 
 -(id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -20,6 +21,7 @@
         
         httpHelper = [[LosHttpHelper alloc] init];
         syncService = [[SyncService alloc] init];
+        records = [NSMutableArray arrayWithCapacity:1];
     }
     return self;
 }
@@ -28,6 +30,10 @@
 {
     AddShopView *view = [[AddShopView alloc] initWithController:self];
     self.view = view;
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [self loadData];
+    });
 }
 
 -(void) viewWillDisappear:(BOOL)animated
@@ -45,6 +51,25 @@
     }
     
     timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(countdown) userInfo:nil repeats:YES];
+}
+
+-(void) loadData
+{
+    Enterprise *e1 = [[Enterprise alloc] initWithId:@"1" Name:@"美甲花城1"];
+    Enterprise *e2 = [[Enterprise alloc] initWithId:@"2" Name:@"美甲花城2"];
+    Enterprise *e3 = [[Enterprise alloc] initWithId:@"3" Name:@"美甲花城3"];
+    Enterprise *e4 = [[Enterprise alloc] initWithId:@"4" Name:@"美甲花城4"];
+    
+    [records addObject:e1];
+    [records addObject:e2];
+    [records addObject:e3];
+    [records addObject:e4];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+    
+        AddShopView *myView = (AddShopView*)self.view;
+        [myView.list reload];
+    });
 }
 
 -(void) requireVerificationCode
@@ -164,6 +189,18 @@
             });
         }];
     }];
+}
+
+#pragma mark - delegate
+
+-(NSUInteger) count
+{
+    return [records count];
+}
+
+-(Enterprise*) itemAtIndex:(int)index
+{
+    return [records objectAtIndex:index];
 }
 
 #pragma mark - timer
