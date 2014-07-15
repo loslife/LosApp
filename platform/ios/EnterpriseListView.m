@@ -77,12 +77,15 @@
         button.frame = CGRectMake(200, 10, 80, 20);
         button.tintColor = [UIColor whiteColor];
         button.titleLabel.font = [UIFont boldSystemFontOfSize:12];
+        button.tag = i;
         if(enterprise.state == 1){
             [button setTitle:@"解除关联" forState:UIControlStateNormal];
             button.backgroundColor = [UIColor colorWithRed:255/255.0f green:122/255.0f blue:75/255.0f alpha:1.0f];
+            [button addTarget:self action:@selector(undoAttach:) forControlEvents:UIControlEventTouchUpInside];
         }else{
             [button setTitle:@"恢复关联" forState:UIControlStateNormal];
             button.backgroundColor = [UIColor colorWithRed:2/255.0f green:160/255.0f blue:221/255.0f alpha:1.0f];
+            [button addTarget:self action:@selector(reAttach:) forControlEvents:UIControlEventTouchUpInside];
         }
         
         [item addSubview:leftView];
@@ -92,6 +95,22 @@
         
         [self addSubview:item];
     }
+}
+
+-(void) reAttach:(id)sender
+{
+    UIButton *button = (UIButton*)sender;
+    
+    Enterprise* item = [myDelegate itemAtIndex:(int)button.tag];
+    [myDelegate doAttach:item.pk];
+}
+
+-(void) undoAttach:(id)sender
+{
+    UIButton *button = (UIButton*)sender;
+    
+    Enterprise* item = [myDelegate itemAtIndex:(int)button.tag];
+    [myDelegate undoAttach:item.pk];
 }
 
 @end

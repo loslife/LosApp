@@ -6,6 +6,9 @@
 -(NSUInteger) count;
 -(Enterprise*) itemAtIndex:(int)index;
 
+-(void) doAttach:(NSString*)enterpriseId;
+-(void) undoAttach:(NSString*)enterpriseId;
+
 @end
 
 @interface EnterpriseListView : UIView

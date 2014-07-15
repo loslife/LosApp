@@ -213,6 +213,16 @@
     return [records objectAtIndex:index];
 }
 
+-(void) doAttach:(NSString*)enterpriseId
+{
+    NSLog(@"attach: %@", enterpriseId);
+}
+
+-(void) undoAttach:(NSString*)enterpriseId
+{
+    NSLog(@"undo attach: %@", enterpriseId);
+}
+
 #pragma mark - timer
 
 -(void) disableRequireCodeButton
