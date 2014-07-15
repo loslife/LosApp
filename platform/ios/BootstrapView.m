@@ -7,7 +7,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         
-        self.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"background"]];
+        self.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bootstrap"]];
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 200, 280, 40)];
         label.text = @"数据加载中，请稍候";

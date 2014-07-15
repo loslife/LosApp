@@ -10,7 +10,7 @@
         CGFloat height = frame.size.height;
         
         UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 1, height - 1, height - 2)];
-        leftView.backgroundColor = [UIColor colorWithRed:132/255.0f green:214/255.0f blue:219/255.0f alpha:1.0f];
+        leftView.backgroundColor = [UIColor whiteColor];
         
         UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:iconName]];
         icon.frame = CGRectMake(height / 4, height / 4, height / 2, height / 2);

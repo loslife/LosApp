@@ -1,7 +1,8 @@
 #import <UIKit/UIKit.h>
 #import "LoginViewController.h"
+#import "LosBaseView.h"
 
-@interface LoginView : UIView<UITextFieldDelegate>
+@interface LoginView : LosBaseView
 
 @property UITextField *username;
 @property UITextField *password;

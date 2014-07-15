@@ -64,6 +64,8 @@
 		1866674D194AD1BA00A345F7 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866674C194AD1BA00A345F7 /* Reachability.m */; };
 		18666754194AD52400A345F7 /* StringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 18666753194AD52400A345F7 /* StringUtils.m */; };
 		186C35C31975124800633AE4 /* LosBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35C21975124800633AE4 /* LosBaseView.m */; };
+		186C35C6197535C400633AE4 /* LoginOrRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35C5197535C400633AE4 /* LoginOrRegisterViewController.m */; };
+		186C35C9197535F600633AE4 /* LoginOrRegisterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35C8197535F600633AE4 /* LoginOrRegisterView.m */; };
 		18AFE5F5195178210083C972 /* UITableViewCell+ReuseIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE5F4195178210083C972 /* UITableViewCell+ReuseIdentifier.m */; };
 		18AFE5FC1951986F0083C972 /* ContactView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE5FB1951986F0083C972 /* ContactView.m */; };
 		18AFE600195296D70083C972 /* Member.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE5FF195296D70083C972 /* Member.m */; };
@@ -194,6 +196,11 @@
 		18666753194AD52400A345F7 /* StringUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringUtils.m; sourceTree = "<group>"; };
 		186C35C11975124800633AE4 /* LosBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LosBaseView.h; sourceTree = "<group>"; };
 		186C35C21975124800633AE4 /* LosBaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LosBaseView.m; sourceTree = "<group>"; };
+		186C35C4197535C400633AE4 /* LoginOrRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginOrRegisterViewController.h; sourceTree = "<group>"; };
+		186C35C5197535C400633AE4 /* LoginOrRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginOrRegisterViewController.m; sourceTree = "<group>"; };
+		186C35C7197535F600633AE4 /* LoginOrRegisterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginOrRegisterView.h; sourceTree = "<group>"; };
+		186C35C8197535F600633AE4 /* LoginOrRegisterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginOrRegisterView.m; sourceTree = "<group>"; };
+		186C35CA19753A5900633AE4 /* LosStyles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LosStyles.h; sourceTree = "<group>"; };
 		18AFE5F3195178210083C972 /* UITableViewCell+ReuseIdentifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+ReuseIdentifier.h"; sourceTree = "<group>"; };
 		18AFE5F4195178210083C972 /* UITableViewCell+ReuseIdentifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+ReuseIdentifier.m"; sourceTree = "<group>"; };
 		18AFE5FA1951986F0083C972 /* ContactView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactView.h; sourceTree = "<group>"; };
@@ -294,6 +301,7 @@
 				186667161949AD4900A345F7 /* PathResolver.h */,
 				186667171949AD4900A345F7 /* PathResolver.m */,
 				186667311949C5E900A345F7 /* LosAppUrls.h */,
+				186C35CA19753A5900633AE4 /* LosStyles.h */,
 				184472771962749D00B4A543 /* ReportDateStatus.h */,
 				184472781962749D00B4A543 /* ReportDateStatus.m */,
 			);
@@ -303,6 +311,8 @@
 		1866670C194992F500A345F7 /* views */ = {
 			isa = PBXGroup;
 			children = (
+				186C35C7197535F600633AE4 /* LoginOrRegisterView.h */,
+				186C35C8197535F600633AE4 /* LoginOrRegisterView.m */,
 				1866670D1949931800A345F7 /* LoginView.h */,
 				1866670E1949931800A345F7 /* LoginView.m */,
 				18666746194A9FFF00A345F7 /* RegisterView.h */,
@@ -518,6 +528,8 @@
 			children = (
 				186666FF1949864100A345F7 /* WelcomeViewController.h */,
 				186667001949864100A345F7 /* WelcomeViewController.m */,
+				186C35C4197535C400633AE4 /* LoginOrRegisterViewController.h */,
+				186C35C5197535C400633AE4 /* LoginOrRegisterViewController.m */,
 				1866670619498D1C00A345F7 /* LoginViewController.h */,
 				1866670719498D1C00A345F7 /* LoginViewController.m */,
 				18666743194A9FC900A345F7 /* RegisterViewController.h */,
@@ -675,12 +687,14 @@
 				186667151949ACD600A345F7 /* VersionInfo.m in Sources */,
 				184473041974D90600B4A543 /* EnterpriseListView.m in Sources */,
 				184472C0196F8DC200B4A543 /* CustomerCount.m in Sources */,
+				186C35C6197535C400633AE4 /* LoginOrRegisterViewController.m in Sources */,
 				1844726D1961652F00B4A543 /* ReportViewBase.m in Sources */,
 				183F214C1957C860009D54E8 /* MemberDetailViewController.m in Sources */,
 				18AFE623195434B20083C972 /* SyncService.m in Sources */,
 				1866670F1949931800A345F7 /* LoginView.m in Sources */,
 				186667361949CB3F00A345F7 /* TimesHelper.m in Sources */,
 				18AFE627195527290083C972 /* LosDropDown.m in Sources */,
+				186C35C9197535F600633AE4 /* LoginOrRegisterView.m in Sources */,
 				18AFE6061952E2F70083C972 /* AddShopView.m in Sources */,
 				1866670519498B5600A345F7 /* UserData.m in Sources */,
 				184472BD196E856D00B4A543 /* LosLineChart.m in Sources */,

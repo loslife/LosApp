@@ -19,14 +19,20 @@
     return self;
 }
 
+-(void) resignOnTap
+{
+    [currentResponder resignFirstResponder];
+}
+
 -(void) textFieldDidBeginEditing:(UITextField *)textField
 {
     currentResponder = textField;
 }
 
--(void) resignOnTap
+-(BOOL) textFieldShouldReturn: (UITextField *) textField
 {
-    [currentResponder resignFirstResponder];
+    [textField resignFirstResponder];
+    return YES;
 }
 
 @end

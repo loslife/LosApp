@@ -1,11 +1,14 @@
 #import "WelcomeViewController.h"
+#import "UserData.h"
+#import "LoginOrRegisterViewController.h"
+#import "BootstrapViewController.h"
 
 @implementation WelcomeViewController
 
 -(void) loadView
 {
     [super loadView];
-    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"background"]];
+    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bootstrap"]];
 }
 
 -(void) viewDidAppear:(BOOL)animated
@@ -36,7 +39,7 @@
 // 跳转到login页面
 - (void) jumpToLogin
 {
-    LoginViewController *login = [[LoginViewController alloc] init];
+    LoginOrRegisterViewController *login = [[LoginOrRegisterViewController alloc] init];
     [self presentViewController:login animated:YES completion:nil];
 }
 

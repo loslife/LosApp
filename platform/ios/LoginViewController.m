@@ -21,12 +21,21 @@
 {
     LoginView *view = [[LoginView alloc] initWithController:self];
     self.view = view;
+    
+    UINavigationBar *navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, 320, 66)];
+    
+    UINavigationItem *navigationItem = [[UINavigationItem alloc] initWithTitle:nil];
+    navigationItem.title = @"登陆";
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStyleBordered target:self action:@selector(back)];
+    navigationItem.leftBarButtonItem = backButton;
+    [navigationBar pushNavigationItem:navigationItem animated:NO];
+    
+    [self.view addSubview:navigationBar];
 }
 
--(void) setUserNameAfterRegister:(NSString*)phoneNumber
+-(void) back
 {
-    LoginView* theView = (LoginView*)self.view;
-    theView.username.text = phoneNumber;
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void) loginButtonPressed
@@ -93,13 +102,6 @@
             });
         }];
     });
-}
-
--(void) registerButtonPressed
-{
-    RegisterViewController *vc = [[RegisterViewController alloc] init];
-    vc.type = @"register";
-    [self presentViewController:vc animated:YES completion:nil];
 }
 
 -(void) resetButtonPressed

@@ -259,7 +259,6 @@
         
         dispatch_async(dispatch_get_main_queue(), ^(void){
             LoginViewController *loginVC = (LoginViewController*)self.presentingViewController;
-            [loginVC setUserNameAfterRegister:phone];
             [loginVC dismissViewControllerAnimated:YES completion:nil];
         });
     }];
