@@ -3,7 +3,7 @@
 #import "BootstrapViewController.h"
 #import "LosHttpHelper.h"
 #import "LosAppUrls.h"
-#import "RegisterViewController.h"
+#import "RegisterStep1ViewController.h"
 
 @interface LoginViewController : UIViewController
 

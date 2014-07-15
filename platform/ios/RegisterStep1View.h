@@ -1,7 +1,8 @@
 #import <UIKit/UIKit.h>
-#import "RegisterViewController.h"
+#import "RegisterStep1ViewController.h"
+#import "LosBaseView.h"
 
-@interface RegisterView : UIView<UITextFieldDelegate>
+@interface RegisterStep1View : LosBaseView
 
 @property UITextField *username;
 @property UITextField *code;
@@ -9,6 +10,6 @@
 @property UITextField *passwordRepeat;
 @property UIButton *requireCodeButton;
 
--(id) initWithController:(RegisterViewController*)controller Type:(NSString*)type;
+-(id) initWithController:(RegisterStep1ViewController*)controller Type:(NSString*)type;
 
 @end

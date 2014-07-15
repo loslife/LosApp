@@ -1,6 +1,6 @@
 #import "LoginOrRegisterViewController.h"
 #import "LoginViewController.h"
-#import "RegisterViewController.h"
+#import "RegisterStep1ViewController.h"
 
 @implementation LoginOrRegisterViewController
 
@@ -12,7 +12,7 @@
 
 -(void) registerButtonTapped
 {
-    RegisterViewController *vc = [[RegisterViewController alloc] init];
+    RegisterStep1ViewController *vc = [[RegisterStep1ViewController alloc] init];
     vc.type = @"register";
     [self presentViewController:vc animated:YES completion:nil];
 }

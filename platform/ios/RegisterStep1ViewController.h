@@ -3,7 +3,7 @@
 #import "LosAppUrls.h"
 #import "StringUtils.h"
 
-@interface RegisterViewController : UIViewController
+@interface RegisterStep1ViewController : UIViewController
 
 @property NSString* type;
 

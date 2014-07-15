@@ -1,9 +1,9 @@
-#import "RegisterViewController.h"
-#import "RegisterView.h"
+#import "RegisterStep1ViewController.h"
+#import "RegisterStep1View.h"
 #import "LoginViewController.h"
 #import "StringUtils.h"
 
-@implementation RegisterViewController
+@implementation RegisterStep1ViewController
 
 {
     NSTimer *timer;
@@ -22,7 +22,7 @@
 
 -(void) loadView
 {
-    RegisterView *view = [[RegisterView alloc] initWithController:self Type:self.type];
+    RegisterStep1View *view = [[RegisterStep1View alloc] initWithController:self Type:self.type];
     self.view = view;
     
     UINavigationBar *navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, 320, 66)];
@@ -45,7 +45,7 @@
 
 -(void) viewDidAppear:(BOOL)animated
 {
-    RegisterView *myView = (RegisterView*)self.view;
+    RegisterStep1View *myView = (RegisterStep1View*)self.view;
     UIButton *button = myView.requireCodeButton;
     
     if(button.enabled){
@@ -69,7 +69,7 @@
 
 -(void) requireVerificationCode
 {
-    RegisterView *myView = (RegisterView*)self.view;
+    RegisterStep1View *myView = (RegisterStep1View*)self.view;
     UITextField *phone = myView.username;
     
     BOOL flag = [StringUtils isPhone:phone.text];
@@ -127,7 +127,7 @@
 
 -(void) submitButtonTapped
 {
-    RegisterView *myView = (RegisterView*)self.view;
+    RegisterStep1View *myView = (RegisterStep1View*)self.view;
     
     NSString* phone = myView.username.text;
     NSString* code = myView.code.text;
@@ -287,7 +287,7 @@
 
 -(void) disableRequireCodeButton
 {
-    RegisterView *myView = (RegisterView*)self.view;
+    RegisterStep1View *myView = (RegisterStep1View*)self.view;
     UIButton *button = myView.requireCodeButton;
     
     button.enabled = NO;
@@ -314,7 +314,7 @@
 
 -(void) enableRequireCodeButton
 {
-    RegisterView *myView = (RegisterView*)self.view;
+    RegisterStep1View *myView = (RegisterStep1View*)self.view;
     UIButton *button = myView.requireCodeButton;
     
     button.enabled = YES;

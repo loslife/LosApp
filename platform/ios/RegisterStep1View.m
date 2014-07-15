@@ -1,12 +1,8 @@
-#import "RegisterView.h"
+#import "RegisterStep1View.h"
 
-@implementation RegisterView
+@implementation RegisterStep1View
 
-{
-    id currentResponder;
-}
-
--(id) initWithController:(RegisterViewController*)controller Type:(NSString*)type
+-(id) initWithController:(RegisterStep1ViewController*)controller Type:(NSString*)type
 {
     self = [super init];
     if (self) {
@@ -101,34 +97,9 @@
         [self addSubview:codeWrapper];
         [self addSubview:passwordArea];
         [self addSubview:repeatArea];
-        [self addSubview:submit];
-        
-        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignOnTap)];
-        [singleTap setNumberOfTapsRequired:1];
-        [singleTap setNumberOfTouchesRequired:1];
-        [self addGestureRecognizer:singleTap];
+        [self addSubview:submit];        
     }
     return self;
-}
-
-#pragma mark - TextFieldDelegate
-
--(BOOL) textFieldShouldReturn: (UITextField *) textField
-{
-    [textField resignFirstResponder];
-    return YES;
-}
-
--(void) textFieldDidBeginEditing:(UITextField *)textField
-{
-    currentResponder = textField;
-}
-
-#pragma mark - gesture recognize
-
--(void) resignOnTap
-{
-    [currentResponder resignFirstResponder];
 }
 
 @end
