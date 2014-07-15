@@ -5,8 +5,6 @@
 {
     id<EnterpriseListViewDelegate> myDelegate;
     
-    id currentResponder;
-    
     UIView *label;
     UIView *form;
 
@@ -95,11 +93,6 @@
         [self addSubview:label];
         [self addSubview:form];
         [self addSubview:self.list];
-        
-        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignOnTap)];
-        [singleTap setNumberOfTapsRequired:1];
-        [singleTap setNumberOfTouchesRequired:1];
-        [self addGestureRecognizer:singleTap];
     }
     return self;
 }
@@ -147,18 +140,6 @@
         label.frame = CGRectMake(0, 64, 320, labelHeight);
         self.list.frame = CGRectMake(0, 64 + labelHeight, 320, listContentHeight);
     }];
-}
-
--(void) textFieldDidBeginEditing:(UITextField *)textField
-{
-    currentResponder = textField;
-}
-
-#pragma mark - gesture recognize
-
--(void) resignOnTap
-{
-    [currentResponder resignFirstResponder];
 }
 
 @end

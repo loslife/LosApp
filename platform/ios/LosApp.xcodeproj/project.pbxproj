@@ -63,6 +63,7 @@
 		18666748194A9FFF00A345F7 /* RegisterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18666747194A9FFF00A345F7 /* RegisterView.m */; };
 		1866674D194AD1BA00A345F7 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866674C194AD1BA00A345F7 /* Reachability.m */; };
 		18666754194AD52400A345F7 /* StringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 18666753194AD52400A345F7 /* StringUtils.m */; };
+		186C35C31975124800633AE4 /* LosBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35C21975124800633AE4 /* LosBaseView.m */; };
 		18AFE5F5195178210083C972 /* UITableViewCell+ReuseIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE5F4195178210083C972 /* UITableViewCell+ReuseIdentifier.m */; };
 		18AFE5FC1951986F0083C972 /* ContactView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE5FB1951986F0083C972 /* ContactView.m */; };
 		18AFE600195296D70083C972 /* Member.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE5FF195296D70083C972 /* Member.m */; };
@@ -191,6 +192,8 @@
 		1866674C194AD1BA00A345F7 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		18666752194AD52400A345F7 /* StringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringUtils.h; sourceTree = "<group>"; };
 		18666753194AD52400A345F7 /* StringUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringUtils.m; sourceTree = "<group>"; };
+		186C35C11975124800633AE4 /* LosBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LosBaseView.h; sourceTree = "<group>"; };
+		186C35C21975124800633AE4 /* LosBaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LosBaseView.m; sourceTree = "<group>"; };
 		18AFE5F3195178210083C972 /* UITableViewCell+ReuseIdentifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+ReuseIdentifier.h"; sourceTree = "<group>"; };
 		18AFE5F4195178210083C972 /* UITableViewCell+ReuseIdentifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+ReuseIdentifier.m"; sourceTree = "<group>"; };
 		18AFE5FA1951986F0083C972 /* ContactView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactView.h; sourceTree = "<group>"; };
@@ -376,6 +379,15 @@
 			path = Reachability;
 			sourceTree = "<group>";
 		};
+		186C35C01975121E00633AE4 /* views.base */ = {
+			isa = PBXGroup;
+			children = (
+				186C35C11975124800633AE4 /* LosBaseView.h */,
+				186C35C21975124800633AE4 /* LosBaseView.m */,
+			);
+			name = views.base;
+			sourceTree = "<group>";
+		};
 		18AFE5F2195177FB0083C972 /* ReuseableTableCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -481,6 +493,7 @@
 				18AFE620195434500083C972 /* service */,
 				1866671D1949C2B200A345F7 /* utils */,
 				186667191949B2D700A345F7 /* update */,
+				186C35C01975121E00633AE4 /* views.base */,
 				1866670C194992F500A345F7 /* views */,
 				1866670219498ACF00A345F7 /* environment */,
 				1844727D1962AAB200B4A543 /* controller.base */,
@@ -685,6 +698,7 @@
 				18AFE5FC1951986F0083C972 /* ContactView.m in Sources */,
 				1866674D194AD1BA00A345F7 /* Reachability.m in Sources */,
 				18666745194A9FC900A345F7 /* RegisterViewController.m in Sources */,
+				186C35C31975124800633AE4 /* LosBaseView.m in Sources */,
 				184472AE196CF11000B4A543 /* ReportServiceView.m in Sources */,
 				18447261195D532600B4A543 /* LosTimePicker.m in Sources */,
 				18AFE5F5195178210083C972 /* UITableViewCell+ReuseIdentifier.m in Sources */,
