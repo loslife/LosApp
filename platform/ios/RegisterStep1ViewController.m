@@ -2,6 +2,7 @@
 #import "RegisterStep1View.h"
 #import "LoginViewController.h"
 #import "StringUtils.h"
+#import "RegisterStep2ViewController.h"
 
 @implementation RegisterStep1ViewController
 
@@ -35,7 +36,7 @@
         navigationItem.title = @"重设密码";
     }
     
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStyleBordered target:self action:@selector(backToLogin)];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStyleBordered target:self action:@selector(back)];
     navigationItem.leftBarButtonItem = backButton;
     
     [navigationBar pushNavigationItem:navigationItem animated:NO];
@@ -60,9 +61,7 @@
     [timer invalidate];
 }
 
-#pragma mark - responder
-
--(void) backToLogin
+-(void) back
 {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
@@ -131,31 +130,19 @@
     
     NSString* phone = myView.username.text;
     NSString* code = myView.code.text;
-//    NSString* password = myView.password.text;
-//    NSString* repeat = myView.passwordRepeat.text;
     
-//    int flag = [self checkInputWithPhone:phone Code:code Password:password Repeat:repeat];
-//    
-//    if(flag != 0){
-//        if(flag == 1){
-//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"请输入密码和验证码" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-//            [alert show];
-//        }
-//        if(flag == 2){
-//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"密码输入不一致" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-//            [alert show];
-//        }
-//        if(flag == 3){
-//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"密码长度错误" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-//            [alert show];
-//        }
-//        return;
-//    }
-//    
-//    [self doCheckPhone:phone Code:code Password:password];
+    BOOL flag = [self checkInputWithPhone:phone code:code];
+    
+    if(!flag){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"手机号和验证码不能为空" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    
+    [self doCheckPhone:phone code:code];
 }
 
--(void) doCheckPhone:(NSString*)phone Code:(NSString*)code Password:(NSString*)password
+-(void) doCheckPhone:(NSString*)phone code:(NSString*)code
 {
     NSString *checkCodeURL;
     if([self.type isEqualToString:@"register"]){
@@ -200,87 +187,29 @@
             return;
         }
         
-        [self doSubmit:phone Password:password];
+        [self jumpToStep2];
     }];
 }
 
--(void) doSubmit:(NSString*)phone Password:(NSString*)password
+-(void) jumpToStep2
 {
-    NSString* submitURL;
-    if([self.type isEqualToString:@"register"]){
-        submitURL = REGISTER_URL;
-    }else{
-        submitURL = RESET_PASSWORD_URL;
-    }
+    RegisterStep2ViewController *controller = [[RegisterStep2ViewController alloc] init];
+    controller.type = self.type;
     
-    NSString *data = [NSString stringWithFormat:@"username=%@&password=%@", phone, password];
-    NSData *postData = [data dataUsingEncoding:NSUTF8StringEncoding];
-    
-    [httpHelper postSecure:submitURL Data:postData completionHandler:^(NSDictionary *result){
-        
-        if(result == nil){
-            
-            dispatch_async(dispatch_get_main_queue(), ^(void){
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"服务器出错，请联系客服" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                [alert show];
-            });
-            return;
-        }
-        
-        NSNumber *code = [result objectForKey:@"code"];
-        if([code intValue] != 0){
-            
-            dispatch_async(dispatch_get_main_queue(), ^(void){
-                
-                NSDictionary *inner = [result objectForKey:@"result"];
-                NSString *errorCode = [inner objectForKey:@"errorCode"];
-
-                if([self.type isEqualToString:@"register"]){
-                    
-                    if([errorCode isEqualToString:@"500"]){
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"手机号已被注册" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                        [alert show];
-                    }else{
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"错误码：%@", errorCode] delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                        [alert show];
-                    }
-                }else{
-                    if([errorCode isEqualToString:@"501"]){
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"用户不存在" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                        [alert show];
-                    }else{
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"错误码：%@", errorCode] delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                        [alert show];
-                    }
-                }
-            });
-            return;
-        }
-        
-        dispatch_async(dispatch_get_main_queue(), ^(void){
-            LoginViewController *loginVC = (LoginViewController*)self.presentingViewController;
-            [loginVC dismissViewControllerAnimated:YES completion:nil];
-        });
-    }];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self presentViewController:controller animated:YES completion:nil];
+    });
 }
 
 #pragma mark - frontend validate
 
--(int) checkInputWithPhone:(NSString*)phone Code:(NSString*)code Password:(NSString*)password Repeat:(NSString*)repeat
+-(BOOL) checkInputWithPhone:(NSString*)phone code:(NSString*)code
 {
-    if([StringUtils isEmpty:phone] || [StringUtils isEmpty:code] || [StringUtils isEmpty:password] || [StringUtils isEmpty:repeat]){
-        return 1;
+    if([StringUtils isEmpty:phone] || [StringUtils isEmpty:code]){
+        return NO;
     }
     
-    if(![password isEqualToString:repeat]){
-        return 2;
-    }
-    
-    if(password.length < 6 || password.length > 16){
-        return 3;
-    }
-    
-    return 0;
+    return YES;
 }
 
 #pragma mark - timer
@@ -291,7 +220,6 @@
     UIButton *button = myView.requireCodeButton;
     
     button.enabled = NO;
-    button.backgroundColor = [UIColor whiteColor];
 }
 
 -(void) startTick
@@ -318,7 +246,6 @@
     UIButton *button = myView.requireCodeButton;
     
     button.enabled = YES;
-    button.backgroundColor = [UIColor colorWithRed:181/255.0f green:233/255.0f blue:236/255.0f alpha:1.0f];
 }
 
 @end
