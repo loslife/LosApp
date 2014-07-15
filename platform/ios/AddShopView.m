@@ -3,9 +3,17 @@
 @implementation AddShopView
 
 {
+    id<EnterpriseListViewDelegate> myDelegate;
+    
     id currentResponder;
+    
     UIView *label;
-    UIView *form;    
+    UIView *form;
+
+    BOOL isUnfold;
+    CGFloat listContentHeight;
+    CGFloat formHeight;
+    CGFloat labelHeight;
 }
 
 -(id) initWithController:(AddShopViewController*)controller
@@ -13,7 +21,14 @@
     self = [super init];
     if(self){
         
-        label = [[UIView alloc] initWithFrame:CGRectMake(0, 60, 320, 50)];
+        myDelegate = controller;
+        
+        isUnfold = NO;
+        labelHeight = 50;
+        formHeight = 240;
+        [self calculateListHeight];
+        
+        label = [[UIView alloc] initWithFrame:CGRectMake(0, 64, 320, labelHeight)];
         
         UIButton *unfold = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         unfold.frame = CGRectMake(0, 0, 320, 50);
@@ -22,7 +37,7 @@
         
         [label addSubview:unfold];
         
-        form = [[UIView alloc] initWithFrame:CGRectMake(0, -240, 320, 240)];
+        form = [[UIView alloc] initWithFrame:CGRectMake(0, -240, 320, formHeight)];
         
         UIButton *cancel = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         cancel.frame = CGRectMake(0, 0, 320, 50);
@@ -65,12 +80,9 @@
         attach.layer.cornerRadius = 5;
         [attach addTarget:controller action:@selector(appendEnterprise) forControlEvents:UIControlEventTouchUpInside];
         
-        UITextView *notice = [[UITextView alloc] init];
-        notice.frame = CGRectMake(0, 170, 320, 70);
+        UILabel *notice = [[UILabel alloc] initWithFrame:CGRectMake(0, 170, 320, 70)];
         notice.text = @"小贴士：关联店铺完成后，在手机中可以查看店铺中的实时经营数据以及所有的会员资料。";
-        notice.font = [UIFont systemFontOfSize:16];
-        notice.textColor = [UIColor colorWithRed:103/255.0f green:103/255.0f blue:103/255.0f alpha:1.0f];
-        notice.delegate = self;
+        notice.numberOfLines = 3;
         
         [form addSubview:cancel];
         [form addSubview:self.phone];
@@ -78,7 +90,7 @@
         [form addSubview:attach];
         [form addSubview:notice];
         
-        self.list = [[EnterpriseListView alloc] initWithFrame:CGRectMake(0, 110, 320, 200) Delegate:controller];
+        self.list = [[EnterpriseListView alloc] initWithFrame:CGRectMake(0, 110, 320, listContentHeight) Delegate:controller];
         
         [self addSubview:label];
         [self addSubview:form];
@@ -92,34 +104,54 @@
     return self;
 }
 
+-(void) calculateListHeight
+{
+    CGFloat actualHeight = 548 - 20 - 44 - 49;
+    
+    CGFloat minHeight;
+    if(isUnfold){
+        minHeight = actualHeight - formHeight;
+    }else{
+        minHeight = actualHeight - labelHeight;
+    }
+    
+    CGFloat contentHeight = 5 + 40 * [myDelegate count];
+    if(contentHeight < minHeight){
+        listContentHeight = minHeight;
+    }else{
+        listContentHeight = contentHeight;
+    }
+}
+
 -(void) unfold
 {
+    isUnfold = YES;
+    [self calculateListHeight];
+    
     [UIView animateWithDuration:0.5 animations:^{
     
-        form.frame = CGRectMake(0, 60, 320, 240);
-        label.frame = CGRectMake(0, -50, 320, 50);
-        self.list.frame = CGRectMake(0, 300, 320, 200);
+        form.frame = CGRectMake(0, 64, 320, formHeight);
+        label.frame = CGRectMake(0, -labelHeight, 320, labelHeight);
+        self.list.frame = CGRectMake(0, 64 + formHeight, 320, listContentHeight);
     }];
 }
 
 -(void) fold
 {
+    isUnfold = NO;
+    [self calculateListHeight];
+    
     [UIView animateWithDuration:0.5 animations:^{
         
-        form.frame = CGRectMake(0, -240, 320, 240);
-        label.frame = CGRectMake(0, 60, 320, 50);
-        self.list.frame = CGRectMake(0, 110, 320, 200);
+        form.frame = CGRectMake(0, formHeight, 320, formHeight);
+        label.frame = CGRectMake(0, 64, 320, labelHeight);
+        self.list.frame = CGRectMake(0, 64 + labelHeight, 320, listContentHeight);
     }];
 }
 
 -(void) textFieldDidBeginEditing:(UITextField *)textField
 {
     currentResponder = textField;
-}
-
--(BOOL) textViewShouldBeginEditing:(UITextView *)textView
-{
-    return NO;
 }
 
 #pragma mark - gesture recognize

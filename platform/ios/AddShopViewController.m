@@ -55,15 +55,25 @@
 
 -(void) loadData
 {
-    Enterprise *e1 = [[Enterprise alloc] initWithId:@"1" Name:@"美甲花城1"];
-    Enterprise *e2 = [[Enterprise alloc] initWithId:@"2" Name:@"美甲花城2"];
-    Enterprise *e3 = [[Enterprise alloc] initWithId:@"3" Name:@"美甲花城3"];
-    Enterprise *e4 = [[Enterprise alloc] initWithId:@"4" Name:@"美甲花城4"];
+    Enterprise *e1 = [[Enterprise alloc] initWithId:@"1" Name:@"美甲花城1" state:1];
+    Enterprise *e2 = [[Enterprise alloc] initWithId:@"2" Name:@"美甲花城2" state:0];
+    Enterprise *e3 = [[Enterprise alloc] initWithId:@"3" Name:@"美甲花城3" state:1];
+    Enterprise *e4 = [[Enterprise alloc] initWithId:@"4" Name:@"美甲花城4" state:0];
     
     [records addObject:e1];
     [records addObject:e2];
     [records addObject:e3];
     [records addObject:e4];
+    
+    [records sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        Enterprise *p1 = (Enterprise*) obj1;
+        Enterprise *p2 = (Enterprise*) obj2;
+        if(p1.state <= p2.state){
+            return NSOrderedDescending;
+        }else{
+            return NSOrderedAscending;
+        }
+    }];
     
     dispatch_async(dispatch_get_main_queue(), ^{
     

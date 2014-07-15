@@ -2,7 +2,7 @@
 #import "AddShopViewController.h"
 #import "EnterpriseListView.h"
 
-@interface AddShopView : UIView<UITextFieldDelegate, UITextViewDelegate>
+@interface AddShopView : UIView<UITextFieldDelegate>
 
 @property UITextField *phone;
 @property UITextField *code;

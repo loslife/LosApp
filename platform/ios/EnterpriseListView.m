@@ -62,8 +62,12 @@
         
         UIView *item = [[UIView alloc] initWithFrame:CGRectMake(20, 5 + 40 * i, 280, 40)];
         
-        UIImageView *leftView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 20, 20)];
-        leftView.image = [UIImage imageNamed:@"shop_attach"];
+        UIImageView *leftView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 13, 14, 14)];
+        if(enterprise.state == 1){
+            leftView.image = [UIImage imageNamed:@"shop_attach"];
+        }else{
+            leftView.image = [UIImage imageNamed:@"shop_not_attach"];
+        }
         
         UILabel *middleView = [[UILabel alloc] initWithFrame:CGRectMake(40, 0, 160, 40)];
         middleView.text = enterprise.name;
@@ -71,9 +75,15 @@
         
         UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         button.frame = CGRectMake(200, 10, 80, 20);
-        [button setTitle:@"解除关联" forState:UIControlStateNormal];
-        button.backgroundColor = [UIColor colorWithRed:244/255.0f green:196/255.0f blue:82/255.0f alpha:1.0f];
         button.tintColor = [UIColor whiteColor];
+        button.titleLabel.font = [UIFont boldSystemFontOfSize:12];
+        if(enterprise.state == 1){
+            [button setTitle:@"解除关联" forState:UIControlStateNormal];
+            button.backgroundColor = [UIColor colorWithRed:255/255.0f green:122/255.0f blue:75/255.0f alpha:1.0f];
+        }else{
+            [button setTitle:@"恢复关联" forState:UIControlStateNormal];
+            button.backgroundColor = [UIColor colorWithRed:2/255.0f green:160/255.0f blue:221/255.0f alpha:1.0f];
+        }
         
         [item addSubview:leftView];
         [item addSubview:middleView];
