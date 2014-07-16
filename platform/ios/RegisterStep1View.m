@@ -3,7 +3,7 @@
 
 @implementation RegisterStep1View
 
--(id) initWithController:(RegisterStep1ViewController*)controller Type:(NSString*)type
+-(id) initWithController:(RegisterStep1ViewController*)controller
 {
     self = [super init];
     if (self) {
@@ -27,7 +27,6 @@
         self.requireCodeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         self.requireCodeButton.frame = CGRectMake(200, 180, 100, 40);
         [self.requireCodeButton setTitle:@"获取验证码" forState:UIControlStateNormal];
-        [self.requireCodeButton setTitle:@"60秒可重发" forState:UIControlStateDisabled];
         self.requireCodeButton.tintColor = BLUE2;
         self.requireCodeButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
         [self.requireCodeButton addTarget:controller action:@selector(requireVerificationCode) forControlEvents:UIControlEventTouchUpInside];
@@ -39,6 +38,18 @@
         self.submit.tintColor = [UIColor whiteColor];
         self.submit.layer.cornerRadius = 5;
         [self.submit addTarget:controller action:@selector(submitButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+        
+        self.sentMessage = [[UILabel alloc] initWithFrame:CGRectMake(20, 180, 280, 40)];
+        self.sentMessage.text = @"验证码已发送至您的手机，接收短信大约需要60秒";
+        self.sentMessage.textAlignment = NSTextAlignmentLeft;
+        self.sentMessage.font = [UIFont systemFontOfSize:12];
+        
+        self.expiredMessage = [[UILabel alloc] initWithFrame:CGRectMake(20, 180, 280, 40)];
+        self.expiredMessage.text = @"短信验证码好像罢工了，请确认输入是您本人号码，以确保使用中的账号与数据安全";
+        self.expiredMessage.textAlignment = NSTextAlignmentLeft;
+        self.expiredMessage.font = [UIFont systemFontOfSize:12];
+        self.expiredMessage.numberOfLines = 2;
+        self.expiredMessage.textColor = [UIColor redColor];
         
         [self addSubview:self.username];
         [self addSubview:self.code];

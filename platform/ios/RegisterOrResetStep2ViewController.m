@@ -1,11 +1,11 @@
-#import "RegisterStep2ViewController.h"
-#import "RegisterStep2View.h"
+#import "RegisterOrResetStep2ViewController.h"
+#import "RegisterOrResetStep2View.h"
 
-@implementation RegisterStep2ViewController
+@implementation RegisterOrResetStep2ViewController
 
 -(void) loadView
 {
-    RegisterStep2View *view = [[RegisterStep2View alloc] initWithController:self Type:self.type];
+    RegisterOrResetStep2View *view = [[RegisterOrResetStep2View alloc] initWithController:self Type:self.type];
     self.view = view;
     
     UINavigationBar *navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, 320, 66)];

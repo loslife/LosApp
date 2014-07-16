@@ -107,7 +107,6 @@
 -(void) resetButtonPressed
 {
     RegisterStep1ViewController *vc = [[RegisterStep1ViewController alloc] init];
-    vc.type = @"reset";
     [self presentViewController:vc animated:YES completion:nil];
 }
 

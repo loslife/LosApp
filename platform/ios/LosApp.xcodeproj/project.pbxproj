@@ -66,8 +66,10 @@
 		186C35C31975124800633AE4 /* LosBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35C21975124800633AE4 /* LosBaseView.m */; };
 		186C35C6197535C400633AE4 /* LoginOrRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35C5197535C400633AE4 /* LoginOrRegisterViewController.m */; };
 		186C35C9197535F600633AE4 /* LoginOrRegisterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35C8197535F600633AE4 /* LoginOrRegisterView.m */; };
-		186C35CF19755ADA00633AE4 /* RegisterStep2View.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35CE19755ADA00633AE4 /* RegisterStep2View.m */; };
-		186C35D219755B0F00633AE4 /* RegisterStep2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35D119755B0F00633AE4 /* RegisterStep2ViewController.m */; };
+		186C35CF19755ADA00633AE4 /* RegisterOrResetStep2View.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35CE19755ADA00633AE4 /* RegisterOrResetStep2View.m */; };
+		186C35D219755B0F00633AE4 /* RegisterOrResetStep2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35D119755B0F00633AE4 /* RegisterOrResetStep2ViewController.m */; };
+		186C35D51976208600633AE4 /* ResetStep1ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35D41976208600633AE4 /* ResetStep1ViewController.m */; };
+		186C35D8197621C900633AE4 /* ResetStep1View.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35D7197621C900633AE4 /* ResetStep1View.m */; };
 		18AFE5F5195178210083C972 /* UITableViewCell+ReuseIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE5F4195178210083C972 /* UITableViewCell+ReuseIdentifier.m */; };
 		18AFE5FC1951986F0083C972 /* ContactView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE5FB1951986F0083C972 /* ContactView.m */; };
 		18AFE600195296D70083C972 /* Member.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE5FF195296D70083C972 /* Member.m */; };
@@ -203,10 +205,14 @@
 		186C35C7197535F600633AE4 /* LoginOrRegisterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginOrRegisterView.h; sourceTree = "<group>"; };
 		186C35C8197535F600633AE4 /* LoginOrRegisterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginOrRegisterView.m; sourceTree = "<group>"; };
 		186C35CA19753A5900633AE4 /* LosStyles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LosStyles.h; sourceTree = "<group>"; };
-		186C35CD19755ADA00633AE4 /* RegisterStep2View.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterStep2View.h; sourceTree = "<group>"; };
-		186C35CE19755ADA00633AE4 /* RegisterStep2View.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterStep2View.m; sourceTree = "<group>"; };
-		186C35D019755B0F00633AE4 /* RegisterStep2ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterStep2ViewController.h; sourceTree = "<group>"; };
-		186C35D119755B0F00633AE4 /* RegisterStep2ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterStep2ViewController.m; sourceTree = "<group>"; };
+		186C35CD19755ADA00633AE4 /* RegisterOrResetStep2View.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterOrResetStep2View.h; sourceTree = "<group>"; };
+		186C35CE19755ADA00633AE4 /* RegisterOrResetStep2View.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterOrResetStep2View.m; sourceTree = "<group>"; };
+		186C35D019755B0F00633AE4 /* RegisterOrResetStep2ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterOrResetStep2ViewController.h; sourceTree = "<group>"; };
+		186C35D119755B0F00633AE4 /* RegisterOrResetStep2ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterOrResetStep2ViewController.m; sourceTree = "<group>"; };
+		186C35D31976208600633AE4 /* ResetStep1ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResetStep1ViewController.h; sourceTree = "<group>"; };
+		186C35D41976208600633AE4 /* ResetStep1ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResetStep1ViewController.m; sourceTree = "<group>"; };
+		186C35D6197621C900633AE4 /* ResetStep1View.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResetStep1View.h; sourceTree = "<group>"; };
+		186C35D7197621C900633AE4 /* ResetStep1View.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResetStep1View.m; sourceTree = "<group>"; };
 		18AFE5F3195178210083C972 /* UITableViewCell+ReuseIdentifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+ReuseIdentifier.h"; sourceTree = "<group>"; };
 		18AFE5F4195178210083C972 /* UITableViewCell+ReuseIdentifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+ReuseIdentifier.m"; sourceTree = "<group>"; };
 		18AFE5FA1951986F0083C972 /* ContactView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactView.h; sourceTree = "<group>"; };
@@ -323,8 +329,10 @@
 				1866670E1949931800A345F7 /* LoginView.m */,
 				18666746194A9FFF00A345F7 /* RegisterStep1View.h */,
 				18666747194A9FFF00A345F7 /* RegisterStep1View.m */,
-				186C35CD19755ADA00633AE4 /* RegisterStep2View.h */,
-				186C35CE19755ADA00633AE4 /* RegisterStep2View.m */,
+				186C35D6197621C900633AE4 /* ResetStep1View.h */,
+				186C35D7197621C900633AE4 /* ResetStep1View.m */,
+				186C35CD19755ADA00633AE4 /* RegisterOrResetStep2View.h */,
+				186C35CE19755ADA00633AE4 /* RegisterOrResetStep2View.m */,
 				186667101949A9D000A345F7 /* BootstrapView.h */,
 				186667111949A9D000A345F7 /* BootstrapView.m */,
 				1844726B1961652F00B4A543 /* ReportViewBase.h */,
@@ -542,8 +550,10 @@
 				1866670719498D1C00A345F7 /* LoginViewController.m */,
 				18666743194A9FC900A345F7 /* RegisterStep1ViewController.h */,
 				18666744194A9FC900A345F7 /* RegisterStep1ViewController.m */,
-				186C35D019755B0F00633AE4 /* RegisterStep2ViewController.h */,
-				186C35D119755B0F00633AE4 /* RegisterStep2ViewController.m */,
+				186C35D31976208600633AE4 /* ResetStep1ViewController.h */,
+				186C35D41976208600633AE4 /* ResetStep1ViewController.m */,
+				186C35D019755B0F00633AE4 /* RegisterOrResetStep2ViewController.h */,
+				186C35D119755B0F00633AE4 /* RegisterOrResetStep2ViewController.m */,
 				1866670919498F1D00A345F7 /* BootstrapViewController.h */,
 				1866670A19498F1D00A345F7 /* BootstrapViewController.m */,
 				1866673A1949F8F100A345F7 /* ReportEmployeeViewController.h */,
@@ -690,7 +700,7 @@
 				1866673C1949F8F100A345F7 /* ReportEmployeeViewController.m in Sources */,
 				184472511959171E00B4A543 /* AboutUsViewController.m in Sources */,
 				184472BA196D2DB300B4A543 /* ServicePerformanceView.m in Sources */,
-				186C35D219755B0F00633AE4 /* RegisterStep2ViewController.m in Sources */,
+				186C35D219755B0F00633AE4 /* RegisterOrResetStep2ViewController.m in Sources */,
 				186667121949A9D000A345F7 /* BootstrapView.m in Sources */,
 				184472831963F18B00B4A543 /* LosBarChart.m in Sources */,
 				184472B1196CF19300B4A543 /* ReportServiceViewController.m in Sources */,
@@ -710,7 +720,7 @@
 				1866670519498B5600A345F7 /* UserData.m in Sources */,
 				184472BD196E856D00B4A543 /* LosLineChart.m in Sources */,
 				184472701962509B00B4A543 /* ReportCustomView.m in Sources */,
-				186C35CF19755ADA00633AE4 /* RegisterStep2View.m in Sources */,
+				186C35CF19755ADA00633AE4 /* RegisterOrResetStep2View.m in Sources */,
 				184472861967A57800B4A543 /* ReportShopViewController.m in Sources */,
 				18666754194AD52400A345F7 /* StringUtils.m in Sources */,
 				186667201949C2D400A345F7 /* LosHttpsBase.m in Sources */,
@@ -728,6 +738,7 @@
 				184472AE196CF11000B4A543 /* ReportServiceView.m in Sources */,
 				18447261195D532600B4A543 /* LosTimePicker.m in Sources */,
 				18AFE5F5195178210083C972 /* UITableViewCell+ReuseIdentifier.m in Sources */,
+				186C35D8197621C900633AE4 /* ResetStep1View.m in Sources */,
 				184472761962563700B4A543 /* ReportViewControllerBase.m in Sources */,
 				18447273196250CE00B4A543 /* ReportCustomViewController.m in Sources */,
 				184472AB196ABFBA00B4A543 /* BusinessPerformance.m in Sources */,
@@ -744,6 +755,7 @@
 				184472891967A5D200B4A543 /* ReportShopView.m in Sources */,
 				1844724E1958429000B4A543 /* PasswordView.m in Sources */,
 				18B2EE221946E0EF00264B74 /* LosAppDelegate.m in Sources */,
+				186C35D51976208600633AE4 /* ResetStep1ViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

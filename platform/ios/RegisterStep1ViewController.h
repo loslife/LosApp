@@ -5,8 +5,6 @@
 
 @interface RegisterStep1ViewController : UIViewController
 
-@property NSString* type;
-
 -(void) requireVerificationCode;
 -(void) submitButtonTapped;
 

@@ -9,6 +9,9 @@
 @property UIButton *requireCodeButton;
 @property UIButton *submit;
 
--(id) initWithController:(RegisterStep1ViewController*)controller Type:(NSString*)type;
+@property UILabel *sentMessage;
+@property UILabel *expiredMessage;
+
+-(id) initWithController:(RegisterStep1ViewController*)controller;
 
 @end
