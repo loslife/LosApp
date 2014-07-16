@@ -3,7 +3,7 @@
 #import "LosAppUrls.h"
 #import "LosHttpHelper.h"
 #import "StringUtils.h"
-#import "LoginViewController.h"
+#import "LoginOrRegisterViewController.h"
 
 @implementation RegisterOrResetStep2ViewController
 
@@ -145,12 +145,13 @@
         
         dispatch_async(dispatch_get_main_queue(), ^(void){
             
-            [self back];
+            UIViewController *beginner = self.presentingViewController.presentingViewController;
+            if([beginner isKindOfClass:[LoginOrRegisterViewController class]]){
+                LoginOrRegisterViewController *vc = (LoginOrRegisterViewController*)beginner;
+                vc.preparePhone = phone;
+            }
             
-            LoginViewController *loginVC = [[LoginViewController alloc] init];
-            [self.presentingViewController.presentingViewController presentViewController:loginVC animated:YES completion:^{
-                [loginVC setUserNameAfterRegister:phone];
-            }];
+            [self back];
         });
     }];
 }
