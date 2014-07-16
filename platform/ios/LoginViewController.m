@@ -111,4 +111,10 @@
     [self presentViewController:vc animated:YES completion:nil];
 }
 
+-(void) setUserNameAfterRegister:(NSString*)phone
+{
+    LoginView* myView = (LoginView*)self.view;
+    myView.username.text = phone;
+}
+
 @end
