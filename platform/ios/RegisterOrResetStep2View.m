@@ -15,6 +15,7 @@
         self.password.borderStyle = UITextBorderStyleRoundedRect;
         self.password.clearButtonMode = UITextFieldViewModeWhileEditing;
         [self.password setKeyboardType:UIKeyboardTypeNumberPad];
+        self.password.secureTextEntry = YES;
         self.password.delegate = self;
         
         self.repeat = [[UITextField alloc] initWithFrame:CGRectMake(20, 130, 280, 40)];
@@ -22,6 +23,7 @@
         self.repeat.borderStyle = UITextBorderStyleRoundedRect;
         self.repeat.clearButtonMode = UITextFieldViewModeWhileEditing;
         [self.repeat setKeyboardType:UIKeyboardTypeNumberPad];
+        self.repeat.secureTextEntry = YES;
         self.repeat.delegate = self;
         
         self.submit = [UIButton buttonWithType:UIButtonTypeRoundedRect];

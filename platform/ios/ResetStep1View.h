@@ -1,13 +1,13 @@
-//
-//  ResetStep1View.h
-//  LosApp
-//
-//  Created by apple on 14-7-16.
-//  Copyright (c) 2014年 yilos. All rights reserved.
-//
-
 #import "LosBaseView.h"
+#import "ResetStep1ViewController.h"
 
 @interface ResetStep1View : LosBaseView
+
+@property UITextField *username;
+@property UITextField *code;
+@property UIButton *requireCodeButton;
+@property UIButton *submit;
+
+-(id) initWithController:(ResetStep1ViewController*)controller;
 
 @end

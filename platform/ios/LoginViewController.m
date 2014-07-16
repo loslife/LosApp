@@ -1,6 +1,7 @@
 #import "LoginViewController.h"
 #import "LoginView.h"
 #import "StringUtils.h"
+#import "ResetStep1ViewController.h"
 
 @implementation LoginViewController
 
@@ -106,7 +107,7 @@
 
 -(void) resetButtonPressed
 {
-    RegisterStep1ViewController *vc = [[RegisterStep1ViewController alloc] init];
+    ResetStep1ViewController *vc = [[ResetStep1ViewController alloc] init];
     [self presentViewController:vc animated:YES completion:nil];
 }
 
