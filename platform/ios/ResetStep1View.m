@@ -33,7 +33,8 @@
         
         self.submit = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         self.submit.frame = CGRectMake(20, 230, 280, 40);
-        [self.submit setTitle:@"下一步" forState:UIControlStateNormal];
+        [self.submit setTitle:@"下一步，设置密码" forState:UIControlStateNormal];
+        self.submit.titleLabel.font = [UIFont boldSystemFontOfSize:18];
         self.submit.backgroundColor = BLUE1;
         self.submit.tintColor = [UIColor whiteColor];
         self.submit.layer.cornerRadius = 5;

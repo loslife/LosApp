@@ -29,6 +29,7 @@
         self.submit = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         self.submit.frame = CGRectMake(20, 180, 280, 40);
         [self.submit setTitle:@"完成" forState:UIControlStateNormal];
+        self.submit.titleLabel.font = [UIFont boldSystemFontOfSize:18];
         self.submit.backgroundColor = BLUE1;
         self.submit.tintColor = [UIColor whiteColor];
         self.submit.layer.cornerRadius = 5;

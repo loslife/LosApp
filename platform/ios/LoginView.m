@@ -32,9 +32,6 @@
         self.login.tintColor = [UIColor whiteColor];
         self.login.titleLabel.font = [UIFont boldSystemFontOfSize:18];
         self.login.layer.cornerRadius = 5;
-        self.login.layer.shadowColor = BLUE1.CGColor;
-        self.login.layer.shadowOpacity = 0.5;
-        self.login.layer.shadowOffset = CGSizeMake(3, 3);
         [self.login addTarget:controller action:@selector(loginButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         
         UIImage *resetImage = [UIImage imageNamed:@"reset_icon"];
