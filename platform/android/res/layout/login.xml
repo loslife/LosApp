@@ -106,7 +106,8 @@
             android:gravity="center"
             android:text="忘记密码"
             android:textSize="20.0dip"
-            android:textColor="@color/blue_text" />
+            android:textColor="@color/blue_text" 
+            android:drawableLeft="@drawable/forgotpwd"/>
          <View
             android:layout_width="106.0dip"
             android:layout_height="1px"

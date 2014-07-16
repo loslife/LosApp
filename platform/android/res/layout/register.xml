@@ -47,9 +47,10 @@
             android:layout_toRightOf="@id/phonetext"
             android:gravity="center_vertical"
             android:hint="输入您要注册的手机号"
-            android:inputType="textPassword"
+            android:inputType="phone"
             android:textColorHint="@color/lightgray"
             android:textSize="16.0dip"
+            android:textColor="@color/black_text"
             android:background="@color/white"/>
     </RelativeLayout>
 
@@ -84,17 +85,18 @@
             android:layout_toRightOf="@id/validatecodetext"
             android:gravity="center_vertical"
             android:hint="输入验证码"
-            android:inputType="textPassword"
+            android:inputType="number"
             android:textColorHint="@color/lightgray"
             android:textSize="16.0dip" 
+            android:textColor="@color/black_text"
             android:background="@color/white"/>
     </RelativeLayout>
     
     <RelativeLayout
-        android:id="@+id/relativelayout_modfiypwd"
+        android:id="@+id/layout_getcode"
         android:layout_width="fill_parent"
         android:layout_height="24.0dip"
-        android:layout_marginTop="24.0dip"
+        android:layout_marginTop="12.0dip"
       >
         <TextView
             android:id="@+id/btn_validatecode"
@@ -112,6 +114,33 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:background="@color/blue_text" />
+    </RelativeLayout>
+    
+    <RelativeLayout
+        android:id="@+id/layout_codetip"
+        android:layout_width="wrap_content"
+        android:layout_height="40.0dip"
+        android:layout_marginTop="12.0dip"
+        android:paddingLeft="20.0dip"
+        android:paddingRight="20.0dip"
+        android:visibility="gone"
+      >
+        <TextView
+            android:id="@+id/btn_validatecode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="系统已发送验证码至您的手机，接收短信大约需要"
+            android:textSize="14.0dip"
+            android:textColor="@color/gray_text" />
+         <TextView
+            android:id="@+id/timecount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@id/btn_validatecode"
+            android:layout_alignParentBottom="true"
+            android:text="90秒"
+            android:textSize="20.0dip"
+            android:textColor="@color/black_text" />
     </RelativeLayout>
     
     <RelativeLayout

@@ -20,6 +20,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -31,6 +33,9 @@ public class LinkShopActivity extends BaseActivity
 	private EditText validatecode;
 	private TextView reqValidatecode;
 	private TextView linkshopbtn;
+	private LinearLayout  inputlinkshop;
+	private TextView linkshopinputbtn;
+	private ImageView  headmore;
 	
 	private CountDownTimer countDownTimer;
 	private MyshopManageService myshopService;
@@ -56,45 +61,21 @@ public class LinkShopActivity extends BaseActivity
 		validatecode = (EditText)findViewById(R.id.validatecode);
 		reqValidatecode = (TextView)findViewById(R.id.btn_validatecode);
 		linkshopbtn = (TextView)findViewById(R.id.linkshopbtn);
+		inputlinkshop = (LinearLayout)findViewById(R.id.inputlinkshop);
+		linkshopinputbtn = (TextView)findViewById(R.id.linkshopinputbtn);
+		headmore = (ImageView)findViewById(R.id.headmore);
+		headmore.setVisibility(View.GONE);
 		
-		//绑定Layout里面的ListView  
-        ListView list = (ListView) findViewById(R.id.shoplist);  
-        myshops = myshopService.queryShops();
-          
-        //生成动态数组，加入数据  
-        ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();  
-        for(MyShopBean bean:myshops)  
-        {  
-        	String shopName = bean.getEnterprise_name();
-        	if(shopName.length()>10)
-        	{
-        		shopName = shopName.substring(0, 10)+"...";
-        	}
-            HashMap<String, Object> map = new HashMap<String, Object>();  
-            map.put("linkshopname", shopName);  
-            listItem.add(map);  
-        } 
-        
-        //生成适配器的Item和动态数组对应的元素  
-        SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,//数据源   
-            R.layout.shop_item,//ListItem的XML实现  
-            //动态数组与ImageItem对应的子项          
-            new String[] {"linkshopname"},   
-            //ImageItem的XML文件里面的一个ImageView,两个TextView ID  
-            new int[] {R.id.linkshopname}  
-        );  
-         
-        //添加并且显示  
-        list.setAdapter(listItemAdapter); 
+		//设置店铺列表
+		setShopListView();
 		
-		 findViewById(R.id.goback).setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					finish();
-				}
-			});
-		
+		findViewById(R.id.goback).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+
 		reqValidatecode.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -139,6 +120,58 @@ public class LinkShopActivity extends BaseActivity
 				
 			}
 		});
+		
+		linkshopinputbtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				if(inputlinkshop.getVisibility()!=View.GONE)
+				{
+					inputlinkshop.setVisibility(View.GONE);
+					linkshopinputbtn.setText("关联店铺");
+				}
+				else
+				{
+					inputlinkshop.setVisibility(View.VISIBLE);
+					linkshopinputbtn.setText("取消");
+				}
+				
+			}
+		});
+	}
+	
+	private void setShopListView()
+	{
+		//绑定Layout里面的ListView  
+        ListView list = (ListView) findViewById(R.id.shoplist);  
+        myshops = myshopService.queryShops();
+          
+        //生成动态数组，加入数据  
+        ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();  
+        for(MyShopBean bean:myshops)  
+        {  
+        	String shopName = bean.getEnterprise_name();
+        	if(shopName.length()>10)
+        	{
+        		shopName = shopName.substring(0, 10)+"...";
+        	}
+            HashMap<String, Object> map = new HashMap<String, Object>();  
+            map.put("linkshopname", shopName);  
+            listItem.add(map);  
+        } 
+        
+        //生成适配器的Item和动态数组对应的元素  
+        SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,//数据源   
+            R.layout.shop_item,//ListItem的XML实现  
+            //动态数组与ImageItem对应的子项          
+            new String[] {"linkshopname"},   
+            //ImageItem的XML文件里面的一个ImageView,两个TextView ID  
+            new int[] {R.id.linkshopname}  
+        );  
+         
+        //添加并且显示  
+        list.setAdapter(listItemAdapter); 
 	}
 	
 	private void linkShop(final String userAccount,final String shopAccount)
@@ -149,9 +182,10 @@ public class LinkShopActivity extends BaseActivity
 			{
 				if(msg.what==1)
 				{
-					getMemberContact(shopId);
+					//getMemberContact(shopId);
+					//设置店铺列表
+					setShopListView();
 					UIHelper.ToastMessage(getBaseContext(), "关联成功");
-					
 				}
 				if(msg.what==0)
 				{
@@ -178,7 +212,6 @@ public class LinkShopActivity extends BaseActivity
 						AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(shopId);
 					}
 					msg.what = 1;
-					
 				}
 				if(res.getCode()==1)
 				{

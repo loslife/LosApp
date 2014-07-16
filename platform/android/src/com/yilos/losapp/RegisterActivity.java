@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yilos.losapp.bean.ServerMemberResponse;
@@ -31,11 +32,17 @@ public class RegisterActivity extends BaseActivity
 	
 	private TextView operat_next;
 	
+	private TextView timecount;
+	
 	private CountDownTimer countDownTimer;
 	
 	private LinearLayout checkvcodelayout;
 	
 	private LinearLayout registerlayout;
+	
+    private RelativeLayout layout_getcode;
+	
+	private RelativeLayout layout_codetip;
 	
 	private boolean isUserExist = false;
 	
@@ -69,6 +76,9 @@ public class RegisterActivity extends BaseActivity
 		checkvcodelayout = (LinearLayout)findViewById(R.id.checkvcodelayout);
 		registerlayout = (LinearLayout)findViewById(R.id.registerlayout);
 		operat_next = (TextView)findViewById(R.id.operat_next);
+		layout_getcode = (RelativeLayout)findViewById(R.id.layout_getcode);
+		layout_codetip = (RelativeLayout)findViewById(R.id.layout_codetip);
+		timecount = (TextView)findViewById(R.id.timecount);
 		
 		 findViewById(R.id.goback).setOnClickListener(new OnClickListener() {
 				
@@ -333,20 +343,21 @@ public class RegisterActivity extends BaseActivity
 		if (null != countDownTimer) {
 			countDownTimer.cancel();
 		}
-		reqValidatecode.setEnabled(false);
 		countDownTimer = new CountDownTimer(1000L * 60, 1000L) {
-			int count = 60;
+			int count = 90;
 
 			@Override
 			public void onFinish() {
-				reqValidatecode.setEnabled(true);
-				reqValidatecode.setText("获取验证码");
+				layout_getcode.setVisibility(View.GONE);
+				layout_codetip.setVisibility(View.GONE);
 			}
 
 			@Override
 			public void onTick(long millisUntilFinished) {
-				reqValidatecode.setText("(" + (--count) + ")"
-						+ "后重新获取验证码");
+				layout_getcode.setVisibility(View.GONE);
+				layout_codetip.setVisibility(View.VISIBLE);
+				timecount.setText((--count) 
+						+ "秒");
 			}
 		};
 		countDownTimer.start();

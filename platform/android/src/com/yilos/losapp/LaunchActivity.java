@@ -15,7 +15,7 @@ import com.yilos.losapp.database.SDBHelper;
 import com.yilos.losapp.service.MemberService;
 import com.yilos.losapp.service.MyshopManageService;
 
-public class LaunchActivity extends Activity {
+public class LaunchActivity extends BaseActivity {
 
 	private MemberService memberService;
 
@@ -37,7 +37,6 @@ public class LaunchActivity extends Activity {
 		userAccount = AppContext.getInstance(getBaseContext()).getUserAccount();
 		
 		initdata(); 
-
 	}
 
 	final Handler handle = new Handler() {
