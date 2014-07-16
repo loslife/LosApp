@@ -5,4 +5,6 @@
 
 @property NSString *previousEnterpriseId;
 
+-(void) loadMembersFromServer;
+
 @end

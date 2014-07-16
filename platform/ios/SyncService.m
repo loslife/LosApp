@@ -98,6 +98,7 @@
         NSDictionary *records = [response objectForKey:@"records"];
         
         [memberDao batchUpdateMembers:records LastSync:lastSync EnterpriseId:enterpriseId];
+        [enterpriseDao updateSyncFlagById:enterpriseId];
         
         block(YES);
     }];

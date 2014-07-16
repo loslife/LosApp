@@ -16,7 +16,6 @@
         
         controller = viewController;
         
-        self.membersInitDone = NO;
         self.members = [NSMutableArray array];
     }
     return self;
@@ -24,27 +23,16 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if(!self.membersInitDone){
-        return 1;
-    }
     return [self.members count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if(!self.membersInitDone){
-        return 0;
-    }
-    
     return [[self.members objectAtIndex:section] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(!self.membersInitDone){
-        return nil;
-    }
-    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[UITableViewCell reuseIdentifier]];
     if(!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[UITableViewCell reuseIdentifier]];
@@ -57,18 +45,11 @@
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
 {
-    if(!self.membersInitDone){
-        return @[];
-    }
     return [[UILocalizedIndexedCollation currentCollation] sectionIndexTitles];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    if(!self.membersInitDone){
-        return nil;
-    }
-    
+{    
     if ([[self.members objectAtIndex:section] count] > 0) {
         return [[[UILocalizedIndexedCollation currentCollation] sectionTitles] objectAtIndex:section];
     }

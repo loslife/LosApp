@@ -7,11 +7,12 @@
     self = [super init];
     if(self){
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 200, 280, 40)];
-        label.text = @"点击加载会员";
-        label.textAlignment = NSTextAlignmentCenter;
-        [self addSubview:label];
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        button.frame = CGRectMake(100, 250, 120, 40);
+        [button setTitle:@"点击加载会员" forState:UIControlStateNormal];
+        [button addTarget:controller action:@selector(loadMembersFromServer) forControlEvents:UIControlEventTouchUpInside];
         
+        [self addSubview:button];
     }
     return self;
 }

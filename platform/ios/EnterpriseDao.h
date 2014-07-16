@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import "Enterprise.h"
 
 @interface EnterpriseDao : NSObject
 
@@ -7,6 +8,8 @@
 -(int) countEnterprises;
 -(NSArray*) queryAllEnterprises;
 -(NSString*) queryEnterpriseNameById:(NSString*)pk;
--(int) querySyncCountById:(NSString*)enterpriseId;
+-(BOOL) querySyncFlagById:(NSString*)enterpriseId;
+-(NSNumber*) queryLatestSyncTimeById:(NSString*)enterpriseId;
+-(void) updateSyncFlagById:(NSString*)enterpriseId;
 
 @end
