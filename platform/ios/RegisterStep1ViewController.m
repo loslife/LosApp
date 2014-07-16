@@ -212,7 +212,12 @@
 
 -(void) jumpToStep2
 {
+    RegisterStep1View *myView = (RegisterStep1View*)self.view;
+    NSString* phone = myView.username.text;
+    
     RegisterOrResetStep2ViewController *controller = [[RegisterOrResetStep2ViewController alloc] init];
+    controller.type = @"register";
+    controller.phone = phone;
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self presentViewController:controller animated:YES completion:nil];

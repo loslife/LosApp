@@ -1,11 +1,27 @@
 #import "RegisterOrResetStep2ViewController.h"
 #import "RegisterOrResetStep2View.h"
+#import "LosAppUrls.h"
+#import "LosHttpHelper.h"
+#import "StringUtils.h"
 
 @implementation RegisterOrResetStep2ViewController
 
+{
+    LosHttpHelper *httpHelper;
+}
+
+-(id) initWithNibName:(NSString*)nibName bundle:(NSBundle*)bundle
+{
+    self = [super initWithNibName:nibName bundle:bundle];
+    if(self){
+        httpHelper = [[LosHttpHelper alloc] init];
+    }
+    return self;
+}
+
 -(void) loadView
 {
-    RegisterOrResetStep2View *view = [[RegisterOrResetStep2View alloc] initWithController:self Type:self.type];
+    RegisterOrResetStep2View *view = [[RegisterOrResetStep2View alloc] initWithController:self];
     self.view = view;
     
     UINavigationBar *navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, 320, 66)];
@@ -18,7 +34,7 @@
         navigationItem.title = @"重设密码";
     }
     
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"上一步" style:UIBarButtonItemStyleBordered target:self action:@selector(back)];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStyleBordered target:self action:@selector(back)];
     navigationItem.leftBarButtonItem = backButton;
     
     [navigationBar pushNavigationItem:navigationItem animated:NO];
@@ -26,11 +42,53 @@
     [self.view addSubview:navigationBar];
 }
 
--(void) back
+-(void) submitButtonTapped
 {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    RegisterOrResetStep2View *myView = (RegisterOrResetStep2View*)self.view;
+    NSString *password = myView.password.text;
+    NSString *repeat = myView.repeat.text;
+    
+    int flag = [self checkInputWithPassword:password repeat:repeat];
+    if(flag != 0){
+        
+        if(flag == 1){
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"密码不能为空" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+            [alert show];
+        }
+        
+        if(flag == 2){
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"两次输入密码不一致" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+            [alert show];
+        }
+        
+        if(flag == 3){
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"密码长度错误" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+            [alert show];
+        }
+        
+        return;
+    }
+    
+    [self doSubmit:self.phone Password:password];
 }
-/**
+
+-(int) checkInputWithPassword:(NSString*)password repeat:(NSString*)repeat
+{
+    if([StringUtils isEmpty:password] || [StringUtils isEmpty:repeat]){
+        return 1;
+    }
+    
+    if(![password isEqualToString:repeat]){
+        return 2;
+    }
+    
+    if(password.length < 6 || password.length > 12){
+        return 3;
+    }
+    
+    return 0;
+}
+
 -(void) doSubmit:(NSString*)phone Password:(NSString*)password
 {
     NSString* submitURL;
@@ -85,10 +143,14 @@
         }
         
         dispatch_async(dispatch_get_main_queue(), ^(void){
-            LoginViewController *loginVC = (LoginViewController*)self.presentingViewController;
-            [loginVC dismissViewControllerAnimated:YES completion:nil];
+            [self back];
         });
     }];
 }
-**/
+
+-(void) back
+{
+    [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
 @end
