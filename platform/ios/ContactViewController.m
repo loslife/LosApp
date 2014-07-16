@@ -1,17 +1,16 @@
 #import "ContactViewController.h"
 #import "FMDB.h"
 #import "PathResolver.h"
-#import "UITableViewCell+ReuseIdentifier.h"
 #import "ContactView.h"
 #import "Member.h"
 #import "StringUtils.h"
 #import "MemberDetailViewController.h"
+#import "ContactDataSource.h"
 
 @implementation ContactViewController
 
 {
-    BOOL membersInitDone;
-    NSMutableArray *members;
+    ContactDataSource *dataSource;
 }
 
 -(id) initWithNibName:(NSString*)nibName bundle:(NSBundle*)bundle
@@ -19,8 +18,7 @@
     self = [super initWithNibName:nibName bundle:bundle];
     if(self){
         
-        membersInitDone = NO;
-        members = [NSMutableArray array];
+        dataSource = [[ContactDataSource alloc] initWithController:self];
         
         self.navigationItem.rightBarButtonItem = [[SwitchShopButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20) Delegate:self];
         
@@ -32,16 +30,17 @@
 
 -(void) loadView
 {
-    ContactView *view = [[ContactView alloc] initWithController:self];
+    ContactView *view = [[ContactView alloc] initWithController:self tableViewDataSource:dataSource];
     self.view = view;
-    
+}
+
+-(void) viewDidLoad
+{
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         [self initEnterprises];
         [self initMembers];
     });
 }
-
-#pragma mark - init data
 
 -(void) initEnterprises
 {
@@ -87,15 +86,13 @@
     NSString *statement = @"select id, name, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume from members where enterprise_id = :eid";
     [self refreshMembers:statement];
     
-    membersInitDone = YES;
+    dataSource.membersInitDone = YES;
     
     dispatch_async(dispatch_get_main_queue(), ^{
         ContactView* myView = (ContactView*)self.view;
         [myView.tableView reloadData];
     });
 }
-
-#pragma mark - private method
 
 -(void) refreshMembers:(NSString*)statement
 {
@@ -147,88 +144,8 @@
     
     for (NSMutableArray *sectionArray in sectionArrays) {
         NSArray *sortedSection = [collation sortedArrayFromArray:sectionArray collationStringSelector:@selector(name)];
-        [members addObject:sortedSection];
+        [dataSource.members addObject:sortedSection];
     }
-}
-
-#pragma mark - tableview datasource
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    if(!membersInitDone){
-        return 1;
-    }
-    return [members count];
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    if(!membersInitDone){
-        return 0;
-    }
-    
-    return [[members objectAtIndex:section] count];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if(!membersInitDone){
-        return nil;
-    }
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[UITableViewCell reuseIdentifier]];
-    if(!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[UITableViewCell reuseIdentifier]];
-    }
-    
-    Member *member = [[members objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    cell.textLabel.text = member.name;
-    return cell;
-}
-
-- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
-{
-    if(!membersInitDone){
-        return @[];
-    }
-    return [[UILocalizedIndexedCollation currentCollation] sectionIndexTitles];
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    if(!membersInitDone){
-        return nil;
-    }
-    
-    if ([[members objectAtIndex:section] count] > 0) {
-        return [[[UILocalizedIndexedCollation currentCollation] sectionTitles] objectAtIndex:section];
-    }
-    return nil;
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
-{
-    UITableViewHeaderFooterView *headerView = (UITableViewHeaderFooterView*)view;
-    
-    headerView.textLabel.text = [@"    " stringByAppendingString:headerView.textLabel.text];// sorry for this
-}
-
-- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
-{
-    return [[UILocalizedIndexedCollation currentCollation] sectionForSectionIndexTitleAtIndex:index];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 66;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    Member *member = [[members objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    
-    MemberDetailViewController *detail = [[MemberDetailViewController alloc] initWithMember:member];
-    [self.navigationController pushViewController:detail animated:YES];
 }
 
 #pragma mark - search bar delegate
@@ -237,7 +154,7 @@
 {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         
-        [members removeAllObjects];
+        [dataSource.members removeAllObjects];
         
         NSString *base = @"select id, name, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume from members where enterprise_id = :eid and name like '%%%@%%';";
         NSString *statement = [NSString stringWithFormat:base, searchText];
@@ -257,7 +174,7 @@
 {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         
-        [members removeAllObjects];
+        [dataSource.members removeAllObjects];
         NSString *statement = @"select id, name, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume from members where enterprise_id = :eid";
         [self refreshMembers:statement];
         

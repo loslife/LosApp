@@ -1,0 +1,103 @@
+#import "ContactDataSource.h"
+#import "Member.h"
+#import "UITableViewCell+ReuseIdentifier.h"
+#import "MemberDetailViewController.h"
+
+@implementation ContactDataSource
+
+{
+    ContactViewController *controller;
+}
+
+-(id) initWithController:(ContactViewController*)viewController
+{
+    self = [super init];
+    if(self){
+        
+        controller = viewController;
+        
+        self.membersInitDone = NO;
+        self.members = [NSMutableArray array];
+    }
+    return self;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    if(!self.membersInitDone){
+        return 1;
+    }
+    return [self.members count];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if(!self.membersInitDone){
+        return 0;
+    }
+    
+    return [[self.members objectAtIndex:section] count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(!self.membersInitDone){
+        return nil;
+    }
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[UITableViewCell reuseIdentifier]];
+    if(!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[UITableViewCell reuseIdentifier]];
+    }
+    
+    Member *member = [[self.members objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    cell.textLabel.text = member.name;
+    return cell;
+}
+
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
+{
+    if(!self.membersInitDone){
+        return @[];
+    }
+    return [[UILocalizedIndexedCollation currentCollation] sectionIndexTitles];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if(!self.membersInitDone){
+        return nil;
+    }
+    
+    if ([[self.members objectAtIndex:section] count] > 0) {
+        return [[[UILocalizedIndexedCollation currentCollation] sectionTitles] objectAtIndex:section];
+    }
+    return nil;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
+{
+    UITableViewHeaderFooterView *headerView = (UITableViewHeaderFooterView*)view;
+    
+    headerView.textLabel.text = [@"    " stringByAppendingString:headerView.textLabel.text];// sorry for this
+}
+
+- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
+{
+    return [[UILocalizedIndexedCollation currentCollation] sectionForSectionIndexTitleAtIndex:index];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 66;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Member *member = [[self.members objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    
+    MemberDetailViewController *detail = [[MemberDetailViewController alloc] initWithMember:member];
+    [controller.navigationController pushViewController:detail animated:YES];
+}
+
+@end

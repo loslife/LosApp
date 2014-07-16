@@ -2,7 +2,7 @@
 
 @implementation ContactView
 
--(id) initWithController:(ContactViewController*)controller
+-(id) initWithController:(ContactViewController*)controller tableViewDataSource:(id<UITableViewDataSource, UITableViewDelegate>)ds
 {
     self = [super initWithFrame:[[UIScreen mainScreen] applicationFrame]];
     
@@ -12,8 +12,8 @@
         searchBar.delegate = controller;
         
         self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 100, 320, 468) style:UITableViewStylePlain];
-        self.tableView.dataSource = controller;
-        self.tableView.delegate = controller;
+        self.tableView.dataSource = ds;
+        self.tableView.delegate = ds;
         self.tableView.separatorInset = UIEdgeInsetsZero;
         self.tableView.sectionIndexColor = [UIColor grayColor];
         

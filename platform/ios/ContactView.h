@@ -5,6 +5,6 @@
 
 @property UITableView *tableView;
 
--(id) initWithController:(ContactViewController*)controller;
+-(id) initWithController:(ContactViewController*)controller tableViewDataSource:(id<UITableViewDataSource, UITableViewDelegate>)ds;
 
 @end

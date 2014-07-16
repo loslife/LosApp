@@ -1,6 +1,6 @@
 #import <UIKit/UIKit.h>
 #import "SwitchShopButton.h"
 
-@interface ContactViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, SwitchShopButtonDelegate>
+@interface ContactViewController : UIViewController<UISearchBarDelegate, SwitchShopButtonDelegate>
 
 @end

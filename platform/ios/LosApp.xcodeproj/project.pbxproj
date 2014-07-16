@@ -70,6 +70,7 @@
 		186C35D219755B0F00633AE4 /* RegisterOrResetStep2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35D119755B0F00633AE4 /* RegisterOrResetStep2ViewController.m */; };
 		186C35D51976208600633AE4 /* ResetStep1ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35D41976208600633AE4 /* ResetStep1ViewController.m */; };
 		186C35D8197621C900633AE4 /* ResetStep1View.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35D7197621C900633AE4 /* ResetStep1View.m */; };
+		186C35DB1976678F00633AE4 /* ContactDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35DA1976678F00633AE4 /* ContactDataSource.m */; };
 		18AFE5F5195178210083C972 /* UITableViewCell+ReuseIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE5F4195178210083C972 /* UITableViewCell+ReuseIdentifier.m */; };
 		18AFE5FC1951986F0083C972 /* ContactView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE5FB1951986F0083C972 /* ContactView.m */; };
 		18AFE600195296D70083C972 /* Member.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE5FF195296D70083C972 /* Member.m */; };
@@ -213,6 +214,8 @@
 		186C35D41976208600633AE4 /* ResetStep1ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResetStep1ViewController.m; sourceTree = "<group>"; };
 		186C35D6197621C900633AE4 /* ResetStep1View.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResetStep1View.h; sourceTree = "<group>"; };
 		186C35D7197621C900633AE4 /* ResetStep1View.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResetStep1View.m; sourceTree = "<group>"; };
+		186C35D91976678F00633AE4 /* ContactDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactDataSource.h; sourceTree = "<group>"; };
+		186C35DA1976678F00633AE4 /* ContactDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactDataSource.m; sourceTree = "<group>"; };
 		18AFE5F3195178210083C972 /* UITableViewCell+ReuseIdentifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+ReuseIdentifier.h"; sourceTree = "<group>"; };
 		18AFE5F4195178210083C972 /* UITableViewCell+ReuseIdentifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+ReuseIdentifier.m"; sourceTree = "<group>"; };
 		18AFE5FA1951986F0083C972 /* ContactView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactView.h; sourceTree = "<group>"; };
@@ -447,6 +450,8 @@
 			children = (
 				18AFE621195434B20083C972 /* SyncService.h */,
 				18AFE622195434B20083C972 /* SyncService.m */,
+				186C35D91976678F00633AE4 /* ContactDataSource.h */,
+				186C35DA1976678F00633AE4 /* ContactDataSource.m */,
 			);
 			name = service;
 			sourceTree = "<group>";
@@ -749,6 +754,7 @@
 				184472B4196D279A00B4A543 /* HorizontalLine.m in Sources */,
 				1844725A195C060400B4A543 /* EmployeePerformance.m in Sources */,
 				18666748194A9FFF00A345F7 /* RegisterStep1View.m in Sources */,
+				186C35DB1976678F00633AE4 /* ContactDataSource.m in Sources */,
 				1844728F1967E97300B4A543 /* LosPieChart.m in Sources */,
 				184472571959545B00B4A543 /* LosTextField.m in Sources */,
 				186667011949864100A345F7 /* WelcomeViewController.m in Sources */,
