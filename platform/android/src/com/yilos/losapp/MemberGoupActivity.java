@@ -37,8 +37,7 @@ import com.yilos.losapp.common.SideBar;
 import com.yilos.losapp.service.MemberService;
 import com.yilos.losapp.service.MyshopManageService;
 
-
-public class MemberGoupActivity extends BaseActivity{
+public class MemberGoupActivity extends BaseActivity {
 	private static List<MemberBean> parentData = new ArrayList<MemberBean>();
 
 	private ListView lvContact;
@@ -46,14 +45,17 @@ public class MemberGoupActivity extends BaseActivity{
 	private WindowManager mWindowManager;
 	private TextView mDialogText;
 	private EditText seachmemberext;
-	
+	private LinearLayout layout_loadingmember;
+	private LinearLayout layout_memberlist;
+	private TextView loadingmember;
+
 	String[] members;
 	String[] memberNames;
 	String[] memberIds;
 	String memberName;
 	static int i;
 	ListViewAdp lAdp;
-	
+
 	private PopupWindow popupWindow;
 	private LinearLayout layout;
 	private ListView listView;
@@ -61,14 +63,14 @@ public class MemberGoupActivity extends BaseActivity{
 	private String shopIds[] = null;
 
 	private MemberService memberService;
-	
+
 	private MyshopManageService myshopService;
-	
+
 	private String shopId;
-	
+
 	private String last_sync = "0";
-	
-	private TextView  shopname;
+
+	private TextView shopname;
 	private ImageView select_shop;
 
 	@Override
@@ -80,71 +82,76 @@ public class MemberGoupActivity extends BaseActivity{
 		mWindowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
 		memberService = new MemberService(getBaseContext());
 	}
-	
+
 	@Override
-	public void onResume()
-	{
+	public void onResume() {
 		super.onResume();
 		getdata();
 	}
 
 	public void initView() {
-		
 		findView();
-		
-		members = null;
-	
-		members = new String[parentData.size()];
-
-		for (int i = 0; i < parentData.size(); i++) {
-			members[i] = parentData.get(i).getName()+"|"+i;
-		}
-		Arrays.sort(members, new Pinyin_Comparator());
-
-		lAdp = new ListViewAdp(MemberGoupActivity.this, members);
-		lvContact.setAdapter(lAdp);
-		lvContact.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				memberName = members[arg2];
-				int index = memberName.indexOf("|");
-				String p = memberName.substring(index+1, memberName.length());
+		if (null != parentData && parentData.size() > 0) 
+		{
+			layout_loadingmember.setVisibility(View.GONE);
+			layout_memberlist.setVisibility(View.VISIBLE);
 			
-				Intent memberDetail = new Intent();
-				memberDetail.putExtra("memberInfo", parentData.get(Integer.parseInt(p)));
-				memberDetail.setClass(getBaseContext(), MemberDetailActivity.class);
-				startActivity(memberDetail);
+			members = null;
+			members = new String[parentData.size()];
+
+			for (int i = 0; i < parentData.size(); i++) {
+				members[i] = parentData.get(i).getName() + "|" + i;
 			}
-		});
-		
-		seachmemberext = (EditText)findViewById(R.id.seachmemberext);
-		
+			Arrays.sort(members, new Pinyin_Comparator());
+
+			lAdp = new ListViewAdp(MemberGoupActivity.this, members);
+			lvContact.setAdapter(lAdp);
+			lvContact.setOnItemClickListener(new OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View arg1,
+						int arg2, long arg3) {
+					memberName = members[arg2];
+					int index = memberName.indexOf("|");
+					String p = memberName.substring(index + 1,
+							memberName.length());
+
+					Intent memberDetail = new Intent();
+					memberDetail.putExtra("memberInfo",
+							parentData.get(Integer.parseInt(p)));
+					memberDetail.setClass(getBaseContext(),
+							MemberDetailActivity.class);
+					startActivity(memberDetail);
+				}
+			});
+		} else {
+			layout_loadingmember.setVisibility(View.VISIBLE);
+			layout_memberlist.setVisibility(View.GONE);
+		}
+
+		seachmemberext = (EditText) findViewById(R.id.seachmemberext);
+
 		seachmemberext.addTextChangedListener(new TextWatcher() {
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				
-			}
 
+			}
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
-				
-			}
 
+			}
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
-				parentData = memberService.seachRecords(shopId,s.toString());
+				parentData = memberService.seachRecords(shopId, s.toString());
 				initView();
-			}           
-           
-        });
-		
+			}
+
+		});
+
 		select_shop = (ImageView) findViewById(R.id.headmore);
-		if(title == null||!(title.length>0))
-		{
+		if (title == null || !(title.length > 0)) {
 			select_shop.setVisibility(View.GONE);
 		}
 		select_shop.setOnClickListener(new OnClickListener() {
@@ -167,11 +174,13 @@ public class MemberGoupActivity extends BaseActivity{
 		mDialogText = (TextView) LayoutInflater.from(this).inflate(
 				R.layout.list_position, null);
 		mDialogText.setVisibility(View.INVISIBLE);
-		
-		shopname = (TextView)findViewById(R.id.shopname);
+
+		layout_loadingmember = (LinearLayout) findViewById(R.id.layout_loadingmember);
+		layout_memberlist =  (LinearLayout) findViewById(R.id.layout_memberlist);
+		loadingmember = (TextView) findViewById(R.id.loadingmember);
+
+		shopname = (TextView) findViewById(R.id.shopname);
 		findViewById(R.id.goback).setVisibility(View.GONE);
-		
-		
 
 		WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,
@@ -182,76 +191,54 @@ public class MemberGoupActivity extends BaseActivity{
 		mWindowManager.addView(mDialogText, lp);
 		indexBar.setTextView(mDialogText);
 	}
-	
-	
+
 	public void getdata() {
-		
-		
-	/*	MemberBean m1 = new MemberBean();
-		m1.setName("王MM");
 
-		MemberBean m2 = new MemberBean();
-		m2.setName("李MM");
-		MemberBean m3 = new MemberBean();
-		m3.setName("张MM");
-		MemberBean m4 = new MemberBean();
-		m4.setName("艾MM");
-		MemberBean m5 = new MemberBean();
-		m5.setName("江MM");
-		MemberBean m6 = new MemberBean();
-		m6.setName("郑MM");
-		MemberBean m7 = new MemberBean();
-		m7.setName("曹MM");
-		MemberBean m8 = new MemberBean();
-		m8.setName("王MM");
-		MemberBean m9 = new MemberBean();
-		m9.setName("白MM");
+		/*
+		 * MemberBean m1 = new MemberBean(); m1.setName("王MM");
+		 * 
+		 * MemberBean m2 = new MemberBean(); m2.setName("李MM"); MemberBean m3 =
+		 * new MemberBean(); m3.setName("张MM"); MemberBean m4 = new
+		 * MemberBean(); m4.setName("艾MM"); MemberBean m5 = new MemberBean();
+		 * m5.setName("江MM"); MemberBean m6 = new MemberBean();
+		 * m6.setName("郑MM"); MemberBean m7 = new MemberBean();
+		 * m7.setName("曹MM"); MemberBean m8 = new MemberBean();
+		 * m8.setName("王MM"); MemberBean m9 = new MemberBean();
+		 * m9.setName("白MM");
+		 * 
+		 * MemberBean m10 = new MemberBean(); m10.setName("赵MM"); MemberBean m11
+		 * = new MemberBean(); m11.setName("王MM"); MemberBean m12 = new
+		 * MemberBean(); m12.setName("黄MM"); parentData.add(m1);
+		 * parentData.add(m2); parentData.add(m3); parentData.add(m4);
+		 * parentData.add(m5); parentData.add(m6); parentData.add(m7);
+		 * parentData.add(m8); parentData.add(m9); parentData.add(m10);
+		 * parentData.add(m11); parentData.add(m12);
+		 */
 
-		MemberBean m10 = new MemberBean();
-		m10.setName("赵MM");
-		MemberBean m11 = new MemberBean();
-		m11.setName("王MM");
-		MemberBean m12 = new MemberBean();
-		m12.setName("黄MM");
-		parentData.add(m1);
-		parentData.add(m2);
-		parentData.add(m3);
-		parentData.add(m4);
-		parentData.add(m5);
-		parentData.add(m6);
-		parentData.add(m7);
-		parentData.add(m8);
-		parentData.add(m9);
-		parentData.add(m10);
-		parentData.add(m11);
-		parentData.add(m12);*/
-		
-		last_sync = AppContext.getInstance(getBaseContext()).getContactLastSyncTime();
-		shopId = AppContext.getInstance(getBaseContext()).getCurrentDisplayShopId();
+		last_sync = AppContext.getInstance(getBaseContext())
+				.getContactLastSyncTime();
+		shopId = AppContext.getInstance(getBaseContext())
+				.getCurrentDisplayShopId();
 		memberService = new MemberService(getBaseContext());
 		myshopService = new MyshopManageService(getBaseContext());
-		if(null != shopId && !"".equals(shopId))
-		{
+		if (null != shopId && !"".equals(shopId)) {
 			parentData = memberService.queryMembers(shopId);
 		}
-		
+
 		myshopService = new MyshopManageService(getBaseContext());
 		// 查询本地的关联数据
 		List<MyShopBean> myshops = myshopService.queryShops();
-		if (myshops != null && myshops.size() > 0) 
-		{
+		if (myshops != null && myshops.size() > 0) {
 			title = new String[myshops.size()];
 			shopIds = new String[myshops.size()];
-			for(int i=0;i<myshops.size();i++)
-			{
+			for (int i = 0; i < myshops.size(); i++) {
 				title[i] = myshops.get(i).getEnterprise_name();
 				shopIds[i] = myshops.get(i).getEnterprise_id();
 			}
 		}
-		
+
 		initView();
 	}
-	
 
 	public void showPopupWindow(int x, int y) {
 		layout = (LinearLayout) LayoutInflater.from(getBaseContext()).inflate(
@@ -270,7 +257,7 @@ public class MemberGoupActivity extends BaseActivity{
 		popupWindow.setContentView(layout);
 		// showAsDropDown会把里面的view作为参照物，所以要那满屏幕parent
 		popupWindow.showAtLocation(findViewById(R.id.headmore), Gravity.LEFT
-				| Gravity.TOP, x, y);//需要指定Gravity，默认情况是center.
+				| Gravity.TOP, x, y);// 需要指定Gravity，默认情况是center.
 
 		listView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -278,7 +265,8 @@ public class MemberGoupActivity extends BaseActivity{
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				shopname.setText(title[arg2]);
-				AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(shopIds[arg2]);
+				AppContext.getInstance(getBaseContext())
+						.setCurrentDisplayShopId(shopIds[arg2]);
 				parentData = memberService.queryMembers(shopIds[arg2]);
 				initView();
 				popupWindow.dismiss();
