@@ -63,41 +63,7 @@
         
         [syncService refreshAttachEnterprisesUserId:userId Block:^(BOOL flag){
         
-            if(!flag){
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [indicator stopAnimating];
-                    [self jumpToMain];
-                });
-                return;
-            }
-            
-            NSString *dbFilePath = [PathResolver databaseFilePath];
-            FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
-            [db open];
-            
-            NSString *sql = @"select enterprise_id, contact_latest_sync from enterprises";
-            FMResultSet *rs = [db executeQuery:sql];
-            
-            dispatch_group_t group = dispatch_group_create();
-            
-            while([rs next]){
-                
-                NSString *enterpriseId = [rs objectForColumnName:@"enterprise_id"];
-                
-                NSNumber *contactLatestSync = [rs objectForColumnName:@"contact_latest_sync"];
-                if([contactLatestSync isEqual:[NSNull null]]){
-                    contactLatestSync = [NSNumber numberWithInt:0];
-                }
-                
-                dispatch_group_enter(group);
-                [syncService refreshMembersWithEnterpriseId:enterpriseId LatestSyncTime:contactLatestSync Block:^(BOOL flag){
-                    dispatch_group_leave(group);
-                }];
-            }
-            
-            [db close];
-            
-            dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
                 [indicator stopAnimating];
                 [self jumpToMain];
             });
