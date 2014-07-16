@@ -2,6 +2,7 @@
 #import "PathResolver.h"
 #import "FMDB.h"
 #import "TimesHelper.h"
+#import "Member.h"
 
 @implementation MemberDao
 
@@ -62,6 +63,71 @@
     }
     
     [db close];
+}
+
+-(NSArray*) queryMembersByEnterpriseId:(NSString*)enterpriseId
+{
+    NSString *dbFilePath = [PathResolver databaseFilePath];
+    FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
+    [db open];
+    
+    NSMutableArray *members = [NSMutableArray arrayWithCapacity:1];
+    
+    NSString *statement = @"select id, name, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume from members where enterprise_id = :eid";
+    
+    FMResultSet *rs = [db executeQuery:statement, enterpriseId];
+    while ([rs next]) {
+        
+        NSString *pk = [rs objectForColumnName:@"id"];
+        NSString *name = [rs objectForColumnName:@"name"];
+        NSNumber *birthday = [rs objectForColumnName:@"birthday"];
+        NSString *phone = [rs objectForColumnName:@"phoneMobile"];
+        NSNumber *joinDate = [rs objectForColumnName:@"joinDate"];
+        NSString *memberNo = [rs objectForColumnName:@"memberNo"];
+        NSNumber *latest = [rs objectForColumnName:@"latestConsumeTime"];
+        NSNumber *totalConsume = [rs objectForColumnName:@"totalConsume"];
+        NSNumber *averageConsume = [rs objectForColumnName:@"averageConsume"];
+        
+        Member *member = [[Member alloc] initWithPk:pk Name:name Birthday:birthday Phone:phone JoinDate:joinDate MemberNo:memberNo LatestConsume:latest TotalConsume:totalConsume AverageConsume:averageConsume];
+        [members addObject:member];
+    }
+    
+    [db close];
+    
+    return members;
+}
+
+-(NSArray*) fuzzyQueryMembersByEnterpriseId:(NSString*)enterpriseId name:(NSString*)name
+{
+    NSString *dbFilePath = [PathResolver databaseFilePath];
+    FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
+    [db open];
+    
+    NSMutableArray *members = [NSMutableArray arrayWithCapacity:1];
+    
+    NSString *base = @"select id, name, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume from members where enterprise_id = :eid and name like '%%%@%%';";
+    NSString *statement = [NSString stringWithFormat:base, name];
+    
+    FMResultSet *rs = [db executeQuery:statement, enterpriseId];
+    while ([rs next]) {
+        
+        NSString *pk = [rs objectForColumnName:@"id"];
+        NSString *name = [rs objectForColumnName:@"name"];
+        NSNumber *birthday = [rs objectForColumnName:@"birthday"];
+        NSString *phone = [rs objectForColumnName:@"phoneMobile"];
+        NSNumber *joinDate = [rs objectForColumnName:@"joinDate"];
+        NSString *memberNo = [rs objectForColumnName:@"memberNo"];
+        NSNumber *latest = [rs objectForColumnName:@"latestConsumeTime"];
+        NSNumber *totalConsume = [rs objectForColumnName:@"totalConsume"];
+        NSNumber *averageConsume = [rs objectForColumnName:@"averageConsume"];
+        
+        Member *member = [[Member alloc] initWithPk:pk Name:name Birthday:birthday Phone:phone JoinDate:joinDate MemberNo:memberNo LatestConsume:latest TotalConsume:totalConsume AverageConsume:averageConsume];
+        [members addObject:member];
+    }
+    
+    [db close];
+    
+    return members;
 }
 
 @end

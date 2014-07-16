@@ -3,4 +3,6 @@
 
 @interface ContactViewController : UIViewController<UISearchBarDelegate, SwitchShopButtonDelegate>
 
+@property NSString *previousEnterpriseId;
+
 @end

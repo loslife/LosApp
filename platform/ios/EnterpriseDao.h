@@ -7,5 +7,6 @@
 -(int) countEnterprises;
 -(NSArray*) queryAllEnterprises;
 -(NSString*) queryEnterpriseNameById:(NSString*)pk;
+-(int) querySyncCountById:(NSString*)enterpriseId;
 
 @end

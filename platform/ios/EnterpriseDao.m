@@ -8,13 +8,13 @@
 
 -(void) insertEnterprisesWith:(NSString*)enterpriseId Name:(NSString*)enterpriseName
 {
-    NSString *insert = @"insert into enterprises (enterprise_Id, enterprise_name, contact_latest_sync, display, default_shop, create_date) values (:enterpriseId, :name, :contactLatestSync, :display, :default, :createDate);";
+    NSString *insert = @"insert into enterprises (enterprise_Id, enterprise_name, contact_latest_sync, display, default_shop, create_date, contact_sync_count) values (:enterpriseId, :name, :contactLatestSync, :display, :default, :createDate, :count);";
     
     NSString *dbFilePath = [PathResolver databaseFilePath];
     FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
     [db open];
     
-    [db executeUpdate:insert, enterpriseId, enterpriseName, [NSNumber numberWithInt:0], @"yes", [NSNumber numberWithInt:0], [NSNumber numberWithLongLong:[TimesHelper now]]];
+    [db executeUpdate:insert, enterpriseId, enterpriseName, [NSNumber numberWithInt:0], @"yes", [NSNumber numberWithInt:0], [NSNumber numberWithLongLong:[TimesHelper now]], [NSNumber numberWithInt:0]];
     
     [db close];
 }
@@ -22,7 +22,7 @@
 -(void) batchInsertEnterprises:(NSArray*)enterprises
 {
     NSString *query = @"select count(1) as count from enterprises where enterprise_id = :enterpriseId;";
-    NSString *insert = @"insert into enterprises (enterprise_Id, enterprise_name, contact_latest_sync, display, default_shop, create_date) values (:enterpriseId, :name, :contactLatestSync, :display, :default, :createDate);";
+    NSString *insert = @"insert into enterprises (enterprise_Id, enterprise_name, contact_latest_sync, display, default_shop, create_date, contact_sync_count) values (:enterpriseId, :name, :contactLatestSync, :display, :default, :createDate, :count);";
     NSString *update = @"update enterprises set enterprise_name = :name where enterprise_id = :id";
     
     NSString *dbFilePath = [PathResolver databaseFilePath];
@@ -37,7 +37,7 @@
         [rs next];
         int count = [[rs objectForColumnName:@"count"] intValue];
         if(count == 0){
-            [db executeUpdate:insert, enterpriseId, enterpriseName, [NSNumber numberWithInt:0], [NSNumber numberWithInt:0], @"yes", [NSNumber numberWithInt:0], [NSNumber numberWithLongLong:[TimesHelper now]]];
+            [db executeUpdate:insert, enterpriseId, enterpriseName, [NSNumber numberWithInt:0], @"yes", [NSNumber numberWithInt:0], [NSNumber numberWithLongLong:[TimesHelper now]], [NSNumber numberWithInt:0]];
         }else{
             [db executeUpdate:update, enterpriseName, enterpriseId];
         }
@@ -102,6 +102,21 @@
     [db close];
     
     return name;
+}
+
+-(int) querySyncCountById:(NSString*)enterpriseId
+{
+    NSString *dbFilePath = [PathResolver databaseFilePath];
+    FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
+    [db open];
+    
+    FMResultSet *rs = [db executeQuery:@"select contact_sync_count from enterprises where enterprise_id = :eid;", enterpriseId];
+    [rs next];
+    int count = [[rs objectForColumnName:@"contact_sync_count"] intValue];
+    
+    [db close];
+    
+    return count;
 }
 
 @end

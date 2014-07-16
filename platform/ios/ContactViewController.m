@@ -1,16 +1,21 @@
 #import "ContactViewController.h"
 #import "FMDB.h"
 #import "PathResolver.h"
-#import "ContactView.h"
 #import "Member.h"
 #import "StringUtils.h"
 #import "MemberDetailViewController.h"
 #import "ContactDataSource.h"
+#import "EnterpriseDao.h"
+#import "ContactNeverLoadView.h"
+#import "ContactView.h"
+#import "MemberDao.h"
 
 @implementation ContactViewController
 
 {
     ContactDataSource *dataSource;
+    EnterpriseDao *enterpriseDao;
+    MemberDao *memberDao;
 }
 
 -(id) initWithNibName:(NSString*)nibName bundle:(NSBundle*)bundle
@@ -18,7 +23,11 @@
     self = [super initWithNibName:nibName bundle:bundle];
     if(self){
         
+        self.previousEnterpriseId = @"";
+        
         dataSource = [[ContactDataSource alloc] initWithController:self];
+        enterpriseDao = [[EnterpriseDao alloc] init];
+        memberDao = [[MemberDao alloc] init];
         
         self.navigationItem.rightBarButtonItem = [[SwitchShopButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20) Delegate:self];
         
@@ -28,21 +37,22 @@
     return self;
 }
 
--(void) loadView
+-(void) viewWillAppear:(BOOL)animated
 {
-    ContactView *view = [[ContactView alloc] initWithController:self tableViewDataSource:dataSource];
-    self.view = view;
-}
-
--(void) viewDidLoad
-{
+    UserData *userData = [UserData load];
+    NSString *currentEnterpriseId = userData.enterpriseId;
+    
+    if([self.previousEnterpriseId isEqualToString:currentEnterpriseId]){
+        return;
+    }
+    
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [self initEnterprises];
-        [self initMembers];
+        [self resolveNavTitle];
+        [self resolveView];
     });
 }
 
--(void) initEnterprises
+-(void) resolveNavTitle
 {
     UserData *userData = [UserData load];
     NSString *currentEnterpriseId = userData.enterpriseId;
@@ -54,15 +64,7 @@
         return;
     }
     
-    NSString *dbFilePath = [PathResolver databaseFilePath];
-    FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
-    [db open];
-    
-    FMResultSet *rs = [db executeQuery:@"select enterprise_name from enterprises where enterprise_id = :eid;", currentEnterpriseId];
-    [rs next];
-    NSString *enterpriseName = [rs objectForColumnName:@"enterprise_name"];
-    
-    [db close];
+    NSString *enterpriseName = [enterpriseDao queryEnterpriseNameById:currentEnterpriseId];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
@@ -74,59 +76,40 @@
     });
 }
 
--(void) initMembers
+-(void) resolveView
 {
     UserData *userData = [UserData load];
     NSString *currentEnterpriseId = userData.enterpriseId;
     
-    if([@"" isEqualToString:currentEnterpriseId]){
-        return;
-    }
+    self.previousEnterpriseId = currentEnterpriseId;
+    
+    int syncTimes = [enterpriseDao querySyncCountById:currentEnterpriseId];
+    
+    if(syncTimes == 0){
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            ContactNeverLoadView *view = [[ContactNeverLoadView alloc] initWithController:self];
+            self.view = view;
+        });
+    }else{
+        
+        NSArray *membersTemp = [memberDao queryMembersByEnterpriseId:currentEnterpriseId];
+        [self assembleMembers:membersTemp];
 
-    NSString *statement = @"select id, name, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume from members where enterprise_id = :eid";
-    [self refreshMembers:statement];
-    
-    dataSource.membersInitDone = YES;
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        ContactView* myView = (ContactView*)self.view;
-        [myView.tableView reloadData];
-    });
+        dispatch_async(dispatch_get_main_queue(), ^{
+            ContactView *view = [[ContactView alloc] initWithController:self tableViewDataSource:dataSource];
+            self.view = view;
+        });
+    }
 }
 
--(void) refreshMembers:(NSString*)statement
+-(void) assembleMembers:(NSArray*)origin
 {
-    UserData *userData = [UserData load];
-    NSString *currentEnterpriseId = userData.enterpriseId;
-    
-    NSMutableArray *membersTemp = [NSMutableArray array];
-    
-    NSString *dbFilePath = [PathResolver databaseFilePath];
-    FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
-    [db open];
-    
-    FMResultSet *rs = [db executeQuery:statement, currentEnterpriseId];
-    while ([rs next]) {
-        
-        NSString *pk = [rs objectForColumnName:@"id"];
-        NSString *name = [rs objectForColumnName:@"name"];
-        NSNumber *birthday = [rs objectForColumnName:@"birthday"];
-        NSString *phone = [rs objectForColumnName:@"phoneMobile"];
-        NSNumber *joinDate = [rs objectForColumnName:@"joinDate"];
-        NSString *memberNo = [rs objectForColumnName:@"memberNo"];
-        NSNumber *latest = [rs objectForColumnName:@"latestConsumeTime"];
-        NSNumber *totalConsume = [rs objectForColumnName:@"totalConsume"];
-        NSNumber *averageConsume = [rs objectForColumnName:@"averageConsume"];
-        
-        Member *member = [[Member alloc] initWithPk:pk Name:name Birthday:birthday Phone:phone JoinDate:joinDate MemberNo:memberNo LatestConsume:latest TotalConsume:totalConsume AverageConsume:averageConsume];
-        [membersTemp addObject:member];
-    }
-    
-    [db close];
+    [dataSource.members removeAllObjects];
     
     UILocalizedIndexedCollation *collation = [UILocalizedIndexedCollation currentCollation];
     
-    for (Member *member in membersTemp) {
+    for (Member *member in origin) {
         NSInteger sect = [collation sectionForObject:member collationStringSelector:@selector(name)];
         member.sectionNumber = sect;
     }
@@ -138,7 +121,7 @@
         [sectionArrays addObject:sectionArray];
     }
     
-    for (Member *member in membersTemp) {
+    for (Member *member in origin) {
         [(NSMutableArray*)[sectionArrays objectAtIndex:member.sectionNumber] addObject:member];
     }
     
@@ -154,12 +137,11 @@
 {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         
-        [dataSource.members removeAllObjects];
+        UserData *userData = [UserData load];
+        NSString *currentEnterpriseId = userData.enterpriseId;
         
-        NSString *base = @"select id, name, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume from members where enterprise_id = :eid and name like '%%%@%%';";
-        NSString *statement = [NSString stringWithFormat:base, searchText];
-        
-        [self refreshMembers:statement];
+        NSArray *membersTemp = [memberDao fuzzyQueryMembersByEnterpriseId:currentEnterpriseId name:searchText];
+        [self assembleMembers:membersTemp];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             ContactView* myView = (ContactView*)self.view;
@@ -173,15 +155,7 @@
 -(void) enterpriseSelected:(NSString*)enterpriseId
 {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        
-        [dataSource.members removeAllObjects];
-        NSString *statement = @"select id, name, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume from members where enterprise_id = :eid";
-        [self refreshMembers:statement];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            ContactView* myView = (ContactView*)self.view;
-            [myView.tableView reloadData];
-        });
+        [self resolveView];
     });
 }
 
