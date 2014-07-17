@@ -6,6 +6,7 @@
 #import "AboutUsViewController.h"
 #import "LosAppDelegate.h"
 #import "UserData.h"
+#import "LosStyles.h"
 
 @interface MenuItem : NSObject
 
@@ -44,7 +45,9 @@
         MenuItem *addShop = [[MenuItem alloc] initWithTitle:@"关联店铺" Image:@"add_shop"];
         MenuItem *modifyPassword = [[MenuItem alloc] initWithTitle:@"修改密码" Image:@"modify_password"];
         MenuItem *aboutUs = [[MenuItem alloc] initWithTitle:@"关于乐斯" Image:@"about_us"];
-        menus = @[addShop, modifyPassword, aboutUs];
+        MenuItem *appUpdate = [[MenuItem alloc] initWithTitle:@"版本更新" Image:@"app_update"];
+        MenuItem *quitApp = [[MenuItem alloc] initWithTitle:@"退出登录" Image:@"quit_app"];
+        menus = @[addShop, modifyPassword, aboutUs, appUpdate, quitApp];
         
         self.navigationItem.title = @"设置";
         
@@ -62,16 +65,8 @@
 
 -(void) viewDidAppear:(BOOL)animated
 {
-    [super viewDidAppear:animated];
-    
     SettingView *myView = (SettingView*)self.view;
     [myView.tableView deselectRowAtIndexPath:[myView.tableView indexPathForSelectedRow] animated:YES];
-}
-
--(void) logout
-{
-    UIActionSheet *logoutConfirm = [[UIActionSheet alloc] initWithTitle:@"退出不删除任何历史数据，下次登录依然可以使用本账号。" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"退出登录" otherButtonTitles:nil];
-    [logoutConfirm showFromTabBar:self.tabBarController.tabBar];
 }
 
 #pragma mark - actionsheet delegate
@@ -82,14 +77,26 @@
         [UserData remove];
         LosAppDelegate* appDelegate = (LosAppDelegate*)[UIApplication sharedApplication].delegate;
         [appDelegate.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
+    }else{
+        SettingView *myView = (SettingView*)self.view;
+        [myView.tableView deselectRowAtIndexPath:[myView.tableView indexPathForSelectedRow] animated:YES];
     }
 }
 
 #pragma mark - tableview datasource
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 2;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [menus count];
+    if(section == 0){
+        return 4;
+    }else{
+        return 1;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -99,7 +106,14 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[UITableViewCell reuseIdentifier]];
     }
     
-    MenuItem *item = [menus objectAtIndex:indexPath.row];
+    MenuItem *item;
+    
+    if(indexPath.section == 0){
+        item = [menus objectAtIndex:indexPath.row];
+    }else{
+        item = [menus objectAtIndex:4];
+    }
+    
     cell.textLabel.text = item.title;
     cell.imageView.image = [UIImage imageNamed:item.image];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -113,7 +127,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    MenuItem *item = [menus objectAtIndex:indexPath.row];
+    MenuItem *item;
+    
+    if(indexPath.section == 0){
+        item = [menus objectAtIndex:indexPath.row];
+    }else{
+        item = [menus objectAtIndex:4];
+    }
     
     NSString *title = item.title;
     
@@ -131,6 +151,23 @@
         AboutUsViewController *controller = [[AboutUsViewController alloc] init];
         [self.navigationController pushViewController:controller animated:YES];
     }
+    
+    if([title isEqualToString:@"退出登录"]){
+        UIActionSheet *logoutConfirm = [[UIActionSheet alloc] initWithTitle:@"退出不删除任何历史数据，下次登录依然可以使用本账号。" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"退出登录" otherButtonTitles:nil];
+        [logoutConfirm showFromTabBar:self.tabBarController.tabBar];
+    }
+}
+
+-(UIView*) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UILabel *bar = [[UILabel alloc] init];
+    bar.backgroundColor = GRAY1;
+    return bar;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 10;
 }
 
 @end
