@@ -83,6 +83,10 @@
     UserData *userData = [UserData load];
     NSString *currentEnterpriseId = userData.enterpriseId;
     
+    if(!currentEnterpriseId){
+        return;
+    }
+    
     self.previousEnterpriseId = currentEnterpriseId;
     
     BOOL hasSync = [enterpriseDao querySyncFlagById:currentEnterpriseId];

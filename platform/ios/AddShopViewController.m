@@ -167,18 +167,12 @@
         UserData *userData = [UserData load];
         NSString *userId = userData.userId;
         
-        [syncService addEnterprise:userId EnterpriseAccount:phone.text Block:^(int flag){
+        [syncService addEnterprise:userId EnterpriseAccount:phone.text Block:^(BOOL flag){
         
             dispatch_async(dispatch_get_main_queue(), ^{
             
-                if(flag == 1){
+                if(!flag){
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"关联失败，请联系客服" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
-                    [alert show];
-                    return;
-                }
-                
-                if(flag == 2){
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"关联失败" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
                     [alert show];
                     return;
                 }
