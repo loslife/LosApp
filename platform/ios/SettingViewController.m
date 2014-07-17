@@ -115,6 +115,7 @@
     }
     
     cell.textLabel.text = item.title;
+    cell.textLabel.font = [UIFont systemFontOfSize:14];
     cell.imageView.image = [UIImage imageNamed:item.image];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
@@ -122,7 +123,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 66;
+    return 60;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
