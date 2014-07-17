@@ -72,6 +72,8 @@
 		186C35D8197621C900633AE4 /* ResetStep1View.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35D7197621C900633AE4 /* ResetStep1View.m */; };
 		186C35DB1976678F00633AE4 /* ContactDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35DA1976678F00633AE4 /* ContactDataSource.m */; };
 		186C35DE1976746B00633AE4 /* ContactNeverLoadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35DD1976746B00633AE4 /* ContactNeverLoadView.m */; };
+		186C35E11977B72100633AE4 /* AppUpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35E01977B72100633AE4 /* AppUpdateViewController.m */; };
+		186C35E41977B75500633AE4 /* AppUpdateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35E31977B75500633AE4 /* AppUpdateView.m */; };
 		18AFE5F5195178210083C972 /* UITableViewCell+ReuseIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE5F4195178210083C972 /* UITableViewCell+ReuseIdentifier.m */; };
 		18AFE5FC1951986F0083C972 /* ContactView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE5FB1951986F0083C972 /* ContactView.m */; };
 		18AFE600195296D70083C972 /* Member.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE5FF195296D70083C972 /* Member.m */; };
@@ -219,6 +221,10 @@
 		186C35DA1976678F00633AE4 /* ContactDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactDataSource.m; sourceTree = "<group>"; };
 		186C35DC1976746B00633AE4 /* ContactNeverLoadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactNeverLoadView.h; sourceTree = "<group>"; };
 		186C35DD1976746B00633AE4 /* ContactNeverLoadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactNeverLoadView.m; sourceTree = "<group>"; };
+		186C35DF1977B72100633AE4 /* AppUpdateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppUpdateViewController.h; sourceTree = "<group>"; };
+		186C35E01977B72100633AE4 /* AppUpdateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppUpdateViewController.m; sourceTree = "<group>"; };
+		186C35E21977B75500633AE4 /* AppUpdateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppUpdateView.h; sourceTree = "<group>"; };
+		186C35E31977B75500633AE4 /* AppUpdateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppUpdateView.m; sourceTree = "<group>"; };
 		18AFE5F3195178210083C972 /* UITableViewCell+ReuseIdentifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+ReuseIdentifier.h"; sourceTree = "<group>"; };
 		18AFE5F4195178210083C972 /* UITableViewCell+ReuseIdentifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+ReuseIdentifier.m"; sourceTree = "<group>"; };
 		18AFE5FA1951986F0083C972 /* ContactView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactView.h; sourceTree = "<group>"; };
@@ -367,6 +373,8 @@
 				1844724D1958429000B4A543 /* PasswordView.m */,
 				1844725219591EEA00B4A543 /* AboutUsView.h */,
 				1844725319591EEA00B4A543 /* AboutUsView.m */,
+				186C35E21977B75500633AE4 /* AppUpdateView.h */,
+				186C35E31977B75500633AE4 /* AppUpdateView.m */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -586,6 +594,8 @@
 				1844724A195840C200B4A543 /* PasswordViewController.m */,
 				1844724F1959171E00B4A543 /* AboutUsViewController.h */,
 				184472501959171E00B4A543 /* AboutUsViewController.m */,
+				186C35DF1977B72100633AE4 /* AppUpdateViewController.h */,
+				186C35E01977B72100633AE4 /* AppUpdateViewController.m */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -702,6 +712,7 @@
 				18B2EE1E1946E0EF00264B74 /* main.m in Sources */,
 				186667421949FB6100A345F7 /* SettingViewController.m in Sources */,
 				1866670819498D1C00A345F7 /* LoginViewController.m in Sources */,
+				186C35E11977B72100633AE4 /* AppUpdateViewController.m in Sources */,
 				186667181949AD4900A345F7 /* PathResolver.m in Sources */,
 				184472A5196A51AC00B4A543 /* ReportDao.m in Sources */,
 				1844726A196151E400B4A543 /* Enterprise.m in Sources */,
@@ -734,6 +745,7 @@
 				184472861967A57800B4A543 /* ReportShopViewController.m in Sources */,
 				18666754194AD52400A345F7 /* StringUtils.m in Sources */,
 				186667201949C2D400A345F7 /* LosHttpsBase.m in Sources */,
+				186C35E41977B75500633AE4 /* AppUpdateView.m in Sources */,
 				183F214F1957CC61009D54E8 /* MemberDetailView.m in Sources */,
 				183F215519583392009D54E8 /* SettingView.m in Sources */,
 				184472791962749D00B4A543 /* ReportDateStatus.m in Sources */,

@@ -7,6 +7,7 @@
 #import "LosAppDelegate.h"
 #import "UserData.h"
 #import "LosStyles.h"
+#import "AppUpdateViewController.h"
 
 @interface MenuItem : NSObject
 
@@ -150,6 +151,11 @@
     
     if([title isEqualToString:@"关于乐斯"]){
         AboutUsViewController *controller = [[AboutUsViewController alloc] init];
+        [self.navigationController pushViewController:controller animated:YES];
+    }
+    
+    if([title isEqualToString:@"版本更新"]){
+        AppUpdateViewController *controller = [[AppUpdateViewController alloc] init];
         [self.navigationController pushViewController:controller animated:YES];
     }
     
