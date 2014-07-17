@@ -50,14 +50,13 @@
                 android:id="@+id/seachmemberext"
                 android:layout_width="fill_parent"
                 android:layout_height="36.0dip"
-                android:layout_centerHorizontal="true"
                 android:layout_weight="6"
                 android:background="@drawable/searchborder"
                 android:drawableTop="@drawable/search"
-                android:gravity="center"
-                android:paddingBottom="5dip"
-                android:paddingTop="5dip"
-                android:textSize="16.0dip" />
+                android:gravity="center_vertical"
+                android:textColor="@color/black_text"
+                android:textSize="16.0dip" 
+                android:textCursorDrawable="@null"/>
         </RelativeLayout>
 
         <FrameLayout
@@ -65,7 +64,8 @@
             android:layout_height="fill_parent"
             android:layout_weight="1" >
 
-            <LinearLayout
+            <com.yilos.losapp.view.RefreshableView
+                android:id="@+id/refreshable_view"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_gravity="center"
@@ -77,7 +77,7 @@
                     android:layout_height="wrap_content"
                     android:scrollbars="none" >
                 </ListView>
-            </LinearLayout>
+            </com.yilos.losapp.view.RefreshableView>
 
             <com.yilos.losapp.common.SideBar
                 android:id="@+id/sideBar"

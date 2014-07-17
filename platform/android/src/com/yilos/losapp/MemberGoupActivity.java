@@ -36,6 +36,8 @@ import com.yilos.losapp.common.Pinyin_Comparator;
 import com.yilos.losapp.common.SideBar;
 import com.yilos.losapp.service.MemberService;
 import com.yilos.losapp.service.MyshopManageService;
+import com.yilos.losapp.view.RefreshableView;
+import com.yilos.losapp.view.RefreshableView.PullToRefreshListener;
 
 public class MemberGoupActivity extends BaseActivity {
 	private static List<MemberBean> parentData = new ArrayList<MemberBean>();
@@ -47,6 +49,7 @@ public class MemberGoupActivity extends BaseActivity {
 	private EditText seachmemberext;
 	private LinearLayout layout_loadingmember;
 	private LinearLayout layout_memberlist;
+	private RefreshableView refreshableView;
 	private TextView loadingmember;
 
 	String[] members;
@@ -90,12 +93,14 @@ public class MemberGoupActivity extends BaseActivity {
 	}
 
 	public void initView() {
+		
 		findView();
+		
 		if (null != parentData && parentData.size() > 0) 
 		{
-			layout_loadingmember.setVisibility(View.GONE);
-			layout_memberlist.setVisibility(View.VISIBLE);
 			
+		    layout_loadingmember.setVisibility(View.GONE);
+			layout_memberlist.setVisibility(View.VISIBLE);
 			members = null;
 			members = new String[parentData.size()];
 
@@ -124,12 +129,21 @@ public class MemberGoupActivity extends BaseActivity {
 				}
 			});
 		} else {
-			layout_loadingmember.setVisibility(View.VISIBLE);
-			layout_memberlist.setVisibility(View.GONE);
+			if(!(seachmemberext.getText().length()>0))
+			{
+			   layout_loadingmember.setVisibility(View.VISIBLE);
+			   layout_memberlist.setVisibility(View.GONE);
+			}
 		}
-
-		seachmemberext = (EditText) findViewById(R.id.seachmemberext);
-
+		seachmemberext.setOnFocusChangeListener(new View.OnFocusChangeListener() {  
+		      
+		    @Override  
+		    public void onFocusChange(View v, boolean hasFocus) {  
+		        if(hasFocus){  
+		        	seachmemberext.setCompoundDrawables(getResources().getDrawable(R.drawable.search), null, null, null);
+		        } 
+		    }             
+		});  
 		seachmemberext.addTextChangedListener(new TextWatcher() {
 
 			@Override
@@ -144,6 +158,11 @@ public class MemberGoupActivity extends BaseActivity {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				parentData = memberService.seachRecords(shopId, s.toString());
 				initView();
 			}
@@ -178,9 +197,24 @@ public class MemberGoupActivity extends BaseActivity {
 		layout_loadingmember = (LinearLayout) findViewById(R.id.layout_loadingmember);
 		layout_memberlist =  (LinearLayout) findViewById(R.id.layout_memberlist);
 		loadingmember = (TextView) findViewById(R.id.loadingmember);
+		refreshableView = (RefreshableView) findViewById(R.id.refreshable_view);
+		seachmemberext = (EditText) findViewById(R.id.seachmemberext);
 
 		shopname = (TextView) findViewById(R.id.shopname);
+		shopname.setText(getIntent().getStringExtra("shopName"));
 		findViewById(R.id.goback).setVisibility(View.GONE);
+		
+		refreshableView.setOnRefreshListener(new PullToRefreshListener() {
+			@Override
+			public void onRefresh() {
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				refreshableView.finishRefreshing();
+			}
+		}, 0);
 
 		WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,

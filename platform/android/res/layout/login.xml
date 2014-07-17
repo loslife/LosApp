@@ -51,6 +51,7 @@
             android:textColorHint="@color/lightgray"
             android:textColor="@color/black_text"
             android:textSize="16.0dip" 
+            android:textCursorDrawable="@null"
             android:background="@color/white"/>
     </RelativeLayout>
 
@@ -88,6 +89,7 @@
             android:textColorHint="@color/lightgray"
             android:textColor="@color/black_text"
             android:textSize="16.0dip" 
+            android:textCursorDrawable="@null"
             android:background="@color/white"/>
     </RelativeLayout>
     

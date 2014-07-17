@@ -15,6 +15,10 @@ public class Constants
 	
 	public static final String YILOS_SDPATH = SD_PATH+File.separator+"yilos/losapp/";
 	
+	public static final String YILOS_NAILSHOP_LOGPATH = SD_PATH+File.separator+"yilos/nailshop/log/";
+	
+	public static final long ONE_MB_SIZE = 1024L * 1024;
+	
 	//http://192.168.1.104:5000/svc/checkCode/15019432710?u=register&c=200957
 	//http://192.168.1.104:5000/svc/getCode/15019432710?u=attach
 	//var LEGAL_USAGE = ["attach", "register", "reset_password", "register_losapp"];
@@ -33,6 +37,10 @@ public class Constants
 	// 88888502，验证码不匹配
 	// 8888850x，数据库访问错误
 	// 88888601，发送短信失败
+	
+	
+	public static final String SERVICE_ADDRESS = "http://" + SERVICE_IP
+			+ "/svc/";
 	
 	/**
 	 * 获取验证码
