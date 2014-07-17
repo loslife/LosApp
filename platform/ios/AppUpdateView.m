@@ -59,6 +59,27 @@
         [subview removeFromSuperview];
     }
     
+    if(![controller checkDone]){
+        
+        UILabel *result = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, 320, 40)];
+        result.text = @"您的网络异常，请检查网络后重试";
+        result.textAlignment = NSTextAlignmentCenter;
+        result.font = [UIFont systemFontOfSize:14];
+        result.textColor = GRAY4;
+        
+        UIButton *download = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        download.frame = CGRectMake(20, 50, 280, 40);
+        [download setTitle:@"立即更新" forState:UIControlStateNormal];
+        download.backgroundColor = RED1;
+        download.tintColor = [UIColor whiteColor];
+        download.layer.cornerRadius = 5;
+        download.enabled = NO;
+        
+        [header addSubview:result];
+        [header addSubview:download];
+        return;
+    }
+    
     BOOL flag = [controller hasNewVersion];
     
     if(flag){
@@ -98,10 +119,6 @@
         
         [header addSubview:result];
         [header addSubview:download];
-    }
-    
-    for(UIView* feature in features.subviews){
-        [feature removeFromSuperview];
     }
     
     NSArray *descs = [controller featuresDescription];

@@ -4,20 +4,22 @@
 
 @interface LosVersionInfo : NSObject
 
+@property BOOL done;
 @property BOOL flag;
 @property NSString *code;
 @property NSArray *featureDescriptions;
 
--(id) initWithFlag:(BOOL)flag code:(NSString*)code descs:(NSArray*)descs;
+-(id) initWithState:(BOOL)done flag:(BOOL)flag code:(NSString*)code descs:(NSArray*)descs;
 
 @end
 
 @implementation LosVersionInfo
 
--(id) initWithFlag:(BOOL)flag code:(NSString*)code descs:(NSArray*)descs
+-(id) initWithState:(BOOL)done flag:(BOOL)flag code:(NSString*)code descs:(NSArray*)descs
 {
     self = [super init];
     if(self){
+        self.done = done;
         self.flag = flag;
         self.code = code;
         self.featureDescriptions = descs;
@@ -55,12 +57,11 @@
 
 -(void) viewDidAppear:(BOOL)animated
 {
-    NSString *url = [NSString stringWithFormat:CHECK_NEW_VERSION, @"1"];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
     
-    [httpHelper getSecure:url completionHandler:^(NSDictionary* dict){
-        
-        if(dict == nil){
-            info = [[LosVersionInfo alloc] initWithFlag:NO code:@"" descs:@[]];
+        BOOL network = [LosHttpHelper isNetworkAvailable];
+        if(!network){
+            info = [[LosVersionInfo alloc] initWithState:NO flag:NO code:@"" descs:@[]];
             dispatch_async(dispatch_get_main_queue(), ^{
                 AppUpdateView* myView = (AppUpdateView*)self.view;
                 [myView reload];
@@ -68,33 +69,47 @@
             return;
         }
         
-        NSNumber *code = [dict objectForKey:@"code"];
-        if([code intValue] != 0){
-            info = [[LosVersionInfo alloc] initWithFlag:NO code:@"" descs:@[]];
+        NSString *url = [NSString stringWithFormat:CHECK_NEW_VERSION, @"1"];
+        
+        [httpHelper getSecure:url completionHandler:^(NSDictionary* dict){
+            
+            if(dict == nil){
+                info = [[LosVersionInfo alloc] initWithState:YES flag:NO code:@"" descs:@[]];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    AppUpdateView* myView = (AppUpdateView*)self.view;
+                    [myView reload];
+                });
+                return;
+            }
+            
+            NSNumber *code = [dict objectForKey:@"code"];
+            if([code intValue] != 0){
+                info = [[LosVersionInfo alloc] initWithState:YES flag:NO code:@"" descs:@[]];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    AppUpdateView* myView = (AppUpdateView*)self.view;
+                    [myView reload];
+                });
+                return;
+            }
+            
+            NSDictionary *result = [dict objectForKey:@"result"];
+            
+            NSString *flag = [result objectForKey:@"has_new_version"];
+            NSString *versionCode = [result objectForKey:@"version_code"];
+            NSArray *descs = [result objectForKey:@"feature_descriptions"];
+            
+            if([flag isEqualToString:@"yes"]){
+                info = [[LosVersionInfo alloc] initWithState:YES flag:YES code:versionCode descs:descs];
+            }else{
+                info = [[LosVersionInfo alloc] initWithState:YES flag:NO code:versionCode descs:descs];
+            }
+            
             dispatch_async(dispatch_get_main_queue(), ^{
                 AppUpdateView* myView = (AppUpdateView*)self.view;
                 [myView reload];
             });
-            return;
-        }
-        
-        NSDictionary *result = [dict objectForKey:@"result"];
-        
-        NSString *flag = [result objectForKey:@"has_new_version"];
-        NSString *versionCode = [result objectForKey:@"version_code"];
-        NSArray *descs = [result objectForKey:@"feature_descriptions"];
-        
-        if([flag isEqualToString:@"yes"]){
-            info = [[LosVersionInfo alloc] initWithFlag:YES code:versionCode descs:descs];
-        }else{
-            info = [[LosVersionInfo alloc] initWithFlag:NO code:versionCode descs:descs];
-        }
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            AppUpdateView* myView = (AppUpdateView*)self.view;
-            [myView reload];
-        });
-    }];
+        }];
+    });
 }
 
 #pragma mark - delegate
@@ -102,6 +117,11 @@
 -(void) update
 {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.yilos.com/portal/nail/download.html"]];
+}
+
+-(BOOL) checkDone
+{
+    return info.done;
 }
 
 -(BOOL) hasNewVersion

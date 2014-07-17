@@ -3,6 +3,7 @@
 @protocol AppUpdateViewDelegate <NSObject>
 
 -(void) update;
+-(BOOL) checkDone;
 -(BOOL) hasNewVersion;
 -(NSString*) newVersionCode;
 -(NSArray*) featuresDescription;
