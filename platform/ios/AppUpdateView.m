@@ -9,6 +9,9 @@
     UIView *header;
     UIView *features;
     
+    UILabel *message;
+    UIButton *button;
+    
     UIActivityIndicatorView *indicator;
 }
 
@@ -47,6 +50,19 @@
         [self addSubview:bar];
         [self addSubview:desc];
         [self addSubview:features];
+        
+        message = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, 320, 40)];
+        message.textAlignment = NSTextAlignmentCenter;
+        message.font = [UIFont systemFontOfSize:14];
+        message.textColor = GRAY4;
+
+        button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        button.frame = CGRectMake(20, 50, 280, 40);
+        [button setTitle:@"立即更新" forState:UIControlStateNormal];
+        button.backgroundColor = RED1;
+        button.tintColor = [UIColor whiteColor];
+        button.layer.cornerRadius = 5;
+        [button addTarget:controller action:@selector(update) forControlEvents:UIControlEventTouchUpInside];
     }
     return self;
 }
@@ -60,66 +76,18 @@
     }
     
     if(![controller checkDone]){
-        
-        UILabel *result = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, 320, 40)];
-        result.text = @"您的网络异常，请检查网络后重试";
-        result.textAlignment = NSTextAlignmentCenter;
-        result.font = [UIFont systemFontOfSize:14];
-        result.textColor = GRAY4;
-        
-        UIButton *download = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        download.frame = CGRectMake(20, 50, 280, 40);
-        [download setTitle:@"立即更新" forState:UIControlStateNormal];
-        download.backgroundColor = RED1;
-        download.tintColor = [UIColor whiteColor];
-        download.layer.cornerRadius = 5;
-        download.enabled = NO;
-        
-        [header addSubview:result];
-        [header addSubview:download];
-        return;
-    }
-    
-    BOOL flag = [controller hasNewVersion];
-    
-    if(flag){
-        
-        UILabel *result = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, 320, 40)];
-        result.text = [NSString stringWithFormat:@"已检测到新版本：%@", [controller newVersionCode]];
-        result.textAlignment = NSTextAlignmentCenter;
-        result.font = [UIFont systemFontOfSize:14];
-        result.textColor = GRAY4;
-        
-        UIButton *download = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        download.frame = CGRectMake(20, 50, 280, 40);
-        [download setTitle:@"立即更新" forState:UIControlStateNormal];
-        download.backgroundColor = RED1;
-        download.tintColor = [UIColor whiteColor];
-        download.layer.cornerRadius = 5;
-        [download addTarget:controller action:@selector(update) forControlEvents:UIControlEventTouchUpInside];
-        
-        [header addSubview:result];
-        [header addSubview:download];
-        
+        message.text = @"您的网络异常，请检查网络后重试";
+        button.enabled = NO;
+    }else if(![controller hasNewVersion]){
+        message.text = @"当前已经是最新版本";
+        button.enabled = NO;
     }else{
-        
-        UILabel *result = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, 320, 40)];
-        result.text = @"当前已经是最新版本";
-        result.textAlignment = NSTextAlignmentCenter;
-        result.font = [UIFont systemFontOfSize:14];
-        result.textColor = GRAY4;
-        
-        UIButton *download = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        download.frame = CGRectMake(20, 50, 280, 40);
-        [download setTitle:@"立即更新" forState:UIControlStateNormal];
-        download.backgroundColor = RED1;
-        download.tintColor = [UIColor whiteColor];
-        download.layer.cornerRadius = 5;
-        download.enabled = NO;
-        
-        [header addSubview:result];
-        [header addSubview:download];
+        message.text = [NSString stringWithFormat:@"已检测到新版本：%@", [controller newVersionCode]];
+        button.enabled = YES;
     }
+    
+    [header addSubview:message];
+    [header addSubview:button];
     
     NSArray *descs = [controller featuresDescription];
     
