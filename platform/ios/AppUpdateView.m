@@ -116,7 +116,7 @@
         feature.text = [NSString stringWithFormat:@"%d. %@", i + 1, desc];
         feature.textAlignment = NSTextAlignmentLeft;
         feature.textColor = GRAY4;
-        feature.font = [UIFont systemFontOfSize:12];
+        feature.font = [UIFont systemFontOfSize:14];
         
         [features addSubview:feature];
     }
