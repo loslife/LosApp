@@ -37,13 +37,14 @@
         NSNumber *code = [dict objectForKey:@"code"];
         if([code intValue] != 0){
             block(NO);
+            return;
         }
         
         NSDictionary *result = [dict objectForKey:@"result"];
         NSString *enterpriseId = [result objectForKey:@"enterprise_id"];
         NSString *enterpriseName = [result objectForKey:@"enterprise_name"];
         
-        [enterpriseDao insertEnterprisesWith:enterpriseId Name:enterpriseName];
+        [enterpriseDao insertEnterprisesWith:enterpriseId Name:enterpriseName account:phone];
         block(YES);
     }];
 }
@@ -97,6 +98,55 @@
         [memberDao batchUpdateMembers:records LastSync:lastSync EnterpriseId:enterpriseId];
         [enterpriseDao updateSyncFlagById:enterpriseId];
         
+        block(YES);
+    }];
+}
+
+-(void) undoAttachWithAccount:(NSString*)account enterpriseId:(NSString*)enterpriseId block:(void(^)(BOOL flag))block
+{
+    NSString *body = [NSString stringWithFormat:@"account=%@&enterprise_id=%@", account, enterpriseId];
+    NSData *postData = [body dataUsingEncoding:NSUTF8StringEncoding];
+    
+    [httpHelper postSecure:REMOVE_ENERPRISE_URL Data:postData completionHandler:^(NSDictionary *dict){
+        
+        if(dict == nil){
+            block(NO);
+            return;
+        }
+        
+        NSNumber *code = [dict objectForKey:@"code"];
+        if([code intValue] != 0){
+            block(NO);
+            return;
+        }
+        
+        [enterpriseDao updateDisplayById:enterpriseId value:@"no"];
+        block(YES);
+    }];
+}
+
+-(void) reAttachWithAccount:(NSString*)account enterpriseAccount:(NSString*)enterpriseAccount block:(void(^)(BOOL flag))block
+{
+    NSString *body = [NSString stringWithFormat:@"account=%@&enterprise_account=%@", account, enterpriseAccount];
+    NSData *postData = [body dataUsingEncoding:NSUTF8StringEncoding];
+    
+    [httpHelper postSecure:APPEND_ENERPRISE_URL Data:postData completionHandler:^(NSDictionary *dict){
+        
+        if(dict == nil){
+            block(NO);
+            return;
+        }
+        
+        NSNumber *code = [dict objectForKey:@"code"];
+        if([code intValue] != 0){
+            block(NO);
+            return;
+        }
+        
+        NSDictionary *result = [dict objectForKey:@"result"];
+        NSString *enterpriseId = [result objectForKey:@"enterprise_id"];
+        
+        [enterpriseDao updateDisplayById:enterpriseId value:@"yes"];
         block(YES);
     }];
 }

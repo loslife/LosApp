@@ -11,3 +11,4 @@
 #define RESET_PASSWORD_URL [ServerHost stringByAppendingString:@"/svc/losapp/resetPassword"]
 #define FETCH_REPORT_URL [ServerHost stringByAppendingString:@"/svc/report/probe/query/%@?year=%@&month=%@&day=%@&type=%@&report=%@"]
 #define CHECK_NEW_VERSION [ServerHost stringByAppendingString:@"/svc/losapp/checkNewVersion/%@"]
+#define REMOVE_ENERPRISE_URL [ServerHost stringByAppendingString:@"/svc/losapp/undoAppendEnterprise"]

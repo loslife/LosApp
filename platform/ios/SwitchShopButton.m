@@ -48,7 +48,7 @@
             return;
         }
         
-        NSArray *enterprises = [dao queryAllEnterprises];
+        NSArray *enterprises = [dao queryDisplayEnterprises];
         NSMutableArray *items = [NSMutableArray arrayWithCapacity:1];
         
         for(Enterprise *enterprise in enterprises){

@@ -106,7 +106,7 @@
 
 -(void) createOtherTables
 {
-    NSString *sql1 = @"CREATE TABLE IF NOT EXISTS enterprises (id integer primary key autoincrement, enterprise_id varchar(64), enterprise_name varchar(64), contact_latest_sync REAL, contact_has_sync varchar(8), display varchar(8), default_shop integer, create_date REAL);";
+    NSString *sql1 = @"CREATE TABLE IF NOT EXISTS enterprises (id integer primary key autoincrement, enterprise_id varchar(64), enterprise_name varchar(64), enterprise_account varchar(32), contact_latest_sync REAL, contact_has_sync varchar(8), display varchar(8), default_shop integer, create_date REAL);";
     
     NSString *sql2 = @"CREATE TABLE IF NOT EXISTS members (id varchar(64) primary key, enterprise_id varchar(64), name varchar(32), birthday REAL, phoneMobile varchar(16), joinDate REAL, memberNo varchar(32), latestConsumeTime REAL, totalConsume REAL, averageConsume REAL, create_date REAL, modify_date REAL);";
     
@@ -177,7 +177,7 @@
     FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
     [db open];
     
-    FMResultSet *rs = [db executeQuery:@"select enterprise_id from enterprises order by id asc"];
+    FMResultSet *rs = [db executeQuery:@"select enterprise_id from enterprises where display = 'yes' order by id asc"];
     if([rs next]){
         NSString *enterpriseId = [rs objectForColumnName:@"enterprise_id"];
         [UserData writeCurrentEnterprise:enterpriseId];

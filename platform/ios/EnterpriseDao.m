@@ -6,15 +6,15 @@
 
 @implementation EnterpriseDao
 
--(void) insertEnterprisesWith:(NSString*)enterpriseId Name:(NSString*)enterpriseName
+-(void) insertEnterprisesWith:(NSString*)enterpriseId Name:(NSString*)enterpriseName account:(NSString*)account
 {
-    NSString *insert = @"insert into enterprises (enterprise_Id, enterprise_name, contact_latest_sync, display, default_shop, create_date, contact_has_sync) values (:enterpriseId, :name, :contactLatestSync, :display, :default, :createDate, :flag);";
+    NSString *insert = @"insert into enterprises (enterprise_Id, enterprise_name, contact_latest_sync, display, default_shop, create_date, contact_has_sync, enterprise_account) values (:enterpriseId, :name, :contactLatestSync, :display, :default, :createDate, :flag, :account);";
     
     NSString *dbFilePath = [PathResolver databaseFilePath];
     FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
     [db open];
     
-    [db executeUpdate:insert, enterpriseId, enterpriseName, [NSNumber numberWithInt:0], @"yes", [NSNumber numberWithInt:0], [NSNumber numberWithLongLong:[TimesHelper now]], @"no"];
+    [db executeUpdate:insert, enterpriseId, enterpriseName, [NSNumber numberWithInt:0], @"yes", [NSNumber numberWithInt:0], [NSNumber numberWithLongLong:[TimesHelper now]], @"no", account];
     
     [db close];
 }
@@ -22,7 +22,7 @@
 -(void) batchInsertEnterprises:(NSArray*)enterprises
 {
     NSString *query = @"select count(1) as count from enterprises where enterprise_id = :enterpriseId;";
-    NSString *insert = @"insert into enterprises (enterprise_Id, enterprise_name, contact_latest_sync, display, default_shop, create_date, contact_has_sync) values (:enterpriseId, :name, :contactLatestSync, :display, :default, :createDate, :flag);";
+    NSString *insert = @"insert into enterprises (enterprise_Id, enterprise_name, contact_latest_sync, display, default_shop, create_date, contact_has_sync, enterprise_account) values (:enterpriseId, :name, :contactLatestSync, :display, :default, :createDate, :flag, :account);";
     NSString *update = @"update enterprises set enterprise_name = :name where enterprise_id = :id";
     
     NSString *dbFilePath = [PathResolver databaseFilePath];
@@ -33,11 +33,12 @@
         
         NSString *enterpriseId = [item objectForKey:@"enterprise_id"];
         NSString *enterpriseName = [item objectForKey:@"enterprise_name"];
+        NSString *enterpriseAccount = [item objectForKey:@"enterprise_account"];
         FMResultSet *rs = [db executeQuery:query, enterpriseId];
         [rs next];
         int count = [[rs objectForColumnName:@"count"] intValue];
         if(count == 0){
-            [db executeUpdate:insert, enterpriseId, enterpriseName, [NSNumber numberWithInt:0], @"yes", [NSNumber numberWithInt:0], [NSNumber numberWithLongLong:[TimesHelper now]], @"no"];
+            [db executeUpdate:insert, enterpriseId, enterpriseName, [NSNumber numberWithInt:0], @"yes", [NSNumber numberWithInt:0], [NSNumber numberWithLongLong:[TimesHelper now]], @"no", enterpriseAccount];
         }else{
             [db executeUpdate:update, enterpriseName, enterpriseId];
         }
@@ -52,7 +53,7 @@
     FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
     [db open];
     
-    FMResultSet *rs = [db executeQuery:@"select count(1) as count from enterprises;"];
+    FMResultSet *rs = [db executeQuery:@"select count(1) as count from enterprises where display = 'yes';"];
     [rs next];
     int count = [[rs objectForColumnName:@"count"] intValue];
     
@@ -145,6 +146,54 @@
     [db executeUpdate:statement, enterpriseId];
     
     [db close];
+}
+
+-(NSArray*) queryDisplayEnterprises
+{
+    NSString *dbFilePath = [PathResolver databaseFilePath];
+    FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
+    [db open];
+    
+    NSMutableArray *enterprises = [NSMutableArray arrayWithCapacity:1];
+    
+    FMResultSet *rs = [db executeQuery:@"select enterprise_id, enterprise_name from enterprises where display = 'yes';"];
+    while ([rs next]) {
+        NSString *pk = [rs objectForColumnName:@"enterprise_id"];
+        NSString *name = [rs objectForColumnName:@"enterprise_name"];
+        Enterprise *enterprise = [[Enterprise alloc] initWithId:pk Name:name];
+        [enterprises addObject:enterprise];
+    }
+    
+    [db close];
+    
+    return enterprises;
+}
+
+-(void) updateDisplayById:(NSString*)enterpriseId value:(NSString*)value
+{
+    NSString *dbFilePath = [PathResolver databaseFilePath];
+    FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
+    [db open];
+    
+    NSString *statement = @"update enterprises set display = :display where enterprise_id = :eid";
+    [db executeUpdate:statement, value, enterpriseId];
+    
+    [db close];
+}
+
+-(NSString*) queryAccountById:(NSString*)enterpriseId
+{
+    NSString *dbFilePath = [PathResolver databaseFilePath];
+    FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
+    [db open];
+    
+    FMResultSet *rs = [db executeQuery:@"select enterprise_account from enterprises where enterprise_id = :eid;", enterpriseId];
+    [rs next];
+    NSString *account = [rs objectForColumnName:@"enterprise_account"];
+    
+    [db close];
+    
+    return account;
 }
 
 @end

@@ -198,12 +198,33 @@
 
 -(void) doAttach:(NSString*)enterpriseId
 {
-    NSLog(@"attach: %@", enterpriseId);
+    UserData *userData = [UserData load];
+    NSString* userId = userData.userId;
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        
+        NSString* enterpriseAcccount = [dao queryAccountById:enterpriseId];
+        
+        [syncService reAttachWithAccount:userId enterpriseAccount:enterpriseAcccount block:^(BOOL flag){
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+            });
+        }];
+    });
 }
 
 -(void) undoAttach:(NSString*)enterpriseId
 {
-    NSLog(@"undo attach: %@", enterpriseId);
+    UserData *userData = [UserData load];
+    NSString* userId = userData.userId;
+    
+    [syncService undoAttachWithAccount:userId enterpriseId:enterpriseId block:^(BOOL flag){
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+        
+        });
+    }];
 }
 
 #pragma mark - timer
