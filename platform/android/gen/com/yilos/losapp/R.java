@@ -323,6 +323,7 @@ public final class R {
         public static final int tv_forgot_password=0x7f080035;
         public static final int tv_text=0x7f080089;
         public static final int twoline=0x7f080040;
+        public static final int updateapk=0x7f08008c;
         public static final int updated_at=0x7f080071;
         public static final int updateicon=0x7f080082;
         public static final int updateversion=0x7f080083;
@@ -358,6 +359,7 @@ public final class R {
         public static final int shop_item=0x7f030016;
         public static final int text=0x7f030017;
         public static final int traffic_chart=0x7f030018;
+        public static final int updateapkversion=0x7f030019;
     }
     public static final class string {
         public static final int app_name=0x7f060000;

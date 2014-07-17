@@ -94,6 +94,17 @@ public class Constants
 	public static final String APPENDSHOP_URL = "http://192.168.1.122:5000/svc/losapp/appendEnterprise";
 	
 	/**
+	 * 取消关联
+	 */
+	public static final String UNDOAPPENDSHOP_URL = "http://192.168.1.122:5000/svc/losapp/undoAppendEnterprise";
+	
+	/**
+	 * 
+	 */
+	public static final String CHECKNEWVERSION_URL = "http://192.168.1.122:5000/svc/losapp/checkNewVersion/{}";
+
+	
+	/**
 	 * 同步经营数据
 	 */
 	public static final String SYNCREPORTS_URL = "http://192.168.1.122:5000/svc/report/probe/query/{0}?year={1}&month={2}&day={3}&type={4}&report={5}";
