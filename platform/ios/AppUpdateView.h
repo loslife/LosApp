@@ -4,6 +4,7 @@
 
 -(void) update;
 -(BOOL) hasNewVersion;
+-(NSString*) newVersionCode;
 -(NSArray*) featuresDescription;
 
 @end

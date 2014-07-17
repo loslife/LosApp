@@ -64,7 +64,7 @@
     if(flag){
         
         UILabel *result = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, 320, 40)];
-        result.text = @"已检测到新版本：1.1.0";
+        result.text = [NSString stringWithFormat:@"已检测到新版本：%@", [controller newVersionCode]];
         result.textAlignment = NSTextAlignmentCenter;
         result.font = [UIFont systemFontOfSize:14];
         result.textColor = GRAY4;
@@ -113,7 +113,7 @@
         NSString *desc = [descs objectAtIndex:i];
         
         UILabel *feature = [[UILabel alloc] initWithFrame:CGRectMake(0, 20 * i, 280, 20)];
-        feature.text = [NSString stringWithFormat:@"%d. %@", i, desc];
+        feature.text = [NSString stringWithFormat:@"%d. %@", i + 1, desc];
         feature.textAlignment = NSTextAlignmentLeft;
         feature.textColor = GRAY4;
         feature.font = [UIFont systemFontOfSize:12];
