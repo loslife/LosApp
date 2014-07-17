@@ -1,7 +1,7 @@
-#import <UIKit/UIKit.h>
+#import "LosBaseView.h"
 #import "PasswordViewController.h"
 
-@interface PasswordView : UIView<UITextFieldDelegate>
+@interface PasswordView : LosBaseView
 
 @property UITextField *oldPassword;
 @property UITextField *password;
