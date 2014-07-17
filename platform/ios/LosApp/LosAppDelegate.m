@@ -1,4 +1,5 @@
 #import "LosAppDelegate.h"
+#import "LosStyles.h"
 
 @implementation LosAppDelegate
 
@@ -10,14 +11,13 @@
     self.window.rootViewController = welcome;
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    
-    UIColor *color = [UIColor colorWithRed:2/255.0f green:160/255.0f blue:221/255.0f alpha:1.0f];
-    [[UINavigationBar appearance] setBarTintColor:color];
+
+    [[UINavigationBar appearance] setBarTintColor:BLUE1];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}];
     
-    [[UITabBar appearance] setBarTintColor:color];// 背景色
-    [[UITabBar appearance] setSelectedImageTintColor:[UIColor whiteColor]];// 选中图标颜色
+    [[UITabBar appearance] setBarTintColor:GRAY3];// 背景色
+    [[UITabBar appearance] setSelectedImageTintColor:BLUE1];// 选中图标颜色
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
