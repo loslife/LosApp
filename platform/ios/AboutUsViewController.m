@@ -8,6 +8,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.navigationItem.title = @"关于乐斯";
+        self.hidesBottomBarWhenPushed = YES;
     }
     return self;
 }

@@ -28,6 +28,8 @@
         dao = [[EnterpriseDao alloc] init];
         
         records = [NSMutableArray arrayWithCapacity:1];
+        
+        self.hidesBottomBarWhenPushed = YES;
     }
     return self;
 }

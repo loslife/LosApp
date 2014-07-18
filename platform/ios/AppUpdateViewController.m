@@ -45,6 +45,7 @@
         httpHelper = [[LosHttpHelper alloc] init];
         
         self.navigationItem.title = @"版本更新";
+        self.hidesBottomBarWhenPushed = YES;
     }
     return self;
 }

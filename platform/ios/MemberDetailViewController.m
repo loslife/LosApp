@@ -15,6 +15,7 @@
         theMember = member;
         
         self.navigationItem.title = @"会员详情";
+        self.hidesBottomBarWhenPushed = YES;
     }
     return self;
 }

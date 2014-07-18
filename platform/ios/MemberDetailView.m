@@ -1,4 +1,5 @@
 #import "MemberDetailView.h"
+#import "LosStyles.h"
 
 @implementation MemberDetailView
 
@@ -19,78 +20,112 @@
 
 -(void) drawRect:(CGRect)rect
 {
-    UILabel *name = [[UILabel alloc] initWithFrame:CGRectMake(20, 80, 280, 40)];
-    name.text = [NSString stringWithFormat:@"姓名：%@", theMember.name];
+    UIView *header = [[UIView alloc] initWithFrame:CGRectMake(20, 60, 280, 50)];
+    
+    UIImageView *photo = [[UIImageView alloc] initWithFrame:CGRectMake(0, 17, 16, 16)];
+    photo.image = [UIImage imageNamed:@"member_name"];
+    
+    UILabel *name = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 100, 50)];
+    name.text = theMember.name;
     name.textAlignment = NSTextAlignmentLeft;
+    name.textColor = BLUE1;
+    
+    UIImageView *sex = [[UIImageView alloc] initWithFrame:CGRectMake(264, 17, 16, 16)];
+    if([theMember.sex intValue] == 0){
+        sex.image = [UIImage imageNamed:@"member_female"];
+    }else{
+        sex.image = [UIImage imageNamed:@"member_male"];
+    }
+    
+    [header addSubview:photo];
+    [header addSubview:name];
+    [header addSubview:sex];
     
     CGContextRef ctx = UIGraphicsGetCurrentContext();
-    CGContextSetStrokeColorWithColor(ctx, [UIColor clearColor].CGColor);
-    CGContextMoveToPoint(ctx, 0, 0);
-    CGContextAddLineToPoint(ctx, CGRectGetMaxX(rect), 0);
+    CGContextMoveToPoint(ctx, 20, 110);
+    CGContextAddLineToPoint(ctx, 300, 110);
+    CGContextSetLineWidth(ctx, .1f);
     CGContextStrokePath(ctx);
     
-    UILabel *birthday = [[UILabel alloc] initWithFrame:CGRectMake(20, 120, 280, 40)];
-    birthday.text = [NSString stringWithFormat:@"生日：%@", [StringUtils fromNumber:theMember.birthday format:@"MM-dd"]];
-    birthday.textAlignment = NSTextAlignmentLeft;
+    UIView *birthdayArea = [self makeBaseinfoView:CGRectMake(20, 110, 280, 40) icon:@"member_birthday" text:[NSString stringWithFormat:@"生日：%@", [StringUtils fromNumber:theMember.birthday format:@"MM-dd"]]];
     
-    UILabel *memberNo = [[UILabel alloc] initWithFrame:CGRectMake(20, 160, 280, 40)];
-    if([StringUtils isEmpty:theMember.memberNo]){
-        memberNo.text = @"编号：";
-    }else{
-        memberNo.text = [NSString stringWithFormat:@"编号：%@", theMember.memberNo];
-    }
-    memberNo.textAlignment = NSTextAlignmentLeft;
+    UIView *noArea = [self makeBaseinfoView:CGRectMake(20, 150, 280, 40) icon:@"member_no" text:[NSString stringWithFormat:@"编号：%@", theMember.memberNo]];
     
-    UILabel *joinDate = [[UILabel alloc] initWithFrame:CGRectMake(20, 200, 280, 40)];
-    joinDate.text = [NSString stringWithFormat:@"入会时间：%@", [StringUtils fromNumber:theMember.joinDate format:@"MM-dd"]];
-    joinDate.textAlignment = NSTextAlignmentLeft;
+    UIView *joinArea = [self makeBaseinfoView:CGRectMake(20, 190, 280, 40) icon:@"member_join" text:[NSString stringWithFormat:@"入会时间：%@", [StringUtils fromNumber:theMember.joinDate format:@"yyyy-MM-dd"]]];
     
-    UILabel *phone = [[UILabel alloc] initWithFrame:CGRectMake(20, 240, 280, 40)];
-    phone.text = [NSString stringWithFormat:@"联系方式：%@", theMember.phoneMobile];
-    phone.textAlignment = NSTextAlignmentLeft;
+    UIView *contactArea = [self makeBaseinfoView:CGRectMake(20, 230, 280, 40) icon:@"member_contact" text:[NSString stringWithFormat:@"联系方式：%@", theMember.phoneMobile]];
     
-    UIButton *call = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    call.frame = CGRectMake(240, 240, 40, 40);
-    [call setTitle:@"call" forState:UIControlStateNormal];
-    [call addTarget:self action:@selector(callMember) forControlEvents:UIControlEventTouchUpInside];
+    UILabel *bar = [[UILabel alloc] initWithFrame:CGRectMake(0, 270, 320, 5)];
+    bar.backgroundColor = GRAY1;
+    
+    UILabel *consumeTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 280, 280, 40)];
+    consumeTitle.text = @"消费信息";
+    consumeTitle.textAlignment = NSTextAlignmentLeft;
+    consumeTitle.font = [UIFont systemFontOfSize:16];
     
     UILabel *cards = [[UILabel alloc] initWithFrame:CGRectMake(20, 320, 280, 40)];
-    cards.text = [NSString stringWithFormat:@"会员卡类型：%@", @"金卡"];
+    cards.text = [NSString stringWithFormat:@"会员卡：%@", theMember.cardStr];
     cards.textAlignment = NSTextAlignmentLeft;
+    cards.textColor = GRAY4;
+    cards.font = [UIFont systemFontOfSize:14];
     
-    UILabel *latest = [[UILabel alloc] initWithFrame:CGRectMake(20, 360, 280, 40)];
-    latest.text = [NSString stringWithFormat:@"最后消费时间：%@", [StringUtils fromNumber:theMember.latestConsumeTime format:@"MM-dd"]];
-    latest.textAlignment = NSTextAlignmentLeft;
+
+//    UILabel *cards = [[UILabel alloc] initWithFrame:CGRectMake(20, 320, 280, 40)];
+//    cards.text = [NSString stringWithFormat:@"会员卡类型：%@", @"金卡"];
+//    cards.textAlignment = NSTextAlignmentLeft;
+//    
+//    UILabel *latest = [[UILabel alloc] initWithFrame:CGRectMake(20, 360, 280, 40)];
+//    latest.text = [NSString stringWithFormat:@"最后消费时间：%@", [StringUtils fromNumber:theMember.latestConsumeTime format:@"MM-dd"]];
+//    latest.textAlignment = NSTextAlignmentLeft;
+//    
+//    UILabel *total = [[UILabel alloc] initWithFrame:CGRectMake(20, 400, 280, 40)];
+//    total.text = [NSString stringWithFormat:@"累计消费：￥%.1f", [theMember.totalConsume doubleValue]];
+//    total.textAlignment = NSTextAlignmentLeft;
+//    
+//    UILabel *per = [[UILabel alloc] initWithFrame:CGRectMake(20, 440, 280, 40)];
+//    per.text = [NSString stringWithFormat:@"客单价：￥%.1f", [theMember.averageConsume doubleValue]];
+//    per.textAlignment = NSTextAlignmentLeft;
     
-    UILabel *total = [[UILabel alloc] initWithFrame:CGRectMake(20, 400, 280, 40)];
-    total.text = [NSString stringWithFormat:@"累计消费：￥%.1f", [theMember.totalConsume doubleValue]];
-    total.textAlignment = NSTextAlignmentLeft;
-    
-    UILabel *per = [[UILabel alloc] initWithFrame:CGRectMake(20, 440, 280, 40)];
-    per.text = [NSString stringWithFormat:@"客单价：￥%.1f", [theMember.averageConsume doubleValue]];
-    per.textAlignment = NSTextAlignmentLeft;
-    
-    UILabel *sex = [[UILabel alloc] initWithFrame:CGRectMake(20, 480, 280, 40)];
-    sex.text = [NSString stringWithFormat:@"%d", [theMember.sex intValue]];
-    sex.textAlignment = NSTextAlignmentLeft;
-    
-    [self addSubview:name];
-    [self addSubview:birthday];
-    [self addSubview:memberNo];
-    [self addSubview:joinDate];
-    [self addSubview:phone];
-    [self addSubview:call];
+    [self addSubview:header];
+    [self addSubview:birthdayArea];
+    [self addSubview:noArea];
+    [self addSubview:joinArea];
+    [self addSubview:contactArea];
+    [self addSubview:bar];
+    [self addSubview:consumeTitle];
     [self addSubview:cards];
-    [self addSubview:latest];
-    [self addSubview:total];
-    [self addSubview:per];
-    [self addSubview:sex];
+
+//    [self addSubview:phone];
+//    [self addSubview:call];
+//    [self addSubview:cards];
+//    [self addSubview:latest];
+//    [self addSubview:total];
+//    [self addSubview:per];
 }
 
 -(void) callMember
 {
     NSString *url = [NSString stringWithFormat:@"tel://%@", theMember.phoneMobile];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+}
+
+-(UIView*) makeBaseinfoView:(CGRect)frame icon:(NSString*)image text:(NSString*)text
+{
+    UIView *view = [[UIView alloc] initWithFrame:frame];
+    
+    UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(0, 12, 16, 16)];
+    icon.image = [UIImage imageNamed:image];
+    
+    UILabel *message = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 250, 40)];
+    message.text = text;
+    message.textAlignment = NSTextAlignmentLeft;
+    message.textColor = GRAY4;
+    message.font = [UIFont systemFontOfSize:14];
+    
+    [view addSubview:icon];
+    [view addSubview:message];
+    
+    return view;
 }
 
 @end

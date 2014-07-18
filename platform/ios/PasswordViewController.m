@@ -19,6 +19,7 @@
         httpHelper = [[LosHttpHelper alloc] init];
         
         self.navigationItem.title = @"修改密码";
+        self.hidesBottomBarWhenPushed = YES;
     }
     return self;
 }
