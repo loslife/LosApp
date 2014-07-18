@@ -207,8 +207,12 @@
         
         [syncService reAttachWithAccount:userId enterpriseAccount:enterpriseAcccount block:^(BOOL flag){
             
+            NSArray *enterprises = [dao queryAllEnterprises];
+            records = [NSMutableArray arrayWithArray:enterprises];
+            
             dispatch_async(dispatch_get_main_queue(), ^{
-                
+                AddShopView *myView = (AddShopView*)self.view;
+                [myView.list reload];
             });
         }];
     });
@@ -221,8 +225,12 @@
     
     [syncService undoAttachWithAccount:userId enterpriseId:enterpriseId block:^(BOOL flag){
         
-        dispatch_async(dispatch_get_main_queue(), ^{
+        NSArray *enterprises = [dao queryAllEnterprises];
+        records = [NSMutableArray arrayWithArray:enterprises];
         
+        dispatch_async(dispatch_get_main_queue(), ^{
+            AddShopView *myView = (AddShopView*)self.view;
+            [myView.list reload];
         });
     }];
 }
