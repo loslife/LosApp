@@ -18,7 +18,7 @@
     
     // 处理新增记录
     NSArray *add = [records objectForKey:@"add"];
-    NSString *insert = @"insert into members (id, enterprise_id, name, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume, create_date, modify_date) values (:id, :eid, :name, :birthday, :phoneMobile, :joinDate, :memberNo, :latest, :total, :average, :cdate, :mdate);";
+    NSString *insert = @"insert into members (id, enterprise_id, name, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume, create_date, modify_date, cardStr) values (:id, :eid, :name, :birthday, :phoneMobile, :joinDate, :memberNo, :latest, :total, :average, :cdate, :mdate, :cardStr);";
     
     for(NSDictionary *item in add){
         NSString *pk = [item objectForKey:@"id"];
@@ -32,12 +32,13 @@
         NSNumber *average = [item objectForKey:@"averageConsume"];
         NSNumber *createDate = [item objectForKey:@"create_date"];
         NSNumber *modifyDate = [item objectForKey:@"modify_date"];
-        [db executeUpdate:insert, pk, enterpriseId, name, birthday, phone, joinDate, memberNo, latest, total, average, createDate, modifyDate];
+        NSString *cardStr = [item objectForKey:@"cardStr"];
+        [db executeUpdate:insert, pk, enterpriseId, name, birthday, phone, joinDate, memberNo, latest, total, average, createDate, modifyDate, cardStr];
     }
     
     // 处理更新记录
     NSArray *update = [records objectForKey:@"update"];
-    NSString *statement = @"update members set name = :name, birthday = :birthday, phoneMobile = :phone, joinDate = :joinDate, memberNo = :memberNo, latestConsumeTime = :latest, totalConsume = :total, averageConsume = :average, modify_date = :mdate where id = :id";
+    NSString *statement = @"update members set name = :name, birthday = :birthday, phoneMobile = :phone, joinDate = :joinDate, memberNo = :memberNo, latestConsumeTime = :latest, totalConsume = :total, averageConsume = :average, modify_date = :mdate, cardStr = :cardStr where id = :id";
     
     for(NSDictionary *item in update){
         NSString *pk = [item objectForKey:@"id"];
@@ -50,7 +51,8 @@
         NSNumber *total = [item objectForKey:@"totalConsume"];
         NSNumber *average = [item objectForKey:@"averageConsume"];
         NSNumber *modifyDate = [item objectForKey:@"modify_date"];
-        [db executeUpdate:statement, name, birthday, phone, joinDate, memberNo, latest, total, average, modifyDate, pk];
+        NSString *cardStr = [item objectForKey:@"cardStr"];
+        [db executeUpdate:statement, name, birthday, phone, joinDate, memberNo, latest, total, average, modifyDate, cardStr, pk];
     }
     
     // 处理remove
@@ -73,7 +75,7 @@
     
     NSMutableArray *members = [NSMutableArray arrayWithCapacity:1];
     
-    NSString *statement = @"select id, name, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume from members where enterprise_id = :eid";
+    NSString *statement = @"select id, name, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume, cardStr from members where enterprise_id = :eid";
     
     FMResultSet *rs = [db executeQuery:statement, enterpriseId];
     while ([rs next]) {
@@ -87,8 +89,9 @@
         NSNumber *latest = [rs objectForColumnName:@"latestConsumeTime"];
         NSNumber *totalConsume = [rs objectForColumnName:@"totalConsume"];
         NSNumber *averageConsume = [rs objectForColumnName:@"averageConsume"];
+        NSString *cardStr = [rs objectForColumnName:@"cardStr"];
         
-        Member *member = [[Member alloc] initWithPk:pk Name:name Birthday:birthday Phone:phone JoinDate:joinDate MemberNo:memberNo LatestConsume:latest TotalConsume:totalConsume AverageConsume:averageConsume];
+        Member *member = [[Member alloc] initWithPk:pk Name:name Birthday:birthday Phone:phone JoinDate:joinDate MemberNo:memberNo LatestConsume:latest TotalConsume:totalConsume AverageConsume:averageConsume cardStr:cardStr];
         [members addObject:member];
     }
     
@@ -105,7 +108,7 @@
     
     NSMutableArray *members = [NSMutableArray arrayWithCapacity:1];
     
-    NSString *base = @"select id, name, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume from members where enterprise_id = :eid and name like '%%%@%%';";
+    NSString *base = @"select id, name, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume, cardStr from members where enterprise_id = :eid and name like '%%%@%%';";
     NSString *statement = [NSString stringWithFormat:base, name];
     
     FMResultSet *rs = [db executeQuery:statement, enterpriseId];
@@ -120,8 +123,9 @@
         NSNumber *latest = [rs objectForColumnName:@"latestConsumeTime"];
         NSNumber *totalConsume = [rs objectForColumnName:@"totalConsume"];
         NSNumber *averageConsume = [rs objectForColumnName:@"averageConsume"];
+        NSString *cardStr = [rs objectForColumnName:@"cardStr"];
         
-        Member *member = [[Member alloc] initWithPk:pk Name:name Birthday:birthday Phone:phone JoinDate:joinDate MemberNo:memberNo LatestConsume:latest TotalConsume:totalConsume AverageConsume:averageConsume];
+        Member *member = [[Member alloc] initWithPk:pk Name:name Birthday:birthday Phone:phone JoinDate:joinDate MemberNo:memberNo LatestConsume:latest TotalConsume:totalConsume AverageConsume:averageConsume cardStr:cardStr];
         [members addObject:member];
     }
     

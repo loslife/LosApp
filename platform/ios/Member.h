@@ -11,9 +11,10 @@
 @property(nonatomic,copy) NSNumber *latestConsumeTime;
 @property(nonatomic,copy) NSNumber *totalConsume;
 @property(nonatomic,copy) NSNumber *averageConsume;
+@property(nonatomic,copy) NSString *cardStr;
 
 @property NSInteger sectionNumber;
 
--(id) initWithPk:(NSString*)pk Name:(NSString*)name Birthday:(NSNumber*)birthday Phone:(NSString*)phone JoinDate:(NSNumber*)joinDate MemberNo:(NSString*)memberNo LatestConsume:(NSNumber*)latestConsume TotalConsume:(NSNumber*)total AverageConsume:(NSNumber*)average;
+-(id) initWithPk:(NSString*)pk Name:(NSString*)name Birthday:(NSNumber*)birthday Phone:(NSString*)phone JoinDate:(NSNumber*)joinDate MemberNo:(NSString*)memberNo LatestConsume:(NSNumber*)latestConsume TotalConsume:(NSNumber*)total AverageConsume:(NSNumber*)average cardStr:(NSString*)cardStr;
 
 @end

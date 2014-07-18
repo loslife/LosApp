@@ -42,7 +42,7 @@
     Member *member = [[self.members objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     
     cell.nameLabel.text = member.name;
-    cell.cardsLabel.text = @"金卡、银卡、钻石卡";
+    cell.cardsLabel.text = member.cardStr;
     cell.consumeLabel.text = @"最近消费14年5月3日 / 平均消费44元";
     
     return cell;
