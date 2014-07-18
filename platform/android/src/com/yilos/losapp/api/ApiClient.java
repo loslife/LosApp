@@ -33,6 +33,7 @@ import com.google.gson.JsonSyntaxException;
 import com.yilos.losapp.bean.ContactsResult;
 import com.yilos.losapp.bean.ServerManageResponse;
 import com.yilos.losapp.bean.ServerMemberResponse;
+import com.yilos.losapp.bean.ServerVersionResponse;
 import com.yilos.losapp.common.Constants;
 import com.yilos.losapp.common.LosSSLFactory;
 
@@ -449,7 +450,6 @@ public class ApiClient
 		params.add(new BasicNameValuePair("account", username));
 		params.add(new BasicNameValuePair("enterprise_account", linkAccount));
 
-
 		//{"code":0,"result":{"last_sync":1403180487257,"records":{"add":[]}}}
 		String json = _httppost(Constants.APPENDSHOP_URL,params);
 		Gson gson = new Gson();
@@ -471,6 +471,24 @@ public class ApiClient
 		try
 		{
 			resp = gson.fromJson(json, ServerManageResponse.class);
+		}catch(JsonSyntaxException e)
+		{
+			e.printStackTrace();
+			resp =null;
+		}
+		
+		
+		return resp;
+	}
+	
+	public static ServerVersionResponse checkApkVersion(Context appContext,String version)
+	{
+		String json = _httpget(MessageFormat.format(Constants.CHECKNEWVERSION_URL, version));
+		Gson gson = new Gson();
+		ServerVersionResponse resp ;
+		try
+		{
+			resp = gson.fromJson(json, ServerVersionResponse.class);
 		}catch(JsonSyntaxException e)
 		{
 			e.printStackTrace();

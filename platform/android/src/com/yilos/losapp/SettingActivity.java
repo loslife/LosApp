@@ -21,6 +21,8 @@ public class SettingActivity extends BaseActivity{
 	
 	private RelativeLayout aboutlos; 
 	
+	private RelativeLayout versionUpdate; 
+	
 	private RelativeLayout lgout;
 	
 	@Override
@@ -46,6 +48,7 @@ public class SettingActivity extends BaseActivity{
 		modfiypwd = (RelativeLayout)findViewById(R.id.relativelayout_modfiypwd);
 		aboutlos = (RelativeLayout)findViewById(R.id.relativelayout_aboutlos);
 		lgout =  (RelativeLayout)findViewById(R.id.relativelayout_lgout);
+		versionUpdate = (RelativeLayout)findViewById(R.id.relativelayout_update);
 		findViewById(R.id.goback).setVisibility(View.GONE);
 		
 		linkShop.setOnClickListener(new OnClickListener() {
@@ -75,6 +78,16 @@ public class SettingActivity extends BaseActivity{
 			public void onClick(View v) {
 				Intent aboutIntent = new Intent();
 				aboutIntent.setClass(getBaseContext(), AboutLosActivity.class);
+				startActivity(aboutIntent);
+			}
+		});
+		
+		versionUpdate.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent aboutIntent = new Intent();
+				aboutIntent.setClass(getBaseContext(), UpdateApkVersionActivity.class);
 				startActivity(aboutIntent);
 			}
 		});
