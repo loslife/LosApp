@@ -1,5 +1,5 @@
 #import <UIKit/UIKit.h>
 
-@interface AboutUsView : UIView<UITextViewDelegate>
+@interface AboutUsView : UIView
 
 @end
