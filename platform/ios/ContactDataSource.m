@@ -2,6 +2,7 @@
 #import "Member.h"
 #import "UITableViewCell+ReuseIdentifier.h"
 #import "MemberDetailViewController.h"
+#import "MemberTableViewCell.h"
 
 @implementation ContactDataSource
 
@@ -33,13 +34,17 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[UITableViewCell reuseIdentifier]];
+    MemberTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[MemberTableViewCell reuseIdentifier]];
     if(!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[UITableViewCell reuseIdentifier]];
+        cell = [[MemberTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[UITableViewCell reuseIdentifier]];
     }
     
     Member *member = [[self.members objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    cell.textLabel.text = member.name;
+    
+    cell.nameLabel.text = member.name;
+    cell.cardsLabel.text = @"金卡、银卡、钻石卡";
+    cell.consumeLabel.text = @"最近消费14年5月3日 / 平均消费44元";
+    
     return cell;
 }
 
@@ -59,8 +64,7 @@
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
 {
     UITableViewHeaderFooterView *headerView = (UITableViewHeaderFooterView*)view;
-    
-    headerView.textLabel.text = [@"    " stringByAppendingString:headerView.textLabel.text];// sorry for this
+    headerView.textLabel.text = [@"     " stringByAppendingString:headerView.textLabel.text];// sorry for this
 }
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index

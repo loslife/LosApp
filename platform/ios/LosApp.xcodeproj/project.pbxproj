@@ -75,6 +75,7 @@
 		186C35E11977B72100633AE4 /* AppUpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35E01977B72100633AE4 /* AppUpdateViewController.m */; };
 		186C35E41977B75500633AE4 /* AppUpdateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35E31977B75500633AE4 /* AppUpdateView.m */; };
 		186C35E71978CF7700633AE4 /* ContactLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35E61978CF7700633AE4 /* ContactLoadingView.m */; };
+		186C35EA1978FB2000633AE4 /* MemberTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35E91978FB2000633AE4 /* MemberTableViewCell.m */; };
 		18AFE5F5195178210083C972 /* UITableViewCell+ReuseIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE5F4195178210083C972 /* UITableViewCell+ReuseIdentifier.m */; };
 		18AFE5FC1951986F0083C972 /* ContactView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE5FB1951986F0083C972 /* ContactView.m */; };
 		18AFE600195296D70083C972 /* Member.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE5FF195296D70083C972 /* Member.m */; };
@@ -228,6 +229,8 @@
 		186C35E31977B75500633AE4 /* AppUpdateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppUpdateView.m; sourceTree = "<group>"; };
 		186C35E51978CF7700633AE4 /* ContactLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactLoadingView.h; sourceTree = "<group>"; };
 		186C35E61978CF7700633AE4 /* ContactLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactLoadingView.m; sourceTree = "<group>"; };
+		186C35E81978FB2000633AE4 /* MemberTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemberTableViewCell.h; sourceTree = "<group>"; };
+		186C35E91978FB2000633AE4 /* MemberTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemberTableViewCell.m; sourceTree = "<group>"; };
 		18AFE5F3195178210083C972 /* UITableViewCell+ReuseIdentifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+ReuseIdentifier.h"; sourceTree = "<group>"; };
 		18AFE5F4195178210083C972 /* UITableViewCell+ReuseIdentifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+ReuseIdentifier.m"; sourceTree = "<group>"; };
 		18AFE5FA1951986F0083C972 /* ContactView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactView.h; sourceTree = "<group>"; };
@@ -483,6 +486,8 @@
 				1844729B196820D100B4A543 /* PerformanceCompareView.m */,
 				184472B8196D2DB300B4A543 /* ServicePerformanceView.h */,
 				184472B9196D2DB300B4A543 /* ServicePerformanceView.m */,
+				186C35E81978FB2000633AE4 /* MemberTableViewCell.h */,
+				186C35E91978FB2000633AE4 /* MemberTableViewCell.m */,
 			);
 			name = widget;
 			sourceTree = "<group>";
@@ -782,6 +787,7 @@
 				1844728F1967E97300B4A543 /* LosPieChart.m in Sources */,
 				184472571959545B00B4A543 /* LosTextField.m in Sources */,
 				186667011949864100A345F7 /* WelcomeViewController.m in Sources */,
+				186C35EA1978FB2000633AE4 /* MemberTableViewCell.m in Sources */,
 				184472891967A5D200B4A543 /* ReportShopView.m in Sources */,
 				1844724E1958429000B4A543 /* PasswordView.m in Sources */,
 				18B2EE221946E0EF00264B74 /* LosAppDelegate.m in Sources */,

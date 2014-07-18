@@ -59,6 +59,14 @@
     });
 }
 
+-(void) viewWillDisappear:(BOOL)animated
+{
+    ContactView* myView = (ContactView*)self.view;
+    if([myView isKindOfClass:[ContactView class]]){
+        [myView.tableView deselectRowAtIndexPath:[myView.tableView indexPathForSelectedRow] animated:NO];
+    }
+}
+
 -(void) resolveNavTitle
 {
     UserData *userData = [UserData load];
