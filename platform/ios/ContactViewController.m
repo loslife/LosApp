@@ -9,6 +9,7 @@
 #import "MemberDao.h"
 #import "UserData.h"
 #import "SyncService.h"
+#import "LosHttpHelper.h"
 
 @implementation ContactViewController
 
@@ -139,6 +140,26 @@
 
 -(void) loadMembersFromServer
 {
+    BOOL network = [LosHttpHelper isNetworkAvailable];
+    if(!network){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(@"network_unavailable", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    
+    BOOL wifi = [LosHttpHelper isWifi];
+    if(!wifi){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您当前使用的是2G/3G网络，可能加载速度较慢。建议您在WIFI环境下加载会员。是否继续？" delegate:self cancelButtonTitle:@"否" otherButtonTitles:@"是", nil];
+        alert.tag = 23;
+        [alert show];
+        return;
+    }
+    
+    [self doLoad];
+}
+
+-(void) doLoad
+{
     UserData *userData = [UserData load];
     NSString *currentEnterpriseId = userData.enterpriseId;
     
@@ -182,6 +203,28 @@
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         [self resolveView];
     });
+}
+
+#pragma mark - AlertView delegate
+
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if(alertView.tag != 23){
+        return;
+    }
+    
+    switch (buttonIndex) {
+        case 0:{
+            break;
+        }
+        case 1:{
+            [self doLoad];
+            break;
+        }
+        default:{
+            break;
+        }
+    }
 }
 
 @end

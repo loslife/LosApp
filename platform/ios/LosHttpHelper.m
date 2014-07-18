@@ -9,6 +9,13 @@
     return (status != NotReachable);
 }
 
++(BOOL) isWifi
+{
+    Reachability *reach = [Reachability reachabilityWithHostName:@"192.168.1.104"];
+    int status = [reach currentReachabilityStatus];
+    return (status == ReachableViaWiFi);
+}
+
 -(void) postSecure:(NSString*)urlString Data:(NSData*)postData completionHandler:(void(^)(NSDictionary*))block
 {
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
