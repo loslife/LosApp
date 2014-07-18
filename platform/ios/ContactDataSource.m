@@ -43,7 +43,7 @@
     
     cell.nameLabel.text = member.name;
     cell.cardsLabel.text = member.cardStr;
-    cell.consumeLabel.text = @"最近消费14年5月3日 / 平均消费44元";
+    cell.consumeLabel.text = member.consumeDesc;
     
     return cell;
 }

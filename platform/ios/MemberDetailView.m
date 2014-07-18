@@ -35,7 +35,7 @@
         name.textAlignment = NSTextAlignmentLeft;
         
         UILabel *birthday = [[UILabel alloc] initWithFrame:CGRectMake(20, 120, 280, 40)];
-        birthday.text = [NSString stringWithFormat:@"生日：%@", [StringUtils fromNumber:member.birthday]];
+        birthday.text = [NSString stringWithFormat:@"生日：%@", [StringUtils fromNumber:member.birthday format:@"MM-dd"]];
         birthday.textAlignment = NSTextAlignmentLeft;
         
         UILabel *memberNo = [[UILabel alloc] initWithFrame:CGRectMake(20, 160, 280, 40)];
@@ -47,7 +47,7 @@
         memberNo.textAlignment = NSTextAlignmentLeft;
         
         UILabel *joinDate = [[UILabel alloc] initWithFrame:CGRectMake(20, 200, 280, 40)];
-        joinDate.text = [NSString stringWithFormat:@"入会时间：%@", [StringUtils fromNumber:member.joinDate]];
+        joinDate.text = [NSString stringWithFormat:@"入会时间：%@", [StringUtils fromNumber:member.joinDate format:@"MM-dd"]];
         joinDate.textAlignment = NSTextAlignmentLeft;
         
         UILabel *phone = [[UILabel alloc] initWithFrame:CGRectMake(20, 240, 280, 40)];
@@ -66,7 +66,7 @@
         cards.textAlignment = NSTextAlignmentLeft;
         
         UILabel *latest = [[UILabel alloc] initWithFrame:CGRectMake(20, 360, 280, 40)];
-        latest.text = [NSString stringWithFormat:@"最后消费时间：%@", [StringUtils fromNumber:member.latestConsumeTime]];
+        latest.text = [NSString stringWithFormat:@"最后消费时间：%@", [StringUtils fromNumber:member.latestConsumeTime format:@"MM-dd"]];
         latest.textAlignment = NSTextAlignmentLeft;
         
         UILabel *total = [[UILabel alloc] initWithFrame:CGRectMake(20, 400, 280, 40)];

@@ -3,6 +3,7 @@
 #import "FMDB.h"
 #import "TimesHelper.h"
 #import "Member.h"
+#import "StringUtils.h"
 
 @implementation MemberDao
 
@@ -90,8 +91,9 @@
         NSNumber *totalConsume = [rs objectForColumnName:@"totalConsume"];
         NSNumber *averageConsume = [rs objectForColumnName:@"averageConsume"];
         NSString *cardStr = [rs objectForColumnName:@"cardStr"];
+        NSString *desc = [self resolveConsumeDescWithDate:latest average:averageConsume];
         
-        Member *member = [[Member alloc] initWithPk:pk Name:name Birthday:birthday Phone:phone JoinDate:joinDate MemberNo:memberNo LatestConsume:latest TotalConsume:totalConsume AverageConsume:averageConsume cardStr:cardStr];
+        Member *member = [[Member alloc] initWithPk:pk Name:name Birthday:birthday Phone:phone JoinDate:joinDate MemberNo:memberNo LatestConsume:latest TotalConsume:totalConsume AverageConsume:averageConsume cardStr:cardStr desc:desc];
         [members addObject:member];
     }
     
@@ -124,14 +126,26 @@
         NSNumber *totalConsume = [rs objectForColumnName:@"totalConsume"];
         NSNumber *averageConsume = [rs objectForColumnName:@"averageConsume"];
         NSString *cardStr = [rs objectForColumnName:@"cardStr"];
+        NSString *desc = [self resolveConsumeDescWithDate:latest average:averageConsume];
         
-        Member *member = [[Member alloc] initWithPk:pk Name:name Birthday:birthday Phone:phone JoinDate:joinDate MemberNo:memberNo LatestConsume:latest TotalConsume:totalConsume AverageConsume:averageConsume cardStr:cardStr];
+        Member *member = [[Member alloc] initWithPk:pk Name:name Birthday:birthday Phone:phone JoinDate:joinDate MemberNo:memberNo LatestConsume:latest TotalConsume:totalConsume AverageConsume:averageConsume cardStr:cardStr desc:desc];
         [members addObject:member];
     }
     
     [db close];
     
     return members;
+}
+
+-(NSString*) resolveConsumeDescWithDate:(NSNumber*)date average:(NSNumber*)average
+{
+    NSString *latestConsumeStr = [StringUtils fromNumber:date format:@"MM月dd日"];
+    if([StringUtils isEmpty:latestConsumeStr]){
+        latestConsumeStr = @"未消费";
+    }else{
+        latestConsumeStr = [NSString stringWithFormat:@"最近消费%@", latestConsumeStr];
+    }
+    return [NSString stringWithFormat:@"%@ / 平均消费%d元", latestConsumeStr, [average intValue]];
 }
 
 @end

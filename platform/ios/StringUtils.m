@@ -19,15 +19,15 @@
     return NO;
 }
 
-+(NSString*) fromDate:(NSDate*)date
++(NSString*) fromDate:(NSDate*)date format:(NSString*)format
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"MM-dd"];
+    [dateFormatter setDateFormat:format];
     
     return [dateFormatter stringFromDate:date];
 }
 
-+(NSString*) fromNumber:(NSNumber*)number
++(NSString*) fromNumber:(NSNumber*)number format:(NSString*)format
 {
     if((NSNull*)number == [NSNull null]){
         return @"";
@@ -39,7 +39,7 @@
     
     NSTimeInterval millis = [number doubleValue];
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:millis];
-    return [self fromDate:date];
+    return [self fromDate:date format:format];
 }
 
 +(BOOL) isPhone:(NSString*)phone
