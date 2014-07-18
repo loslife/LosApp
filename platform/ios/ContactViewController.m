@@ -21,6 +21,7 @@
     MemberDao *memberDao;
     SyncService *syncHelper;
     LosHttpHelper *httpHelper;
+    BOOL searchLock;// to handle ios search bar bug
 }
 
 -(id) initWithNibName:(NSString*)nibName bundle:(NSBundle*)bundle
@@ -35,6 +36,7 @@
         memberDao = [[MemberDao alloc] init];
         syncHelper = [[SyncService alloc] init];
         httpHelper = [[LosHttpHelper alloc] init];
+        searchLock = NO;
         
         self.navigationItem.rightBarButtonItem = [[SwitchShopButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20) Delegate:self];
         
@@ -64,6 +66,7 @@
     ContactView* myView = (ContactView*)self.view;
     if([myView isKindOfClass:[ContactView class]]){
         [myView.tableView deselectRowAtIndexPath:[myView.tableView indexPathForSelectedRow] animated:NO];
+        myView.search.showsCancelButton = NO;
     }
 }
 
@@ -207,19 +210,45 @@
 
 -(void) searchBar:(UISearchBar*)searchBar textDidChange:(NSString*)searchText
 {
+    if(searchLock){
+        return;
+    }
+    
+    searchLock = YES;
+    
+    UserData *userData = [UserData load];
+    NSString *currentEnterpriseId = userData.enterpriseId;
+    
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         
-        UserData *userData = [UserData load];
-        NSString *currentEnterpriseId = userData.enterpriseId;
-        
-        NSArray *membersTemp = [memberDao fuzzyQueryMembersByEnterpriseId:currentEnterpriseId name:searchText];
+        NSArray *membersTemp;
+        if(![StringUtils isEmpty:searchText]){
+            membersTemp = [memberDao fuzzyQueryMembersByEnterpriseId:currentEnterpriseId name:searchText];
+        }else{
+            membersTemp = [memberDao queryMembersByEnterpriseId:currentEnterpriseId];
+        }
         [self assembleMembers:membersTemp];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             ContactView* myView = (ContactView*)self.view;
             [myView.tableView reloadData];
+            
+            searchLock = NO;
         });
     });
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    ContactView* myView = (ContactView*)self.view;
+    myView.search.showsCancelButton = YES;
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar
+{
+    ContactView* myView = (ContactView*)self.view;
+    myView.search.showsCancelButton = NO;
+    [myView.search resignFirstResponder];
 }
 
 #pragma mark - SwitchShopButtonDelegate
