@@ -10,6 +10,8 @@
 #import "UserData.h"
 #import "SyncService.h"
 #import "LosHttpHelper.h"
+#import "ContactLoadingView.h"
+#import "LosAppUrls.h"
 
 @implementation ContactViewController
 
@@ -18,6 +20,7 @@
     EnterpriseDao *enterpriseDao;
     MemberDao *memberDao;
     SyncService *syncHelper;
+    LosHttpHelper *httpHelper;
 }
 
 -(id) initWithNibName:(NSString*)nibName bundle:(NSBundle*)bundle
@@ -31,6 +34,7 @@
         enterpriseDao = [[EnterpriseDao alloc] init];
         memberDao = [[MemberDao alloc] init];
         syncHelper = [[SyncService alloc] init];
+        httpHelper = [[LosHttpHelper alloc] init];
         
         self.navigationItem.rightBarButtonItem = [[SwitchShopButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20) Delegate:self];
         
@@ -160,19 +164,33 @@
 
 -(void) doLoad
 {
+    ContactLoadingView *loadingView = [[ContactLoadingView alloc] init];
+    self.view = loadingView;
+    
     UserData *userData = [UserData load];
     NSString *currentEnterpriseId = userData.enterpriseId;
     
-    NSNumber *time = [enterpriseDao queryLatestSyncTimeById:currentEnterpriseId];
-    
-    [syncHelper refreshMembersWithEnterpriseId:currentEnterpriseId LatestSyncTime:time Block:^(BOOL success){
-        
-        NSArray *membersTemp = [memberDao queryMembersByEnterpriseId:currentEnterpriseId];
-        [self assembleMembers:membersTemp];
+    NSString *url = [NSString stringWithFormat:COUNT_MEMBERS_URL, currentEnterpriseId];
+    [httpHelper getSecure:url completionHandler:^(NSDictionary* dict){
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            ContactView *view = [[ContactView alloc] initWithController:self tableViewDataSource:dataSource];
-            self.view = view;
+        
+            NSDictionary *result = [dict objectForKey:@"result"];
+            NSNumber *count = [result objectForKey:@"count"];
+            [loadingView showMemberCount:[count intValue]];
+            
+            NSNumber *time = [enterpriseDao queryLatestSyncTimeById:currentEnterpriseId];
+            
+            [syncHelper refreshMembersWithEnterpriseId:currentEnterpriseId LatestSyncTime:time Block:^(BOOL success){
+                
+                NSArray *membersTemp = [memberDao queryMembersByEnterpriseId:currentEnterpriseId];
+                [self assembleMembers:membersTemp];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    ContactView *view = [[ContactView alloc] initWithController:self tableViewDataSource:dataSource];
+                    self.view = view;
+                });
+            }];
         });
     }];
 }
