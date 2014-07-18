@@ -41,12 +41,6 @@
     [header addSubview:name];
     [header addSubview:sex];
     
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    CGContextMoveToPoint(ctx, 20, 110);
-    CGContextAddLineToPoint(ctx, 300, 110);
-    CGContextSetLineWidth(ctx, .1f);
-    CGContextStrokePath(ctx);
-    
     UIView *birthdayArea = [self makeBaseinfoView:CGRectMake(20, 110, 280, 40) icon:@"member_birthday" text:[NSString stringWithFormat:@"生日：%@", [StringUtils fromNumber:theMember.birthday format:@"MM-dd"]]];
     
     UIView *noArea = [self makeBaseinfoView:CGRectMake(20, 150, 280, 40) icon:@"member_no" text:[NSString stringWithFormat:@"编号：%@", theMember.memberNo]];
@@ -68,23 +62,55 @@
     cards.textAlignment = NSTextAlignmentLeft;
     cards.textColor = GRAY4;
     cards.font = [UIFont systemFontOfSize:14];
-    
 
-//    UILabel *cards = [[UILabel alloc] initWithFrame:CGRectMake(20, 320, 280, 40)];
-//    cards.text = [NSString stringWithFormat:@"会员卡类型：%@", @"金卡"];
-//    cards.textAlignment = NSTextAlignmentLeft;
-//    
-//    UILabel *latest = [[UILabel alloc] initWithFrame:CGRectMake(20, 360, 280, 40)];
-//    latest.text = [NSString stringWithFormat:@"最后消费时间：%@", [StringUtils fromNumber:theMember.latestConsumeTime format:@"MM-dd"]];
-//    latest.textAlignment = NSTextAlignmentLeft;
-//    
-//    UILabel *total = [[UILabel alloc] initWithFrame:CGRectMake(20, 400, 280, 40)];
-//    total.text = [NSString stringWithFormat:@"累计消费：￥%.1f", [theMember.totalConsume doubleValue]];
-//    total.textAlignment = NSTextAlignmentLeft;
-//    
-//    UILabel *per = [[UILabel alloc] initWithFrame:CGRectMake(20, 440, 280, 40)];
-//    per.text = [NSString stringWithFormat:@"客单价：￥%.1f", [theMember.averageConsume doubleValue]];
-//    per.textAlignment = NSTextAlignmentLeft;
+    UILabel *latest = [[UILabel alloc] initWithFrame:CGRectMake(20, 360, 280, 40)];
+    latest.text = [NSString stringWithFormat:@"最后消费时间：%@", [StringUtils fromNumber:theMember.latestConsumeTime format:@"MM-dd"]];
+    latest.textAlignment = NSTextAlignmentLeft;
+    latest.textColor = GRAY4;
+    latest.font = [UIFont systemFontOfSize:14];
+
+    UILabel *total = [[UILabel alloc] initWithFrame:CGRectMake(20, 400, 280, 40)];
+    total.text = [NSString stringWithFormat:@"累计消费：￥%.1f", [theMember.totalConsume doubleValue]];
+    total.textAlignment = NSTextAlignmentLeft;
+    total.textColor = GRAY4;
+    total.font = [UIFont systemFontOfSize:14];
+
+    UILabel *per = [[UILabel alloc] initWithFrame:CGRectMake(20, 440, 280, 40)];
+    per.text = [NSString stringWithFormat:@"客单价：￥%.1f", [theMember.averageConsume doubleValue]];
+    per.textAlignment = NSTextAlignmentLeft;
+    per.textColor = GRAY4;
+    per.font = [UIFont systemFontOfSize:14];
+    
+    UILabel *bar2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 513, 320, 5)];
+    bar2.backgroundColor = GRAY1;
+    
+    UIView *call = [[UIView alloc] initWithFrame:CGRectMake(0, 518, 160, 50)];
+    
+    UIImageView *callIcon = [[UIImageView alloc] initWithFrame:CGRectMake(30, 17, 16, 16)];
+    callIcon.image = [UIImage imageNamed:@"member_call"];
+    
+    UIButton *callButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    callButton.frame = CGRectMake(60, 0, 70, 50);
+    [callButton setTitle:@"给ta电话" forState:UIControlStateNormal];
+    [callButton setTintColor:BLUE1];
+    [callButton addTarget:self action:@selector(callMember) forControlEvents:UIControlEventTouchUpInside];
+    
+    [call addSubview:callIcon];
+    [call addSubview:callButton];
+    
+    UIView *sms = [[UIView alloc] initWithFrame:CGRectMake(160, 518, 160, 50)];
+    
+    UIImageView *smsIcon = [[UIImageView alloc] initWithFrame:CGRectMake(30, 17, 16, 16)];
+    smsIcon.image = [UIImage imageNamed:@"member_sms"];
+    
+    UIButton *smsButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    smsButton.frame = CGRectMake(60, 0, 70, 50);
+    [smsButton setTitle:@"发送短信" forState:UIControlStateNormal];
+    [smsButton setTintColor:BLUE1];
+    [smsButton addTarget:self action:@selector(sendSMS) forControlEvents:UIControlEventTouchUpInside];
+    
+    [sms addSubview:smsIcon];
+    [sms addSubview:smsButton];
     
     [self addSubview:header];
     [self addSubview:birthdayArea];
@@ -94,19 +120,54 @@
     [self addSubview:bar];
     [self addSubview:consumeTitle];
     [self addSubview:cards];
-
-//    [self addSubview:phone];
-//    [self addSubview:call];
-//    [self addSubview:cards];
-//    [self addSubview:latest];
-//    [self addSubview:total];
-//    [self addSubview:per];
+    [self addSubview:latest];
+    [self addSubview:total];
+    [self addSubview:per];
+    [self addSubview:bar2];
+    [self addSubview:call];
+    [self addSubview:sms];
+    
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    
+    CGContextSetLineWidth(ctx, .1f);
+    
+    CGContextMoveToPoint(ctx, 20, 110);
+    CGContextAddLineToPoint(ctx, 300, 110);
+    CGContextStrokePath(ctx);
+    
+    CGContextMoveToPoint(ctx, 160, 520);
+    CGContextAddLineToPoint(ctx, 160, 566);
+    CGContextStrokePath(ctx);
+    
+    CGContextSetLineWidth(ctx, 1.f);
+    CGContextSetStrokeColorWithColor(ctx, GRAY2.CGColor);
+    
+    CGContextMoveToPoint(ctx, 0, 270);
+    CGContextAddLineToPoint(ctx, 320, 270);
+    CGContextStrokePath(ctx);
+    
+    CGContextMoveToPoint(ctx, 0, 275);
+    CGContextAddLineToPoint(ctx, 320, 275);
+    CGContextStrokePath(ctx);
+    
+    CGContextMoveToPoint(ctx, 0, 513);
+    CGContextAddLineToPoint(ctx, 320, 513);
+    CGContextStrokePath(ctx);
+    
+    CGContextMoveToPoint(ctx, 0, 518);
+    CGContextAddLineToPoint(ctx, 320, 518);
+    CGContextStrokePath(ctx);
 }
 
 -(void) callMember
 {
     NSString *url = [NSString stringWithFormat:@"tel://%@", theMember.phoneMobile];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+}
+
+-(void) sendSMS
+{
+    
 }
 
 -(UIView*) makeBaseinfoView:(CGRect)frame icon:(NSString*)image text:(NSString*)text
