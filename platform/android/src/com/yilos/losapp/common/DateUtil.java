@@ -69,13 +69,16 @@ public class DateUtil {
 		return preMonday;
 	}
 
-	public Date getCurDate() {
+	public String getCurDateMonday() {
+		
 		int mondayPlus = this.getMondayPlus();
 		GregorianCalendar currentDate = new GregorianCalendar();
-		currentDate.add(GregorianCalendar.DATE, mondayPlus + 7 * weeks + 6);
+		currentDate.add(GregorianCalendar.DATE, mondayPlus + 7 * weeks);
 		Date monday = currentDate.getTime();
-
-		return monday;
+		SimpleDateFormat df = new SimpleDateFormat("YYYY年MM月dd日");
+		String curDateMonday = df.format(monday);
+		
+		return curDateMonday;
 	}
 
 	/**

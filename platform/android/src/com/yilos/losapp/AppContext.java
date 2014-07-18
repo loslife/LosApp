@@ -5,6 +5,7 @@ import com.yilos.losapp.api.ApiClient;
 import com.yilos.losapp.bean.ContactsResult;
 import com.yilos.losapp.bean.ServerManageResponse;
 import com.yilos.losapp.bean.ServerMemberResponse;
+import com.yilos.losapp.bean.ServerVersionResponse;
 
 import android.app.Application;
 import android.content.Context;
@@ -128,6 +129,16 @@ public class AppContext extends Application {
     }
     
     /**
+     * 获取店铺会员数量
+     * @param shopId
+     * @return
+     */
+    public ServerMemberResponse getMembersCount(String shopId)
+    {
+    	return ApiClient.getMembersCount(this, shopId);
+    }
+    
+    /**
      * 获取关联的店铺
      * @param phoneNumber
      * @return
@@ -137,9 +148,26 @@ public class AppContext extends Application {
     	return ApiClient.getMyshopList(this, phoneNumber);
     }
     
+    /**
+     * 关联店铺
+     * @param userAccount
+     * @param shopAccount
+     * @return
+     */
     public ServerMemberResponse linkshop(String userAccount,String shopAccount)
     {
     	return ApiClient.linkshop(appContext, userAccount, shopAccount);
+    }
+    
+    /**
+     * 取消关联
+     * @param userAccount
+     * @param shopAccount
+     * @return
+     */
+    public ServerMemberResponse undoLinkshop(String userAccount,String shopAccount)
+    {
+    	return ApiClient.undoLinkshop(appContext, userAccount, shopAccount);
     }
     
     /**
@@ -150,7 +178,14 @@ public class AppContext extends Application {
     {
     	return ApiClient.getReports(appContext, shopid,year, month, type, day, report);
     }
-	
+    
+    /**
+     * 检查版本
+     */
+    public ServerVersionResponse checkVersion(String version)
+    {
+    	return ApiClient.checkApkVersion(appContext, version);
+    }
 	/**
 	 * 用户是否登录
 	 * @return

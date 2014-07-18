@@ -14,6 +14,8 @@ public class ContactsResult
 	
 	private List<MyShopBean> myShopList;
 	
+	private String count;
+	
 	private String errorCode;
 	
 	private  ContactsRecords  records;
@@ -72,11 +74,18 @@ public class ContactsResult
 		return errorCode;
 	}
 
-
 	public void setErrorCode(String errorCode) {
 		this.errorCode = errorCode;
 	}
-    
-	
-    
+
+
+	public String getCount() {
+		return count;
+	}
+
+
+	public void setCount(String count) {
+		this.count = count;
+	}
+
 }

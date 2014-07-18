@@ -55,7 +55,12 @@ public class MemberDBManager {
                 		});  
             }  
             db.setTransactionSuccessful();  //设置事务成功完成  
-        } finally {  
+        } 
+        catch(Exception e)
+        {
+        	 e.printStackTrace();
+        }
+        finally {  
             db.endTransaction();    //结束事务  
         }  
     }  

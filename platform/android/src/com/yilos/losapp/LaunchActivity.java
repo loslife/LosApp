@@ -56,13 +56,7 @@ public class LaunchActivity extends BaseActivity {
 			}
 			
 			if (msg.what == 1) {
-				List<MyShopBean> myshops = myshopService.queryShops();
-				for(int i=0;i<myshops.size();i++)
-				{
-					getMemberContact(myshops.get(i).getEnterprise_id(),myshops.get(i).getContactSyncTime());	
-				}
-			}
-			if (msg.what == 2||msg.what == 3) {
+				
 				UIHelper.ToastMessage(getBaseContext(), "登录成功");
 				AppContext.getInstance(getBaseContext()).setLogin(true);
 				toMain();
@@ -94,12 +88,9 @@ public class LaunchActivity extends BaseActivity {
 			AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(
 					shopId);
 			shopName = myshops.get(0).getEnterprise_name();
-			for(int i=0;i<myshops.size();i++)
-			{
-				
-				getMemberContact(myshops.get(i).getEnterprise_id(),myshops.get(i).getContactSyncTime());	
-			}
-			
+			Message msg = new Message();
+			msg.what = 1;
+			handle.sendMessage(msg);
 		}
 	}
 
@@ -133,43 +124,13 @@ public class LaunchActivity extends BaseActivity {
 								shopId);
 						last_sync = myshops.get(0).getContactSyncTime();
 						shopName = myshops.get(0).getEnterprise_name();
-						msg.what = 1;
 					} else {
 						shopName = "";
-						msg.what = 2;
 					}
+					msg.what = 1;
 				}
 				if (res.getCode() == 1) {
 					msg.what = 0;
-				}
-				handle.sendMessage(msg);
-			}
-		}.start();
-	}
-
-	/**
-	 * 获取会员通讯录
-	 * @param linkshopId
-	 */
-	public void getMemberContact(final String linkshopId,final String lasSync) {
-
-		new Thread() {
-			public void run() {
-				AppContext ac = (AppContext) getApplication();
-				Message msg = new Message();
-
-				ServerMemberResponse res = ac.getMembersContacts(linkshopId, lasSync);
-				if (res.isSucess()) {
-					memberService.handleMembers(res.getResult().getRecords());
-					last_sync = String.valueOf(res.getResult().getLast_sync());
-					myshopService.updateLatestSync(last_sync, linkshopId,
-							"Contacts");
-					AppContext.getInstance(getBaseContext())
-							.setContactLastSyncTime(last_sync);
-					if(linkshopId.equals(myshops.get(myshops.size()-1)));
-					{
-						msg.what = 3;
-					}
 				}
 				handle.sendMessage(msg);
 			}

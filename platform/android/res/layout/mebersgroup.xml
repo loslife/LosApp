@@ -29,7 +29,9 @@
             android:layout_alignParentBottom="true"
             android:background="@color/blue_text" />
      </LinearLayout>
-
+     
+    <include layout="@layout/loadingbar"/>
+    
     <LinearLayout
         android:id="@+id/layout_memberlist"
         android:layout_width="fill_parent"

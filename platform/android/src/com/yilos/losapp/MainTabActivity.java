@@ -1,6 +1,8 @@
 package com.yilos.losapp;
 
 
+import com.yilos.losapp.common.ActivityControlUtil;
+
 import android.annotation.SuppressLint;
 import android.app.TabActivity;
 import android.content.Intent;
@@ -29,10 +31,12 @@ public class MainTabActivity extends TabActivity implements OnCheckedChangeListe
         super.onCreate(savedInstanceState);  
         requestWindowFeature(Window.FEATURE_NO_TITLE);  
         setContentView(R.layout.main_footer);  
+        ActivityControlUtil.add(this);
           
         this.mainIntent = new Intent(this,Main.class);
         mainIntent.putExtra("shopName", getIntent().getStringExtra("shopName"));
-        this.concactsIntent = new Intent(this,MemberGoupActivity.class);  
+        this.concactsIntent = new Intent(this,MemberGoupActivity.class); 
+        concactsIntent.putExtra("shopName", getIntent().getStringExtra("shopName"));
         this.settingCIntent = new Intent(this,SettingActivity.class);  
        
           

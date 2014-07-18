@@ -37,7 +37,7 @@
                 android:id="@+id/linkshop"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:layout_marginLeft="24.0dip"
+                android:layout_marginLeft="12.0dip"
                 android:layout_toRightOf="@+id/linkshopicon"
                 android:layout_weight="5"
                 android:gravity="fill_vertical"
@@ -73,7 +73,7 @@
                 android:id="@+id/modfiypwd"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:layout_marginLeft="24.0dip"
+                android:layout_marginLeft="12.0dip"
                 android:layout_toRightOf="@+id/modfiypwdicon"
                 android:layout_weight="5"
                 android:gravity="fill_vertical"
@@ -109,7 +109,7 @@
                 android:id="@+id/aboutlos"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:layout_marginLeft="24.0dip"
+                android:layout_marginLeft="12.0dip"
                 android:layout_toRightOf="@+id/aboutlosicon"
                 android:layout_weight="5"
                 android:gravity="fill_vertical"
@@ -142,16 +142,28 @@
                 android:src="@drawable/updateicon" />
 
             <TextView
-                android:id="@+id/updateversion"
+                android:id="@+id/updateversionbtn"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:layout_marginLeft="24.0dip"
+                android:layout_marginLeft="12.0dip"
                 android:layout_toRightOf="@+id/updateicon"
-                android:layout_weight="5"
+                android:layout_weight="3"
                 android:gravity="fill_vertical"
                 android:text="版本更新"
-                android:textColor="@color/black"
+                android:textColor="@color/black_text"
                 android:textSize="23.0dip" />
+
+            <TextView
+                android:id="@+id/versiontext"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_alignParentRight="true"
+                android:layout_weight="5"
+                android:gravity="fill_vertical"
+                android:text="当前已是最新版本"
+                android:textColor="@color/gray_text"
+                android:textSize="16.0dip" />
+
         </RelativeLayout>
 
         <RelativeLayout
@@ -176,7 +188,7 @@
                 android:id="@+id/lgout"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:layout_marginLeft="24.0dip"
+                android:layout_marginLeft="12.0dip"
                 android:layout_toRightOf="@+id/exiticon"
                 android:layout_weight="5"
                 android:gravity="fill_vertical"

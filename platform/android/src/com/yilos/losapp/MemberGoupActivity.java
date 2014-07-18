@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -32,6 +34,7 @@ import android.widget.TextView;
 import com.yilos.losapp.adapter.ListViewAdp;
 import com.yilos.losapp.bean.MemberBean;
 import com.yilos.losapp.bean.MyShopBean;
+import com.yilos.losapp.bean.ServerMemberResponse;
 import com.yilos.losapp.common.Pinyin_Comparator;
 import com.yilos.losapp.common.SideBar;
 import com.yilos.losapp.service.MemberService;
@@ -51,6 +54,8 @@ public class MemberGoupActivity extends BaseActivity {
 	private LinearLayout layout_memberlist;
 	private RefreshableView refreshableView;
 	private TextView loadingmember;
+	private LinearLayout loading_begin;
+	private TextView loadcountinfo;
 
 	String[] members;
 	String[] memberNames;
@@ -70,8 +75,14 @@ public class MemberGoupActivity extends BaseActivity {
 	private MyshopManageService myshopService;
 
 	private String shopId;
+	
+	private String shoptitle;
 
 	private String last_sync = "0";
+	
+	private String count;
+	
+	
 
 	private TextView shopname;
 	private ImageView select_shop;
@@ -84,6 +95,7 @@ public class MemberGoupActivity extends BaseActivity {
 		lvContact = (ListView) this.findViewById(R.id.lvContact);
 		mWindowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
 		memberService = new MemberService(getBaseContext());
+		shoptitle = getIntent().getStringExtra("shopName");
 	}
 
 	@Override
@@ -91,6 +103,24 @@ public class MemberGoupActivity extends BaseActivity {
 		super.onResume();
 		getdata();
 	}
+	
+	final Handler handle = new Handler() {
+			
+			public void handleMessage(Message msg) {
+				if(msg.what==1)
+				{
+					String memberLoadInfo = "本店共有"+count+"位会员，正在努力为你加载中...";
+					loadcountinfo.setText(memberLoadInfo);
+					getMemberContact(shopId,"0");
+				}
+				
+				if(msg.what==2)
+				{
+					loading_begin.setVisibility(View.GONE);
+					getdata();
+				}
+			}
+	};
 
 	public void initView() {
 		
@@ -199,9 +229,11 @@ public class MemberGoupActivity extends BaseActivity {
 		loadingmember = (TextView) findViewById(R.id.loadingmember);
 		refreshableView = (RefreshableView) findViewById(R.id.refreshable_view);
 		seachmemberext = (EditText) findViewById(R.id.seachmemberext);
+		loading_begin = (LinearLayout) findViewById(R.id.loading_begin);
+		loadcountinfo = (TextView) findViewById(R.id.loadcountinfo);
 
 		shopname = (TextView) findViewById(R.id.shopname);
-		shopname.setText(getIntent().getStringExtra("shopName"));
+		shopname.setText(shoptitle);
 		findViewById(R.id.goback).setVisibility(View.GONE);
 		
 		refreshableView.setOnRefreshListener(new PullToRefreshListener() {
@@ -215,7 +247,15 @@ public class MemberGoupActivity extends BaseActivity {
 				refreshableView.finishRefreshing();
 			}
 		}, 0);
-
+       loadingmember.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				loading_begin.setVisibility(View.VISIBLE);
+				layout_loadingmember.setVisibility(View.GONE);
+				getMemberCounts(shopId);
+			}
+		});
 		WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,
 				WindowManager.LayoutParams.TYPE_APPLICATION,
@@ -226,29 +266,8 @@ public class MemberGoupActivity extends BaseActivity {
 		indexBar.setTextView(mDialogText);
 	}
 
-	public void getdata() {
-
-		/*
-		 * MemberBean m1 = new MemberBean(); m1.setName("王MM");
-		 * 
-		 * MemberBean m2 = new MemberBean(); m2.setName("李MM"); MemberBean m3 =
-		 * new MemberBean(); m3.setName("张MM"); MemberBean m4 = new
-		 * MemberBean(); m4.setName("艾MM"); MemberBean m5 = new MemberBean();
-		 * m5.setName("江MM"); MemberBean m6 = new MemberBean();
-		 * m6.setName("郑MM"); MemberBean m7 = new MemberBean();
-		 * m7.setName("曹MM"); MemberBean m8 = new MemberBean();
-		 * m8.setName("王MM"); MemberBean m9 = new MemberBean();
-		 * m9.setName("白MM");
-		 * 
-		 * MemberBean m10 = new MemberBean(); m10.setName("赵MM"); MemberBean m11
-		 * = new MemberBean(); m11.setName("王MM"); MemberBean m12 = new
-		 * MemberBean(); m12.setName("黄MM"); parentData.add(m1);
-		 * parentData.add(m2); parentData.add(m3); parentData.add(m4);
-		 * parentData.add(m5); parentData.add(m6); parentData.add(m7);
-		 * parentData.add(m8); parentData.add(m9); parentData.add(m10);
-		 * parentData.add(m11); parentData.add(m12);
-		 */
-
+	public void getdata() 
+	{
 		last_sync = AppContext.getInstance(getBaseContext())
 				.getContactLastSyncTime();
 		shopId = AppContext.getInstance(getBaseContext())
@@ -270,8 +289,56 @@ public class MemberGoupActivity extends BaseActivity {
 				shopIds[i] = myshops.get(i).getEnterprise_id();
 			}
 		}
-
 		initView();
+	}
+	
+
+	/**
+	 * 获取会员通讯录
+	 * @param linkshopId
+	 */
+	public void getMemberContact(final String linkshopId,final String lasSync) {
+
+		new Thread() {
+			public void run() {
+				AppContext ac = (AppContext) getApplication();
+				Message msg = new Message();
+
+				ServerMemberResponse res = ac.getMembersContacts(linkshopId, lasSync);
+				if (res.isSucess()) {
+					memberService.handleMembers(res.getResult().getRecords());
+					last_sync = String.valueOf(res.getResult().getLast_sync());
+					myshopService.updateLatestSync(last_sync, linkshopId,
+							"Contacts");
+					AppContext.getInstance(getBaseContext())
+							.setContactLastSyncTime(last_sync);
+						msg.what = 2;
+				}
+				handle.sendMessage(msg);
+			}
+		}.start();
+	}
+	
+	/**
+	 * 获取会员数量
+	 * @param linkshopId
+	 */
+	public void getMemberCounts(final String linkshopId)
+	{
+		new Thread() {
+			public void run() {
+				AppContext ac = (AppContext) getApplication();
+				Message msg = new Message();
+
+				ServerMemberResponse res = ac.getMembersCount(linkshopId);
+				if (res.isSucess()) {
+					
+						count = res.getResult().getCount();
+						msg.what = 1;
+				}
+				handle.sendMessage(msg);
+			}
+		}.start();
 	}
 
 	public void showPopupWindow(int x, int y) {
@@ -298,9 +365,10 @@ public class MemberGoupActivity extends BaseActivity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				shopname.setText(title[arg2]);
+				shoptitle = title[arg2];
 				AppContext.getInstance(getBaseContext())
 						.setCurrentDisplayShopId(shopIds[arg2]);
+				shopId = shopIds[arg2];
 				parentData = memberService.queryMembers(shopIds[arg2]);
 				initView();
 				popupWindow.dismiss();

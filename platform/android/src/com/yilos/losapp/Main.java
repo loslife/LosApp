@@ -50,7 +50,7 @@ public class Main extends BaseActivity {
 	private ProductPerformanceService productPerformanceService;
 	private BizPerformanceService bizPerformanceService;
 	private CustomerCountService customerCountService;
-	
+
 	private List<ServicePerformanceBean> servicePerformanceList;
 	private BizPerformanceBean bizPerformance;
 	private List<EmployeePerBean> employPerList;
@@ -67,7 +67,6 @@ public class Main extends BaseActivity {
 	private ImageView righttime;
 	private TextView timetype;
 
-
 	private PopupWindow popupWindow;
 	private LinearLayout layout;
 	private ListView listView;
@@ -77,14 +76,16 @@ public class Main extends BaseActivity {
 
 	public static final int WIDTH = 280;
 	public static final int HEIGHT = 250;
-	
+
 	private PanelBar view;
 	private LinearLayout columnarLayout;
 	private LinearLayout annularLayout;
 	private LinearLayout annular2Layout;
-	
+
 	private ScrollLayout mainScrollLayout;
 	private LinearLayout noshop;
+	
+	public static long datetime;
 
 	private String year;
 
@@ -98,120 +99,127 @@ public class Main extends BaseActivity {
 		setContentView(R.layout.main);
 		initView();
 		initData();
-		
+
 	}
-	
+
 	Handler handle = new Handler() {
 		public void handleMessage(Message msg) {
-			
-			if(msg.what==1)
-			{
+
+			if (msg.what == 1) {
 				String[] num = new String[employPerList.size()];
 				String[] name = new String[employPerList.size()];
 				float total = 0.0f;
-				
+
 				// 柱状图
-				for(int i =0;i<employPerList.size();i++)
-				{
+				for (int i = 0; i < employPerList.size(); i++) {
 					num[i] = employPerList.get(i).getTotal();
 					name[i] = employPerList.get(i).getEmployee_name();
-					total += Float.valueOf(employPerList.get(i).getTotal());  
+					total += Float.valueOf(employPerList.get(i).getTotal());
 				}
 				columnarLayout = (LinearLayout) findViewById(R.id.columnarLayout);
-				view = new PanelBar(getBaseContext(), num,name);
+				view = new PanelBar(getBaseContext(), num, name);
 				columnarLayout.addView(view);
-				
-				total = (float)(Math.round(total*10))/10;
-				((TextView)findViewById(R.id.employeetotal)).setText("￥"+total);
+
+				total = (float) (Math.round(total * 10)) / 10;
+				((TextView) findViewById(R.id.employeetotal)).setText("￥"
+						+ total);
 			}
-			
-			if(msg.what==2)
-			{
-				//newcard":13000,"recharge":10,"service":1900,"product":200
-				float newcard = Float.valueOf(bizPerformance.getNewcard())/Float.valueOf(bizPerformance.getTotal());
-				newcard = (float)(Math.round(newcard*1000))/10;
-				float recharge = Float.valueOf(bizPerformance.getRecharge())/Float.valueOf(bizPerformance.getTotal());
-				recharge = (float)(Math.round(recharge*1000))/10;
-				float service = Float.valueOf(bizPerformance.getService())/Float.valueOf(bizPerformance.getTotal());
-				service = (float)(Math.round(service*1000))/10;
-				float product = Float.valueOf(bizPerformance.getProduct())/Float.valueOf(bizPerformance.getTotal());
-				product = (float)(Math.round(product*1000))/10;
-				
+
+			if (msg.what == 2) {
+				// newcard":13000,"recharge":10,"service":1900,"product":200
+				float newcard = Float.valueOf(bizPerformance.getNewcard())
+						/ Float.valueOf(bizPerformance.getTotal());
+				newcard = (float) (Math.round(newcard * 1000)) / 10;
+				float recharge = Float.valueOf(bizPerformance.getRecharge())
+						/ Float.valueOf(bizPerformance.getTotal());
+				recharge = (float) (Math.round(recharge * 1000)) / 10;
+				float service = Float.valueOf(bizPerformance.getService())
+						/ Float.valueOf(bizPerformance.getTotal());
+				service = (float) (Math.round(service * 1000)) / 10;
+				float product = Float.valueOf(bizPerformance.getProduct())
+						/ Float.valueOf(bizPerformance.getTotal());
+				product = (float) (Math.round(product * 1000)) / 10;
+
 				float total = Float.valueOf(bizPerformance.getTotal());
-				total = (float)(Math.round(total*10))/10;
-				
-				String[] perName = {"开卡业绩","充值业绩","服务业绩","卖品业绩"};
+				total = (float) (Math.round(total * 10)) / 10;
+
+				String[] perName = { "开卡业绩", "充值业绩", "服务业绩", "卖品业绩" };
 				// 环形图
-				float[] num2 = new float[] { newcard, recharge, service, product };
+				float[] num2 = new float[] { newcard, recharge, service,
+						product };
 				annularLayout = (LinearLayout) findViewById(R.id.annularLayout);
-				PanelDountChart panelDountView = new PanelDountChart(getBaseContext(), num2,perName);
+				PanelDountChart panelDountView = new PanelDountChart(
+						getBaseContext(), num2, perName);
 				annularLayout.addView(panelDountView);
-				
-				((TextView)findViewById(R.id.biztotal)).setText("￥"+total);
-				((TextView)findViewById(R.id.sevicedata)).setText("￥"+bizPerformance.getService());
-				((TextView)findViewById(R.id.saledata)).setText("￥"+bizPerformance.getProduct());
-				((TextView)findViewById(R.id.carddata)).setText("￥"+bizPerformance.getNewcard());
-				((TextView)findViewById(R.id.rechargedata)).setText("￥"+bizPerformance.getRecharge());
+
+				((TextView) findViewById(R.id.biztotal)).setText("￥" + total);
+				((TextView) findViewById(R.id.sevicedata)).setText("￥"
+						+ bizPerformance.getService());
+				((TextView) findViewById(R.id.saledata)).setText("￥"
+						+ bizPerformance.getProduct());
+				((TextView) findViewById(R.id.carddata)).setText("￥"
+						+ bizPerformance.getNewcard());
+				((TextView) findViewById(R.id.rechargedata)).setText("￥"
+						+ bizPerformance.getRecharge());
 			}
-			
-			if(msg.what==3)
-			{ 
+
+			if (msg.what == 3) {
 				float total = 0.0f;
 				int length = servicePerformanceList.size();
 				float[] percentNum = new float[servicePerformanceList.size()];
 				String[] projectName = new String[servicePerformanceList.size()];
-				
-				for(ServicePerformanceBean bean: servicePerformanceList)
-				{
-					//newcard":13000,"recharge":10,"service":1900,"product":200
-					total += Float.valueOf(bean.getTotal());  
+
+				for (ServicePerformanceBean bean : servicePerformanceList) {
+					// newcard":13000,"recharge":10,"service":1900,"product":200
+					total += Float.valueOf(bean.getTotal());
 				}
 
-				for(int i =0;i<length;i++)
-				{
-					float percent = Float.valueOf(servicePerformanceList.get(i).getTotal())/total;
-					percentNum[i] = (float)(Math.round(percent*1000))/10;
-					projectName[i] = servicePerformanceList.get(i).getProject_name();
+				for (int i = 0; i < length; i++) {
+					float percent = Float.valueOf(servicePerformanceList.get(i)
+							.getTotal()) / total;
+					percentNum[i] = (float) (Math.round(percent * 1000)) / 10;
+					projectName[i] = servicePerformanceList.get(i)
+							.getProject_name();
 				}
-				
+
 				// 环形图
-				
+
 				annular2Layout = (LinearLayout) findViewById(R.id.annular2Layout);
-				PanelDountChart panelDountView = new PanelDountChart(getBaseContext(), percentNum,projectName);
+				PanelDountChart panelDountView = new PanelDountChart(
+						getBaseContext(), percentNum, projectName);
 				annular2Layout.addView(panelDountView);
-				
-				total = (float)(Math.round(total*10))/10;
-				((TextView)findViewById(R.id.servicetotal)).setText("￥"+total);
+
+				total = (float) (Math.round(total * 10)) / 10;
+				((TextView) findViewById(R.id.servicetotal)).setText("￥"
+						+ total);
 
 			}
-			
-			if(msg.what==4)
-			{
-				DateUtil  dateUtil = new DateUtil();
-				String[] yNum= dateUtil.getDayarr(year,month,dateType);
-				
+
+			if (msg.what == 4) {
+				DateUtil dateUtil = new DateUtil();
+				String[] yNum = dateUtil.getDayarr(year, month, dateType);
+
 				int walkinCount = 0;
 				int memberCount = 0;
 				int[] count = new int[yNum.length];
-					for(int i=0;i<yNum.length;i++)
-					{
-						count[i] = 0;
-						for(BcustomerCountBean bean:customerCountList)
-						{
-							if(null!=bean.get_id()&&i==bean.getHour())
-							{
-								walkinCount += Integer.valueOf(bean.getTemp());
-								memberCount += Integer.valueOf(bean.getMember());
-								int daytotal = Integer.valueOf(bean.getTemp()) +Integer.valueOf(bean.getMember());
-								count[i] = daytotal;
-								break;
-							}	
+				for (int i = 0; i < yNum.length; i++) {
+					count[i] = 0;
+					for (BcustomerCountBean bean : customerCountList) {
+						if (null != bean.get_id() && i == bean.getHour()) {
+							walkinCount += Integer.valueOf(bean.getTemp());
+							memberCount += Integer.valueOf(bean.getMember());
+							int daytotal = Integer.valueOf(bean.getTemp())
+									+ Integer.valueOf(bean.getMember());
+							count[i] = daytotal;
+							break;
 						}
 					}
-					((TextView)findViewById(R.id.personNum)).setText("会员"+memberCount+"人次  散客"+walkinCount+"人次");
+				}
+				((TextView) findViewById(R.id.personNum)).setText("会员"
+						+ memberCount + "人次  散客" + walkinCount + "人次");
 
 				// 折线图
-				ChartView myView = (ChartView)findViewById(R.id.myView);
+				ChartView myView = (ChartView) findViewById(R.id.myView);
 				myView.SetInfo(yNum, // Y轴刻度
 						new String[] { "0", "10", "20", "30", "40", "50" }, // X轴刻度
 						count// 数据
@@ -227,18 +235,15 @@ public class Main extends BaseActivity {
 		lefttime = (ImageView) findViewById(R.id.lefttime);
 		righttime = (ImageView) findViewById(R.id.righttime);
 		timetype = (TextView) findViewById(R.id.timetype);
-		
-		mainScrollLayout = (ScrollLayout)findViewById(R.id.main_scrolllayout);
-		noshop = (LinearLayout)findViewById(R.id.noshop);
+
+		mainScrollLayout = (ScrollLayout) findViewById(R.id.main_scrolllayout);
+		noshop = (LinearLayout) findViewById(R.id.noshop);
 
 		shopname.setText(getIntent().getStringExtra("shopName"));
 		showTime.setText(getDateNow());
 
 		findViewById(R.id.goback).setVisibility(View.GONE);
 
-		if (title == null || !(title.length > 0)) {
-			select_shop.setVisibility(View.GONE);
-		}
 		select_shop.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -271,6 +276,7 @@ public class Main extends BaseActivity {
 					timetype.setText("日");
 					showTime.setText(getDateNow());
 				}
+				getShowData();
 			}
 
 		});
@@ -296,7 +302,12 @@ public class Main extends BaseActivity {
 					DateUtil dateUtil = new DateUtil();
 					showtime = dateUtil.getPreviousMonday() + "--"
 							+ dateUtil.getSunday();
-					curDate = dateUtil.getCurDate();
+					SimpleDateFormat formatter = new SimpleDateFormat(
+							"yyyy年MM月dd日");
+					
+					datetime = dateToCal(dateUtil.getCurrentMonday(),
+							formatter).getTimeInMillis();
+					curDate = new Date(datetime);
 					showTime.setText(showtime);
 				} else {
 					SimpleDateFormat formatter = new SimpleDateFormat(
@@ -333,7 +344,11 @@ public class Main extends BaseActivity {
 					DateUtil dateUtil = new DateUtil();
 					showtime = dateUtil.getNextMonday() + "--"
 							+ dateUtil.getSunday();
-					curDate = dateUtil.getCurDate();
+					SimpleDateFormat formatter = new SimpleDateFormat(
+							"yyyy年MM月dd日");
+					datetime = dateToCal(dateUtil.getCurrentMonday(),
+							formatter).getTimeInMillis();
+					curDate = new Date(datetime);
 					showTime.setText(showtime);
 				} else {
 					SimpleDateFormat formatter = new SimpleDateFormat(
@@ -353,8 +368,7 @@ public class Main extends BaseActivity {
 
 	}
 
-	private void getShowData() 
-	{
+	private void getShowData() {
 		getEmployeePerData();
 		getBizPerformanceData();
 		getServicePerformanceData();
@@ -373,10 +387,10 @@ public class Main extends BaseActivity {
 				// ServerManageResponse res = ac.getReportsData(shopId, year,
 				// month, dateType, day,"employee");
 				ServerManageResponse res = ac.getReportsData(
-						"100048101900800200", "2014", "6", dateType, "7",
+						shopId, year, month, dateType, day,
 						"employee");
 				if (res.isSucess()) {
-					
+
 					String tableName = "employee_performance_day";
 					if (dateType == "day") {
 						employPerList = res.getResult().getCurrent()
@@ -393,11 +407,11 @@ public class Main extends BaseActivity {
 					}
 					// employeePerService.deltel(year, month, day, dateType,
 					// tableName);
-					employeePerService.deltel("2014", "5", "7", dateType,
-							tableName);
-					
+					employeePerService.deltel(year, (Integer.valueOf(month)-1)+"", day,
+							dateType, tableName);
+
 					employeePerService.addEmployeePer(employPerList, tableName);
-					msg.what=1;
+					msg.what = 1;
 					handle.sendMessage(msg);
 				}
 			}
@@ -408,7 +422,7 @@ public class Main extends BaseActivity {
 	 * 服务业绩
 	 */
 	public void getBizPerformanceData() {
-		
+
 		new Thread() {
 			public void run() {
 				AppContext ac = (AppContext) getApplication();
@@ -416,12 +430,12 @@ public class Main extends BaseActivity {
 				// 100048101900800200?year=2014&month=6&day=8&type=day&report=employee
 				// ServerManageResponse res = ac.getReportsData(shopId, year,
 				// month, dateType, day,"employee");
-				
+
 				ServerManageResponse res = ac.getReportsData(
-						"100048101900800200", "2014", "5", dateType, "21",
+						shopId, year, month, dateType, day,
 						"business");
 				if (res.isSucess()) {
-					
+
 					String tableName = "biz_performance_day";
 					if (dateType == "day") {
 						bizPerformance = res.getResult().getCurrent()
@@ -438,11 +452,11 @@ public class Main extends BaseActivity {
 					}
 					// employeePerService.deltel(year, month, day, dateType,
 					// tableName);
-					bizPerformanceService.deltel("2014", "4", "21", dateType,
+					bizPerformanceService.deltel(shopId, year, day, dateType,
 							tableName);
 					bizPerformanceService.addBizPerformance(bizPerformance,
 							tableName);
-					msg.what=2;
+					msg.what = 2;
 					handle.sendMessage(msg);
 				}
 			}
@@ -453,7 +467,7 @@ public class Main extends BaseActivity {
 	 * 产品业绩
 	 */
 	public void getServicePerformanceData() {
-	
+
 		new Thread() {
 			public void run() {
 				AppContext ac = (AppContext) getApplication();
@@ -462,10 +476,10 @@ public class Main extends BaseActivity {
 				// ServerManageResponse res = ac.getReportsData(shopId, year,
 				// month, dateType, day,"employee");
 				ServerManageResponse res = ac.getReportsData(
-						"100048101900800200", "2014", "5", dateType, "21",
+						shopId, year, month, dateType, day,
 						"service");
 				if (res.isSucess()) {
-					
+
 					String tableName = "service_performance_day";
 					if (dateType == "day") {
 						servicePerformanceList = res.getResult().getCurrent()
@@ -482,11 +496,11 @@ public class Main extends BaseActivity {
 					}
 					// employeePerService.deltel(year, month, day, dateType,
 					// tableName);
-					productPerformanceService.deltel("2014", "4", "21",
+					productPerformanceService.deltel(year, (Integer.valueOf(month)-1)+"", day,
 							dateType, tableName);
 					productPerformanceService.addProductPerformance(
 							servicePerformanceList, tableName);
-					msg.what=3;
+					msg.what = 3;
 					handle.sendMessage(msg);
 				}
 			}
@@ -501,32 +515,32 @@ public class Main extends BaseActivity {
 			public void run() {
 				AppContext ac = (AppContext) getApplication();
 				Message msg = new Message();
-				ServerManageResponse res = ac.getReportsData("100048101900800200", "2014", "5", dateType, "21",
+				ServerManageResponse res = ac.getReportsData(
+						shopId, year, month, dateType, day,
 						"customer");
-                if (res.isSucess()) {
+				if (res.isSucess()) {
 					String tableName = "customer_count_day";
 					if (dateType == "day") {
 						customerCountList = res.getResult().getCurrent()
 								.getB_customer_count().getHours();
 						tableName = "customer_count_day";
-					} else if(dateType == "week")
-					{
+					} else if (dateType == "week") {
 						customerCountList = res.getResult().getCurrent()
 								.getB_customer_count().getDays();
+						
 						tableName = "customer_count_week";
-					}
-					else {
+					} else {
 						customerCountList = res.getResult().getCurrent()
 								.getB_customer_count().getDays();
 						tableName = "customer_count_month";
 					}
 					// employeePerService.deltel(year, month, day, dateType,
 					// tableName);
-					customerCountService.deltel("2014", "4", "21",
+					customerCountService.deltel(year, (Integer.valueOf(month)-1)+"", day,
 							dateType, tableName);
-					customerCountService.addCustomerCount(
-							customerCountList, tableName);
-					msg.what=4;
+					customerCountService.addCustomerCount(customerCountList,
+							tableName);
+					msg.what = 4;
 					handle.sendMessage(msg);
 				}
 
@@ -542,7 +556,7 @@ public class Main extends BaseActivity {
 				getBaseContext());
 		bizPerformanceService = new BizPerformanceService(getBaseContext());
 		customerCountService = new CustomerCountService(getBaseContext());
-		
+
 		userAccount = AppContext.getInstance(getBaseContext()).getUserAccount();
 		getShowData();
 
@@ -556,15 +570,14 @@ public class Main extends BaseActivity {
 			for (int i = 0; i < myshops.size(); i++) {
 				title[i] = myshops.get(i).getEnterprise_name();
 			}
-		}
-		else
-		{
+		} else {
 			mainScrollLayout.setVisibility(View.GONE);
 			noshop.setVisibility(View.VISIBLE);
 		}
-
+		if (title == null || !(title.length > 0)) {
+			select_shop.setVisibility(View.GONE);
+		}
 	}
-
 
 	public void showPopupWindow(int x, int y) {
 		layout = (LinearLayout) LayoutInflater.from(Main.this).inflate(

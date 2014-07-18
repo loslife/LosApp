@@ -3,17 +3,25 @@ package com.yilos.losapp.bean;
 public class ServerVersionResponse 
 {
 
-	 private String code;
+	 private int code;
 	 
 	 private VersionReqResult result;
+	 
+	 public boolean isSucess()
+		{
+			return code==0;
+		}
 
-	public String getCode() {
+	
+	public int getCode() {
 		return code;
 	}
 
-	public void setCode(String code) {
+
+	public void setCode(int code) {
 		this.code = code;
 	}
+
 
 	public VersionReqResult getResult() {
 		return result;

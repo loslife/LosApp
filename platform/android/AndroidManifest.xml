@@ -33,7 +33,9 @@
         <activity android:name=".ModifyPwdActivity" />
         <activity android:name=".MainTabActivity" />
         <activity android:name=".LaunchActivity" />
-         <activity android:name=".AboutLosActivity" />
+        <activity android:name=".AboutLosActivity" />
+        <activity android:name=".UpdateApkVersionActivity" />
+        
     </application>
 
 </manifest>

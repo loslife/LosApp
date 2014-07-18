@@ -429,6 +429,21 @@ public class ApiClient
 		return resp;
 	}
 	
+	public static ServerMemberResponse getMembersCount(Context appContext,String enterpriseId)
+	{
+
+		ServerMemberResponse res = new ServerMemberResponse();
+		res.setCode(0);
+		ContactsResult rt = new ContactsResult();
+		res.setResult(rt);
+		
+		String json = _httpget(MessageFormat.format(Constants.GET_MEMBERS_COUNT, enterpriseId));
+		Gson gson = new Gson();
+		ServerMemberResponse resp = (ServerMemberResponse)gson.fromJson(json, ServerMemberResponse.class);
+	
+		return resp;
+	}
+	
 	public static ServerMemberResponse getMyshopList(Context appContext,String phoneNumber)
 	{
 
@@ -458,6 +473,20 @@ public class ApiClient
 		return resp;
 	}
 	
+	public static ServerMemberResponse undoLinkshop(Context appContext,String username, String enterpriseId)
+	{
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("account", username));
+		params.add(new BasicNameValuePair("enterprise_id", enterpriseId));
+
+		//{"code":0,"result":{"last_sync":1403180487257,"records":{"add":[]}}}
+		String json = _httppost(Constants.UNDOAPPENDSHOP_URL,params);
+		Gson gson = new Gson();
+		ServerMemberResponse resp = (ServerMemberResponse)gson.fromJson(json, ServerMemberResponse.class);
+	
+		return resp;
+	}
+	
 	/**
 	 * http://192.168.1.108:5000/svc/report/probe/query/100043209618000500?year=2014&month=4&type=day&day=14&report=business
 	 * @param appContext
@@ -481,6 +510,12 @@ public class ApiClient
 		return resp;
 	}
 	
+	/**
+	 * 检查版本
+	 * @param appContext
+	 * @param version
+	 * @return
+	 */
 	public static ServerVersionResponse checkApkVersion(Context appContext,String version)
 	{
 		String json = _httpget(MessageFormat.format(Constants.CHECKNEWVERSION_URL, version));

@@ -13,6 +13,7 @@
     android:orientation="vertical"
     android:background="@color/white">
         <TextView 
+          android:id = "@+id/versioninfo"
           android:layout_width="fill_parent"
           android:layout_height="wrap_content"
           android:gravity="center"
@@ -51,8 +52,27 @@
     <LinearLayout 
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/white">
-        
+        <TextView 
+            android:id="@+id/newversiontitle" 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20.0dip"
+            android:layout_marginLeft="20.0dip"
+            android:textSize="22.0dip"
+            android:text="新版介绍"
+            android:textColor="@color/black_text"/>
+        <TextView 
+            android:id="@+id/directionstext" 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray_text"
+            android:textScaleX="1.0"
+            android:layout_marginTop="20.0dip"
+            android:layout_marginLeft="20.0dip"
+            android:lineSpacingExtra="1.5dip"
+            android:textSize="20.0dip"/>
     </LinearLayout>
 
 </LinearLayout>
