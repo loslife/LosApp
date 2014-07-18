@@ -13,9 +13,10 @@
 @property(nonatomic,copy) NSNumber *averageConsume;
 @property(nonatomic,copy) NSString *cardStr;
 @property(nonatomic,copy) NSString *consumeDesc;
+@property(nonatomic,copy) NSNumber *sex;
 
 @property NSInteger sectionNumber;
 
--(id) initWithPk:(NSString*)pk Name:(NSString*)name Birthday:(NSNumber*)birthday Phone:(NSString*)phone JoinDate:(NSNumber*)joinDate MemberNo:(NSString*)memberNo LatestConsume:(NSNumber*)latestConsume TotalConsume:(NSNumber*)total AverageConsume:(NSNumber*)average cardStr:(NSString*)cardStr desc:(NSString*)desc;
+-(id) initWithPk:(NSString*)pk Name:(NSString*)name Birthday:(NSNumber*)birthday Phone:(NSString*)phone JoinDate:(NSNumber*)joinDate MemberNo:(NSString*)memberNo LatestConsume:(NSNumber*)latestConsume TotalConsume:(NSNumber*)total AverageConsume:(NSNumber*)average cardStr:(NSString*)cardStr desc:(NSString*)desc sex:(NSNumber*)sex;
 
 @end

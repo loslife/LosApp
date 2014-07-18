@@ -77,6 +77,10 @@
         per.text = [NSString stringWithFormat:@"客单价：￥%.1f", [member.averageConsume doubleValue]];
         per.textAlignment = NSTextAlignmentLeft;
         
+        UILabel *sex = [[UILabel alloc] initWithFrame:CGRectMake(20, 480, 280, 40)];
+        sex.text = [NSString stringWithFormat:@"%d", [member.sex intValue]];
+        sex.textAlignment = NSTextAlignmentLeft;
+        
         [self addSubview:name];
         [self addSubview:birthday];
         [self addSubview:memberNo];
@@ -88,6 +92,7 @@
         [self addSubview:latest];
         [self addSubview:total];
         [self addSubview:per];
+        [self addSubview:sex];
     }
     return self;
 }

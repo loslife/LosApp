@@ -19,7 +19,7 @@
     
     // 处理新增记录
     NSArray *add = [records objectForKey:@"add"];
-    NSString *insert = @"insert into members (id, enterprise_id, name, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume, create_date, modify_date, cardStr) values (:id, :eid, :name, :birthday, :phoneMobile, :joinDate, :memberNo, :latest, :total, :average, :cdate, :mdate, :cardStr);";
+    NSString *insert = @"insert into members (id, enterprise_id, name, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume, create_date, modify_date, cardStr, sex) values (:id, :eid, :name, :birthday, :phoneMobile, :joinDate, :memberNo, :latest, :total, :average, :cdate, :mdate, :cardStr, :sex);";
     
     for(NSDictionary *item in add){
         NSString *pk = [item objectForKey:@"id"];
@@ -34,12 +34,13 @@
         NSNumber *createDate = [item objectForKey:@"create_date"];
         NSNumber *modifyDate = [item objectForKey:@"modify_date"];
         NSString *cardStr = [item objectForKey:@"cardStr"];
-        [db executeUpdate:insert, pk, enterpriseId, name, birthday, phone, joinDate, memberNo, latest, total, average, createDate, modifyDate, cardStr];
+        NSNumber *sex = [item objectForKey:@"sex"];
+        [db executeUpdate:insert, pk, enterpriseId, name, birthday, phone, joinDate, memberNo, latest, total, average, createDate, modifyDate, cardStr, sex];
     }
     
     // 处理更新记录
     NSArray *update = [records objectForKey:@"update"];
-    NSString *statement = @"update members set name = :name, birthday = :birthday, phoneMobile = :phone, joinDate = :joinDate, memberNo = :memberNo, latestConsumeTime = :latest, totalConsume = :total, averageConsume = :average, modify_date = :mdate, cardStr = :cardStr where id = :id";
+    NSString *statement = @"update members set name = :name, birthday = :birthday, phoneMobile = :phone, joinDate = :joinDate, memberNo = :memberNo, latestConsumeTime = :latest, totalConsume = :total, averageConsume = :average, modify_date = :mdate, cardStr = :cardStr, sex = :sex where id = :id";
     
     for(NSDictionary *item in update){
         NSString *pk = [item objectForKey:@"id"];
@@ -53,7 +54,8 @@
         NSNumber *average = [item objectForKey:@"averageConsume"];
         NSNumber *modifyDate = [item objectForKey:@"modify_date"];
         NSString *cardStr = [item objectForKey:@"cardStr"];
-        [db executeUpdate:statement, name, birthday, phone, joinDate, memberNo, latest, total, average, modifyDate, cardStr, pk];
+        NSNumber *sex = [item objectForKey:@"sex"];
+        [db executeUpdate:statement, name, birthday, phone, joinDate, memberNo, latest, total, average, modifyDate, cardStr, sex, pk];
     }
     
     // 处理remove
@@ -76,13 +78,14 @@
     
     NSMutableArray *members = [NSMutableArray arrayWithCapacity:1];
     
-    NSString *statement = @"select id, name, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume, cardStr from members where enterprise_id = :eid";
+    NSString *statement = @"select id, name, sex, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume, cardStr from members where enterprise_id = :eid";
     
     FMResultSet *rs = [db executeQuery:statement, enterpriseId];
     while ([rs next]) {
         
         NSString *pk = [rs objectForColumnName:@"id"];
         NSString *name = [rs objectForColumnName:@"name"];
+        NSNumber *sex = [rs objectForColumnName:@"sex"];
         NSNumber *birthday = [rs objectForColumnName:@"birthday"];
         NSString *phone = [rs objectForColumnName:@"phoneMobile"];
         NSNumber *joinDate = [rs objectForColumnName:@"joinDate"];
@@ -93,7 +96,7 @@
         NSString *cardStr = [rs objectForColumnName:@"cardStr"];
         NSString *desc = [self resolveConsumeDescWithDate:latest average:averageConsume];
         
-        Member *member = [[Member alloc] initWithPk:pk Name:name Birthday:birthday Phone:phone JoinDate:joinDate MemberNo:memberNo LatestConsume:latest TotalConsume:totalConsume AverageConsume:averageConsume cardStr:cardStr desc:desc];
+        Member *member = [[Member alloc] initWithPk:pk Name:name Birthday:birthday Phone:phone JoinDate:joinDate MemberNo:memberNo LatestConsume:latest TotalConsume:totalConsume AverageConsume:averageConsume cardStr:cardStr desc:desc sex:sex];
         [members addObject:member];
     }
     
@@ -110,7 +113,7 @@
     
     NSMutableArray *members = [NSMutableArray arrayWithCapacity:1];
     
-    NSString *base = @"select id, name, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume, cardStr from members where enterprise_id = :eid and name like '%%%@%%';";
+    NSString *base = @"select id, name, sex, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume, cardStr from members where enterprise_id = :eid and name like '%%%@%%';";
     NSString *statement = [NSString stringWithFormat:base, name];
     
     FMResultSet *rs = [db executeQuery:statement, enterpriseId];
@@ -118,6 +121,7 @@
         
         NSString *pk = [rs objectForColumnName:@"id"];
         NSString *name = [rs objectForColumnName:@"name"];
+        NSNumber *sex = [rs objectForColumnName:@"sex"];
         NSNumber *birthday = [rs objectForColumnName:@"birthday"];
         NSString *phone = [rs objectForColumnName:@"phoneMobile"];
         NSNumber *joinDate = [rs objectForColumnName:@"joinDate"];
@@ -128,7 +132,7 @@
         NSString *cardStr = [rs objectForColumnName:@"cardStr"];
         NSString *desc = [self resolveConsumeDescWithDate:latest average:averageConsume];
         
-        Member *member = [[Member alloc] initWithPk:pk Name:name Birthday:birthday Phone:phone JoinDate:joinDate MemberNo:memberNo LatestConsume:latest TotalConsume:totalConsume AverageConsume:averageConsume cardStr:cardStr desc:desc];
+        Member *member = [[Member alloc] initWithPk:pk Name:name Birthday:birthday Phone:phone JoinDate:joinDate MemberNo:memberNo LatestConsume:latest TotalConsume:totalConsume AverageConsume:averageConsume cardStr:cardStr desc:desc sex:sex];
         [members addObject:member];
     }
     
