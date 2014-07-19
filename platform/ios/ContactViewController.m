@@ -186,13 +186,23 @@
         
         [syncHelper refreshMembersWithEnterpriseId:currentEnterpriseId LatestSyncTime:time Block:^(BOOL success){
             
-            NSArray *membersTemp = [memberDao queryMembersByEnterpriseId:currentEnterpriseId];
+            ContactView* myView = (ContactView*)self.view;
+            NSString* searchText = myView.search.text;
+            
+            NSArray *membersTemp;
+            if(![StringUtils isEmpty:searchText]){
+                membersTemp = [memberDao fuzzyQueryMembersByEnterpriseId:currentEnterpriseId name:searchText];
+            }else{
+                membersTemp = [memberDao queryMembersByEnterpriseId:currentEnterpriseId];
+            }
             [self assembleMembers:membersTemp];
+            
+            int totalCount = [memberDao countMembersByEnterpriseId:currentEnterpriseId];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 
-                ContactView* myView = (ContactView*)self.view;
-                myView.search.placeholder = [NSString stringWithFormat:@"共%lu位会员", [membersTemp count]];
+                myView.search.placeholder = [NSString stringWithFormat:@"共%d位会员", totalCount];
+                
                 [myView.tableView headerEndRefreshing];
                 [myView.tableView reloadData];
             });
@@ -258,6 +268,7 @@
         [self assembleMembers:membersTemp];
         
         dispatch_async(dispatch_get_main_queue(), ^{
+            
             ContactView* myView = (ContactView*)self.view;
             [myView.tableView reloadData];
             

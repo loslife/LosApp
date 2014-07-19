@@ -152,4 +152,19 @@
     return [NSString stringWithFormat:@"%@ / 平均消费%d元", latestConsumeStr, [average intValue]];
 }
 
+-(int) countMembersByEnterpriseId:(NSString*)enterpriseId
+{
+    NSString *dbFilePath = [PathResolver databaseFilePath];
+    FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
+    [db open];
+    
+    FMResultSet *rs = [db executeQuery:@"select count(1) as count from members where enterprise_id = :eid;", enterpriseId];
+    [rs next];
+    int count = [[rs objectForColumnName:@"count"] intValue];
+    
+    [db close];
+    
+    return count;
+}
+
 @end
