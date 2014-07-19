@@ -173,6 +173,11 @@
     [self doLoad];
 }
 
+-(void) pullToRefresh
+{
+    NSLog(@"111");
+}
+
 -(void) doLoad
 {
     ContactLoadingView *loadingView = [[ContactLoadingView alloc] init];

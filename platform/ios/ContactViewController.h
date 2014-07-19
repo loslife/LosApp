@@ -6,5 +6,6 @@
 @property NSString *previousEnterpriseId;
 
 -(void) loadMembersFromServer;
+-(void) pullToRefresh;
 
 @end

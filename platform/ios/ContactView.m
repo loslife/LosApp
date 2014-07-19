@@ -1,4 +1,5 @@
 #import "ContactView.h"
+#import "MJRefresh.h"
 
 @implementation ContactView
 
@@ -16,6 +17,7 @@
         self.tableView.delegate = ds;
         self.tableView.separatorInset = UIEdgeInsetsZero;
         self.tableView.sectionIndexColor = [UIColor grayColor];
+        [self.tableView addHeaderWithTarget:controller action:@selector(pullToRefresh)];
         
         [self addSubview:self.search];
         [self addSubview:self.tableView];
