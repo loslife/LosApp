@@ -121,6 +121,7 @@
 
         dispatch_async(dispatch_get_main_queue(), ^{
             ContactView *view = [[ContactView alloc] initWithController:self tableViewDataSource:dataSource];
+            view.search.placeholder = [NSString stringWithFormat:@"共%lu位会员", [membersTemp count]];
             self.view = view;
         });
     }
@@ -191,6 +192,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 
                 ContactView* myView = (ContactView*)self.view;
+                myView.search.placeholder = [NSString stringWithFormat:@"共%lu位会员", [membersTemp count]];
                 [myView.tableView headerEndRefreshing];
                 [myView.tableView reloadData];
             });
@@ -224,6 +226,7 @@
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     ContactView *view = [[ContactView alloc] initWithController:self tableViewDataSource:dataSource];
+                    view.search.placeholder = [NSString stringWithFormat:@"共%lu位会员", [membersTemp count]];
                     self.view = view;
                 });
             }];
