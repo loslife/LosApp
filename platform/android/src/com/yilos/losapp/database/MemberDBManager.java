@@ -39,7 +39,7 @@ public class MemberDBManager {
         try {  
         	
             for (MemberBean person : memberS) {  
-                db.execSQL("INSERT INTO t_members VALUES(?, ?, ?, ?,?,?,?,?,?,?,?,?)", 
+                db.execSQL("INSERT INTO t_members VALUES(?, ?, ?, ?,?,?,?,?,?,?,?,?,?)", 
                 		new Object[]{person.getId(), 
                 		AppContext.getInstance(context).getCurrentDisplayShopId(),
                 		person.getName(),
@@ -50,6 +50,7 @@ public class MemberDBManager {
                 		person.getLatestConsumeTime(),
                 		person.getTotalConsume(),
                 		person.getAverageConsume(),
+                		person.getCardStr(),
                 		person.getCreate_date(),
                 		person.getModify_date()
                 		});  
@@ -84,6 +85,7 @@ public class MemberDBManager {
         cv.put("latestConsumeTime", person.getLatestConsumeTime());
         cv.put("totalConsume", person.getTotalConsume());
         cv.put("averageConsume", person.getAverageConsume());
+        cv.put("cardStr",person.getCardStr());
         db.update("t_members", cv, "id = ?", new String[]{person.getId()});  
     }  
       
@@ -120,7 +122,7 @@ public class MemberDBManager {
             person.setLatestConsumeTime(c.getString(c.getColumnIndex("latestConsumeTime")));
             person.setTotalConsume(c.getString(c.getColumnIndex("totalConsume")));
             person.setAverageConsume(c.getString(c.getColumnIndex("averageConsume")));
-            
+            person.setCardStr(c.getString(c.getColumnIndex("cardStr")));
             persons.add(person);  
         }  
         c.close();  
@@ -152,6 +154,7 @@ public class MemberDBManager {
             person.setLatestConsumeTime(c.getString(c.getColumnIndex("latestConsumeTime")));
             person.setTotalConsume(c.getString(c.getColumnIndex("totalConsume")));
             person.setAverageConsume(c.getString(c.getColumnIndex("averageConsume")));
+            person.setCardStr(c.getString(c.getColumnIndex("cardStr")));
             
         }  
         c.close();  
@@ -183,6 +186,7 @@ public class MemberDBManager {
             person.setLatestConsumeTime(c.getString(c.getColumnIndex("latestConsumeTime")));
             person.setTotalConsume(c.getString(c.getColumnIndex("totalConsume")));
             person.setAverageConsume(c.getString(c.getColumnIndex("averageConsume")));
+            person.setCardStr(c.getString(c.getColumnIndex("cardStr")));
             
             persons.add(person);  
         }  

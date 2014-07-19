@@ -41,25 +41,28 @@ public class EmployeePerDBManager
     	{
     		for(EmployeePerBean bean:employeePerBean)
     		{
-    			db.execSQL("INSERT INTO "+tableName+" VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-    				    new Object[]{bean.get_id(),
-    					shopId,
-    					bean.getTotal(),
-    					bean.getCash(),
-    					bean.getCard(),
-    					bean.getBank(),
-    					bean.getService(),
-    					bean.getProduct(),
-    					bean.getNewcard(),
-    					bean.getRecharge(),
-    					bean.getCreate_date(),
-    					bean.getModify_date(),
-    					bean.getEmployee_name(),
-    					bean.getYear(),
-    					bean.getMonth(),
-    					bean.getDay()
-    		            }
-    				);
+    			if(null!=bean.get_id())
+                {
+	    			db.execSQL("INSERT INTO "+tableName+" VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+	    				    new Object[]{bean.get_id(),
+	    					shopId,
+	    					bean.getTotal(),
+	    					bean.getCash(),
+	    					bean.getCard(),
+	    					bean.getBank(),
+	    					bean.getService(),
+	    					bean.getProduct(),
+	    					bean.getNewcard(),
+	    					bean.getRecharge(),
+	    					bean.getCreate_date(),
+	    					bean.getModify_date(),
+	    					bean.getEmployee_name(),
+	    					bean.getYear(),
+	    					bean.getMonth(),
+	    					bean.getDay()
+	    		            }
+	    				);
+                }
     		}
     		db.setTransactionSuccessful();  //设置事务成功完成  
     	}

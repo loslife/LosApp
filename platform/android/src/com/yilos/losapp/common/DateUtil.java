@@ -1,5 +1,6 @@
 package com.yilos.losapp.common;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -75,10 +76,26 @@ public class DateUtil {
 		GregorianCalendar currentDate = new GregorianCalendar();
 		currentDate.add(GregorianCalendar.DATE, mondayPlus + 7 * weeks);
 		Date monday = currentDate.getTime();
-		SimpleDateFormat df = new SimpleDateFormat("YYYY年MM月dd日");
+		SimpleDateFormat df = new SimpleDateFormat("yyyy年MM月dd日");
 		String curDateMonday = df.format(monday);
 		
 		return curDateMonday;
+	}
+	
+	public String[] getWeeksday()
+	{
+        String[] weekdays = new String[7];
+		int mondayPlus = this.getMondayPlus();
+		GregorianCalendar currentDate = new GregorianCalendar();
+		for(int i=0;i<7;i++)
+		{
+			currentDate.add(GregorianCalendar.DATE, mondayPlus + 7 * weeks+i);
+			Date monday = currentDate.getTime();
+			SimpleDateFormat df = new SimpleDateFormat("MM月dd日");
+			weekdays[i] = df.format(monday);
+		}
+
+		return weekdays;
 	}
 
 	/**
@@ -113,6 +130,15 @@ public class DateUtil {
 			}
 	
 		return maxDays;
+	}
+	
+	public static String dateToString(String time, String format) {
+		SimpleDateFormat formatter = new SimpleDateFormat(format);
+		Date curDate = new Date(Long.valueOf(time));
+		Calendar cal = Calendar.getInstance();
+	    String str = formatter.format(curDate);
+		
+		return str;
 	}
 	
 	public static String[]  getDayarr(String year,String month,String dateType)

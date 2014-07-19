@@ -139,7 +139,7 @@ public class MemberGoupActivity extends BaseActivity {
 			}
 			Arrays.sort(members, new Pinyin_Comparator());
 
-			lAdp = new ListViewAdp(MemberGoupActivity.this, members);
+			lAdp = new ListViewAdp(MemberGoupActivity.this, members,parentData);
 			lvContact.setAdapter(lAdp);
 			lvContact.setOnItemClickListener(new OnItemClickListener() {
 				@Override

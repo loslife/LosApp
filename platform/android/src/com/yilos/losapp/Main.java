@@ -71,6 +71,7 @@ public class Main extends BaseActivity {
 	private LinearLayout layout;
 	private ListView listView;
 	private String title[] = null;
+	private String shopIds[] = null;
 
 	private String dateType = "day";
 
@@ -84,7 +85,7 @@ public class Main extends BaseActivity {
 
 	private ScrollLayout mainScrollLayout;
 	private LinearLayout noshop;
-	
+
 	public static long datetime;
 
 	private String year;
@@ -116,7 +117,8 @@ public class Main extends BaseActivity {
 					name[i] = employPerList.get(i).getEmployee_name();
 					total += Float.valueOf(employPerList.get(i).getTotal());
 				}
-				columnarLayout = (LinearLayout) findViewById(R.id.columnarLayout);
+				LinearLayout columnarLayout = (LinearLayout) findViewById(R.id.columnarLayout);
+				columnarLayout.removeAllViews();
 				view = new PanelBar(getBaseContext(), num, name);
 				columnarLayout.addView(view);
 
@@ -126,28 +128,37 @@ public class Main extends BaseActivity {
 			}
 
 			if (msg.what == 2) {
-				// newcard":13000,"recharge":10,"service":1900,"product":200
-				float newcard = Float.valueOf(bizPerformance.getNewcard())
-						/ Float.valueOf(bizPerformance.getTotal());
-				newcard = (float) (Math.round(newcard * 1000)) / 10;
-				float recharge = Float.valueOf(bizPerformance.getRecharge())
-						/ Float.valueOf(bizPerformance.getTotal());
-				recharge = (float) (Math.round(recharge * 1000)) / 10;
-				float service = Float.valueOf(bizPerformance.getService())
-						/ Float.valueOf(bizPerformance.getTotal());
-				service = (float) (Math.round(service * 1000)) / 10;
-				float product = Float.valueOf(bizPerformance.getProduct())
-						/ Float.valueOf(bizPerformance.getTotal());
-				product = (float) (Math.round(product * 1000)) / 10;
 
-				float total = Float.valueOf(bizPerformance.getTotal());
-				total = (float) (Math.round(total * 10)) / 10;
+				float newcard = 0.0f;
+				float recharge = 0.0f;
+				float service = 0.0f;
+				float product = 0.0f;
+				float total = 0.0f;
+				if (null != bizPerformance.get_id()) {
+					// newcard":13000,"recharge":10,"service":1900,"product":200
+					newcard = Float.valueOf(bizPerformance.getNewcard())
+							/ Float.valueOf(bizPerformance.getTotal());
+					newcard = (float) (Math.round(newcard * 1000)) / 10;
+					recharge = Float.valueOf(bizPerformance.getRecharge())
+							/ Float.valueOf(bizPerformance.getTotal());
+					recharge = (float) (Math.round(recharge * 1000)) / 10;
+					service = Float.valueOf(bizPerformance.getService())
+							/ Float.valueOf(bizPerformance.getTotal());
+					service = (float) (Math.round(service * 1000)) / 10;
+					product = Float.valueOf(bizPerformance.getProduct())
+							/ Float.valueOf(bizPerformance.getTotal());
+					product = (float) (Math.round(product * 1000)) / 10;
+
+					total = Float.valueOf(bizPerformance.getTotal());
+					total = (float) (Math.round(total * 10)) / 10;
+				}
 
 				String[] perName = { "开卡业绩", "充值业绩", "服务业绩", "卖品业绩" };
 				// 环形图
 				float[] num2 = new float[] { newcard, recharge, service,
 						product };
-				annularLayout = (LinearLayout) findViewById(R.id.annularLayout);
+				LinearLayout annularLayout = (LinearLayout) findViewById(R.id.annularLayout);
+				annularLayout.removeAllViews();
 				PanelDountChart panelDountView = new PanelDountChart(
 						getBaseContext(), num2, perName);
 				annularLayout.addView(panelDountView);
@@ -184,7 +195,8 @@ public class Main extends BaseActivity {
 
 				// 环形图
 
-				annular2Layout = (LinearLayout) findViewById(R.id.annular2Layout);
+				LinearLayout annular2Layout = (LinearLayout) findViewById(R.id.annular2Layout);
+				annular2Layout.removeAllViews();
 				PanelDountChart panelDountView = new PanelDountChart(
 						getBaseContext(), percentNum, projectName);
 				annular2Layout.addView(panelDountView);
@@ -304,9 +316,9 @@ public class Main extends BaseActivity {
 							+ dateUtil.getSunday();
 					SimpleDateFormat formatter = new SimpleDateFormat(
 							"yyyy年MM月dd日");
-					
-					datetime = dateToCal(dateUtil.getCurrentMonday(),
-							formatter).getTimeInMillis();
+
+					datetime = dateToCal(dateUtil.getCurrentMonday(), formatter)
+							.getTimeInMillis();
 					curDate = new Date(datetime);
 					showTime.setText(showtime);
 				} else {
@@ -318,8 +330,8 @@ public class Main extends BaseActivity {
 					showTime.setText(showtime);
 				}
 
-				year = String.valueOf(curDate.getYear());
-				day = String.valueOf(curDate.getDay());
+				year = String.valueOf(curDate.getYear() + 1900);
+				day = String.valueOf(curDate.getDate());
 				month = String.valueOf(curDate.getMonth());
 				getShowData();
 			}
@@ -346,8 +358,8 @@ public class Main extends BaseActivity {
 							+ dateUtil.getSunday();
 					SimpleDateFormat formatter = new SimpleDateFormat(
 							"yyyy年MM月dd日");
-					datetime = dateToCal(dateUtil.getCurrentMonday(),
-							formatter).getTimeInMillis();
+					datetime = dateToCal(dateUtil.getCurrentMonday(), formatter)
+							.getTimeInMillis();
 					curDate = new Date(datetime);
 					showTime.setText(showtime);
 				} else {
@@ -359,8 +371,8 @@ public class Main extends BaseActivity {
 					showTime.setText(showtime);
 				}
 				// 100048101900800200?year=2014&month=6&day=8&type=day&report=employee
-				year = String.valueOf(curDate.getYear());
-				day = String.valueOf(curDate.getDay());
+				year = String.valueOf(curDate.getYear() + 1900);
+				day = String.valueOf(curDate.getDate());
 				month = String.valueOf(curDate.getMonth());
 				getShowData();
 			}
@@ -383,12 +395,9 @@ public class Main extends BaseActivity {
 			public void run() {
 				AppContext ac = (AppContext) getApplication();
 				Message msg = new Message();
-				// 100048101900800200?year=2014&month=6&day=8&type=day&report=employee
-				// ServerManageResponse res = ac.getReportsData(shopId, year,
-				// month, dateType, day,"employee");
-				ServerManageResponse res = ac.getReportsData(
-						shopId, year, month, dateType, day,
-						"employee");
+
+				ServerManageResponse res = ac.getReportsData(shopId, year,
+						month, dateType, day, "employee");
 				if (res.isSucess()) {
 
 					String tableName = "employee_performance_day";
@@ -407,8 +416,9 @@ public class Main extends BaseActivity {
 					}
 					// employeePerService.deltel(year, month, day, dateType,
 					// tableName);
-					employeePerService.deltel(year, (Integer.valueOf(month)-1)+"", day,
-							dateType, tableName);
+					employeePerService.deltel(year,
+							(Integer.valueOf(month) - 1) + "", day, dateType,
+							tableName);
 
 					employeePerService.addEmployeePer(employPerList, tableName);
 					msg.what = 1;
@@ -431,9 +441,8 @@ public class Main extends BaseActivity {
 				// ServerManageResponse res = ac.getReportsData(shopId, year,
 				// month, dateType, day,"employee");
 
-				ServerManageResponse res = ac.getReportsData(
-						shopId, year, month, dateType, day,
-						"business");
+				ServerManageResponse res = ac.getReportsData(shopId, year,
+						month, dateType, day, "business");
 				if (res.isSucess()) {
 
 					String tableName = "biz_performance_day";
@@ -452,7 +461,8 @@ public class Main extends BaseActivity {
 					}
 					// employeePerService.deltel(year, month, day, dateType,
 					// tableName);
-					bizPerformanceService.deltel(shopId, year, day, dateType,
+					bizPerformanceService.deltel(year,
+							(Integer.valueOf(month) - 1) + "", day, dateType,
 							tableName);
 					bizPerformanceService.addBizPerformance(bizPerformance,
 							tableName);
@@ -475,9 +485,8 @@ public class Main extends BaseActivity {
 				// 100048101900800200?year=2014&month=6&day=8&type=day&report=employee
 				// ServerManageResponse res = ac.getReportsData(shopId, year,
 				// month, dateType, day,"employee");
-				ServerManageResponse res = ac.getReportsData(
-						shopId, year, month, dateType, day,
-						"service");
+				ServerManageResponse res = ac.getReportsData(shopId, year,
+						month, dateType, day, "service");
 				if (res.isSucess()) {
 
 					String tableName = "service_performance_day";
@@ -496,8 +505,9 @@ public class Main extends BaseActivity {
 					}
 					// employeePerService.deltel(year, month, day, dateType,
 					// tableName);
-					productPerformanceService.deltel(year, (Integer.valueOf(month)-1)+"", day,
-							dateType, tableName);
+					productPerformanceService.deltel(year,
+							(Integer.valueOf(month) - 1) + "", day, dateType,
+							tableName);
 					productPerformanceService.addProductPerformance(
 							servicePerformanceList, tableName);
 					msg.what = 3;
@@ -515,9 +525,8 @@ public class Main extends BaseActivity {
 			public void run() {
 				AppContext ac = (AppContext) getApplication();
 				Message msg = new Message();
-				ServerManageResponse res = ac.getReportsData(
-						shopId, year, month, dateType, day,
-						"customer");
+				ServerManageResponse res = ac.getReportsData(shopId, year,
+						month, dateType, day, "customer");
 				if (res.isSucess()) {
 					String tableName = "customer_count_day";
 					if (dateType == "day") {
@@ -527,7 +536,7 @@ public class Main extends BaseActivity {
 					} else if (dateType == "week") {
 						customerCountList = res.getResult().getCurrent()
 								.getB_customer_count().getDays();
-						
+
 						tableName = "customer_count_week";
 					} else {
 						customerCountList = res.getResult().getCurrent()
@@ -536,8 +545,9 @@ public class Main extends BaseActivity {
 					}
 					// employeePerService.deltel(year, month, day, dateType,
 					// tableName);
-					customerCountService.deltel(year, (Integer.valueOf(month)-1)+"", day,
-							dateType, tableName);
+					customerCountService.deltel(year,
+							(Integer.valueOf(month) - 1) + "", day, dateType,
+							tableName);
 					customerCountService.addCustomerCount(customerCountList,
 							tableName);
 					msg.what = 4;
@@ -558,7 +568,6 @@ public class Main extends BaseActivity {
 		customerCountService = new CustomerCountService(getBaseContext());
 
 		userAccount = AppContext.getInstance(getBaseContext()).getUserAccount();
-		getShowData();
 
 		// 查询本地的关联数据
 		List<MyShopBean> myshops = myshopService.queryShops();
@@ -567,8 +576,10 @@ public class Main extends BaseActivity {
 			noshop.setVisibility(View.GONE);
 			shopId = myshops.get(0).getEnterprise_id();
 			title = new String[myshops.size()];
+			shopIds = new String[myshops.size()];
 			for (int i = 0; i < myshops.size(); i++) {
 				title[i] = myshops.get(i).getEnterprise_name();
+				shopIds[i] = myshops.get(i).getEnterprise_id();
 			}
 		} else {
 			mainScrollLayout.setVisibility(View.GONE);
@@ -577,6 +588,7 @@ public class Main extends BaseActivity {
 		if (title == null || !(title.length > 0)) {
 			select_shop.setVisibility(View.GONE);
 		}
+		getShowData();
 	}
 
 	public void showPopupWindow(int x, int y) {
@@ -594,7 +606,7 @@ public class Main extends BaseActivity {
 		popupWindow.setOutsideTouchable(true);
 		popupWindow.setFocusable(true);
 		popupWindow.setContentView(layout);
-		// showAsDropDown会把里面的view作为参照物，所以要那满屏幕parent
+		// showAsDropDown会把里面的view作为参照物，满屏幕parent
 		popupWindow.showAtLocation(findViewById(R.id.headmore), Gravity.LEFT
 				| Gravity.TOP, x, y);// 需要指定Gravity，默认情况是center.
 
@@ -604,6 +616,10 @@ public class Main extends BaseActivity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				shopname.setText(title[arg2]);
+				AppContext.getInstance(getBaseContext())
+						.setCurrentDisplayShopId(shopIds[arg2]);
+				shopId = shopIds[arg2];
+				getShowData();
 				popupWindow.dismiss();
 				popupWindow = null;
 			}
@@ -613,8 +629,8 @@ public class Main extends BaseActivity {
 	public String getDateNow() {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日");
 		Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
-		year = String.valueOf(curDate.getYear());
-		day = String.valueOf(curDate.getDay());
+		year = String.valueOf(curDate.getYear() + 1900);
+		day = String.valueOf(curDate.getDate());
 		month = String.valueOf(curDate.getMonth());
 		String str = formatter.format(curDate);
 		return str;

@@ -505,8 +505,7 @@ public class ApiClient
 			e.printStackTrace();
 			resp =null;
 		}
-		
-		
+
 		return resp;
 	}
 	

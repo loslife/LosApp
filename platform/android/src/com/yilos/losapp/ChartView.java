@@ -110,7 +110,7 @@ public class ChartView extends View {
 	             {
 	                 paint.setColor(res.getColor(colors[i]));
 	             }
-				canvas.drawCircle(YCoord(Data[i]), YPoint - YLength + (i + 1)
+				canvas.drawCircle(YCoord(Data[i])+5, YPoint - YLength + (i + 1)
 						* YScale, 8, paint);
 				canvas.drawText(Data[i] + "人", YCoord(Data[i]) + 10, YPoint
 						- YLength + (i + 1) * YScale, paint1); // 文字
@@ -148,7 +148,7 @@ public class ChartView extends View {
 			float newX = event.getX();
 			float newY = event.getY();
 
-			scrollBy((int) ((lastX - newX) * 0.5), (int) ((lastY - newY) * 0.5));
+			scrollBy((int) ((lastX - newX) * 2), (int) ((lastY - newY) *2));
 			lastX = newX;
 			lastY = newY;
 			break;

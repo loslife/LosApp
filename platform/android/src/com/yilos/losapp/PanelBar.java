@@ -49,7 +49,11 @@ public class PanelBar extends View {
          ScrWidth = dm.widthPixels;  
          arrNum =  num; 
          name = ename;
-         numSpace = Float.valueOf(arrNum[0])/5;
+         if(arrNum.length>0)
+         {
+        	 numSpace = Float.valueOf(arrNum[0])/5; 
+         }
+         
       
          //设置边缘特殊效果  
          BlurMaskFilter PaintBGBlur = new BlurMaskFilter(  

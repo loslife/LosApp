@@ -41,21 +41,24 @@ public class ServicePerformanceDBManager
     	{
     		for(ServicePerformanceBean bean:servicePerformanceBean)
     		{
-    			db.execSQL("INSERT INTO "+tableName+" VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
-    				    new Object[]{bean.get_id(),
-    					shopId,
-    					bean.getTotal(),
-    					bean.getProject_id(),
-    					bean.getProject_name(),
-    					bean.getProject_cateName(),
-    					bean.getProject_cateId(),
-    					bean.getCreate_date(),
-    					bean.getModify_date(),
-    					bean.getYear(),
-    					bean.getMonth(),
-    					bean.getDay()
-    		            }
-    				);
+    			if(null!=bean.get_id())
+                {
+	    			db.execSQL("INSERT INTO "+tableName+" VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
+	    				    new Object[]{bean.get_id(),
+	    					shopId,
+	    					bean.getTotal(),
+	    					bean.getProject_id(),
+	    					bean.getProject_name(),
+	    					bean.getProject_cateName(),
+	    					bean.getProject_cateId(),
+	    					bean.getCreate_date(),
+	    					bean.getModify_date(),
+	    					bean.getYear(),
+	    					bean.getMonth(),
+	    					bean.getDay()
+	    		            }
+	    				);
+                }
     		}
     		db.setTransactionSuccessful();  //设置事务成功完成  
     	}
