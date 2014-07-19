@@ -12,6 +12,7 @@
 #import "LosHttpHelper.h"
 #import "ContactLoadingView.h"
 #import "LosAppUrls.h"
+#import "MJRefresh.h"
 
 @implementation ContactViewController
 
@@ -175,7 +176,26 @@
 
 -(void) pullToRefresh
 {
-    NSLog(@"111");
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        
+        UserData *userData = [UserData load];
+        NSString *currentEnterpriseId = userData.enterpriseId;
+        
+        NSNumber *time = [enterpriseDao queryLatestSyncTimeById:currentEnterpriseId];
+        
+        [syncHelper refreshMembersWithEnterpriseId:currentEnterpriseId LatestSyncTime:time Block:^(BOOL success){
+            
+            NSArray *membersTemp = [memberDao queryMembersByEnterpriseId:currentEnterpriseId];
+            [self assembleMembers:membersTemp];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                ContactView* myView = (ContactView*)self.view;
+                [myView.tableView headerEndRefreshing];
+                [myView.tableView reloadData];
+            });
+        }];
+    });
 }
 
 -(void) doLoad
