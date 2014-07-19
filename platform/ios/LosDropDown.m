@@ -1,14 +1,18 @@
 #import "LosDropDown.h"
-#import "UITableViewCell+ReuseIdentifier.h"
+#import "LosStyles.h"
+
+const CGFloat menuWidth = 160;
+const CGFloat rowHeight = 28;
 
 @implementation LosDropDownItem
 
--(id) initWithTitle:(NSString*)title value:(NSString*)value
+-(id) initWithTitle:(NSString*)title value:(NSString*)value selected:(BOOL)selected
 {
     self = [super init];
     if(self){
         self.title = title;
         self.value = value;
+        self.selected = selected;
     }
     return self;
 }
@@ -18,67 +22,83 @@
 @implementation LosDropDown
 
 {
-    NSArray *menuItems;
-    id<LosDropDownDelegate> dropDownDelegate;
+    id<LosDropDownDelegate> ds;
 }
 
--(id) initWithFrame:(CGRect)frame MenuItems:(NSArray*)source Delegate:(id<LosDropDownDelegate>)delegate;
+-(id) initWithFrame:(CGRect)frame delegate:(id<LosDropDownDelegate>)delegate
 {
     CGFloat x = frame.origin.x;
     CGFloat y = frame.origin.y;
-    CGFloat width = frame.size.width;
-    CGFloat height = frame.size.height;
+
+    NSUInteger count = [delegate itemCount];
+    CGFloat calculatedHeight = rowHeight * count + 10;
     
-    NSUInteger count = [source count];
-    CGFloat calculatedHeight = height + (count - 1) * 28;
-    
-    self = [super initWithFrame:CGRectMake(x, y, width, calculatedHeight) style:UITableViewStylePlain];
+    self = [super initWithFrame:CGRectMake(x, y, menuWidth, calculatedHeight)];
     if(self){
-        
-        menuItems = source;
-        dropDownDelegate = delegate;
-        
-        self.dataSource = self;
-        self.delegate = self;
-        
-        self.backgroundColor = [UIColor grayColor];
-        [self setSeparatorInset:UIEdgeInsetsZero];
+        ds = delegate;
+        self.backgroundColor = [UIColor clearColor];
     }
     return self;
 }
 
-#pragma mark - table view delegate
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+-(void) drawRect:(CGRect)rect
 {
-    return [menuItems count];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[UITableViewCell reuseIdentifier]];
-    if(!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[UITableViewCell reuseIdentifier]];
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    
+    CGContextMoveToPoint(ctx, 139.5, 10);
+    CGContextAddLineToPoint(ctx, 145, 0);
+    CGContextAddLineToPoint(ctx, 150.5, 10);
+    CGContextClosePath(ctx);
+    
+    CGContextSetLineWidth(ctx, .1f);
+    CGContextSetFillColorWithColor(ctx, [UIColor whiteColor].CGColor);
+    CGContextFillPath(ctx);
+    
+    UIView *wrapper = [[UIView alloc] initWithFrame:CGRectMake(0, 10, menuWidth, rect.size.height - 10)];
+    wrapper.backgroundColor = [UIColor whiteColor];
+    wrapper.layer.cornerRadius = 5;
+    wrapper.layer.borderWidth = 1;
+    wrapper.layer.borderColor = GRAY1.CGColor;
+    
+    NSUInteger count = [ds itemCount];
+    
+    for(int i = 0;i < count; i++){
+        
+        LosDropDownItem *item = [ds itemAtIndex:i];
+        
+        BOOL selected = item.selected;
+        
+        UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(10, 12 + rowHeight * i, 4, 4)];
+        if(selected){
+            icon.image = [UIImage imageNamed:@"point_red"];
+        }else{
+            icon.image = [UIImage imageNamed:@"point_blue"];
+        }
+        
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        button.frame = CGRectMake(20, rowHeight * i, menuWidth - 20, rowHeight);
+        [button setTitle:item.title forState:UIControlStateNormal];
+        button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        if(selected){
+            button.tintColor = RED1;
+        }else{
+            button.tintColor = BLUE1;
+        }
+        button.tag = i;
+        [button addTarget:self action:@selector(itemPressed:) forControlEvents:UIControlEventTouchUpInside];
+        
+        [wrapper addSubview:icon];
+        [wrapper addSubview:button];
     }
     
-    LosDropDownItem *item = [menuItems objectAtIndex:indexPath.row];
-    
-    cell.textLabel.text = item.title;
-    cell.textLabel.textColor = [UIColor whiteColor];
-    cell.backgroundColor = [UIColor clearColor];
-    return cell;
+    [self addSubview:wrapper];
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+-(void) itemPressed:(id)sender
 {
-    return 28;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    LosDropDownItem *item = [menuItems objectAtIndex:indexPath.row];
-    
-    [dropDownDelegate menuItemTapped:item.value];
+    UIButton* button = (UIButton*)sender;
+    LosDropDownItem* item = [ds itemAtIndex:button.tag];
+    [ds menuItemTapped:item.value];
 }
 
 @end

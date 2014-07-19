@@ -5,6 +5,8 @@
 #import "StringUtils.h"
 #import "Enterprise.h"
 
+const CGFloat LosAnimationDuration = 0.25;
+
 @implementation SwitchShopButton
 
 {
@@ -12,6 +14,8 @@
     
     BOOL dropDownShow;
     LosDropDown *dropDown;
+    
+    NSMutableArray *dropDownItems;
     
     id<SwitchShopButtonDelegate> myDelegate;
 }
@@ -21,6 +25,7 @@
     dao = [[EnterpriseDao alloc] init];
     dropDownShow = NO;
     myDelegate = delegate;
+    dropDownItems = [NSMutableArray arrayWithCapacity:1];
     
     UIButton *button = [[UIButton alloc] initWithFrame:frame];
     [button setBackgroundImage:[UIImage imageNamed:@"switch_shop"] forState:UIControlStateNormal];
@@ -48,24 +53,38 @@
             return;
         }
         
+        [dropDownItems removeAllObjects];
+        
         NSArray *enterprises = [dao queryDisplayEnterprises];
-        NSMutableArray *items = [NSMutableArray arrayWithCapacity:1];
+        
+        UserData *userData = [UserData load];
+        NSString *currentEnterpriseId = userData.enterpriseId;
         
         for(Enterprise *enterprise in enterprises){
+            
             if([StringUtils isEmpty:enterprise.name]){
                 enterprise.name = @"我的店铺";
             }
-            LosDropDownItem *item = [[LosDropDownItem alloc] initWithTitle:enterprise.name value:enterprise.pk];
-            [items addObject:item];
+            
+            BOOL selected = NO;
+            if([enterprise.pk isEqualToString:currentEnterpriseId]){
+                selected = YES;
+            }
+            LosDropDownItem *item = [[LosDropDownItem alloc] initWithTitle:enterprise.name value:enterprise.pk selected:selected];
+            [dropDownItems addObject:item];
         }
         
-        dropDown = [[LosDropDown alloc] initWithFrame:CGRectMake(150, 70, 150, 28) MenuItems:items Delegate:self];
+        dropDown = [[LosDropDown alloc] initWithFrame:CGRectMake(150, 54, 0, 0) delegate:self];
     
         dispatch_async(dispatch_get_main_queue(), ^{
 
             [[[UIApplication sharedApplication] keyWindow] addSubview:dropDown];
+            [dropDown setNeedsDisplay];
+
+            [UIView animateWithDuration:LosAnimationDuration animations:^{
+                self.customView.transform = CGAffineTransformMakeRotation(M_PI);
+            }];
             
-            [(UIButton*)self.customView setBackgroundImage:[UIImage imageNamed:@"switch_shop_close"] forState:UIControlStateNormal];
             dropDownShow = YES;
         });
     });
@@ -79,7 +98,9 @@
     
     [dropDown removeFromSuperview];
     
-    [(UIButton*)self.customView setBackgroundImage:[UIImage imageNamed:@"switch_shop"] forState:UIControlStateNormal];
+    [UIView animateWithDuration:LosAnimationDuration animations:^{
+        self.customView.transform = CGAffineTransformIdentity;
+    }];
     
     dropDownShow = NO;
 }
@@ -114,6 +135,16 @@
             [myDelegate enterpriseSelected:value];
         });
     });
+}
+
+-(NSUInteger) itemCount
+{
+    return [dropDownItems count];
+}
+
+-(LosDropDownItem*) itemAtIndex:(NSUInteger)index
+{
+    return [dropDownItems objectAtIndex:index];
 }
 
 @end
