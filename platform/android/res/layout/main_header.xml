@@ -13,9 +13,12 @@
         android:layout_centerVertical="true"
         android:layout_weight="2"
         android:src="@drawable/select_shop" />
-
+    
+    <RelativeLayout 
+    android:id="@+id/goback"
+    android:layout_width="60.0dip"
+    android:layout_height="50dip">
     <ImageView
-        android:id="@+id/goback"
         android:layout_width="wrap_content"
         android:layout_height="22.0dip"
         android:layout_alignParentLeft="true"
@@ -23,6 +26,7 @@
         android:layout_weight="1"
         android:paddingLeft="10.0dip"
         android:src="@drawable/goback" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/shopname"
