@@ -35,6 +35,7 @@ import com.yilos.losapp.adapter.ListViewAdp;
 import com.yilos.losapp.bean.MemberBean;
 import com.yilos.losapp.bean.MyShopBean;
 import com.yilos.losapp.bean.ServerMemberResponse;
+import com.yilos.losapp.common.NetworkUtil;
 import com.yilos.losapp.common.Pinyin_Comparator;
 import com.yilos.losapp.common.SideBar;
 import com.yilos.losapp.service.MemberService;
@@ -253,7 +254,15 @@ public class MemberGoupActivity extends BaseActivity {
 			public void onClick(View v) {
 				loading_begin.setVisibility(View.VISIBLE);
 				layout_loadingmember.setVisibility(View.GONE);
-				getMemberCounts(shopId);
+				if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
+				{
+					getMemberCounts(shopId);
+				}
+				else
+				{
+					//加载失败检查网络
+				}
+				
 			}
 		});
 		WindowManager.LayoutParams lp = new WindowManager.LayoutParams(

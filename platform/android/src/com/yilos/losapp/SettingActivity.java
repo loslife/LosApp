@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.yilos.losapp.bean.ServerMemberResponse;
 import com.yilos.losapp.bean.ServerVersionResponse;
+import com.yilos.losapp.common.NetworkUtil;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -44,7 +45,12 @@ public class SettingActivity extends BaseActivity {
 		setContentView(R.layout.setting);
 
 		initView();
-		getNewVersion();
+		
+		if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
+		{
+		  getNewVersion();
+		}
+		
 	}
 
 	final Handler handle = new Handler() {

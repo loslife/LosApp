@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yilos.losapp.bean.ServerMemberResponse;
+import com.yilos.losapp.common.NetworkUtil;
 import com.yilos.losapp.common.StringUtils;
 import com.yilos.losapp.common.UIHelper;
 
@@ -107,7 +108,14 @@ public class RegisterActivity extends BaseActivity
 				}
 				else
 				{
-					getValidatecode(phoneNum.getText().toString());
+					if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
+					{
+					  getValidatecode(phoneNum.getText().toString());
+					}
+					else
+					{
+						UIHelper.ToastMessage(v.getContext(), "网络连接不可用，请检查网络设置");
+					}
 				}
 			}
 		});
@@ -128,8 +136,17 @@ public class RegisterActivity extends BaseActivity
 					UIHelper.ToastMessage(v.getContext(), "请输入验证码");
 					return;
 				}
-				//校验验证码
-				checkValidatecode(phoneNo,code);
+				
+				if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
+				{
+					//校验验证码
+					checkValidatecode(phoneNo,code);
+				}
+				else
+				{
+					UIHelper.ToastMessage(v.getContext(), "网络连接不可用，请检查网络设置");
+				}
+				
 				
 			}
 			
@@ -160,11 +177,24 @@ public class RegisterActivity extends BaseActivity
 					return;
 				}
 
+				if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
+				{
 					//注册
-					if(!checkMobileNumber(phoneNo))
+					if(!forgotpwd&&!checkMobileNumber(phoneNo))
 					{
 						userRegister(phoneNo,pwd);
 					}
+					//忘记密码
+					if(forgotpwd&&checkMobileNumber(phoneNo))
+					{
+						forgotPwd(phoneNo,pwd);
+					}
+					
+				}
+				else
+				{
+					UIHelper.ToastMessage(v.getContext(), "网络连接不可用，请检查网络设置");
+				}
 				
 			}
 		});
@@ -271,6 +301,43 @@ public class RegisterActivity extends BaseActivity
 				if(msg.what==0)
 				{
 					UIHelper.ToastMessage(RegisterActivity.this, "注册失败");
+				}
+			}
+		};
+		new Thread()
+		{
+			public void run(){
+				AppContext ac = (AppContext)getApplication(); 
+				Message msg = new Message();
+				ServerMemberResponse res = ac.register(phoneNumber,pwd);
+				if(res.isSucess())
+				{
+					msg.what = 1;
+				}
+				if(res.getCode()==1)
+				{
+					msg.what = 0;
+				}
+				handle.sendMessage(msg);
+			}
+		}.start();
+	} 
+	
+	public  void forgotPwd(final String phoneNumber,final String pwd)
+	{
+		final Handler handle =new Handler(){
+			public void handleMessage(Message msg)
+			{
+				if(msg.what==1)
+				{
+					UIHelper.ToastMessage(RegisterActivity.this, "找回成功");
+					Intent  register =  new Intent();
+					register.setClass(RegisterActivity.this, LoginActivity.class);
+					startActivity(register);
+				}
+				if(msg.what==0)
+				{
+					UIHelper.ToastMessage(RegisterActivity.this, "找回失败");
 				}
 			}
 		};

@@ -2,7 +2,6 @@ package com.yilos.losapp;
 
 
 import com.yilos.losapp.api.ApiClient;
-import com.yilos.losapp.bean.ContactsResult;
 import com.yilos.losapp.bean.ServerManageResponse;
 import com.yilos.losapp.bean.ServerMemberResponse;
 import com.yilos.losapp.bean.ServerVersionResponse;
@@ -71,6 +70,10 @@ public class AppContext extends Application {
 		
 		return ApiClient.register(this, account, pwd);
 	}
+    
+    public ServerMemberResponse findPwd(String account, String pwd){
+    	return ApiClient.findPassword(this, account, pwd);
+    }
 	
     /**
      * 获取验证码

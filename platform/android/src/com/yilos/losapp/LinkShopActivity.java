@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.yilos.losapp.bean.MyShopBean;
 import com.yilos.losapp.bean.ServerMemberResponse;
+import com.yilos.losapp.common.NetworkUtil;
 import com.yilos.losapp.common.StringUtils;
 import com.yilos.losapp.common.UIHelper;
 import com.yilos.losapp.service.MemberService;
@@ -86,7 +87,15 @@ public class LinkShopActivity extends BaseActivity
 				}
 				else
 				{
-					getValidatecode(phoneNum.getText().toString());
+					if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
+					{
+						getValidatecode(phoneNum.getText().toString());
+					}
+					else
+					{
+						UIHelper.ToastMessage(v.getContext(), "网络连接不可用，请检查网络设置");
+					}
+					
 				}
 			}
 		});
@@ -109,15 +118,19 @@ public class LinkShopActivity extends BaseActivity
 					return;
 				}
 				
-				
-				//校验验证码
-				checkValidatecode(phoneNo,code);
-				
-				if(!StringUtils.isEmpty(code))
-				{
+					if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
+					{   //校验验证码
+						checkValidatecode(phoneNo,code);
+						if(!StringUtils.isEmpty(code))
+						{
 						linkShop(AppContext.getInstance(getBaseContext()).getUserAccount(),phoneNo);
-				}
-				
+						}
+					}
+					else
+					{
+						UIHelper.ToastMessage(v.getContext(), "网络连接不可用，请检查网络设置");
+					}
+
 			}
 		});
 		
@@ -336,7 +349,7 @@ public class LinkShopActivity extends BaseActivity
 				if(msg.what==0)
 				{
 					validatecode.setText("");
-					UIHelper.ToastMessage(LinkShopActivity.this, "验证码错误，请重新输入");
+					UIHelper.ToastMessage(LinkShopActivity.this, "请输入验证码");
 				}
 			}
 		};

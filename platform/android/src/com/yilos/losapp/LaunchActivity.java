@@ -10,6 +10,7 @@ import android.os.Message;
 
 import com.yilos.losapp.bean.MyShopBean;
 import com.yilos.losapp.bean.ServerMemberResponse;
+import com.yilos.losapp.common.NetworkUtil;
 import com.yilos.losapp.common.UIHelper;
 import com.yilos.losapp.database.SDBHelper;
 import com.yilos.losapp.service.MemberService;
@@ -80,8 +81,18 @@ public class LaunchActivity extends BaseActivity {
 		myshopService = new MyshopManageService(getBaseContext());
 		
 		myshops = myshopService.queryShops();
-		if (myshops == null || myshops.size() == 0) {
-			getLinkShop();
+		if (myshops == null || myshops.size() == 0) 
+		{
+			
+			if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
+			{
+			   getLinkShop();
+			}
+			else
+			{
+				UIHelper.ToastMessage(getBaseContext(), "网络状态不佳，初始化失败");
+			}
+			   
 		}
 		if (myshops != null && myshops.size() > 0) {
 			shopId = myshops.get(0).getEnterprise_id();

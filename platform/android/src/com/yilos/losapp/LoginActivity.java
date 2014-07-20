@@ -1,6 +1,7 @@
 package com.yilos.losapp;
 
 import com.yilos.losapp.bean.ServerMemberResponse;
+import com.yilos.losapp.common.NetworkUtil;
 import com.yilos.losapp.common.StringUtils;
 import com.yilos.losapp.common.UIHelper;
 import com.yilos.losapp.database.SDBHelper;
@@ -79,7 +80,16 @@ public class LoginActivity extends BaseActivity{
 					UIHelper.ToastMessage(v.getContext(), "请输入密码");
 					return;
 				}
-				loginUser(account,pwd);
+				if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
+				{
+					loginUser(account,pwd);
+				}
+				else
+				{
+					UIHelper.ToastMessage(v.getContext(), "当前网络不佳，请检查网络");
+					return;
+				}
+				
 				//跳转到主界面
 				/*Intent main = new Intent();
 				main.setClass(LoginActivity.this, MainTabActivity.class);

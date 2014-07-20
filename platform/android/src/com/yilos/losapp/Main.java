@@ -33,6 +33,7 @@ import com.yilos.losapp.bean.ServerManageResponse;
 import com.yilos.losapp.bean.ServerMemberResponse;
 import com.yilos.losapp.bean.ServicePerformanceBean;
 import com.yilos.losapp.common.DateUtil;
+import com.yilos.losapp.common.NetworkUtil;
 import com.yilos.losapp.common.ScrollLayout;
 import com.yilos.losapp.common.UIHelper;
 import com.yilos.losapp.service.BizPerformanceService;
@@ -381,10 +382,17 @@ public class Main extends BaseActivity {
 	}
 
 	private void getShowData() {
-		getEmployeePerData();
-		getBizPerformanceData();
-		getServicePerformanceData();
-		getBcustomerCount();
+		if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
+		{
+			getEmployeePerData();
+			getBizPerformanceData();
+			getServicePerformanceData();
+			getBcustomerCount();
+		}
+		else
+		{
+			//获取本地数据
+		}
 	}
 
 	/**
