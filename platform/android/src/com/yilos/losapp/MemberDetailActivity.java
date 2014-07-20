@@ -1,6 +1,9 @@
 package com.yilos.losapp;
 
+import java.math.BigDecimal;
+
 import com.yilos.losapp.bean.MemberBean;
+import com.yilos.losapp.common.DateUtil;
 import com.yilos.losapp.service.MemberService;
 
 import android.app.Activity;
@@ -30,6 +33,8 @@ public class MemberDetailActivity extends BaseActivity
     private TextView phoneMobile;
     
     private TextView averageConsume;
+    
+    private TextView cardtype;
     
     private ImageView headmore;
 	
@@ -62,6 +67,7 @@ public class MemberDetailActivity extends BaseActivity
 		 joinDate = (TextView)findViewById(R.id.joindate);
 		 phoneMobile = (TextView)findViewById(R.id.memberPhone);
 		 averageConsume =(TextView)findViewById(R.id.customerprice);
+		 cardtype = (TextView)findViewById(R.id.cardtype);
 		 shopname = (TextView)findViewById(R.id.shopname);
 		 headmore = (ImageView)findViewById(R.id.headmore);
 		 headmore.setVisibility(View.GONE);
@@ -100,14 +106,32 @@ public class MemberDetailActivity extends BaseActivity
 	 public void initData()
 	 {
 		 memberName.setText(memberInfo.getName());
-
+		 cardtype.setText(memberInfo.getCardStr());
 		 latestConsumeTime.setText(memberInfo.getLatestConsumeTime());
+		 if(null!=memberInfo.getLatestConsumeTime()&&!"".equals(memberInfo.getLatestConsumeTime()))
+		 {
+			 BigDecimal latestConsumeTimetr = new BigDecimal(memberInfo.getLatestConsumeTime()); 
+			 latestConsumeTime.setText(DateUtil.dateToString(latestConsumeTimetr.toPlainString(),"yyyy年MM月dd日"));
+		 }
+		 
 		 birthday.setText(memberInfo.getBirthday());
-		 totalConsume.setText(memberInfo.getTotalConsume());
+		 if(null!=memberInfo.getBirthday()&&!"".equals(memberInfo.getBirthday()))
+		 {
+			 BigDecimal birthdaystr = new BigDecimal(memberInfo.getBirthday()); 
+			 birthday.setText(DateUtil.dateToString(birthdaystr.toPlainString(),"MM月dd日"));
+		 }
+		
+		 
+		 totalConsume.setText("￥"+Float.valueOf(memberInfo.getTotalConsume()));
 		 memberNo.setText(memberInfo.getMemberNo());
 		 joinDate.setText(memberInfo.getJoinDate());
+		 if(null!=memberInfo.getJoinDate()&&!"".equals(memberInfo.getJoinDate()))
+		 {
+			 BigDecimal joinDatestr = new BigDecimal(memberInfo.getJoinDate()); 
+			 joinDate.setText(DateUtil.dateToString(joinDatestr.toPlainString(),"yyyy年MM月dd日"));
+		 }
 		 phoneMobile.setText(memberInfo.getPhoneMobile());
-		 averageConsume.setText(memberInfo.getAverageConsume());
+		 averageConsume.setText("￥"+Float.valueOf(memberInfo.getAverageConsume()));
 		 
 	 }
 

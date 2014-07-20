@@ -39,26 +39,27 @@ public class BizPerformanceDBManager
     	db.beginTransaction();
     	try
     	{
-    
-    			db.execSQL("INSERT INTO "+tableName+" VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-    				    new Object[]{bean.get_id(),
-    					shopId,
-    					bean.getTotal(),
-    					bean.getCash(),
-    					bean.getCard(),
-    					bean.getBank(),
-    					bean.getService(),
-    					bean.getProduct(),
-    					bean.getNewcard(),
-    					bean.getRecharge(),
-    					bean.getCreate_date(),
-    					bean.getModify_date(),
-    					bean.getYear(),
-    					bean.getMonth(),
-    					bean.getDay()
-    		            }
-    				);
-    		
+              if(null!=bean.get_id())
+              {
+            	  db.execSQL("INSERT INTO "+tableName+" VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+      				    new Object[]{bean.get_id(),
+      					shopId,
+      					bean.getTotal(),
+      					bean.getCash(),
+      					bean.getCard(),
+      					bean.getBank(),
+      					bean.getService(),
+      					bean.getProduct(),
+      					bean.getNewcard(),
+      					bean.getRecharge(),
+      					bean.getCreate_date(),
+      					bean.getModify_date(),
+      					bean.getYear(),
+      					bean.getMonth(),
+      					bean.getDay()
+      		            }
+      				);
+              }
     		db.setTransactionSuccessful();  //设置事务成功完成  
     	}
     	finally

@@ -1,7 +1,13 @@
 package com.yilos.losapp.adapter;
 
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.yilos.losapp.R;
+import com.yilos.losapp.bean.MemberBean;
+import com.yilos.losapp.common.DateUtil;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
@@ -21,10 +27,12 @@ public class ListViewAdp extends BaseAdapter implements SectionIndexer {
 	private String[] members;
 	static int i;
 	static String[] first;
+	List<MemberBean> memberData = new ArrayList<MemberBean>();
 
-	public ListViewAdp(Context mContext, String[] parentData) {
+	public ListViewAdp(Context mContext, String[] parentData,List<MemberBean> memberList) {
 		this.mContext = mContext;
 		this.members = parentData;
+		this.memberData = memberList;
 	}
 
 	@Override
@@ -56,6 +64,10 @@ public class ListViewAdp extends BaseAdapter implements SectionIndexer {
 					.findViewById(R.id.contactitem_catalog);
 			viewHolder.tvNick = (TextView) convertView
 					.findViewById(R.id.contactitem_nick);
+			viewHolder.tvConsumeinfo = (TextView) convertView
+					.findViewById(R.id.consumeinfo);
+			viewHolder.membercards = (TextView) convertView
+					.findViewById(R.id.membercards);
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
@@ -79,6 +91,34 @@ public class ListViewAdp extends BaseAdapter implements SectionIndexer {
 		// viewHolder.ivAvatar.setImageResource(R.drawable.default_avatar);
 		int i = members[position].indexOf("|");
 		viewHolder.tvNick.setText(members[position].substring(0, i));
+		
+		
+		String p = members[position].substring(i + 1,
+				members[position].length());
+		
+		//最后消费时间
+		String latestConsumeTime = memberData.get(Integer.valueOf(p)).getLatestConsumeTime();
+		if(null==latestConsumeTime||"".equals(latestConsumeTime))
+		{
+			latestConsumeTime = "未消费";
+		}
+		else
+		{
+			BigDecimal latestConsumeTimetr = new BigDecimal(latestConsumeTime); 
+			latestConsumeTime = "最近消费"+DateUtil.dateToString(latestConsumeTimetr.toPlainString(),"yyyy年MM月dd日");
+		}
+		//平均消费
+		String averageConsume =  memberData.get(Integer.valueOf(p)).getAverageConsume();
+		averageConsume = "平均消费"+averageConsume+"元";
+		//会员卡
+		String cards = memberData.get(Integer.valueOf(p)).getCardStr();
+		if(cards.length()>11)
+		{
+			cards = cards.substring(0, 11)+"...";
+		}
+		
+		viewHolder.membercards.setText(cards);
+		viewHolder.tvConsumeinfo.setText(latestConsumeTime+"/"+averageConsume);
 		return convertView;
 	}
 
@@ -86,6 +126,10 @@ public class ListViewAdp extends BaseAdapter implements SectionIndexer {
 		TextView tvCatalog;
 		// ImageView ivAvatar;
 		TextView tvNick;
+		
+		TextView tvConsumeinfo;
+		
+		TextView membercards;
 	}
 
 	@Override

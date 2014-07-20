@@ -33,6 +33,8 @@ public class MemberBean  implements Serializable
     
     private String averageConsume;
     
+    private String cardStr;
+    
     
 	public String getName() {
 		return name;
@@ -130,4 +132,13 @@ public class MemberBean  implements Serializable
 		this.averageConsume = averageConsume;
 	}
 
+	public String getCardStr() {
+		return cardStr;
+	}
+
+	public void setCardStr(String cardStr) {
+		this.cardStr = cardStr;
+	}
+
+	
 }
