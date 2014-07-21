@@ -89,6 +89,7 @@ public class Main extends BaseActivity {
 	private LinearLayout noshop;
 
 	public static long datetime;
+	DateUtil dateUtil = new DateUtil();
 
 	private String year;
 
@@ -212,7 +213,7 @@ public class Main extends BaseActivity {
 			}
 
 			if (msg.what == 4) {
-				DateUtil dateUtil = new DateUtil();
+
 				String[] yNum = dateUtil.getDayarr(year, month, dateType);
 
 				int walkinCount = 0;
@@ -245,6 +246,7 @@ public class Main extends BaseActivity {
 	};
 
 	public void initView() {
+		
 		select_shop = (ImageView) findViewById(R.id.headmore);
 		shopname = (TextView) findViewById(R.id.shopname);
 		showTime = (TextView) findViewById(R.id.showtime);
@@ -278,7 +280,6 @@ public class Main extends BaseActivity {
 				if ("日".equals(timetype.getText().toString())) {
 					dateType = "week";
 					timetype.setText("周");
-					DateUtil dateUtil = new DateUtil();
 					String weeks = dateUtil.getCurrentMonday() + "--"
 							+ dateUtil.getSunday();
 					showTime.setText(weeks);
@@ -315,7 +316,7 @@ public class Main extends BaseActivity {
 					showtime = formatter.format(curDate);
 					showTime.setText(showtime);
 				} else if (dateType == "week") {
-					DateUtil dateUtil = new DateUtil();
+				
 					showtime = dateUtil.getPreviousMonday() + "--"
 							+ dateUtil.getSunday();
 					SimpleDateFormat formatter = new SimpleDateFormat(
@@ -357,7 +358,7 @@ public class Main extends BaseActivity {
 					showtime = formatter.format(curDate);
 					showTime.setText(showtime);
 				} else if (dateType == "week") {
-					DateUtil dateUtil = new DateUtil();
+					
 					showtime = dateUtil.getNextMonday() + "--"
 							+ dateUtil.getSunday();
 					SimpleDateFormat formatter = new SimpleDateFormat(
