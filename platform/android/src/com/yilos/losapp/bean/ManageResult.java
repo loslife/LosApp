@@ -4,7 +4,7 @@ public class ManageResult
 {
 	private  ManageRecords  current;
 	
-	//private  ManageRecords  prev;
+	private  ManageRecords  prev;
 	
 	private String errorCode;
 
@@ -18,13 +18,13 @@ public class ManageResult
 		this.current = current;
 	}
 
-	/*public ManageRecords getPrev() {
+	public ManageRecords getPrev() {
 		return prev;
 	}
 
 	public void setPrev(ManageRecords prev) {
 		this.prev = prev;
-	}*/
+	}
 
 	public String getErrorCode() {
 		return errorCode;

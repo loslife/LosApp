@@ -14,9 +14,11 @@ public class MyShopBean {
 	
 	private String reportSyncTime;
 	
-	private boolean display;
+	private String display;
 	
 	private String create_date;
+	
+	private String enterprise_account;
 	
 	private int order;
 
@@ -44,11 +46,11 @@ public class MyShopBean {
 		this.latest_sync = latest_sync;
 	}
 
-	public boolean isDisplay() {
+	public String getDisplay() {
 		return display;
 	}
 
-	public void setDisplay(boolean display) {
+	public void setDisplay(String display) {
 		this.display = display;
 	}
 
@@ -90,6 +92,14 @@ public class MyShopBean {
 
 	public void setReportSyncTime(String reportSyncTime) {
 		this.reportSyncTime = reportSyncTime;
+	}
+
+	public String getEnterprise_account() {
+		return enterprise_account;
+	}
+
+	public void setEnterprise_account(String enterprise_account) {
+		this.enterprise_account = enterprise_account;
 	}
 	
 	

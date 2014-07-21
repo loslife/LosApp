@@ -54,6 +54,7 @@ public class Main extends BaseActivity {
 
 	private List<ServicePerformanceBean> servicePerformanceList;
 	private BizPerformanceBean bizPerformance;
+	private BizPerformanceBean prevBizPerformance;
 	private List<EmployeePerBean> employPerList;
 	private List<BcustomerCountBean> customerCountList;
 
@@ -163,7 +164,7 @@ public class Main extends BaseActivity {
 				PanelDountChart panelDountView = new PanelDountChart(
 						getBaseContext(), num2, perName);
 				annularLayout.addView(panelDountView);
-
+				if (null != bizPerformance.get_id()) {
 				((TextView) findViewById(R.id.biztotal)).setText("￥" + total);
 				((TextView) findViewById(R.id.sevicedata)).setText("￥"
 						+ bizPerformance.getService());
@@ -173,6 +174,8 @@ public class Main extends BaseActivity {
 						+ bizPerformance.getNewcard());
 				((TextView) findViewById(R.id.rechargedata)).setText("￥"
 						+ bizPerformance.getRecharge());
+				}
+				
 			}
 
 			if (msg.what == 3) {
@@ -252,7 +255,7 @@ public class Main extends BaseActivity {
 		mainScrollLayout = (ScrollLayout) findViewById(R.id.main_scrolllayout);
 		noshop = (LinearLayout) findViewById(R.id.noshop);
 
-		shopname.setText(getIntent().getStringExtra("shopName"));
+		shopname.setText(AppContext.getInstance(getBaseContext()).getShopName());
 		showTime.setText(getDateNow());
 
 		findViewById(R.id.goback).setVisibility(View.GONE);
@@ -457,13 +460,19 @@ public class Main extends BaseActivity {
 					if (dateType == "day") {
 						bizPerformance = res.getResult().getCurrent()
 								.getTb_biz_performance().getDay();
+						prevBizPerformance = res.getResult().getPrev()
+								.getTb_biz_performance().getDay();
 						tableName = "biz_performance_day";
 					} else if (dateType == "month") {
 						bizPerformance = res.getResult().getCurrent()
 								.getTb_biz_performance().getMonth();
+						prevBizPerformance = res.getResult().getPrev()
+								.getTb_biz_performance().getMonth();
 						tableName = "biz_performance_month";
 					} else {
 						bizPerformance = res.getResult().getCurrent()
+								.getTb_biz_performance().getWeek();
+						prevBizPerformance = res.getResult().getPrev()
 								.getTb_biz_performance().getWeek();
 						tableName = "biz_performance_week";
 					}
@@ -624,6 +633,7 @@ public class Main extends BaseActivity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				shopname.setText(title[arg2]);
+				AppContext.getInstance(getBaseContext()).setShopName(title[arg2]);
 				AppContext.getInstance(getBaseContext())
 						.setCurrentDisplayShopId(shopIds[arg2]);
 				shopId = shopIds[arg2];

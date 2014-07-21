@@ -7,6 +7,8 @@ import com.yilos.losapp.bean.ServerMemberResponse;
 import com.yilos.losapp.bean.ServerVersionResponse;
 import com.yilos.losapp.common.NetworkUtil;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -158,7 +160,23 @@ public class SettingActivity extends BaseActivity {
 
 			@Override
 			public void onClick(View v) {
-				lgout();
+				  
+                
+                //警告框  
+                new AlertDialog.Builder(SettingActivity.this) 
+                .setTitle("退出应用")  
+                .setMessage("确定退出乐斯小秘书？")  
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {  
+                    public void onClick(DialogInterface dialog, int which) {
+                    	lgout();
+                    }  
+                })  
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {    
+                    public void onClick(DialogInterface dialog, int whichButton) {    
+                    }    
+                })  
+                .create()  
+                .show();  
 			}
 		});
 	}

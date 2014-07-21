@@ -326,19 +326,14 @@ public class ApiClient
 	 */
 	public static ServerMemberResponse findPassword(Context appContext,String username, String pwd)
 	{
-
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("username", username));
-		params.add(new BasicNameValuePair("pwd", pwd));
+		params.add(new BasicNameValuePair("password", pwd));
 
-		ServerMemberResponse res = new ServerMemberResponse();
-		res.setCode(0);
-		ContactsResult rt = new ContactsResult();
-		res.setResult(rt);
-		
-		//String json = _post(appContext, Constants.REGISTER_URL,params);
+		//String json = _post(appContext, Constants.FINDPWD_URL,params);
+		String json = _httppost(Constants.FINDPWD_URL,params);
 		Gson gson = new Gson();
-		ServerMemberResponse resp = gson.fromJson(gson.toJson(res), ServerMemberResponse.class);
+		ServerMemberResponse resp = gson.fromJson(json, ServerMemberResponse.class);
 	
 		return resp;
 	}
@@ -365,7 +360,7 @@ public class ApiClient
 	}
 	
 	/**
-	 * 检查用户是否存在
+	 * 检查店铺是否存在
 	 * @param params
 	 * @return
 	 * @throws UnsupportedEncodingException

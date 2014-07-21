@@ -1,5 +1,7 @@
 package com.yilos.losapp;
 
+import android.R.color;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -8,6 +10,7 @@ import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -31,6 +34,8 @@ public class RegisterActivity extends BaseActivity
 	
 	private TextView registration;
 	
+	private TextView system_vcode_tip;
+	
 	private TextView operat_next;
 	
 	private TextView timecount;
@@ -44,6 +49,10 @@ public class RegisterActivity extends BaseActivity
     private RelativeLayout layout_getcode;
 	
 	private RelativeLayout layout_codetip;
+	
+	private RelativeLayout relativelayout_vcode;
+	
+	private ImageView  headmore;
 	
 	private boolean isUserExist = false;
 	
@@ -66,11 +75,13 @@ public class RegisterActivity extends BaseActivity
 		initView();
 	}
 	
+	@SuppressLint("ResourceAsColor")
 	public void initView()
 	{
 		phoneNum = (EditText)findViewById(R.id.phoneNum);
 		validatecode = (EditText)findViewById(R.id.validatecode);
 		reqValidatecode = (TextView)findViewById(R.id.btn_validatecode);
+		system_vcode_tip = (TextView)findViewById(R.id.system_vcode_tip);
 		password = (EditText)findViewById(R.id.password);
 		confirmPwd = (EditText)findViewById(R.id.confirm_password);
 		registration = (TextView)findViewById(R.id.btn_register);
@@ -79,7 +90,12 @@ public class RegisterActivity extends BaseActivity
 		operat_next = (TextView)findViewById(R.id.operat_next);
 		layout_getcode = (RelativeLayout)findViewById(R.id.layout_getcode);
 		layout_codetip = (RelativeLayout)findViewById(R.id.layout_codetip);
+		relativelayout_vcode = (RelativeLayout)findViewById(R.id.relativelayout_vcode);
 		timecount = (TextView)findViewById(R.id.timecount);
+		operat_next.setEnabled(false);
+		operat_next.setBackgroundColor(R.color.gray_text);
+		headmore = (ImageView)findViewById(R.id.headmore);
+		headmore.setVisibility(View.GONE);
 		
 		 findViewById(R.id.goback).setOnClickListener(new OnClickListener() {
 				
@@ -110,6 +126,8 @@ public class RegisterActivity extends BaseActivity
 				{
 					if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
 					{
+					  operat_next.setEnabled(true);
+					  operat_next.setBackgroundResource(R.drawable.login_bg);
 					  getValidatecode(phoneNum.getText().toString());
 					}
 					else
@@ -126,11 +144,22 @@ public class RegisterActivity extends BaseActivity
 			public void onClick(View v) {
 				String phoneNo = phoneNum.getText().toString();
 				String code = validatecode.getText().toString();
+				
+				//短信验证码好像罢工了，请确认输入是您本人号码，以确保使用中的账号与数据安全
+				if(relativelayout_vcode.getVisibility()==View.GONE)
+				{
+					checkvcodelayout.setVisibility(View.GONE);
+					registerlayout.setVisibility(View.VISIBLE);
+					
+					return;
+				}
+				
 				if(StringUtils.isEmpty(phoneNo))
 				{
 					UIHelper.ToastMessage(v.getContext(), "请输入注册的手机号码");
 					return;
 				}
+				
 				if(StringUtils.isEmpty(code))
 				{
 					UIHelper.ToastMessage(v.getContext(), "请输入验证码");
@@ -146,8 +175,7 @@ public class RegisterActivity extends BaseActivity
 				{
 					UIHelper.ToastMessage(v.getContext(), "网络连接不可用，请检查网络设置");
 				}
-				
-				
+
 			}
 			
 		});
@@ -346,7 +374,7 @@ public class RegisterActivity extends BaseActivity
 			public void run(){
 				AppContext ac = (AppContext)getApplication(); 
 				Message msg = new Message();
-				ServerMemberResponse res = ac.register(phoneNumber,pwd);
+				ServerMemberResponse res = ac.findPwd(phoneNumber,pwd);
 				if(res.isSucess())
 				{
 					msg.what = 1;
@@ -410,13 +438,15 @@ public class RegisterActivity extends BaseActivity
 		if (null != countDownTimer) {
 			countDownTimer.cancel();
 		}
-		countDownTimer = new CountDownTimer(1000L * 60, 1000L) {
+		countDownTimer = new CountDownTimer(1000L * 90, 1000L) {
 			int count = 90;
 
 			@Override
 			public void onFinish() {
-				layout_getcode.setVisibility(View.GONE);
-				layout_codetip.setVisibility(View.GONE);
+				relativelayout_vcode.setVisibility(View.GONE);
+				system_vcode_tip.setText("短信验证码好像罢工了，请确认输入是您本人号码，以确保使用中的账号与数据安全");
+				system_vcode_tip.setTextColor(color.holo_red_dark);
+				timecount.setVisibility(View.GONE);
 			}
 
 			@Override

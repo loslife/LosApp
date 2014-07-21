@@ -48,7 +48,12 @@ public class MyshopManageService {
 	
 	public List<MyShopBean> queryShops()
 	{
-		return myShopDB.query();
+		return myShopDB.queryLinkshop();
+	}
+	
+	public void modifyDisplay(String shopId,String disFlag)
+	{
+		myShopDB.updateDisplay(shopId, disFlag);
 	}
 
 

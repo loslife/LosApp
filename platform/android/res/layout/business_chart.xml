@@ -94,19 +94,19 @@
                 android:layout_height="fill_parent"
                 android:layout_alignParentRight="true"
                 android:gravity="fill_vertical"
-                android:text="￥2000.0"
+                android:text="￥0.0"
                 android:textColor="@color/gray_text"
                 android:textSize="20.0dip" />
             
             <TextView
-                android:id="@+id/comparedata"
+                android:id="@+id/toprev_sevicedata"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_alignParentBottom="true"
                 android:layout_below="@+id/sevicesicon"
                 android:layout_marginLeft="24.0dip"
                 android:gravity="fill_vertical"
-                android:text="比昨日：-638 -60%"
+                android:text=""
                 android:textColor="@color/gray_text"
                 android:textSize="16.0dip" />
         </RelativeLayout>
@@ -142,19 +142,19 @@
                 android:layout_height="fill_parent"
                 android:layout_alignParentRight="true"
                 android:gravity="fill_vertical"
-                android:text="￥2000.0"
+                android:text="￥0.0"
                 android:textColor="@color/gray_text"
                 android:textSize="20.0dip" />
             
             <TextView
-                android:id="@+id/comparedata"
+                android:id="@+id/toprev_saledata"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_alignParentBottom="true"
                 android:layout_below="@+id/saleicon"
                 android:layout_marginLeft="24.0dip"
                 android:gravity="fill_vertical"
-                android:text="比昨日：-638 -60%"
+                android:text=""
                 android:textColor="@color/gray_text"
                 android:textSize="16.0dip" />
         </RelativeLayout>
@@ -190,19 +190,19 @@
                 android:layout_height="fill_parent"
                 android:layout_alignParentRight="true"
                 android:gravity="fill_vertical"
-                android:text="￥2000.0"
+                android:text="￥0.0"
                 android:textColor="@color/gray_text"
                 android:textSize="20.0dip" />
             
             <TextView
-                android:id="@+id/comparedata"
+                android:id="@+id/toprev_carddata"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_alignParentBottom="true"
                 android:layout_below="@+id/cardicon"
                 android:layout_marginLeft="24.0dip"
                 android:gravity="fill_vertical"
-                android:text="比昨日：-638 -60%"
+                android:text=""
                 android:textColor="@color/gray_text"
                 android:textSize="16.0dip" />
         </RelativeLayout>
@@ -238,19 +238,19 @@
                 android:layout_height="fill_parent"
                 android:layout_alignParentRight="true"
                 android:gravity="fill_vertical"
-                android:text="￥2000.0"
+                android:text="￥0.0"
                 android:textColor="@color/gray_text"
                 android:textSize="20.0dip" />
             
             <TextView
-                android:id="@+id/comparedata"
+                android:id="@+id/toprev_rechargedata"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_alignParentBottom="true"
                 android:layout_below="@+id/rechargeicon"
                 android:layout_marginLeft="24.0dip"
                 android:gravity="fill_vertical"
-                android:text="比昨日：-638 -60%"
+                android:text=""
                 android:textColor="@color/gray_text"
                 android:textSize="16.0dip" />
         </RelativeLayout>

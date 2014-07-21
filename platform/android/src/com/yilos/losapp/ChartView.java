@@ -112,7 +112,7 @@ public class ChartView extends View {
 	             }
 				canvas.drawCircle(YCoord(Data[i])+5, YPoint - YLength + (i + 1)
 						* YScale, 8, paint);
-				canvas.drawText(Data[i] + "人", YCoord(Data[i]) + 10, YPoint
+				canvas.drawText(Data[i] + "人", YCoord(Data[i]) + 12, YPoint
 						- YLength + (i + 1) * YScale, paint1); // 文字
 			} catch (Exception e) {
 			}

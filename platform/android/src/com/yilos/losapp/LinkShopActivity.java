@@ -13,17 +13,21 @@ import com.yilos.losapp.service.MemberService;
 import com.yilos.losapp.service.MyshopManageService;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.view.ViewGroup; 
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
@@ -36,7 +40,11 @@ public class LinkShopActivity extends BaseActivity
 	private TextView linkshopbtn;
 	private LinearLayout  inputlinkshop;
 	private TextView linkshopinputbtn;
+	private TextView timecount;
 	private ImageView  headmore;
+	
+    private RelativeLayout layout_getcode;
+	private RelativeLayout layout_codetip;
 	
 	private CountDownTimer countDownTimer;
 	private MyshopManageService myshopService;
@@ -65,6 +73,9 @@ public class LinkShopActivity extends BaseActivity
 		inputlinkshop = (LinearLayout)findViewById(R.id.inputlinkshop);
 		linkshopinputbtn = (TextView)findViewById(R.id.linkshopinputbtn);
 		headmore = (ImageView)findViewById(R.id.headmore);
+		layout_getcode = (RelativeLayout)findViewById(R.id.layout_getcode);
+		layout_codetip = (RelativeLayout)findViewById(R.id.layout_codetip);
+		timecount = (TextView)findViewById(R.id.timecount);
 		headmore.setVisibility(View.GONE);
 		
 		//设置店铺列表
@@ -130,7 +141,6 @@ public class LinkShopActivity extends BaseActivity
 					{
 						UIHelper.ToastMessage(v.getContext(), "网络连接不可用，请检查网络设置");
 					}
-
 			}
 		});
 		
@@ -181,8 +191,41 @@ public class LinkShopActivity extends BaseActivity
             new String[] {"linkshopname"},   
             //ImageItem的XML文件里面的一个ImageView,两个TextView ID  
             new int[] {R.id.linkshopname}  
-        );  
-         
+        )
+        {  
+            //在这个重写的函数里设置 每个 item 中按钮的响应事件  
+            @Override  
+            public View getView(int position, View convertView,ViewGroup parent) {  
+                final int p=position;  
+                final View view=super.getView(position, convertView, parent);  
+                final TextView button=(TextView)view.findViewById(R.id.linkbtn);  
+                button.setOnClickListener(new OnClickListener() {  
+                      
+                    @Override  
+                    public void onClick(View v) {  
+                          
+                        //警告框  
+                        new AlertDialog.Builder(LinkShopActivity.this)  
+                        .setTitle("解除关联")  
+                        .setMessage("解除关联后，您将看不到<"+myshops.get(p).getEnterprise_name()+">的任何信息，是否解除？")  
+                        .setPositiveButton("是", new DialogInterface.OnClickListener() {  
+                            public void onClick(DialogInterface dialog, int which) {
+                            	myshopService.modifyDisplay(myshops.get(p).getEnterprise_id(), "1");
+                            	unlinkShop(AppContext.getInstance(getBaseContext()).getUserAccount(), myshops.get(p).getEnterprise_id());
+                            	button.setText("恢复关联");
+                            }  
+                        })  
+                        .setNegativeButton("否", new DialogInterface.OnClickListener() {    
+                            public void onClick(DialogInterface dialog, int whichButton) {    
+                            }    
+                        })  
+                        .create()  
+                        .show();  
+                    }  
+                });  
+                return view;  
+            }  
+    };  
         //添加并且显示  
         list.setAdapter(listItemAdapter); 
 	}
@@ -199,6 +242,8 @@ public class LinkShopActivity extends BaseActivity
 					//设置店铺列表
 					setShopListView();
 					UIHelper.ToastMessage(getBaseContext(), "关联成功");
+					phoneNum.setText("");
+					validatecode.setText("");
 				}
 				if(msg.what==0)
 				{
@@ -224,6 +269,43 @@ public class LinkShopActivity extends BaseActivity
 					{
 						AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(shopId);
 					}
+					msg.what = 1;
+				}
+				if(res.getCode()==1)
+				{
+					msg.what = 0;
+				}
+				handle.sendMessage(msg);
+			}
+		}.start();
+	}
+	
+	private void unlinkShop(final String userAccount,final String shopid)
+	{
+		myshopService = new MyshopManageService(getBaseContext());
+		final Handler handle =new Handler(){
+			public void handleMessage(Message msg)
+			{
+				if(msg.what==1)
+				{
+					//设置店铺列表
+					setShopListView();
+					UIHelper.ToastMessage(getBaseContext(), "解除关联成功");
+				}
+				if(msg.what==0)
+				{
+					UIHelper.ToastMessage(getBaseContext(), "解除关联失败");
+				}
+			}
+		};
+		new Thread()
+		{
+			public void run(){
+				AppContext ac = (AppContext)getApplication(); 
+				Message msg = new Message();
+				ServerMemberResponse res = ac.undoLinkshop(userAccount, shopid);
+				if(res.isSucess())
+				{
 					msg.what = 1;
 				}
 				if(res.getCode()==1)
@@ -371,7 +453,6 @@ public class LinkShopActivity extends BaseActivity
 			}
 		}.start();
 	}
-	
 	/**
 	 * 刷下获取验证码的按钮
 	 */
@@ -382,22 +463,24 @@ public class LinkShopActivity extends BaseActivity
 		if (null != countDownTimer) {
 			countDownTimer.cancel();
 		}
-		reqValidatecode.setEnabled(false);
-		countDownTimer = new CountDownTimer(1000L * 60, 1000L) {
-			int count = 60;
+		countDownTimer = new CountDownTimer(1000L * 90, 1000L) {
+			int count = 90;
 
 			@Override
 			public void onFinish() {
-				reqValidatecode.setEnabled(true);
-				reqValidatecode.setText("获取验证码");
+				layout_getcode.setVisibility(View.VISIBLE);
+				layout_codetip.setVisibility(View.GONE);
 			}
 
 			@Override
 			public void onTick(long millisUntilFinished) {
-				reqValidatecode.setText("(" + (--count) + ")"
-						+ "后重新获取验证码");
+				layout_getcode.setVisibility(View.GONE);
+				layout_codetip.setVisibility(View.VISIBLE);
+				timecount.setText((--count) 
+						+ "秒");
 			}
 		};
 		countDownTimer.start();
 	}
+
 }

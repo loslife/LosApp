@@ -6,7 +6,7 @@ import android.os.Environment;
 
 public class Constants 
 {
-	public static final String SERVICE_IP = "www.yilos.com";
+	public static final String SERVICE_IP = "192.168.1.108:5000";//"www.yilos.com";
 	
 	public static final String HTTPS_SERVICE_ADDRESS = "https://" + SERVICE_IP
 			+ "/svc/";
@@ -75,6 +75,12 @@ public class Constants
 	 */
 	public static final String MODIFYPWD_URL ="http://" + "192.168.1.108:5000"
 			+ "/svc/losapp/modifyPassword";
+	
+	/**
+	 * 找回密码
+	 */
+	public static final String FINDPWD_URL ="http://" + "192.168.1.108:5000"
+	+"/svc/losapp/resetPassword";
 	
 	/**
 	 * 获取会员通讯录

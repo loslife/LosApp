@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:layout_marginRight="10.0dip"
-                android:textColor="@color/gray_text"
+                android:textColor="@color/black_text"
                 android:textSize="16.0dip"
              />
              <TextView

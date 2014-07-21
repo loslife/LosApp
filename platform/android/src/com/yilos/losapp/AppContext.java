@@ -15,6 +15,8 @@ public class AppContext extends Application {
 	
 	private String DBName;
 	
+	private String shopName;
+	
 	private String userAccount;
 	
 	private String currentDisplayShopId;
@@ -168,9 +170,9 @@ public class AppContext extends Application {
      * @param shopAccount
      * @return
      */
-    public ServerMemberResponse undoLinkshop(String userAccount,String shopAccount)
+    public ServerMemberResponse undoLinkshop(String userAccount,String shopId)
     {
-    	return ApiClient.undoLinkshop(appContext, userAccount, shopAccount);
+    	return ApiClient.undoLinkshop(appContext, userAccount, shopId);
     }
     
     /**
@@ -239,6 +241,14 @@ public class AppContext extends Application {
 
 	public void setReportLastSyncTime(String reportLastSyncTime) {
 		this.reportLastSyncTime = reportLastSyncTime;
+	}
+
+	public String getShopName() {
+		return shopName;
+	}
+
+	public void setShopName(String shopName) {
+		this.shopName = shopName;
 	}
 	
 }

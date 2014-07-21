@@ -8,6 +8,7 @@
     <include
         android:layout_height="50.0dip"
         layout="@layout/main_header" />
+    
      <LinearLayout
         android:id="@+id/layout_loadingmember"
         android:layout_width="fill_parent"
@@ -31,6 +32,8 @@
      </LinearLayout>
      
     <include layout="@layout/loadingbar"/>
+    
+    <include layout="@layout/loadingfail"/>
     
     <LinearLayout
         android:id="@+id/layout_memberlist"

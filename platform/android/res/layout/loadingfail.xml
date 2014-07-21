@@ -1,0 +1,44 @@
+ <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/layout_loadingfail"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="vertical" 
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/checknettip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/loadingfail"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="请检查你的网络设置并"
+            android:textColor="@color/gray_text"
+            android:textSize="16.0dip" />
+
+        <TextView
+            android:id="@+id/reloading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/checknettip"
+            android:layout_below="@+id/loadingfail"
+            android:text="重新刷新"
+            android:textColor="@color/blue_text"
+            android:textSize="16.0dip" />
+
+        <TextView
+            android:id="@+id/loadingfail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignRight="@+id/checknettip"
+            android:drawableTop="@drawable/loadingfail"
+            android:text="哎呀，出错了"
+            android:textColor="@color/gray_text"
+            android:textSize="16.0dip" />
+
+     </RelativeLayout>
+     

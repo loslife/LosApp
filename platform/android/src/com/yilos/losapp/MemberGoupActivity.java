@@ -38,6 +38,7 @@ import com.yilos.losapp.bean.ServerMemberResponse;
 import com.yilos.losapp.common.NetworkUtil;
 import com.yilos.losapp.common.Pinyin_Comparator;
 import com.yilos.losapp.common.SideBar;
+import com.yilos.losapp.common.UIHelper;
 import com.yilos.losapp.service.MemberService;
 import com.yilos.losapp.service.MyshopManageService;
 import com.yilos.losapp.view.RefreshableView;
@@ -56,7 +57,9 @@ public class MemberGoupActivity extends BaseActivity {
 	private RefreshableView refreshableView;
 	private TextView loadingmember;
 	private LinearLayout loading_begin;
+	private RelativeLayout layout_loadingfail;
 	private TextView loadcountinfo;
+	private TextView reloading;
 
 	String[] members;
 	String[] memberNames;
@@ -96,7 +99,7 @@ public class MemberGoupActivity extends BaseActivity {
 		lvContact = (ListView) this.findViewById(R.id.lvContact);
 		mWindowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
 		memberService = new MemberService(getBaseContext());
-		shoptitle = getIntent().getStringExtra("shopName");
+		shoptitle = AppContext.getInstance(getBaseContext()).getShopName();
 	}
 
 	@Override
@@ -112,7 +115,16 @@ public class MemberGoupActivity extends BaseActivity {
 				{
 					String memberLoadInfo = "本店共有"+count+"位会员，正在努力为你加载中...";
 					loadcountinfo.setText(memberLoadInfo);
-					getMemberContact(shopId,"0");
+					if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
+					{
+					   getMemberContact(shopId,"0");
+					}
+					else
+					{
+						//加载失败检查网络
+						layout_loadingfail.setVisibility(View.VISIBLE);
+						loading_begin.setVisibility(View.GONE);
+					}
 				}
 				
 				if(msg.what==2)
@@ -228,10 +240,12 @@ public class MemberGoupActivity extends BaseActivity {
 		layout_loadingmember = (LinearLayout) findViewById(R.id.layout_loadingmember);
 		layout_memberlist =  (LinearLayout) findViewById(R.id.layout_memberlist);
 		loadingmember = (TextView) findViewById(R.id.loadingmember);
+		reloading = (TextView) findViewById(R.id.reloading);
 		refreshableView = (RefreshableView) findViewById(R.id.refreshable_view);
 		seachmemberext = (EditText) findViewById(R.id.seachmemberext);
 		loading_begin = (LinearLayout) findViewById(R.id.loading_begin);
 		loadcountinfo = (TextView) findViewById(R.id.loadcountinfo);
+		layout_loadingfail = (RelativeLayout) findViewById(R.id.layout_loadingfail);
 
 		shopname = (TextView) findViewById(R.id.shopname);
 		shopname.setText(shoptitle);
@@ -261,8 +275,29 @@ public class MemberGoupActivity extends BaseActivity {
 				else
 				{
 					//加载失败检查网络
+					layout_loadingfail.setVisibility(View.VISIBLE);
+					loading_begin.setVisibility(View.GONE);
 				}
+			}
+		});
+       reloading.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
 				
+				
+				if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
+				{
+					loading_begin.setVisibility(View.VISIBLE);
+					layout_loadingfail.setVisibility(View.GONE);
+					layout_loadingmember.setVisibility(View.GONE);
+					getMemberCounts(shopId);
+				}
+				else
+				{
+					//加载失败检查网络
+					UIHelper.ToastMessage(v.getContext(), "当前网络不佳，请检查网络");
+				}
 			}
 		});
 		WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
@@ -375,6 +410,7 @@ public class MemberGoupActivity extends BaseActivity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				shoptitle = title[arg2];
+				AppContext.getInstance(getBaseContext()).setShopName(title[arg2]);
 				AppContext.getInstance(getBaseContext())
 						.setCurrentDisplayShopId(shopIds[arg2]);
 				shopId = shopIds[arg2];
