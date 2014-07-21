@@ -1,5 +1,6 @@
 #import "LosPieChart.h"
 #import "BusinessPerformance.h"
+#import "ReportViewProtocol.h"
 
 @protocol ReportShopViewDataSource <NSObject>
 
@@ -10,9 +11,8 @@
 
 @end
 
-@interface ReportShopView : UIView
+@interface ReportShopView : UIView<ReportViewProtocol>
 
 -(id) initWithFrame:(CGRect)frame DataSource:(id<ReportShopViewDataSource, LosPieChartDelegate>)ds;
--(void) reload;
 
 @end

@@ -1,5 +1,4 @@
 #import "ReportViewController.h"
-#import "ReportLoadingView.h"
 #import "ReportView.h"
 #import "UserData.h"
 #import "StringUtils.h"
@@ -80,8 +79,9 @@
         return;
     }
     
-    ReportLoadingView *loadingView = [[ReportLoadingView alloc] init];
-    self.view = loadingView;
+    ReportView *view = [[ReportView alloc] initWithController:self];
+    self.view = view;
+    [view showLoading];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
     
@@ -110,8 +110,8 @@
         }];
         
         dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-            ReportView *reportView = [[ReportView alloc] initWithController:self];
-            self.view = reportView;
+            [view reloadData];
+            [view showData];
         });
     });
 }
