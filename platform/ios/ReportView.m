@@ -43,6 +43,7 @@
         dataArea = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 104, 320, 415)];
         dataArea.contentSize = CGSizeMake(1280, 415);
         dataArea.pagingEnabled = YES;
+        dataArea.showsHorizontalScrollIndicator = NO;
         
         ReportEmployeeView *employee = [[ReportEmployeeView alloc] initWithFrame:CGRectMake(0, 0, 320, 415) DataSource:controller.employeeDataSource];
         
