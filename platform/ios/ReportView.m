@@ -62,8 +62,11 @@
 
 -(void) reloadData
 {
-    for(id<ReportViewProtocol> subview in dataArea.subviews){
-        [subview reload];
+    for(UIView *subview in dataArea.subviews){
+        
+        if([subview conformsToProtocol:@protocol(ReportViewProtocol)]){
+            [(id<ReportViewProtocol>)subview reload];
+        }
     }
 }
 

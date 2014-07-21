@@ -35,6 +35,19 @@
     return self;
 }
 
+-(void) loadView
+{
+    UserData *userData = [UserData load];
+    currentEnterpriseId = userData.enterpriseId;
+    
+    if([StringUtils isEmpty:currentEnterpriseId]){
+        return;
+    }
+    
+    ReportView *view = [[ReportView alloc] initWithController:self];
+    self.view = view;
+}
+
 -(void) viewWillAppear:(BOOL)animated
 {
     UserData *userData = [UserData load];
@@ -75,13 +88,8 @@
 // invoked in main thread
 -(void) loadReport
 {
-    if([StringUtils isEmpty:currentEnterpriseId]){
-        return;
-    }
-    
-    ReportView *view = [[ReportView alloc] initWithController:self];
-    self.view = view;
-    [view showLoading];
+    ReportView *myView = (ReportView*)self.view;
+    [myView showLoading];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
     
@@ -110,8 +118,8 @@
         }];
         
         dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-            [view reloadData];
-            [view showData];
+            [myView reloadData];
+            [myView showData];
         });
     });
 }
