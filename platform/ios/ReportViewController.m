@@ -118,8 +118,7 @@
         }];
         
         dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-            [myView reloadData];
-            [myView showData];
+            [myView reloadAndShowData];
         });
     });
 }

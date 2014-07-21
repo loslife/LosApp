@@ -60,26 +60,24 @@
     return self;
 }
 
--(void) reloadData
+-(void) reloadAndShowData
 {
+    [loading removeFromSuperview];
+    
     for(UIView *subview in dataArea.subviews){
         
         if([subview conformsToProtocol:@protocol(ReportViewProtocol)]){
             [(id<ReportViewProtocol>)subview reload];
         }
     }
+    
+    [self addSubview:dataArea];
 }
 
 -(void) showLoading
 {
     [dataArea removeFromSuperview];
     [self addSubview:loading];
-}
-
--(void) showData
-{
-    [loading removeFromSuperview];
-    [self addSubview:dataArea];
 }
 
 @end

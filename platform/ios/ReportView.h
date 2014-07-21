@@ -4,8 +4,7 @@
 @interface ReportView : UIView
 
 -(id) initWithController:(ReportViewController*)controller;
--(void) reloadData;
+-(void) reloadAndShowData;
 -(void) showLoading;
--(void) showData;
 
 @end
