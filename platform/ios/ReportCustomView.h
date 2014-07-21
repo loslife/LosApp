@@ -1,15 +1,16 @@
-#import "ReportViewBase.h"
+#import "LosLineChart.h"
 
 @protocol ReportCustomerViewDataSource <NSObject>
 
+-(BOOL) hasData;
 -(NSUInteger) memberCount;
 -(NSUInteger) walkinCount;
 
 @end
 
-@interface ReportCustomView : ReportViewBase
+@interface ReportCustomView : UIView
 
--(id) initWithController:(id<ReportCustomerViewDataSource>)controller;
+-(id) initWithFrame:(CGRect)frame DataSource:(id<ReportCustomerViewDataSource, LosLineChartDataSource>)ds;
 -(void) reload;
 
 @end

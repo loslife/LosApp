@@ -1,61 +1,18 @@
-#import "ReportShopViewController.h"
-#import "ReportServiceViewController.h"
-#import "BusinessPerformance.h"
-#import "ReportDateStatus.h"
-#import "UserData.h"
-#import "StringUtils.h"
+#import "ReportShopDataSource.h"
 
-@implementation ReportShopViewController
+@implementation ReportShopDataSource
 
-{
-    NSMutableArray *records;
-}
-
--(id) init
-{
-    self = [super init];
-    if(self){
-        
-        records = [NSMutableArray array];
-        
-        self.navigationItem.hidesBackButton = YES;
-        self.navigationItem.rightBarButtonItem = [[SwitchShopButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20) Delegate:self];
-    }
-    return self;
-}
-
--(void) viewWillAppear:(BOOL)animated
-{
-    ReportShopView *view = [[ReportShopView alloc] initWithController:self];
-    self.view = view;
-    
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [super initEnterprises];
-        [self loadReport];
-    });
-}
-
--(void) loadReport
+-(void) loadFromServer:(BOOL)flag block:(void(^)(BOOL))block
 {
     UserData *userData = [UserData load];
     NSString *currentEnterpriseId = userData.enterpriseId;
     
-    if([StringUtils isEmpty:currentEnterpriseId]){
-        return;
-    }
-    
     ReportDateStatus *status = [ReportDateStatus sharedInstance];
     
-    if(![LosHttpHelper isNetworkAvailable]){
+    if(!flag){
         
-        records = [self.reportDao queryBusinessPerformanceByDate:status.date EnterpriseId:currentEnterpriseId Type:status.dateType];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            ReportShopView *myView = (ReportShopView*)self.view;
-            [myView reload];
-        });
-        
+        self.records = [self.reportDao queryBusinessPerformanceByDate:status.date EnterpriseId:currentEnterpriseId Type:status.dateType];
+        block(YES);
         return;
     }
     
@@ -73,15 +30,11 @@
         NSDictionary *biz2 = [prev objectForKey:@"tb_biz_performance"];
         NSDictionary *record2 = [biz2 objectForKey:[status typeStr]];
         
-        [records removeAllObjects];
+        [self.records removeAllObjects];
         
         if(![record objectForKey:@"_id"]){
             
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                ReportShopView *myView = (ReportShopView*)self.view;
-                [myView reload];
-            });
+            block(YES);
             return;
         }
         
@@ -113,16 +66,12 @@
             [self.reportDao insertBusinessPerformance:record2 type:[status typeStr]];
         }
         
-        [records addObject:p1];
-        [records addObject:p2];
-        [records addObject:p3];
-        [records addObject:p4];
+        [self.records addObject:p1];
+        [self.records addObject:p2];
+        [self.records addObject:p3];
+        [self.records addObject:p4];
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            ReportShopView *myView = (ReportShopView*)self.view;
-            [myView reload];
-        });
+        block(YES);
     }];
 }
 
@@ -139,27 +88,17 @@
     }
 }
 
-- (void) handleSwipeLeft
-{
-    [super handleSwipeLeft];
-    
-    ReportServiceViewController *service = [[ReportServiceViewController alloc] init];
-    [self.navigationController pushViewController:service animated:YES];
-}
-
-- (void) handleSwipeRight
-{
-    [super handleSwipeRight];
-    
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 #pragma mark - ReportShopView datasource
+
+-(BOOL) hasData
+{
+    return [self.records count] != 0;
+}
 
 -(NSString*) total
 {
     double sum = 0;
-    for(BusinessPerformance *item in records){
+    for(BusinessPerformance *item in self.records){
         sum += item.value;
     }
     return [NSString stringWithFormat:@"￥%f", sum];
@@ -167,24 +106,24 @@
 
 -(NSUInteger) itemCount
 {
-    return [records count];
+    return [self.records count];
 }
 
 -(BusinessPerformance*) itemAtIndex:(int)index
 {
-    return [records objectAtIndex:index];
+    return [self.records objectAtIndex:index];
 }
 
 #pragma mark - PieChart delegate
 
 -(NSUInteger) pieItemCount
 {
-    return [records count];
+    return [self.records count];
 }
 
 -(LosPieChartItem*) pieItemAtIndex:(int)index
 {
-    BusinessPerformance *performance = [records objectAtIndex:index];
+    BusinessPerformance *performance = [self.records objectAtIndex:index];
     
     NSString *title = [NSString stringWithFormat:@"%@%f", performance.title, performance.ratio];
     LosPieChartItem *item = [[LosPieChartItem alloc] initWithTitle:title Ratio:performance.ratio];

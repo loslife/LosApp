@@ -1,15 +1,10 @@
-#import "ReportCustomViewController.h"
-#import "ReportCustomView.h"
-#import "UserData.h"
-#import "StringUtils.h"
-#import "ReportDateStatus.h"
+#import "ReportCustomDataSource.h"
 #import "CustomerCount.h"
 #import "TimesHelper.h"
 
-@implementation ReportCustomViewController
+@implementation ReportCustomDataSource
 
 {
-    NSMutableArray *records;
     NSMutableArray *top3;
 }
 
@@ -17,49 +12,23 @@
 {
     self = [super init];
     if(self){
-        
-        records = [NSMutableArray arrayWithCapacity:1];
         top3 = [NSMutableArray arrayWithCapacity:1];
-        
-        self.navigationItem.hidesBackButton = YES;
-        self.navigationItem.rightBarButtonItem = [[SwitchShopButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20) Delegate:self];
     }
     return self;
 }
 
--(void) viewWillAppear:(BOOL)animated
-{
-    ReportCustomView *view = [[ReportCustomView alloc] initWithController:self];
-    self.view = view;
-    
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [super initEnterprises];
-        [self loadReport];
-    });
-}
-
--(void) loadReport
+-(void) loadFromServer:(BOOL)flag block:(void(^)(BOOL))block
 {
     UserData *userData = [UserData load];
     NSString *currentEnterpriseId = userData.enterpriseId;
     
-    if([StringUtils isEmpty:currentEnterpriseId]){
-        return;
-    }
-    
     ReportDateStatus *status = [ReportDateStatus sharedInstance];
     
-    if(![LosHttpHelper isNetworkAvailable]){
+    if(!flag){
         
-        records = [self.reportDao queryCustomerCountByDate:status.date EnterpriseId:currentEnterpriseId Type:status.dateType];
+        self.records = [self.reportDao queryCustomerCountByDate:status.date EnterpriseId:currentEnterpriseId Type:status.dateType];
         [self resolveTop3];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            ReportCustomView *myView = (ReportCustomView*)self.view;
-            [myView reload];
-        });
-        
+        block(YES);
         return;
     }
     
@@ -96,10 +65,10 @@
         
         [self.reportDao batchInsertCustomerCount:filled type:type];
         
-        [records removeAllObjects];
+        [self.records removeAllObjects];
         
         for(NSDictionary *item in filled){
-        
+            
             NSNumber *member_count = [item objectForKey:@"member"];
             NSNumber *walkin_count = [item objectForKey:@"temp"];
             NSNumber *day = [item objectForKey:@"day"];
@@ -114,16 +83,11 @@
             
             CustomerCount *entity = [[CustomerCount alloc] initWithTotalMember:[member_total intValue] walkin:[walkin_total intValue] count:[member_count intValue] + [walkin_count intValue] title:title];
             
-            [records addObject:entity];
+            [self.records addObject:entity];
         }
         
         [self resolveTop3];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            ReportCustomView *myView = (ReportCustomView*)self.view;
-            [myView reload];
-        });
+        block(YES);
     }];
 }
 
@@ -151,7 +115,7 @@
         }
         
         NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:1];
-       
+        
         [dict setObject:[[NSUUID UUID] UUIDString] forKey:@"_id"];
         [dict setObject:currentEnterpriseId forKey:@"enterprise_id"];
         [dict setObject:[NSNumber numberWithInt:0] forKey:@"member"];
@@ -186,7 +150,7 @@
 {
     [top3 removeAllObjects];
     
-    NSArray *sorted = [records sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+    NSArray *sorted = [self.records sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
         CustomerCount *entity1 = (CustomerCount*)obj1;
         CustomerCount *entity2 = (CustomerCount*)obj2;
         if(entity1.count < entity2.count){
@@ -222,31 +186,22 @@
     }
 }
 
-#pragma mark - abstract method implementation
-
-- (void) handleSwipeLeft
-{
-    [super handleSwipeLeft];
-}
-
-- (void) handleSwipeRight
-{
-    [super handleSwipeRight];
-    
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 #pragma mark - customer view datasource
+
+-(BOOL) hasData
+{
+    return [self.records count] != 0;
+}
 
 -(NSUInteger) memberCount
 {
-    CustomerCount *entity = [records firstObject];
+    CustomerCount *entity = [self.records firstObject];
     return entity.totalMember;
 }
 
 -(NSUInteger) walkinCount
 {
-    CustomerCount *entity = [records firstObject];
+    CustomerCount *entity = [self.records firstObject];
     return entity.totalWalkin;
 }
 
@@ -256,7 +211,7 @@
 {
     double max = 0.0;
     
-    for(CustomerCount *entity in records){
+    for(CustomerCount *entity in self.records){
         if(entity.count > max){
             max = entity.count;
         }
@@ -271,12 +226,12 @@
 
 -(NSUInteger) itemCount
 {
-    return [records count];
+    return [self.records count];
 }
 
 -(LosLineChartItem*) itemAtIndex:(int)index
 {
-    CustomerCount *entity = [records objectAtIndex:index];
+    CustomerCount *entity = [self.records objectAtIndex:index];
     
     int order = 4;
     

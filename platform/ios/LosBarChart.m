@@ -1,90 +1,23 @@
 #import "LosBarChart.h"
 
-@interface DividingLine : UIView
-
-@end
-
-@implementation DividingLine
-
-- (void)drawRect:(CGRect)rect
-{
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    CGContextSetStrokeColorWithColor(ctx, [UIColor colorWithRed:202/255.0f green:211/255.0f blue:218/255.0f alpha:1.0f].CGColor);
-    CGContextMoveToPoint(ctx, 0, 0);
-    CGContextAddLineToPoint(ctx, CGRectGetMaxX(rect), 0);
-    CGContextStrokePath(ctx);
-}
-
-@end
-
-@interface VerticalLine : UIView
-
-@end
-
-@implementation VerticalLine
-
-- (void)drawRect:(CGRect)rect
-{
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    CGContextSetStrokeColorWithColor(ctx, [UIColor colorWithRed:202/255.0f green:211/255.0f blue:218/255.0f alpha:1.0f].CGColor);
-    CGContextMoveToPoint(ctx, 0, 0);
-    CGContextAddLineToPoint(ctx, 0, CGRectGetMaxY(rect));
-    CGContextStrokePath(ctx);
-}
-
-@end
-
 @implementation LosBarChart
 
 {
     id<LosBarChartDataSource> dataSource;
-    UILabel *total;
-    UIView *mainArea;
 }
 
 -(id) initWithFrame:(CGRect)frame DataSource:(id<LosBarChartDataSource>)ds
 {
     self = [super initWithFrame:frame];
     if(self){
-        
         dataSource = ds;
-
-        UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
-        
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 100, 40)];
-        label.text = @"员工业绩";
-        label.textAlignment = NSTextAlignmentLeft;
-        label.textColor = [UIColor colorWithRed:32/255.0f green:37/255.0f blue:41/255.0f alpha:1.0f];
-        
-        total = [[UILabel alloc] initWithFrame:CGRectMake(200, 0, 100, 40)];
-        total.textAlignment = NSTextAlignmentRight;
-        total.textColor = [UIColor colorWithRed:32/255.0f green:37/255.0f blue:41/255.0f alpha:1.0f];
-        
-        [header addSubview:label];
-        [header addSubview:total];
-        
-        DividingLine *horizon = [[DividingLine alloc] initWithFrame:CGRectMake(20, 40, 280, 1)];
-        
-        mainArea = [[UIView alloc] initWithFrame:CGRectMake(0, 41, 320, 427)];
-        
-        VerticalLine *vertical = [[VerticalLine alloc] initWithFrame:CGRectMake(60, 56, 1, 357)];
-        
-        [self addSubview:header];
-        [self addSubview:horizon];
-        [self addSubview:mainArea];
-        [self addSubview:vertical];
+        self.backgroundColor = [UIColor whiteColor];
     }
     return self;
 }
 
--(void) reload
+-(void) drawRect:(CGRect)rect
 {
-    total.text = [NSString stringWithFormat:@"￥%d", [dataSource totalValue]];
-    
-    for(UIView *sub in mainArea.subviews){
-        [sub removeFromSuperview];
-    }
-    
     NSUInteger count = [dataSource rowCount];
     if(count == 0){
         return;
@@ -126,7 +59,7 @@
         [row addSubview:bar];
         [row addSubview:money];
         
-        [mainArea addSubview:row];
+        [self addSubview:row];
     }
 }
 

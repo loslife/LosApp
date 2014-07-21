@@ -1,12 +1,16 @@
 #import <UIKit/UIKit.h>
-#import "ReportViewBase.h"
-#import "ReportEmployeeViewController.h"
 #import "LosBarChart.h"
 
-@interface ReportEmployeeView : ReportViewBase
+@protocol ReportEmployeeViewDataSource <NSObject>
 
-@property LosBarChart *barView;
+-(BOOL) hasData;
+-(int) totalNumber;
 
--(id) initWithController:(ReportEmployeeViewController*)controller;
+@end
+
+@interface ReportEmployeeView : UIView
+
+-(id) initWithFrame:(CGRect)frame DataSource:(id<ReportEmployeeViewDataSource, LosBarChartDataSource>)ds;
+-(void) reload;
 
 @end

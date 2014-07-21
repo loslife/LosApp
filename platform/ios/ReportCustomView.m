@@ -1,47 +1,39 @@
 #import "ReportCustomView.h"
-#import "ReportCustomViewController.h"
 #import "LosLineChart.h"
-#import "HorizontalLine.h"
 
 @implementation ReportCustomView
 
 {
-    id<ReportCustomerViewDataSource> dataSource;
+    id<ReportCustomerViewDataSource, LosLineChartDataSource> dataSource;
+    
     UILabel *summary;
     UIScrollView *scroll;
-    LosLineChart *chart;
 }
 
--(id) initWithController:(id<ReportCustomerViewDataSource>)controller
+-(id) initWithFrame:(CGRect)frame DataSource:(id<ReportCustomerViewDataSource, LosLineChartDataSource>)ds
 {
-    self = [super initWithController:(ReportViewControllerBase*)controller];
+    self = [super initWithFrame:frame];
     if(self){
         
-        dataSource = controller;
+        dataSource = ds;
         
-        UILabel *header = [[UILabel alloc] initWithFrame:CGRectMake(20, 100, 280, 40)];
+        UILabel *header = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 280, 40)];
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 80, 40)];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 40)];
         label.text = @"客流量";
         label.textAlignment = NSTextAlignmentLeft;
         label.textColor = [UIColor colorWithRed:32/255.0f green:37/255.0f blue:41/255.0f alpha:1.0f];
-        label.font = [UIFont systemFontOfSize:14];
         
-        summary = [[UILabel alloc] initWithFrame:CGRectMake(80, 0, 200, 40)];
+        summary = [[UILabel alloc] initWithFrame:CGRectMake(100, 0, 180, 40)];
+        summary.text = [NSString stringWithFormat:@"会员%lu人次 散客%lu人次", [dataSource memberCount], [dataSource walkinCount]];
         summary.textAlignment = NSTextAlignmentRight;
         summary.textColor = [UIColor colorWithRed:32/255.0f green:37/255.0f blue:41/255.0f alpha:1.0f];
-        summary.font = [UIFont systemFontOfSize:14];
         
         [header addSubview:label];
         [header addSubview:summary];
-
-        HorizontalLine *line = [[HorizontalLine alloc] initWithFrame:CGRectMake(20, 140, 280, 1)];
-        
-        scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 141, 320, 427)];
         
         [self addSubview:header];
-        [self addSubview:line];
-        [self addSubview:scroll];
+        [self addDataView];
     }
     return self;
 }
@@ -51,12 +43,24 @@
     NSString *title = [NSString stringWithFormat:@"会员%lu人次 散客%lu人次", [dataSource memberCount], [dataSource walkinCount]];
     summary.text = title;
 
-    CGFloat contentHeight = ([(id<LosLineChartDataSource>)dataSource itemCount] + 1) * 40;
-    scroll.contentSize = CGSizeMake(320, contentHeight);
-    
-    [chart removeFromSuperview];
-    chart = [[LosLineChart alloc] initWithFrame:CGRectMake(0, 0, 320, 0) dataSource:(ReportCustomViewController*)dataSource];
-    [scroll addSubview:chart];
+    [scroll removeFromSuperview];
+    [self addDataView];
+}
+
+-(void) addDataView
+{
+    if([dataSource hasData]){
+        
+        scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 40, 320, 375)];
+        
+        CGFloat contentHeight = ([dataSource itemCount] + 1) * 40;
+        scroll.contentSize = CGSizeMake(320, contentHeight);
+        
+        LosLineChart *chart = [[LosLineChart alloc] initWithFrame:CGRectMake(0, 0, 320, 0) dataSource:dataSource];
+        [scroll addSubview:chart];
+        
+        [self addSubview:scroll];
+    }
 }
 
 @end

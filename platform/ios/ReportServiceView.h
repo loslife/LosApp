@@ -1,17 +1,18 @@
-#import "ReportViewBase.h"
 #import "ServicePerformance.h"
+#import "LosPieChart.h"
 
 @protocol ReportServiceViewDataSource <NSObject>
 
+-(BOOL) hasData;
 -(NSString*) total;
 -(NSUInteger) itemCount;
 -(ServicePerformance*) itemAtIndex:(int)index;
 
 @end
 
-@interface ReportServiceView : ReportViewBase
+@interface ReportServiceView : UIView
 
--(id) initWithController:(id<ReportServiceViewDataSource>)controller;
+-(id) initWithFrame:(CGRect)frame DataSource:(id<ReportServiceViewDataSource, LosPieChartDelegate>)ds;
 -(void) reload;
 
 @end
