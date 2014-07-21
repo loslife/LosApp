@@ -43,7 +43,6 @@
 - (void)drawRect:(CGRect)rect
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
-    
     CGContextSetLineWidth(context, 25.0);
     
     NSUInteger count = [myDelegate pieItemCount];

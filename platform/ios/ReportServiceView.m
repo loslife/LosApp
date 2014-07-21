@@ -19,25 +19,36 @@
         
         dataSource = ds;
         
-        UILabel *header = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 280, 40)];
-        
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 40)];
-        label.text = @"产品业绩";
-        label.textAlignment = NSTextAlignmentLeft;
-        label.textColor = [UIColor colorWithRed:32/255.0f green:37/255.0f blue:41/255.0f alpha:1.0f];
-        
-        total = [[UILabel alloc] initWithFrame:CGRectMake(100, 0, 180, 40)];
-        total.text = [ds total];
-        total.textAlignment = NSTextAlignmentRight;
-        total.textColor = [UIColor colorWithRed:32/255.0f green:37/255.0f blue:41/255.0f alpha:1.0f];
-        
-        [header addSubview:label];
-        [header addSubview:total];
-        
-        [self addSubview:header];
-        [self addDataView];
+        self.backgroundColor = [UIColor whiteColor];
     }
     return self;
+}
+
+-(void) drawRect:(CGRect)rect
+{
+    UILabel *header = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 280, 40)];
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 40)];
+    label.text = @"产品业绩";
+    label.textAlignment = NSTextAlignmentLeft;
+    label.textColor = [UIColor colorWithRed:32/255.0f green:37/255.0f blue:41/255.0f alpha:1.0f];
+    
+    total = [[UILabel alloc] initWithFrame:CGRectMake(100, 0, 180, 40)];
+    total.text = [dataSource total];
+    total.textAlignment = NSTextAlignmentRight;
+    total.textColor = [UIColor colorWithRed:32/255.0f green:37/255.0f blue:41/255.0f alpha:1.0f];
+    
+    [header addSubview:label];
+    [header addSubview:total];
+    
+    [self addSubview:header];
+    [self addDataView];
+    
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    CGContextSetLineWidth(ctx, .1f);
+    CGContextMoveToPoint(ctx, 20, 39.5);
+    CGContextAddLineToPoint(ctx, 300, 39.5);
+    CGContextStrokePath(ctx);
 }
 
 -(void) reload
