@@ -52,6 +52,10 @@
     // 无关联店铺
     if([StringUtils isEmpty:currentEnterpriseId]){
         
+        if(![StringUtils isEmpty:previousEnterpriseId]){
+            previousEnterpriseId = nil;
+        }
+        
         NoShopView *noShop = [[NoShopView alloc] initWithFrame:CGRectMake(0, 64, 320, 455)];
         self.view = noShop;
         

@@ -116,7 +116,7 @@
     UIButton *button = (UIButton*)sender;
     
     Enterprise* item = [myDelegate itemAtIndex:(int)button.tag];
-    [myDelegate doAttach:item.pk];
+    [myDelegate reAttach:item.pk];
 }
 
 -(void) undoAttach:(id)sender

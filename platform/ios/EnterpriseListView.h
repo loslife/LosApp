@@ -6,7 +6,7 @@
 -(NSUInteger) count;
 -(Enterprise*) itemAtIndex:(int)index;
 
--(void) doAttach:(NSString*)enterpriseId;
+-(void) reAttach:(NSString*)enterpriseId;
 -(void) undoAttach:(NSString*)enterpriseId;
 
 @end

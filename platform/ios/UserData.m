@@ -30,6 +30,13 @@
     [userDefaults synchronize];
 }
 
++(void) removeCurrentEnterprise
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults removeObjectForKey:@"enterprise_id"];
+    [userDefaults synchronize];
+}
+
 +(void) remove
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];

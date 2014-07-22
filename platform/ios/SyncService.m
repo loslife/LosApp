@@ -22,7 +22,7 @@
     return self;
 }
 
--(void) addEnterprise:(NSString*)userId EnterpriseAccount:(NSString*)phone Block:(void(^)(BOOL flag))block
+-(void) addEnterprise:(NSString*)userId EnterpriseAccount:(NSString*)phone Block:(void(^)(NSString* enterpriseId))block
 {
     NSString *body = [NSString stringWithFormat:@"account=%@&enterprise_account=%@", userId, phone];
     NSData *postData = [body dataUsingEncoding:NSUTF8StringEncoding];
@@ -30,13 +30,13 @@
     [httpHelper postSecure:APPEND_ENERPRISE_URL Data:postData completionHandler:^(NSDictionary *dict){
         
         if(dict == nil){
-            block(NO);
+            block(nil);
             return;
         }
         
         NSNumber *code = [dict objectForKey:@"code"];
         if([code intValue] != 0){
-            block(NO);
+            block(nil);
             return;
         }
         
@@ -45,7 +45,7 @@
         NSString *enterpriseName = [result objectForKey:@"enterprise_name"];
         
         [enterpriseDao insertEnterprisesWith:enterpriseId Name:enterpriseName account:phone];
-        block(YES);
+        block(enterpriseId);
     }];
 }
 

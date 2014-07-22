@@ -2,6 +2,7 @@
 #import "AddShopView.h"
 #import "StringUtils.h"
 #import "EnterpriseDao.h"
+#import "UserData.h"
 
 @implementation AddShopViewController
 
@@ -169,11 +170,11 @@
         UserData *userData = [UserData load];
         NSString *userId = userData.userId;
         
-        [syncService addEnterprise:userId EnterpriseAccount:phone.text Block:^(BOOL flag){
+        [syncService addEnterprise:userId EnterpriseAccount:phone.text Block:^(NSString* enterpriseId){
         
             dispatch_async(dispatch_get_main_queue(), ^{
             
-                if(!flag){
+                if([StringUtils isEmpty:enterpriseId]){
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"关联失败，请联系客服" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
                     [alert show];
                     return;
@@ -181,6 +182,11 @@
                 
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"关联成功" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
                 [alert show];
+                
+                UserData *userData = [UserData load];
+                if([StringUtils isEmpty:userData.enterpriseId]){
+                    [UserData writeCurrentEnterprise:enterpriseId];
+                }
             });
         }];
     }];
@@ -198,7 +204,7 @@
     return [records objectAtIndex:index];
 }
 
--(void) doAttach:(NSString*)enterpriseId
+-(void) reAttach:(NSString*)enterpriseId
 {
     UserData *userData = [UserData load];
     NSString* userId = userData.userId;
@@ -213,8 +219,14 @@
             records = [NSMutableArray arrayWithArray:enterprises];
             
             dispatch_async(dispatch_get_main_queue(), ^{
+                
                 AddShopView *myView = (AddShopView*)self.view;
                 [myView.list reload];
+                
+                UserData *userData = [UserData load];
+                if([StringUtils isEmpty:userData.enterpriseId]){
+                    [UserData writeCurrentEnterprise:enterpriseId];
+                }
             });
         }];
     });
@@ -231,8 +243,15 @@
         records = [NSMutableArray arrayWithArray:enterprises];
         
         dispatch_async(dispatch_get_main_queue(), ^{
+            
             AddShopView *myView = (AddShopView*)self.view;
             [myView.list reload];
+            
+            // 解除当前商户的关联
+            UserData *userData = [UserData load];
+            if([userData.enterpriseId isEqualToString:enterpriseId]){
+                [UserData removeCurrentEnterprise];
+            }
         });
     }];
 }
