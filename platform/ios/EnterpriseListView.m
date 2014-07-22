@@ -48,6 +48,7 @@
         UILabel *none = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)];
         none.text = @"您还未关联任何店铺，点击“添加关联”";
         none.textAlignment = NSTextAlignmentCenter;
+        none.font = [UIFont systemFontOfSize:14];
         [self addSubview:none];
         
         return;

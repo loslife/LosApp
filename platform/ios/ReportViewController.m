@@ -5,6 +5,7 @@
 #import "EnterpriseDao.h"
 #import "LosHttpHelper.h"
 #import "ReportDateStatus.h"
+#import "NoShopView.h"
 
 @implementation ReportViewController
 
@@ -35,28 +36,28 @@
     return self;
 }
 
--(void) loadView
-{
-    UserData *userData = [UserData load];
-    currentEnterpriseId = userData.enterpriseId;
-    
-    if([StringUtils isEmpty:currentEnterpriseId]){
-        return;
-    }
-    
-    ReportView *view = [[ReportView alloc] initWithController:self];
-    self.view = view;
-}
-
 -(void) viewWillAppear:(BOOL)animated
 {
     UserData *userData = [UserData load];
     currentEnterpriseId = userData.enterpriseId;
     
+    // 无关联店铺
+    if([StringUtils isEmpty:currentEnterpriseId]){
+        
+        NoShopView *noShop = [[NoShopView alloc] initWithFrame:CGRectMake(0, 64, 320, 455)];
+        self.view = noShop;
+        
+        self.navigationItem.title = @"我的店铺";
+        
+        return;
+    }
+    
+    // 未切换店铺
     if([previousEnterpriseId isEqualToString:currentEnterpriseId]){
         return;
     }
     
+    // 以下是切换了店铺的处理
     previousEnterpriseId = currentEnterpriseId;
     
     [self resolveNavTitle];
@@ -65,11 +66,6 @@
 
 -(void) resolveNavTitle
 {
-    if([StringUtils isEmpty:currentEnterpriseId]){
-        self.navigationItem.title = @"我的店铺";
-        return;
-    }
-    
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         
         NSString *enterpriseName = [enterpriseDao queryEnterpriseNameById:currentEnterpriseId];
@@ -88,6 +84,12 @@
 // invoked in main thread
 -(void) loadReport
 {
+    if(![self.view isKindOfClass:[ReportView class]]){
+        
+        ReportView *view = [[ReportView alloc] initWithController:self];
+        self.view = view;
+    }
+    
     ReportView *myView = (ReportView*)self.view;
     [myView showLoading];
     

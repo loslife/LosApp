@@ -2,6 +2,6 @@
 
 @interface ContactLoadingView : UIView
 
--(void) showMemberCount:(int)count;
+-(void) showMemberCount:(NSUInteger)count;
 
 @end

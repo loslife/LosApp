@@ -29,9 +29,9 @@
     return self;
 }
 
--(void) showMemberCount:(int)count;
+-(void) showMemberCount:(NSUInteger)count;
 {
-    message.text = [NSString stringWithFormat:@"本店共有%d个会员，正在努力为您加载，请耐心等候", count];
+    message.text = [NSString stringWithFormat:@"本店共有%lu个会员，正在努力为您加载，请耐心等候", count];
     message.numberOfLines = 2;
 }
 

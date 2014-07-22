@@ -3,8 +3,6 @@
 
 @interface ContactViewController : UIViewController<UISearchBarDelegate, SwitchShopButtonDelegate, UIAlertViewDelegate>
 
-@property NSString *previousEnterpriseId;
-
 -(void) loadMembersFromServer;
 -(void) pullToRefresh;
 

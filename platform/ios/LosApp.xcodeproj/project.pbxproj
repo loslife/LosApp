@@ -84,6 +84,7 @@
 		186C366B197D018B00633AE4 /* ReportServiceDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C366A197D018B00633AE4 /* ReportServiceDataSource.m */; };
 		186C366E197D05C500633AE4 /* ReportCustomDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C366D197D05C500633AE4 /* ReportCustomDataSource.m */; };
 		186C3671197D0F5400633AE4 /* ReportDataSourceBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C3670197D0F5400633AE4 /* ReportDataSourceBase.m */; };
+		1871AAC7197E62E20089E97A /* NoShopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1871AAC6197E62E20089E97A /* NoShopView.m */; };
 		18AFE5F5195178210083C972 /* UITableViewCell+ReuseIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE5F4195178210083C972 /* UITableViewCell+ReuseIdentifier.m */; };
 		18AFE5FC1951986F0083C972 /* ContactView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE5FB1951986F0083C972 /* ContactView.m */; };
 		18AFE600195296D70083C972 /* Member.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AFE5FF195296D70083C972 /* Member.m */; };
@@ -256,6 +257,8 @@
 		186C366F197D0F5400633AE4 /* ReportDataSourceBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportDataSourceBase.h; sourceTree = "<group>"; };
 		186C3670197D0F5400633AE4 /* ReportDataSourceBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportDataSourceBase.m; sourceTree = "<group>"; };
 		1871AAC4197D251D0089E97A /* ReportViewProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReportViewProtocol.h; sourceTree = "<group>"; };
+		1871AAC5197E62E20089E97A /* NoShopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoShopView.h; sourceTree = "<group>"; };
+		1871AAC6197E62E20089E97A /* NoShopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoShopView.m; sourceTree = "<group>"; };
 		18AFE5F3195178210083C972 /* UITableViewCell+ReuseIdentifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+ReuseIdentifier.h"; sourceTree = "<group>"; };
 		18AFE5F4195178210083C972 /* UITableViewCell+ReuseIdentifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+ReuseIdentifier.m"; sourceTree = "<group>"; };
 		18AFE5FA1951986F0083C972 /* ContactView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactView.h; sourceTree = "<group>"; };
@@ -367,6 +370,8 @@
 				186C35CE19755ADA00633AE4 /* RegisterOrResetStep2View.m */,
 				186667101949A9D000A345F7 /* BootstrapView.h */,
 				186667111949A9D000A345F7 /* BootstrapView.m */,
+				1871AAC5197E62E20089E97A /* NoShopView.h */,
+				1871AAC6197E62E20089E97A /* NoShopView.m */,
 				186C3660197CBCAF00633AE4 /* ReportView.h */,
 				186C3661197CBCAF00633AE4 /* ReportView.m */,
 				1871AAC4197D251D0089E97A /* ReportViewProtocol.h */,
@@ -820,6 +825,7 @@
 				18447261195D532600B4A543 /* LosTimePicker.m in Sources */,
 				18AFE5F5195178210083C972 /* UITableViewCell+ReuseIdentifier.m in Sources */,
 				186C35D8197621C900633AE4 /* ResetStep1View.m in Sources */,
+				1871AAC7197E62E20089E97A /* NoShopView.m in Sources */,
 				186C3668197CFB2900633AE4 /* ReportShopDataSource.m in Sources */,
 				186C3671197D0F5400633AE4 /* ReportDataSourceBase.m in Sources */,
 				184472AB196ABFBA00B4A543 /* BusinessPerformance.m in Sources */,
