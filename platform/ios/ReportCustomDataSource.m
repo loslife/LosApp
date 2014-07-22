@@ -110,7 +110,7 @@
     for(int i = 0; i < [origin count]; i++){
         
         NSDate *date = [calendar dateFromComponents:components];
-        NSDateComponents *compos = [calendar components: NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:date];
+        components = [calendar components: NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:date];
         components.day ++;
         
         NSDictionary *item = [origin objectAtIndex:i];
@@ -138,7 +138,7 @@
             [dict setObject:[NSNumber numberWithInt:i + 1] forKey:@"day"];
             [dict setObject:[NSNumber numberWithInt:0] forKey:@"hour"];
         }else{
-            [dict setObject:[NSNumber numberWithLong:compos.day] forKey:@"day"];
+            [dict setObject:[NSNumber numberWithLong:components.day - 1] forKey:@"day"];
             [dict setObject:[NSNumber numberWithInt:0] forKey:@"hour"];
         }
         
