@@ -129,7 +129,7 @@
         android:id="@+id/btn_signin"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@drawable/login_bg"
+        android:background="@drawable/login_btn"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:text="登录"

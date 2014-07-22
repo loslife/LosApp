@@ -30,7 +30,7 @@
             android:layout_height="fill_parent"
             android:gravity="fill_vertical"
              android:layout_alignParentRight="true"
-            android:text="￥4500.00"
+            android:text="￥0.00"
             android:textColor="@color/black_text"
             android:textSize="20.0dip" />
 
@@ -38,13 +38,13 @@
             android:layout_width="fill_parent"
             android:layout_height="1px"
             android:layout_alignParentBottom="true"
-            android:background="@color/gray" />
+            android:background="@color/gray_text" />
     </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/annularLayout"
         android:layout_width="fill_parent"
-        android:layout_height="180.0dip"
+        android:layout_height="160.0dip"
         android:background="@color/white"
         android:orientation="horizontal" >
     </LinearLayout>
@@ -65,25 +65,16 @@
         
          <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="48.0dip"
+            android:layout_height="50.0dip"
+            android:layout_marginTop="10.0dip"
              >
-
-            <ImageView
-                android:id="@+id/sevicesicon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_weight="1"
-                android:src="@drawable/up" />
 
             <TextView
                 android:id="@+id/sevice"
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="12.0dip"
                 android:layout_toRightOf="@+id/sevicesicon"
-                android:gravity="fill_vertical"
                 android:text="服务业绩"
                 android:textColor="@color/black"
                 android:textSize="20.0dip" />
@@ -91,9 +82,8 @@
             <TextView
                 android:id="@+id/sevicedata"
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:gravity="fill_vertical"
                 android:text="￥0.0"
                 android:textColor="@color/gray_text"
                 android:textSize="20.0dip" />
@@ -101,37 +91,49 @@
             <TextView
                 android:id="@+id/toprev_sevicedata"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_below="@+id/sevicesicon"
                 android:layout_marginLeft="24.0dip"
+                android:layout_marginTop="2.0dip"
                 android:gravity="fill_vertical"
                 android:text=""
                 android:textColor="@color/gray_text"
                 android:textSize="16.0dip" />
+
+            <ImageView
+                android:id="@+id/sevicesicon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/sevicedata"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_weight="1"
+                android:src="@drawable/up" />
+
         </RelativeLayout>
         
           <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="48.0dip"
+            android:layout_height="50.0dip"
              >
 
             <ImageView
                 android:id="@+id/saleicon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/saledata"
                 android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
+                android:layout_alignParentTop="true"
                 android:layout_weight="1"
                 android:src="@drawable/up" />
 
             <TextView
                 android:id="@+id/sale"
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="12.0dip"
                 android:layout_toRightOf="@+id/saleicon"
-                android:gravity="fill_vertical"
                 android:text="卖品业绩"
                 android:textColor="@color/black"
                 android:textSize="20.0dip" />
@@ -139,9 +141,8 @@
             <TextView
                 android:id="@+id/saledata"
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:gravity="fill_vertical"
                 android:text="￥0.0"
                 android:textColor="@color/gray_text"
                 android:textSize="20.0dip" />
@@ -153,6 +154,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_below="@+id/saleicon"
                 android:layout_marginLeft="24.0dip"
+                android:layout_marginTop="2.0dip"
                 android:gravity="fill_vertical"
                 android:text=""
                 android:textColor="@color/gray_text"
@@ -161,25 +163,25 @@
         
            <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="48.0dip"
+            android:layout_height="50.0dip"
              >
 
             <ImageView
                 android:id="@+id/cardicon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/carddata"
                 android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
+                android:layout_alignParentTop="true"
                 android:layout_weight="1"
                 android:src="@drawable/up" />
 
             <TextView
                 android:id="@+id/card"
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="12.0dip"
                 android:layout_toRightOf="@+id/cardicon"
-                android:gravity="fill_vertical"
                 android:text="开卡业绩"
                 android:textColor="@color/black"
                 android:textSize="20.0dip" />
@@ -187,9 +189,8 @@
             <TextView
                 android:id="@+id/carddata"
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:gravity="fill_vertical"
                 android:text="￥0.0"
                 android:textColor="@color/gray_text"
                 android:textSize="20.0dip" />
@@ -197,10 +198,11 @@
             <TextView
                 android:id="@+id/toprev_carddata"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_below="@+id/cardicon"
                 android:layout_marginLeft="24.0dip"
+                android:layout_marginTop="2.0dip"
                 android:gravity="fill_vertical"
                 android:text=""
                 android:textColor="@color/gray_text"
@@ -209,35 +211,13 @@
         
             <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="48.0dip"
+            android:layout_height="50.0dip"
              >
-
-            <ImageView
-                android:id="@+id/rechargeicon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_weight="1"
-                android:src="@drawable/up" />
-
-            <TextView
-                android:id="@+id/recharge"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_marginLeft="12.0dip"
-                android:layout_toRightOf="@+id/rechargeicon"
-                android:gravity="fill_vertical"
-                android:text="充值业绩"
-                android:textColor="@color/black"
-                android:textSize="20.0dip" />
-            
             <TextView
                 android:id="@+id/rechargedata"
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:gravity="fill_vertical"
                 android:text="￥0.0"
                 android:textColor="@color/gray_text"
                 android:textSize="20.0dip" />
@@ -245,14 +225,36 @@
             <TextView
                 android:id="@+id/toprev_rechargedata"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_below="@+id/rechargeicon"
                 android:layout_marginLeft="24.0dip"
+                android:layout_marginTop="2.0dip"
                 android:gravity="fill_vertical"
                 android:text=""
                 android:textColor="@color/gray_text"
                 android:textSize="16.0dip" />
+
+            <TextView
+                android:id="@+id/recharge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/toprev_rechargedata"
+                android:layout_alignParentTop="true"
+                android:text="充值业绩"
+                android:textColor="@color/black"
+                android:textSize="20.0dip" />
+            
+             <ImageView
+                android:id="@+id/rechargeicon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                 android:layout_alignBottom="@+id/rechargedata"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_weight="1"
+                android:src="@drawable/up" />
+
         </RelativeLayout>
         
     </LinearLayout>

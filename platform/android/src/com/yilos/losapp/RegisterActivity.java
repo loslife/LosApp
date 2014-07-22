@@ -93,7 +93,7 @@ public class RegisterActivity extends BaseActivity
 		relativelayout_vcode = (RelativeLayout)findViewById(R.id.relativelayout_vcode);
 		timecount = (TextView)findViewById(R.id.timecount);
 		operat_next.setEnabled(false);
-		operat_next.setBackgroundColor(R.color.gray_text);
+		operat_next.setBackgroundResource(R.drawable.gray_btn);
 		headmore = (ImageView)findViewById(R.id.headmore);
 		headmore.setVisibility(View.GONE);
 		
@@ -127,7 +127,7 @@ public class RegisterActivity extends BaseActivity
 					if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
 					{
 					  operat_next.setEnabled(true);
-					  operat_next.setBackgroundResource(R.drawable.login_bg);
+					  operat_next.setBackgroundResource(R.drawable.login_btn);
 					  getValidatecode(phoneNum.getText().toString());
 					}
 					else

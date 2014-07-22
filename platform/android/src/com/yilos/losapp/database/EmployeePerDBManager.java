@@ -66,6 +66,10 @@ public class EmployeePerDBManager
     		}
     		db.setTransactionSuccessful();  //设置事务成功完成  
     	}
+    	catch(Exception e)
+    	{
+    		e.printStackTrace();
+    	}
     	finally
     	{
     		db.endTransaction();

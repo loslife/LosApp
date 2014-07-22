@@ -30,7 +30,7 @@
             android:layout_height="fill_parent"
             android:layout_alignParentRight="true"
             android:gravity="fill_vertical"
-            android:text="45人次"
+            android:text=""
             android:textColor="@color/black_text"
             android:textSize="20.0dip" />
 
@@ -38,7 +38,7 @@
             android:layout_width="fill_parent"
             android:layout_height="1px"
             android:layout_alignParentBottom="true"
-            android:background="@color/gray" />
+            android:background="@color/gray_text" />
     </RelativeLayout>
     <com.yilos.losapp.ChartView
         android:id="@+id/myView"

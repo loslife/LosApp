@@ -101,7 +101,11 @@ public PanelDountChart(Context context,float arr[],String textName[]) {
             }
             
             //标识  
-            canvas.drawText(strPer[i]+Float.toString(arrPer[i])+"%",textX, textY ,PaintLabel);              
+            if(arrPer[i]!=0.0f)
+            {
+            	 canvas.drawText(strPer[i]+Float.toString(arrPer[i])+"%",textX, textY ,PaintLabel);    
+            }
+                     
             //下次的起始角度    
             CurrPer += Percentage;    
         }    

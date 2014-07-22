@@ -168,7 +168,7 @@
         android:layout_width="fill_parent"
         android:layout_height="48.0dip"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/login_bg"
+        android:background="@drawable/login_btn"
         android:gravity="center"
         android:text="立即关联"
         android:textSize="22.0dip"
@@ -179,6 +179,7 @@
         android:layout_height="50.0dip"
         android:layout_below="@id/linkshopbtn"
         android:gravity="left"
+        android:layout_marginTop="5.0dip"
         android:text="小贴士：关联店铺完成后，在手机中可以查看店铺中的实时经营数据以及所有的会员资料信息"
         android:textColor="@color/gray_text"
         android:textSize="12.0dip" />

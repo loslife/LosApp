@@ -29,26 +29,10 @@
 	<color name="blue_bg">#02a0dd</color>
 	<color name="base_bg">#e7ecf0</color>
 	<color name="gray_text">#728089</color>
+	<color name="gray_bg">#f7f8f9</color>
 	<color name="lightgray">#cad3da</color>
 	<color name="blue_text">#02a0dd</color>
 	<color name="black_text">#202529</color>
+	<color name="orange_bg">#e36e42</color>
 	      
-	
-	
-	
-    <color name="full_transparent">#00000000</color>
-    <color name="half_transparent">#aa000000</color>
-    
-    <color name="bright_foreground_light">#ff000000</color>
-    <color name="bright_foreground_light_inverse">#ffffffff</color>
-    <color name="bright_foreground_light_disabled">#80000000</color>
-    
-    <color name="dim_foreground_light">#808080</color>
-    <color name="dim_foreground_light_disabled">#80323232</color>
-    <color name="dim_foreground_light_inverse">#ff006eaa</color>
-    <color name="dim_foreground_light_inverse_disabled">#80bebebe</color>
-    
-    <color name="head_text">#0e5986</color>
-    <color name="author_text">#0e5986</color>
-
 </resources>

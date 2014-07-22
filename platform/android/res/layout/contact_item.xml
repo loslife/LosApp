@@ -14,7 +14,6 @@
         android:id="@+id/contactitem_layout"
         style="@style/MMListItem"
         android:layout_height="80.0dip"
-        android:background="@drawable/mm_listitem"
         android:orientation="vertical"
         android:paddingLeft="8.0dip" >
             <TextView

@@ -35,7 +35,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/code_bg"
+        android:background="@drawable/orange_btn"
         android:gravity="center"
         android:text="立即更新"
         android:textSize="22.0dip"

@@ -55,22 +55,22 @@ public class MainTabActivity extends TabActivity implements OnCheckedChangeListe
             case R.id.operate: 
             	
             	((View)findViewById(R.id.oneline)).setBackgroundResource(R.color.blue_bg);
-            	((View)findViewById(R.id.twoline)).setBackgroundResource(R.color.gray_text);
-            	((View)findViewById(R.id.threeline)).setBackgroundResource(R.color.gray_text);
+            	((View)findViewById(R.id.twoline)).setBackgroundResource(R.color.lightgray);
+            	((View)findViewById(R.id.threeline)).setBackgroundResource(R.color.lightgray);
                 this.mTabHost.setCurrentTabByTag("OPERATE"); 
                 break;  
             case R.id.contacts:  
             
             	((View)findViewById(R.id.twoline)).setBackgroundResource(R.color.blue_bg);
-            	((View)findViewById(R.id.threeline)).setBackgroundResource(R.color.gray_text);
-            	((View)findViewById(R.id.oneline)).setBackgroundResource(R.color.gray_text);
+            	((View)findViewById(R.id.threeline)).setBackgroundResource(R.color.lightgray);
+            	((View)findViewById(R.id.oneline)).setBackgroundResource(R.color.lightgray);
                 this.mTabHost.setCurrentTabByTag("CONTACTS");  
                 break;  
             case R.id.setting:  
            
             	((View)findViewById(R.id.threeline)).setBackgroundResource(R.color.blue_bg);
-            	((View)findViewById(R.id.oneline)).setBackgroundResource(R.color.gray_text);
-            	((View)findViewById(R.id.twoline)).setBackgroundResource(R.color.gray_text);
+            	((View)findViewById(R.id.oneline)).setBackgroundResource(R.color.lightgray);
+            	((View)findViewById(R.id.twoline)).setBackgroundResource(R.color.lightgray);
                 this.mTabHost.setCurrentTabByTag("SETTING");  
                 break;  
             

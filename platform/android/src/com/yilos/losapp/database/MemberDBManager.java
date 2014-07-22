@@ -35,10 +35,11 @@ public class MemberDBManager {
      * @param member 
      */  
     public void add(List<MemberBean> memberS) {  
-        db.beginTransaction();  //开始事务  
-        try {  
-        	
-            for (MemberBean person : memberS) {  
+      
+            for (MemberBean  person: memberS) { 
+            	
+             try {  
+            	db.beginTransaction();  //开始事务  
                 db.execSQL("INSERT INTO t_members VALUES(?, ?, ?, ?,?,?,?,?,?,?,?,?,?)", 
                 		new Object[]{person.getId(), 
                 		AppContext.getInstance(context).getCurrentDisplayShopId(),
@@ -53,18 +54,21 @@ public class MemberDBManager {
                 		person.getCardStr(),
                 		person.getCreate_date(),
                 		person.getModify_date()
-                		});  
+                		}); 
+                db.setTransactionSuccessful();//设置事务成功完成  
+             }
+                catch(Exception e)
+                {
+                	 e.printStackTrace();
+                }
+                finally {  
+                    db.endTransaction();    //结束事务  
+                }  
             }  
-            db.setTransactionSuccessful();  //设置事务成功完成  
+          
         } 
-        catch(Exception e)
-        {
-        	 e.printStackTrace();
-        }
-        finally {  
-            db.endTransaction();    //结束事务  
-        }  
-    }  
+       
+      
       
     /** 
      * update

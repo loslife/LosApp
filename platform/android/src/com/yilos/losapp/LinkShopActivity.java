@@ -263,11 +263,17 @@ public class LinkShopActivity extends BaseActivity
 					shopId = res.getResult().getEnterprise_id();
 					myshop.setEnterprise_id(shopId);
 					myshop.setEnterprise_name(res.getResult().getEnterprise_name());
+					myshop.setEnterprise_account(shopAccount);
 					myshopService.addShop(myshop);
 					
 					if(AppContext.getInstance(getBaseContext()).getCurrentDisplayShopId()==null)
 					{
 						AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(shopId);
+					}
+					
+					if(AppContext.getInstance(getBaseContext()).getShopName()==null)
+					{
+						AppContext.getInstance(getBaseContext()).setShopName(myshop.getEnterprise_name());
 					}
 					msg.what = 1;
 				}

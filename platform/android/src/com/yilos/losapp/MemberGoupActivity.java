@@ -85,8 +85,6 @@ public class MemberGoupActivity extends BaseActivity {
 	private String last_sync = "0";
 	
 	private String count;
-	
-	
 
 	private TextView shopname;
 	private ImageView select_shop;
@@ -102,11 +100,17 @@ public class MemberGoupActivity extends BaseActivity {
 		shoptitle = AppContext.getInstance(getBaseContext()).getShopName();
 	}
 
-	@Override
 	public void onResume() {
 		super.onResume();
 		getdata();
 	}
+	
+	public void onPause()
+	  {
+		  super.onPause();
+		  shopId = AppContext.getInstance(getBaseContext())
+					.getCurrentDisplayShopId();
+	  }
 	
 	final Handler handle = new Handler() {
 			
@@ -248,7 +252,7 @@ public class MemberGoupActivity extends BaseActivity {
 		layout_loadingfail = (RelativeLayout) findViewById(R.id.layout_loadingfail);
 
 		shopname = (TextView) findViewById(R.id.shopname);
-		shopname.setText(shoptitle);
+		shopname.setText(AppContext.getInstance(getBaseContext()).getShopName());
 		findViewById(R.id.goback).setVisibility(View.GONE);
 		
 		refreshableView.setOnRefreshListener(new PullToRefreshListener() {
@@ -309,6 +313,7 @@ public class MemberGoupActivity extends BaseActivity {
 		mWindowManager.addView(mDialogText, lp);
 		indexBar.setTextView(mDialogText);
 	}
+	
 
 	public void getdata() 
 	{

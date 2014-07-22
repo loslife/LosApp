@@ -42,14 +42,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                  android:layout_weight="1"
-                android:background="@color/gray" />
+                android:background="@color/lightgray" />
 
             <View
                 android:id="@+id/threeline"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                  android:layout_weight="1"
-                android:background="@color/gray" />
+                android:background="@color/lightgray" />
         </LinearLayout>
 
         <RadioGroup
@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:gravity="center_vertical"
-            android:background="@color/graywhite"
+            android:background="@color/gray_bg"
             android:orientation="horizontal" >
 
             <RadioButton

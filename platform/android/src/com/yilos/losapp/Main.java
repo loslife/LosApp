@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -89,7 +88,6 @@ public class Main extends BaseActivity {
 	private LinearLayout noshop;
 
 	public static long datetime;
-	DateUtil dateUtil = new DateUtil();
 
 	private String year;
 
@@ -103,8 +101,19 @@ public class Main extends BaseActivity {
 		setContentView(R.layout.main);
 		initView();
 		initData();
-
 	}
+	
+	  public void onResume() {
+             super.onResume();
+             initData();
+      }
+	  
+	  public void onPause()
+	  {
+		  super.onPause();
+		  shopId = AppContext.getInstance(getBaseContext())
+					.getCurrentDisplayShopId();
+	  }
 
 	Handler handle = new Handler() {
 		public void handleMessage(Message msg) {
@@ -137,24 +146,67 @@ public class Main extends BaseActivity {
 				float service = 0.0f;
 				float product = 0.0f;
 				float total = 0.0f;
+				
+				float comparePrevNewcard = 0.0f;
+				float comparePrevRecharge = 0.0f;
+				float comparePrevService = 0.0f;
+				float comparePrevProduct = 0.0f;
+				
+				float prev_newcard = 0.0f;
+				float prev_recharge = 0.0f;
+				float prev_service = 0.0f;
+				float prev_product = 0.0f;
+				
+				float percent_newcard = 0.0f;
+				float percent_recharge = 0.0f;
+				float percent_service = 0.0f;
+				float percent_product = 0.0f;
+				
 				if (null != bizPerformance.get_id()) {
 					// newcard":13000,"recharge":10,"service":1900,"product":200
 					newcard = Float.valueOf(bizPerformance.getNewcard())
 							/ Float.valueOf(bizPerformance.getTotal());
-					newcard = (float) (Math.round(newcard * 1000)) / 10;
 					recharge = Float.valueOf(bizPerformance.getRecharge())
 							/ Float.valueOf(bizPerformance.getTotal());
-					recharge = (float) (Math.round(recharge * 1000)) / 10;
 					service = Float.valueOf(bizPerformance.getService())
 							/ Float.valueOf(bizPerformance.getTotal());
-					service = (float) (Math.round(service * 1000)) / 10;
 					product = Float.valueOf(bizPerformance.getProduct())
 							/ Float.valueOf(bizPerformance.getTotal());
-					product = (float) (Math.round(product * 1000)) / 10;
-
 					total = Float.valueOf(bizPerformance.getTotal());
 					total = (float) (Math.round(total * 10)) / 10;
+					if(null != prevBizPerformance.get_id())
+					  {
+						prev_newcard = Float.valueOf(prevBizPerformance.getNewcard());
+						comparePrevNewcard= Float.valueOf(bizPerformance.getNewcard())-prev_newcard;
+						prev_recharge = Float.valueOf(prevBizPerformance.getRecharge());
+						comparePrevRecharge= Float.valueOf(bizPerformance.getRecharge())-prev_recharge;
+						prev_service = Float.valueOf(prevBizPerformance.getService());
+						comparePrevService= Float.valueOf(bizPerformance.getService())-prev_service;
+						prev_product = Float.valueOf(prevBizPerformance.getProduct());
+						comparePrevProduct = Float.valueOf(bizPerformance.getProduct())-prev_product;
+						
+						percent_newcard = (Math.round((comparePrevService/prev_newcard) * 1000)) / 10;
+						percent_recharge =(Math.round((comparePrevRecharge/prev_recharge) * 1000)) / 10;
+						percent_service = (Math.round((comparePrevService/prev_service) * 1000)) / 10;
+						percent_product = (Math.round((comparePrevProduct/prev_product) * 1000)) / 10;
+					  }
 				}
+				
+				((TextView) findViewById(R.id.biztotal)).setText("￥" + total);
+				((TextView) findViewById(R.id.sevicedata)).setText("￥"+ bizPerformance.getService()==null?"0.0":bizPerformance.getService());
+				((TextView) findViewById(R.id.saledata)).setText("￥"+ bizPerformance.getProduct()==null?"0.0":bizPerformance.getProduct());
+				((TextView) findViewById(R.id.carddata)).setText("￥"+ bizPerformance.getNewcard()==null?"0.0":bizPerformance.getNewcard());
+				((TextView) findViewById(R.id.rechargedata)).setText("￥"+ bizPerformance.getRecharge()==null?"0.0":bizPerformance.getRecharge());
+				
+				((TextView) findViewById(R.id.toprev_sevicedata)).setText("比上" + timetype.getText().toString()+": "+comparePrevService+ " "+percent_service+"%");
+				((TextView) findViewById(R.id.toprev_saledata)).setText("比上" + timetype.getText().toString()+": "+percent_product+"%");
+				((TextView) findViewById(R.id.toprev_carddata)).setText("比上" + timetype.getText().toString()+": "+percent_newcard+"%");
+				((TextView) findViewById(R.id.toprev_rechargedata)).setText("比上" + timetype.getText().toString()+": "+percent_recharge+"%");
+				
+				newcard = (float) (Math.round(newcard * 1000)) / 10;
+				recharge = (float) (Math.round(recharge * 1000)) / 10;
+				service = (float) (Math.round(service * 1000)) / 10;
+				product = (float) (Math.round(product * 1000)) / 10;
 
 				String[] perName = { "开卡业绩", "充值业绩", "服务业绩", "卖品业绩" };
 				// 环形图
@@ -165,18 +217,6 @@ public class Main extends BaseActivity {
 				PanelDountChart panelDountView = new PanelDountChart(
 						getBaseContext(), num2, perName);
 				annularLayout.addView(panelDountView);
-				if (null != bizPerformance.get_id()) {
-				((TextView) findViewById(R.id.biztotal)).setText("￥" + total);
-				((TextView) findViewById(R.id.sevicedata)).setText("￥"
-						+ bizPerformance.getService());
-				((TextView) findViewById(R.id.saledata)).setText("￥"
-						+ bizPerformance.getProduct());
-				((TextView) findViewById(R.id.carddata)).setText("￥"
-						+ bizPerformance.getNewcard());
-				((TextView) findViewById(R.id.rechargedata)).setText("￥"
-						+ bizPerformance.getRecharge());
-				}
-				
 			}
 
 			if (msg.what == 3) {
@@ -213,8 +253,7 @@ public class Main extends BaseActivity {
 			}
 
 			if (msg.what == 4) {
-
-				String[] yNum = dateUtil.getDayarr(year, month, dateType);
+				String[] yNum = DateUtil.getDayarr(year, month, dateType);
 
 				int walkinCount = 0;
 				int memberCount = 0;
@@ -280,6 +319,7 @@ public class Main extends BaseActivity {
 				if ("日".equals(timetype.getText().toString())) {
 					dateType = "week";
 					timetype.setText("周");
+					DateUtil dateUtil = new DateUtil();
 					String weeks = dateUtil.getCurrentMonday() + "--"
 							+ dateUtil.getSunday();
 					showTime.setText(weeks);
@@ -316,7 +356,7 @@ public class Main extends BaseActivity {
 					showtime = formatter.format(curDate);
 					showTime.setText(showtime);
 				} else if (dateType == "week") {
-				
+					DateUtil dateUtil = new DateUtil();
 					showtime = dateUtil.getPreviousMonday() + "--"
 							+ dateUtil.getSunday();
 					SimpleDateFormat formatter = new SimpleDateFormat(
@@ -337,7 +377,7 @@ public class Main extends BaseActivity {
 
 				year = String.valueOf(curDate.getYear() + 1900);
 				day = String.valueOf(curDate.getDate());
-				month = String.valueOf(curDate.getMonth());
+				month = String.valueOf(curDate.getMonth()+1);
 				getShowData();
 			}
 		});
@@ -358,7 +398,7 @@ public class Main extends BaseActivity {
 					showtime = formatter.format(curDate);
 					showTime.setText(showtime);
 				} else if (dateType == "week") {
-					
+					DateUtil dateUtil = new DateUtil();
 					showtime = dateUtil.getNextMonday() + "--"
 							+ dateUtil.getSunday();
 					SimpleDateFormat formatter = new SimpleDateFormat(
@@ -378,7 +418,7 @@ public class Main extends BaseActivity {
 				// 100048101900800200?year=2014&month=6&day=8&type=day&report=employee
 				year = String.valueOf(curDate.getYear() + 1900);
 				day = String.valueOf(curDate.getDate());
-				month = String.valueOf(curDate.getMonth());
+				month = String.valueOf(curDate.getMonth()+1);
 				getShowData();
 			}
 		});
@@ -479,10 +519,23 @@ public class Main extends BaseActivity {
 					}
 					// employeePerService.deltel(year, month, day, dateType,
 					// tableName);
+					int delprevMonth = Integer.valueOf(month) - 2;
+					int delpevYear = Integer.valueOf(year);
+					if(delprevMonth==-1)
+					{
+						delprevMonth = 12;
+						delpevYear = Integer.valueOf(year) - 1;
+					}
+					
 					bizPerformanceService.deltel(year,
 							(Integer.valueOf(month) - 1) + "", day, dateType,
 							tableName);
+					bizPerformanceService.deltel(delpevYear+"",
+							delprevMonth + "", day, dateType,
+							tableName);
 					bizPerformanceService.addBizPerformance(bizPerformance,
+							tableName);
+					bizPerformanceService.addBizPerformance(prevBizPerformance,
 							tableName);
 					msg.what = 2;
 					handle.sendMessage(msg);
@@ -586,7 +639,7 @@ public class Main extends BaseActivity {
 		customerCountService = new CustomerCountService(getBaseContext());
 
 		userAccount = AppContext.getInstance(getBaseContext()).getUserAccount();
-
+		shopname.setText(AppContext.getInstance(getBaseContext()).getShopName());
 		// 查询本地的关联数据
 		List<MyShopBean> myshops = myshopService.queryShops();
 		if (myshops != null && myshops.size() > 0) {
@@ -650,7 +703,7 @@ public class Main extends BaseActivity {
 		Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
 		year = String.valueOf(curDate.getYear() + 1900);
 		day = String.valueOf(curDate.getDate());
-		month = String.valueOf(curDate.getMonth());
+		month = String.valueOf(curDate.getMonth()+1);
 		String str = formatter.format(curDate);
 		return str;
 	}

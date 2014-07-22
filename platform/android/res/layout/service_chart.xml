@@ -30,7 +30,7 @@
             android:layout_height="fill_parent"
             android:gravity="fill_vertical"
             android:layout_alignParentRight="true"
-            android:text="￥4500.00"
+            android:text="￥0.00"
             android:textColor="@color/black_text"
             android:textSize="20.0dip" />
 
@@ -38,13 +38,13 @@
             android:layout_width="fill_parent"
             android:layout_height="1px"
             android:layout_alignParentBottom="true"
-            android:background="@color/gray" />
+            android:background="@color/gray_text" />
     </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/annular2Layout"
         android:layout_width="fill_parent"
-        android:layout_height="180.0dip"
+        android:layout_height="160.0dip"
         android:background="@color/white"
         android:orientation="horizontal" >
     </LinearLayout>
