@@ -121,23 +121,17 @@
         [dict setObject:[NSNumber numberWithInt:0] forKey:@"member"];
         [dict setObject:[NSNumber numberWithInt:0] forKey:@"temp"];
         [dict setObject:[NSNumber numberWithInt:year] forKey:@"year"];
-        [dict setObject:[NSNumber numberWithInt:month] forKey:@"month"];
+        [dict setObject:[NSNumber numberWithInt:(month - 1)] forKey:@"month"];
         
         if([type isEqualToString:@"day"]){
             [dict setObject:[NSNumber numberWithInt:day] forKey:@"day"];
             [dict setObject:[NSNumber numberWithInt:i] forKey:@"hour"];
-            NSTimeInterval time = [TimesHelper timeWithYear:year month:month day:day];
-            [dict setObject:[NSNumber numberWithLongLong:time] forKey:@"create_date"];
         }else if([type isEqualToString:@"month"]){
             [dict setObject:[NSNumber numberWithInt:i + 1] forKey:@"day"];
             [dict setObject:[NSNumber numberWithInt:0] forKey:@"hour"];
-            NSTimeInterval time = [TimesHelper timeWithYear:year month:month day:i + 1];
-            [dict setObject:[NSNumber numberWithLongLong:time] forKey:@"create_date"];
         }else{
             [dict setObject:[NSNumber numberWithInt:i + 1] forKey:@"day"];
             [dict setObject:[NSNumber numberWithInt:0] forKey:@"hour"];
-            NSTimeInterval time = [TimesHelper timeWithYear:year month:month day:i + 1];
-            [dict setObject:[NSNumber numberWithLongLong:time] forKey:@"create_date"];
         }
         
         [filled addObject:dict];

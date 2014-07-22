@@ -12,11 +12,17 @@
 -(NSMutableArray*) queryEmployeePerformanceByDate:(NSDate*)date EnterpriseId:(NSString*)enterpriseId Type:(int)type
 {
     NSCalendar* calendar = [NSCalendar currentCalendar];
-    NSDateComponents* components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:date];
     
+    NSDateComponents* components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:date];
     NSInteger year = [components year];
     NSInteger month = [components month];
     NSInteger day = [components day];
+    
+    NSDate *sunday = [TimesHelper firstDayOfWeek:date];
+    components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:sunday];
+    NSInteger yearOfSunday = [components year];
+    NSInteger monthOfSunday = [components month];
+    NSInteger dayOfSunday = [components day];
     
     NSString *dbFilePath = [PathResolver databaseFilePath];
     FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
@@ -27,9 +33,9 @@
     if(type == 0){
         rs = [db executeQuery:@"select id, total, employee_name from employee_performance_day where enterprise_id = :eid and year = :year and month = :month and day = :day order by total desc", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
     }else if(type == 1){
-        rs = [db executeQuery:@"select id, total, employee_name from employee_performance_month where enterprise_id = :eid and year = :year and month = :month and day = :day order by total desc", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
+        rs = [db executeQuery:@"select id, total, employee_name from employee_performance_month where enterprise_id = :eid and year = :year and month = :month order by total desc", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month]];
     }else{
-        rs = [db executeQuery:@"select id, total, employee_name from employee_performance_week where enterprise_id = :eid and year = :year and month = :month and day = :day order by total desc", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
+        rs = [db executeQuery:@"select id, total, employee_name from employee_performance_week where enterprise_id = :eid and year = :year and month = :month and day = :day order by total desc", enterpriseId, [NSNumber numberWithLong:yearOfSunday], [NSNumber numberWithLong:monthOfSunday], [NSNumber numberWithLong:dayOfSunday]];
     }
     
     NSMutableArray *performances = [NSMutableArray arrayWithCapacity:1];
@@ -64,7 +70,7 @@
     for(NSDictionary *item in array){
         
         NSNumber *year = [item objectForKey:@"year"];
-        NSNumber *month = [item objectForKey:@"month"];
+        NSNumber *month = [NSNumber numberWithInt:[[item objectForKey:@"month"] intValue] + 1];// server返回的month是月份-1
         NSNumber *day = [item objectForKey:@"day"];
         NSString *employeeId = [item objectForKey:@"employee_id"];
         NSString *employeeName = [item objectForKey:@"employee_name"];
@@ -88,7 +94,11 @@
 
 -(NSMutableArray*) queryBusinessPerformanceByDate:(NSDate*)date EnterpriseId:(NSString*)enterpriseId Type:(int)type
 {
-    NSString *sql = @"select total, service, product, newcard, recharge from biz_performance_day where enterprise_id = :eid and year = :year and month = :month and day = :day;";
+    NSString *query_day = @"select total, service, product, newcard, recharge from biz_performance_day where enterprise_id = :eid and year = :year and month = :month and day = :day;";
+    
+    NSString *query_month = @"select total, service, product, newcard, recharge from biz_performance_month where enterprise_id = :eid and year = :year and month = :month;";
+    
+    NSString *query_week = @"select total, service, product, newcard, recharge from biz_performance_week where enterprise_id = :eid and year = :year and month = :month and day = :day;";
     
     NSCalendar* calendar = [NSCalendar currentCalendar];
     
@@ -97,30 +107,70 @@
     NSInteger month = [components month];
     NSInteger day = [components day];
     
-    components.day--;
-    NSDate *yesterday = [calendar dateFromComponents:components];
-    NSDateComponents* prevComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:yesterday];
-    NSInteger prev_year = [prevComponents year];
-    NSInteger prev_month = [prevComponents month];
-    NSInteger prev_day = [prevComponents day];
-    
     NSString *dbFilePath = [PathResolver databaseFilePath];
     FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
     [db open];
     
-    FMResultSet *rs = [db executeQuery:sql, enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
+    FMResultSet *rs;
+    FMResultSet *rs2;
     
-    FMResultSet *rs2 = [db executeQuery:sql, enterpriseId, [NSNumber numberWithLong:prev_year], [NSNumber numberWithLong:prev_month], [NSNumber numberWithLong:prev_day]];
+    if(type == 0){
+        
+        NSDate *yesterday = [TimesHelper yesterdayOfDay:date];
+        components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:yesterday];
+        NSInteger yearOfYesterday = [components year];
+        NSInteger monthOfYesterday = [components month];
+        NSInteger dayOfYesterday = [components day];
+        
+        rs = [db executeQuery:query_day, enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
+        rs2 = [db executeQuery:query_day, enterpriseId, [NSNumber numberWithLong:yearOfYesterday], [NSNumber numberWithLong:monthOfYesterday], [NSNumber numberWithLong:dayOfYesterday]];
+        
+    }else if(type == 1){
+        
+        NSDate *previousMonth = [TimesHelper previousMonthOfDate:date];
+        components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth fromDate:previousMonth];
+        NSInteger yearOfPreviousMonth = [components year];
+        NSInteger monthOfPreviousMonth = [components month];
+        
+        rs = [db executeQuery:query_month, enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month]];
+        rs2 = [db executeQuery:query_month, enterpriseId, [NSNumber numberWithLong:yearOfPreviousMonth], [NSNumber numberWithLong:monthOfPreviousMonth]];
+        
+    }else{
+        
+        NSDate *sunday = [TimesHelper firstDayOfWeek:date];
+        components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:sunday];
+        NSInteger yearOfSunday = [components year];
+        NSInteger monthOfSunday = [components month];
+        NSInteger dayOfSunday = [components day];
+        
+        NSDate *previousSunday = [TimesHelper previousSundayOfDate:date];
+        components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:previousSunday];
+        NSInteger yearOfPreviousSunday = [components year];
+        NSInteger monthOfPreviousSunday = [components month];
+        NSInteger dayOfPreviousSunday = [components day];
+        
+        rs = [db executeQuery:query_week, enterpriseId, [NSNumber numberWithLong:yearOfSunday], [NSNumber numberWithLong:monthOfSunday], [NSNumber numberWithLong:dayOfSunday]];
+        rs2 = [db executeQuery:query_week, enterpriseId, [NSNumber numberWithLong:yearOfPreviousSunday], [NSNumber numberWithLong:monthOfPreviousSunday], [NSNumber numberWithLong:dayOfPreviousSunday]];
+    }
     
+    NSMutableArray *performances = [self assembleResult:rs rs2:rs2];
+    
+    [db close];
+    
+    return performances;
+}
+
+-(NSMutableArray*) assembleResult:(FMResultSet*)rs1 rs2:(FMResultSet*)rs2
+{
     NSMutableArray *performances = [NSMutableArray arrayWithCapacity:1];
     
-    if([rs next]){
+    if([rs1 next]){
         
-        double total = [[rs objectForColumnName:@"total"] doubleValue];
-        double service = [[rs objectForColumnName:@"service"] doubleValue];
-        double product = [[rs objectForColumnName:@"product"] doubleValue];
-        double newcard = [[rs objectForColumnName:@"newcard"] doubleValue];
-        double recharge = [[rs objectForColumnName:@"recharge"] doubleValue];
+        double total = [[rs1 objectForColumnName:@"total"] doubleValue];
+        double service = [[rs1 objectForColumnName:@"service"] doubleValue];
+        double product = [[rs1 objectForColumnName:@"product"] doubleValue];
+        double newcard = [[rs1 objectForColumnName:@"newcard"] doubleValue];
+        double recharge = [[rs1 objectForColumnName:@"recharge"] doubleValue];
         
         BusinessPerformance *p1 = [[BusinessPerformance alloc] initWithTitle:@"服务业绩" Value:service Ratio:service / total];
         BusinessPerformance *p2 = [[BusinessPerformance alloc] initWithTitle:@"卖品业绩" Value:product Ratio:product / total];
@@ -145,8 +195,6 @@
         [performances addObject:p3];
         [performances addObject:p4];
     }
-    
-    [db close];
     
     return performances;
 }
@@ -192,7 +240,7 @@
     NSNumber *newcard = [entity objectForKey:@"newcard"];
     NSNumber *recharge = [entity objectForKey:@"recharge"];
     NSNumber *year = [entity objectForKey:@"year"];
-    NSNumber *month = [entity objectForKey:@"month"];
+    NSNumber *month = [NSNumber numberWithInt:[[entity objectForKey:@"month"] intValue] + 1];
     NSNumber *day = [entity objectForKey:@"day"];
     
     FMResultSet *rs = [db executeQuery:query, year, month, day, enterpriseId];
@@ -210,11 +258,17 @@
 -(NSMutableArray*) queryServicePerformanceByDate:(NSDate*)date EnterpriseId:(NSString*)enterpriseId Type:(int)type
 {
     NSCalendar* calendar = [NSCalendar currentCalendar];
-    NSDateComponents* components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:date];
     
+    NSDateComponents* components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:date];
     NSInteger year = [components year];
     NSInteger month = [components month];
     NSInteger day = [components day];
+    
+    NSDate *sunday = [TimesHelper firstDayOfWeek:date];
+    components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:sunday];
+    NSInteger yearOfSunday = [components year];
+    NSInteger monthOfSunday = [components month];
+    NSInteger dayOfSunday = [components day];
     
     NSString *dbFilePath = [PathResolver databaseFilePath];
     FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
@@ -225,9 +279,9 @@
     if(type == 0){
         rs = [db executeQuery:@"select sum(total) as total_sum, total, project_name from service_performance_day where enterprise_id = :eid and year = :year and month = :month and day = :day order by total desc", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
     }else if(type == 1){
-        rs = [db executeQuery:@"select sum(total) as total_sum, total, project_name from service_performance_month where enterprise_id = :eid and year = :year and month = :month and day = :day order by total desc", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
+        rs = [db executeQuery:@"select sum(total) as total_sum, total, project_name from service_performance_month where enterprise_id = :eid and year = :year and month = :month order by total desc", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month]];
     }else{
-        rs = [db executeQuery:@"select sum(total) as total_sum, total, project_name from service_performance_week where enterprise_id = :eid and year = :year and month = :month and day = :day order by total desc", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
+        rs = [db executeQuery:@"select sum(total) as total_sum, total, project_name from service_performance_week where enterprise_id = :eid and year = :year and month = :month and day = :day order by total desc", enterpriseId, [NSNumber numberWithLong:yearOfSunday], [NSNumber numberWithLong:monthOfSunday], [NSNumber numberWithLong:dayOfSunday]];
     }
     
     NSMutableArray *performances = [NSMutableArray arrayWithCapacity:1];
@@ -264,7 +318,7 @@
     for(NSDictionary *item in array){
         
         NSNumber *year = [item objectForKey:@"year"];
-        NSNumber *month = [item objectForKey:@"month"];
+        NSNumber *month = [NSNumber numberWithInt:[[item objectForKey:@"month"] intValue] + 1];
         NSNumber *day = [item objectForKey:@"day"];
         NSString *enterpriseId = [item objectForKey:@"enterprise_id"];
         NSString *_id = [item objectForKey:@"_id"];
@@ -357,7 +411,64 @@
 
 -(void) batchInsertCustomerCount:(NSArray*)array type:(NSString*)type
 {
+    NSString *delete_day = @"delete from customer_count_day where year = :year and month = :month and day = :day and enterprise_id = :eid";
     
+    NSString *insert_day = @"insert into customer_count_day (id, enterprise_id, walkin, member, year, month, day, hour) values (:id, :eid, :walkin, :member, :year, :month, :day, :hour);";
+    
+    NSString *delete_month = @"delete from customer_count_month where year = :year and month = :month and enterprise_id = :eid";
+    
+    NSString *insert_month = @"insert into customer_count_month (id, enterprise_id, walkin, member, year, month, day) values (:id, :eid, :walkin, :member, :year, :month, :day)";
+    
+    NSString *delete_week = @"delete from customer_count_week where dateTime = :dateTime and enterprise_id = :eid";
+    
+    NSString *insert_week = @"insert into customer_count_week (id, enterprise_id, walkin, member, year, month, day, dateTime) values (:id, :eid, :walkin, :member, :year, :month, :day, :dateTime);";
+    
+    NSString *dbFilePath = [PathResolver databaseFilePath];
+    FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
+    [db open];
+    
+    NSDictionary *firstObject = [array firstObject];
+    
+    NSNumber *year = [firstObject objectForKey:@"year"];
+    NSNumber *month = [NSNumber numberWithInt:[[firstObject objectForKey:@"month"] intValue] + 1];
+    NSNumber *day = [firstObject objectForKey:@"day"];
+    NSString *enterpriseId = [firstObject objectForKey:@"enterprise_id"];
+    
+    NSDate *date = [TimesHelper dateWithYear:[year intValue] month:[month intValue] day:[day intValue]];
+    NSTimeInterval sunday = [[TimesHelper firstDayOfWeek:date] timeIntervalSince1970];
+    NSNumber *sundayNumber = [NSNumber numberWithDouble:sunday];
+    
+    if([type isEqualToString:@"day"]){
+        [db executeUpdate:delete_day, year, month, day, enterpriseId];
+    }else if([type isEqualToString:@"month"]){
+        [db executeUpdate:delete_month, year, month, enterpriseId];
+    }else{
+        [db executeUpdate:delete_week, sundayNumber, enterpriseId];
+    }
+    
+    for(NSDictionary *item in array){
+        
+        NSNumber *year = [item objectForKey:@"year"];
+        NSNumber *month = [NSNumber numberWithInt:[[item objectForKey:@"month"] intValue] + 1];
+        NSNumber *day = [item objectForKey:@"day"];
+        NSNumber *hour = [item objectForKey:@"hour"];
+        NSString *_id = [item objectForKey:@"_id"];
+        NSNumber *member = [item objectForKey:@"member"];
+        NSNumber *walkin = [item objectForKey:@"temp"];
+        
+        if([type isEqualToString:@"day"]){
+            [db executeUpdate:insert_day, _id, enterpriseId, walkin, member, year, month, day, hour];
+        }else if([type isEqualToString:@"month"]){
+            [db executeUpdate:insert_month, _id, enterpriseId, walkin, member, year, month, day];
+        }else{
+            NSDate *date = [TimesHelper dateWithYear:[year intValue] month:[month intValue] day:[day intValue]];
+            NSTimeInterval sunday = [[TimesHelper firstDayOfWeek:date] timeIntervalSince1970];
+            NSNumber *sundayNumber = [NSNumber numberWithDouble:sunday];
+            [db executeUpdate:insert_week, _id, enterpriseId, walkin, member, year, month, day, sundayNumber];
+        }
+    }
+    
+    [db close];
 }
 
 @end
