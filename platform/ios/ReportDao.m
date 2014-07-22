@@ -366,9 +366,27 @@
     NSInteger month = [components month];
     NSInteger day = [components day];
     
+    NSDate *sunday = [TimesHelper firstDayOfWeek:date];
+    NSTimeInterval sundayNumber = [sunday timeIntervalSince1970];
+    
     NSString *dbFilePath = [PathResolver databaseFilePath];
     FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
     [db open];
+    
+    int count = 0;
+    
+    if(type == 0){
+        count = [db intForQuery:@"select count(1) from customer_count_day where enterprise_id = :eid and year = :year and month = :month and day = :day;", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
+    }else if(type == 1){
+        count = [db intForQuery:@"select count(1) from customer_count_month where enterprise_id = :eid and year = :year and month = :month;", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month]];
+    }else{
+        count = [db intForQuery:@"select count(1) from customer_count_week where enterprise_id = :eid and dateTime = :dateTime;", enterpriseId, [NSNumber numberWithLongLong:sundayNumber]];
+    }
+    
+    if(count == 0){
+        [db close];
+        return [NSMutableArray array];
+    }
     
     NSMutableArray *counts = [NSMutableArray arrayWithCapacity:1];
     
@@ -404,7 +422,7 @@
         }
     }else{
         
-        FMResultSet *rs = [db executeQuery:@"select sum(walkin) as total_walkin, sum(member) as total_member, walkin + member as count, day from customer_count_week where enterprise_id = :eid and year = :year and month = :month and day = :day order by day desc", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
+        FMResultSet *rs = [db executeQuery:@"select sum(walkin) as total_walkin, sum(member) as total_member, walkin + member as count, day from customer_count_week where enterprise_id = :eid and dateTime = :dateTime order by day desc", enterpriseId, [NSNumber numberWithLongLong:sundayNumber]];
         
         while([rs next]){
             
