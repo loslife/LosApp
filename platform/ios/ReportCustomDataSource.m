@@ -102,6 +102,7 @@
     
     NSDate *sunday = [TimesHelper firstDayOfWeek:status.date];
     NSCalendar* calendar = [NSCalendar currentCalendar];
+    
     NSDateComponents *components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:sunday];
     
     UserData *userData = [UserData load];
