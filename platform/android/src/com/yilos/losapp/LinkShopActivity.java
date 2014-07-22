@@ -52,7 +52,10 @@ public class LinkShopActivity extends BaseActivity
 	
 	private List<MyShopBean> myshops;
 	
+	private List<MyShopBean> myDisconnectShops;
+	
 	private boolean isUserExist = false;
+	private boolean isRecoveryLink = false;
 	private String shopId;
 	
 	public void onCreate(Bundle savedInstanceState) {
@@ -80,6 +83,7 @@ public class LinkShopActivity extends BaseActivity
 		
 		//设置店铺列表
 		setShopListView();
+		setUnShopListView();
 		
 		findViewById(R.id.goback).setOnClickListener(new OnClickListener() {
 			@Override
@@ -230,6 +234,74 @@ public class LinkShopActivity extends BaseActivity
         list.setAdapter(listItemAdapter); 
 	}
 	
+	
+	private void setUnShopListView()
+	{
+		//绑定Layout里面的ListView  
+        ListView list = (ListView) findViewById(R.id.unshoplist);  
+        myDisconnectShops = myshopService.queryUnLinkshop();
+          
+        //生成动态数组，加入数据  
+        ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();  
+        for(MyShopBean bean:myDisconnectShops)  
+        {  
+        	String shopName = bean.getEnterprise_name();
+        	if(shopName.length()>10)
+        	{
+        		shopName = shopName.substring(0, 10)+"...";
+        	}
+            HashMap<String, Object> map = new HashMap<String, Object>();  
+            map.put("linkshopname", shopName);  
+            listItem.add(map);  
+        } 
+        
+        //生成适配器的Item和动态数组对应的元素  
+        SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,//数据源   
+            R.layout.shop_item,//ListItem的XML实现  
+            //动态数组与ImageItem对应的子项          
+            new String[] {"linkshopname"},   
+            //ImageItem的XML文件里面的一个ImageView,两个TextView ID  
+            new int[] {R.id.linkshopname}  
+        )
+        {  
+            //在这个重写的函数里设置 每个 item 中按钮的响应事件  
+            @Override  
+            public View getView(int position, View convertView,ViewGroup parent) {  
+                final int p=position;  
+                final View view=super.getView(position, convertView, parent);  
+                final TextView button=(TextView)view.findViewById(R.id.linkbtn); 
+                button.setText("恢复关联");
+                button.setBackgroundResource(R.drawable.login_btn);
+                button.setOnClickListener(new OnClickListener() {  
+                      
+                    @Override  
+                    public void onClick(View v) {  
+                          
+                        //警告框  
+                        new AlertDialog.Builder(LinkShopActivity.this)  
+                        .setTitle("恢复关联")  
+                        .setMessage("是否恢复对<"+myshops.get(p).getEnterprise_name()+">的关联？")  
+                        .setPositiveButton("是", new DialogInterface.OnClickListener() {  
+                            public void onClick(DialogInterface dialog, int which) {
+                            	isRecoveryLink = true;
+                            	linkShop(AppContext.getInstance(getBaseContext()).getUserAccount(), myDisconnectShops.get(p).getEnterprise_account());
+                            }  
+                        })  
+                        .setNegativeButton("否", new DialogInterface.OnClickListener() {    
+                            public void onClick(DialogInterface dialog, int whichButton) {    
+                            }    
+                        })  
+                        .create()  
+                        .show();  
+                    }  
+                });  
+                return view;  
+            }  
+    };  
+        //添加并且显示  
+        list.setAdapter(listItemAdapter); 
+	}
+	
 	private void linkShop(final String userAccount,final String shopAccount)
 	{
 		myshopService = new MyshopManageService(getBaseContext());
@@ -241,6 +313,7 @@ public class LinkShopActivity extends BaseActivity
 					//getMemberContact(shopId);
 					//设置店铺列表
 					setShopListView();
+					setUnShopListView();
 					UIHelper.ToastMessage(getBaseContext(), "关联成功");
 					phoneNum.setText("");
 					validatecode.setText("");
@@ -259,13 +332,21 @@ public class LinkShopActivity extends BaseActivity
 				ServerMemberResponse res = ac.linkshop(userAccount, shopAccount);
 				if(res.isSucess())
 				{
-					MyShopBean myshop = new MyShopBean();
 					shopId = res.getResult().getEnterprise_id();
+					MyShopBean myshop = new MyShopBean();
 					myshop.setEnterprise_id(shopId);
 					myshop.setEnterprise_name(res.getResult().getEnterprise_name());
 					myshop.setEnterprise_account(shopAccount);
-					myshopService.addShop(myshop);
-					
+					if(isRecoveryLink)
+					{
+						myshopService.modifyDisplay(shopId, "0");
+						isRecoveryLink = false;
+					}
+					else
+					{
+						myshopService.addShop(myshop);	
+					}
+
 					if(AppContext.getInstance(getBaseContext()).getCurrentDisplayShopId()==null)
 					{
 						AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(shopId);
@@ -296,6 +377,7 @@ public class LinkShopActivity extends BaseActivity
 				{
 					//设置店铺列表
 					setShopListView();
+					setUnShopListView();
 					UIHelper.ToastMessage(getBaseContext(), "解除关联成功");
 				}
 				if(msg.what==0)

@@ -155,6 +155,10 @@ public class DateUtil {
 			for(int i = 1;i<=maxlength;i++)
 			{
 				days[i-1]= String.valueOf(i);
+				if("day".equals(dateType))
+				{
+					days[i-1] =  days[i-1]+":00";
+				}
 			}
 		
 		return days;

@@ -2,10 +2,14 @@ package com.yilos.losapp;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +17,7 @@ import android.os.Message;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -22,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.yilos.losapp.bean.BcustomerCountBean;
@@ -105,14 +111,15 @@ public class Main extends BaseActivity {
 	
 	  public void onResume() {
              super.onResume();
+             shopId = AppContext.getInstance(getBaseContext())
+ 					.getCurrentDisplayShopId();
              initData();
       }
 	  
 	  public void onPause()
 	  {
 		  super.onPause();
-		  shopId = AppContext.getInstance(getBaseContext())
-					.getCurrentDisplayShopId();
+		  
 	  }
 
 	Handler handle = new Handler() {
@@ -185,23 +192,27 @@ public class Main extends BaseActivity {
 						prev_product = Float.valueOf(prevBizPerformance.getProduct());
 						comparePrevProduct = Float.valueOf(bizPerformance.getProduct())-prev_product;
 						
-						percent_newcard = (Math.round((comparePrevService/prev_newcard) * 1000)) / 10;
+						percent_newcard = (Math.round((comparePrevNewcard/prev_newcard) * 1000)) / 10;
 						percent_recharge =(Math.round((comparePrevRecharge/prev_recharge) * 1000)) / 10;
 						percent_service = (Math.round((comparePrevService/prev_service) * 1000)) / 10;
 						percent_product = (Math.round((comparePrevProduct/prev_product) * 1000)) / 10;
 					  }
 				}
 				
+				String  sevicedata = bizPerformance.getService()==null?"0.0":bizPerformance.getService();
+				String  saledata = bizPerformance.getProduct()==null?"0.0":bizPerformance.getProduct();
+				String  carddata = bizPerformance.getNewcard()==null?"0.0":bizPerformance.getNewcard();
+				String  rechargedata = bizPerformance.getRecharge()==null?"0.0":bizPerformance.getRecharge();
 				((TextView) findViewById(R.id.biztotal)).setText("￥" + total);
-				((TextView) findViewById(R.id.sevicedata)).setText("￥"+ bizPerformance.getService()==null?"0.0":bizPerformance.getService());
-				((TextView) findViewById(R.id.saledata)).setText("￥"+ bizPerformance.getProduct()==null?"0.0":bizPerformance.getProduct());
-				((TextView) findViewById(R.id.carddata)).setText("￥"+ bizPerformance.getNewcard()==null?"0.0":bizPerformance.getNewcard());
-				((TextView) findViewById(R.id.rechargedata)).setText("￥"+ bizPerformance.getRecharge()==null?"0.0":bizPerformance.getRecharge());
+				((TextView) findViewById(R.id.sevicedata)).setText("￥"+ sevicedata);
+				((TextView) findViewById(R.id.saledata)).setText("￥"+ saledata);
+				((TextView) findViewById(R.id.carddata)).setText("￥"+carddata);
+				((TextView) findViewById(R.id.rechargedata)).setText("￥"+ rechargedata);
 				
-				((TextView) findViewById(R.id.toprev_sevicedata)).setText("比上" + timetype.getText().toString()+": "+comparePrevService+ " "+percent_service+"%");
-				((TextView) findViewById(R.id.toprev_saledata)).setText("比上" + timetype.getText().toString()+": "+percent_product+"%");
-				((TextView) findViewById(R.id.toprev_carddata)).setText("比上" + timetype.getText().toString()+": "+percent_newcard+"%");
-				((TextView) findViewById(R.id.toprev_rechargedata)).setText("比上" + timetype.getText().toString()+": "+percent_recharge+"%");
+				((TextView) findViewById(R.id.toprev_sevicedata)).setText("比上" + timetype.getText().toString()+": ￥"+comparePrevService+ " "+percent_service+"%");
+				((TextView) findViewById(R.id.toprev_saledata)).setText("比上" + timetype.getText().toString()+": ￥"+comparePrevProduct+" "+percent_product+"%");
+				((TextView) findViewById(R.id.toprev_carddata)).setText("比上" + timetype.getText().toString()+": ￥"+comparePrevNewcard+" "+percent_newcard+"%");
+				((TextView) findViewById(R.id.toprev_rechargedata)).setText("比上" + timetype.getText().toString()+": ￥"+comparePrevRecharge+" "+percent_recharge+"%");
 				
 				newcard = (float) (Math.round(newcard * 1000)) / 10;
 				recharge = (float) (Math.round(recharge * 1000)) / 10;
@@ -222,24 +233,54 @@ public class Main extends BaseActivity {
 			if (msg.what == 3) {
 				float total = 0.0f;
 				int length = servicePerformanceList.size();
-				float[] percentNum = new float[servicePerformanceList.size()];
-				String[] projectName = new String[servicePerformanceList.size()];
-
+				float[] percentNum = new float[4];
+				String[] projectName = new String[4];
+				float otherPercentTotal = 0.0f;
+				
+				float[] otherPercentNum =null;
+				String[] otherProjectName =null;
+				String[] otherProjectTotal =null;
+				if(length-3>0)
+				{
+					otherPercentNum = new float[length-3];
+					otherProjectName = new String[length-3];
+					otherProjectTotal = new String[length-3];
+				}
+				
+				
 				for (ServicePerformanceBean bean : servicePerformanceList) {
 					// newcard":13000,"recharge":10,"service":1900,"product":200
 					total += Float.valueOf(bean.getTotal());
 				}
 
 				for (int i = 0; i < length; i++) {
-					float percent = Float.valueOf(servicePerformanceList.get(i)
-							.getTotal()) / total;
-					percentNum[i] = (float) (Math.round(percent * 1000)) / 10;
-					projectName[i] = servicePerformanceList.get(i)
-							.getProject_name();
+					if(i<3)
+					{
+						float percent = Float.valueOf(servicePerformanceList.get(i)
+								.getTotal()) / total;
+						percentNum[i] = (float) (Math.round(percent * 1000)) / 10;
+						projectName[i] = servicePerformanceList.get(i)
+								.getProject_name();
+					}
+					else
+					{
+						
+						float percent = Float.valueOf(servicePerformanceList.get(i)
+								.getTotal()) / total;
+						otherPercentNum[(i-3)] = (float) (Math.round(percent * 1000)) / 10;
+						otherProjectName[(i-3)] = servicePerformanceList.get(i)
+								.getProject_name();
+						otherProjectTotal [(i-3)] = servicePerformanceList.get(i)
+								.getTotal();
+						//其他总数
+						otherPercentTotal += otherPercentNum[(i-3)];
+						percentNum[3] = otherPercentTotal;
+						projectName[3] = "其他";
+					}
+					
 				}
 
 				// 环形图
-
 				LinearLayout annular2Layout = (LinearLayout) findViewById(R.id.annular2Layout);
 				annular2Layout.removeAllViews();
 				PanelDountChart panelDountView = new PanelDountChart(
@@ -249,7 +290,10 @@ public class Main extends BaseActivity {
 				total = (float) (Math.round(total * 10)) / 10;
 				((TextView) findViewById(R.id.servicetotal)).setText("￥"
 						+ total);
-
+				if(length>3)
+				{
+					setOtherListView(otherPercentNum,otherProjectName,otherProjectTotal);	
+				}
 			}
 
 			if (msg.what == 4) {
@@ -283,6 +327,41 @@ public class Main extends BaseActivity {
 			}
 		}
 	};
+	
+	private void setOtherListView(float[] otherPercentNum,String[] otherProjectName,String[] otherProjectTotal)
+	{
+		//绑定Layout里面的ListView  
+        ListView list = (ListView) findViewById(R.id.otherdata);  
+          
+        //生成动态数组，加入数据  
+        ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();  
+        for(int i=0;i<otherProjectName.length;i++)  
+        {  
+        	String otherName = (i+4)+"."+otherProjectName[i];
+        	String otherpercent = otherPercentNum[i]+"%";
+        	String otherTotal = "￥"+otherProjectTotal[i];
+        	if(otherName.length()>12)
+        	{
+        		otherName = otherName.substring(0, 10)+"...";
+        	}
+            HashMap<String, Object> map = new HashMap<String, Object>();  
+            map.put("othername", otherName);  
+            map.put("otherpercent", otherpercent); 
+            map.put("othertotal", otherTotal);
+            listItem.add(map);  
+        } 
+        
+        //生成适配器的Item和动态数组对应的元素  
+        SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,//数据源   
+            R.layout.otherdata_item,//ListItem的XML实现  
+            //动态数组与ImageItem对应的子项          
+            new String[] {"othername","otherpercent","othertotal"},   
+            //ImageItem的XML文件里面的一个ImageView,两个TextView ID  
+            new int[] {R.id.othername,R.id.otherpercent,R.id.othertotal}  
+        );  
+        //添加并且显示  
+        list.setAdapter(listItemAdapter); 
+	}
 
 	public void initView() {
 		

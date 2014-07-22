@@ -86,7 +86,7 @@ public class ChartView extends View {
 		}
 
 		// 设置X轴
-		canvas.drawLine(XPoint, YPoint - YLength, XPoint + XLength, YPoint
+		canvas.drawLine(XPoint, YPoint - YLength, XPoint + XLength+10, YPoint
 				- YLength, paint); // 轴线
 		for(int i = 0; i < YLabel.length; i++)
 		{
@@ -103,14 +103,14 @@ public class ChartView extends View {
 				// 数据值
 				if (i > 0 && YCoord(Data[i - 1]) != -999
 						&& YCoord(Data[i]) != -999) // 保证有效数据
-					canvas.drawLine(YCoord(Data[i - 1]), YPoint - YLength + i
-							* YScale, YCoord(Data[i]), YPoint - YLength
+					canvas.drawLine(YCoord(Data[i - 1])+10, YPoint - YLength + i
+							* YScale, YCoord(Data[i])+10, YPoint - YLength
 							+ (i + 1) * YScale, paint);
 				if(i<3)
 	             {
 	                 paint.setColor(res.getColor(colors[i]));
 	             }
-				canvas.drawCircle(YCoord(Data[i])+5, YPoint - YLength + (i + 1)
+				canvas.drawCircle(YCoord(Data[i])+10, YPoint - YLength + (i + 1)
 						* YScale, 8, paint);
 				canvas.drawText(Data[i] + "人", YCoord(Data[i]) + 12, YPoint
 						- YLength + (i + 1) * YScale, paint1); // 文字
