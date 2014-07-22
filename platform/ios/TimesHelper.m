@@ -48,6 +48,21 @@
     return sunday;
 }
 
++(NSDate*) lastDayOfWeek:(NSDate*)origin
+{
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    
+    NSDateComponents *components = [calendar components:NSCalendarUnitYear | NSCalendarUnitWeekday | NSCalendarUnitWeekOfYear fromDate:origin];
+    
+    if(components.weekday == 7){
+        return origin;
+    }
+    
+    components.weekday = 7;
+    NSDate *saturday = [calendar dateFromComponents:components];
+    return saturday;
+}
+
 +(NSDate*) previousSundayOfDate:(NSDate*)origin
 {
     NSCalendar* calendar = [NSCalendar currentCalendar];

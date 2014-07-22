@@ -1,4 +1,5 @@
 #import "LosTimePicker.h"
+#import "TimesHelper.h"
 
 @implementation LosTimePicker
 
@@ -54,18 +55,22 @@
 -(void) previousDate
 {
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekOfYear fromDate:currentDate];
+    
+    NSDateComponents *components;
     
     if(dateType == DateDisplayTypeDay){
+        components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:currentDate];
         components.day --;
     }else if (dateType == DateDisplayTypeMonth){
+        components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:currentDate];
         components.month --;
     }else{
+        components = [calendar components:NSCalendarUnitYear | NSCalendarUnitWeekOfYear | NSCalendarUnitWeekday fromDate:currentDate];
         components.weekOfYear --;
     }
-    NSDate *yesterday = [calendar dateFromComponents:components];
     
-    currentDate = yesterday;
+    NSDate *previousDate = [calendar dateFromComponents:components];
+    currentDate = previousDate;
     
     label.text = [self resolveDateLabel];
     [myDelegate dateSelected:currentDate Type:dateType];
@@ -74,18 +79,22 @@
 -(void) nextDate
 {
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekOfYear fromDate:currentDate];
+    
+    NSDateComponents *components;
     
     if(dateType == DateDisplayTypeDay){
+        components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:currentDate];
         components.day ++;
     }else if (dateType == DateDisplayTypeMonth){
+        components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:currentDate];
         components.month ++;
     }else{
+        components = [calendar components:NSCalendarUnitYear | NSCalendarUnitWeekOfYear | NSCalendarUnitWeekday fromDate:currentDate];
         components.weekOfYear ++;
     }
-    NSDate *tomorrow = [calendar dateFromComponents:components];
     
-    currentDate = tomorrow;
+    NSDate *nextDate = [calendar dateFromComponents:components];
+    currentDate = nextDate;
     
     label.text = [self resolveDateLabel];
     [myDelegate dateSelected:currentDate Type:dateType];
@@ -108,15 +117,23 @@
 -(NSString*) resolveDateLabel
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    if(dateType == DateDisplayTypeDay){
-        [dateFormatter setDateFormat:@"yyyy年MM月dd日"];
-    }else if(dateType == DateDisplayTypeMonth){
-        [dateFormatter setDateFormat:@"yyyy年MM月"];
-    }else{
-        [dateFormatter setDateFormat:@"ww周"];
-    }
     
-    return [dateFormatter stringFromDate:currentDate];
+    if(dateType == DateDisplayTypeDay){
+        
+        [dateFormatter setDateFormat:@"yyyy年MM月dd日"];
+        return [dateFormatter stringFromDate:currentDate];
+    }else if(dateType == DateDisplayTypeMonth){
+        
+        [dateFormatter setDateFormat:@"yyyy年MM月"];
+        return [dateFormatter stringFromDate:currentDate];
+    }else{
+        
+        [dateFormatter setDateFormat:@"MM月dd日"];
+        
+        NSDate *sunday = [TimesHelper firstDayOfWeek:currentDate];
+        NSDate *saturday = [TimesHelper lastDayOfWeek:currentDate];
+        return [NSString stringWithFormat:@"%@-%@", [dateFormatter stringFromDate:sunday], [dateFormatter stringFromDate:saturday]];
+    }
 }
 
 -(NSString*) resolveDisplayTag
