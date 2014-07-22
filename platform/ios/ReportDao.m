@@ -274,6 +274,21 @@
     FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
     [db open];
     
+    int count = 0;
+    
+    if(type == 0){
+        count = [db intForQuery:@"select count(1) from service_performance_day where enterprise_id = :eid and year = :year and month = :month and day = :day;", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
+    }else if(type == 1){
+        count = [db intForQuery:@"select count(1) from service_performance_month where enterprise_id = :eid and year = :year and month = :month;", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month]];
+    }else{
+        count = [db intForQuery:@"select count(1) from service_performance_week where enterprise_id = :eid and year = :year and month = :month and day = :day;", enterpriseId, [NSNumber numberWithLong:yearOfSunday], [NSNumber numberWithLong:monthOfSunday], [NSNumber numberWithLong:dayOfSunday]];
+    }
+    
+    if(count == 0){
+        [db close];
+        return [NSMutableArray array];
+    }
+    
     FMResultSet *rs;
     
     if(type == 0){

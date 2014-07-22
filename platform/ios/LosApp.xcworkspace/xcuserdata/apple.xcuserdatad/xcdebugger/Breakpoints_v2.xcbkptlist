@@ -4,22 +4,6 @@
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ReportDao.m"
-            timestampString = "427690921.388868"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "14"
-            endingLineNumber = "14"
-            landmarkName = "-queryEmployeePerformanceByDate:EnterpriseId:Type:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
          <BreakpointContent
             shouldBeEnabled = "Yes"
@@ -36,12 +20,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ReportDao.m"
-            timestampString = "427703710.186263"
+            timestampString = "427707566.258063"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "414"
-            endingLineNumber = "414"
-            landmarkName = "-batchInsertCustomerCount:type:"
+            startingLineNumber = "274"
+            endingLineNumber = "274"
+            landmarkName = "-queryServicePerformanceByDate:EnterpriseId:Type:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -52,12 +36,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ReportDao.m"
-            timestampString = "427703269.484558"
+            timestampString = "427706117.730572"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "97"
-            endingLineNumber = "97"
-            landmarkName = "-queryBusinessPerformanceByDate:EnterpriseId:Type:"
+            startingLineNumber = "260"
+            endingLineNumber = "260"
+            landmarkName = "-queryServicePerformanceByDate:EnterpriseId:Type:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -68,12 +52,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ReportDao.m"
-            timestampString = "427703446.461324"
+            timestampString = "427707566.258063"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "103"
-            endingLineNumber = "103"
-            landmarkName = "-queryBusinessPerformanceByDate:EnterpriseId:Type:"
+            startingLineNumber = "306"
+            endingLineNumber = "306"
+            landmarkName = "-queryServicePerformanceByDate:EnterpriseId:Type:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -84,12 +68,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ReportDao.m"
-            timestampString = "427703706.730091"
+            timestampString = "427707566.258063"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
-            landmarkName = "-queryBusinessPerformanceByDate:EnterpriseId:Type:"
+            startingLineNumber = "307"
+            endingLineNumber = "307"
+            landmarkName = "-queryServicePerformanceByDate:EnterpriseId:Type:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -100,12 +84,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ReportDao.m"
-            timestampString = "427703759.341592"
+            timestampString = "427706506.180615"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "152"
-            endingLineNumber = "152"
-            landmarkName = "-queryBusinessPerformanceByDate:EnterpriseId:Type:"
+            startingLineNumber = "167"
+            endingLineNumber = "167"
+            landmarkName = "-assembleResult:rs2:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -115,13 +99,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TimesHelper.m"
-            timestampString = "427703776.176237"
+            filePath = "ReportDao.m"
+            timestampString = "427707566.258063"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "38"
-            endingLineNumber = "38"
-            landmarkName = "+firstDayOfWeek:"
+            startingLineNumber = "275"
+            endingLineNumber = "275"
+            landmarkName = "-queryServicePerformanceByDate:EnterpriseId:Type:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -131,13 +115,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TimesHelper.m"
-            timestampString = "427704573.933324"
+            filePath = "ReportDao.m"
+            timestampString = "427707574.662318"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
-            landmarkName = "+yesterdayOfDay:"
+            startingLineNumber = "216"
+            endingLineNumber = "216"
+            landmarkName = "-insertBusinessPerformance:type:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -147,13 +131,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TimesHelper.m"
-            timestampString = "427705042.710309"
+            filePath = "ReportDao.m"
+            timestampString = "427707575.631374"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
-            landmarkName = "+previousSundayOfDate:"
+            startingLineNumber = "217"
+            endingLineNumber = "217"
+            landmarkName = "-insertBusinessPerformance:type:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
