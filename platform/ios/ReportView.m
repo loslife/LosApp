@@ -31,7 +31,7 @@
         [indicator setCenter:CGPointMake(160, 208)];
         [indicator startAnimating];
         
-        UILabel *message = [[UILabel alloc] initWithFrame:CGRectMake(20, 220, 280, 40)];
+        UILabel *message = [[UILabel alloc] initWithFrame:CGRectMake(0, 160, 320, 40)];
         message.text = @"正在加载报表数据，请稍候";
         message.textAlignment = NSTextAlignmentCenter;
         message.font = [UIFont systemFontOfSize:14];
