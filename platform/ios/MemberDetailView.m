@@ -47,8 +47,9 @@
     UIView *birthdayArea = [self makeBaseinfoView:CGRectMake(20, 114, 280, heightForLabel) icon:@"member_birthday" text:[NSString stringWithFormat:@"生日：%@", [StringUtils fromNumber:theMember.birthday format:@"MM-dd"]]];
     
     UIView *noArea = [self makeBaseinfoView:CGRectMake(20, 114 + heightForLabel, 280, heightForLabel) icon:@"member_no" text:[NSString stringWithFormat:@"编号：%@", theMember.memberNo]];
-    
-    UIView *joinArea = [self makeBaseinfoView:CGRectMake(20, 114 + heightForLabel * 2, 280, heightForLabel) icon:@"member_join" text:[NSString stringWithFormat:@"入会时间：%@", [StringUtils fromNumber:theMember.joinDate format:@"yyyy-MM-dd"]]];
+   
+    NSNumber *join = [NSNumber numberWithDouble:[theMember.joinDate doubleValue] / 1000];
+    UIView *joinArea = [self makeBaseinfoView:CGRectMake(20, 114 + heightForLabel * 2, 280, heightForLabel) icon:@"member_join" text:[NSString stringWithFormat:@"入会时间：%@", [StringUtils fromNumber:join format:@"yyyy-MM-dd"]]];
     
     UIView *contactArea = [self makeBaseinfoView:CGRectMake(20, 114 + heightForLabel * 3, 280, heightForLabel) icon:@"member_contact" text:[NSString stringWithFormat:@"联系方式：%@", theMember.phoneMobile]];
     
