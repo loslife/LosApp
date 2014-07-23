@@ -9,7 +9,9 @@
 
 -(id) initWithMember:(Member*)member
 {
-    self = [super init];
+    CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;// 568 in 4-inch，480 in 3.5-inch
+    
+    self = [super initWithFrame:CGRectMake(0, 64, 320, screenHeight - 64)];
     if(self){
         
         theMember = member;
