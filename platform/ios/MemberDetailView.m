@@ -78,9 +78,10 @@
     callIcon.image = [UIImage imageNamed:@"member_call"];
     
     UIButton *callButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    callButton.frame = CGRectMake(60, 0, 70, 50);
+    callButton.frame = CGRectMake(60, 0, 100, 50);
     [callButton setTitle:@"给ta电话" forState:UIControlStateNormal];
     [callButton setTintColor:BLUE1];
+    callButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [callButton addTarget:self action:@selector(callMember) forControlEvents:UIControlEventTouchUpInside];
     
     [call addSubview:callIcon];
@@ -92,9 +93,10 @@
     smsIcon.image = [UIImage imageNamed:@"member_sms"];
     
     UIButton *smsButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    smsButton.frame = CGRectMake(60, 0, 70, 50);
+    smsButton.frame = CGRectMake(60, 0, 100, 50);
     [smsButton setTitle:@"发送短信" forState:UIControlStateNormal];
     [smsButton setTintColor:BLUE1];
+    smsButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [smsButton addTarget:self action:@selector(sendSMS) forControlEvents:UIControlEventTouchUpInside];
     
     [sms addSubview:smsIcon];
