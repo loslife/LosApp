@@ -46,6 +46,18 @@
             item.ratio = item.value / sum;
         }
         
+        [self.records sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+            ServicePerformance *s1 = (ServicePerformance*) obj1;
+            ServicePerformance *s2 = (ServicePerformance*) obj2;
+            if(s1.value < s2.value){
+                return NSOrderedDescending;
+            }else if(s1.value == s2.value){
+                return NSOrderedSame;
+            }else{
+                return NSOrderedAscending;
+            }
+        }];
+        
         block(YES);
     }];
 }
