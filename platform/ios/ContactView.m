@@ -19,6 +19,12 @@
         self.tableView.sectionIndexColor = [UIColor grayColor];
         [self.tableView addHeaderWithTarget:controller action:@selector(pullToRefresh)];
         
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:controller action:@selector(onSingleTap)];
+        [tap setNumberOfTapsRequired:1];
+        [tap setNumberOfTouchesRequired:1];
+        tap.cancelsTouchesInView = NO;
+        [self addGestureRecognizer:tap];
+        
         [self addSubview:self.search];
         [self addSubview:self.tableView];
     }

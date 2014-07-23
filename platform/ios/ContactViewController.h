@@ -5,5 +5,6 @@
 
 -(void) loadMembersFromServer;
 -(void) pullToRefresh;
+-(void) onSingleTap;
 
 @end

@@ -165,6 +165,12 @@
     });
 }
 
+-(void) onSingleTap
+{
+    SwitchShopButton* barButton = (SwitchShopButton*)self.navigationItem.rightBarButtonItem;
+    [barButton closeSwitchShopMenu];
+}
+
 -(void) doLoad
 {
     ContactLoadingView *loadingView = [[ContactLoadingView alloc] init];
