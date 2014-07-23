@@ -5,7 +5,7 @@
 -(NSUInteger) rowCount;
 -(int) maxValue;
 -(NSString*) nameAtIndex:(int)index;
--(int) valueAtIndex:(int)index;
+-(double) valueAtIndex:(int)index;
 
 @end
 

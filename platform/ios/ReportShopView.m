@@ -83,13 +83,13 @@
             
             BusinessPerformance *item = [dataSource itemAtIndex:i];
             
-            NSString *value = [NSString stringWithFormat:@"￥%f", item.value];
+            NSString *value = [NSString stringWithFormat:@"￥%.1f", item.value];
             
             NSString *compareText;
             if(item.increased){
-                compareText = [NSString stringWithFormat:@"比昨日：+%f +%f%%", item.compareToPrev, item.compareToPrevRatio];
+                compareText = [NSString stringWithFormat:@"比昨日：+%.1f +%.f%%", item.compareToPrev, item.compareToPrevRatio * 100];
             }else{
-                compareText = [NSString stringWithFormat:@"比昨日：-%f -%f%%", item.compareToPrev, item.compareToPrevRatio];
+                compareText = [NSString stringWithFormat:@"比昨日：-%.1f -%.f%%", item.compareToPrev, item.compareToPrevRatio * 100];
             }
             
             PerformanceCompareView *label = [[PerformanceCompareView alloc] initWithFrame:CGRectMake(0, itemHeight * i, 320, itemHeight) Title:item.title CompareText:compareText Value:value Increase:item.increased];

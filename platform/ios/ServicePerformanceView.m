@@ -9,12 +9,12 @@
         
         CGFloat maxY = frame.size.height;
         
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, maxY)];
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 140, maxY)];
         titleLabel.text = title;
         titleLabel.textAlignment = NSTextAlignmentLeft;
         titleLabel.textColor = [UIColor colorWithRed:114/255.0f green:128/255.0f blue:137/255.0f alpha:1.0f];
         
-        UILabel *ratioLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 0, 100, maxY)];
+        UILabel *ratioLabel = [[UILabel alloc] initWithFrame:CGRectMake(140, 0, 60, maxY)];
         ratioLabel.text = ratio;
         ratioLabel.textAlignment = NSTextAlignmentLeft;
         ratioLabel.textColor = [UIColor colorWithRed:114/255.0f green:128/255.0f blue:137/255.0f alpha:1.0f];

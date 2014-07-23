@@ -24,7 +24,7 @@
     }
     
     int maxValue = [dataSource maxValue];
-    CGFloat lengthPerValue = 180.0 / maxValue;
+    CGFloat lengthPerValue = 160.0 / maxValue;
 
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     CGContextSetLineWidth(ctx, .1f);
@@ -42,7 +42,7 @@
         name.textColor = [UIColor colorWithRed:114/255.0f green:128/255.0f blue:137/255.0f alpha:1.0f];
         name.font = [UIFont systemFontOfSize:14.0];
         
-        int value = [dataSource valueAtIndex:i];
+        double value = [dataSource valueAtIndex:i];
         CGFloat barLength = ceil(value * lengthPerValue);
         UILabel *bar = [[UILabel alloc] initWithFrame:CGRectMake(80, 5, barLength, 30)];
         if(i == 0){
@@ -55,8 +55,8 @@
             bar.backgroundColor = [UIColor colorWithRed:202/255.0f green:211/255.0f blue:218/255.0f alpha:1.0f];
         }
         
-        UILabel *money = [[UILabel alloc] initWithFrame:CGRectMake(80 + barLength, 0, 60, 40)];
-        money.text = [NSString stringWithFormat:@"￥%d", value];
+        UILabel *money = [[UILabel alloc] initWithFrame:CGRectMake(80 + barLength, 0, 80, 40)];
+        money.text = [NSString stringWithFormat:@"￥%.1f", value];
         money.textAlignment = NSTextAlignmentLeft;
         money.textColor = [UIColor colorWithRed:114/255.0f green:128/255.0f blue:137/255.0f alpha:1.0f];
         money.font = [UIFont systemFontOfSize:14.0];

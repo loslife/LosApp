@@ -79,12 +79,18 @@
 {
     if(current >= previous){
         p.increased = YES;
-        p.compareToPrev = current - previous;
-        p.compareToPrevRatio = (current - previous) / previous;
     }else{
         p.increased = NO;
-        p.compareToPrev = previous - current;
-        p.compareToPrevRatio = (previous - current) / previous;
+    }
+    
+    p.compareToPrev = abs(current - previous);
+    
+    if(previous != 0){
+        p.compareToPrevRatio = p.compareToPrev / previous;
+    }else if(current == 0){
+        p.compareToPrevRatio = 0;
+    }else{
+        p.compareToPrevRatio = 1;
     }
 }
 
@@ -101,7 +107,7 @@
     for(BusinessPerformance *item in self.records){
         sum += item.value;
     }
-    return [NSString stringWithFormat:@"￥%f", sum];
+    return [NSString stringWithFormat:@"￥%.1f", sum];
 }
 
 -(NSUInteger) itemCount
@@ -125,7 +131,7 @@
 {
     BusinessPerformance *performance = [self.records objectAtIndex:index];
     
-    NSString *title = [NSString stringWithFormat:@"%@%f", performance.title, performance.ratio];
+    NSString *title = [NSString stringWithFormat:@"%@%.f%%", performance.title, performance.ratio * 100];
     LosPieChartItem *item = [[LosPieChartItem alloc] initWithTitle:title Ratio:performance.ratio];
     return item;
 }

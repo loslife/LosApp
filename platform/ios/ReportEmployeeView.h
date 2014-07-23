@@ -5,7 +5,7 @@
 @protocol ReportEmployeeViewDataSource <NSObject>
 
 -(BOOL) hasData;
--(int) totalNumber;
+-(double) totalNumber;
 
 @end
 

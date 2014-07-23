@@ -63,7 +63,7 @@
     for(ServicePerformance *item in self.records){
         sum += item.value;
     }
-    return [NSString stringWithFormat:@"￥%f", sum];
+    return [NSString stringWithFormat:@"￥%.1f", sum];
 }
 
 -(NSUInteger) itemCount
@@ -94,7 +94,7 @@
 {
     if(index < 3){
         ServicePerformance *performance = [self.records objectAtIndex:index];
-        NSString *title = [NSString stringWithFormat:@"%d.%@ %f", index + 1, performance.title, performance.ratio];
+        NSString *title = [NSString stringWithFormat:@"%d.%@ %.f%%", index + 1, performance.title, performance.ratio * 100];
         return [[LosPieChartItem alloc] initWithTitle:title Ratio:performance.ratio];
     }
     
@@ -104,7 +104,7 @@
         ServicePerformance *performance = [self.records objectAtIndex:i];
         sum += performance.ratio;
     }
-    NSString *title = [NSString stringWithFormat:@"其他 %f", sum];
+    NSString *title = [NSString stringWithFormat:@"其他 %.f%%", sum * 100];
     return [[LosPieChartItem alloc] initWithTitle:title Ratio:sum];
 }
 

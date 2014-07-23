@@ -31,7 +31,7 @@
     label.textColor = [UIColor colorWithRed:32/255.0f green:37/255.0f blue:41/255.0f alpha:1.0f];
     
     total = [[UILabel alloc] initWithFrame:CGRectMake(100, 0, 180, 40)];
-    total.text = [NSString stringWithFormat:@"￥%d", [dataSource totalNumber]];
+    total.text = [NSString stringWithFormat:@"￥%.1f", [dataSource totalNumber]];
     total.textAlignment = NSTextAlignmentRight;
     total.textColor = [UIColor colorWithRed:32/255.0f green:37/255.0f blue:41/255.0f alpha:1.0f];
     
@@ -50,7 +50,7 @@
 
 -(void) reload
 {
-    total.text = [NSString stringWithFormat:@"￥%d", [dataSource totalNumber]];
+    total.text = [NSString stringWithFormat:@"￥%.1f", [dataSource totalNumber]];
     
     [barChart removeFromSuperview];
     [self addDataView];

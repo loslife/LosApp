@@ -65,11 +65,11 @@
     return [self.records count] != 0;
 }
 
--(int) totalNumber
+-(double) totalNumber
 {
-    int sum = 0;
+    double sum = 0;
     for(EmployeePerformance *item in self.records){
-        sum += [item.total intValue];
+        sum += [item.total doubleValue];
     }
     return sum;
 }
@@ -97,10 +97,10 @@
     return item.employeeName;
 }
 
--(int) valueAtIndex:(int)index
+-(double) valueAtIndex:(int)index
 {
     EmployeePerformance *item = [self.records objectAtIndex:index];
-    return [item.total intValue];
+    return [item.total doubleValue];
 }
 
 @end

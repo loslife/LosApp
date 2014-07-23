@@ -100,8 +100,8 @@
                 
                 ServicePerformance *item = [dataSource itemAtIndex:i];
                 
-                NSString *value = [NSString stringWithFormat:@"￥%f", item.value];
-                NSString *ratio = [NSString stringWithFormat:@"%f%%", item.ratio];
+                NSString *value = [NSString stringWithFormat:@"￥%.1f", item.value];
+                NSString *ratio = [NSString stringWithFormat:@"%.f%%", item.ratio * 100];
                 NSString *title = [NSString stringWithFormat:@"%d.%@", i + 4, item.title];
                 
                 ServicePerformanceView *row = [[ServicePerformanceView alloc] initWithFrame:CGRectMake(20, 40 * (i + 1), 280, 40) title:title ratio:ratio value:value];
