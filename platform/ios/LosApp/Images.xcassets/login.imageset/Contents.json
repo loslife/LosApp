@@ -9,6 +9,16 @@
       "idiom" : "universal",
       "scale" : "2x",
       "filename" : "login-1.png"
+    },
+    {
+      "idiom" : "iphone",
+      "scale" : "1x",
+      "filename" : "4s尺寸登录.png"
+    },
+    {
+      "idiom" : "iphone",
+      "scale" : "2x",
+      "filename" : "4s尺寸登录-1.png"
     }
   ],
   "info" : {

@@ -8,6 +8,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         
+        CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;// 568 in 4-inch，480 in 3.5-inch
+        
         self.backgroundColor = GRAY1;
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 70, 280, 320)];
@@ -16,7 +18,7 @@
         label.textColor = GRAY4;
         label.numberOfLines = 20;
         
-        UIView *contactArea = [[UIView alloc] initWithFrame:CGRectMake(0, 390, 320, 130)];
+        UIView *contactArea = [[UIView alloc] initWithFrame:CGRectMake(0, 390, 320, screenHeight - 390)];
         contactArea.backgroundColor = [UIColor whiteColor];
         
         UILabel *message = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 280, 40)];
@@ -25,9 +27,11 @@
         message.font = [UIFont systemFontOfSize:14];
         message.textColor = GRAY4;
         
-        UIView *qq = [self viewWithFrame:CGRectMake(20, 40, 280, 30) Image:@"us_qq" text:@"QQ：1994714502"];
-        UIView *website = [self viewWithFrame:CGRectMake(20, 70, 280, 30) Image:@"us_website" text:@"邮箱：service@yilos.com"];
-        UIView *phone = [self viewWithFrame:CGRectMake(20, 100, 280, 30) Image:@"us_phone" text:@"电话：0755-28890800"];
+        CGFloat itemHeight = (screenHeight - 440) / 3;
+        
+        UIView *qq = [self viewWithFrame:CGRectMake(20, 40, 280, itemHeight) Image:@"us_qq" text:@"QQ：1994714502"];
+        UIView *website = [self viewWithFrame:CGRectMake(20, 40 + itemHeight, 280, itemHeight) Image:@"us_website" text:@"邮箱：service@yilos.com"];
+        UIView *phone = [self viewWithFrame:CGRectMake(20, 40 + itemHeight * 2, 280, itemHeight) Image:@"us_phone" text:@"电话：0755-28890800"];
         
         [contactArea addSubview:message];
         [contactArea addSubview:qq];
@@ -45,9 +49,9 @@
     UIView *view = [[UIView alloc] initWithFrame:frame];
     
     UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
-    image.frame = CGRectMake(0, 10, 10, 10);
+    image.frame = CGRectMake(0, (frame.size.height - 10) / 2, 10, 10);
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 260, 30)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 260, frame.size.height)];
     label.text = text;
     label.textAlignment = NSTextAlignmentLeft;
     label.font = [UIFont systemFontOfSize:12];

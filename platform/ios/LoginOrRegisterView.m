@@ -10,8 +10,10 @@
         
         self.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"login"]];
         
+        CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;// 568 in 4-inch，480 in 3.5-inch
+        
         UIButton *loginButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        loginButton.frame = CGRectMake(20, 480, 130, 40);
+        loginButton.frame = CGRectMake(20, screenHeight - 88, 130, 40);
         [loginButton setTitle:@"登 录" forState:UIControlStateNormal];
         loginButton.backgroundColor = BLUE1;
         loginButton.tintColor = [UIColor whiteColor];
@@ -20,7 +22,7 @@
         [loginButton addTarget:delegate action:@selector(loginButtonTapped) forControlEvents:UIControlEventTouchUpInside];
         
         UIButton *registerButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        registerButton.frame = CGRectMake(170, 480, 130, 40);
+        registerButton.frame = CGRectMake(170, screenHeight - 88, 130, 40);
         [registerButton setTitle:@"注 册" forState:UIControlStateNormal];
         registerButton.backgroundColor = RED1;
         registerButton.tintColor = [UIColor whiteColor];

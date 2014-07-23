@@ -20,7 +20,10 @@
 
 -(void) drawRect:(CGRect)rect
 {
-    UIView *header = [[UIView alloc] initWithFrame:CGRectMake(20, 60, 280, 50)];
+    CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;// 568 in 4-inch，480 in 3.5-inch
+    CGFloat heightForLabel = (screenHeight - 174) / 9;
+    
+    UIView *header = [[UIView alloc] initWithFrame:CGRectMake(20, 64, 280, 50)];
     
     UIImageView *photo = [[UIImageView alloc] initWithFrame:CGRectMake(0, 17, 16, 16)];
     photo.image = [UIImage imageNamed:@"member_name"];
@@ -41,50 +44,34 @@
     [header addSubview:name];
     [header addSubview:sex];
     
-    UIView *birthdayArea = [self makeBaseinfoView:CGRectMake(20, 110, 280, 40) icon:@"member_birthday" text:[NSString stringWithFormat:@"生日：%@", [StringUtils fromNumber:theMember.birthday format:@"MM-dd"]]];
+    UIView *birthdayArea = [self makeBaseinfoView:CGRectMake(20, 114, 280, heightForLabel) icon:@"member_birthday" text:[NSString stringWithFormat:@"生日：%@", [StringUtils fromNumber:theMember.birthday format:@"MM-dd"]]];
     
-    UIView *noArea = [self makeBaseinfoView:CGRectMake(20, 150, 280, 40) icon:@"member_no" text:[NSString stringWithFormat:@"编号：%@", theMember.memberNo]];
+    UIView *noArea = [self makeBaseinfoView:CGRectMake(20, 114 + heightForLabel, 280, heightForLabel) icon:@"member_no" text:[NSString stringWithFormat:@"编号：%@", theMember.memberNo]];
     
-    UIView *joinArea = [self makeBaseinfoView:CGRectMake(20, 190, 280, 40) icon:@"member_join" text:[NSString stringWithFormat:@"入会时间：%@", [StringUtils fromNumber:theMember.joinDate format:@"yyyy-MM-dd"]]];
+    UIView *joinArea = [self makeBaseinfoView:CGRectMake(20, 114 + heightForLabel * 2, 280, heightForLabel) icon:@"member_join" text:[NSString stringWithFormat:@"入会时间：%@", [StringUtils fromNumber:theMember.joinDate format:@"yyyy-MM-dd"]]];
     
-    UIView *contactArea = [self makeBaseinfoView:CGRectMake(20, 230, 280, 40) icon:@"member_contact" text:[NSString stringWithFormat:@"联系方式：%@", theMember.phoneMobile]];
+    UIView *contactArea = [self makeBaseinfoView:CGRectMake(20, 114 + heightForLabel * 3, 280, heightForLabel) icon:@"member_contact" text:[NSString stringWithFormat:@"联系方式：%@", theMember.phoneMobile]];
     
-    UILabel *bar = [[UILabel alloc] initWithFrame:CGRectMake(0, 270, 320, 5)];
+    UILabel *bar = [[UILabel alloc] initWithFrame:CGRectMake(0, 114 + heightForLabel * 4, 320, 5)];
     bar.backgroundColor = GRAY1;
     
-    UILabel *consumeTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 280, 280, 40)];
+    UILabel *consumeTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 119 + heightForLabel * 4, 280, heightForLabel)];
     consumeTitle.text = @"消费信息";
     consumeTitle.textAlignment = NSTextAlignmentLeft;
     consumeTitle.font = [UIFont systemFontOfSize:16];
     
-    UILabel *cards = [[UILabel alloc] initWithFrame:CGRectMake(20, 320, 280, 40)];
-    cards.text = [NSString stringWithFormat:@"会员卡：%@", theMember.cardStr];
-    cards.textAlignment = NSTextAlignmentLeft;
-    cards.textColor = GRAY4;
-    cards.font = [UIFont systemFontOfSize:14];
-
-    UILabel *latest = [[UILabel alloc] initWithFrame:CGRectMake(20, 360, 280, 40)];
-    latest.text = [NSString stringWithFormat:@"最后消费时间：%@", [StringUtils fromNumber:theMember.latestConsumeTime format:@"MM-dd"]];
-    latest.textAlignment = NSTextAlignmentLeft;
-    latest.textColor = GRAY4;
-    latest.font = [UIFont systemFontOfSize:14];
-
-    UILabel *total = [[UILabel alloc] initWithFrame:CGRectMake(20, 400, 280, 40)];
-    total.text = [NSString stringWithFormat:@"累计消费：￥%.1f", [theMember.totalConsume doubleValue]];
-    total.textAlignment = NSTextAlignmentLeft;
-    total.textColor = GRAY4;
-    total.font = [UIFont systemFontOfSize:14];
-
-    UILabel *per = [[UILabel alloc] initWithFrame:CGRectMake(20, 440, 280, 40)];
-    per.text = [NSString stringWithFormat:@"客单价：￥%.1f", [theMember.averageConsume doubleValue]];
-    per.textAlignment = NSTextAlignmentLeft;
-    per.textColor = GRAY4;
-    per.font = [UIFont systemFontOfSize:14];
+    UILabel *cards = [self makeConsumeinfoView:CGRectMake(20, 119 + heightForLabel * 5, 280, heightForLabel) text:[NSString stringWithFormat:@"会员卡：%@", theMember.cardStr]];
     
-    UILabel *bar2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 513, 320, 5)];
+    UILabel *latest = [self makeConsumeinfoView:CGRectMake(20, 119 + heightForLabel * 6, 280, heightForLabel) text:[NSString stringWithFormat:@"最后消费时间：%@", [StringUtils fromNumber:theMember.latestConsumeTime format:@"MM-dd"]]];
+
+    UILabel *total = [self makeConsumeinfoView:CGRectMake(20, 119 + heightForLabel * 7, 280, heightForLabel) text:[NSString stringWithFormat:@"累计消费：￥%.1f", [theMember.totalConsume doubleValue]]];
+
+    UILabel *per = [self makeConsumeinfoView:CGRectMake(20, 119 + heightForLabel * 8, 280, heightForLabel) text:[NSString stringWithFormat:@"客单价：￥%.1f", [theMember.averageConsume doubleValue]]];
+    
+    UILabel *bar2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 119 + heightForLabel * 9, 320, 5)];
     bar2.backgroundColor = GRAY1;
     
-    UIView *call = [[UIView alloc] initWithFrame:CGRectMake(0, 518, 160, 50)];
+    UIView *call = [[UIView alloc] initWithFrame:CGRectMake(0, 124 + heightForLabel * 9, 160, 50)];
     
     UIImageView *callIcon = [[UIImageView alloc] initWithFrame:CGRectMake(30, 17, 16, 16)];
     callIcon.image = [UIImage imageNamed:@"member_call"];
@@ -98,7 +85,7 @@
     [call addSubview:callIcon];
     [call addSubview:callButton];
     
-    UIView *sms = [[UIView alloc] initWithFrame:CGRectMake(160, 518, 160, 50)];
+    UIView *sms = [[UIView alloc] initWithFrame:CGRectMake(160, 124 + heightForLabel * 9, 160, 50)];
     
     UIImageView *smsIcon = [[UIImageView alloc] initWithFrame:CGRectMake(30, 17, 16, 16)];
     smsIcon.image = [UIImage imageNamed:@"member_sms"];
@@ -135,27 +122,27 @@
     CGContextAddLineToPoint(ctx, 300, 110);
     CGContextStrokePath(ctx);
     
-    CGContextMoveToPoint(ctx, 160, 520);
-    CGContextAddLineToPoint(ctx, 160, 566);
+    CGContextMoveToPoint(ctx, 160, screenHeight - 48);
+    CGContextAddLineToPoint(ctx, 160, screenHeight - 2);
     CGContextStrokePath(ctx);
     
     CGContextSetLineWidth(ctx, 1.f);
     CGContextSetStrokeColorWithColor(ctx, GRAY2.CGColor);
     
-    CGContextMoveToPoint(ctx, 0, 270);
-    CGContextAddLineToPoint(ctx, 320, 270);
+    CGContextMoveToPoint(ctx, 0, 114 + heightForLabel * 4);
+    CGContextAddLineToPoint(ctx, 320, 114 + heightForLabel * 4);
     CGContextStrokePath(ctx);
     
-    CGContextMoveToPoint(ctx, 0, 275);
-    CGContextAddLineToPoint(ctx, 320, 275);
+    CGContextMoveToPoint(ctx, 0, 119 + heightForLabel * 4);
+    CGContextAddLineToPoint(ctx, 320, 119 + heightForLabel * 4);
     CGContextStrokePath(ctx);
     
-    CGContextMoveToPoint(ctx, 0, 513);
-    CGContextAddLineToPoint(ctx, 320, 513);
+    CGContextMoveToPoint(ctx, 0, 119 + heightForLabel * 9);
+    CGContextAddLineToPoint(ctx, 320, 119 + heightForLabel * 9);
     CGContextStrokePath(ctx);
     
-    CGContextMoveToPoint(ctx, 0, 518);
-    CGContextAddLineToPoint(ctx, 320, 518);
+    CGContextMoveToPoint(ctx, 0, 124 + heightForLabel * 9);
+    CGContextAddLineToPoint(ctx, 320, 124 + heightForLabel * 9);
     CGContextStrokePath(ctx);
 }
 
@@ -174,10 +161,10 @@
 {
     UIView *view = [[UIView alloc] initWithFrame:frame];
     
-    UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(0, 12, 16, 16)];
+    UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(0, (frame.size.height - 16) / 2, 16, 16)];
     icon.image = [UIImage imageNamed:image];
     
-    UILabel *message = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 250, 40)];
+    UILabel *message = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 250, frame.size.height)];
     message.text = text;
     message.textAlignment = NSTextAlignmentLeft;
     message.textColor = GRAY4;
@@ -187,6 +174,16 @@
     [view addSubview:message];
     
     return view;
+}
+
+-(UILabel*) makeConsumeinfoView:(CGRect)frame text:(NSString*)text
+{
+    UILabel *label = [[UILabel alloc] initWithFrame:frame];
+    label.text = text;
+    label.textAlignment = NSTextAlignmentLeft;
+    label.textColor = GRAY4;
+    label.font = [UIFont systemFontOfSize:14];
+    return label;
 }
 
 @end
