@@ -22,7 +22,7 @@
         myDelegate = delegate;
         
         UIButton *previous = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        previous.frame = CGRectMake(60, 10, 20, 20);
+        previous.frame = CGRectMake(40, 0, 40, 40);
         [previous setImage:[UIImage imageNamed:@"arrow_left"] forState:UIControlStateNormal];
         [previous addTarget:self action:@selector(previousDate) forControlEvents:UIControlEventTouchUpInside];
         
@@ -32,7 +32,7 @@
         label.font = [UIFont systemFontOfSize:14.0];
         
         UIButton *next = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        next.frame = CGRectMake(240, 10, 20, 20);
+        next.frame = CGRectMake(240, 0, 40, 40);
         [next setImage:[UIImage imageNamed:@"arrow_right"] forState:UIControlStateNormal];
         [next addTarget:self action:@selector(nextDate) forControlEvents:UIControlEventTouchUpInside];
         
