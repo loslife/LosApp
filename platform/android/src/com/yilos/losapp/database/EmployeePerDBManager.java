@@ -155,9 +155,9 @@ public class EmployeePerDBManager
         	bean.setRecharge(c.getString(c.getColumnIndex("recharge")));
         	bean.setCreate_date(c.getString(c.getColumnIndex("create_date")));
         	bean.setModify_date(c.getString(c.getColumnIndex("modify_date")));
-        	bean.setYear(c.getString(c.getColumnIndex("year")));
-        	bean.setMonth(c.getString(c.getColumnIndex("month")));
-        	bean.setDay(c.getString(c.getColumnIndex("day")));
+        	bean.setYear(c.getInt(c.getColumnIndex("year"))+"");
+        	bean.setMonth(c.getInt(c.getColumnIndex("month"))+"");
+        	bean.setDay(c.getInt(c.getColumnIndex("day"))+"");
         	list.add(bean);
     	}
     	c.close();

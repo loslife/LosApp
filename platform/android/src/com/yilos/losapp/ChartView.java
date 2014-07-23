@@ -1,5 +1,8 @@
 package com.yilos.losapp;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -40,6 +43,12 @@ public class ChartView extends View {
              R.color.vgeneral,  
              R.color.blue,                 
          }; 
+	 
+	 int[] sortdataArray = null;
+	 
+	 int top_one = 0;
+	 int top_two = 0;
+	 int top_three = 0;
 
 	public ChartView(Context context, AttributeSet attr) {
 		super(context, attr);
@@ -53,6 +62,13 @@ public class ChartView extends View {
 		YLabel = YLabels;
 		Data = AllData;
 		YLength = XLabels.length*YScale;
+		sortdataArray = new int[AllData.length];
+		System.arraycopy(AllData, 0, sortdataArray, 0, AllData.length);
+		Arrays.sort(sortdataArray);
+		//TOP3
+		top_one = sortdataArray[AllData.length-1];
+		top_two = sortdataArray[AllData.length-2];;
+		top_three = sortdataArray[AllData.length-3];;
 	}
 
 	@Override
@@ -106,10 +122,22 @@ public class ChartView extends View {
 					canvas.drawLine(YCoord(Data[i - 1])+10, YPoint - YLength + i
 							* YScale, YCoord(Data[i])+10, YPoint - YLength
 							+ (i + 1) * YScale, paint);
-				if(i<3)
+				if(Data[i]==top_one&&Data[i]!=0)
 	             {
-	                 paint.setColor(res.getColor(colors[i]));
+	                 paint.setColor(res.getColor(colors[0]));
 	             }
+				 else if (Data[i]==top_two&&Data[i]!=0)
+	             {
+					 paint.setColor(res.getColor(colors[1]));
+	             }
+				 else if(Data[i]==top_three&&Data[i]!=0)
+				 {
+					 paint.setColor(res.getColor(colors[2]));
+				 }
+				
+				
+				
+				
 				canvas.drawCircle(YCoord(Data[i])+10, YPoint - YLength + (i + 1)
 						* YScale, 8, paint);
 				canvas.drawText(Data[i] + "人", YCoord(Data[i]) + 12, YPoint

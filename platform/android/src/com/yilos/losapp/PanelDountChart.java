@@ -18,15 +18,16 @@ public class PanelDountChart extends View{
      //演示用的百分比例,实际使用中，即为外部传入的比例参数    
     private float arrPer[] = null;    
     //RGB颜色数组  
-    private final int arrColorRgb[] = {  R.color.vone,  
+    private  int arrColorRgb[] = {  R.color.vone,  
             R.color.vtwo,  
             R.color.vthree,  
             R.color.vgeneral} ;  
     
+    
    private  String strPer[] = null;
       
       
-public PanelDountChart(Context context,float arr[],String textName[]) {  
+public PanelDountChart(Context context,float arr[],String textName[],String perType) {  
         super(context);  
           
         //屏幕信息  
@@ -35,6 +36,13 @@ public PanelDountChart(Context context,float arr[],String textName[]) {
         ScrWidth = dm.widthPixels; 
         this.arrPer = arr;
         this.strPer = textName;
+        if("business".equals(perType))
+        {
+        	 this.arrColorRgb = new int[]{  R.color.paneldount_one,  
+        	            R.color.paneldount_two,  
+        	            R.color.paneldount_three,  
+        	            R.color.paneldount_four} ;  
+        }
     }  
   
       

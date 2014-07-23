@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.yilos.losapp.AppContext;
 import com.yilos.losapp.bean.BcustomerCountBean;
+import com.yilos.losapp.Main;
 
 public class CustomerCountDBManager 
 {
@@ -101,15 +102,15 @@ public class CustomerCountDBManager
     	{
     		BcustomerCountBean bean = new  BcustomerCountBean();
     		
-    		bean.set_id(c.getString(c.getColumnIndex("_id")));
+    		bean.set_id(c.getString(c.getColumnIndex("id")));
         	bean.setEnterprise_id(c.getString(c.getColumnIndex("enterprise_id")));
         	bean.setMember(c.getString(c.getColumnIndex("member")));
         	bean.setTemp(c.getString(c.getColumnIndex("walkin")));
         	bean.setHour(c.getInt(c.getColumnIndex("hour")));
         	bean.setDateTime(c.getString(c.getColumnIndex("dateTime")));
-        	bean.setYear(c.getString(c.getColumnIndex("year")));
-        	bean.setMonth(c.getString(c.getColumnIndex("month")));
-        	bean.setDay(c.getString(c.getColumnIndex("day")));
+        	bean.setYear(c.getInt(c.getColumnIndex("year"))+"");
+        	bean.setMonth(c.getInt(c.getColumnIndex("month"))+"");
+        	bean.setDay(c.getInt(c.getColumnIndex("day"))+"");
         	list.add(bean);
     	}
     	c.close();
@@ -121,10 +122,15 @@ public class CustomerCountDBManager
     	String sql = "";
     	String[] selectionArgs = null ;
     	
-    	if(!"month".equals(type))
+    	if("day".equals(type))
     	{
     		sql = "year = ? and month = ? and day = ? and enterprise_id = ?";
     		selectionArgs = new String[]{ year, month, day,shopId};
+    	}
+    	else if("week".equals(type))
+    	{
+    		sql = "dateTime = ? and enterprise_id = ?";
+    		selectionArgs = new String[]{String.valueOf(Main.datetime),shopId};
     	}
     	else 
     	{

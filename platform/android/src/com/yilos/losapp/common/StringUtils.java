@@ -49,6 +49,21 @@ public class StringUtils {
 			return null;
 		}
 	}
+	
+	public static String[] bubbleSort(String[] args){//冒泡排序算法
+		                 for(int i=0;i<args.length-1;i++){
+		                          for(int j=i+1;j<args.length;j++){
+		                        	  int indexI = args[i].indexOf("|");
+		                        	  int indexJ = args[j].indexOf("|");
+		                                  if (Float.valueOf(args[i].substring(0, indexI))<Float.valueOf(args[j].substring(0, indexJ))){
+		                                	  String temp= args[i];
+		                                         args[i]= args[j];
+		                                         args[j]=temp;
+		                                  }
+		                         }
+		                 }
+		                 return args;
+		         }
 
 	/**
 	 * 以友好的方式显示时间

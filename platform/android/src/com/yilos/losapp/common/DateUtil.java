@@ -11,7 +11,7 @@ public class DateUtil {
 	private static int weeks = 0;
 
 	// 获得当前日期与本周一相差的天数
-	private int getMondayPlus() {
+	private static int getMondayPlus() {
 		Calendar cd = Calendar.getInstance();
 
 		// 获得今天是一周的第几天，星期日是第一天，星期二是第二天......
@@ -70,11 +70,11 @@ public class DateUtil {
 		return preMonday;
 	}
 
-	public String getCurDateMonday() {
+	public static String getCurDateSunday() {
 		
-		int mondayPlus = this.getMondayPlus();
+		int mondayPlus = getMondayPlus();
 		GregorianCalendar currentDate = new GregorianCalendar();
-		currentDate.add(GregorianCalendar.DATE, mondayPlus + 7 * weeks);
+		currentDate.add(GregorianCalendar.DATE, mondayPlus + 7 * weeks+6);
 		Date monday = currentDate.getTime();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy年MM月dd日");
 		String curDateMonday = df.format(monday);
@@ -130,6 +130,18 @@ public class DateUtil {
 			}
 	
 		return maxDays;
+	}
+	
+	public static int getPreviousSundayNum() {
+		int mondayPlus = getMondayPlus();
+		GregorianCalendar currentDate = new GregorianCalendar();
+		currentDate.add(GregorianCalendar.DATE, mondayPlus + 7 * (weeks-1)+6);
+		Date monday = currentDate.getTime();
+		SimpleDateFormat df = new SimpleDateFormat("yyyy年MM月dd日");
+		String curDateMonday = df.format(monday);
+		
+		
+		return monday.getDate();
 	}
 	
 	public static String dateToString(String time, String format) {

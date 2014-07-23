@@ -37,12 +37,13 @@
                 android:layout_alignParentBottom="true"
                 android:background="@color/gray_text" />
     </RelativeLayout>
-    
+
     <LinearLayout
         android:id="@+id/columnarLayout"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal" >
     </LinearLayout> 
+
 
 </LinearLayout>

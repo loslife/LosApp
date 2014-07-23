@@ -40,6 +40,7 @@ import com.yilos.losapp.bean.ServicePerformanceBean;
 import com.yilos.losapp.common.DateUtil;
 import com.yilos.losapp.common.NetworkUtil;
 import com.yilos.losapp.common.ScrollLayout;
+import com.yilos.losapp.common.StringUtils;
 import com.yilos.losapp.common.UIHelper;
 import com.yilos.losapp.service.BizPerformanceService;
 import com.yilos.losapp.service.CustomerCountService;
@@ -132,10 +133,23 @@ public class Main extends BaseActivity {
 
 				// 柱状图
 				for (int i = 0; i < employPerList.size(); i++) {
-					num[i] = employPerList.get(i).getTotal();
-					name[i] = employPerList.get(i).getEmployee_name();
+					String totalnum = employPerList.get(i).getTotal();
+					if(null==totalnum||"".equals(totalnum))
+					{
+						totalnum = "0";
+					}
+					num[i] = totalnum+"|"+employPerList.get(i).getEmployee_name();;
 					total += Float.valueOf(employPerList.get(i).getTotal());
 				}
+				String[] numSort = new String[employPerList.size()];
+				numSort = StringUtils.bubbleSort(num);
+				for(int i = 0; i < num.length; i++)
+				{
+					int index = numSort[i].indexOf("|");
+					name[i] = numSort[i].substring(index+1, numSort[i].length());
+					num[i] = numSort[i].substring(0, index);
+				}
+				
 				LinearLayout columnarLayout = (LinearLayout) findViewById(R.id.columnarLayout);
 				columnarLayout.removeAllViews();
 				view = new PanelBar(getBaseContext(), num, name);
@@ -209,10 +223,10 @@ public class Main extends BaseActivity {
 				((TextView) findViewById(R.id.carddata)).setText("￥"+carddata);
 				((TextView) findViewById(R.id.rechargedata)).setText("￥"+ rechargedata);
 				
-				((TextView) findViewById(R.id.toprev_sevicedata)).setText("比上" + timetype.getText().toString()+": ￥"+comparePrevService+ " "+percent_service+"%");
-				((TextView) findViewById(R.id.toprev_saledata)).setText("比上" + timetype.getText().toString()+": ￥"+comparePrevProduct+" "+percent_product+"%");
-				((TextView) findViewById(R.id.toprev_carddata)).setText("比上" + timetype.getText().toString()+": ￥"+comparePrevNewcard+" "+percent_newcard+"%");
-				((TextView) findViewById(R.id.toprev_rechargedata)).setText("比上" + timetype.getText().toString()+": ￥"+comparePrevRecharge+" "+percent_recharge+"%");
+				((TextView) findViewById(R.id.toprev_sevicedata)).setText("比上" + timetype.getText().toString()+": "+comparePrevService+ " "+percent_service+"%");
+				((TextView) findViewById(R.id.toprev_saledata)).setText("比上" + timetype.getText().toString()+": "+comparePrevProduct+" "+percent_product+"%");
+				((TextView) findViewById(R.id.toprev_carddata)).setText("比上" + timetype.getText().toString()+": "+comparePrevNewcard+" "+percent_newcard+"%");
+				((TextView) findViewById(R.id.toprev_rechargedata)).setText("比上" + timetype.getText().toString()+": "+comparePrevRecharge+" "+percent_recharge+"%");
 				
 				newcard = (float) (Math.round(newcard * 1000)) / 10;
 				recharge = (float) (Math.round(recharge * 1000)) / 10;
@@ -226,7 +240,7 @@ public class Main extends BaseActivity {
 				LinearLayout annularLayout = (LinearLayout) findViewById(R.id.annularLayout);
 				annularLayout.removeAllViews();
 				PanelDountChart panelDountView = new PanelDountChart(
-						getBaseContext(), num2, perName);
+						getBaseContext(), num2, perName,"business");
 				annularLayout.addView(panelDountView);
 			}
 
@@ -284,16 +298,15 @@ public class Main extends BaseActivity {
 				LinearLayout annular2Layout = (LinearLayout) findViewById(R.id.annular2Layout);
 				annular2Layout.removeAllViews();
 				PanelDountChart panelDountView = new PanelDountChart(
-						getBaseContext(), percentNum, projectName);
+						getBaseContext(), percentNum, projectName,"service");
 				annular2Layout.addView(panelDountView);
 
 				total = (float) (Math.round(total * 10)) / 10;
 				((TextView) findViewById(R.id.servicetotal)).setText("￥"
 						+ total);
-				if(length>3)
-				{
-					setOtherListView(otherPercentNum,otherProjectName,otherProjectTotal);	
-				}
+				
+				setOtherListView(otherPercentNum,otherProjectName,otherProjectTotal);	
+				
 			}
 
 			if (msg.what == 4) {
@@ -332,35 +345,41 @@ public class Main extends BaseActivity {
 	{
 		//绑定Layout里面的ListView  
         ListView list = (ListView) findViewById(R.id.otherdata);  
-          
-        //生成动态数组，加入数据  
-        ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();  
-        for(int i=0;i<otherProjectName.length;i++)  
-        {  
-        	String otherName = (i+4)+"."+otherProjectName[i];
-        	String otherpercent = otherPercentNum[i]+"%";
-        	String otherTotal = "￥"+otherProjectTotal[i];
-        	if(otherName.length()>12)
-        	{
-        		otherName = otherName.substring(0, 10)+"...";
-        	}
-            HashMap<String, Object> map = new HashMap<String, Object>();  
-            map.put("othername", otherName);  
-            map.put("otherpercent", otherpercent); 
-            map.put("othertotal", otherTotal);
-            listItem.add(map);  
-        } 
-        
-        //生成适配器的Item和动态数组对应的元素  
-        SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,//数据源   
-            R.layout.otherdata_item,//ListItem的XML实现  
-            //动态数组与ImageItem对应的子项          
-            new String[] {"othername","otherpercent","othertotal"},   
-            //ImageItem的XML文件里面的一个ImageView,两个TextView ID  
-            new int[] {R.id.othername,R.id.otherpercent,R.id.othertotal}  
-        );  
-        //添加并且显示  
-        list.setAdapter(listItemAdapter); 
+        if(null==otherPercentNum)
+        {
+        	list.setAdapter(null); 
+        }
+        else
+        {
+	        //生成动态数组，加入数据  
+	        ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();  
+	        for(int i=0;i<otherProjectName.length;i++)  
+	        {  
+	        	String otherName = (i+4)+"."+otherProjectName[i];
+	        	String otherpercent = otherPercentNum[i]+"%";
+	        	String otherTotal = "￥"+otherProjectTotal[i];
+	        	if(otherName.length()>12)
+	        	{
+	        		otherName = otherName.substring(0, 10)+"...";
+	        	}
+	            HashMap<String, Object> map = new HashMap<String, Object>();  
+	            map.put("othername", otherName);  
+	            map.put("otherpercent", otherpercent); 
+	            map.put("othertotal", otherTotal);
+	            listItem.add(map);  
+	        } 
+	        
+	        //生成适配器的Item和动态数组对应的元素  
+	        SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,//数据源   
+	            R.layout.otherdata_item,//ListItem的XML实现  
+	            //动态数组与ImageItem对应的子项          
+	            new String[] {"othername","otherpercent","othertotal"},   
+	            //ImageItem的XML文件里面的一个ImageView,两个TextView ID  
+	            new int[] {R.id.othername,R.id.otherpercent,R.id.othertotal}  
+	        );  
+	        //添加并且显示  
+	        list.setAdapter(listItemAdapter); 
+        }
 	}
 
 	public void initView() {
@@ -441,7 +460,7 @@ public class Main extends BaseActivity {
 					SimpleDateFormat formatter = new SimpleDateFormat(
 							"yyyy年MM月dd日");
 
-					datetime = dateToCal(dateUtil.getCurrentMonday(), formatter)
+					datetime = dateToCal(dateUtil.getCurDateSunday(), formatter)
 							.getTimeInMillis();
 					curDate = new Date(datetime);
 					showTime.setText(showtime);
@@ -482,7 +501,7 @@ public class Main extends BaseActivity {
 							+ dateUtil.getSunday();
 					SimpleDateFormat formatter = new SimpleDateFormat(
 							"yyyy年MM月dd日");
-					datetime = dateToCal(dateUtil.getCurrentMonday(), formatter)
+					datetime = dateToCal(dateUtil.getCurDateSunday(), formatter)
 							.getTimeInMillis();
 					curDate = new Date(datetime);
 					showTime.setText(showtime);
@@ -504,208 +523,308 @@ public class Main extends BaseActivity {
 
 	}
 
+	/**
+	 * 获得数据
+	 */
 	private void getShowData() {
-		if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
-		{
 			getEmployeePerData();
 			getBizPerformanceData();
 			getServicePerformanceData();
 			getBcustomerCount();
-		}
-		else
-		{
-			//获取本地数据
-		}
 	}
 
 	/**
 	 * 员工业绩
 	 */
 	public void getEmployeePerData() {
-		new Thread() {
-			public void run() {
-				AppContext ac = (AppContext) getApplication();
-				Message msg = new Message();
-
-				ServerManageResponse res = ac.getReportsData(shopId, year,
-						month, dateType, day, "employee");
-				if (res.isSucess()) {
-
-					String tableName = "employee_performance_day";
-					if (dateType == "day") {
-						employPerList = res.getResult().getCurrent()
-								.getTb_emp_performance().getDay();
-						tableName = "employee_performance_day";
-					} else if (dateType == "month") {
-						employPerList = res.getResult().getCurrent()
-								.getTb_emp_performance().getMonth();
-						tableName = "employee_performance_month";
-					} else {
-						employPerList = res.getResult().getCurrent()
-								.getTb_emp_performance().getWeek();
-						tableName = "employee_performance_week";
+		if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
+		{
+			new Thread() {
+				public void run() {
+					AppContext ac = (AppContext) getApplication();
+					Message msg = new Message();
+	
+					ServerManageResponse res = ac.getReportsData(shopId, year,
+							month, dateType, day, "employee");
+					if (res.isSucess()) {
+	
+						String tableName = "employee_performance_day";
+						if (dateType == "day") {
+							employPerList = res.getResult().getCurrent()
+									.getTb_emp_performance().getDay();
+							tableName = "employee_performance_day";
+						} else if (dateType == "month") {
+							employPerList = res.getResult().getCurrent()
+									.getTb_emp_performance().getMonth();
+							tableName = "employee_performance_month";
+						} else {
+							employPerList = res.getResult().getCurrent()
+									.getTb_emp_performance().getWeek();
+							tableName = "employee_performance_week";
+						}
+						// employeePerService.deltel(year, month, day, dateType,
+						// tableName);
+						employeePerService.deltel(year,
+								(Integer.valueOf(month) - 1) + "", day, dateType,
+								tableName);
+	
+						employeePerService.addEmployeePer(employPerList, tableName);
+						msg.what = 1;
+						handle.sendMessage(msg);
 					}
-					// employeePerService.deltel(year, month, day, dateType,
-					// tableName);
-					employeePerService.deltel(year,
-							(Integer.valueOf(month) - 1) + "", day, dateType,
-							tableName);
-
-					employeePerService.addEmployeePer(employPerList, tableName);
-					msg.what = 1;
-					handle.sendMessage(msg);
 				}
+			}.start();
+		}
+		else
+		{
+			shopId = AppContext.getInstance(getBaseContext())
+ 					.getCurrentDisplayShopId();
+			//获取本地数据
+			if (dateType == "day") {
+				employPerList = employeePerService.queryListBydate(year, (Integer.valueOf(month) - 1) + "", day, dateType, "employee_performance_day");
+			} else if (dateType == "month") {
+				employPerList = employeePerService.queryListBydate(year, (Integer.valueOf(month) - 1) + "", day, dateType, "employee_performance_month");
+				
+			} else {
+				employPerList = employeePerService.queryListBydate(year, (Integer.valueOf(month) - 1) + "", day, dateType, "employee_performance_week");
 			}
-		}.start();
+			Message msg = new Message();
+			msg.what = 1;
+			handle.sendMessage(msg);
+		}
 	}
 
 	/**
 	 * 服务业绩
 	 */
 	public void getBizPerformanceData() {
-
-		new Thread() {
-			public void run() {
-				AppContext ac = (AppContext) getApplication();
-				Message msg = new Message();
-				// 100048101900800200?year=2014&month=6&day=8&type=day&report=employee
-				// ServerManageResponse res = ac.getReportsData(shopId, year,
-				// month, dateType, day,"employee");
-
-				ServerManageResponse res = ac.getReportsData(shopId, year,
-						month, dateType, day, "business");
-				if (res.isSucess()) {
-
-					String tableName = "biz_performance_day";
-					if (dateType == "day") {
-						bizPerformance = res.getResult().getCurrent()
-								.getTb_biz_performance().getDay();
-						prevBizPerformance = res.getResult().getPrev()
-								.getTb_biz_performance().getDay();
-						tableName = "biz_performance_day";
-					} else if (dateType == "month") {
-						bizPerformance = res.getResult().getCurrent()
-								.getTb_biz_performance().getMonth();
-						prevBizPerformance = res.getResult().getPrev()
-								.getTb_biz_performance().getMonth();
-						tableName = "biz_performance_month";
-					} else {
-						bizPerformance = res.getResult().getCurrent()
-								.getTb_biz_performance().getWeek();
-						prevBizPerformance = res.getResult().getPrev()
-								.getTb_biz_performance().getWeek();
-						tableName = "biz_performance_week";
+		if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
+		{
+			new Thread() {
+				public void run() {
+					AppContext ac = (AppContext) getApplication();
+					Message msg = new Message();
+					// 100048101900800200?year=2014&month=6&day=8&type=day&report=employee
+					// ServerManageResponse res = ac.getReportsData(shopId, year,
+					// month, dateType, day,"employee");
+	
+					ServerManageResponse res = ac.getReportsData(shopId, year,
+							month, dateType, day, "business");
+					if (res.isSucess()) {
+	
+						String tableName = "biz_performance_day";
+						if (dateType == "day") {
+							bizPerformance = res.getResult().getCurrent()
+									.getTb_biz_performance().getDay();
+							prevBizPerformance = res.getResult().getPrev()
+									.getTb_biz_performance().getDay();
+							tableName = "biz_performance_day";
+						} else if (dateType == "month") {
+							bizPerformance = res.getResult().getCurrent()
+									.getTb_biz_performance().getMonth();
+							prevBizPerformance = res.getResult().getPrev()
+									.getTb_biz_performance().getMonth();
+							tableName = "biz_performance_month";
+						} else {
+							bizPerformance = res.getResult().getCurrent()
+									.getTb_biz_performance().getWeek();
+							prevBizPerformance = res.getResult().getPrev()
+									.getTb_biz_performance().getWeek();
+							tableName = "biz_performance_week";
+						}
+						// employeePerService.deltel(year, month, day, dateType,
+						// tableName);
+						int delprevMonth = Integer.valueOf(month) - 2;
+						int delpevYear = Integer.valueOf(year);
+						if(delprevMonth==-1)
+						{
+							delprevMonth = 12;
+							delpevYear = Integer.valueOf(year) - 1;
+						}
+						
+						bizPerformanceService.deltel(year,
+								(Integer.valueOf(month) - 1) + "", day, dateType,
+								tableName);
+						bizPerformanceService.deltel(delpevYear+"",
+								delprevMonth + "", day, dateType,
+								tableName);
+						bizPerformanceService.addBizPerformance(bizPerformance,
+								tableName);
+						bizPerformanceService.addBizPerformance(prevBizPerformance,
+								tableName);
+						msg.what = 2;
+						handle.sendMessage(msg);
 					}
-					// employeePerService.deltel(year, month, day, dateType,
-					// tableName);
-					int delprevMonth = Integer.valueOf(month) - 2;
-					int delpevYear = Integer.valueOf(year);
-					if(delprevMonth==-1)
-					{
-						delprevMonth = 12;
-						delpevYear = Integer.valueOf(year) - 1;
-					}
-					
-					bizPerformanceService.deltel(year,
-							(Integer.valueOf(month) - 1) + "", day, dateType,
-							tableName);
-					bizPerformanceService.deltel(delpevYear+"",
-							delprevMonth + "", day, dateType,
-							tableName);
-					bizPerformanceService.addBizPerformance(bizPerformance,
-							tableName);
-					bizPerformanceService.addBizPerformance(prevBizPerformance,
-							tableName);
-					msg.what = 2;
-					handle.sendMessage(msg);
 				}
+			}.start();
+		}
+		else
+		{
+			shopId = AppContext.getInstance(getBaseContext())
+ 					.getCurrentDisplayShopId();
+			List<BizPerformanceBean> bizPerformanceList = null;
+			List<BizPerformanceBean> prevPerformanceList = null;
+			
+			int prevMonth = Integer.valueOf(month) - 2;
+			int pevYear = Integer.valueOf(year);
+			if(prevMonth==-1)
+			{
+				prevMonth = 12;
+			    pevYear = Integer.valueOf(year) - 1;
 			}
-		}.start();
+			//获取本地数据
+			if (dateType == "day") {
+				bizPerformanceList = bizPerformanceService.queryListBydate(year, (Integer.valueOf(month) - 1) + "", day, dateType, "biz_performance_day");
+				prevPerformanceList = bizPerformanceService.queryListBydate(pevYear+"", prevMonth+"", day, dateType, "biz_performance_day");
+				
+			} else if (dateType == "month") {
+				bizPerformanceList = bizPerformanceService.queryListBydate(year, (Integer.valueOf(month) - 1) + "", day, dateType, "biz_performance_month");
+				prevPerformanceList = bizPerformanceService.queryListBydate(pevYear+"", prevMonth+"", day, dateType, "biz_performance_month");
+			} else {
+				bizPerformanceList = bizPerformanceService.queryListBydate(year, (Integer.valueOf(month) - 1) + "", day, dateType, "biz_performance_week");
+				prevPerformanceList = bizPerformanceService.queryListBydate(pevYear+"", prevMonth+"", DateUtil.getPreviousSundayNum()+"", dateType, "biz_performance_week");
+			}
+			
+			if(bizPerformanceList.size()>0)
+			{
+				bizPerformance = bizPerformanceList.get(0);
+			}
+			if(prevPerformanceList.size()>0)
+			{
+				prevBizPerformance = prevPerformanceList.get(0);
+			}
+			
+			Message msg = new Message();
+			msg.what = 2;
+			handle.sendMessage(msg);
+		}
 	}
 
 	/**
 	 * 产品业绩
 	 */
 	public void getServicePerformanceData() {
-
-		new Thread() {
-			public void run() {
-				AppContext ac = (AppContext) getApplication();
-				Message msg = new Message();
-				// 100048101900800200?year=2014&month=6&day=8&type=day&report=employee
-				// ServerManageResponse res = ac.getReportsData(shopId, year,
-				// month, dateType, day,"employee");
-				ServerManageResponse res = ac.getReportsData(shopId, year,
-						month, dateType, day, "service");
-				if (res.isSucess()) {
-
-					String tableName = "service_performance_day";
-					if (dateType == "day") {
-						servicePerformanceList = res.getResult().getCurrent()
-								.getTb_service_performance().getDay();
-						tableName = "service_performance_day";
-					} else if (dateType == "month") {
-						servicePerformanceList = res.getResult().getCurrent()
-								.getTb_service_performance().getMonth();
-						tableName = "service_performance_month";
-					} else {
-						servicePerformanceList = res.getResult().getCurrent()
-								.getTb_service_performance().getWeek();
-						tableName = "service_performance_week";
+		if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
+		{
+			new Thread() {
+				public void run() {
+					AppContext ac = (AppContext) getApplication();
+					Message msg = new Message();
+					// 100048101900800200?year=2014&month=6&day=8&type=day&report=employee
+					// ServerManageResponse res = ac.getReportsData(shopId, year,
+					// month, dateType, day,"employee");
+					ServerManageResponse res = ac.getReportsData(shopId, year,
+							month, dateType, day, "service");
+					if (res.isSucess()) {
+	
+						String tableName = "service_performance_day";
+						if (dateType == "day") {
+							servicePerformanceList = res.getResult().getCurrent()
+									.getTb_service_performance().getDay();
+							tableName = "service_performance_day";
+						} else if (dateType == "month") {
+							servicePerformanceList = res.getResult().getCurrent()
+									.getTb_service_performance().getMonth();
+							tableName = "service_performance_month";
+						} else {
+							servicePerformanceList = res.getResult().getCurrent()
+									.getTb_service_performance().getWeek();
+							tableName = "service_performance_week";
+						}
+						// employeePerService.deltel(year, month, day, dateType,
+						// tableName);
+						productPerformanceService.deltel(year,
+								(Integer.valueOf(month) - 1) + "", day, dateType,
+								tableName);
+						productPerformanceService.addProductPerformance(
+								servicePerformanceList, tableName);
+						msg.what = 3;
+						handle.sendMessage(msg);
 					}
-					// employeePerService.deltel(year, month, day, dateType,
-					// tableName);
-					productPerformanceService.deltel(year,
-							(Integer.valueOf(month) - 1) + "", day, dateType,
-							tableName);
-					productPerformanceService.addProductPerformance(
-							servicePerformanceList, tableName);
-					msg.what = 3;
-					handle.sendMessage(msg);
 				}
+			}.start();
+		}
+		else
+		{
+			shopId = AppContext.getInstance(getBaseContext())
+ 					.getCurrentDisplayShopId();
+			if (dateType == "day") {
+				servicePerformanceList = productPerformanceService.queryListBydate(year, (Integer.valueOf(month) - 1) + "", day, dateType, "service_performance_day");
+			} else if (dateType == "month") {
+				servicePerformanceList =  productPerformanceService.queryListBydate(year, (Integer.valueOf(month) - 1) + "", day, dateType, "service_performance_month");
+			} else {
+				servicePerformanceList =  productPerformanceService.queryListBydate(year, (Integer.valueOf(month) - 1) + "", day, dateType, "service_performance_week");
 			}
-		}.start();
+			
+			Message msg = new Message();
+			msg.what = 3;
+			handle.sendMessage(msg);
+		}
 	}
 
 	/**
 	 * 客流量
 	 */
 	public void getBcustomerCount() {
-		new Thread() {
-			public void run() {
-				AppContext ac = (AppContext) getApplication();
-				Message msg = new Message();
-				ServerManageResponse res = ac.getReportsData(shopId, year,
-						month, dateType, day, "customer");
-				if (res.isSucess()) {
-					String tableName = "customer_count_day";
-					if (dateType == "day") {
-						customerCountList = res.getResult().getCurrent()
-								.getB_customer_count().getHours();
-						tableName = "customer_count_day";
-					} else if (dateType == "week") {
-						customerCountList = res.getResult().getCurrent()
-								.getB_customer_count().getDays();
-
-						tableName = "customer_count_week";
-					} else {
-						customerCountList = res.getResult().getCurrent()
-								.getB_customer_count().getDays();
-						tableName = "customer_count_month";
+		if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
+		{
+			new Thread() {
+				public void run() {
+					AppContext ac = (AppContext) getApplication();
+					Message msg = new Message();
+					ServerManageResponse res = ac.getReportsData(shopId, year,
+							month, dateType, day, "customer");
+					if (res.isSucess()) {
+						String tableName = "customer_count_day";
+						if (dateType == "day") {
+							customerCountList = res.getResult().getCurrent()
+									.getB_customer_count().getHours();
+							tableName = "customer_count_day";
+						} else if (dateType == "week") {
+							customerCountList = res.getResult().getCurrent()
+									.getB_customer_count().getDays();
+	
+							tableName = "customer_count_week";
+						} else {
+							customerCountList = res.getResult().getCurrent()
+									.getB_customer_count().getDays();
+							tableName = "customer_count_month";
+						}
+						// employeePerService.deltel(year, month, day, dateType,
+						// tableName);
+						customerCountService.deltel(year,
+								(Integer.valueOf(month) - 1) + "", day, dateType,
+								tableName);
+						customerCountService.addCustomerCount(customerCountList,
+								tableName);
+						msg.what = 4;
+						handle.sendMessage(msg);
 					}
-					// employeePerService.deltel(year, month, day, dateType,
-					// tableName);
-					customerCountService.deltel(year,
-							(Integer.valueOf(month) - 1) + "", day, dateType,
-							tableName);
-					customerCountService.addCustomerCount(customerCountList,
-							tableName);
-					msg.what = 4;
-					handle.sendMessage(msg);
+	
 				}
-
+			}.start();
+		}
+		else
+		{
+			shopId = AppContext.getInstance(getBaseContext())
+ 					.getCurrentDisplayShopId();
+			if (dateType == "day") 
+			{
+				customerCountList = customerCountService.queryListBydate(year, (Integer.valueOf(month) - 1) + "", day, dateType, "customer_count_day");
+			} 
+			else if (dateType == "month")
+			{
+				customerCountList = customerCountService.queryListBydate(year, (Integer.valueOf(month) - 1) + "", day, dateType, "customer_count_month");
 			}
-		}.start();
+			else
+			{
+				customerCountList = customerCountService.queryListBydate(year, (Integer.valueOf(month) - 1) + "", day, dateType, "customer_count_week");
+			}
+			
+			Message msg = new Message();
+			msg.what = 4;
+			handle.sendMessage(msg);
+		}
 	}
 
 	public void initData() {
