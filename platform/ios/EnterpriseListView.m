@@ -85,6 +85,7 @@
         button.frame = CGRectMake(200, 10, 80, 20);
         button.tintColor = [UIColor whiteColor];
         button.titleLabel.font = [UIFont boldSystemFontOfSize:12];
+        button.layer.cornerRadius = 5;
         button.tag = i;
         if(enterprise.state == 1){
             [button setTitle:@"解除关联" forState:UIControlStateNormal];
