@@ -29,7 +29,7 @@
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     CGContextSetLineWidth(ctx, .1f);
     CGContextMoveToPoint(ctx, 80, 15);
-    CGContextAddLineToPoint(ctx, 80, 370);
+    CGContextAddLineToPoint(ctx, 80, rect.size.height - 5);
     CGContextStrokePath(ctx);
     
     for(int i = 0; i < count; i++){

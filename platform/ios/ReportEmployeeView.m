@@ -58,8 +58,10 @@
 
 -(void) addDataView
 {
+    CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;// 568 in 4-inch，480 in 3.5-inch
+    
     if([dataSource hasData]){
-        barChart = [[LosBarChart alloc] initWithFrame:CGRectMake(0, 40, 320, 375) DataSource:dataSource];
+        barChart = [[LosBarChart alloc] initWithFrame:CGRectMake(0, 40, 320, screenHeight - 193) DataSource:dataSource];
         [self addSubview:barChart];
     }
 }

@@ -63,22 +63,29 @@
 {
     if([dataSource hasData]){
         
-        main = [[UIView alloc] initWithFrame:CGRectMake(0, 40, 320, 375)];
+        CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;// 568 in 4-inch，480 in 3.5-inch
+        CGFloat mainHeight = screenHeight - 193;
         
-        LosPieChart *pie = [[LosPieChart alloc] initWithFrame:CGRectMake(0, 0, 320, 160) Delegate:dataSource];
+        main = [[UIView alloc] initWithFrame:CGRectMake(0, 40, 320, mainHeight)];
         
-        UILabel *bar = [[UILabel alloc] initWithFrame:CGRectMake(0, 160, 320, 10)];
+        CGFloat pieHeight = round(mainHeight * 0.4);
+        CGFloat footerHeight = mainHeight - pieHeight - 10;
+        
+        LosPieChart *pie = [[LosPieChart alloc] initWithFrame:CGRectMake(0, 0, 320, pieHeight) Delegate:dataSource];
+        
+        UILabel *bar = [[UILabel alloc] initWithFrame:CGRectMake(0, pieHeight, 320, 10)];
         bar.backgroundColor = [UIColor colorWithRed:231/255.0f green:236/255.0f blue:240/255.0f alpha:1.0f];
         
-        UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 170, 320, 205)];
+        UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, pieHeight + 10, 320, footerHeight)];
         
-        UILabel *other = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 280, 40)];
+        NSUInteger count = [dataSource itemCount];
+        CGFloat itemHeight = footerHeight / count;
+        
+        UILabel *other = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 280, itemHeight)];
         other.text = @"其他";
         other.textAlignment = NSTextAlignmentLeft;
         other.textColor = [UIColor colorWithRed:114/255.0f green:128/255.0f blue:137/255.0f alpha:1.0f];
         [footer addSubview:other];
-        
-        NSUInteger count = [dataSource itemCount];
         
         for(int i = 0; i < count; i++){
             
@@ -88,7 +95,7 @@
             NSString *ratio = [NSString stringWithFormat:@"%f%%", item.ratio];
             NSString *title = [NSString stringWithFormat:@"%d.%@", i + 4, item.title];
             
-            ServicePerformanceView *row = [[ServicePerformanceView alloc] initWithFrame:CGRectMake(20, 40 * i + 40, 280, 40) title:title ratio:ratio value:value];
+            ServicePerformanceView *row = [[ServicePerformanceView alloc] initWithFrame:CGRectMake(20, itemHeight * (i + 1), 280, itemHeight) title:title ratio:ratio value:value];
             
             [footer addSubview:row];
         }

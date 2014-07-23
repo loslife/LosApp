@@ -28,10 +28,16 @@
     self = [super initWithFrame:frame];
     if(self){
         
+        CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;// 568 in 4-inch，480 in 3.5-inch
+        
         myDelegate = delegate;
         
         pieCenter = CGPointMake(frame.size.width / 2, frame.size.height / 2);
-        radius =  frame.size.width / 8;
+        if(screenHeight == 568){
+            radius =  frame.size.width / 8;
+        }else{
+            radius = frame.size.width / 12;
+        }
         
         drawedRatio = 0;
         
@@ -43,7 +49,13 @@
 - (void)drawRect:(CGRect)rect
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetLineWidth(context, 25.0);
+    CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;// 568 in 4-inch，480 in 3.5-inch
+    if(screenHeight == 568){
+        CGContextSetLineWidth(context, 25.0);
+    }else{
+        CGContextSetLineWidth(context, 15.0);
+    }
+    
     
     NSUInteger count = [myDelegate pieItemCount];
     

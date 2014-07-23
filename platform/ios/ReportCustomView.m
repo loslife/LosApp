@@ -62,7 +62,10 @@
 {
     if([dataSource hasData]){
         
-        scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 40, 320, 375)];
+        CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;// 568 in 4-inch，480 in 3.5-inch
+        CGFloat mainHeight = screenHeight - 193;
+        
+        scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 40, 320, mainHeight)];
         
         CGFloat contentHeight = ([dataSource itemCount] + 1) * 40;
         scroll.contentSize = CGSizeMake(320, contentHeight);

@@ -61,15 +61,24 @@
 {
     if([dataSource hasData]){
         
-        main = [[UIView alloc] initWithFrame:CGRectMake(0, 40, 320, 375)];
+        CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;// 568 in 4-inch，480 in 3.5-inch
+        CGFloat mainHeight = screenHeight - 193;
         
-        LosPieChart *pie = [[LosPieChart alloc] initWithFrame:CGRectMake(0, 0, 320, 160) Delegate:dataSource];
+        main = [[UIView alloc] initWithFrame:CGRectMake(0, 40, 320, mainHeight)];
         
-        UILabel *bar = [[UILabel alloc] initWithFrame:CGRectMake(0, 160, 320, 10)];
+        CGFloat pieHeight = round(mainHeight * 0.4);
+        CGFloat footerHeight = mainHeight - pieHeight - 10;
+        
+        LosPieChart *pie = [[LosPieChart alloc] initWithFrame:CGRectMake(0, 0, 320, pieHeight) Delegate:dataSource];
+        
+        UILabel *bar = [[UILabel alloc] initWithFrame:CGRectMake(0, pieHeight, 320, 10)];
         bar.backgroundColor = [UIColor colorWithRed:231/255.0f green:236/255.0f blue:240/255.0f alpha:1.0f];
         
-        UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 170, 320, 205)];
+        UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, pieHeight + 10, 320, footerHeight)];
+        
         NSUInteger count = [dataSource itemCount];
+        CGFloat itemHeight = footerHeight / count;
+        
         for(int i = 0; i < count; i++){
             
             BusinessPerformance *item = [dataSource itemAtIndex:i];
@@ -83,7 +92,7 @@
                 compareText = [NSString stringWithFormat:@"比昨日：-%f -%f%%", item.compareToPrev, item.compareToPrevRatio];
             }
             
-            PerformanceCompareView *label = [[PerformanceCompareView alloc] initWithFrame:CGRectMake(0, 50 * i + 10, 320, 40) Title:item.title CompareText:compareText Value:value Increase:item.increased];
+            PerformanceCompareView *label = [[PerformanceCompareView alloc] initWithFrame:CGRectMake(0, itemHeight * i, 320, itemHeight) Title:item.title CompareText:compareText Value:value Increase:item.increased];
             [footer addSubview:label];
         }
         
