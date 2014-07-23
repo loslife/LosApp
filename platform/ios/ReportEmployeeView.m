@@ -61,8 +61,15 @@
     CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;// 568 in 4-inch，480 in 3.5-inch
     
     if([dataSource hasData]){
-        barChart = [[LosBarChart alloc] initWithFrame:CGRectMake(0, 40, 320, screenHeight - 193) DataSource:dataSource];
-        [self addSubview:barChart];
+        
+        NSUInteger chartHeight = [dataSource rowCount] * 40;
+        
+        UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 40, 320, screenHeight - 193)];
+        scroll.contentSize = CGSizeMake(320, chartHeight);
+        [self addSubview:scroll];
+        
+        barChart = [[LosBarChart alloc] initWithFrame:CGRectMake(0, 0, 320, chartHeight) DataSource:dataSource];
+        [scroll addSubview:barChart];
     }
 }
 
