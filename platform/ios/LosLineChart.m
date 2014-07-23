@@ -1,4 +1,5 @@
 #import "LosLineChart.h"
+#import "LosStyles.h"
 
 @interface GridView : UIView
 
@@ -105,7 +106,7 @@
         NSString *title = [NSString stringWithFormat:@"%lu", sectionValue * i];
         label.text = title;
         label.font = [UIFont systemFontOfSize:14];
-        label.textColor = [UIColor colorWithRed:32/255.0f green:37/255.0f blue:41/255.0f alpha:1.0f];
+        label.textColor = GRAY4;
         [self addSubview:label];
     }
     
@@ -122,7 +123,7 @@
         yAxisLabel.textAlignment = NSTextAlignmentLeft;
         yAxisLabel.text = item.yAxisTitle;
         yAxisLabel.font = [UIFont systemFontOfSize:14];
-        yAxisLabel.textColor = [UIColor colorWithRed:32/255.0f green:37/255.0f blue:41/255.0f alpha:1.0f];
+        yAxisLabel.textColor = GRAY4;
         [self addSubview:yAxisLabel];
         
         CGPoint center = CGPointMake(anchorPoint.x + (item.value * lengthPerValue) + (insets / 2), anchorPoint.y + insets * i + (insets / 2));
