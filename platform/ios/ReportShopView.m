@@ -1,5 +1,6 @@
 #import "ReportShopView.h"
 #import "PerformanceCompareView.h"
+#import "LosStyles.h"
 
 @implementation ReportShopView
 
@@ -63,7 +64,9 @@
         LosPieChart *pie = [[LosPieChart alloc] initWithFrame:CGRectMake(0, 0, 320, pieHeight) Delegate:dataSource];
         
         UILabel *bar = [[UILabel alloc] initWithFrame:CGRectMake(0, pieHeight, 320, 10)];
-        bar.backgroundColor = [UIColor colorWithRed:231/255.0f green:236/255.0f blue:240/255.0f alpha:1.0f];
+        bar.backgroundColor = GRAY1;
+        bar.layer.borderColor = GRAY2.CGColor;
+        bar.layer.borderWidth = .5f;
         
         UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, pieHeight + 10, 320, footerHeight)];
         
