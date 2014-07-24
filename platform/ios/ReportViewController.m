@@ -68,6 +68,12 @@
     [self loadReport];
 }
 
+-(void) viewWillDisappear:(BOOL)animated
+{
+    SwitchShopButton* barButton = (SwitchShopButton*)self.navigationItem.rightBarButtonItem;
+    [barButton closeSwitchShopMenu];
+}
+
 -(void) resolveNavTitle
 {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{

@@ -91,6 +91,9 @@
         [myView.tableView deselectRowAtIndexPath:[myView.tableView indexPathForSelectedRow] animated:NO];
         myView.search.showsCancelButton = NO;
     }
+    
+    SwitchShopButton* barButton = (SwitchShopButton*)self.navigationItem.rightBarButtonItem;
+    [barButton closeSwitchShopMenu];
 }
 
 -(void) resolveNavTitle
