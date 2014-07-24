@@ -11,5 +11,6 @@
 @property EnterpriseListView *list;
 
 -(id) initWithController:(AddShopViewController*)controller;
+-(void) fold;
 
 @end

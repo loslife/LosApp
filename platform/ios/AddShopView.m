@@ -59,7 +59,7 @@
         self.requireCodeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         self.requireCodeButton.frame = CGRectMake(210, 140, 90, 40);
         [self.requireCodeButton setTitle:@"获取验证码" forState:UIControlStateNormal];
-        [self.requireCodeButton setTitle:@"60秒可重发" forState:UIControlStateDisabled];
+        [self.requireCodeButton setTitle:@"90秒可重发" forState:UIControlStateDisabled];
         [self.requireCodeButton addTarget:controller action:@selector(requireVerificationCode) forControlEvents:UIControlEventTouchUpInside];
         self.requireCodeButton.titleLabel.textAlignment = NSTextAlignmentRight;
         self.requireCodeButton.titleLabel.textColor = [UIColor colorWithRed:2/255.0f green:160/255.0f blue:221/255.0f alpha:1.0f];

@@ -110,25 +110,25 @@
 -(void) appendEnterprise
 {
     AddShopView *myView = (AddShopView*)self.view;
-    UITextField *phone = myView.phone;
-    UITextField *code = myView.code;
+    UITextField *phoneField = myView.phone;
+    UITextField *codeField = myView.code;
     
     BOOL inputCheck;
     
-    inputCheck = [StringUtils isPhone:phone.text];
+    inputCheck = [StringUtils isPhone:phoneField.text];
     if(!inputCheck){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"请输入正确手机号" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
         [alert show];
         return;
     }
     
-    if([@"" isEqualToString:code.text]){
+    if([@"" isEqualToString:codeField.text]){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"请输入验证码" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
         [alert show];
         return;
     }
     
-    NSString *checkCodeURL = [NSString stringWithFormat:CHECK_CODE_URL, phone.text, @"attach", code.text];
+    NSString *checkCodeURL = [NSString stringWithFormat:CHECK_CODE_URL, phoneField.text, @"attach", codeField.text];
     
     [httpHelper getSecure:checkCodeURL completionHandler:^(NSDictionary *dict){
         
@@ -152,7 +152,9 @@
         UserData *userData = [UserData load];
         NSString *userId = userData.userId;
         
-        [syncService addEnterprise:userId EnterpriseAccount:phone.text Block:^(NSString* enterpriseId){
+        __block AddShopViewController *weakSelf = self;
+        
+        [syncService addEnterprise:userId EnterpriseAccount:phoneField.text Block:^(NSString* enterpriseId){
         
             dispatch_async(dispatch_get_main_queue(), ^{
             
@@ -165,6 +167,8 @@
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"关联成功" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
                 [alert show];
                 
+                [weakSelf clearFormAfterAppend];
+                
                 [myView.list reload];
                 
                 UserData *userData = [UserData load];
@@ -174,6 +178,28 @@
             });
         }];
     }];
+}
+
+-(void) clearFormAfterAppend
+{
+    AddShopView *myView = (AddShopView*)self.view;
+    UITextField *phoneField = myView.phone;
+    UITextField *codeField = myView.code;
+    
+    [myView fold];
+    
+    phoneField.text = @"";
+    codeField.text = @"";
+    
+    if([phoneField isFirstResponder]){
+        [phoneField resignFirstResponder];
+    }
+    if([codeField isFirstResponder]){
+        [codeField resignFirstResponder];
+    }
+    
+    [self enableRequireCodeButton];
+    [timer invalidate];
 }
 
 #pragma mark - delegate
@@ -236,7 +262,7 @@
 
 -(void) startTick
 {
-    resendCountdown = 60;
+    resendCountdown = 90;
     timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(countdown) userInfo:nil repeats:YES];
 }
 
