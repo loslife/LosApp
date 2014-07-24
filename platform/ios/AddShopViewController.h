@@ -5,7 +5,7 @@
 #import "SyncService.h"
 #import "EnterpriseListView.h"
 
-@interface AddShopViewController : UIViewController<EnterpriseListViewDelegate>
+@interface AddShopViewController : UIViewController<EnterpriseListViewDelegate, UIAlertViewDelegate>
 
 -(void) requireVerificationCode;
 -(void) appendEnterprise;

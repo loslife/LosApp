@@ -4,6 +4,9 @@
 #import "EnterpriseDao.h"
 #import "UserData.h"
 
+#define CONFIRM_RE_ATTACH 24
+#define CONFIRM_UNDO_ATTACH 25
+
 @implementation AddShopViewController
 
 {
@@ -13,6 +16,8 @@
     LosHttpHelper *httpHelper;
     SyncService *syncService;
     EnterpriseDao *dao;
+    
+    NSString *enterpriseIdInProcess;
 }
 
 -(id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -204,14 +209,25 @@
 
 #pragma mark - delegate
 
--(void) reAttach:(NSString*)enterpriseId
+-(void) reAttach:(NSString*)enterpriseId name:(NSString*)enterpriseName
+{
+    NSString* message = [NSString stringWithFormat:@"恢复对'%@'的关联？", enterpriseName];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:message delegate:self cancelButtonTitle:@"否" otherButtonTitles:@"是", nil];
+    alert.tag = CONFIRM_RE_ATTACH;
+    [alert show];
+    
+    enterpriseIdInProcess = enterpriseId;
+}
+
+-(void) _reAttach
 {
     UserData *userData = [UserData load];
     NSString* userId = userData.userId;
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         
-        NSString* enterpriseAcccount = [dao queryAccountById:enterpriseId];
+        NSString* enterpriseAcccount = [dao queryAccountById:enterpriseIdInProcess];
         
         [syncService reAttachWithAccount:userId enterpriseAccount:enterpriseAcccount block:^(BOOL flag){
             
@@ -222,19 +238,28 @@
                 
                 UserData *userData = [UserData load];
                 if([StringUtils isEmpty:userData.enterpriseId]){
-                    [UserData writeCurrentEnterprise:enterpriseId];
+                    [UserData writeCurrentEnterprise:enterpriseIdInProcess];
                 }
             });
         }];
     });
 }
 
--(void) undoAttach:(NSString*)enterpriseId
+-(void) undoAttach:(NSString*)enterpriseId name:(NSString*)enterpriseName;
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"解除关联后，您将看不到该店铺的任何信息，是否解除？" delegate:self cancelButtonTitle:@"否" otherButtonTitles:@"是", nil];
+    alert.tag = CONFIRM_UNDO_ATTACH;
+    [alert show];
+    
+    enterpriseIdInProcess = enterpriseId;
+}
+
+-(void) _undoAttach
 {
     UserData *userData = [UserData load];
     NSString* userId = userData.userId;
     
-    [syncService undoAttachWithAccount:userId enterpriseId:enterpriseId block:^(BOOL flag){
+    [syncService undoAttachWithAccount:userId enterpriseId:enterpriseIdInProcess block:^(BOOL flag){
         
         dispatch_async(dispatch_get_main_queue(), ^{
             
@@ -243,7 +268,7 @@
             
             // 解除当前商户的关联
             UserData *userData = [UserData load];
-            if([userData.enterpriseId isEqualToString:enterpriseId]){
+            if([userData.enterpriseId isEqualToString:enterpriseIdInProcess]){
                 [UserData removeCurrentEnterprise];
             }
         });
@@ -291,6 +316,42 @@
     
     button.titleLabel.text = @"获取验证码";
     button.enabled = YES;
+}
+
+#pragma mark - AlertView delegate
+
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if(alertView.tag == CONFIRM_RE_ATTACH){
+    
+        switch (buttonIndex) {
+            case 0:{
+                break;
+            }
+            case 1:{
+                [self _reAttach];
+                break;
+            }
+            default:{
+                break;
+            }
+        }
+    }
+    
+    if(alertView.tag == CONFIRM_UNDO_ATTACH){
+        switch (buttonIndex) {
+            case 0:{
+                break;
+            }
+            case 1:{
+                [self _undoAttach];
+                break;
+            }
+            default:{
+                break;
+            }
+        }
+    }
 }
 
 @end

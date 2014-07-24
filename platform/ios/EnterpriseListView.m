@@ -119,7 +119,7 @@
     UIButton *button = (UIButton*)sender;
     
     Enterprise* item = [records objectAtIndex:(int)button.tag];
-    [myDelegate reAttach:item.pk];
+    [myDelegate reAttach:item.pk name:item.name];
 }
 
 -(void) undoAttach:(id)sender
@@ -127,7 +127,7 @@
     UIButton *button = (UIButton*)sender;
     
     Enterprise* item = [records objectAtIndex:(int)button.tag];
-    [myDelegate undoAttach:item.pk];
+    [myDelegate undoAttach:item.pk name:item.name];
 }
 
 @end

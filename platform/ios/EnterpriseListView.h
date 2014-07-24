@@ -3,8 +3,8 @@
 
 @protocol EnterpriseListViewDelegate <NSObject>
 
--(void) reAttach:(NSString*)enterpriseId;
--(void) undoAttach:(NSString*)enterpriseId;
+-(void) reAttach:(NSString*)enterpriseId name:(NSString*)enterpriseName;
+-(void) undoAttach:(NSString*)enterpriseId name:(NSString*)enterpriseName;
 
 @end
 
