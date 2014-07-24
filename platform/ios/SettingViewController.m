@@ -64,12 +64,6 @@
     self.view = view;
 }
 
--(void) viewDidAppear:(BOOL)animated
-{
-    SettingView *myView = (SettingView*)self.view;
-    [myView.tableView deselectRowAtIndexPath:[myView.tableView indexPathForSelectedRow] animated:YES];
-}
-
 #pragma mark - actionsheet delegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
@@ -118,6 +112,7 @@
     cell.textLabel.text = item.title;
     cell.textLabel.font = [UIFont systemFontOfSize:14];
     cell.imageView.image = [UIImage imageNamed:item.image];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }
