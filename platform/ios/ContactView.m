@@ -12,7 +12,9 @@
         self.search = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 64, 320, 40)];
         self.search.delegate = controller;
         
-        self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 104, 320, 415) style:UITableViewStylePlain];
+        CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;// 568 in 4-inch，480 in 3.5-inch
+        
+        self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 104, 320, screenHeight - 153) style:UITableViewStylePlain];
         self.tableView.dataSource = ds;
         self.tableView.delegate = ds;
         self.tableView.separatorInset = UIEdgeInsetsZero;
