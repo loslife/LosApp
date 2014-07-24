@@ -3,9 +3,6 @@
 
 @protocol EnterpriseListViewDelegate <NSObject>
 
--(NSUInteger) count;
--(Enterprise*) itemAtIndex:(int)index;
-
 -(void) reAttach:(NSString*)enterpriseId;
 -(void) undoAttach:(NSString*)enterpriseId;
 

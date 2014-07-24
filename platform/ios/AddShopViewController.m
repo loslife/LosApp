@@ -13,8 +13,6 @@
     LosHttpHelper *httpHelper;
     SyncService *syncService;
     EnterpriseDao *dao;
-    
-    NSMutableArray *records;
 }
 
 -(id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -28,8 +26,6 @@
         syncService = [[SyncService alloc] init];
         dao = [[EnterpriseDao alloc] init];
         
-        records = [NSMutableArray arrayWithCapacity:1];
-        
         self.hidesBottomBarWhenPushed = YES;
     }
     return self;
@@ -40,9 +36,7 @@
     AddShopView *view = [[AddShopView alloc] initWithController:self];
     self.view = view;
     
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [self loadData];
-    });
+    [view.list reload];
 }
 
 -(void) viewWillDisappear:(BOOL)animated
@@ -60,18 +54,6 @@
     }
     
     timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(countdown) userInfo:nil repeats:YES];
-}
-
--(void) loadData
-{
-    NSArray *enterprises = [dao queryAllEnterprises];
-    records = [NSMutableArray arrayWithArray:enterprises];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-    
-        AddShopView *myView = (AddShopView*)self.view;
-        [myView.list reload];
-    });
 }
 
 -(void) requireVerificationCode
@@ -183,6 +165,8 @@
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"关联成功" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
                 [alert show];
                 
+                [myView.list reload];
+                
                 UserData *userData = [UserData load];
                 if([StringUtils isEmpty:userData.enterpriseId]){
                     [UserData writeCurrentEnterprise:enterpriseId];
@@ -194,16 +178,6 @@
 
 #pragma mark - delegate
 
--(NSUInteger) count
-{
-    return [records count];
-}
-
--(Enterprise*) itemAtIndex:(int)index
-{
-    return [records objectAtIndex:index];
-}
-
 -(void) reAttach:(NSString*)enterpriseId
 {
     UserData *userData = [UserData load];
@@ -214,9 +188,6 @@
         NSString* enterpriseAcccount = [dao queryAccountById:enterpriseId];
         
         [syncService reAttachWithAccount:userId enterpriseAccount:enterpriseAcccount block:^(BOOL flag){
-            
-            NSArray *enterprises = [dao queryAllEnterprises];
-            records = [NSMutableArray arrayWithArray:enterprises];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 
@@ -238,9 +209,6 @@
     NSString* userId = userData.userId;
     
     [syncService undoAttachWithAccount:userId enterpriseId:enterpriseId block:^(BOOL flag){
-        
-        NSArray *enterprises = [dao queryAllEnterprises];
-        records = [NSMutableArray arrayWithArray:enterprises];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             

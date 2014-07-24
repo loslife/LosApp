@@ -3,8 +3,6 @@
 @implementation AddShopView
 
 {
-    id<EnterpriseListViewDelegate> myDelegate;
-    
     UIView *label;
     UIView *form;
 
@@ -18,8 +16,6 @@
 {
     self = [super init];
     if(self){
-        
-        myDelegate = controller;
         
         isUnfold = NO;
         labelHeight = 50;
