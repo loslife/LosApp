@@ -1,5 +1,6 @@
 #import "LosTimePicker.h"
 #import "TimesHelper.h"
+#import "LosStyles.h"
 
 @implementation LosTimePicker
 
@@ -25,6 +26,7 @@
         previous.frame = CGRectMake(40, 0, 40, 40);
         [previous setImage:[UIImage imageNamed:@"arrow_left"] forState:UIControlStateNormal];
         [previous addTarget:self action:@selector(previousDate) forControlEvents:UIControlEventTouchUpInside];
+        previous.tintColor = BLUE1;
         
         label = [[UILabel alloc] initWithFrame:CGRectMake(80, 0, 160, 40)];
         label.text = [self resolveDateLabel];
@@ -35,11 +37,13 @@
         next.frame = CGRectMake(240, 0, 40, 40);
         [next setImage:[UIImage imageNamed:@"arrow_right"] forState:UIControlStateNormal];
         [next addTarget:self action:@selector(nextDate) forControlEvents:UIControlEventTouchUpInside];
+        next.tintColor = BLUE1;
         
         displayTag = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         displayTag.frame = CGRectMake(275, 0, 40, 40);
         [displayTag setTitle:[self resolveDisplayTag] forState:UIControlStateNormal];
         [displayTag addTarget:self action:@selector(switchDateType) forControlEvents:UIControlEventTouchUpInside];
+        displayTag.tintColor = BLUE1;
 
         self.backgroundColor = [UIColor colorWithRed:247/255.0f green:248/255.0f blue:249/255.0f alpha:1.0f];
         [self addSubview:previous];
