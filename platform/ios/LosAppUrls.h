@@ -14,3 +14,5 @@
 #define CHECK_NEW_VERSION [ServerHost stringByAppendingString:@"/svc/losapp/checkNewVersion/%@"]
 #define REMOVE_ENERPRISE_URL [ServerHost stringByAppendingString:@"/svc/losapp/undoAppendEnterprise"]
 #define COUNT_MEMBERS_URL [ServerHost stringByAppendingString:@"/svc/losapp/countMembers/%@"]
+
+#define VERSION_CODE @"1"

@@ -70,7 +70,7 @@
             return;
         }
         
-        NSString *url = [NSString stringWithFormat:CHECK_NEW_VERSION, @"1"];
+        NSString *url = [NSString stringWithFormat:CHECK_NEW_VERSION, VERSION_CODE];
         
         [httpHelper getSecure:url completionHandler:^(NSDictionary* dict){
             

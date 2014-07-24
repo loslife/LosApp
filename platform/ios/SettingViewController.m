@@ -8,6 +8,13 @@
 #import "UserData.h"
 #import "LosStyles.h"
 #import "AppUpdateViewController.h"
+#import "LosHttpHelper.h"
+
+typedef enum {
+    NewVersionStatusYes = 0,
+    NewVersionStatusNo,
+    NewVersionStatusNotNetwork,
+} NewVersionStatus;
 
 @interface MenuItem : NSObject
 
@@ -36,13 +43,18 @@
 
 {
     NSArray *menus;
+    LosHttpHelper *httpHelper;
+    NewVersionStatus versionStatus;
 }
 
 -(id) initWithNibName:(NSString*)nibName bundle:(NSBundle*)bundle
 {
     self = [super initWithNibName:nibName bundle:bundle];
     if(self){
-
+        
+        httpHelper = [[LosHttpHelper alloc] init];
+        versionStatus = NewVersionStatusNo;
+        
         MenuItem *addShop = [[MenuItem alloc] initWithTitle:@"关联店铺" Image:@"add_shop"];
         MenuItem *modifyPassword = [[MenuItem alloc] initWithTitle:@"修改密码" Image:@"modify_password"];
         MenuItem *aboutUs = [[MenuItem alloc] initWithTitle:@"关于乐斯" Image:@"about_us"];
@@ -62,6 +74,65 @@
 {
     SettingView *view = [[SettingView alloc] initWithController:self];
     self.view = view;
+}
+
+-(void) viewDidAppear:(BOOL)animated
+{
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        
+        if(![LosHttpHelper isNetworkAvailable]){
+            versionStatus = NewVersionStatusNotNetwork;
+            [self refreshUpdateAccessory];
+            return;
+        }
+        
+        NSString *url = [NSString stringWithFormat:CHECK_NEW_VERSION, VERSION_CODE];
+        [httpHelper getSecure:url completionHandler:^(NSDictionary* dict){
+            
+            if(dict == nil){
+                versionStatus = NewVersionStatusNo;
+                [self refreshUpdateAccessory];
+                return;
+            }
+            
+            NSNumber *code = [dict objectForKey:@"code"];
+            if([code intValue] != 0){
+                versionStatus = NewVersionStatusNo;
+                [self refreshUpdateAccessory];
+                return;
+            }
+            
+            NSDictionary *result = [dict objectForKey:@"result"];
+            NSString *flag = [result objectForKey:@"has_new_version"];
+            if([flag isEqualToString:@"yes"]){
+                versionStatus = NewVersionStatusYes;
+                [self refreshUpdateAccessory];
+            }else{
+                versionStatus = NewVersionStatusNo;
+                [self refreshUpdateAccessory];
+            }
+        }];
+    });
+}
+
+// invoked in background thread
+-(void) refreshUpdateAccessory
+{
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:3 inSection:0];
+    
+    SettingView *myView = (SettingView*)self.view;
+    UITableViewCell *cellOfUpdate = [myView.tableView cellForRowAtIndexPath:indexPath];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        if(versionStatus == NewVersionStatusYes){
+            cellOfUpdate.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"new_version_yes"]];
+        }else if(versionStatus == NewVersionStatusNo){
+            cellOfUpdate.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"new_version_no"]];
+        }else if(versionStatus == NewVersionStatusNotNetwork){
+            cellOfUpdate.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"new_version_no"]];
+        }
+    });
 }
 
 #pragma mark - actionsheet delegate
@@ -150,6 +221,11 @@
     }
     
     if([title isEqualToString:@"版本更新"]){
+        
+        if(versionStatus != NewVersionStatusYes){
+            return;
+        }
+        
         AppUpdateViewController *controller = [[AppUpdateViewController alloc] init];
         [self.navigationController pushViewController:controller animated:YES];
     }
