@@ -1,6 +1,7 @@
 #import "EnterpriseListView.h"
 #import "StringUtils.h"
 #import "EnterpriseDao.h"
+#import "LosStyles.h"
 
 @implementation EnterpriseListView
 
@@ -38,11 +39,12 @@
     
     if(count == 0){
         
-        self.backgroundColor = [UIColor colorWithRed:231/255.0f green:236/255.0f blue:240/255.0f alpha:1.0f];
+        self.backgroundColor = GRAY1;
         
         UILabel *none = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)];
         none.text = @"您还未关联任何店铺，点击“添加关联”";
         none.textAlignment = NSTextAlignmentCenter;
+        none.textColor = GRAY4;
         none.font = [UIFont systemFontOfSize:14];
         [self addSubview:none];
         
@@ -51,9 +53,11 @@
     
     for(int i = 0; i < count; i++){
         
+        self.backgroundColor = [UIColor whiteColor];
+        
         if(i == 0){
             UILabel *header = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 5)];
-            header.backgroundColor = [UIColor colorWithRed:231/255.0f green:236/255.0f blue:240/255.0f alpha:1.0f];
+            header.backgroundColor = GRAY1;
             [self addSubview:header];
         }
         

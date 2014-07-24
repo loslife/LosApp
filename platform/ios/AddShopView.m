@@ -1,4 +1,5 @@
 #import "AddShopView.h"
+#import "LosStyles.h"
 
 @implementation AddShopView
 
@@ -20,7 +21,9 @@
         isUnfold = NO;
         labelHeight = 50;
         formHeight = 280;
-        listHeight = 454;
+        
+        CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;// 568 in 4-inch，480 in 3.5-inch
+        listHeight = screenHeight - 114;
         
         label = [[UIView alloc] initWithFrame:CGRectMake(0, 64, 320, labelHeight)];
         
@@ -29,7 +32,7 @@
         [unfold setTitle:@"添加关联" forState:UIControlStateNormal];
         [unfold addTarget:self action:@selector(unfold) forControlEvents:UIControlEventTouchUpInside];
         unfold.titleLabel.font = [UIFont systemFontOfSize:13];
-        unfold.tintColor = [UIColor colorWithRed:2/255.0f green:160/255.0f blue:221/255.0f alpha:1.0f];
+        unfold.tintColor = BLUE1;
         
         [label addSubview:unfold];
         
@@ -40,7 +43,7 @@
         [cancel setTitle:@"取消" forState:UIControlStateNormal];
         [cancel addTarget:self action:@selector(fold) forControlEvents:UIControlEventTouchUpInside];
         cancel.titleLabel.font = [UIFont systemFontOfSize:13];
-        cancel.tintColor = [UIColor colorWithRed:2/255.0f green:160/255.0f blue:221/255.0f alpha:1.0f];
+        cancel.tintColor = BLUE1;
         
         self.phone = [[UITextField alloc] initWithFrame:CGRectMake(20, 50, 280, 40)];
         self.phone.borderStyle = UITextBorderStyleRoundedRect;
@@ -62,12 +65,12 @@
         [self.requireCodeButton setTitle:@"90秒可重发" forState:UIControlStateDisabled];
         [self.requireCodeButton addTarget:controller action:@selector(requireVerificationCode) forControlEvents:UIControlEventTouchUpInside];
         self.requireCodeButton.titleLabel.textAlignment = NSTextAlignmentRight;
-        self.requireCodeButton.titleLabel.textColor = [UIColor colorWithRed:2/255.0f green:160/255.0f blue:221/255.0f alpha:1.0f];
+        self.requireCodeButton.tintColor = BLUE1;
         
         UIButton *attach = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         attach.frame = CGRectMake(20, 180, 280, 40);
         [attach setTitle:@"立即关联" forState:UIControlStateNormal];
-        attach.backgroundColor = [UIColor colorWithRed:2/255.0f green:160/255.0f blue:221/255.0f alpha:1.0f];
+        attach.backgroundColor = BLUE1;
         attach.tintColor = [UIColor whiteColor];
         attach.layer.cornerRadius = 5;
         [attach addTarget:controller action:@selector(appendEnterprise) forControlEvents:UIControlEventTouchUpInside];
@@ -76,7 +79,7 @@
         notice.text = @"小贴士：关联店铺完成后，在手机中可以查看店铺中的实时经营数据以及所有的会员资料。";
         notice.numberOfLines = 3;
         notice.font = [UIFont systemFontOfSize:12];
-        notice.textColor = [UIColor colorWithRed:114/255.0f green:128/255.0f blue:137/255.0f alpha:1.0f];
+        notice.textColor = GRAY4;
         
         [form addSubview:cancel];
         [form addSubview:self.phone];
@@ -96,7 +99,8 @@
 
 -(void) calculateListHeight
 {
-    CGFloat actualHeight = 568 - 64;
+    CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;// 568 in 4-inch，480 in 3.5-inch
+    CGFloat actualHeight = screenHeight - 64;
 
     if(isUnfold){
         listHeight = actualHeight - formHeight;
