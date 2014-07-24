@@ -17,6 +17,8 @@
 
 @property NSInteger sectionNumber;
 
--(id) initWithPk:(NSString*)pk Name:(NSString*)name Birthday:(NSNumber*)birthday Phone:(NSString*)phone JoinDate:(NSNumber*)joinDate MemberNo:(NSString*)memberNo LatestConsume:(NSNumber*)latestConsume TotalConsume:(NSNumber*)total AverageConsume:(NSNumber*)average cardStr:(NSString*)cardStr desc:(NSString*)desc sex:(NSNumber*)sex;
++(Member*) memberWithPk:(NSString*)pk Name:(NSString*)name Birthday:(NSNumber*)birthday Phone:(NSString*)phone JoinDate:(NSNumber*)joinDate MemberNo:(NSString*)memberNo LatestConsume:(NSNumber*)latestConsume TotalConsume:(NSNumber*)total AverageConsume:(NSNumber*)average cardStr:(NSString*)cardStr desc:(NSString*)desc sex:(NSNumber*)sex sectionNumber:(NSInteger)sectionNumber;
+
++(Member*) memberWithName:(NSString*)name;
 
 @end

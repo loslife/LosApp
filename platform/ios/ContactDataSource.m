@@ -1,7 +1,6 @@
 #import "ContactDataSource.h"
 #import "Member.h"
 #import "UITableViewCell+ReuseIdentifier.h"
-#import "MemberDetailViewController.h"
 #import "MemberTableViewCell.h"
 #import "MemberDao.h"
 #import "LosAppUrls.h"
@@ -13,7 +12,6 @@
 @implementation ContactDataSource
 
 {
-    ContactViewController *controller;
     MemberDao *memberDao;
     LosHttpHelper *httpHelper;
     EnterpriseDao *enterpriseDao;
@@ -22,12 +20,11 @@
     NSMutableArray *members;
 }
 
--(id) initWithController:(ContactViewController*)viewController
+-(id) init
 {
     self = [super init];
     if(self){
         
-        controller = viewController;
         memberDao = [[MemberDao alloc] init];
         httpHelper = [[LosHttpHelper alloc] init];
         enterpriseDao = [[EnterpriseDao alloc] init];
@@ -38,15 +35,20 @@
     return self;
 }
 
++(ContactDataSource*) sharedInstance
+{
+    static dispatch_once_t pred = 0;
+    __strong static id _sharedObject = nil;
+    dispatch_once(&pred, ^{
+        _sharedObject = [[self alloc] init];
+    });
+    return _sharedObject;
+}
+
 -(void) loadFromDatabaseWithEnterpriseId:(NSString*)enterpriseId completionHandler:(void(^)(NSUInteger count))block;
 {
     NSArray *membersTemp = [memberDao queryMembersByEnterpriseId:enterpriseId];
-    
-    NSTimeInterval p1 = [[NSDate date] timeIntervalSince1970];
     [self assembleMembers:membersTemp];
-    NSTimeInterval p2 = [[NSDate date] timeIntervalSince1970];
-    NSLog(@"assemble spend: %f", p2 - p1);
-    
     block([membersTemp count]);
 }
 
@@ -105,18 +107,16 @@
     block();
 }
 
-// slow method
+-(int) countMembers:(NSString*)enterpriseId
+{
+    return [memberDao countMembersByEnterpriseId:enterpriseId];
+}
+
 -(void) assembleMembers:(NSArray*)origin
 {
     [members removeAllObjects];
     
     UILocalizedIndexedCollation *collation = [UILocalizedIndexedCollation currentCollation];
-    
-    // slow point 1: takes 1.5 seconds when 400 records
-    for (Member *member in origin) {
-        NSInteger sect = [collation sectionForObject:member collationStringSelector:@selector(name)];
-        member.sectionNumber = sect;
-    }
     
     NSInteger highSection = [[collation sectionTitles] count];
     NSMutableArray *sectionArrays = [NSMutableArray arrayWithCapacity:highSection];
@@ -129,10 +129,15 @@
         [(NSMutableArray*)[sectionArrays objectAtIndex:member.sectionNumber] addObject:member];
     }
     
-    // slow point 2: takes 1.3 seconds when 400 records
     for (NSMutableArray *sectionArray in sectionArrays) {
-        NSArray *sortedSection = [collation sortedArrayFromArray:sectionArray collationStringSelector:@selector(name)];
-        [members addObject:sortedSection];
+        
+        [sectionArray sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+            Member *m1 = (Member*) obj1;
+            Member *m2 = (Member*) obj2;
+            return [m2.name localizedCompare:m1.name];
+        }];
+        
+        [members addObject:sectionArray];
     }
 }
 
@@ -196,9 +201,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Member *member = [[members objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    
-    MemberDetailViewController *detail = [[MemberDetailViewController alloc] initWithMember:member];
-    [controller.navigationController pushViewController:detail animated:YES];
+    [self.delegate memberTapped:member];
 }
 
 @end

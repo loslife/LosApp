@@ -9,6 +9,8 @@
 
 -(void) batchUpdateMembers:(NSDictionary*)records LastSync:(NSNumber*)lastSync EnterpriseId:(NSString*)enterpriseId
 {
+    UILocalizedIndexedCollation *collation = [UILocalizedIndexedCollation currentCollation];
+    
     NSString *dbFilePath = [PathResolver databaseFilePath];
     FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
     [db open];
@@ -19,9 +21,10 @@
     
     // 处理新增记录
     NSArray *add = [records objectForKey:@"add"];
-    NSString *insert = @"insert into members (id, enterprise_id, name, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume, create_date, modify_date, cardStr, sex) values (:id, :eid, :name, :birthday, :phoneMobile, :joinDate, :memberNo, :latest, :total, :average, :cdate, :mdate, :cardStr, :sex);";
+    NSString *insert = @"insert into members (id, enterprise_id, name, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume, create_date, modify_date, cardStr, sex, sectionNumber) values (:id, :eid, :name, :birthday, :phoneMobile, :joinDate, :memberNo, :latest, :total, :average, :cdate, :mdate, :cardStr, :sex, :sectionNumber);";
     
     for(NSDictionary *item in add){
+        
         NSString *pk = [item objectForKey:@"id"];
         NSString *name = [item objectForKey:@"name"];
         NSNumber *birthday = [item objectForKey:@"birthday"];
@@ -35,14 +38,23 @@
         NSNumber *modifyDate = [item objectForKey:@"modify_date"];
         NSString *cardStr = [item objectForKey:@"cardStr"];
         NSNumber *sex = [item objectForKey:@"sex"];
-        [db executeUpdate:insert, pk, enterpriseId, name, birthday, phone, joinDate, memberNo, latest, total, average, createDate, modifyDate, cardStr, sex];
+        
+        if([StringUtils isEmpty:name]){
+            name = @"";
+        }
+        
+        Member *member = [Member memberWithName:name];
+        NSInteger sectionNumber = [collation sectionForObject:member collationStringSelector:@selector(name)];
+        
+        [db executeUpdate:insert, pk, enterpriseId, name, birthday, phone, joinDate, memberNo, latest, total, average, createDate, modifyDate, cardStr, sex, [NSNumber numberWithLong:sectionNumber]];
     }
     
     // 处理更新记录
     NSArray *update = [records objectForKey:@"update"];
-    NSString *statement = @"update members set name = :name, birthday = :birthday, phoneMobile = :phone, joinDate = :joinDate, memberNo = :memberNo, latestConsumeTime = :latest, totalConsume = :total, averageConsume = :average, modify_date = :mdate, cardStr = :cardStr, sex = :sex where id = :id";
+    NSString *statement = @"update members set name = :name, birthday = :birthday, phoneMobile = :phone, joinDate = :joinDate, memberNo = :memberNo, latestConsumeTime = :latest, totalConsume = :total, averageConsume = :average, modify_date = :mdate, cardStr = :cardStr, sex = :sex, sectionNumber = :sectionNumber where id = :id";
     
     for(NSDictionary *item in update){
+        
         NSString *pk = [item objectForKey:@"id"];
         NSString *name = [item objectForKey:@"name"];
         NSNumber *birthday = [item objectForKey:@"birthday"];
@@ -55,7 +67,11 @@
         NSNumber *modifyDate = [item objectForKey:@"modify_date"];
         NSString *cardStr = [item objectForKey:@"cardStr"];
         NSNumber *sex = [item objectForKey:@"sex"];
-        [db executeUpdate:statement, name, birthday, phone, joinDate, memberNo, latest, total, average, modifyDate, cardStr, sex, pk];
+        
+        Member *member = [Member memberWithName:name];
+        NSInteger sectionNumber = [collation sectionForObject:member collationStringSelector:@selector(name)];
+        
+        [db executeUpdate:statement, name, birthday, phone, joinDate, memberNo, latest, total, average, modifyDate, cardStr, sex, [NSNumber numberWithLong:sectionNumber], pk];
     }
     
     // 处理remove
@@ -78,7 +94,7 @@
     
     NSMutableArray *members = [NSMutableArray arrayWithCapacity:1];
     
-    NSString *statement = @"select id, name, sex, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume, cardStr from members where enterprise_id = :eid";
+    NSString *statement = @"select id, name, sex, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume, cardStr, sectionNumber from members where enterprise_id = :eid";
     
     FMResultSet *rs = [db executeQuery:statement, enterpriseId];
     while ([rs next]) {
@@ -95,8 +111,9 @@
         NSNumber *averageConsume = [rs objectForColumnName:@"averageConsume"];
         NSString *cardStr = [rs objectForColumnName:@"cardStr"];
         NSString *desc = [self resolveConsumeDescWithDate:latest average:averageConsume];
+        NSUInteger sectionNumber = [rs longForColumn:@"sectionNumber"];
         
-        Member *member = [[Member alloc] initWithPk:pk Name:name Birthday:birthday Phone:phone JoinDate:joinDate MemberNo:memberNo LatestConsume:latest TotalConsume:totalConsume AverageConsume:averageConsume cardStr:cardStr desc:desc sex:sex];
+        Member *member = [Member memberWithPk:pk Name:name Birthday:birthday Phone:phone JoinDate:joinDate MemberNo:memberNo LatestConsume:latest TotalConsume:totalConsume AverageConsume:averageConsume cardStr:cardStr desc:desc sex:sex sectionNumber:sectionNumber];
         [members addObject:member];
     }
     
@@ -113,7 +130,7 @@
     
     NSMutableArray *members = [NSMutableArray arrayWithCapacity:1];
     
-    NSString *base = @"select id, name, sex, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume, cardStr from members where enterprise_id = :eid and name like '%%%@%%';";
+    NSString *base = @"select id, name, sex, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume, cardStr, sectionNumber from members where enterprise_id = :eid and name like '%%%@%%';";
     NSString *statement = [NSString stringWithFormat:base, name];
     
     FMResultSet *rs = [db executeQuery:statement, enterpriseId];
@@ -131,25 +148,15 @@
         NSNumber *averageConsume = [rs objectForColumnName:@"averageConsume"];
         NSString *cardStr = [rs objectForColumnName:@"cardStr"];
         NSString *desc = [self resolveConsumeDescWithDate:latest average:averageConsume];
+        NSUInteger sectionNumber = [rs longForColumn:@"sectionNumber"];
         
-        Member *member = [[Member alloc] initWithPk:pk Name:name Birthday:birthday Phone:phone JoinDate:joinDate MemberNo:memberNo LatestConsume:latest TotalConsume:totalConsume AverageConsume:averageConsume cardStr:cardStr desc:desc sex:sex];
+        Member *member = [Member memberWithPk:pk Name:name Birthday:birthday Phone:phone JoinDate:joinDate MemberNo:memberNo LatestConsume:latest TotalConsume:totalConsume AverageConsume:averageConsume cardStr:cardStr desc:desc sex:sex sectionNumber:sectionNumber];
         [members addObject:member];
     }
     
     [db close];
     
     return members;
-}
-
--(NSString*) resolveConsumeDescWithDate:(NSNumber*)date average:(NSNumber*)average
-{
-    NSString *latestConsumeStr = [StringUtils fromNumber:date format:@"MM月dd日"];
-    if([StringUtils isEmpty:latestConsumeStr]){
-        latestConsumeStr = @"未消费";
-    }else{
-        latestConsumeStr = [NSString stringWithFormat:@"最近消费%@", latestConsumeStr];
-    }
-    return [NSString stringWithFormat:@"%@ / 平均消费%d元", latestConsumeStr, [average intValue]];
 }
 
 -(int) countMembersByEnterpriseId:(NSString*)enterpriseId
@@ -165,6 +172,17 @@
     [db close];
     
     return count;
+}
+
+-(NSString*) resolveConsumeDescWithDate:(NSNumber*)date average:(NSNumber*)average
+{
+    NSString *latestConsumeStr = [StringUtils fromNumber:date format:@"MM月dd日"];
+    if([StringUtils isEmpty:latestConsumeStr]){
+        latestConsumeStr = @"未消费";
+    }else{
+        latestConsumeStr = [NSString stringWithFormat:@"最近消费%@", latestConsumeStr];
+    }
+    return [NSString stringWithFormat:@"%@ / 平均消费%d元", latestConsumeStr, [average intValue]];
 }
 
 @end
