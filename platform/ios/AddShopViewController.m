@@ -232,7 +232,6 @@
     UIButton *button = myView.requireCodeButton;
     
     button.enabled = NO;
-    button.backgroundColor = [UIColor whiteColor];
 }
 
 -(void) startTick
@@ -246,6 +245,12 @@
     resendCountdown--;
     
     if(resendCountdown > 0){
+        
+        AddShopView *myView = (AddShopView*)self.view;
+        UIButton *button = myView.requireCodeButton;
+        
+        NSString *title = [NSString stringWithFormat:@"%d秒可重发", resendCountdown];
+        button.titleLabel.text = title;
         return;
     }
     
@@ -258,6 +263,7 @@
     AddShopView *myView = (AddShopView*)self.view;
     UIButton *button = myView.requireCodeButton;
     
+    button.titleLabel.text = @"获取验证码";
     button.enabled = YES;
 }
 
