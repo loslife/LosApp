@@ -159,7 +159,8 @@
 
 -(void) sendSMS
 {
-    
+    NSString *url = [NSString stringWithFormat:@"sms://%@", theMember.phoneMobile];
+    [[UIApplication sharedApplication]openURL:[NSURL URLWithString:url]];
 }
 
 -(UIView*) makeBaseinfoView:(CGRect)frame icon:(NSString*)image text:(NSString*)text
