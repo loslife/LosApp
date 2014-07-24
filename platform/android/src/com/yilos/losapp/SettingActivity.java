@@ -65,6 +65,7 @@ public class SettingActivity extends BaseActivity {
 			if(msg.what==1)
 			{
 				versiontext.setText("当前版本已是最新版本");
+				versionUpdate.setEnabled(false);
 			}
 		}
 	};

@@ -120,7 +120,8 @@ public class Main extends BaseActivity {
 	  public void onPause()
 	  {
 		  super.onPause();
-		  
+		  shopId = AppContext.getInstance(getBaseContext())
+					.getCurrentDisplayShopId();
 	  }
 
 	Handler handle = new Handler() {
@@ -288,7 +289,7 @@ public class Main extends BaseActivity {
 								.getTotal();
 						//其他总数
 						otherPercentTotal += otherPercentNum[(i-3)];
-						percentNum[3] = otherPercentTotal;
+						percentNum[3] = (float) (Math.round(otherPercentTotal * 1000)) / 10;
 						projectName[3] = "其他";
 					}
 					
@@ -310,7 +311,8 @@ public class Main extends BaseActivity {
 			}
 
 			if (msg.what == 4) {
-				String[] yNum = DateUtil.getDayarr(year, month, dateType);
+				DateUtil dateUtil = new DateUtil();
+				String[] yNum = dateUtil.getDayarr(year, month, dateType);
 
 				int walkinCount = 0;
 				int memberCount = 0;
@@ -318,13 +320,37 @@ public class Main extends BaseActivity {
 				for (int i = 0; i < yNum.length; i++) {
 					count[i] = 0;
 					for (BcustomerCountBean bean : customerCountList) {
-						if (null != bean.get_id() && i == bean.getHour()) {
-							walkinCount += Integer.valueOf(bean.getTemp());
-							memberCount += Integer.valueOf(bean.getMember());
-							int daytotal = Integer.valueOf(bean.getTemp())
-									+ Integer.valueOf(bean.getMember());
-							count[i] = daytotal;
-							break;
+						if (null != bean.get_id()) {
+							if(i == bean.getHour()&&"day".equals(dateType))
+							{
+								walkinCount += Integer.valueOf(bean.getTemp());
+								memberCount += Integer.valueOf(bean.getMember());
+								int daytotal = Integer.valueOf(bean.getTemp())
+										+ Integer.valueOf(bean.getMember());
+								count[i] = daytotal;
+								break;
+							}
+							
+							else if(i == Integer.valueOf(bean.getDay())&&"month".equals(dateType))
+							{
+								walkinCount += Integer.valueOf(bean.getTemp());
+								memberCount += Integer.valueOf(bean.getMember());
+								int daytotal = Integer.valueOf(bean.getTemp())
+										+ Integer.valueOf(bean.getMember());
+								count[i] = daytotal;
+								break;
+							}
+							
+							else if("week".equals(dateType)&&Integer.valueOf(yNum[i].substring(3, yNum[i].length())) == Integer.valueOf(bean.getDay()))
+							{
+								walkinCount += Integer.valueOf(bean.getTemp());
+								memberCount += Integer.valueOf(bean.getMember());
+								int daytotal = Integer.valueOf(bean.getTemp())
+										+ Integer.valueOf(bean.getMember());
+								count[i] = daytotal;
+								break;
+							}
+							
 						}
 					}
 				}
@@ -420,6 +446,12 @@ public class Main extends BaseActivity {
 					DateUtil dateUtil = new DateUtil();
 					String weeks = dateUtil.getCurrentMonday() + "--"
 							+ dateUtil.getSunday();
+					SimpleDateFormat formatter = new SimpleDateFormat(
+							"yyyy年MM月dd日");
+					datetime = dateToCal(dateUtil.getCurDateSunday(), formatter)
+							.getTimeInMillis();
+					Date weekdate = new Date(datetime);
+					day = String.valueOf(weekdate.getDate());
 					showTime.setText(weeks);
 
 				} else if ("周".equals(timetype.getText().toString())) {

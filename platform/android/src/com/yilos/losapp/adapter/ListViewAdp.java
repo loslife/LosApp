@@ -161,7 +161,7 @@ public class ListViewAdp extends BaseAdapter implements SectionIndexer {
 		defaultFormat.setCaseType(HanyuPinyinCaseType.UPPERCASE);
 		defaultFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
 		for (int i = 0; i < nameChar.length; i++) {
-			if (nameChar[i] > 128) {
+			if (!"".equals(nameChar[i])&&nameChar[i] > 128) {
 				try {
 					pinyinName += PinyinHelper.toHanyuPinyinStringArray(
 							nameChar[i], defaultFormat)[0].charAt(0);
@@ -171,6 +171,7 @@ public class ListViewAdp extends BaseAdapter implements SectionIndexer {
 			} else {
 				pinyinName += nameChar[i];
 			}
+			break;
 		}
 		return pinyinName;
 	}

@@ -205,11 +205,7 @@ public class MemberGoupActivity extends BaseActivity {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+				
 				parentData = memberService.seachRecords(shopId, s.toString());
 				initView();
 			}
@@ -258,11 +254,11 @@ public class MemberGoupActivity extends BaseActivity {
 		refreshableView.setOnRefreshListener(new PullToRefreshListener() {
 			@Override
 			public void onRefresh() {
-				try {
-					Thread.sleep(3000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+				
+					if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
+					{
+					   getMemberContact(shopId,"0");
+					}
 				refreshableView.finishRefreshing();
 			}
 		}, 0);
@@ -300,7 +296,7 @@ public class MemberGoupActivity extends BaseActivity {
 				else
 				{
 					//加载失败检查网络
-					UIHelper.ToastMessage(v.getContext(), "当前网络不佳，请检查网络");
+					UIHelper.ToastMessage(v.getContext(), "网络连接不可用，请检查网络设置");
 				}
 			}
 		});

@@ -33,7 +33,7 @@
         <activity android:name=".LinkShopActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ModifyPwdActivity" android:screenOrientation="portrait"/>
         <activity android:name=".MainTabActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
-        <activity android:name=".LaunchActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".LaunchActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
         <activity android:name=".AboutLosActivity" android:screenOrientation="portrait"/>
         <activity android:name=".UpdateApkVersionActivity" android:screenOrientation="portrait"/>
         

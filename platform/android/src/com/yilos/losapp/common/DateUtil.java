@@ -17,9 +17,9 @@ public class DateUtil {
 		// 获得今天是一周的第几天，星期日是第一天，星期二是第二天......
 		int dayOfWeek = cd.get(Calendar.DAY_OF_WEEK);
 		if (dayOfWeek == 1) {
-			return -6;
+			return -7;
 		} else {
-			return 2 - dayOfWeek;
+			return 1 - dayOfWeek;
 		}
 	}
 
@@ -82,16 +82,17 @@ public class DateUtil {
 		return curDateMonday;
 	}
 	
-	public String[] getWeeksday()
+	public  String[] getWeeksday()
 	{
         String[] weekdays = new String[7];
 		int mondayPlus = this.getMondayPlus();
-		GregorianCalendar currentDate = new GregorianCalendar();
+		
 		for(int i=0;i<7;i++)
 		{
-			currentDate.add(GregorianCalendar.DATE, mondayPlus + 7 * weeks+i);
+			GregorianCalendar currentDate = new GregorianCalendar();
+			currentDate.add(GregorianCalendar.DATE,  mondayPlus + (7 * weeks)+i);
 			Date monday = currentDate.getTime();
-			SimpleDateFormat df = new SimpleDateFormat("MM月dd日");
+			SimpleDateFormat df = new SimpleDateFormat("MM-dd");
 			weekdays[i] = df.format(monday);
 		}
 
@@ -153,13 +154,19 @@ public class DateUtil {
 		return str;
 	}
 	
-	public static String[]  getDayarr(String year,String month,String dateType)
+	public  String[]  getDayarr(String year,String month,String dateType)
 	{
 		String[] days = null;
 		int maxlength = 24;
-		if(!"day".equals(dateType))
+		
+		if("week".equals(dateType))
+	    {
+			return getWeeksday();
+	    }
+		
+		if("month".equals(dateType))
 		{
-			maxlength =  maxDays(Integer.valueOf(year),Integer.valueOf(month));;
+			maxlength =  maxDays(Integer.valueOf(year),Integer.valueOf(month));
 		}
 
 			days = new String[maxlength];
@@ -172,6 +179,7 @@ public class DateUtil {
 					days[i-1] =  days[i-1]+":00";
 				}
 			}
+      
 		
 		return days;
 	}

@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.yilos.losapp.R;
+import com.yilos.losapp.common.NetworkUtil;
 
 public class RefreshableView extends LinearLayout implements OnTouchListener {  
 	  
@@ -167,6 +168,8 @@ public class RefreshableView extends LinearLayout implements OnTouchListener {
      * 当前是否可以下拉，只有ListView滚动到头的时候才允许下拉 
      */  
     private boolean ableToPull;  
+    
+    private Context context;
   
     /** 
      * 下拉刷新控件的构造函数，会在运行时动态添加一个下拉头的布局。 
@@ -182,7 +185,8 @@ public class RefreshableView extends LinearLayout implements OnTouchListener {
         arrow = (ImageView) header.findViewById(R.id.arrow);  
         description = (TextView) header.findViewById(R.id.description);  
         updateAt = (TextView) header.findViewById(R.id.updated_at);  
-        touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();  
+        touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
+        this.context = context;
         refreshUpdatedAtValue();  
         setOrientation(VERTICAL);  
         addView(header, 0);  
@@ -395,7 +399,11 @@ public class RefreshableView extends LinearLayout implements OnTouchListener {
             timeIntoFormat = timePassed / ONE_YEAR;  
             String value = timeIntoFormat + "年";  
             updateAtValue = String.format(getResources().getString(R.string.updated_at), value);  
-        }  
+        } 
+        if(NetworkUtil.checkNetworkIsOk(context) == NetworkUtil.NONE)
+		{
+        	 updateAtValue = "无法刷新，网络连接不可用，请检查网络设置"; 
+		}
         updateAt.setText(updateAtValue);  
     }  
   

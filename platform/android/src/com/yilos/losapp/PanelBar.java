@@ -146,7 +146,11 @@ public class PanelBar extends View {
          }  
          //canvas.drawLine( startx ,starty - 30 ,initX ,initY , PaintText);  
          // Y 轴  
-         canvas.drawLine( startx ,ScrHeight-350,initX ,30, PaintText);  
+         if(arrNum.length>0)
+         {
+        	 canvas.drawLine( startx ,ScrHeight-350,initX ,30, PaintText);  
+         }
+        
             
          // X 轴 刻度与标识                  
          for(i=0; i< 6 ; i++)   

@@ -6,7 +6,7 @@ import android.os.Environment;
 
 public class Constants 
 {
-	public static final String SERVICE_IP = "121.40.75.73";//"www.yilos.com";
+	public static final String SERVICE_IP = "121.40.75.73"; //"121.40.75.73";//"www.yilos.com";
 	
 	public static final String HTTPS_SERVICE_ADDRESS = "https://" + SERVICE_IP
 			+ "/svc/";
