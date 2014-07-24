@@ -1,4 +1,5 @@
 #import "ReportShopDataSource.h"
+#import "LosStyles.h"
 
 @implementation ReportShopDataSource
 
@@ -143,7 +144,7 @@
     }else if(index == 1){
         return [UIColor colorWithRed:249/255.0f green:208/255.0f blue:92/255.0f alpha:1.0f];
     }else if(index == 2){
-        return [UIColor colorWithRed:85/255.0f green:214/255.0f blue:255/255.0f alpha:1.0f];
+        return BLUE2;
     }else{
         return [UIColor colorWithRed:134/255.0f green:121/255.0f blue:201/255.0f alpha:1.0f];
     }

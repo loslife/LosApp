@@ -1,4 +1,5 @@
 #import "ServicePerformanceView.h"
+#import "LosStyles.h"
 
 @implementation ServicePerformanceView
 
@@ -22,7 +23,7 @@
         UILabel *valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(200, 0, 80, maxY)];
         valueLabel.text = value;
         valueLabel.textAlignment = NSTextAlignmentRight;
-        valueLabel.textColor = [UIColor colorWithRed:85/255.0f green:214/255.0f blue:255/255.0f alpha:1.0f];
+        valueLabel.textColor = BLUE1;
         
         [self addSubview:titleLabel];
         [self addSubview:ratioLabel];

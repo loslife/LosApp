@@ -41,7 +41,7 @@
         UIButton *forgetButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         forgetButton.frame = CGRectMake(200, 230, 100, 40);
         [forgetButton setTitle:@"忘记密码" forState:UIControlStateNormal];
-        forgetButton.tintColor = BLUE2;
+        forgetButton.tintColor = BLUE1;
         forgetButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
         [forgetButton addTarget:controller action:@selector(resetButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         

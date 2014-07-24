@@ -27,7 +27,7 @@
         self.requireCodeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         self.requireCodeButton.frame = CGRectMake(200, 180, 100, 40);
         [self.requireCodeButton setTitle:@"    获取验证码" forState:UIControlStateNormal];
-        self.requireCodeButton.tintColor = BLUE2;
+        self.requireCodeButton.tintColor = BLUE1;
         self.requireCodeButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
         [self.requireCodeButton addTarget:controller action:@selector(requireVerificationCode) forControlEvents:UIControlEventTouchUpInside];
         
