@@ -41,7 +41,12 @@
 -(void) loadFromDatabaseWithEnterpriseId:(NSString*)enterpriseId completionHandler:(void(^)(NSUInteger count))block;
 {
     NSArray *membersTemp = [memberDao queryMembersByEnterpriseId:enterpriseId];
+    
+    NSTimeInterval p1 = [[NSDate date] timeIntervalSince1970];
     [self assembleMembers:membersTemp];
+    NSTimeInterval p2 = [[NSDate date] timeIntervalSince1970];
+    NSLog(@"assemble spend: %f", p2 - p1);
+    
     block([membersTemp count]);
 }
 
@@ -100,12 +105,14 @@
     block();
 }
 
+// slow method
 -(void) assembleMembers:(NSArray*)origin
 {
     [members removeAllObjects];
     
     UILocalizedIndexedCollation *collation = [UILocalizedIndexedCollation currentCollation];
     
+    // slow point 1: takes 1.5 seconds when 400 records
     for (Member *member in origin) {
         NSInteger sect = [collation sectionForObject:member collationStringSelector:@selector(name)];
         member.sectionNumber = sect;
@@ -122,6 +129,7 @@
         [(NSMutableArray*)[sectionArrays objectAtIndex:member.sectionNumber] addObject:member];
     }
     
+    // slow point 2: takes 1.3 seconds when 400 records
     for (NSMutableArray *sectionArray in sectionArrays) {
         NSArray *sortedSection = [collation sortedArrayFromArray:sectionArray collationStringSelector:@selector(name)];
         [members addObject:sortedSection];
