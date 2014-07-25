@@ -18,19 +18,21 @@ typedef enum {
 
 @interface MenuItem : NSObject
 
+@property int index;
 @property NSString* title;
 @property NSString* image;
 
--(id) initWithTitle:(NSString*)title Image:(NSString*)image;
+-(id) initWithIndex:(int)index title:(NSString*)title image:(NSString*)image;
 
 @end
 
 @implementation MenuItem
 
--(id) initWithTitle:(NSString*)title Image:(NSString*)image
+-(id) initWithIndex:(int)index title:(NSString*)title image:(NSString*)image
 {
     self = [super init];
     if(self){
+        self.index = index;
         self.title = title;
         self.image = image;
     }
@@ -55,11 +57,11 @@ typedef enum {
         httpHelper = [[LosHttpHelper alloc] init];
         versionStatus = NewVersionStatusNo;
         
-        MenuItem *addShop = [[MenuItem alloc] initWithTitle:@"关联店铺" Image:@"add_shop"];
-        MenuItem *modifyPassword = [[MenuItem alloc] initWithTitle:@"修改密码" Image:@"modify_password"];
-        MenuItem *aboutUs = [[MenuItem alloc] initWithTitle:@"关于乐斯" Image:@"about_us"];
-        MenuItem *appUpdate = [[MenuItem alloc] initWithTitle:@"版本更新" Image:@"app_update"];
-        MenuItem *quitApp = [[MenuItem alloc] initWithTitle:@"退出登录" Image:@"quit_app"];
+        MenuItem *addShop = [[MenuItem alloc] initWithIndex:1 title:@"关联店铺" image:@"add_shop"];
+        MenuItem *modifyPassword = [[MenuItem alloc] initWithIndex:2 title:@"修改密码" image:@"modify_password"];
+        MenuItem *aboutUs = [[MenuItem alloc] initWithIndex:3 title:@"关于乐斯" image:@"about_us"];
+        MenuItem *appUpdate = [[MenuItem alloc] initWithIndex:4 title:@"版本更新" image:@"app_update"];
+        MenuItem *quitApp = [[MenuItem alloc] initWithIndex:5 title:@"退出登录" image:@"quit_app"];
         menus = @[addShop, modifyPassword, aboutUs, appUpdate, quitApp];
         
         self.navigationItem.title = @"设置";
@@ -126,10 +128,10 @@ typedef enum {
     dispatch_async(dispatch_get_main_queue(), ^{
         
         if(versionStatus == NewVersionStatusYes){
+            cellOfUpdate.textLabel.text = @"版本更新";
             cellOfUpdate.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"new_version_yes"]];
-        }else if(versionStatus == NewVersionStatusNo){
-            cellOfUpdate.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"new_version_no"]];
-        }else if(versionStatus == NewVersionStatusNotNetwork){
+        }else{
+            cellOfUpdate.textLabel.text = @"已经是最新版本";
             cellOfUpdate.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"new_version_no"]];
         }
     });
@@ -203,24 +205,24 @@ typedef enum {
         item = [menus objectAtIndex:4];
     }
     
-    NSString *title = item.title;
+    int index = item.index;
     
-    if([title isEqualToString:@"关联店铺"]){
+    if(index == 1){
         AddShopViewController *controller = [[AddShopViewController alloc] init];
         [self.navigationController pushViewController:controller animated:YES];
     }
     
-    if([title isEqualToString:@"修改密码"]){
+    if(index == 2){
         PasswordViewController *controller = [[PasswordViewController alloc] init];
         [self.navigationController pushViewController:controller animated:YES];
     }
     
-    if([title isEqualToString:@"关于乐斯"]){
+    if(index == 3){
         AboutUsViewController *controller = [[AboutUsViewController alloc] init];
         [self.navigationController pushViewController:controller animated:YES];
     }
     
-    if([title isEqualToString:@"版本更新"]){
+    if(index == 4){
         
         if(versionStatus != NewVersionStatusYes){
             return;
@@ -230,8 +232,9 @@ typedef enum {
         [self.navigationController pushViewController:controller animated:YES];
     }
     
-    if([title isEqualToString:@"退出登录"]){
+    if(index == 5){
         UIActionSheet *logoutConfirm = [[UIActionSheet alloc] initWithTitle:@"退出不删除任何历史数据，下次登录依然可以使用本账号。" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"退出登录" otherButtonTitles:nil];
+        logoutConfirm.actionSheetStyle = UIActionSheetStyleBlackOpaque;
         [logoutConfirm showFromTabBar:self.tabBarController.tabBar];
     }
 }
