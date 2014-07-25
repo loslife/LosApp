@@ -17,8 +17,6 @@
         updateHelper = [[UpdateHelper alloc] init];
         httpHelper = [[LosHttpHelper alloc] init];
         syncService = [[SyncService alloc] init];
-        
-        [LosDatabaseHelper refreshDatabaseFile];// 刷新数据库文件路径，因为可能切换了用户
     }
     return self;
 }
@@ -47,6 +45,8 @@
         }else{
             [self refreshVersion:[versionInfo currentVersion]];
         }
+        
+        [LosDatabaseHelper refreshDatabaseFile];// 刷新数据库文件路径，因为可能切换了用户
         
         [updateHelper doUpdate:versionInfo];
         
