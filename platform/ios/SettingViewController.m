@@ -137,20 +137,6 @@ typedef enum {
     });
 }
 
-#pragma mark - actionsheet delegate
-
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    if(buttonIndex == 0){
-        [UserData remove];
-        LosAppDelegate* appDelegate = (LosAppDelegate*)[UIApplication sharedApplication].delegate;
-        [appDelegate.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
-    }else{
-        SettingView *myView = (SettingView*)self.view;
-        [myView.tableView deselectRowAtIndexPath:[myView.tableView indexPathForSelectedRow] animated:YES];
-    }
-}
-
 #pragma mark - tableview datasource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -233,9 +219,9 @@ typedef enum {
     }
     
     if(index == 5){
-        UIActionSheet *logoutConfirm = [[UIActionSheet alloc] initWithTitle:@"退出不删除任何历史数据，下次登录依然可以使用本账号。" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"退出登录" otherButtonTitles:nil];
-        logoutConfirm.actionSheetStyle = UIActionSheetStyleBlackOpaque;
-        [logoutConfirm showFromTabBar:self.tabBarController.tabBar];
+        
+        LXActionSheet *logoutConfirm = [[LXActionSheet alloc]initWithTitle:@"退出不删除任何历史数据，下次登录依然可以使用本账号。" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"退出登录" otherButtonTitles:nil];
+        [logoutConfirm show];
     }
 }
 
@@ -249,6 +235,20 @@ typedef enum {
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 10;
+}
+
+#pragma mark - LXActionSheetDelegate
+
+- (void)didClickOnButtonIndex:(NSInteger *)buttonIndex
+{
+    
+}
+
+- (void)didClickOnDestructiveButton
+{
+    [UserData remove];
+    LosAppDelegate* appDelegate = (LosAppDelegate*)[UIApplication sharedApplication].delegate;
+    [appDelegate.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

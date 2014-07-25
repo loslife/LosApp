@@ -37,6 +37,7 @@
 		184472BD196E856D00B4A543 /* LosLineChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472BC196E856D00B4A543 /* LosLineChart.m */; };
 		184472C0196F8DC200B4A543 /* CustomerCount.m in Sources */ = {isa = PBXBuildFile; fileRef = 184472BF196F8DC200B4A543 /* CustomerCount.m */; };
 		184473041974D90600B4A543 /* EnterpriseListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 184473031974D90600B4A543 /* EnterpriseListView.m */; };
+		185FD67A1981FDCE00BE03F4 /* LXActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 185FD6791981FDCE00BE03F4 /* LXActionSheet.m */; };
 		186667011949864100A345F7 /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186667001949864100A345F7 /* WelcomeViewController.m */; };
 		1866670519498B5600A345F7 /* UserData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670419498B5600A345F7 /* UserData.m */; };
 		1866670819498D1C00A345F7 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866670719498D1C00A345F7 /* LoginViewController.m */; };
@@ -161,6 +162,8 @@
 		184472BF196F8DC200B4A543 /* CustomerCount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerCount.m; sourceTree = "<group>"; };
 		184473021974D90600B4A543 /* EnterpriseListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnterpriseListView.h; sourceTree = "<group>"; };
 		184473031974D90600B4A543 /* EnterpriseListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnterpriseListView.m; sourceTree = "<group>"; };
+		185FD6781981FDCE00BE03F4 /* LXActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXActionSheet.h; sourceTree = "<group>"; };
+		185FD6791981FDCE00BE03F4 /* LXActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXActionSheet.m; sourceTree = "<group>"; };
 		186666FF1949864100A345F7 /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
 		186667001949864100A345F7 /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
 		1866670319498B5600A345F7 /* UserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserData.h; sourceTree = "<group>"; };
@@ -338,6 +341,15 @@
 			name = widget.common;
 			sourceTree = "<group>";
 		};
+		185FD6771981FDCE00BE03F4 /* LXActionSheet */ = {
+			isa = PBXGroup;
+			children = (
+				185FD6781981FDCE00BE03F4 /* LXActionSheet.h */,
+				185FD6791981FDCE00BE03F4 /* LXActionSheet.m */,
+			);
+			path = LXActionSheet;
+			sourceTree = "<group>";
+		};
 		1866670219498ACF00A345F7 /* environment */ = {
 			isa = PBXGroup;
 			children = (
@@ -434,6 +446,7 @@
 		18666749194AD19600A345F7 /* 3rd-lib */ = {
 			isa = PBXGroup;
 			children = (
+				185FD6771981FDCE00BE03F4 /* LXActionSheet */,
 				186C3641197A20D400633AE4 /* MJRefresh */,
 				18AFE5F2195177FB0083C972 /* ReuseableTableCell */,
 				1866674A194AD1BA00A345F7 /* Reachability */,
@@ -817,6 +830,7 @@
 				186667301949C3B700A345F7 /* LosHttpHelper.m in Sources */,
 				18AFE5FC1951986F0083C972 /* ContactView.m in Sources */,
 				186C366E197D05C500633AE4 /* ReportCustomDataSource.m in Sources */,
+				185FD67A1981FDCE00BE03F4 /* LXActionSheet.m in Sources */,
 				1866674D194AD1BA00A345F7 /* Reachability.m in Sources */,
 				186C3659197A20D400633AE4 /* UIView+Extension.m in Sources */,
 				18666745194A9FC900A345F7 /* RegisterStep1ViewController.m in Sources */,
