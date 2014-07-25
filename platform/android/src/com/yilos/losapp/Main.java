@@ -63,7 +63,7 @@ public class Main extends BaseActivity {
 	private BizPerformanceBean prevBizPerformance;
 	private List<EmployeePerBean> employPerList;
 	private List<BcustomerCountBean> customerCountList;
-
+	
 	private String userAccount;
 
 	private ImageView select_shop;
@@ -90,6 +90,7 @@ public class Main extends BaseActivity {
 	private LinearLayout columnarLayout;
 	private LinearLayout annularLayout;
 	private LinearLayout annular2Layout;
+	private ChartView myView;
 
 	private ScrollLayout mainScrollLayout;
 	private LinearLayout noshop;
@@ -238,7 +239,7 @@ public class Main extends BaseActivity {
 				// 环形图
 				float[] num2 = new float[] { newcard, recharge, service,
 						product };
-				LinearLayout annularLayout = (LinearLayout) findViewById(R.id.annularLayout);
+				annularLayout = (LinearLayout) findViewById(R.id.annularLayout);
 				annularLayout.removeAllViews();
 				PanelDountChart panelDountView = new PanelDountChart(
 						getBaseContext(), num2, perName,"business");
@@ -260,6 +261,7 @@ public class Main extends BaseActivity {
 					otherPercentNum = new float[length-3];
 					otherProjectName = new String[length-3];
 					otherProjectTotal = new String[length-3];
+					((TextView) findViewById(R.id.othertext)).setText("其他");
 				}
 				
 				
@@ -296,7 +298,7 @@ public class Main extends BaseActivity {
 				}
 
 				// 环形图
-				LinearLayout annular2Layout = (LinearLayout) findViewById(R.id.annular2Layout);
+				annular2Layout = (LinearLayout) findViewById(R.id.annular2Layout);
 				annular2Layout.removeAllViews();
 				PanelDountChart panelDountView = new PanelDountChart(
 						getBaseContext(), percentNum, projectName,"service");
@@ -305,7 +307,6 @@ public class Main extends BaseActivity {
 				total = (float) (Math.round(total * 10)) / 10;
 				((TextView) findViewById(R.id.servicetotal)).setText("￥"
 						+ total);
-				
 				setOtherListView(otherPercentNum,otherProjectName,otherProjectTotal);	
 				
 			}
@@ -356,9 +357,9 @@ public class Main extends BaseActivity {
 				}
 				((TextView) findViewById(R.id.personNum)).setText("会员"
 						+ memberCount + "人次  散客" + walkinCount + "人次");
-
+				
 				// 折线图
-				ChartView myView = (ChartView) findViewById(R.id.myView);
+				myView = (ChartView) findViewById(R.id.myView);
 				myView.SetInfo(yNum, // Y轴刻度
 						new String[] { "0", "10", "20", "30", "40", "50" }, // X轴刻度
 						count// 数据
@@ -616,7 +617,6 @@ public class Main extends BaseActivity {
 				employPerList = employeePerService.queryListBydate(year, (Integer.valueOf(month) - 1) + "", day, dateType, "employee_performance_day");
 			} else if (dateType == "month") {
 				employPerList = employeePerService.queryListBydate(year, (Integer.valueOf(month) - 1) + "", day, dateType, "employee_performance_month");
-				
 			} else {
 				employPerList = employeePerService.queryListBydate(year, (Integer.valueOf(month) - 1) + "", day, dateType, "employee_performance_week");
 			}

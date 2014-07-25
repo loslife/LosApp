@@ -74,7 +74,7 @@ public class DateUtil {
 		
 		int mondayPlus = getMondayPlus();
 		GregorianCalendar currentDate = new GregorianCalendar();
-		currentDate.add(GregorianCalendar.DATE, mondayPlus + 7 * weeks+6);
+		currentDate.add(GregorianCalendar.DATE, mondayPlus + 7 * weeks);
 		Date monday = currentDate.getTime();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy年MM月dd日");
 		String curDateMonday = df.format(monday);
@@ -141,7 +141,6 @@ public class DateUtil {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy年MM月dd日");
 		String curDateMonday = df.format(monday);
 		
-		
 		return monday.getDate();
 	}
 	
@@ -154,6 +153,13 @@ public class DateUtil {
 		return str;
 	}
 	
+	/**
+	 * 生成Y轴日期
+	 * @param year
+	 * @param month
+	 * @param dateType
+	 * @return
+	 */
 	public  String[]  getDayarr(String year,String month,String dateType)
 	{
 		String[] days = null;
@@ -179,8 +185,7 @@ public class DateUtil {
 					days[i-1] =  days[i-1]+":00";
 				}
 			}
-      
-		
+
 		return days;
 	}
 

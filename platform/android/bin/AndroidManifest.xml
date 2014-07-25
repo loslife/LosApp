@@ -16,7 +16,8 @@
         android:name=".AppContext"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/notitle">
+        android:theme="@style/notitle"
+        >
         <activity android:name=".FirstActivity"
                   android:label="@string/app_name">
             <intent-filter>

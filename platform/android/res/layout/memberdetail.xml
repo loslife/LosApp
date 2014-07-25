@@ -217,7 +217,7 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
-            android:text="消费频度 ："
+            android:text="最近消费："
             android:textColor="@color/gray_text"
             android:textSize="20.0dip" />
 

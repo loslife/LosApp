@@ -62,10 +62,11 @@
         android:background="@color/white"
         android:orientation="vertical" >
          <TextView
+             android:id="@+id/othertext"
             android:layout_width="fill_parent"
             android:layout_height="24.0dip"
             android:gravity="fill_vertical"
-            android:text="其他"
+            android:text=""
             android:textColor="@color/gray_text"
             android:textSize="20.0dip" />
         <ListView
