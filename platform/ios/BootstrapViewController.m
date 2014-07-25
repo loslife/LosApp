@@ -1,5 +1,6 @@
 #import "BootstrapViewController.h"
 #import "BootstrapView.h"
+#import "LosDatabaseHelper.h"
 
 @implementation BootstrapViewController
 
@@ -16,6 +17,8 @@
         updateHelper = [[UpdateHelper alloc] init];
         httpHelper = [[LosHttpHelper alloc] init];
         syncService = [[SyncService alloc] init];
+        
+        [LosDatabaseHelper refreshDatabaseFile];// 刷新数据库文件路径，因为可能切换了用户
     }
     return self;
 }
