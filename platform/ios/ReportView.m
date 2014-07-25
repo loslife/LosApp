@@ -25,13 +25,17 @@
         [tap setNumberOfTouchesRequired:1];
         [self addGestureRecognizer:tap];
         
-        loading = [[UIView alloc] initWithFrame:CGRectMake(0, 104, 320, 415)];
+        CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;// 568 in 4-inch，480 in 3.5-inch
+        CGFloat contentHeight = screenHeight - 153;
+        
+        loading = [[UIView alloc] initWithFrame:CGRectMake(0, 104, 320, contentHeight)];
         
         UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        [indicator setCenter:CGPointMake(160, 208)];
+        [indicator setCenter:CGPointMake(160, contentHeight / 2 - 30)];
         [indicator startAnimating];
         
-        UILabel *message = [[UILabel alloc] initWithFrame:CGRectMake(0, 160, 320, 40)];
+        UILabel *message = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+        message.center = CGPointMake(160, contentHeight / 2);
         message.text = @"正在加载报表数据，请稍候";
         message.textAlignment = NSTextAlignmentCenter;
         message.font = [UIFont systemFontOfSize:14];
@@ -40,18 +44,18 @@
         [loading addSubview:indicator];
         [loading addSubview:message];
         
-        dataArea = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 104, 320, 415)];
-        dataArea.contentSize = CGSizeMake(1280, 415);
+        dataArea = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 104, 320, contentHeight)];
+        dataArea.contentSize = CGSizeMake(1280, contentHeight);
         dataArea.pagingEnabled = YES;
         dataArea.showsHorizontalScrollIndicator = NO;
         
-        ReportEmployeeView *employee = [[ReportEmployeeView alloc] initWithFrame:CGRectMake(0, 0, 320, 415) DataSource:controller.employeeDataSource];
+        ReportEmployeeView *employee = [[ReportEmployeeView alloc] initWithFrame:CGRectMake(0, 0, 320, contentHeight) DataSource:controller.employeeDataSource];
         
-        ReportShopView *shop = [[ReportShopView alloc] initWithFrame:CGRectMake(320, 0, 320, 415) DataSource:controller.shopDataSource];
+        ReportShopView *shop = [[ReportShopView alloc] initWithFrame:CGRectMake(320, 0, 320, contentHeight) DataSource:controller.shopDataSource];
         
-        ReportServiceView *service = [[ReportServiceView alloc] initWithFrame:CGRectMake(640, 0, 320, 415) DataSource:controller.serviceDataSource];
+        ReportServiceView *service = [[ReportServiceView alloc] initWithFrame:CGRectMake(640, 0, 320, contentHeight) DataSource:controller.serviceDataSource];
         
-        ReportCustomView *custom = [[ReportCustomView alloc] initWithFrame:CGRectMake(960, 0, 320, 415) DataSource:controller.customDataSource];
+        ReportCustomView *custom = [[ReportCustomView alloc] initWithFrame:CGRectMake(960, 0, 320, contentHeight) DataSource:controller.customDataSource];
         
         [dataArea addSubview:employee];
         [dataArea addSubview:shop];
