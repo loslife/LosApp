@@ -153,6 +153,12 @@
 
 -(void) callMember
 {
+    if(![StringUtils isPhone:theMember.phoneMobile]){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"会员手机号格式错误" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    
     NSString *url = [NSString stringWithFormat:@"tel://%@", theMember.phoneMobile];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
 }
