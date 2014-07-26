@@ -22,31 +22,6 @@
     return self;
 }
 
--(void) refreshAttachEnterprisesUserId:(NSString*)userId Block:(void(^)(BOOL flag))block
-{
-    NSString *url = [NSString stringWithFormat:FETCH_ENTERPRISES_URL, userId];
-    
-    [httpHelper getSecure:url completionHandler:^(NSDictionary* dict){
-        
-        if(dict == nil){
-            block(NO);
-            return;
-        }
-        
-        NSNumber *code = [dict objectForKey:@"code"];
-        if([code intValue] != 0){
-            block(NO);
-            return;
-        }
-        
-        NSDictionary *result = [dict objectForKey:@"result"];
-        NSArray *enterprises = [result objectForKey:@"myShopList"];
-        [enterpriseDao batchInsertEnterprises:enterprises];
-        
-        block(YES);
-    }];
-}
-
 -(void) refreshMembersWithEnterpriseId:(NSString*)enterpriseId LatestSyncTime:(NSNumber*)latestSyncTime Block:(void(^)(BOOL flag))block
 {
     NSString *url = [NSString stringWithFormat:SYNC_MEMBERS_URL, enterpriseId, @"1", [latestSyncTime stringValue]];

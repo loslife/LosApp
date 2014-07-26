@@ -29,33 +29,6 @@
     }];
 }
 
--(void) batchInsertEnterprises:(NSArray*)enterprises
-{
-    NSString *query = @"select count(1) as count from enterprises where enterprise_id = :enterpriseId;";
-    NSString *insert = @"insert into enterprises (enterprise_Id, enterprise_name, contact_latest_sync, display, default_shop, create_date, contact_has_sync, enterprise_account) values (:enterpriseId, :name, :contactLatestSync, :display, :default, :createDate, :flag, :account);";
-    NSString *update = @"update enterprises set enterprise_name = :name where enterprise_id = :id";
-    
-    [dbHelper inDatabase:^(FMDatabase *db){
-    
-        for(NSDictionary *item in enterprises){
-            
-            NSString *enterpriseId = [item objectForKey:@"enterprise_id"];
-            NSString *enterpriseName = [item objectForKey:@"enterprise_name"];
-            NSString *enterpriseAccount = [item objectForKey:@"enterprise_account"];
-            
-            FMResultSet *rs = [db executeQuery:query, enterpriseId];
-            [rs next];
-            int count = [[rs objectForColumnName:@"count"] intValue];
-            if(count == 0){
-                [db executeUpdate:insert, enterpriseId, enterpriseName, [NSNumber numberWithInt:0], @"yes", [NSNumber numberWithInt:0], [NSNumber numberWithLongLong:[TimesHelper now]], @"no", enterpriseAccount];
-            }else{
-                [db executeUpdate:update, enterpriseName, enterpriseId];
-            }
-            [rs close];
-        }
-    }];
-}
-
 -(int) countEnterprises
 {
     __block int count;

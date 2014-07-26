@@ -1,13 +1,13 @@
 #import "BootstrapViewController.h"
 #import "BootstrapView.h"
 #import "LosDatabaseHelper.h"
+#import "TimesHelper.h"
 
 @implementation BootstrapViewController
 
 {
     UpdateHelper *updateHelper;
     LosHttpHelper *httpHelper;
-    SyncService *syncService;
 }
 
 -(id) initWithNibName:(NSString*)nibName bundle:(NSBundle*)bundle
@@ -16,7 +16,6 @@
     if(self){
         updateHelper = [[UpdateHelper alloc] init];
         httpHelper = [[LosHttpHelper alloc] init];
-        syncService = [[SyncService alloc] init];
     }
     return self;
 }
@@ -64,14 +63,48 @@
         UserData *userData = [UserData load];
         NSString *userId = userData.userId;
         
-        [syncService refreshAttachEnterprisesUserId:userId Block:^(BOOL flag){
-        
+        NSString *url = [NSString stringWithFormat:FETCH_ENTERPRISES_URL, userId];
+        [httpHelper getSecure:url completionHandler:^(NSDictionary* dict){
+            
+            NSDictionary *result = [dict objectForKey:@"result"];
+            NSArray *enterprises = [result objectForKey:@"myShopList"];
+            [self refreshEnterprises:enterprises];
+            
             dispatch_async(dispatch_get_main_queue(), ^{
                 [indicator stopAnimating];
                 [self jumpToMain];
             });
         }];
     });
+}
+
+-(void) refreshEnterprises:(NSArray*)enterprises
+{
+    NSString *query = @"select count(1) as count from enterprises where enterprise_id = :enterpriseId;";
+    NSString *insert = @"insert into enterprises (enterprise_Id, enterprise_name, contact_latest_sync, display, default_shop, create_date, contact_has_sync, enterprise_account) values (:enterpriseId, :name, :contactLatestSync, :display, :default, :createDate, :flag, :account);";
+    NSString *update = @"update enterprises set enterprise_name = :name where enterprise_id = :id";
+    
+    NSString *dbFilePath = [PathResolver databaseFilePath];
+    FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
+    [db open];
+    
+    for(NSDictionary *item in enterprises){
+        
+        NSString *enterpriseId = [item objectForKey:@"enterprise_id"];
+        NSString *enterpriseName = [item objectForKey:@"enterprise_name"];
+        NSString *enterpriseAccount = [item objectForKey:@"enterprise_account"];
+        
+        FMResultSet *rs = [db executeQuery:query, enterpriseId];
+        [rs next];
+        int count = [[rs objectForColumnName:@"count"] intValue];
+        if(count == 0){
+            [db executeUpdate:insert, enterpriseId, enterpriseName, [NSNumber numberWithInt:0], @"yes", [NSNumber numberWithInt:0], [NSNumber numberWithLongLong:[TimesHelper now]], @"no", enterpriseAccount];
+        }else{
+            [db executeUpdate:update, enterpriseName, enterpriseId];
+        }
+    }
+    
+    [db close];
 }
 
 #pragma mark - system initial
