@@ -364,80 +364,59 @@
     NSInteger month = [components month];
     NSInteger day = [components day];
     
-    NSDate *sunday = [TimesHelper firstDayOfWeek:date];
-    NSTimeInterval sundayNumber = [sunday timeIntervalSince1970];
-    
-    NSMutableArray *counts = [NSMutableArray arrayWithCapacity:1];
-    
-    __block int count = 0;
+    NSMutableArray *result = [NSMutableArray array];
     
     [dbHelper inDatabase:^(FMDatabase* db){
     
-        if(type == 0){
-            count = [db intForQuery:@"select count(1) from customer_count_day where enterprise_id = :eid and year = :year and month = :month and day = :day;", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
-        }else if(type == 1){
-            count = [db intForQuery:@"select count(1) from customer_count_month where enterprise_id = :eid and year = :year and month = :month;", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month]];
-        }else{
-            count = [db intForQuery:@"select count(1) from customer_count_week where enterprise_id = :eid and dateTime = :dateTime;", enterpriseId, [NSNumber numberWithLongLong:sundayNumber]];
-        }
-        
-        if(count == 0){
-            return;
-        }
-        
         FMResultSet *rs;
         
         if(type == 0){
             
-            rs = [db executeQuery:@"select sum(walkin) as total_walkin, sum(member) as total_member, walkin + member as count, hour from customer_count_day where enterprise_id = :eid and year = :year and month = :month and day = :day order by hour desc", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
-            
-            while([rs next]){
-                
-                int walkin = [[rs objectForColumnName:@"total_walkin"] intValue];
-                int member = [[rs objectForColumnName:@"total_member"] intValue];
-                int count = [[rs objectForColumnName:@"count"] intValue];
-                int hour = [[rs objectForColumnName:@"hour"] intValue];
-                NSString *hour_str = [NSString stringWithFormat:@"%d:00", hour];
-                
-                CustomerCount *entity = [[CustomerCount alloc] initWithTotalMember:member walkin:walkin count:count title:hour_str];
-                [counts addObject:entity];
-            }
+            rs = [db executeQuery:@"select walkin, member, hour from customer_count_day where enterprise_id = :eid and year = :year and month = :month and day = :day order by hour asc", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
         }else if(type == 1){
             
-            rs = [db executeQuery:@"select sum(walkin) as total_walkin, sum(member) as total_member, walkin + member as count, day from customer_count_month where enterprise_id = :eid and year = :year and month = :month order by day desc", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month]];
-            
-            while([rs next]){
-                
-                int walkin = [[rs objectForColumnName:@"total_walkin"] intValue];
-                int member = [[rs objectForColumnName:@"total_member"] intValue];
-                int count = [[rs objectForColumnName:@"count"] intValue];
-                int day = [[rs objectForColumnName:@"day"] intValue];
-                NSString *day_str = [NSString stringWithFormat:@"%d", day];
-                
-                CustomerCount *entity = [[CustomerCount alloc] initWithTotalMember:member walkin:walkin count:count title:day_str];
-                [counts addObject:entity];
-            }
+            rs = [db executeQuery:@"select walkin, member, day from customer_count_month where enterprise_id = :eid and year = :year and month = :month order by day asc", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month]];
         }else{
             
-            rs = [db executeQuery:@"select sum(walkin) as total_walkin, sum(member) as total_member, walkin + member as count, day from customer_count_week where enterprise_id = :eid and dateTime = :dateTime order by day desc", enterpriseId, [NSNumber numberWithLongLong:sundayNumber]];
+            NSDate *sunday = [TimesHelper firstDayOfWeek:date];
+            NSTimeInterval sundayNumber = [sunday timeIntervalSince1970];
             
-            while([rs next]){
-                
-                int walkin = [[rs objectForColumnName:@"total_walkin"] intValue];
-                int member = [[rs objectForColumnName:@"total_member"] intValue];
-                int count = [[rs objectForColumnName:@"count"] intValue];
+            rs = [db executeQuery:@"select walkin, member, day from customer_count_week where enterprise_id = :eid and dateTime = :dateTime order by day asc", enterpriseId, [NSNumber numberWithLongLong:sundayNumber]];
+        }
+        
+        int walkin_total = 0;
+        int member_total = 0;
+        
+        while([rs next]){
+            
+            int walkin = [[rs objectForColumnName:@"walkin"] intValue];
+            int member = [[rs objectForColumnName:@"member"] intValue];
+            NSString *title;
+            
+            if(type == 0){
+                int hour = [[rs objectForColumnName:@"hour"] intValue];
+                title = [NSString stringWithFormat:@"%d:00", hour];
+            }else{
                 int day = [[rs objectForColumnName:@"day"] intValue];
-                NSString *day_str = [NSString stringWithFormat:@"%d", day];
-                
-                CustomerCount *entity = [[CustomerCount alloc] initWithTotalMember:member walkin:walkin count:count title:day_str];
-                [counts addObject:entity];
+                title = [NSString stringWithFormat:@"%d", day];
             }
+
+            CustomerCount *entity = [[CustomerCount alloc] initWithCount:walkin + member title:title];
+            [result addObject:entity];
+            
+            walkin_total += walkin;
+            member_total += member;
+        }
+        
+        for(CustomerCount *item in result){
+            item.totalMember = member_total;
+            item.totalWalkin = walkin_total;
         }
         
         [rs close];
     }];
     
-    return counts;
+    return result;
 }
 
 -(void) batchInsertCustomerCount:(NSArray*)array type:(NSString*)type

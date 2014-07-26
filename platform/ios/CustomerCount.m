@@ -14,4 +14,14 @@
     return self;
 }
 
+-(id) initWithCount:(int)count title:(NSString*)title
+{
+    self = [super init];
+    if(self){
+        self.count = count;
+        self.title = title;
+    }
+    return self;
+}
+
 @end

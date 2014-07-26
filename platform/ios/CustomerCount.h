@@ -8,5 +8,6 @@
 @property NSString *title;
 
 -(id) initWithTotalMember:(int)member walkin:(int)walkin count:(int)count title:(NSString*)title;
+-(id) initWithCount:(int)count title:(NSString*)title;
 
 @end
