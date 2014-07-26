@@ -2,6 +2,30 @@
 #import "ServicePerformance.h"
 #import "LosAppUrls.h"
 
+@interface ServiceWrapper : NSObject
+
+@property NSString *cateId;
+@property NSString *cateName;
+@property double sum;
+
++(ServiceWrapper*) wrapperWithCateId:(NSString*)cateId cateName:(NSString*)cateName;
+
+@end
+
+@implementation ServiceWrapper
+
++(ServiceWrapper*) wrapperWithCateId:(NSString*)cateId cateName:(NSString*)cateName
+{
+    ServiceWrapper *instance = [[ServiceWrapper alloc] init];
+    instance.cateId = cateId;
+    instance.cateName = cateName;
+    instance.sum = 0;
+    
+    return instance;
+}
+
+@end
+
 @implementation ReportServiceDataSource
 
 -(void) loadFromServer:(BOOL)flag block:(void(^)(BOOL))block
@@ -31,21 +55,9 @@
         
         [self.records removeAllObjects];
         
-        double sum = 0.0;
+        [self assembleServicePerformanceFromArray:array];
         
-        for(NSDictionary *item in array){
-            
-            NSString *title = [item objectForKey:@"project_name"];
-            double total = [[item objectForKey:@"total"] doubleValue];
-            sum += total;
-            ServicePerformance *performance = [[ServicePerformance alloc] initWithTitle:title value:total];
-            [self.records addObject:performance];
-        }
-        
-        for(ServicePerformance *item in self.records){
-            item.ratio = item.value / sum;
-        }
-        
+        // ordering
         [self.records sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
             ServicePerformance *s1 = (ServicePerformance*) obj1;
             ServicePerformance *s2 = (ServicePerformance*) obj2;
@@ -60,6 +72,63 @@
         
         block(YES);
     }];
+}
+
+-(void) assembleServicePerformanceFromArray:(NSArray*)array
+{
+    NSMutableArray *categoryIds = [NSMutableArray arrayWithCapacity:1];
+    NSMutableArray *categoryNames = [NSMutableArray arrayWithCapacity:1];
+    
+    // resolve how many category id
+    for(NSDictionary *item in array){
+        
+        NSString *cateId = [item objectForKey:@"project_cateId"];
+        NSString *cateName = [item objectForKey:@"project_cateName"];
+        
+        if(![categoryIds containsObject:cateId]){
+            [categoryIds addObject:cateId];
+            [categoryNames addObject:cateName];
+        }
+    }
+    
+    // create service wrapper
+    NSMutableArray *wrappers = [NSMutableArray arrayWithCapacity:1];
+    
+    NSUInteger count = [categoryIds count];
+    for(NSUInteger i = 0; i < count; i++){
+        
+        NSString *c_id = [categoryIds objectAtIndex:i];
+        NSString *c_name = [categoryNames objectAtIndex:i];
+        ServiceWrapper *wrapper = [ServiceWrapper wrapperWithCateId:c_id cateName:c_name];
+        [wrappers addObject:wrapper];
+    }
+    
+    // calculate the total value
+    for(NSDictionary *item in array){
+        
+        NSString *cateId = [item objectForKey:@"project_cateId"];
+        double total = [[item objectForKey:@"total"] doubleValue];
+        
+        for(ServiceWrapper *wrapper in wrappers){
+            if([wrapper.cateId isEqualToString:cateId]){
+                wrapper.sum += total;
+            }
+        }
+    }
+    
+    double totalSum = 0.0;
+    
+    for(ServiceWrapper *item in wrappers){
+        
+        ServicePerformance *performance = [[ServicePerformance alloc] initWithTitle:item.cateName value:item.sum];
+        [self.records addObject:performance];
+        
+        totalSum += item.sum;
+    }
+    
+    for(ServicePerformance *item in self.records){
+        item.ratio = item.value / totalSum;
+    }
 }
 
 #pragma mark - Service View DataSource
