@@ -7,6 +7,8 @@
 @implementation ReportView
 
 {
+    ReportViewController *myController;
+    
     UIView *loading;
     UIScrollView *dataArea;
 }
@@ -16,13 +18,13 @@
     self = [super init];
     if(self){
         
+        myController = controller;
+        
         ReportDateStatus *status = [ReportDateStatus sharedInstance];
         LosTimePicker *dateSelectionBar = [[LosTimePicker alloc] initWithFrame:CGRectMake(0, 64, 320, 40) Delegate:controller InitDate:[status date] type:[status dateType]];
         [self addSubview:dateSelectionBar];
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:controller action:@selector(onSingleTap)];
-        [tap setNumberOfTapsRequired:1];
-        [tap setNumberOfTouchesRequired:1];
         [self addGestureRecognizer:tap];
         
         CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;// 568 in 4-inch，480 in 3.5-inch
@@ -48,6 +50,10 @@
         dataArea.contentSize = CGSizeMake(1280, contentHeight);
         dataArea.pagingEnabled = YES;
         dataArea.showsHorizontalScrollIndicator = NO;
+        
+        UITapGestureRecognizer *tap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onDoubleTap:)];
+        [tap2 setNumberOfTapsRequired:2];
+        [self addGestureRecognizer:tap2];
         
         ReportEmployeeView *employee = [[ReportEmployeeView alloc] initWithFrame:CGRectMake(0, 0, 320, contentHeight) DataSource:controller.employeeDataSource];
         
@@ -83,6 +89,14 @@
 {
     [dataArea removeFromSuperview];
     [self addSubview:loading];
+}
+
+-(void) onDoubleTap:(UIGestureRecognizer*)recognizer
+{
+    recognizer.enabled = NO;
+    [myController onDoubleTap:^{
+        recognizer.enabled = YES;
+    }];
 }
 
 @end
