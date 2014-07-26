@@ -49,46 +49,6 @@
     block([membersTemp count]);
 }
 
--(void) loadFromServiceWithEnterpriseId:(NSString*)enterpriseId countHandler:(void(^)(NSUInteger count))countHandler completionHandler:(void(^)(NSUInteger count))completionHandler
-{
-    NSString *url = [NSString stringWithFormat:COUNT_MEMBERS_URL, enterpriseId];
-    
-    [httpHelper getSecure:url completionHandler:^(NSDictionary* dict){
-        
-        NSDictionary *result = [dict objectForKey:@"result"];
-        NSNumber *count = [result objectForKey:@"count"];
-        countHandler([count longValue]);
-        
-        NSNumber *time = [enterpriseDao queryLatestSyncTimeById:enterpriseId];
-        
-        [self refreshMembersWithEnterpriseId:enterpriseId LatestSyncTime:time Block:^(BOOL success){
-            
-            NSArray *membersTemp = [memberDao queryMembersByEnterpriseId:enterpriseId];
-            [self assembleMembers:membersTemp];
-            completionHandler([membersTemp count]);
-        }];
-    }];
-}
-
--(void) refreshWithEnterpriseId:(NSString*)enterpriseId searchText:(NSString*)searchText completionHandler:(void(^)(int count))block
-{
-    NSNumber *time = [enterpriseDao queryLatestSyncTimeById:enterpriseId];
-    
-    [self refreshMembersWithEnterpriseId:enterpriseId LatestSyncTime:time Block:^(BOOL success){
-        
-        NSArray *membersTemp;
-        if(![StringUtils isEmpty:searchText]){
-            membersTemp = [memberDao fuzzyQueryMembersByEnterpriseId:enterpriseId name:searchText];
-        }else{
-            membersTemp = [memberDao queryMembersByEnterpriseId:enterpriseId];
-        }
-        [self assembleMembers:membersTemp];
-        
-        int totalCount = [memberDao countMembersByEnterpriseId:enterpriseId];
-        block(totalCount);
-    }];
-}
-
 -(void) searchWithEnterpriseId:(NSString*)enterpriseId searchText:(NSString*)searchText completionHandler:(void(^)())block
 {
     NSArray *membersTemp;
@@ -109,35 +69,69 @@
     return [memberDao countMembersByEnterpriseId:enterpriseId];
 }
 
-#pragma mark - private method
-
--(void) refreshMembersWithEnterpriseId:(NSString*)enterpriseId LatestSyncTime:(NSNumber*)latestSyncTime Block:(void(^)(BOOL flag))block
+-(void) loadFromServiceWithEnterpriseId:(NSString*)enterpriseId countHandler:(void(^)(NSUInteger count))countHandler completionHandler:(void(^)(NSUInteger count))completionHandler
 {
-    NSString *url = [NSString stringWithFormat:SYNC_MEMBERS_URL, enterpriseId, @"1", [latestSyncTime stringValue]];
+    NSString *url = [NSString stringWithFormat:COUNT_MEMBERS_URL, enterpriseId];
     
     [httpHelper getSecure:url completionHandler:^(NSDictionary* dict){
         
-        if(dict == nil){
-            block(NO);
-            return;
-        }
+        NSDictionary *result = [dict objectForKey:@"result"];
+        NSNumber *count = [result objectForKey:@"count"];
+        countHandler([count longValue]);
         
-        NSNumber *code = [dict objectForKey:@"code"];
-        if([code intValue] != 0){
-            block(NO);
-            return;
-        }
+        NSNumber *time = [enterpriseDao queryLatestSyncTimeById:enterpriseId];
+        NSString *url = [NSString stringWithFormat:SYNC_MEMBERS_URL, enterpriseId, @"1", [time stringValue]];
         
-        NSDictionary *response = [dict objectForKey:@"result"];
-        NSNumber *lastSync = [response objectForKey:@"last_sync"];
-        NSDictionary *records = [response objectForKey:@"records"];
-        
-        [memberDao batchUpdateMembers:records LastSync:lastSync EnterpriseId:enterpriseId];
-        [enterpriseDao updateSyncFlagById:enterpriseId];
-        
-        block(YES);
+        [httpHelper getSecure:url completionHandler:^(NSDictionary* dict){
+            
+            if(dict && [[dict objectForKey:@"code"] intValue] == 0){
+                
+                NSDictionary *response = [dict objectForKey:@"result"];
+                NSNumber *lastSync = [response objectForKey:@"last_sync"];
+                NSDictionary *records = [response objectForKey:@"records"];
+                
+                [memberDao batchUpdateMembers:records LastSync:lastSync EnterpriseId:enterpriseId];
+                [enterpriseDao updateSyncFlagById:enterpriseId];
+            }
+            
+            NSArray *membersTemp = [memberDao queryMembersByEnterpriseId:enterpriseId];
+            [self assembleMembers:membersTemp];
+            completionHandler([membersTemp count]);
+        }];
     }];
 }
+
+-(void) refreshWithEnterpriseId:(NSString*)enterpriseId searchText:(NSString*)searchText completionHandler:(void(^)(int count))block
+{
+    NSNumber *time = [enterpriseDao queryLatestSyncTimeById:enterpriseId];
+    NSString *url = [NSString stringWithFormat:SYNC_MEMBERS_URL, enterpriseId, @"1", [time stringValue]];
+    
+    [httpHelper getSecure:url completionHandler:^(NSDictionary* dict){
+        
+        if(dict && [[dict objectForKey:@"code"] intValue] == 0){
+            
+            NSDictionary *response = [dict objectForKey:@"result"];
+            NSNumber *lastSync = [response objectForKey:@"last_sync"];
+            NSDictionary *records = [response objectForKey:@"records"];
+            
+            [memberDao batchUpdateMembers:records LastSync:lastSync EnterpriseId:enterpriseId];
+            [enterpriseDao updateSyncFlagById:enterpriseId];
+        }
+        
+        NSArray *membersTemp;
+        if(![StringUtils isEmpty:searchText]){
+            membersTemp = [memberDao fuzzyQueryMembersByEnterpriseId:enterpriseId name:searchText];
+        }else{
+            membersTemp = [memberDao queryMembersByEnterpriseId:enterpriseId];
+        }
+        [self assembleMembers:membersTemp];
+        
+        int totalCount = [memberDao countMembersByEnterpriseId:enterpriseId];
+        block(totalCount);
+    }];
+}
+
+#pragma mark - private method
 
 -(void) assembleMembers:(NSArray*)origin
 {

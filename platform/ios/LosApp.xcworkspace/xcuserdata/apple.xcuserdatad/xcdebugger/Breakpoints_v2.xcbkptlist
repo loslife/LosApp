@@ -4,13 +4,19 @@
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            scope = "0"
-            stopOnStyle = "0">
+            filePath = "ContactDataSource.m"
+            timestampString = "428048852.517181"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "87"
+            endingLineNumber = "87"
+            landmarkName = "-loadFromServiceWithEnterpriseId:countHandler:completionHandler:"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -19,13 +25,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BootstrapViewController.m"
-            timestampString = "428045095.029646"
+            filePath = "ContactDataSource.m"
+            timestampString = "428048889.103937"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
-            landmarkName = "-viewDidAppear:"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
+            landmarkName = "-refreshWithEnterpriseId:searchText:completionHandler:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
