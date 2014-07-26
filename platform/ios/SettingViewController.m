@@ -220,7 +220,10 @@ typedef enum {
     
     if(index == 5){
         
-        LXActionSheet *logoutConfirm = [[LXActionSheet alloc]initWithTitle:@"退出不删除任何历史数据，下次登录依然可以使用本账号。" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"退出登录" otherButtonTitles:nil];
+        UserData *userData = [UserData load];
+        NSString *message = [NSString stringWithFormat:@"退出不删除任何历史数据，下次登录依然可以使用本账号（%@）。", userData.userId];
+        
+        LXActionSheet *logoutConfirm = [[LXActionSheet alloc]initWithTitle:message delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"退出登录" otherButtonTitles:nil];
         [logoutConfirm show];
     }
 }

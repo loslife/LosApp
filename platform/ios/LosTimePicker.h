@@ -8,7 +8,7 @@ typedef enum {
 
 @protocol LosTimePickerDelegate <NSObject>
 
--(void) dateSelected:(NSDate*)date Type:(DateDisplayType)type;
+-(void) dateSelected:(NSDate*)date Type:(DateDisplayType)type completion:(void(^)())block;
 
 @end
 

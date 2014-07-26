@@ -10,7 +10,10 @@
     id<LosTimePickerDelegate> myDelegate;
     
     UILabel *label;
+    
     UIButton *displayTag;
+    UIButton *previous;
+    UIButton *next;
 }
 
 -(id) initWithFrame:(CGRect)frame Delegate:(id<LosTimePickerDelegate>)delegate InitDate:(NSDate*)date type:(DateDisplayType)type
@@ -22,7 +25,7 @@
         dateType = type;
         myDelegate = delegate;
         
-        UIButton *previous = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        previous = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         previous.frame = CGRectMake(40, 0, 40, 40);
         [previous setImage:[UIImage imageNamed:@"arrow_left"] forState:UIControlStateNormal];
         [previous addTarget:self action:@selector(previousDate) forControlEvents:UIControlEventTouchUpInside];
@@ -33,7 +36,7 @@
         label.textAlignment = NSTextAlignmentCenter;
         label.font = [UIFont systemFontOfSize:14.0];
         
-        UIButton *next = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        next = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         next.frame = CGRectMake(240, 0, 40, 40);
         [next setImage:[UIImage imageNamed:@"arrow_right"] forState:UIControlStateNormal];
         [next addTarget:self action:@selector(nextDate) forControlEvents:UIControlEventTouchUpInside];
@@ -58,6 +61,8 @@
 
 -(void) previousDate
 {
+    [self disableButtons];
+    
     NSCalendar *calendar = [NSCalendar currentCalendar];
     
     NSDateComponents *components;
@@ -77,11 +82,15 @@
     currentDate = previousDate;
     
     label.text = [self resolveDateLabel];
-    [myDelegate dateSelected:currentDate Type:dateType];
+    [myDelegate dateSelected:currentDate Type:dateType completion:^{
+        [self enableButtons];
+    }];
 }
 
 -(void) nextDate
 {
+    [self disableButtons];
+    
     NSCalendar *calendar = [NSCalendar currentCalendar];
     
     NSDateComponents *components;
@@ -101,11 +110,15 @@
     currentDate = nextDate;
     
     label.text = [self resolveDateLabel];
-    [myDelegate dateSelected:currentDate Type:dateType];
+    [myDelegate dateSelected:currentDate Type:dateType completion:^{
+        [self enableButtons];
+    }];
 }
 
 -(void) switchDateType
 {
+    [self disableButtons];
+    
     dateType++;
     if(dateType > DateDisplayTypeWeek){
         dateType = DateDisplayTypeDay;
@@ -113,10 +126,26 @@
     
     [displayTag setTitle:[self resolveDisplayTag] forState:UIControlStateNormal];
     label.text = [self resolveDateLabel];
-    [myDelegate dateSelected:currentDate Type:dateType];
+    [myDelegate dateSelected:currentDate Type:dateType completion:^{
+        [self enableButtons];
+    }];
 }
 
 #pragma mark - change label text
+
+-(void) disableButtons
+{
+    previous.enabled = NO;
+    next.enabled = NO;
+    displayTag.enabled = NO;
+}
+
+-(void) enableButtons
+{
+    previous.enabled = YES;
+    next.enabled = YES;
+    displayTag.enabled = YES;
+}
 
 -(NSString*) resolveDateLabel
 {

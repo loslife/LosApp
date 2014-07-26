@@ -65,7 +65,7 @@
     previousEnterpriseId = currentEnterpriseId;
     
     [self resolveNavTitle];
-    [self loadReport];
+    [self loadReport:nil];
 }
 
 -(void) viewWillDisappear:(BOOL)animated
@@ -92,7 +92,7 @@
 }
 
 // invoked in main thread
--(void) loadReport
+-(void) loadReport:(void(^)())block
 {
     if(![self.view isKindOfClass:[ReportView class]]){
         
@@ -131,17 +131,20 @@
         
         dispatch_group_notify(group, dispatch_get_main_queue(), ^{
             [myView reloadAndShowData];
+            if(block){
+                block();
+            }
         });
     });
 }
 
--(void) dateSelected:(NSDate*)date Type:(DateDisplayType)type
+-(void) dateSelected:(NSDate*)date Type:(DateDisplayType)type completion:(void(^)())block
 {
     ReportDateStatus *status = [ReportDateStatus sharedInstance];
     [status setDate:date];
     [status setDateType:type];
     
-    [self loadReport];
+    [self loadReport:block];
 }
 
 -(void) enterpriseSelected:(NSString*)enterpriseId
@@ -150,7 +153,7 @@
     currentEnterpriseId = userData.enterpriseId;
     previousEnterpriseId = currentEnterpriseId;
     
-    [self loadReport];
+    [self loadReport:nil];
 }
 
 -(void) onSingleTap
