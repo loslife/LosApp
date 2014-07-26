@@ -6,7 +6,7 @@
 -(void) batchInsertEmployeePerformance:(NSArray*)array type:(NSString*)type;
 -(NSMutableArray*) queryBusinessPerformanceByDate:(NSDate*)date EnterpriseId:(NSString*)enterpriseId Type:(int)type;
 -(void) insertBusinessPerformance:(NSDictionary*)entity type:(NSString*)type;
--(NSMutableArray*) queryServicePerformanceByDate:(NSDate*)date EnterpriseId:(NSString*)enterpriseId Type:(int)type;
+-(NSArray*) queryServicePerformanceByDate:(NSDate*)date EnterpriseId:(NSString*)enterpriseId Type:(int)type;
 -(void) batchInsertServicePerformance:(NSArray*)array type:(NSString*)type;
 -(NSMutableArray*) queryCustomerCountByDate:(NSDate*)date EnterpriseId:(NSString*)enterpriseId Type:(int)type;
 -(void) batchInsertCustomerCount:(NSArray*)array type:(NSString*)type;

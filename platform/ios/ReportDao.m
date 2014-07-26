@@ -268,7 +268,7 @@
     }];
 }
 
--(NSMutableArray*) queryServicePerformanceByDate:(NSDate*)date EnterpriseId:(NSString*)enterpriseId Type:(int)type
+-(NSArray*) queryServicePerformanceByDate:(NSDate*)date EnterpriseId:(NSString*)enterpriseId Type:(int)type
 {
     NSCalendar* calendar = [NSCalendar currentCalendar];
     
@@ -283,47 +283,35 @@
     NSInteger monthOfSunday = [components month];
     NSInteger dayOfSunday = [components day];
     
-    NSMutableArray *performances = [NSMutableArray arrayWithCapacity:1];
-    __block int count = 0;
+    NSMutableArray *records = [NSMutableArray arrayWithCapacity:1];
     
     [dbHelper inDatabase:^(FMDatabase* db){
     
-        if(type == 0){
-            count = [db intForQuery:@"select count(1) from service_performance_day where enterprise_id = :eid and year = :year and month = :month and day = :day;", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
-        }else if(type == 1){
-            count = [db intForQuery:@"select count(1) from service_performance_month where enterprise_id = :eid and year = :year and month = :month;", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month]];
-        }else{
-            count = [db intForQuery:@"select count(1) from service_performance_week where enterprise_id = :eid and year = :year and month = :month and day = :day;", enterpriseId, [NSNumber numberWithLong:yearOfSunday], [NSNumber numberWithLong:monthOfSunday], [NSNumber numberWithLong:dayOfSunday]];
-        }
-        
-        if(count == 0){
-            return;
-        }
-        
         FMResultSet *rs;
         
         if(type == 0){
-            rs = [db executeQuery:@"select sum(total) as total_sum, total, project_name from service_performance_day where enterprise_id = :eid and year = :year and month = :month and day = :day order by total desc", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
+            rs = [db executeQuery:@"select total, project_cateId, project_cateName from service_performance_day where enterprise_id = :eid and year = :year and month = :month and day = :day", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
         }else if(type == 1){
-            rs = [db executeQuery:@"select sum(total) as total_sum, total, project_name from service_performance_month where enterprise_id = :eid and year = :year and month = :month order by total desc", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month]];
+            rs = [db executeQuery:@"select total, project_cateId, project_cateName from service_performance_month where enterprise_id = :eid and year = :year and month = :month", enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month]];
         }else{
-            rs = [db executeQuery:@"select sum(total) as total_sum, total, project_name from service_performance_week where enterprise_id = :eid and year = :year and month = :month and day = :day order by total desc", enterpriseId, [NSNumber numberWithLong:yearOfSunday], [NSNumber numberWithLong:monthOfSunday], [NSNumber numberWithLong:dayOfSunday]];
+            rs = [db executeQuery:@"select total, project_cateId, project_cateName from service_performance_week where enterprise_id = :eid and year = :year and month = :month and day = :day", enterpriseId, [NSNumber numberWithLong:yearOfSunday], [NSNumber numberWithLong:monthOfSunday], [NSNumber numberWithLong:dayOfSunday]];
         }
 
         while([rs next]){
             
-            double sum = [[rs objectForColumnName:@"total_sum"] doubleValue];
-            double total = [[rs objectForColumnName:@"total"] doubleValue];
-            NSString *name = [rs objectForColumnName:@"project_name"];
+            NSNumber *total = [rs objectForColumnName:@"total"];
+            NSString *cateId = [rs objectForColumnName:@"project_cateId"];
+            NSString *cateName = [rs objectForColumnName:@"project_cateName"];
             
-            ServicePerformance *performance = [[ServicePerformance alloc] initWithTitle:name Value:total Ratio:total / sum];
-            [performances addObject:performance];
+            NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:total, @"total", cateId, @"project_cateId", cateName, @"project_cateName", nil];
+            
+            [records addObject:dictionary];
         }
         
         [rs close];
     }];
     
-    return performances;
+    return records;
 }
 
 -(void) batchInsertServicePerformance:(NSArray*)array type:(NSString*)type

@@ -31,51 +31,40 @@
 -(void) loadFromServer:(BOOL)flag block:(void(^)(BOOL))block
 {
     UserData *userData = [UserData load];
-    NSString *currentEnterpriseId = userData.enterpriseId;
+    NSString *enterpriseId = userData.enterpriseId;
     
     ReportDateStatus *status = [ReportDateStatus sharedInstance];
     
     if(!flag){
         
-        self.records = [self.reportDao queryServicePerformanceByDate:status.date EnterpriseId:currentEnterpriseId Type:status.dateType];
-        block(YES);
-        return;
-    }
-    
-    NSString *url = [NSString stringWithFormat:FETCH_REPORT_URL, currentEnterpriseId, [status yearStr], [status monthStr], [status dayStr], [status typeStr], @"service"];
-    
-    [self.httpHelper getSecure:url completionHandler:^(NSDictionary *response){
-        
-        NSDictionary *result = [response objectForKey:@"result"];
-        NSDictionary *current = [result objectForKey:@"current"];
-        NSDictionary *services = [current objectForKey:@"tb_service_performance"];
-        NSArray *array = [services objectForKey:[status typeStr]];
-        
-        [self.reportDao batchInsertServicePerformance:array type:[status typeStr]];
-        
-        [self.records removeAllObjects];
-        
+        NSArray *array = [self.reportDao queryServicePerformanceByDate:status.date EnterpriseId:enterpriseId Type:status.dateType];
         [self assembleServicePerformanceFromArray:array];
-        
-        // ordering
-        [self.records sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-            ServicePerformance *s1 = (ServicePerformance*) obj1;
-            ServicePerformance *s2 = (ServicePerformance*) obj2;
-            if(s1.value < s2.value){
-                return NSOrderedDescending;
-            }else if(s1.value == s2.value){
-                return NSOrderedSame;
-            }else{
-                return NSOrderedAscending;
-            }
-        }];
-        
         block(YES);
-    }];
+        
+    }else{
+        
+        NSString *url = [NSString stringWithFormat:FETCH_REPORT_URL, enterpriseId, [status yearStr], [status monthStr], [status dayStr], [status typeStr], @"service"];
+        
+        [self.httpHelper getSecure:url completionHandler:^(NSDictionary *response){
+            
+            NSDictionary *result = [response objectForKey:@"result"];
+            NSDictionary *current = [result objectForKey:@"current"];
+            NSDictionary *services = [current objectForKey:@"tb_service_performance"];
+            NSArray *array = [services objectForKey:[status typeStr]];
+            
+            [self.reportDao batchInsertServicePerformance:array type:[status typeStr]];
+            
+            [self assembleServicePerformanceFromArray:array];
+            
+            block(YES);
+        }];
+    }
 }
 
 -(void) assembleServicePerformanceFromArray:(NSArray*)array
 {
+    [self.records removeAllObjects];
+    
     NSMutableArray *categoryIds = [NSMutableArray arrayWithCapacity:1];
     NSMutableArray *categoryNames = [NSMutableArray arrayWithCapacity:1];
     
@@ -129,6 +118,19 @@
     for(ServicePerformance *item in self.records){
         item.ratio = item.value / totalSum;
     }
+    
+    // ordering
+    [self.records sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        ServicePerformance *s1 = (ServicePerformance*) obj1;
+        ServicePerformance *s2 = (ServicePerformance*) obj2;
+        if(s1.value < s2.value){
+            return NSOrderedDescending;
+        }else if(s1.value == s2.value){
+            return NSOrderedSame;
+        }else{
+            return NSOrderedAscending;
+        }
+    }];
 }
 
 #pragma mark - Service View DataSource
