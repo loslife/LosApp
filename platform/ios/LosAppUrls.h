@@ -1,5 +1,6 @@
-#define ServerHost @"http://192.168.1.104:5000"
-//#define ServerHost @"http://121.40.75.73"
+//#define ServerIP @"www.yilos.com"
+#define ServerIP @"192.168.1.104:5000"
+#define ServerHost [@"http://" stringByAppendingString:ServerIP]
 
 #define LOGIN_URL [ServerHost stringByAppendingString:@"/svc/losapp/login"]
 #define REGISTER_URL [ServerHost stringByAppendingString:@"/svc/losapp/register"]

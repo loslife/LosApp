@@ -1,17 +1,22 @@
 #import "LosHttpHelper.h"
+#import "LosAppUrls.h"
 
 @implementation LosHttpHelper
 
 +(BOOL) isNetworkAvailable
 {
-    Reachability *reach = [Reachability reachabilityWithHostName:@"192.168.1.104"];
+    NSArray *components = [ServerIP componentsSeparatedByString:@":"];
+    
+    Reachability *reach = [Reachability reachabilityWithHostName:[components firstObject]];
     int status = [reach currentReachabilityStatus];
     return (status != NotReachable);
 }
 
 +(BOOL) isWifi
 {
-    Reachability *reach = [Reachability reachabilityWithHostName:@"192.168.1.104"];
+    NSArray *components = [ServerIP componentsSeparatedByString:@":"];
+    
+    Reachability *reach = [Reachability reachabilityWithHostName:[components firstObject]];
     int status = [reach currentReachabilityStatus];
     return (status == ReachableViaWiFi);
 }
