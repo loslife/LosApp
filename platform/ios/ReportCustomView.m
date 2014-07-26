@@ -1,5 +1,6 @@
 #import "ReportCustomView.h"
 #import "LosLineChart.h"
+#import "ReportDateStatus.h"
 
 @implementation ReportCustomView
 
@@ -64,6 +65,11 @@
         [scroll addSubview:chart];
         
         [self addSubview:scroll];
+        
+        ReportDateStatus *status = [ReportDateStatus sharedInstance];
+        if(status.dateType == DateDisplayTypeDay){
+            [scroll setContentOffset:CGPointMake(0, 360) animated:YES];
+        }
     }
 }
 
