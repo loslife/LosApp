@@ -218,12 +218,18 @@
 {
     if(current >= previous){
         p.increased = YES;
-        p.compareToPrev = current - previous;
-        p.compareToPrevRatio = (current - previous) / previous;
     }else{
         p.increased = NO;
-        p.compareToPrev = previous - current;
-        p.compareToPrevRatio = (previous - current) / previous;
+    }
+    
+    p.compareToPrev = abs(current - previous);
+    
+    if(previous != 0){
+        p.compareToPrevRatio = p.compareToPrev / previous;
+    }else if(current == 0){
+        p.compareToPrevRatio = 0;
+    }else{
+        p.compareToPrevRatio = 1;
     }
 }
 
