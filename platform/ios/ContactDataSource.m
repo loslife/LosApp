@@ -6,7 +6,6 @@
 #import "LosAppUrls.h"
 #import "LosHttpHelper.h"
 #import "EnterpriseDao.h"
-#import "SyncService.h"
 #import "StringUtils.h"
 
 @implementation ContactDataSource
@@ -15,7 +14,6 @@
     MemberDao *memberDao;
     LosHttpHelper *httpHelper;
     EnterpriseDao *enterpriseDao;
-    SyncService *syncHelper;
     
     NSMutableArray *members;
 }
@@ -28,7 +26,6 @@
         memberDao = [[MemberDao alloc] init];
         httpHelper = [[LosHttpHelper alloc] init];
         enterpriseDao = [[EnterpriseDao alloc] init];
-        syncHelper = [[SyncService alloc] init];
         
         members = [NSMutableArray array];
     }
@@ -64,7 +61,7 @@
         
         NSNumber *time = [enterpriseDao queryLatestSyncTimeById:enterpriseId];
         
-        [syncHelper refreshMembersWithEnterpriseId:enterpriseId LatestSyncTime:time Block:^(BOOL success){
+        [self refreshMembersWithEnterpriseId:enterpriseId LatestSyncTime:time Block:^(BOOL success){
             
             NSArray *membersTemp = [memberDao queryMembersByEnterpriseId:enterpriseId];
             [self assembleMembers:membersTemp];
@@ -77,7 +74,7 @@
 {
     NSNumber *time = [enterpriseDao queryLatestSyncTimeById:enterpriseId];
     
-    [syncHelper refreshMembersWithEnterpriseId:enterpriseId LatestSyncTime:time Block:^(BOOL success){
+    [self refreshMembersWithEnterpriseId:enterpriseId LatestSyncTime:time Block:^(BOOL success){
         
         NSArray *membersTemp;
         if(![StringUtils isEmpty:searchText]){
@@ -110,6 +107,36 @@
 -(int) countMembers:(NSString*)enterpriseId
 {
     return [memberDao countMembersByEnterpriseId:enterpriseId];
+}
+
+#pragma mark - private method
+
+-(void) refreshMembersWithEnterpriseId:(NSString*)enterpriseId LatestSyncTime:(NSNumber*)latestSyncTime Block:(void(^)(BOOL flag))block
+{
+    NSString *url = [NSString stringWithFormat:SYNC_MEMBERS_URL, enterpriseId, @"1", [latestSyncTime stringValue]];
+    
+    [httpHelper getSecure:url completionHandler:^(NSDictionary* dict){
+        
+        if(dict == nil){
+            block(NO);
+            return;
+        }
+        
+        NSNumber *code = [dict objectForKey:@"code"];
+        if([code intValue] != 0){
+            block(NO);
+            return;
+        }
+        
+        NSDictionary *response = [dict objectForKey:@"result"];
+        NSNumber *lastSync = [response objectForKey:@"last_sync"];
+        NSDictionary *records = [response objectForKey:@"records"];
+        
+        [memberDao batchUpdateMembers:records LastSync:lastSync EnterpriseId:enterpriseId];
+        [enterpriseDao updateSyncFlagById:enterpriseId];
+        
+        block(YES);
+    }];
 }
 
 -(void) assembleMembers:(NSArray*)origin

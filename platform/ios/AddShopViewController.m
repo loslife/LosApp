@@ -14,7 +14,6 @@
     int resendCountdown;
     
     LosHttpHelper *httpHelper;
-    SyncService *syncService;
     EnterpriseDao *dao;
     
     NSString *enterpriseIdInProcess;
@@ -28,7 +27,6 @@
         self.navigationItem.title = @"关联店铺";
         
         httpHelper = [[LosHttpHelper alloc] init];
-        syncService = [[SyncService alloc] init];
         dao = [[EnterpriseDao alloc] init];
         
         self.hidesBottomBarWhenPushed = YES;

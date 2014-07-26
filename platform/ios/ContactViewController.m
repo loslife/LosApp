@@ -6,7 +6,6 @@
 #import "ContactNeverLoadView.h"
 #import "ContactView.h"
 #import "UserData.h"
-#import "SyncService.h"
 #import "LosHttpHelper.h"
 #import "ContactLoadingView.h"
 #import "LosAppUrls.h"
