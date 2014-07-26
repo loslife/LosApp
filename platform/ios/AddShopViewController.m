@@ -49,18 +49,6 @@
     [timer invalidate];
 }
 
--(void) viewDidAppear:(BOOL)animated
-{
-    AddShopView *myView = (AddShopView*)self.view;
-    UIButton *button = myView.requireCodeButton;
-    
-    if(button.enabled){
-        return;
-    }
-    
-    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(countdown) userInfo:nil repeats:YES];
-}
-
 -(void) requireVerificationCode
 {
     AddShopView *myView = (AddShopView*)self.view;
@@ -118,71 +106,128 @@
     UITextField *phoneField = myView.phone;
     UITextField *codeField = myView.code;
     
-    BOOL inputCheck;
+    int validate = [self frontendValidateWithPhone:phoneField.text code:codeField.text];
     
-    inputCheck = [StringUtils isPhone:phoneField.text];
-    if(!inputCheck){
+    if(validate == 1){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"请输入正确手机号" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
         [alert show];
         return;
     }
     
-    if([@"" isEqualToString:codeField.text]){
+    if(validate == 2){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"请输入验证码" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
         [alert show];
         return;
     }
     
-    NSString *checkCodeURL = [NSString stringWithFormat:CHECK_CODE_URL, phoneField.text, @"attach", codeField.text];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
     
-    [httpHelper getSecure:checkCodeURL completionHandler:^(NSDictionary *dict){
-        
-        if(dict == nil){
+        BOOL network = [LosHttpHelper isNetworkAvailable];
+        if(!network){
             dispatch_async(dispatch_get_main_queue(), ^{
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"校验验证码失败，请联系客服" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(@"network_unavailable", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
                 [alert show];
             });
             return;
         }
         
-        NSNumber *code = [dict objectForKey:@"code"];
-        if([code intValue] != 0){
-            dispatch_async(dispatch_get_main_queue(), ^{
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"验证码错误" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
-                [alert show];
-            });
-            return;
-        }
+        NSString *checkCodeURL = [NSString stringWithFormat:CHECK_CODE_URL, phoneField.text, @"attach", codeField.text];
         
-        UserData *userData = [UserData load];
-        NSString *userId = userData.userId;
-        
-        __block AddShopViewController *weakSelf = self;
-        
-        [syncService addEnterprise:userId EnterpriseAccount:phoneField.text Block:^(NSString* enterpriseId){
-        
-            dispatch_async(dispatch_get_main_queue(), ^{
+        [httpHelper getSecure:checkCodeURL completionHandler:^(NSDictionary *dict){
             
-                if([StringUtils isEmpty:enterpriseId]){
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"关联失败，请联系客服" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
+            if(dict == nil){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"校验验证码失败，请联系客服" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
                     [alert show];
+                });
+                return;
+            }
+            
+            NSNumber *code = [dict objectForKey:@"code"];
+            if([code intValue] != 0){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"验证码错误" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
+                    [alert show];
+                });
+                return;
+            }
+            
+            UserData *userData = [UserData load];
+            NSString *userId = userData.userId;
+            
+            NSString *body = [NSString stringWithFormat:@"account=%@&enterprise_account=%@", userId, phoneField.text];
+            NSData *postData = [body dataUsingEncoding:NSUTF8StringEncoding];
+            
+            [httpHelper postSecure:APPEND_ENERPRISE_URL Data:postData completionHandler:^(NSDictionary *dict){
+                
+                if(dict == nil){
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"关联失败，请联系客服" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
+                        [alert show];
+                    });
                     return;
                 }
                 
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"关联成功" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
-                [alert show];
+                NSNumber *code = [dict objectForKey:@"code"];
+                NSDictionary *result = [dict objectForKey:@"result"];
                 
-                [weakSelf clearFormAfterAppend];
-                
-                [myView.list reload];
-                
-                UserData *userData = [UserData load];
-                if([StringUtils isEmpty:userData.enterpriseId]){
-                    [UserData writeCurrentEnterprise:enterpriseId];
+                if([code intValue] != 0){
+                    
+                    NSString *errorCode = [result objectForKey:@"errorCode"];
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        
+                        if([errorCode isEqualToString:@"501"]){
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"美管家账号不存在" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
+                            [alert show];
+                        }else if([errorCode isEqualToString:@"502"]){
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"美管家版本太低，请升级美管家版本" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
+                            [alert show];
+                        }else if([errorCode isEqualToString:@"503"]){
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"此美管家账号已被关联，重启应用可见" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
+                            [alert show];
+                        }else{
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"关联失败，请联系客服" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
+                            [alert show];
+                        }
+                    });
+                    
+                    return;
                 }
-            });
+                
+                NSString *enterpriseId = [result objectForKey:@"enterprise_id"];
+                NSString *enterpriseName = [result objectForKey:@"enterprise_name"];
+                [dao insertEnterprisesWith:enterpriseId Name:enterpriseName account:phoneField.text];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"关联成功" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
+                    [alert show];
+                    
+                    [self clearFormAfterAppend];
+                    
+                    [myView.list reload];
+                    
+                    if([StringUtils isEmpty:userData.enterpriseId]){
+                        [UserData writeCurrentEnterprise:enterpriseId];
+                    }
+                });
+            }];
         }];
-    }];
+    });
+}
+
+-(int) frontendValidateWithPhone:(NSString*)phone code:(NSString*)code
+{
+    if(![StringUtils isPhone:phone]){
+        return 1;
+    }
+    
+    if([StringUtils isEmpty:code]){
+        return 2;
+    }
+    
+    return 0;
 }
 
 -(void) clearFormAfterAppend
@@ -227,16 +272,20 @@
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         
-        NSString* enterpriseAcccount = [dao queryAccountById:enterpriseIdInProcess];
+        NSString* enterpriseAccount = [dao queryAccountById:enterpriseIdInProcess];
         
-        [syncService reAttachWithAccount:userId enterpriseAccount:enterpriseAcccount block:^(BOOL flag){
+        NSString *body = [NSString stringWithFormat:@"account=%@&enterprise_account=%@", userId, enterpriseAccount];
+        NSData *postData = [body dataUsingEncoding:NSUTF8StringEncoding];
+        
+        [httpHelper postSecure:APPEND_ENERPRISE_URL Data:postData completionHandler:^(NSDictionary *dict){
+            
+            [dao updateDisplayById:enterpriseIdInProcess value:@"yes"];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 
                 AddShopView *myView = (AddShopView*)self.view;
                 [myView.list reload];
                 
-                UserData *userData = [UserData load];
                 if([StringUtils isEmpty:userData.enterpriseId]){
                     [UserData writeCurrentEnterprise:enterpriseIdInProcess];
                 }
@@ -259,15 +308,19 @@
     UserData *userData = [UserData load];
     NSString* userId = userData.userId;
     
-    [syncService undoAttachWithAccount:userId enterpriseId:enterpriseIdInProcess block:^(BOOL flag){
+    NSString *body = [NSString stringWithFormat:@"account=%@&enterprise_id=%@", userId, enterpriseIdInProcess];
+    NSData *postData = [body dataUsingEncoding:NSUTF8StringEncoding];
+    
+    [httpHelper postSecure:REMOVE_ENERPRISE_URL Data:postData completionHandler:^(NSDictionary *dict){
         
+        [dao updateDisplayById:enterpriseIdInProcess value:@"no"];
+       
         dispatch_async(dispatch_get_main_queue(), ^{
             
             AddShopView *myView = (AddShopView*)self.view;
             [myView.list reload];
             
             // 解除当前商户的关联
-            UserData *userData = [UserData load];
             if([userData.enterpriseId isEqualToString:enterpriseIdInProcess]){
                 [UserData removeCurrentEnterprise];
             }
@@ -300,7 +353,7 @@
         AddShopView *myView = (AddShopView*)self.view;
         UIButton *button = myView.requireCodeButton;
         
-        NSString *title = [NSString stringWithFormat:@"%d秒可重发", resendCountdown];
+        NSString *title = [NSString stringWithFormat:@"%d秒重发", resendCountdown];
         button.titleLabel.text = title;
         return;
     }

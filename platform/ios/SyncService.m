@@ -22,33 +22,6 @@
     return self;
 }
 
--(void) addEnterprise:(NSString*)userId EnterpriseAccount:(NSString*)phone Block:(void(^)(NSString* enterpriseId))block
-{
-    NSString *body = [NSString stringWithFormat:@"account=%@&enterprise_account=%@", userId, phone];
-    NSData *postData = [body dataUsingEncoding:NSUTF8StringEncoding];
-    
-    [httpHelper postSecure:APPEND_ENERPRISE_URL Data:postData completionHandler:^(NSDictionary *dict){
-        
-        if(dict == nil){
-            block(nil);
-            return;
-        }
-        
-        NSNumber *code = [dict objectForKey:@"code"];
-        if([code intValue] != 0){
-            block(nil);
-            return;
-        }
-        
-        NSDictionary *result = [dict objectForKey:@"result"];
-        NSString *enterpriseId = [result objectForKey:@"enterprise_id"];
-        NSString *enterpriseName = [result objectForKey:@"enterprise_name"];
-        
-        [enterpriseDao insertEnterprisesWith:enterpriseId Name:enterpriseName account:phone];
-        block(enterpriseId);
-    }];
-}
-
 -(void) refreshAttachEnterprisesUserId:(NSString*)userId Block:(void(^)(BOOL flag))block
 {
     NSString *url = [NSString stringWithFormat:FETCH_ENTERPRISES_URL, userId];
@@ -98,55 +71,6 @@
         [memberDao batchUpdateMembers:records LastSync:lastSync EnterpriseId:enterpriseId];
         [enterpriseDao updateSyncFlagById:enterpriseId];
         
-        block(YES);
-    }];
-}
-
--(void) undoAttachWithAccount:(NSString*)account enterpriseId:(NSString*)enterpriseId block:(void(^)(BOOL flag))block
-{
-    NSString *body = [NSString stringWithFormat:@"account=%@&enterprise_id=%@", account, enterpriseId];
-    NSData *postData = [body dataUsingEncoding:NSUTF8StringEncoding];
-    
-    [httpHelper postSecure:REMOVE_ENERPRISE_URL Data:postData completionHandler:^(NSDictionary *dict){
-        
-        if(dict == nil){
-            block(NO);
-            return;
-        }
-        
-        NSNumber *code = [dict objectForKey:@"code"];
-        if([code intValue] != 0){
-            block(NO);
-            return;
-        }
-        
-        [enterpriseDao updateDisplayById:enterpriseId value:@"no"];
-        block(YES);
-    }];
-}
-
--(void) reAttachWithAccount:(NSString*)account enterpriseAccount:(NSString*)enterpriseAccount block:(void(^)(BOOL flag))block
-{
-    NSString *body = [NSString stringWithFormat:@"account=%@&enterprise_account=%@", account, enterpriseAccount];
-    NSData *postData = [body dataUsingEncoding:NSUTF8StringEncoding];
-    
-    [httpHelper postSecure:APPEND_ENERPRISE_URL Data:postData completionHandler:^(NSDictionary *dict){
-        
-        if(dict == nil){
-            block(NO);
-            return;
-        }
-        
-        NSNumber *code = [dict objectForKey:@"code"];
-        if([code intValue] != 0){
-            block(NO);
-            return;
-        }
-        
-        NSDictionary *result = [dict objectForKey:@"result"];
-        NSString *enterpriseId = [result objectForKey:@"enterprise_id"];
-        
-        [enterpriseDao updateDisplayById:enterpriseId value:@"yes"];
         block(YES);
     }];
 }
