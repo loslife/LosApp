@@ -23,8 +23,14 @@
         return;
     }
     
+    CGFloat lengthPerValue;
+    
     int maxValue = [dataSource maxValue];
-    CGFloat lengthPerValue = 160.0 / maxValue;
+    if(maxValue != 0){
+        lengthPerValue = 160.0 / maxValue;
+    }else{
+        lengthPerValue = 0;
+    }
 
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     CGContextSetLineWidth(ctx, .1f);
