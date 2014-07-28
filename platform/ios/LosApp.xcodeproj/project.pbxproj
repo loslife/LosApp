@@ -100,6 +100,8 @@
 		18B2EE1E1946E0EF00264B74 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B2EE1D1946E0EF00264B74 /* main.m */; };
 		18B2EE221946E0EF00264B74 /* LosAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B2EE211946E0EF00264B74 /* LosAppDelegate.m */; };
 		18B2EE241946E0EF00264B74 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18B2EE231946E0EF00264B74 /* Images.xcassets */; };
+		18CE3C241985EE5E00A3152D /* InteractiveView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CE3C231985EE5E00A3152D /* InteractiveView.m */; };
+		18CE3C271985F49A00A3152D /* SystemDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CE3C261985F49A00A3152D /* SystemDao.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -289,6 +291,10 @@
 		18B2EE211946E0EF00264B74 /* LosAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = LosAppDelegate.m; path = LosApp/LosAppDelegate.m; sourceTree = "<group>"; };
 		18B2EE231946E0EF00264B74 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = LosApp/Images.xcassets; sourceTree = "<group>"; };
 		18B2EE2A1946E0EF00264B74 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		18CE3C221985EE5E00A3152D /* InteractiveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InteractiveView.h; sourceTree = "<group>"; };
+		18CE3C231985EE5E00A3152D /* InteractiveView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InteractiveView.m; sourceTree = "<group>"; };
+		18CE3C251985F49A00A3152D /* SystemDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemDao.h; sourceTree = "<group>"; };
+		18CE3C261985F49A00A3152D /* SystemDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemDao.m; sourceTree = "<group>"; };
 		7512DE471E6843E8AFA2C007 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F77DB5366FE14651B4C079AC /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -318,6 +324,8 @@
 				184472A1196A515A00B4A543 /* MemberDao.m */,
 				184472A3196A51AC00B4A543 /* ReportDao.h */,
 				184472A4196A51AC00B4A543 /* ReportDao.m */,
+				18CE3C251985F49A00A3152D /* SystemDao.h */,
+				18CE3C261985F49A00A3152D /* SystemDao.m */,
 			);
 			name = dao;
 			sourceTree = "<group>";
@@ -384,6 +392,8 @@
 				186667111949A9D000A345F7 /* BootstrapView.m */,
 				1871AAC5197E62E20089E97A /* NoShopView.h */,
 				1871AAC6197E62E20089E97A /* NoShopView.m */,
+				18CE3C221985EE5E00A3152D /* InteractiveView.h */,
+				18CE3C231985EE5E00A3152D /* InteractiveView.m */,
 				186C3660197CBCAF00633AE4 /* ReportView.h */,
 				186C3661197CBCAF00633AE4 /* ReportView.m */,
 				1871AAC4197D251D0089E97A /* ReportViewProtocol.h */,
@@ -782,6 +792,7 @@
 				1866671C1949B2E900A345F7 /* UpdateHelper.m in Sources */,
 				186C3662197CBCAF00633AE4 /* ReportView.m in Sources */,
 				18B2EE1E1946E0EF00264B74 /* main.m in Sources */,
+				18CE3C241985EE5E00A3152D /* InteractiveView.m in Sources */,
 				186667421949FB6100A345F7 /* SettingViewController.m in Sources */,
 				1866670819498D1C00A345F7 /* LoginViewController.m in Sources */,
 				186C35E11977B72100633AE4 /* AppUpdateViewController.m in Sources */,
@@ -859,6 +870,7 @@
 				186667011949864100A345F7 /* WelcomeViewController.m in Sources */,
 				186C35EA1978FB2000633AE4 /* MemberTableViewCell.m in Sources */,
 				184472891967A5D200B4A543 /* ReportShopView.m in Sources */,
+				18CE3C271985F49A00A3152D /* SystemDao.m in Sources */,
 				1844724E1958429000B4A543 /* PasswordView.m in Sources */,
 				18B2EE221946E0EF00264B74 /* LosAppDelegate.m in Sources */,
 				186C35D51976208600633AE4 /* ResetStep1ViewController.m in Sources */,

@@ -128,7 +128,8 @@
 -(void) createSystemTables:(NSString*)version
 {
     NSString *createTableSystemConfig = @"CREATE TABLE IF NOT EXISTS system_config (id integer primary key, key varchar(32), value varchar(32));";
-    NSString *insertSystemConfig = @"insert into system_config values (1, 'version', :version)";
+    NSString *insertSystemConfig = @"insert into system_config values (1, 'version', :version);";
+    NSString *insertSystemConfig2 = @"insert into system_config values (2, 'first_use', 'yes');";
     
     NSString *dbFilePath = [PathResolver databaseFilePath];
     FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
@@ -136,6 +137,7 @@
     
     [db executeUpdate:createTableSystemConfig];
     [db executeUpdate:insertSystemConfig, version];
+    [db executeUpdate:insertSystemConfig2];
     
     [db close];
 }

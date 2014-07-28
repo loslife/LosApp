@@ -5,8 +5,9 @@
 #import "ReportShopDataSource.h"
 #import "ReportServiceDataSource.h"
 #import "ReportCustomDataSource.h"
+#import "InteractiveView.h"
 
-@interface ReportViewController : UIViewController<LosTimePickerDelegate, SwitchShopButtonDelegate>
+@interface ReportViewController : UIViewController<LosTimePickerDelegate, SwitchShopButtonDelegate, InteractiveViewDelegate>
 
 @property ReportEmployeeDataSource *employeeDataSource;
 @property ReportShopDataSource *shopDataSource;

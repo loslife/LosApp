@@ -2,7 +2,7 @@
 #import "ReportView.h"
 #import "UserData.h"
 #import "StringUtils.h"
-#import "EnterpriseDao.h"
+#import "LosDao.h"
 #import "LosHttpHelper.h"
 #import "ReportDateStatus.h"
 #import "NoShopView.h"
@@ -14,6 +14,9 @@
     NSString *currentEnterpriseId;
     
     EnterpriseDao *enterpriseDao;
+    SystemDao *systemDao;
+    
+    InteractiveView *introduce;
 }
 
 - (id)init
@@ -22,6 +25,7 @@
     if (self) {
         
         enterpriseDao = [[EnterpriseDao alloc] init];
+        systemDao = [[SystemDao alloc] init];
         
         self.employeeDataSource = [[ReportEmployeeDataSource alloc] init];
         self.shopDataSource = [[ReportShopDataSource alloc] init];
@@ -134,7 +138,23 @@
             if(block){
                 block();
             }
+            [self showIntroduceIfNeeded];
         });
+    });
+}
+
+-(void) showIntroduceIfNeeded
+{
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+    
+        BOOL firstUse = [systemDao queryFirstUse];
+        
+        if(firstUse){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                introduce = [[InteractiveView alloc] initWithDelegate:self];
+                [[[UIApplication sharedApplication] keyWindow] addSubview:introduce];
+            });
+        }
     });
 }
 
@@ -154,6 +174,15 @@
     previousEnterpriseId = currentEnterpriseId;
     
     [self loadReport:nil];
+}
+
+-(void) close
+{
+    [introduce removeFromSuperview];
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [systemDao updateFirstUse];
+    });
 }
 
 -(void) onSingleTap
