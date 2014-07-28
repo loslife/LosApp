@@ -15,7 +15,7 @@
         self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.6];
         
         UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 70, 80)];
-        image.center = CGPointMake(160, screenHeight - 49);
+        image.center = CGPointMake(160, screenHeight - 40);
         image.image = [UIImage imageNamed:@"gesture_switch"];
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];

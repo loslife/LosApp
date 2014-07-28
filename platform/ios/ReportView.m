@@ -51,10 +51,6 @@
         dataArea.pagingEnabled = YES;
         dataArea.showsHorizontalScrollIndicator = NO;
         
-        UITapGestureRecognizer *tap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onDoubleTap:)];
-        [tap2 setNumberOfTapsRequired:2];
-        [self addGestureRecognizer:tap2];
-        
         ReportEmployeeView *employee = [[ReportEmployeeView alloc] initWithFrame:CGRectMake(0, 0, 320, contentHeight) DataSource:controller.employeeDataSource];
         
         ReportShopView *shop = [[ReportShopView alloc] initWithFrame:CGRectMake(320, 0, 320, contentHeight) DataSource:controller.shopDataSource];
@@ -89,14 +85,6 @@
 {
     [dataArea removeFromSuperview];
     [self addSubview:loading];
-}
-
--(void) onDoubleTap:(UIGestureRecognizer*)recognizer
-{
-    recognizer.enabled = NO;
-    [myController onDoubleTap:^{
-        recognizer.enabled = YES;
-    }];
 }
 
 @end

@@ -15,6 +15,5 @@
 @property ReportCustomDataSource *customDataSource;
 
 -(void) onSingleTap;
--(void) onDoubleTap:(void(^)())block;
 
 @end

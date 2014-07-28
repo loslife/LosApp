@@ -191,9 +191,4 @@
     [barButton closeSwitchShopMenu];
 }
 
--(void) onDoubleTap:(void(^)())block;
-{
-    [self loadReport:block];
-}
-
 @end
