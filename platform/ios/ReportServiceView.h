@@ -1,6 +1,6 @@
 #import "ServicePerformance.h"
 #import "LosPieChart.h"
-#import "ReportViewProtocol.h"
+#import "ReportViewBase.h"
 
 @protocol ReportServiceViewDataSource <NSObject>
 
@@ -11,7 +11,7 @@
 
 @end
 
-@interface ReportServiceView : UIView<ReportViewProtocol>
+@interface ReportServiceView : ReportViewBase
 
 -(id) initWithFrame:(CGRect)frame DataSource:(id<ReportServiceViewDataSource, LosPieChartDelegate>)ds;
 

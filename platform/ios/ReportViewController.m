@@ -6,6 +6,7 @@
 #import "LosHttpHelper.h"
 #import "ReportDateStatus.h"
 #import "NoShopView.h"
+#import "ReportViewBase.h"
 
 @implementation ReportViewController
 
@@ -76,6 +77,16 @@
 {
     SwitchShopButton* barButton = (SwitchShopButton*)self.navigationItem.rightBarButtonItem;
     [barButton closeSwitchShopMenu];
+}
+
+-(void) viewDidAppear:(BOOL)animated
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(listenRefreshReportEvent:) name:@"refresh_report_event" object:nil];
+}
+
+-(void) viewDidDisappear:(BOOL)animated
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 -(void) resolveNavTitle
@@ -189,6 +200,16 @@
 {
     SwitchShopButton* barButton = (SwitchShopButton*)self.navigationItem.rightBarButtonItem;
     [barButton closeSwitchShopMenu];
+}
+
+-(void) listenRefreshReportEvent:(NSNotification*)notification
+{
+    ReportViewBase *view = (ReportViewBase*)notification.object;
+    
+    view.button.enabled = NO;
+    [self loadReport:^{
+        view.button.enabled = YES;
+    }];
 }
 
 @end

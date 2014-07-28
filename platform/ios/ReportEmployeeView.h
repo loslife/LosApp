@@ -1,6 +1,6 @@
 #import <UIKit/UIKit.h>
 #import "LosBarChart.h"
-#import "ReportViewProtocol.h"
+#import "ReportViewBase.h"
 
 @protocol ReportEmployeeViewDataSource <NSObject>
 
@@ -9,7 +9,7 @@
 
 @end
 
-@interface ReportEmployeeView : UIView<ReportViewProtocol>
+@interface ReportEmployeeView : ReportViewBase
 
 -(id) initWithFrame:(CGRect)frame DataSource:(id<ReportEmployeeViewDataSource, LosBarChartDataSource>)ds;
 

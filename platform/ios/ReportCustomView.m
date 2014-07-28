@@ -1,6 +1,7 @@
 #import "ReportCustomView.h"
 #import "LosLineChart.h"
 #import "ReportDateStatus.h"
+#import "LosStyles.h"
 
 @implementation ReportCustomView
 
@@ -20,18 +21,26 @@
         
         self.backgroundColor = [UIColor whiteColor];
         
-        UILabel *header = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 280, 40)];
+        UIView *header = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 280, 40)];
+        header.userInteractionEnabled = YES;
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 40)];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 60, 40)];
         label.text = @"客流量";
         label.textAlignment = NSTextAlignmentLeft;
         label.textColor = [UIColor colorWithRed:32/255.0f green:37/255.0f blue:41/255.0f alpha:1.0f];
+        
+        self.button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        self.button.frame = CGRectMake(60, 11, 20, 18);
+        self.button.tintColor = BLUE1;
+        [self.button setImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
+        [self.button addTarget:self action:@selector(refreshButtonDidPressed) forControlEvents:UIControlEventTouchUpInside];
         
         summary = [[UILabel alloc] initWithFrame:CGRectMake(100, 0, 180, 40)];
         summary.textAlignment = NSTextAlignmentRight;
         summary.textColor = [UIColor colorWithRed:32/255.0f green:37/255.0f blue:41/255.0f alpha:1.0f];
         
         [header addSubview:label];
+        [header addSubview:self.button];
         [header addSubview:summary];
         
         [self addSubview:header];
@@ -71,11 +80,6 @@
             [scroll setContentOffset:CGPointMake(0, 360) animated:YES];
         }
     }
-}
-
--(void) reload
-{
-    [self setNeedsDisplay];
 }
 
 @end

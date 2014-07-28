@@ -100,6 +100,7 @@
 		18B2EE1E1946E0EF00264B74 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B2EE1D1946E0EF00264B74 /* main.m */; };
 		18B2EE221946E0EF00264B74 /* LosAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B2EE211946E0EF00264B74 /* LosAppDelegate.m */; };
 		18B2EE241946E0EF00264B74 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18B2EE231946E0EF00264B74 /* Images.xcassets */; };
+		18C01F6C198695E00079D22C /* ReportViewBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C01F6B198695E00079D22C /* ReportViewBase.m */; };
 		18CE3C241985EE5E00A3152D /* InteractiveView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CE3C231985EE5E00A3152D /* InteractiveView.m */; };
 		18CE3C271985F49A00A3152D /* SystemDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CE3C261985F49A00A3152D /* SystemDao.m */; };
 /* End PBXBuildFile section */
@@ -263,7 +264,6 @@
 		186C366D197D05C500633AE4 /* ReportCustomDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportCustomDataSource.m; sourceTree = "<group>"; };
 		186C366F197D0F5400633AE4 /* ReportDataSourceBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportDataSourceBase.h; sourceTree = "<group>"; };
 		186C3670197D0F5400633AE4 /* ReportDataSourceBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportDataSourceBase.m; sourceTree = "<group>"; };
-		1871AAC4197D251D0089E97A /* ReportViewProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReportViewProtocol.h; sourceTree = "<group>"; };
 		1871AAC5197E62E20089E97A /* NoShopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoShopView.h; sourceTree = "<group>"; };
 		1871AAC6197E62E20089E97A /* NoShopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoShopView.m; sourceTree = "<group>"; };
 		18AFE5F3195178210083C972 /* UITableViewCell+ReuseIdentifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+ReuseIdentifier.h"; sourceTree = "<group>"; };
@@ -291,6 +291,8 @@
 		18B2EE211946E0EF00264B74 /* LosAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = LosAppDelegate.m; path = LosApp/LosAppDelegate.m; sourceTree = "<group>"; };
 		18B2EE231946E0EF00264B74 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = LosApp/Images.xcassets; sourceTree = "<group>"; };
 		18B2EE2A1946E0EF00264B74 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		18C01F6A198695E00079D22C /* ReportViewBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportViewBase.h; sourceTree = "<group>"; };
+		18C01F6B198695E00079D22C /* ReportViewBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportViewBase.m; sourceTree = "<group>"; };
 		18CE3C221985EE5E00A3152D /* InteractiveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InteractiveView.h; sourceTree = "<group>"; };
 		18CE3C231985EE5E00A3152D /* InteractiveView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InteractiveView.m; sourceTree = "<group>"; };
 		18CE3C251985F49A00A3152D /* SystemDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemDao.h; sourceTree = "<group>"; };
@@ -396,7 +398,8 @@
 				18CE3C231985EE5E00A3152D /* InteractiveView.m */,
 				186C3660197CBCAF00633AE4 /* ReportView.h */,
 				186C3661197CBCAF00633AE4 /* ReportView.m */,
-				1871AAC4197D251D0089E97A /* ReportViewProtocol.h */,
+				18C01F6A198695E00079D22C /* ReportViewBase.h */,
+				18C01F6B198695E00079D22C /* ReportViewBase.m */,
 				18447262195D562B00B4A543 /* ReportEmployeeView.h */,
 				18447263195D562B00B4A543 /* ReportEmployeeView.m */,
 				184472871967A5D200B4A543 /* ReportShopView.h */,
@@ -423,8 +426,8 @@
 				1844724D1958429000B4A543 /* PasswordView.m */,
 				1844725219591EEA00B4A543 /* AboutUsView.h */,
 				1844725319591EEA00B4A543 /* AboutUsView.m */,
-				186C35E21977B75500633AE4 /* AppUpdateView.h */,
 				186C35E31977B75500633AE4 /* AppUpdateView.m */,
+				186C35E21977B75500633AE4 /* AppUpdateView.h */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -800,6 +803,7 @@
 				186C35E71978CF7700633AE4 /* ContactLoadingView.m in Sources */,
 				184472A5196A51AC00B4A543 /* ReportDao.m in Sources */,
 				1844726A196151E400B4A543 /* Enterprise.m in Sources */,
+				18C01F6C198695E00079D22C /* ReportViewBase.m in Sources */,
 				186C366B197D018B00633AE4 /* ReportServiceDataSource.m in Sources */,
 				1844724B195840C200B4A543 /* PasswordViewController.m in Sources */,
 				186C3657197A20D400633AE4 /* UIScrollView+Extension.m in Sources */,

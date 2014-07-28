@@ -1,4 +1,5 @@
 #import "ReportEmployeeView.h"
+#import "LosStyles.h"
 
 @implementation ReportEmployeeView
 
@@ -18,18 +19,26 @@
         
         self.backgroundColor = [UIColor whiteColor];
         
-        UILabel *header = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 280, 40)];
+        UIView *header = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 280, 40)];
+        header.userInteractionEnabled = YES;
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 40)];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 80, 40)];
         label.text = @"员工业绩";
         label.textAlignment = NSTextAlignmentLeft;
         label.textColor = [UIColor colorWithRed:32/255.0f green:37/255.0f blue:41/255.0f alpha:1.0f];
         
-        total = [[UILabel alloc] initWithFrame:CGRectMake(100, 0, 180, 40)];
+        self.button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        self.button.frame = CGRectMake(80, 11, 20, 18);
+        self.button.tintColor = BLUE1;
+        [self.button setImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
+        [self.button addTarget:self action:@selector(refreshButtonDidPressed) forControlEvents:UIControlEventTouchUpInside];
+        
+        total = [[UILabel alloc] initWithFrame:CGRectMake(140, 0, 140, 40)];
         total.textAlignment = NSTextAlignmentRight;
         total.textColor = [UIColor colorWithRed:32/255.0f green:37/255.0f blue:41/255.0f alpha:1.0f];
         
         [header addSubview:label];
+        [header addSubview:self.button];
         [header addSubview:total];
         
         [self addSubview:header];
@@ -61,11 +70,6 @@
         LosBarChart *barChart = [[LosBarChart alloc] initWithFrame:CGRectMake(0, 0, 320, chartHeight) DataSource:dataSource];
         [scroll addSubview:barChart];
     }
-}
-
--(void) reload
-{
-    [self setNeedsDisplay];
 }
 
 @end

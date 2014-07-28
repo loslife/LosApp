@@ -73,9 +73,9 @@
     
     for(UIView *subview in dataArea.subviews){
         
-        if([subview conformsToProtocol:@protocol(ReportViewProtocol)]){
-            [(id<ReportViewProtocol>)subview reload];
-        }
+        if([subview isKindOfClass:[ReportViewBase class]]){
+            [(ReportViewBase*)subview reload];
+        }        
     }
     
     [self addSubview:dataArea];

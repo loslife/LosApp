@@ -1,5 +1,5 @@
 #import "LosLineChart.h"
-#import "ReportViewProtocol.h"
+#import "ReportViewBase.h"
 
 @protocol ReportCustomerViewDataSource <NSObject>
 
@@ -9,7 +9,7 @@
 
 @end
 
-@interface ReportCustomView : UIView<ReportViewProtocol>
+@interface ReportCustomView : ReportViewBase
 
 -(id) initWithFrame:(CGRect)frame DataSource:(id<ReportCustomerViewDataSource, LosLineChartDataSource>)ds;
 
