@@ -29,19 +29,19 @@
         [self.passwordRepeat setSecureTextEntry:YES];
         self.passwordRepeat.delegate = self;
         
-        UIButton *submit = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        submit.frame = CGRectMake(20, 240, 280, 40);
-        [submit setTitle:@"完成" forState:UIControlStateNormal];
-        submit.backgroundColor = BLUE1;
-        submit.tintColor = [UIColor whiteColor];
-        submit.layer.cornerRadius = 5;
-        [submit addTarget:controller action:@selector(modifyPassword) forControlEvents:UIControlEventTouchUpInside];
+        self.submit = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        self.submit.frame = CGRectMake(20, 240, 280, 40);
+        [self.submit setTitle:@"完成" forState:UIControlStateNormal];
+        self.submit.backgroundColor = BLUE1;
+        self.submit.tintColor = [UIColor whiteColor];
+        self.submit.layer.cornerRadius = 5;
+        [self.submit addTarget:controller action:@selector(modifyPassword) forControlEvents:UIControlEventTouchUpInside];
         
         self.backgroundColor = GRAY1;
         [self addSubview:self.oldPassword];
         [self addSubview:self.password];
         [self addSubview:self.passwordRepeat];
-        [self addSubview:submit];
+        [self addSubview:self.submit];
     }
     return self;
 }

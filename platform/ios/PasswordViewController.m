@@ -32,6 +32,9 @@
 
 -(void) modifyPassword
 {
+    PasswordView *myView = (PasswordView*)self.view;
+    myView.submit.enabled = NO;
+    
     int flag = [self checkInput];
     
     if(flag != 0){
@@ -47,6 +50,7 @@
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"密码长度错误" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
             [alert show];
         }
+        myView.submit.enabled = YES;
         return;
     }
     
@@ -58,6 +62,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(@"network_unavailable", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
                 [alert show];
+                myView.submit.enabled = YES;
             });
             return;
         }
@@ -80,6 +85,7 @@
                     
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"修改失败，请联系客服" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
                     [alert show];
+                    myView.submit.enabled = YES;
     
                     return;
                 }
@@ -94,11 +100,13 @@
                         
                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"旧密码错误" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
                         [alert show];
+                        myView.submit.enabled = YES;
                         
                     }else{
                         
                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"修改失败，请联系客服" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
                         [alert show];
+                        myView.submit.enabled = YES;
                     }
                     
                     return;
@@ -110,6 +118,7 @@
                 myView.oldPassword.text = @"";
                 myView.password.text = @"";
                 myView.passwordRepeat.text = @"";
+                myView.submit.enabled = YES;
             });
         }];
     });

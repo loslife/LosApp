@@ -6,6 +6,7 @@
 @property UITextField *oldPassword;
 @property UITextField *password;
 @property UITextField *passwordRepeat;
+@property UIButton *submit;
 
 -(id) initWithController:(PasswordViewController*)controller;
 
