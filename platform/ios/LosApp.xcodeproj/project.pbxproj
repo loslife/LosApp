@@ -398,8 +398,6 @@
 				18CE3C231985EE5E00A3152D /* InteractiveView.m */,
 				186C3660197CBCAF00633AE4 /* ReportView.h */,
 				186C3661197CBCAF00633AE4 /* ReportView.m */,
-				18C01F6A198695E00079D22C /* ReportViewBase.h */,
-				18C01F6B198695E00079D22C /* ReportViewBase.m */,
 				18447262195D562B00B4A543 /* ReportEmployeeView.h */,
 				18447263195D562B00B4A543 /* ReportEmployeeView.m */,
 				184472871967A5D200B4A543 /* ReportShopView.h */,
@@ -481,6 +479,8 @@
 		186C35C01975121E00633AE4 /* views.base */ = {
 			isa = PBXGroup;
 			children = (
+				18C01F6A198695E00079D22C /* ReportViewBase.h */,
+				18C01F6B198695E00079D22C /* ReportViewBase.m */,
 				186C35C11975124800633AE4 /* LosBaseView.h */,
 				186C35C21975124800633AE4 /* LosBaseView.m */,
 			);
