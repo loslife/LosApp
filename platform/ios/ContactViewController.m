@@ -174,6 +174,18 @@
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         
+        BOOL network = [LosHttpHelper isNetworkAvailable];
+        if(!network){
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(@"network_unavailable", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
+                [alert show];
+                [myView.tableView headerEndRefreshing];
+            });
+            return;
+        }
+        
         [dataSource refreshWithEnterpriseId:currentEnterpriseId searchText:searchText completionHandler:^(int count){
             
             dispatch_async(dispatch_get_main_queue(), ^{
