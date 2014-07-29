@@ -58,6 +58,8 @@
         if(i == 0){
             UILabel *header = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 5)];
             header.backgroundColor = GRAY1;
+            header.layer.borderWidth = .5f;
+            header.layer.borderColor = GRAY2.CGColor;
             [self addSubview:header];
         }
         
