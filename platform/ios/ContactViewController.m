@@ -134,7 +134,7 @@
                     dispatch_async(dispatch_get_main_queue(), ^{
                         
                         ContactView *view = [[ContactView alloc] initWithController:self tableViewDataSource:dataSource];
-                        view.search.placeholder = [NSString stringWithFormat:@"共%lu位会员", count];
+                        view.search.placeholder = [NSString stringWithFormat:@"共%ld位会员", (long)count];
                         self.view = view;
                         
                         self.navigationItem.rightBarButtonItem.enabled = YES;
@@ -210,7 +210,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             
             ContactView *view = [[ContactView alloc] initWithController:self tableViewDataSource:dataSource];
-            view.search.placeholder = [NSString stringWithFormat:@"共%lu位会员", count];
+            view.search.placeholder = [NSString stringWithFormat:@"共%ld位会员", (long)count];
             self.view = view;
         });
     }];

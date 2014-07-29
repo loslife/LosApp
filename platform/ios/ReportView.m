@@ -51,16 +51,16 @@
         dataArea.pagingEnabled = YES;
         dataArea.showsHorizontalScrollIndicator = NO;
         
-        ReportEmployeeView *employee = [[ReportEmployeeView alloc] initWithFrame:CGRectMake(0, 0, 320, contentHeight) DataSource:controller.employeeDataSource];
+        ReportShopView *shop = [[ReportShopView alloc] initWithFrame:CGRectMake(0, 0, 320, contentHeight) DataSource:controller.shopDataSource];
         
-        ReportShopView *shop = [[ReportShopView alloc] initWithFrame:CGRectMake(320, 0, 320, contentHeight) DataSource:controller.shopDataSource];
+        ReportEmployeeView *employee = [[ReportEmployeeView alloc] initWithFrame:CGRectMake(320, 0, 320, contentHeight) DataSource:controller.employeeDataSource];
         
         ReportServiceView *service = [[ReportServiceView alloc] initWithFrame:CGRectMake(640, 0, 320, contentHeight) DataSource:controller.serviceDataSource];
         
         ReportCustomView *custom = [[ReportCustomView alloc] initWithFrame:CGRectMake(960, 0, 320, contentHeight) DataSource:controller.customDataSource];
         
-        [dataArea addSubview:employee];
         [dataArea addSubview:shop];
+        [dataArea addSubview:employee];
         [dataArea addSubview:service];
         [dataArea addSubview:custom];
     }

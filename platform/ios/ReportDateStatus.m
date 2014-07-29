@@ -53,7 +53,7 @@
     NSDateComponents* components = [calendar components:NSCalendarUnitYear fromDate:date];
     
     NSInteger year = [components year];
-    return [NSString stringWithFormat:@"%ld", year];
+    return [NSString stringWithFormat:@"%ld", (long)year];
 }
 
 -(NSString*) monthStr
@@ -62,7 +62,7 @@
     NSDateComponents* components = [calendar components:NSCalendarUnitMonth fromDate:date];
     
     NSInteger month = [components month];
-    return [NSString stringWithFormat:@"%ld", month];
+    return [NSString stringWithFormat:@"%ld", (long)month];
 }
 
 -(NSString*) dayStr
@@ -71,7 +71,7 @@
     NSDateComponents* components = [calendar components:NSCalendarUnitDay fromDate:date];
     
     NSInteger day = [components day];
-    return [NSString stringWithFormat:@"%ld", day];
+    return [NSString stringWithFormat:@"%ld", (long)day];
 }
 
 -(NSString*) typeStr

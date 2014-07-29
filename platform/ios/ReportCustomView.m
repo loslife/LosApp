@@ -56,7 +56,7 @@
     CGContextAddLineToPoint(ctx, 300, 39.5);
     CGContextStrokePath(ctx);
     
-    summary.text = [NSString stringWithFormat:@"会员%lu人次 散客%lu人次", [dataSource memberCount], [dataSource walkinCount]];
+    summary.text = [NSString stringWithFormat:@"会员%ld人次 散客%ld人次", (long)[dataSource memberCount], (long)[dataSource walkinCount]];
     
     [scroll removeFromSuperview];
     

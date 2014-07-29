@@ -103,7 +103,7 @@
         
         UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(anchorPoint.x + insets * i, anchorPoint.y - 40, insets, insets)];
         label.textAlignment = NSTextAlignmentCenter;
-        NSString *title = [NSString stringWithFormat:@"%lu", sectionValue * i];
+        NSString *title = [NSString stringWithFormat:@"%ld", (long)sectionValue * i];
         label.text = title;
         label.font = [UIFont systemFontOfSize:14];
         label.textColor = GRAY4;
