@@ -108,11 +108,14 @@
     NSString* phone = myView.username.text;
     NSString* code = myView.code.text;
     
+    myView.submit.enabled = NO;
+    
     BOOL flag = [self checkInputWithPhone:phone code:code];
     
     if(!flag){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"手机号和验证码不能为空" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
         [alert show];
+        myView.submit.enabled = YES;
         return;
     }
     
@@ -121,6 +124,8 @@
 
 -(void) doCheckPhone:(NSString*)phone code:(NSString*)code
 {
+    ResetStep1View *myView = (ResetStep1View*)self.view;
+    
     NSString *checkCodeURL = [NSString stringWithFormat:CHECK_CODE_URL, phone, @"reset_password_losapp", code];
     
     [httpHelper getSecure:checkCodeURL completionHandler:^(NSDictionary *dict){
@@ -129,6 +134,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"校验验证码失败，请联系客服" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
                 [alert show];
+                myView.submit.enabled = YES;
             });
             return;
         }
@@ -144,17 +150,20 @@
                 if([errorCode isEqualToString:@"88888501"]){
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"验证码已失效，请重新获取" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
                     [alert show];
+                    myView.submit.enabled = YES;
                     return;
                 }
                 
                 if([errorCode isEqualToString:@"88888502"]){
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"验证码错误" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
                     [alert show];
+                    myView.submit.enabled = YES;
                     return;
                 }
                 
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"校验验证码失败，请联系客服" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
                 [alert show];
+                myView.submit.enabled = YES;
             });
             return;
         }
