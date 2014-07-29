@@ -2,7 +2,7 @@
 #import "LosStyles.h"
 
 const CGFloat menuWidth = 160;
-const CGFloat rowHeight = 28;
+const CGFloat rowHeight = 44;
 
 @implementation LosDropDownItem
 
@@ -68,7 +68,7 @@ const CGFloat rowHeight = 28;
         
         BOOL selected = item.selected;
         
-        UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(10, 12 + rowHeight * i, 4, 4)];
+        UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(10, (rowHeight - 4) / 2 + rowHeight * i, 4, 4)];
         if(selected){
             icon.image = [UIImage imageNamed:@"point_red"];
         }else{
