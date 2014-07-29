@@ -44,9 +44,13 @@
     LoginView* myView = (LoginView*)self.view;
     NSString *userName = myView.username.text;
     NSString *password = myView.password.text;
+    
+    myView.login.enabled = NO;
+    
     if([StringUtils isEmpty:userName] || [StringUtils isEmpty:password]){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"请输入用户名和密码" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
         [alert show];
+        myView.login.enabled = YES;
         return;
     }
     
@@ -57,6 +61,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"无网络连接，请检查您的网络" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
                 [alert show];
+                myView.login.enabled = YES;
             });
             return;
         }
@@ -70,6 +75,7 @@
                 dispatch_async(dispatch_get_main_queue(), ^(void){
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"登陆失败，请联系客服" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
                     [alert show];
+                    myView.login.enabled = YES;
                 });
                 return;
             }
@@ -84,6 +90,7 @@
                     dispatch_async(dispatch_get_main_queue(), ^(void){
                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"用户名或密码错误" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
                         [alert show];
+                        myView.login.enabled = YES;
                     });
                     return;
                 }
@@ -91,6 +98,7 @@
                 dispatch_async(dispatch_get_main_queue(), ^(void){
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"登陆失败，请联系客服" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
                     [alert show];
+                    myView.login.enabled = YES;
                 });
                 return;
             }
