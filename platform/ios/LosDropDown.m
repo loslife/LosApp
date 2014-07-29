@@ -56,9 +56,21 @@ const CGFloat rowHeight = 44;
     
     UIView *wrapper = [[UIView alloc] initWithFrame:CGRectMake(0, 10, menuWidth, rect.size.height - 10)];
     wrapper.backgroundColor = [UIColor whiteColor];
-    wrapper.layer.cornerRadius = 5;
-    wrapper.layer.borderWidth = 1;
-    wrapper.layer.borderColor = GRAY1.CGColor;
+    
+    CALayer *leftBorder = [CALayer layer];
+    leftBorder.frame = CGRectMake(0, 0, 1, wrapper.bounds.size.height);
+    leftBorder.backgroundColor = GRAY1.CGColor;
+    [wrapper.layer addSublayer:leftBorder];
+    
+    CALayer *rightBorder = [CALayer layer];
+    rightBorder.frame = CGRectMake(menuWidth - 1, 0, 1, wrapper.bounds.size.height);
+    rightBorder.backgroundColor = GRAY1.CGColor;
+    [wrapper.layer addSublayer:rightBorder];
+    
+    CALayer *bottomBorder = [CALayer layer];
+    bottomBorder.frame = CGRectMake(0, wrapper.bounds.size.height, menuWidth, 1);
+    bottomBorder.backgroundColor = GRAY1.CGColor;
+    [wrapper.layer addSublayer:bottomBorder];
     
     NSUInteger count = [ds itemCount];
     
