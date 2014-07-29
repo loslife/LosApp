@@ -101,6 +101,7 @@
 		18B2EE221946E0EF00264B74 /* LosAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B2EE211946E0EF00264B74 /* LosAppDelegate.m */; };
 		18B2EE241946E0EF00264B74 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18B2EE231946E0EF00264B74 /* Images.xcassets */; };
 		18C01F6C198695E00079D22C /* ReportViewBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C01F6B198695E00079D22C /* ReportViewBase.m */; };
+		18C01F6F1987494B0079D22C /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18C01F6E1987494B0079D22C /* Crashlytics.framework */; };
 		18CE3C241985EE5E00A3152D /* InteractiveView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CE3C231985EE5E00A3152D /* InteractiveView.m */; };
 		18CE3C271985F49A00A3152D /* SystemDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CE3C261985F49A00A3152D /* SystemDao.m */; };
 /* End PBXBuildFile section */
@@ -293,6 +294,7 @@
 		18B2EE2A1946E0EF00264B74 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		18C01F6A198695E00079D22C /* ReportViewBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportViewBase.h; sourceTree = "<group>"; };
 		18C01F6B198695E00079D22C /* ReportViewBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportViewBase.m; sourceTree = "<group>"; };
+		18C01F6E1987494B0079D22C /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		18CE3C221985EE5E00A3152D /* InteractiveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InteractiveView.h; sourceTree = "<group>"; };
 		18CE3C231985EE5E00A3152D /* InteractiveView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InteractiveView.m; sourceTree = "<group>"; };
 		18CE3C251985F49A00A3152D /* SystemDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemDao.h; sourceTree = "<group>"; };
@@ -307,6 +309,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				18B2EE141946E0EF00264B74 /* CoreGraphics.framework in Frameworks */,
+				18C01F6F1987494B0079D22C /* Crashlytics.framework in Frameworks */,
 				18B2EE161946E0EF00264B74 /* UIKit.framework in Frameworks */,
 				18B2EE121946E0EF00264B74 /* Foundation.framework in Frameworks */,
 				04CFBFE75F2E4F9CA79F1910 /* libPods.a in Frameworks */,
@@ -596,6 +599,7 @@
 		18B2EE101946E0EF00264B74 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				18C01F6E1987494B0079D22C /* Crashlytics.framework */,
 				18B2EE111946E0EF00264B74 /* Foundation.framework */,
 				18B2EE131946E0EF00264B74 /* CoreGraphics.framework */,
 				18B2EE151946E0EF00264B74 /* UIKit.framework */,
@@ -695,6 +699,7 @@
 				18B2EE0B1946E0EF00264B74 /* Frameworks */,
 				18B2EE0C1946E0EF00264B74 /* Resources */,
 				60171CD0B37B444FA782B6C1 /* Copy Pods Resources */,
+				18C01F6D198747D00079D22C /* Crashlytics script */,
 			);
 			buildRules = (
 			);
@@ -753,6 +758,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		18C01F6D198747D00079D22C /* Crashlytics script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Crashlytics script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Crashlytics.framework/run 1ccc56a1bdc94acb876fd76e5193e91160a4d3f6 9458dec24619caf2ae59494b16114f7bee4380b05059cd42892da6d5b62da1b0";
+		};
 		2F977876859A4B40B306FC14 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -976,6 +995,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LosApp/LosApp-Prefix.pch";
 				INFOPLIST_FILE = "LosApp/LosApp-Info.plist";
@@ -995,6 +1018,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LosApp/LosApp-Prefix.pch";
 				INFOPLIST_FILE = "LosApp/LosApp-Info.plist";

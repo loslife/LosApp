@@ -1,10 +1,13 @@
 #import "LosAppDelegate.h"
 #import "LosStyles.h"
+#import <Crashlytics/Crashlytics.h>
 
 @implementation LosAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [Crashlytics startWithAPIKey:@"1ccc56a1bdc94acb876fd76e5193e91160a4d3f6"];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     WelcomeViewController *welcome = [[WelcomeViewController alloc] init];
