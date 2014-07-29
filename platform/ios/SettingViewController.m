@@ -195,6 +195,7 @@ typedef enum {
     
     if(index == 1){
         AddShopViewController *controller = [[AddShopViewController alloc] init];
+        controller.view.backgroundColor = [UIColor whiteColor];
         [self.navigationController pushViewController:controller animated:YES];
     }
     
