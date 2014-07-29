@@ -29,7 +29,7 @@
     NSURL *url = [NSURL URLWithString:urlString];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
-    [request setTimeoutInterval:30];
+    [request setTimeoutInterval:60];
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:postData];
     
@@ -69,7 +69,7 @@
     NSURL *url = [NSURL URLWithString:urlString];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
-    [request setTimeoutInterval:30];
+    [request setTimeoutInterval:60];
     [request setHTTPMethod:@"GET"];
     
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
