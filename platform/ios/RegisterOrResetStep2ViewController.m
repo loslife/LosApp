@@ -49,24 +49,23 @@
     NSString *password = myView.password.text;
     NSString *repeat = myView.repeat.text;
     
+    myView.submit.enabled = NO;
+    
     int flag = [self checkInputWithPassword:password repeat:repeat];
     if(flag != 0){
         
+        UIAlertView *alert;
+        
         if(flag == 1){
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"密码不能为空" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-            [alert show];
+            alert = [[UIAlertView alloc] initWithTitle:nil message:@"密码不能为空" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        }else if(flag == 2){
+            alert = [[UIAlertView alloc] initWithTitle:nil message:@"两次输入密码不一致" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        }else{
+            alert = [[UIAlertView alloc] initWithTitle:nil message:@"密码长度错误" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
         }
         
-        if(flag == 2){
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"两次输入密码不一致" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-            [alert show];
-        }
-        
-        if(flag == 3){
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"密码长度错误" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-            [alert show];
-        }
-        
+        [alert show];
+        myView.submit.enabled = YES;
         return;
     }
     
@@ -92,6 +91,8 @@
 
 -(void) doSubmit:(NSString*)phone Password:(NSString*)password
 {
+    RegisterOrResetStep2View *myView = (RegisterOrResetStep2View*)self.view;
+    
     NSString* submitURL;
     if([self.type isEqualToString:@"register"]){
         submitURL = REGISTER_URL;
@@ -109,6 +110,7 @@
             dispatch_async(dispatch_get_main_queue(), ^(void){
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"服务器出错，请联系客服" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
                 [alert show];
+                myView.submit.enabled = YES;
             });
             return;
         }
@@ -139,6 +141,7 @@
                         [alert show];
                     }
                 }
+                myView.submit.enabled = YES;
             });
             return;
         }
