@@ -277,6 +277,13 @@
 
 -(void) _reAttach
 {
+    CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;// 568 in 4-inch，480 in 3.5-inch
+    
+    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [indicator setCenter:CGPointMake(160, screenHeight / 2 - 10)];
+    [indicator startAnimating];
+    [self.view addSubview:indicator];
+    
     UserData *userData = [UserData load];
     NSString* userId = userData.userId;
     
@@ -299,6 +306,9 @@
                 if([StringUtils isEmpty:userData.enterpriseId]){
                     [UserData writeCurrentEnterprise:enterpriseIdInProcess];
                 }
+                
+                [indicator stopAnimating];
+                [indicator removeFromSuperview];
             });
         }];
     });
@@ -315,6 +325,13 @@
 
 -(void) _undoAttach
 {
+    CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;// 568 in 4-inch，480 in 3.5-inch
+    
+    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [indicator setCenter:CGPointMake(160, screenHeight / 2 - 10)];
+    [indicator startAnimating];
+    [self.view addSubview:indicator];
+    
     UserData *userData = [UserData load];
     NSString* userId = userData.userId;
     
@@ -334,6 +351,9 @@
             if([userData.enterpriseId isEqualToString:enterpriseIdInProcess]){
                 [UserData removeCurrentEnterprise];
             }
+            
+            [indicator stopAnimating];
+            [indicator removeFromSuperview];
         });
     }];
 }
