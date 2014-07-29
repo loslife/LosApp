@@ -7,6 +7,6 @@
 @interface AddShopViewController : UIViewController<EnterpriseListViewDelegate, UIAlertViewDelegate>
 
 -(void) requireVerificationCode;
--(void) appendEnterprise;
+-(void) appendEnterprise:(void(^)())block;
 
 @end

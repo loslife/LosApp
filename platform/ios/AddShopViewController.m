@@ -98,7 +98,7 @@
     });
 }
 
--(void) appendEnterprise
+-(void) appendEnterprise:(void(^)())block
 {
     AddShopView *myView = (AddShopView*)self.view;
     UITextField *phoneField = myView.phone;
@@ -109,12 +109,14 @@
     if(validate == 1){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"请输入正确手机号" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
         [alert show];
+        block();
         return;
     }
     
     if(validate == 2){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"请输入验证码" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
         [alert show];
+        block();
         return;
     }
     
@@ -125,6 +127,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(@"network_unavailable", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
                 [alert show];
+                block();
             });
             return;
         }
@@ -137,6 +140,7 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"校验验证码失败，请联系客服" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
                     [alert show];
+                    block();
                 });
                 return;
             }
@@ -146,6 +150,7 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"验证码错误" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
                     [alert show];
+                    block();
                 });
                 return;
             }
@@ -162,6 +167,7 @@
                     dispatch_async(dispatch_get_main_queue(), ^{
                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"关联失败，请联系客服" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
                         [alert show];
+                        block();
                     });
                     return;
                 }
@@ -178,15 +184,19 @@
                         if([errorCode isEqualToString:@"501"]){
                             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"美管家账号不存在" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
                             [alert show];
+                            block();
                         }else if([errorCode isEqualToString:@"502"]){
                             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"美管家版本太低，请升级美管家版本" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
                             [alert show];
+                            block();
                         }else if([errorCode isEqualToString:@"503"]){
                             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"此美管家账号已被关联，重启应用可见" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
                             [alert show];
+                            block();
                         }else{
                             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"关联失败，请联系客服" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
                             [alert show];
+                            block();
                         }
                     });
                     
@@ -209,6 +219,8 @@
                     if([StringUtils isEmpty:userData.enterpriseId]){
                         [UserData writeCurrentEnterprise:enterpriseId];
                     }
+                    
+                    block();
                 });
             }];
         }];

@@ -4,9 +4,12 @@
 @implementation AddShopView
 
 {
+    AddShopViewController *delegate;
+    
     UIView *label;
     UIView *form;
-
+    UIButton *attach;
+    
     BOOL isUnfold;
     CGFloat labelHeight;
     CGFloat formHeight;
@@ -17,6 +20,8 @@
 {
     self = [super init];
     if(self){
+        
+        delegate = controller;
         
         isUnfold = NO;
         labelHeight = 50;
@@ -66,13 +71,13 @@
         self.requireCodeButton.tintColor = BLUE1;
         [self.requireCodeButton addTarget:controller action:@selector(requireVerificationCode) forControlEvents:UIControlEventTouchUpInside];
         
-        UIButton *attach = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        attach = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         attach.frame = CGRectMake(20, 180, 280, 40);
         [attach setTitle:@"立即关联" forState:UIControlStateNormal];
         attach.backgroundColor = BLUE1;
         attach.tintColor = [UIColor whiteColor];
         attach.layer.cornerRadius = 5;
-        [attach addTarget:controller action:@selector(appendEnterprise) forControlEvents:UIControlEventTouchUpInside];
+        [attach addTarget:self action:@selector(_appendEnterprise) forControlEvents:UIControlEventTouchUpInside];
         
         UILabel *notice = [[UILabel alloc] initWithFrame:CGRectMake(20, 220, 280, 60)];
         notice.text = @"小贴士：关联店铺完成后，在手机中可以查看店铺中的实时经营数据以及所有的会员资料。";
@@ -106,6 +111,24 @@
     }else{
         listHeight = actualHeight - labelHeight;
     }
+}
+
+-(void) _appendEnterprise
+{
+    CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;// 568 in 4-inch，480 in 3.5-inch
+    
+    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [indicator setCenter:CGPointMake(160, screenHeight / 2 - 10)];
+    [indicator startAnimating];
+    [self addSubview:indicator];
+    
+    attach.enabled = NO;
+    [delegate appendEnterprise:^{
+        
+        [indicator stopAnimating];
+        [indicator removeFromSuperview];
+        attach.enabled = YES;
+    }];
 }
 
 -(void) unfold
