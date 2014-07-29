@@ -52,10 +52,13 @@
     AddShopView *myView = (AddShopView*)self.view;
     UITextField *phone = myView.phone;
     
+    myView.requireCodeButton.enabled = NO;
+    
     BOOL flag = [StringUtils isPhone:phone.text];
     if(!flag){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"请输入正确手机号" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
         [alert show];
+        myView.requireCodeButton.enabled = YES;
         return;
     }
     
@@ -66,6 +69,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(@"network_unavailable", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
                 [alert show];
+                myView.requireCodeButton.enabled = YES;
             });
             return;
         }
@@ -77,6 +81,7 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"获取验证码失败，请联系客服" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
                     [alert show];
+                    myView.requireCodeButton.enabled = YES;
                 });
                 return;
             }
@@ -86,12 +91,12 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"获取验证码失败，请联系客服" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
                     [alert show];
+                    myView.requireCodeButton.enabled = YES;
                 });
                 return;
             }
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self disableRequireCodeButton];
                 [self startTick];
             });
         }];
@@ -359,14 +364,6 @@
 }
 
 #pragma mark - timer
-
--(void) disableRequireCodeButton
-{
-    AddShopView *myView = (AddShopView*)self.view;
-    UIButton *button = myView.requireCodeButton;
-    
-    button.enabled = NO;
-}
 
 -(void) startTick
 {

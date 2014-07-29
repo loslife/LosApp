@@ -56,10 +56,13 @@
     RegisterStep1View *myView = (RegisterStep1View*)self.view;
     UITextField *phone = myView.username;
     
+    myView.requireCodeButton.enabled = NO;
+    
     BOOL flag = [StringUtils isPhone:phone.text];
     if(!flag){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"请输入正确手机号" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
         [alert show];
+        myView.requireCodeButton.enabled = YES;
         return;
     }
     
@@ -70,6 +73,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(@"network_unavailable", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
                 [alert show];
+                myView.requireCodeButton.enabled = YES;
             });
             return;
         }
@@ -82,6 +86,7 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"获取验证码失败，请联系客服" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
                     [alert show];
+                    myView.requireCodeButton.enabled = YES;
                 });
                 return;
             }
@@ -91,6 +96,7 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"获取验证码失败，请联系客服" delegate:nil cancelButtonTitle:NSLocalizedString(@"button_confirm", @"") otherButtonTitles:nil];
                     [alert show];
+                    myView.requireCodeButton.enabled = YES;
                 });
                 return;
             }
