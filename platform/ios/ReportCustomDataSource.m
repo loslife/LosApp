@@ -130,16 +130,18 @@
         [dict setObject:[NSNumber numberWithInt:0] forKey:@"member"];
         [dict setObject:[NSNumber numberWithInt:0] forKey:@"temp"];
         [dict setObject:[NSNumber numberWithInt:year] forKey:@"year"];
-        [dict setObject:[NSNumber numberWithInt:(month - 1)] forKey:@"month"];
         
         if([type isEqualToString:@"day"]){
+            [dict setObject:[NSNumber numberWithInt:(month - 1)] forKey:@"month"];// 月份需要-1，dao里会+1入库，下同
             [dict setObject:[NSNumber numberWithInt:day] forKey:@"day"];
             [dict setObject:[NSNumber numberWithInt:i] forKey:@"hour"];
         }else if([type isEqualToString:@"month"]){
+            [dict setObject:[NSNumber numberWithInt:(month - 1)] forKey:@"month"];
             [dict setObject:[NSNumber numberWithInt:i + 1] forKey:@"day"];
             [dict setObject:[NSNumber numberWithInt:0] forKey:@"hour"];
         }else{
-            [dict setObject:[NSNumber numberWithLong:components.day - 1] forKey:@"day"];
+            [dict setObject:[NSNumber numberWithLong:components.month - 1] forKey:@"month"];
+            [dict setObject:[NSNumber numberWithLong:components.day - 1] forKey:@"day"];// 循环开始时day已经+1，这里需要-1平衡
             [dict setObject:[NSNumber numberWithInt:0] forKey:@"hour"];
         }
         

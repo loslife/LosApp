@@ -399,7 +399,7 @@
             NSDate *sunday = [TimesHelper firstDayOfWeek:date];
             NSTimeInterval sundayNumber = [sunday timeIntervalSince1970];
             
-            rs = [db executeQuery:@"select walkin, member, day from customer_count_week where enterprise_id = :eid and dateTime = :dateTime order by day asc", enterpriseId, [NSNumber numberWithLongLong:sundayNumber]];
+            rs = [db executeQuery:@"select walkin, member, day from customer_count_week where enterprise_id = :eid and dateTime = :dateTime order by month, day asc", enterpriseId, [NSNumber numberWithLongLong:sundayNumber]];
         }
         
         int walkin_total = 0;
@@ -489,9 +489,6 @@
             }else if([type isEqualToString:@"month"]){
                 [db executeUpdate:insert_month, _id, enterpriseId, walkin, member, year, month, day];
             }else{
-                NSDate *date = [TimesHelper dateWithYear:[year intValue] month:[month intValue] day:[day intValue]];
-                NSTimeInterval sunday = [[TimesHelper firstDayOfWeek:date] timeIntervalSince1970];
-                NSNumber *sundayNumber = [NSNumber numberWithDouble:sunday];
                 [db executeUpdate:insert_week, _id, enterpriseId, walkin, member, year, month, day, sundayNumber];
             }
         }
