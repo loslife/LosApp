@@ -80,6 +80,8 @@
     
     [dbHelper inDatabase:^(FMDatabase* db){
     
+        [db beginTransaction];
+        
         for(NSDictionary *item in array){
             
             NSNumber *year = [item objectForKey:@"year"];
@@ -102,6 +104,8 @@
             }
             [rs close];
         }
+        
+        [db commit];
     }];
 }
 
@@ -247,6 +251,8 @@
     
     [dbHelper inDatabase:^(FMDatabase* db){
         
+        [db beginTransaction];
+        
         NSNumber *createDate = [entity objectForKey:@"create_date"];
         NSString *enterpriseId = [entity objectForKey:@"enterprise_id"];
         NSNumber *total = [entity objectForKey:@"total"];
@@ -271,6 +277,8 @@
             [db executeUpdate:update, total, cash, card, bank, service, product, newcard, recharge, now, year, month, day, enterpriseId];
         }
         [rs close];
+        
+        [db commit];
     }];
 }
 
@@ -334,6 +342,8 @@
     
     [dbHelper inDatabase:^(FMDatabase* db){
     
+        [db beginTransaction];
+        
         for(NSDictionary *item in array){
             
             NSNumber *year = [item objectForKey:@"year"];
@@ -358,6 +368,8 @@
             }
             [rs close];
         }
+        
+        [db commit];
     }];
 }
 
@@ -452,6 +464,8 @@
     
     [dbHelper inDatabase:^(FMDatabase* db){
     
+        [db beginTransaction];
+        
         if([type isEqualToString:@"day"]){
             [db executeUpdate:delete_day, year, month, day, enterpriseId];
         }else if([type isEqualToString:@"month"]){
@@ -481,6 +495,8 @@
                 [db executeUpdate:insert_week, _id, enterpriseId, walkin, member, year, month, day, sundayNumber];
             }
         }
+        
+        [db commit];
     }];
 }
 

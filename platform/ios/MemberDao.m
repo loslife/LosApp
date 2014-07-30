@@ -27,13 +27,15 @@
     
     [dbHelper inDatabase:^(FMDatabase* db){
     
+        [db beginTransaction];
+        
         // 刷新最后同步时间
         NSString *refreshLatestSyncTime = @"update enterprises set contact_latest_sync = :sync where enterprise_id = :enterpriseId;";
         [db executeUpdate:refreshLatestSyncTime, lastSync, enterpriseId];
         
         // 处理新增记录
         NSArray *add = [records objectForKey:@"add"];
-        NSString *insert = @"insert into members (id, enterprise_id, name, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume, create_date, modify_date, cardStr, sex, sectionNumber) values (:id, :eid, :name, :birthday, :phoneMobile, :joinDate, :memberNo, :latest, :total, :average, :cdate, :mdate, :cardStr, :sex, :sectionNumber);";
+        NSString *insert = @"insert or ignore into members (id, enterprise_id, name, birthday, phoneMobile, joinDate, memberNo, latestConsumeTime, totalConsume, averageConsume, create_date, modify_date, cardStr, sex, sectionNumber) values (:id, :eid, :name, :birthday, :phoneMobile, :joinDate, :memberNo, :latest, :total, :average, :cdate, :mdate, :cardStr, :sex, :sectionNumber);";
         
         for(NSDictionary *item in add){
             
@@ -94,6 +96,8 @@
             NSString *pk = [item objectForKey:@"id"];
             [db executeUpdate:deleteStatement, pk];
         }
+        
+        [db commit];
     }];
 }
 
