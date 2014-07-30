@@ -357,7 +357,7 @@ public class MemberGoupActivity extends BaseActivity {
 			title = new String[myshops.size()];
 			shopIds = new String[myshops.size()];
 			for (int i = 0; i < myshops.size(); i++) {
-				title[i] = myshops.get(i).getEnterprise_name();
+				title[i] = myshops.get(i).getEnterprise_name()==null?"":myshops.get(i).getEnterprise_name();
 				shopIds[i] = myshops.get(i).getEnterprise_id();
 			}
 		}

@@ -443,9 +443,17 @@ public class RegisterActivity extends BaseActivity
 
 			@Override
 			public void onFinish() {
+				if(!forgotpwd)
+				{
 				relativelayout_vcode.setVisibility(View.GONE);
 				system_vcode_tip.setText("短信验证码好像罢工了，请确认输入是您本人号码，以确保使用中的账号与数据安全");
 				system_vcode_tip.setTextColor(color.holo_red_dark);
+				}
+				else
+				{
+					relativelayout_vcode.setVisibility(View.VISIBLE);
+					layout_getcode.setVisibility(View.GONE);
+				}
 				timecount.setVisibility(View.GONE);
 			}
 

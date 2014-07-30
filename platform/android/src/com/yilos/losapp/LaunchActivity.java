@@ -125,7 +125,7 @@ public class LaunchActivity extends BaseActivity {
 								if(myshops.get(j).getEnterprise_id().equals(res.getResult().getMyShopList().get(i).getEnterprise_id()))
 								{
 									updateFlag = true;
-									myshopService.updateShops(res.getResult().getMyShopList().get(j));
+									myshopService.updateShops(res.getResult().getMyShopList().get(i));
 									break;
 								}
 							}

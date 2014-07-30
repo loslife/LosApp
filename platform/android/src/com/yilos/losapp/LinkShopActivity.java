@@ -245,8 +245,8 @@ public class LinkShopActivity extends BaseActivity
         ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();  
         for(MyShopBean bean:myDisconnectShops)  
         {  
-        	String shopName = bean.getEnterprise_name();
-        	if(shopName.length()>10)
+        	String shopName = bean.getEnterprise_name()==null?"":bean.getEnterprise_name();
+        	if(shopName!=null&&shopName.length()>10)
         	{
         		shopName = shopName.substring(0, 10)+"...";
         	}
@@ -280,7 +280,7 @@ public class LinkShopActivity extends BaseActivity
                         //警告框  
                         new AlertDialog.Builder(LinkShopActivity.this)  
                         .setTitle("恢复关联")  
-                        .setMessage("是否恢复对<"+myshops.get(p).getEnterprise_name()+">的关联？")  
+                        .setMessage("是否恢复对<"+myDisconnectShops.get(p).getEnterprise_name()+">的关联？")  
                         .setPositiveButton("是", new DialogInterface.OnClickListener() {  
                             public void onClick(DialogInterface dialog, int which) {
                             	isRecoveryLink = true;
@@ -518,8 +518,7 @@ public class LinkShopActivity extends BaseActivity
 			{
 				if(msg.what==0)
 				{
-					validatecode.setText("");
-					UIHelper.ToastMessage(LinkShopActivity.this, "请输入验证码");
+					UIHelper.ToastMessage(LinkShopActivity.this, "验证失败");
 				}
 			}
 		};
