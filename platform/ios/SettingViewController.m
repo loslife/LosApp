@@ -216,6 +216,7 @@ typedef enum {
         }
         
         AppUpdateViewController *controller = [[AppUpdateViewController alloc] init];
+        controller.view.backgroundColor = [UIColor whiteColor];
         [self.navigationController pushViewController:controller animated:YES];
     }
     
