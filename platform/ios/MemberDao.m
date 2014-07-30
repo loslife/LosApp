@@ -188,7 +188,15 @@
 
 -(NSString*) resolveConsumeDescWithDate:(NSNumber*)date average:(NSNumber*)average
 {
-    NSString *latestConsumeStr = [StringUtils fromNumber:date format:@"MM月dd日"];
+    NSString *latestConsumeStr;
+    
+    if((NSNull*)date == [NSNull null]){
+        latestConsumeStr = @"";
+    }else{
+        NSNumber *latestDateSecs = [NSNumber numberWithDouble:[date doubleValue] / 1000];
+        latestConsumeStr = [StringUtils fromNumber:latestDateSecs format:@"MM月dd日"];
+    }
+    
     if([StringUtils isEmpty:latestConsumeStr]){
         latestConsumeStr = @"未消费";
     }else{

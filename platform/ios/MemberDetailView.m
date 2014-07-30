@@ -46,7 +46,15 @@
     [header addSubview:name];
     [header addSubview:sex];
     
-    UIView *birthdayArea = [self makeBaseinfoView:CGRectMake(20, 114, 280, heightForLabel) icon:@"member_birthday" text:[NSString stringWithFormat:@"生日：%@", [StringUtils fromNumber:theMember.birthday format:@"MM-dd"]]];
+    NSNumber *birthdayDate = theMember.birthday;
+    NSString *birthdayStr;
+    if((NSNull*)birthdayDate == [NSNull null]){
+        birthdayStr = @"";
+    }else{
+        NSNumber *birthdayDateSecs = [NSNumber numberWithDouble:[birthdayDate doubleValue] / 1000];
+        birthdayStr = [StringUtils fromNumber:birthdayDateSecs format:@"MM-dd"];
+    }
+    UIView *birthdayArea = [self makeBaseinfoView:CGRectMake(20, 114, 280, heightForLabel) icon:@"member_birthday" text:[NSString stringWithFormat:@"生日：%@", birthdayStr]];
     
     UIView *noArea = [self makeBaseinfoView:CGRectMake(20, 114 + heightForLabel, 280, heightForLabel) icon:@"member_no" text:[NSString stringWithFormat:@"编号：%@", theMember.memberNo]];
    
@@ -73,7 +81,16 @@
     
     UILabel *cards = [self makeConsumeinfoView:CGRectMake(20, 119 + heightForLabel * 5, 280, heightForLabel) text:[NSString stringWithFormat:@"会员卡：%@", theMember.cardStr]];
     
-    UILabel *latest = [self makeConsumeinfoView:CGRectMake(20, 119 + heightForLabel * 6, 280, heightForLabel) text:[NSString stringWithFormat:@"最后消费时间：%@", [StringUtils fromNumber:theMember.latestConsumeTime format:@"MM-dd"]]];
+    
+    NSNumber *latestDate = theMember.latestConsumeTime;
+    NSString *latestStr;
+    if((NSNull*)latestDate == [NSNull null]){
+        latestStr = @"";
+    }else{
+        NSNumber *latestDateSecs = [NSNumber numberWithDouble:[latestDate doubleValue] / 1000];
+        latestStr = [StringUtils fromNumber:latestDateSecs format:@"MM-dd"];
+    }
+    UILabel *latest = [self makeConsumeinfoView:CGRectMake(20, 119 + heightForLabel * 6, 280, heightForLabel) text:[NSString stringWithFormat:@"最后消费时间：%@", latestStr]];
 
     UILabel *total = [self makeConsumeinfoView:CGRectMake(20, 119 + heightForLabel * 7, 280, heightForLabel) text:[NSString stringWithFormat:@"累计消费：￥%.1f", [theMember.totalConsume doubleValue]]];
 
