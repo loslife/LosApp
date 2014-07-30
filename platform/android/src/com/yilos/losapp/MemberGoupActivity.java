@@ -51,7 +51,10 @@ public class MemberGoupActivity extends BaseActivity {
 	private SideBar indexBar;
 	private WindowManager mWindowManager;
 	private TextView mDialogText;
+	private RelativeLayout seach_layout;
+	private LinearLayout member_seach;
 	private EditText seachmemberext;
+	private TextView membercount;
 	private LinearLayout layout_loadingmember;
 	private LinearLayout layout_memberlist;
 	private RefreshableView refreshableView;
@@ -60,6 +63,7 @@ public class MemberGoupActivity extends BaseActivity {
 	private RelativeLayout layout_loadingfail;
 	private TextView loadcountinfo;
 	private TextView reloading;
+	private TextView cancelsearch;
 
 	String[] members;
 	String[] memberNames;
@@ -94,8 +98,7 @@ public class MemberGoupActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.mebersgroup);
-		lvContact = (ListView) this.findViewById(R.id.lvContact);
-		mWindowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+
 		memberService = new MemberService(getBaseContext());
 		shoptitle = AppContext.getInstance(getBaseContext()).getShopName();
 	}
@@ -141,8 +144,6 @@ public class MemberGoupActivity extends BaseActivity {
 
 	public void initView() {
 		
-		findView();
-		
 		if (null != parentData && parentData.size() > 0) 
 		{
 			
@@ -182,15 +183,7 @@ public class MemberGoupActivity extends BaseActivity {
 			   layout_memberlist.setVisibility(View.GONE);
 			}
 		}
-		seachmemberext.setOnFocusChangeListener(new View.OnFocusChangeListener() {  
-		      
-		    @Override  
-		    public void onFocusChange(View v, boolean hasFocus) {  
-		        if(hasFocus){  
-		        	seachmemberext.setCompoundDrawables(getResources().getDrawable(R.drawable.search), null, null, null);
-		        } 
-		    }             
-		});  
+		
 		seachmemberext.addTextChangedListener(new TextWatcher() {
 
 			@Override
@@ -231,12 +224,6 @@ public class MemberGoupActivity extends BaseActivity {
 
 	private void findView() {
 
-		indexBar = (SideBar) findViewById(R.id.sideBar);
-		indexBar.setListView(lvContact);
-		mDialogText = (TextView) LayoutInflater.from(this).inflate(
-				R.layout.list_position, null);
-		mDialogText.setVisibility(View.INVISIBLE);
-
 		layout_loadingmember = (LinearLayout) findViewById(R.id.layout_loadingmember);
 		layout_memberlist =  (LinearLayout) findViewById(R.id.layout_memberlist);
 		loadingmember = (TextView) findViewById(R.id.loadingmember);
@@ -246,10 +233,17 @@ public class MemberGoupActivity extends BaseActivity {
 		loading_begin = (LinearLayout) findViewById(R.id.loading_begin);
 		loadcountinfo = (TextView) findViewById(R.id.loadcountinfo);
 		layout_loadingfail = (RelativeLayout) findViewById(R.id.layout_loadingfail);
-
+		seach_layout  = (RelativeLayout) findViewById(R.id.seach_layout);
+		member_seach =  (LinearLayout) findViewById(R.id.member_seach);
+		membercount = (TextView) findViewById(R.id.membercount);
+		cancelsearch = (TextView) findViewById(R.id.cancelsearch);
+		
 		shopname = (TextView) findViewById(R.id.shopname);
 		shopname.setText(AppContext.getInstance(getBaseContext()).getShopName());
 		findViewById(R.id.goback).setVisibility(View.GONE);
+		membercount.setText("共有"+parentData.size()+"名会员");
+		
+		initIndexBar();
 		
 		refreshableView.setOnRefreshListener(new PullToRefreshListener() {
 			@Override
@@ -300,6 +294,40 @@ public class MemberGoupActivity extends BaseActivity {
 				}
 			}
 		});
+       
+       //会员搜索
+       seach_layout.setOnClickListener(new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			member_seach.setVisibility(View.VISIBLE);
+			seach_layout.setVisibility(View.GONE);
+		}
+	   });
+       
+       cancelsearch.setOnClickListener(new OnClickListener() {
+   		@Override
+   		public void onClick(View v) {
+   			member_seach.setVisibility(View.GONE);
+   			seach_layout.setVisibility(View.VISIBLE);
+   			parentData = memberService.queryMembers(shopId);
+   			initView();
+   		}
+   	   });
+
+	}
+	
+	public void initIndexBar()
+	{
+		lvContact = (ListView) this.findViewById(R.id.lvContact);
+		mWindowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+		
+		indexBar = (SideBar) findViewById(R.id.sideBar);
+		indexBar.setListView(lvContact);
+		mDialogText = (TextView) LayoutInflater.from(this).inflate(
+				R.layout.list_position, null);
+		mDialogText.setVisibility(View.INVISIBLE);
+
 		WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,
 				WindowManager.LayoutParams.TYPE_APPLICATION,
@@ -309,7 +337,6 @@ public class MemberGoupActivity extends BaseActivity {
 		mWindowManager.addView(mDialogText, lp);
 		indexBar.setTextView(mDialogText);
 	}
-	
 
 	public void getdata() 
 	{
@@ -334,6 +361,7 @@ public class MemberGoupActivity extends BaseActivity {
 				shopIds[i] = myshops.get(i).getEnterprise_id();
 			}
 		}
+		findView();
 		initView();
 	}
 	

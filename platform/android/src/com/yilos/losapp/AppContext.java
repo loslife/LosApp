@@ -29,6 +29,8 @@ public class AppContext extends Application {
 	
 	public static AppContext appContext;
 	
+	private boolean  isFirstRun;
+	
 	@Override
 	public void onCreate() {
 		super.onCreate(); 
@@ -250,5 +252,14 @@ public class AppContext extends Application {
 	public void setShopName(String shopName) {
 		this.shopName = shopName;
 	}
+
+	public boolean isFirstRun() {
+		return isFirstRun;
+	}
+
+	public void setFirstRun(boolean isFirstRun) {
+		this.isFirstRun = isFirstRun;
+	}
+	
 	
 }

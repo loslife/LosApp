@@ -80,29 +80,16 @@ public class LaunchActivity extends BaseActivity {
 		memberService = new MemberService(getBaseContext());
 		myshopService = new MyshopManageService(getBaseContext());
 		
-		myshops = myshopService.queryShops();
-		if (myshops == null || myshops.size() == 0) 
-		{
-			
+	
 			if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
 			{
 			   getLinkShop();
 			}
 			else
 			{
-				UIHelper.ToastMessage(getBaseContext(), "网络状态不佳，初始化失败");
+				UIHelper.ToastMessage(getBaseContext(), "网络链接不可用，初始化失败");
 			}
-			   
-		}
-		if (myshops != null && myshops.size() > 0) {
-			shopId = myshops.get(0).getEnterprise_id();
-			AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(
-					shopId);
-			shopName = myshops.get(0).getEnterprise_name();
-			Message msg = new Message();
-			msg.what = 1;
-			handle.sendMessage(msg);
-		}
+
 	}
 
 	/**
@@ -127,17 +114,40 @@ public class LaunchActivity extends BaseActivity {
 				Message msg = new Message();
 				ServerMemberResponse res = ac.getMyshopList(userAccount);
 				if (res.isSucess()) {
-					myshopService.addShops(res.getResult().getMyShopList());
+					
 					myshops = myshopService.queryShops();
-					if (myshops != null && myshops.size() > 0) {
-						shopId = myshops.get(0).getEnterprise_id();
-						AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(
-								shopId);
-						last_sync = myshops.get(0).getContactSyncTime();
-						shopName = myshops.get(0).getEnterprise_name();
-					} else {
-						shopName = "";
-					}
+
+						for(int i =0;i<res.getResult().getMyShopList().size();i++)
+						{
+							boolean updateFlag = false;
+							for(int j =0;j<myshops.size();j++)
+							{
+								if(myshops.get(j).getEnterprise_id().equals(res.getResult().getMyShopList().get(i).getEnterprise_id()))
+								{
+									updateFlag = true;
+									myshopService.updateShops(res.getResult().getMyShopList().get(j));
+									break;
+								}
+							}
+							if(!updateFlag)
+							{
+								myshopService.addShop(res.getResult().getMyShopList().get(i));
+							}
+						}
+						myshops = myshopService.queryShops();
+						if (myshops != null && myshops.size() > 0)
+						{
+							shopId = myshops.get(0).getEnterprise_id();
+							AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(
+									shopId);
+							last_sync = myshops.get(0).getContactSyncTime();
+							shopName = myshops.get(0).getEnterprise_name();
+						}
+						else
+						{
+							shopName ="";
+						}
+
 					msg.what = 1;
 				}
 				if (res.getCode() == 1) {

@@ -403,6 +403,7 @@ public class RefreshableView extends LinearLayout implements OnTouchListener {
         if(NetworkUtil.checkNetworkIsOk(context) == NetworkUtil.NONE)
 		{
         	 updateAtValue = "无法刷新，网络连接不可用，请检查网络设置"; 
+        	 description.setText("");
 		}
         updateAt.setText(updateAtValue);  
     }  

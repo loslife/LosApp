@@ -66,12 +66,10 @@ public class MyShopDBManager {
      */  
     public void update(MyShopBean shop) {  
         ContentValues cv = new ContentValues();  
-        cv.put("id", shop.getId()); 
         cv.put("enterprise_name", shop.getEnterprise_name()); 
         cv.put("enterprise_id", shop.getEnterprise_id()); 
         cv.put("create_date", shop.getCreate_date());
-        cv.put("display", shop.getDisplay()); 
-        db.update("t_myshops", cv, "id = ?", new String[]{String.valueOf(shop.getId())});  
+        db.update("t_myshops", cv, "enterprise_id = ?", new String[]{String.valueOf(shop.getEnterprise_id())});  
     }  
       
     /** 

@@ -17,11 +17,12 @@ public class SDBHelper
 			}
 			String DBName = Constants.YILOS_SDPATH + ".database/" + name;
 			AppContext.getInstance(ctx).setDBName(DBName);
-			
+			AppContext.getInstance(ctx).setFirstRun(false);
 			File f = new File(DBName);
 			if (!f.exists()) { // 判断文件是否存在
 				try {
 					f.createNewFile(); // 创建文件
+					AppContext.getInstance(ctx).setFirstRun(true);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

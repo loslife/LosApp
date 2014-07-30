@@ -51,6 +51,7 @@
             android:textColorHint="@color/lightgray"
             android:textSize="16.0dip"
             android:textColor="@color/black_text"
+            android:textCursorDrawable="@null"
             android:background="@color/white"/>
     </RelativeLayout>
 
@@ -89,6 +90,7 @@
             android:textColorHint="@color/lightgray"
             android:textSize="16.0dip" 
             android:textColor="@color/black_text"
+            android:textCursorDrawable="@null"
             android:background="@color/white"/>
     </RelativeLayout>
     
@@ -157,7 +159,7 @@
         android:layout_gravity="center_horizontal"
         android:background="@drawable/login_btn"
         android:gravity="center"
-        android:text="下一步"
+        android:text="下一步,设置密码"
         android:textSize="22.0dip"
         android:textColor="@color/white" />
     </RelativeLayout>
@@ -206,6 +208,8 @@
             android:inputType="textPassword"
             android:textColorHint="@color/lightgray"
             android:textSize="16.0dip" 
+            android:textColor="@color/black_text"
+            android:textCursorDrawable="@null"
             android:background="@color/white"/>
     </RelativeLayout>
        
@@ -242,6 +246,8 @@
             android:inputType="textPassword"
             android:textColorHint="@color/lightgray"
             android:textSize="16.0dip" 
+            android:textColor="@color/black_text"
+            android:textCursorDrawable="@null"
             android:background="@color/white"/>
     </RelativeLayout>
 

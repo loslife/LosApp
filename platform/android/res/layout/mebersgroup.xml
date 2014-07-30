@@ -43,26 +43,64 @@
         android:orientation="vertical" >
 
         <RelativeLayout
-            android:id="@+id/member_seach"
+            android:id="@+id/seach_layout"
             android:layout_width="fill_parent"
             android:layout_height="50.0dip"
             android:background="@color/lightgray"
             android:gravity="center_vertical"
             android:paddingLeft="15.0dip"
             android:paddingRight="15.0dip" >
-
+            <LinearLayout 
+                 android:layout_width="fill_parent"
+                 android:layout_height="36.0dip"
+                 android:gravity="center"
+                 android:background="@drawable/searchborder" >
+            <ImageView
+                android:id="@+id/findicon"
+                android:layout_width="wrap_content" 
+                android:layout_height="36.0dip"
+                android:src="@drawable/search"/>
+             <TextView
+                android:id="@+id/membercount"
+                android:layout_width="wrap_content"
+                android:layout_height="36.0dip"
+                android:gravity="center"
+                android:textColor="@color/gray_text"
+                android:textSize="16.0dip" />
+            </LinearLayout>
+        </RelativeLayout>
+        
+       <LinearLayout
+            android:id="@+id/member_seach"
+            android:layout_width="fill_parent"
+            android:layout_height="50.0dip"
+            android:background="@color/lightgray"
+            android:gravity="center"
+            android:paddingLeft="15.0dip" 
+            android:visibility="gone"
+            android:orientation="horizontal">
             <EditText
                 android:id="@+id/seachmemberext"
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="36.0dip"
-                android:layout_weight="6"
+                android:layout_weight="5"
                 android:background="@drawable/searchborder"
-                android:drawableTop="@drawable/search"
+                android:drawableLeft="@drawable/search"
                 android:gravity="center_vertical"
                 android:textColor="@color/black_text"
                 android:textSize="16.0dip" 
                 android:textCursorDrawable="@null"/>
-        </RelativeLayout>
+            
+            <TextView  
+                       android:id="@+id/cancelsearch"
+                       android:layout_width="wrap_content"
+                       android:layout_height="36.0dip"
+                       android:layout_weight="1"
+                       android:text="取消"
+                       android:gravity="center"
+                       android:textSize="16.0dip" 
+                       android:textColor="@color/gray_text"/>
+        </LinearLayout>
 
         <FrameLayout
             android:layout_width="fill_parent"

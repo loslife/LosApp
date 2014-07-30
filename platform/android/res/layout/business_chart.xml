@@ -109,7 +109,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_weight="1"
-                android:src="@drawable/up" />
+                android:src="@drawable/down" />
 
         </RelativeLayout>
         
@@ -126,7 +126,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_weight="1"
-                android:src="@drawable/up" />
+                android:src="@drawable/down" />
 
             <TextView
                 android:id="@+id/sale"
@@ -174,7 +174,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_weight="1"
-                android:src="@drawable/up" />
+                android:src="@drawable/down" />
 
             <TextView
                 android:id="@+id/card"
@@ -253,7 +253,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_weight="1"
-                android:src="@drawable/up" />
+                android:src="@drawable/down" />
 
         </RelativeLayout>
         

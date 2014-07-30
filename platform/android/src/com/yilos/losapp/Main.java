@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.drawable.BitmapDrawable;
@@ -213,6 +214,18 @@ public class Main extends BaseActivity {
 						percent_service = (Math.round((comparePrevService/prev_service) * 1000)) / 10;
 						percent_product = (Math.round((comparePrevProduct/prev_product) * 1000)) / 10;
 					  }
+					 else
+					 {
+						comparePrevNewcard= Float.valueOf(bizPerformance.getNewcard());
+						comparePrevRecharge= Float.valueOf(bizPerformance.getRecharge());
+						comparePrevService= Float.valueOf(bizPerformance.getService());
+						comparePrevProduct = Float.valueOf(bizPerformance.getProduct());
+						
+						percent_newcard = 100.0f;
+						percent_recharge =100.0f;
+						percent_service = 100.0f;
+						percent_product = 100.0f;
+					}
 				}
 				
 				String  sevicedata = bizPerformance.getService()==null?"0.0":bizPerformance.getService();
@@ -225,10 +238,51 @@ public class Main extends BaseActivity {
 				((TextView) findViewById(R.id.carddata)).setText("￥"+carddata);
 				((TextView) findViewById(R.id.rechargedata)).setText("￥"+ rechargedata);
 				
+				((TextView) findViewById(R.id.sevicedata)).setTextColor(getResources().getColor(R.color.gray_text));
+				((TextView) findViewById(R.id.saledata)).setTextColor(getResources().getColor(R.color.gray_text));
+				((TextView) findViewById(R.id.carddata)).setTextColor(getResources().getColor(R.color.gray_text));
+				((TextView) findViewById(R.id.rechargedata)).setTextColor(getResources().getColor(R.color.gray_text));
+				
+				((ImageView) findViewById(R.id.sevicesicon)).setImageResource(R.drawable.down);
+				((ImageView) findViewById(R.id.saleicon)).setImageResource(R.drawable.down);
+				((ImageView) findViewById(R.id.cardicon)).setImageResource(R.drawable.down);
+				((ImageView) findViewById(R.id.rechargeicon)).setImageResource(R.drawable.down);
+				
+				
 				((TextView) findViewById(R.id.toprev_sevicedata)).setText("比上" + timetype.getText().toString()+": "+comparePrevService+ " "+percent_service+"%");
 				((TextView) findViewById(R.id.toprev_saledata)).setText("比上" + timetype.getText().toString()+": "+comparePrevProduct+" "+percent_product+"%");
 				((TextView) findViewById(R.id.toprev_carddata)).setText("比上" + timetype.getText().toString()+": "+comparePrevNewcard+" "+percent_newcard+"%");
 				((TextView) findViewById(R.id.toprev_rechargedata)).setText("比上" + timetype.getText().toString()+": "+comparePrevRecharge+" "+percent_recharge+"%");
+				
+				if(comparePrevService>0.0)
+				{
+					((ImageView) findViewById(R.id.sevicesicon)).setImageResource(R.drawable.up);
+					((TextView) findViewById(R.id.sevicedata)).setTextColor(getResources().getColor(R.color.orange_bg));
+					((TextView) findViewById(R.id.toprev_sevicedata)).setText("比上" + timetype.getText().toString()+": +"+comparePrevService+ " +"+percent_service+"%");
+				}
+				
+				if(comparePrevProduct>0.0)
+				{
+					((ImageView) findViewById(R.id.saleicon)).setImageResource(R.drawable.up);
+					((TextView) findViewById(R.id.saledata)).setTextColor(getResources().getColor(R.color.orange_bg));
+					((TextView) findViewById(R.id.toprev_saledata)).setText("比上" + timetype.getText().toString()+": +"+comparePrevProduct+" +"+percent_product+"%");
+				}
+				
+				if(comparePrevNewcard>0.0)
+				{
+					((ImageView) findViewById(R.id.cardicon)).setImageResource(R.drawable.up);
+					((TextView) findViewById(R.id.carddata)).setTextColor(getResources().getColor(R.color.orange_bg));
+					((TextView) findViewById(R.id.toprev_carddata)).setText("比上" + timetype.getText().toString()+": +"+comparePrevNewcard+" +"+percent_newcard+"%");
+				}
+				
+				if(comparePrevRecharge>0.0)
+				{
+					((ImageView) findViewById(R.id.rechargeicon)).setImageResource(R.drawable.up);
+					((TextView) findViewById(R.id.rechargedata)).setTextColor(getResources().getColor(R.color.orange_bg));
+					((TextView) findViewById(R.id.toprev_rechargedata)).setText("比上" + timetype.getText().toString()+": +"+comparePrevRecharge+" +"+percent_recharge+"%");
+				}
+				
+				
 				
 				newcard = (float) (Math.round(newcard * 1000)) / 10;
 				recharge = (float) (Math.round(recharge * 1000)) / 10;

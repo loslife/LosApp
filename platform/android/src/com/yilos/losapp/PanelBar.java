@@ -178,11 +178,11 @@ public class PanelBar extends View {
  			float newX = event.getX();
  			float newY = event.getY();
 
- 			scrollBy((int) ((lastX - newX) * 2), (int) ((lastY - newY) *2));
+ 			scrollBy((int) (0), (int) ((lastY - newY) *2));
  			lastX = newX;
  			lastY = newY;
  			break;
- 		case MotionEvent.ACTION_UP:
+ 		/*case MotionEvent.ACTION_UP:
  			int scrollX = getScrollX();
  			int scrollY = getScrollY();
  			if ((scrollX < 0) && (scrollX < -10 || scrollY > 10)) {
@@ -210,7 +210,7 @@ public class PanelBar extends View {
  				scroller.startScroll(scrollX, scrollY, 0, -scrollY);
  				invalidate();
  			}
- 			break;
+ 			break;*/
  		default:
  			break;
  		}

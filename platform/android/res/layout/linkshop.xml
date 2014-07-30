@@ -65,7 +65,8 @@
             android:textColorHint="@color/lightgray"
             android:textSize="16.0dip"
             android:textColor="@color/black_text"
-            android:background="@color/white" />
+            android:background="@color/white" 
+            android:textCursorDrawable="@null"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -102,7 +103,8 @@
             android:textColorHint="@color/lightgray"
             android:textSize="16.0dip"
             android:textColor="@color/black_text"
-            android:background="@color/white" />
+            android:background="@color/white"
+            android:textCursorDrawable="@null" />
     </RelativeLayout>
     
     <RelativeLayout
@@ -222,6 +224,18 @@
         </ListView>
     </LinearLayout>
     
-    
+      <LinearLayout
+        android:id="@+id/shoplistnull"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:visibility="gone"
+        android:orientation="vertical" >
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="你还未关联任何店铺，点击'添加关联'" >
+        </TextView>
+    </LinearLayout>
 
 </LinearLayout>

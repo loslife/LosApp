@@ -143,6 +143,7 @@ public class ServicePerformanceDBManager
         	bean.setYear(c.getInt(c.getColumnIndex("year"))+"");
         	bean.setMonth(c.getInt(c.getColumnIndex("month"))+"");
         	bean.setDay(c.getInt(c.getColumnIndex("day"))+"");
+        	list.add(bean);
     	}
     	c.close();
     	return list;
