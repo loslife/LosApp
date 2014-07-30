@@ -179,7 +179,7 @@ public class LinkShopActivity extends BaseActivity
         for(MyShopBean bean:myshops)  
         {  
         	String shopName = bean.getEnterprise_name();
-        	if(shopName.length()>10)
+        	if(shopName!=null&&shopName.length()>10)
         	{
         		shopName = shopName.substring(0, 10)+"...";
         	}
