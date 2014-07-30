@@ -3,8 +3,6 @@
 #import "FMDB.h"
 #import "TimesHelper.h"
 #import "EmployeePerformance.h"
-#import "BusinessPerformance.h"
-#import "ServicePerformance.h"
 #import "CustomerCount.h"
 #import "LosDatabaseHelper.h"
 
@@ -111,11 +109,13 @@
 
 -(NSMutableArray*) queryBusinessPerformanceByDate:(NSDate*)date EnterpriseId:(NSString*)enterpriseId Type:(int)type
 {
-    NSString *query_day = @"select total, service, product, newcard, recharge from biz_performance_day where enterprise_id = :eid and year = :year and month = :month and day = :day;";
+    NSMutableArray *result = [NSMutableArray arrayWithCapacity:1];
     
-    NSString *query_month = @"select total, service, product, newcard, recharge from biz_performance_month where enterprise_id = :eid and year = :year and month = :month;";
+    NSString *query_day = @"select id, total, service, product, newcard, recharge from biz_performance_day where enterprise_id = :eid and year = :year and month = :month and day = :day;";
     
-    NSString *query_week = @"select total, service, product, newcard, recharge from biz_performance_week where enterprise_id = :eid and year = :year and month = :month and day = :day;";
+    NSString *query_month = @"select id, total, service, product, newcard, recharge from biz_performance_month where enterprise_id = :eid and year = :year and month = :month;";
+    
+    NSString *query_week = @"select id, total, service, product, newcard, recharge from biz_performance_week where enterprise_id = :eid and year = :year and month = :month and day = :day;";
     
     NSCalendar* calendar = [NSCalendar currentCalendar];
     
@@ -123,8 +123,6 @@
     NSInteger year = [components year];
     NSInteger month = [components month];
     NSInteger day = [components day];
-    
-    __block NSMutableArray *performances = [NSMutableArray arrayWithCapacity:1];
     
     [dbHelper inDatabase:^(FMDatabase* db){
     
@@ -170,71 +168,33 @@
             rs2 = [db executeQuery:query_week, enterpriseId, [NSNumber numberWithLong:yearOfPreviousSunday], [NSNumber numberWithLong:monthOfPreviousSunday], [NSNumber numberWithLong:dayOfPreviousSunday]];
         }
         
-        performances = [self assembleResult:rs rs2:rs2];
+        [result addObject:[self assembleRecordFromRS:rs]];
+        [result addObject:[self assembleRecordFromRS:rs2]];
         
         [rs close];
         [rs2 close];
     }];
     
-    return performances;
+    return result;
 }
 
--(NSMutableArray*) assembleResult:(FMResultSet*)rs1 rs2:(FMResultSet*)rs2
+-(NSDictionary*) assembleRecordFromRS:(FMResultSet*)rs
 {
-    NSMutableArray *performances = [NSMutableArray arrayWithCapacity:1];
-    
-    if([rs1 next]){
+    if([rs next]){
         
-        double total = [[rs1 objectForColumnName:@"total"] doubleValue];
-        double service = [[rs1 objectForColumnName:@"service"] doubleValue];
-        double product = [[rs1 objectForColumnName:@"product"] doubleValue];
-        double newcard = [[rs1 objectForColumnName:@"newcard"] doubleValue];
-        double recharge = [[rs1 objectForColumnName:@"recharge"] doubleValue];
+        NSMutableDictionary *record = [NSMutableDictionary dictionary];
         
-        BusinessPerformance *p1 = [[BusinessPerformance alloc] initWithTitle:@"服务业绩" Value:service Ratio:service / total];
-        BusinessPerformance *p2 = [[BusinessPerformance alloc] initWithTitle:@"卖品业绩" Value:product Ratio:product / total];
-        BusinessPerformance *p3 = [[BusinessPerformance alloc] initWithTitle:@"开卡业绩" Value:newcard Ratio:newcard / total];
-        BusinessPerformance *p4 = [[BusinessPerformance alloc] initWithTitle:@"充值业绩" Value:recharge Ratio:recharge / total];
+        [record setObject:[rs objectForColumnName:@"id"] forKey:@"_id"];
+        [record setObject:[rs objectForColumnName:@"total"] forKey:@"total"];
+        [record setObject:[rs objectForColumnName:@"service"] forKey:@"service"];
+        [record setObject:[rs objectForColumnName:@"product"] forKey:@"product"];
+        [record setObject:[rs objectForColumnName:@"newcard"] forKey:@"newcard"];
+        [record setObject:[rs objectForColumnName:@"recharge"] forKey:@"recharge"];
         
-        if([rs2 next]){
-            
-            double service_prev = [[rs2 objectForColumnName:@"service"] doubleValue];
-            double product_prev = [[rs2 objectForColumnName:@"product"] doubleValue];
-            double newcard_prev = [[rs2 objectForColumnName:@"newcard"] doubleValue];
-            double recharge_prev = [[rs2 objectForColumnName:@"recharge"] doubleValue];
-            
-            [self assembleCompare:p1 currentValue:service prevValue:service_prev];
-            [self assembleCompare:p2 currentValue:product prevValue:product_prev];
-            [self assembleCompare:p3 currentValue:newcard prevValue:newcard_prev];
-            [self assembleCompare:p4 currentValue:recharge prevValue:recharge_prev];
-        }
-        
-        [performances addObject:p1];
-        [performances addObject:p2];
-        [performances addObject:p3];
-        [performances addObject:p4];
+        return record;
     }
     
-    return performances;
-}
-
--(void) assembleCompare:(BusinessPerformance*)p currentValue:(double)current prevValue:(double)previous
-{
-    if(current >= previous){
-        p.increased = YES;
-    }else{
-        p.increased = NO;
-    }
-    
-    p.compareToPrev = abs(current - previous);
-    
-    if(previous != 0){
-        p.compareToPrevRatio = p.compareToPrev / previous;
-    }else if(current == 0){
-        p.compareToPrevRatio = 0;
-    }else{
-        p.compareToPrevRatio = 1;
-    }
+    return [NSDictionary dictionary];
 }
 
 -(void) insertBusinessPerformance:(NSDictionary*)entity type:(NSString*)type
