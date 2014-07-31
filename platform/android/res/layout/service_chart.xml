@@ -23,6 +23,13 @@
             android:text="产品业绩"
             android:textColor="@color/black_text"
             android:textSize="20.0dip" />
+          <ImageView
+                android:id="@+id/service_refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="20.0dip"
+                android:layout_toRightOf="@id/charviewtitle"
+                android:layout_centerVertical="true"
+                android:src="@drawable/refresh" />
         
         <TextView
             android:id="@+id/servicetotal"

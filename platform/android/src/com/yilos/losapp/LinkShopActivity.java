@@ -58,6 +58,9 @@ public class LinkShopActivity extends BaseActivity
 	private boolean isRecoveryLink = false;
 	private String shopId;
 	
+	private String errorCode;
+	public static final String OPRTATE_TYPE = "linkshop";
+	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -136,10 +139,7 @@ public class LinkShopActivity extends BaseActivity
 					if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
 					{   //校验验证码
 						checkValidatecode(phoneNo,code);
-						if(!StringUtils.isEmpty(code))
-						{
-						linkShop(AppContext.getInstance(getBaseContext()).getUserAccount(),phoneNo);
-						}
+						
 					}
 					else
 					{
@@ -178,7 +178,7 @@ public class LinkShopActivity extends BaseActivity
         ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();  
         for(MyShopBean bean:myshops)  
         {  
-        	String shopName = bean.getEnterprise_name();
+        	String shopName = bean.getEnterprise_name()==null?"":bean.getEnterprise_name();
         	if(shopName!=null&&shopName.length()>10)
         	{
         		shopName = shopName.substring(0, 10)+"...";
@@ -245,8 +245,8 @@ public class LinkShopActivity extends BaseActivity
         ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();  
         for(MyShopBean bean:myDisconnectShops)  
         {  
-        	String shopName = bean.getEnterprise_name();
-        	if(shopName.length()>10)
+        	String shopName = bean.getEnterprise_name()==null?"":bean.getEnterprise_name();
+        	if(shopName!=null&&shopName.length()>10)
         	{
         		shopName = shopName.substring(0, 10)+"...";
         	}
@@ -280,7 +280,7 @@ public class LinkShopActivity extends BaseActivity
                         //警告框  
                         new AlertDialog.Builder(LinkShopActivity.this)  
                         .setTitle("恢复关联")  
-                        .setMessage("是否恢复对<"+myshops.get(p).getEnterprise_name()+">的关联？")  
+                        .setMessage("是否恢复对<"+myDisconnectShops.get(p).getEnterprise_name()+">的关联？")  
                         .setPositiveButton("是", new DialogInterface.OnClickListener() {  
                             public void onClick(DialogInterface dialog, int which) {
                             	isRecoveryLink = true;
@@ -320,7 +320,7 @@ public class LinkShopActivity extends BaseActivity
 				}
 				if(msg.what==0)
 				{
-					UIHelper.ToastMessage(getBaseContext(), "关联失败");
+					UIHelper.ToastMessage(getBaseContext(), StringUtils.errorcodeToString(OPRTATE_TYPE, errorCode));
 				}
 			}
 		};
@@ -361,7 +361,8 @@ public class LinkShopActivity extends BaseActivity
 				if(res.getCode()==1)
 				{
 					msg.what = 0;
-				}
+					errorCode = res.getResult().getErrorCode();
+				} 
 				handle.sendMessage(msg);
 			}
 		}.start();
@@ -382,7 +383,7 @@ public class LinkShopActivity extends BaseActivity
 				}
 				if(msg.what==0)
 				{
-					UIHelper.ToastMessage(getBaseContext(), "解除关联失败");
+					UIHelper.ToastMessage(getBaseContext(), StringUtils.errorcodeToString("undolinkshop", errorCode));
 				}
 			}
 		};
@@ -399,6 +400,7 @@ public class LinkShopActivity extends BaseActivity
 				if(res.getCode()==1)
 				{
 					msg.what = 0;
+					errorCode = res.getResult().getErrorCode();
 				}
 				handle.sendMessage(msg);
 			}
@@ -430,7 +432,7 @@ public class LinkShopActivity extends BaseActivity
 	
 	/**
 	 * 检查用户是否存在
-	 */
+	 *//*
 	private boolean checkShopAccount(final String phoneNumber) 
 	{
 		final Handler handle =new Handler(){
@@ -465,7 +467,7 @@ public class LinkShopActivity extends BaseActivity
 			}
 		}.start();
 		return isUserExist;
-	}
+	}*/
 	
 	/**
 	 * 获取验证码
@@ -500,6 +502,7 @@ public class LinkShopActivity extends BaseActivity
 				if(res.getCode()==1)
 				{
 					msg.what = 0;
+					errorCode = res.getResult().getErrorCode();
 				}
 				
 				handle.sendMessage(msg);
@@ -516,11 +519,16 @@ public class LinkShopActivity extends BaseActivity
 		final Handler handle =new Handler(){
 			public void handleMessage(Message msg)
 			{
+				if(msg.what==1)
+				{
+					  linkShop(AppContext.getInstance(getBaseContext()).getUserAccount(),phoneNumber);
+				}
+				
 				if(msg.what==0)
 				{
-					validatecode.setText("");
-					UIHelper.ToastMessage(LinkShopActivity.this, "请输入验证码");
+					UIHelper.ToastMessage(getBaseContext(), StringUtils.errorcodeToString("checkValidatecode", errorCode));
 				}
+				
 			}
 		};
 		new Thread()
@@ -536,6 +544,7 @@ public class LinkShopActivity extends BaseActivity
 				if(res.getCode()==1)
 				{
 					msg.what = 0;
+					errorCode = res.getResult().getErrorCode();
 				}
 				handle.sendMessage(msg);
 			}

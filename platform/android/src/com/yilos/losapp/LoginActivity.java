@@ -49,7 +49,13 @@ public class LoginActivity extends BaseActivity{
 		
 		findViewById(R.id.headmore).setVisibility(View.GONE);
 		
-		 findViewById(R.id.goback).setOnClickListener(new OnClickListener() {
+		if(getIntent().getStringExtra("phoneNumber")!=null)
+		{
+			userNameExt.setText(getIntent().getStringExtra("phoneNumber"));
+		}
+		
+		
+		findViewById(R.id.goback).setOnClickListener(new OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {

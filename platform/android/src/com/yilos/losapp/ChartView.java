@@ -18,7 +18,7 @@ public class ChartView extends View {
 
 	DisplayMetrics dm = getResources().getDisplayMetrics(); 
 	public int XPoint = 120; // 原点的X坐标
-	public int YPoint = 700; // 原点的Y坐标
+	public int YPoint = dm.heightPixels+150; // 原点的Y坐标
 	
 	public int XLength = dm.widthPixels-160; // X轴的长度
 	public int YLength = dm.heightPixels/2; // Y轴的长度
@@ -56,6 +56,14 @@ public class ChartView extends View {
 		screenW = this.getWidth();
 		screenH = this.getHeight();
 	}
+	
+	public ChartView(Context context, String[] XLabels, String[] YLabels, int[] AllData) {
+		super(context);
+		scroller = new Scroller(context);
+		screenW = this.getWidth();
+		screenH = this.getHeight();
+		SetInfo(XLabels, YLabels,AllData);
+	}
 
 	public void SetInfo(String[] XLabels, String[] YLabels, int[] AllData) {
 		XLabel = XLabels;
@@ -65,10 +73,25 @@ public class ChartView extends View {
 		sortdataArray = new int[AllData.length];
 		System.arraycopy(AllData, 0, sortdataArray, 0, AllData.length);
 		Arrays.sort(sortdataArray);
+		
+		if(XLabels.length==7)
+		{
+			YPoint =getResources().getDisplayMetrics().heightPixels/4+100;
+		}
+		else if(XLabels.length==24)
+		{
+			YPoint = getResources().getDisplayMetrics().heightPixels+100;
+		}
+		else
+		{
+			YPoint = getResources().getDisplayMetrics().heightPixels+150;
+		}
+		
 		//TOP3
 		top_one = sortdataArray[AllData.length-1];
 		top_two = sortdataArray[AllData.length-2];;
 		top_three = sortdataArray[AllData.length-3];;
+		YLabel = new String[]{"0",1*(top_one/5+1)+"",2*(top_one/5+1)+"",3*(top_one/5+1)+"",4*(top_one/5+1)+"",5*(top_one/5+1)+""};
 	}
 
 	@Override

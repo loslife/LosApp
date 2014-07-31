@@ -51,6 +51,7 @@
                 android:inputType="textPassword"
                 android:textColorHint="@color/lightgray"
                 android:textColor="@color/black_text"
+                android:textCursorDrawable="@null"
                 android:textSize="16.0dip" />
         </RelativeLayout>
 
@@ -87,6 +88,7 @@
                 android:inputType="textPassword"
                 android:textColorHint="@color/lightgray"
                 android:textColor="@color/black_text"
+                android:textCursorDrawable="@null"
                 android:textSize="16.0dip" />
         </RelativeLayout>
 
@@ -123,6 +125,7 @@
                 android:inputType="textPassword"
                 android:textColorHint="@color/lightgray"
                 android:textColor="@color/black_text"
+                android:textCursorDrawable="@null"
                 android:textSize="16.0dip" />
         </RelativeLayout>
 

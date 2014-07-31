@@ -12,7 +12,7 @@
               android:indeterminate="true"      
               style="@android:style/Widget.ProgressBar.Large.Inverse"        
               android:layout_marginRight="5dp" />
-          <TextView android:text="正在努力为你加载..." 
+          <TextView android:text="正在努力为你加载数据..." 
             android:id="@+id/loadcountinfo" 
             android:layout_width="wrap_content" 
             android:textColor="@color/gray_text"

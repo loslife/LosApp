@@ -23,6 +23,13 @@
             android:text="客流量"
             android:textColor="@color/black_text"
             android:textSize="20.0dip" />
+         <ImageView
+                android:id="@+id/customs_refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="20.0dip"
+                android:layout_toRightOf="@id/charviewtitle"
+                android:layout_centerVertical="true"
+                android:src="@drawable/refresh" />
 
         <TextView
             android:id="@+id/personNum"
@@ -40,9 +47,12 @@
             android:layout_alignParentBottom="true"
             android:background="@color/gray_text" />
     </RelativeLayout>
-    <com.yilos.losapp.ChartView
+    
+    <LinearLayout
         android:id="@+id/myView"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+    </LinearLayout>
 
 </LinearLayout>

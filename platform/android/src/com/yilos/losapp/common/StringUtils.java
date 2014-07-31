@@ -270,4 +270,56 @@ public class StringUtils {
 		}
 		return res.toString();
 	}
+	
+	public static String errorcodeToString(String oprateType,String errorCode)
+	{
+		String errorInfo = "";
+		if("linkshop".equals(oprateType))
+		{
+			if("501".equals(errorCode))
+			{
+				errorInfo = "商户不存在";
+			}
+			if("502".equals(errorCode))
+			{
+				errorInfo = "商户版本过低";
+			}
+			if("503".equals(errorCode))
+			{
+				errorInfo = "关联已存在";
+			}
+		}
+		
+		if("modifypwd".equals(oprateType))
+		{
+			if("501".equals(errorCode))
+			{
+				errorInfo = "用户不存在";
+			}
+		}
+		
+		if("undolinkshop".equals(oprateType))
+		{
+			if("501".equals(errorCode))
+			{
+				errorInfo = "关联不存在";
+			}
+		}
+		
+		if("login".equals(oprateType))
+		{
+			if("401".equals(errorCode))
+			{
+				errorInfo = "用户名或者密码错误";
+			}
+		}
+		
+		if("checkValidatecode".equals(oprateType))
+		{
+			errorInfo = "验证码错误";
+		}
+		
+		return errorInfo;
+	}
+	
 }

@@ -57,14 +57,14 @@
             android:text="日"
             android:textColor="@color/blue_text"
             android:textSize="20.0dip" />
-
     </LinearLayout>
-
+    
       <com.yilos.losapp.common.ScrollLayout 
       android:id="@+id/main_scrolllayout"    
 	  android:layout_width="fill_parent"    
 	  android:layout_height="0dip"
    	  android:layout_weight="1"
+   	  android:visibility="gone"
       >
         
      <include layout="@layout/employee_chart" />

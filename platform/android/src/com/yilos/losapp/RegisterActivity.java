@@ -323,6 +323,7 @@ public class RegisterActivity extends BaseActivity
 				{
 					UIHelper.ToastMessage(RegisterActivity.this, "注册成功");
 					Intent  register =  new Intent();
+					register.putExtra("phoneNumber", phoneNumber);
 					register.setClass(RegisterActivity.this, LoginActivity.class);
 					startActivity(register);
 				}
@@ -359,9 +360,10 @@ public class RegisterActivity extends BaseActivity
 				if(msg.what==1)
 				{
 					UIHelper.ToastMessage(RegisterActivity.this, "找回成功");
-					Intent  register =  new Intent();
-					register.setClass(RegisterActivity.this, LoginActivity.class);
-					startActivity(register);
+					Intent  findPwd =  new Intent();
+					findPwd.putExtra("phoneNumber", phoneNumber);
+					findPwd.setClass(RegisterActivity.this, LoginActivity.class);
+					startActivity(findPwd);
 				}
 				if(msg.what==0)
 				{
@@ -443,9 +445,17 @@ public class RegisterActivity extends BaseActivity
 
 			@Override
 			public void onFinish() {
-				relativelayout_vcode.setVisibility(View.GONE);
-				system_vcode_tip.setText("短信验证码好像罢工了，请确认输入是您本人号码，以确保使用中的账号与数据安全");
-				system_vcode_tip.setTextColor(color.holo_red_dark);
+				if(!forgotpwd)
+				{
+					relativelayout_vcode.setVisibility(View.GONE);
+					system_vcode_tip.setText("短信验证码好像罢工了，请确认输入是您本人号码，以确保使用中的账号与数据安全");
+					system_vcode_tip.setTextColor(color.holo_red_dark);
+				}
+				else
+				{
+					layout_getcode.setVisibility(View.VISIBLE);
+				}
+				
 				timecount.setVisibility(View.GONE);
 			}
 
