@@ -149,7 +149,7 @@
 {
     BusinessPerformance *performance = [self.records objectAtIndex:index];
     
-    NSString *title = [NSString stringWithFormat:@"%@%.f%%", performance.title, performance.ratio * 100];
+    NSString *title = [NSString stringWithFormat:@"%@ %.f%%", performance.title, performance.ratio * 100];
     LosPieChartItem *item = [[LosPieChartItem alloc] initWithTitle:title Ratio:performance.ratio];
     return item;
 }

@@ -32,7 +32,7 @@
         
         myDelegate = delegate;
         
-        pieCenter = CGPointMake(frame.size.width / 2, frame.size.height / 2);
+        pieCenter = CGPointMake(frame.size.width / 4, frame.size.height / 2);
         if(screenHeight == 568){
             radius =  frame.size.width / 8;
         }else{
@@ -56,7 +56,6 @@
         CGContextSetLineWidth(context, 15.0);
     }
     
-    
     NSUInteger count = [myDelegate pieItemCount];
     
     for(int i = 0; i < count; i++){
@@ -67,21 +66,20 @@
         CGFloat endAngle = 2 * M_PI * (item.ratio + drawedRatio);
         drawedRatio += item.ratio;
         
-        CGFloat midAngle = (startAngle + endAngle) / 2;
-        CGFloat cos_value = cos(midAngle);
-        CGFloat x_offset = radius * (cos_value > 0 ? cos_value * 1.5 : cos_value * 3.6);
-        CGFloat y_offset = radius * sin(midAngle) * 1.7;
-        CGPoint textPoint = CGPointMake(pieCenter.x + x_offset, pieCenter.y + y_offset);
-        
-        NSDictionary *attrs = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:14], NSFontAttributeName,
-         [UIColor colorWithRed:114/255.0f green:128/255.0f blue:137/255.0f alpha:1.0f], NSForegroundColorAttributeName, nil];
-        
-        [item.title drawAtPoint:textPoint withAttributes:attrs];
-        
         CGContextSetStrokeColorWithColor(context, [myDelegate colorAtIndex:i].CGColor);
         CGContextAddArc(context, pieCenter.x, pieCenter.y, radius, startAngle, endAngle, 0);
         
         CGContextDrawPath(context, kCGPathStroke);
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(160, 25 + i * 20, 10, 10)];
+        label.backgroundColor = [myDelegate colorAtIndex:i];
+        [self addSubview:label];
+        
+        UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(180, 20 + i * 20, 140, 20)];
+        title.textAlignment = NSTextAlignmentLeft;
+        title.text = item.title;
+        title.font = [UIFont systemFontOfSize:12];
+        [self addSubview:title];
     }
 }
 
