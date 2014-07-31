@@ -121,7 +121,7 @@
 
 -(void) startTick
 {
-    tick = 60;
+    tick = 90;
     timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(countdown) userInfo:nil repeats:YES];
 }
 
