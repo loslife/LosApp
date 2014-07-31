@@ -93,7 +93,7 @@
         NSString *deleteStatement = @"delete from members where id = :id";
         
         for(NSDictionary *item in remove){
-            NSString *pk = [item objectForKey:@"id"];
+            NSString *pk = [item objectForKey:@"entity_id"];
             [db executeUpdate:deleteStatement, pk];
         }
         
