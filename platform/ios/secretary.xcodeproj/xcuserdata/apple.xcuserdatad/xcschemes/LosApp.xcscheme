@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "18B2EE0D1946E0EF00264B74"
                BuildableName = "LosApp.app"
-               BlueprintName = "LosApp"
-               ReferencedContainer = "container:LosApp.xcodeproj">
+               BlueprintName = "secretary"
+               ReferencedContainer = "container:secretary.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,7 +35,7 @@
                BlueprintIdentifier = "18B2EE281946E0EF00264B74"
                BuildableName = "LosAppTests.xctest"
                BlueprintName = "LosAppTests"
-               ReferencedContainer = "container:LosApp.xcodeproj">
+               ReferencedContainer = "container:secretary.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -44,8 +44,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "18B2EE0D1946E0EF00264B74"
             BuildableName = "LosApp.app"
-            BlueprintName = "LosApp"
-            ReferencedContainer = "container:LosApp.xcodeproj">
+            BlueprintName = "secretary"
+            ReferencedContainer = "container:secretary.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -63,8 +63,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "18B2EE0D1946E0EF00264B74"
             BuildableName = "LosApp.app"
-            BlueprintName = "LosApp"
-            ReferencedContainer = "container:LosApp.xcodeproj">
+            BlueprintName = "secretary"
+            ReferencedContainer = "container:secretary.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -81,8 +81,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "18B2EE0D1946E0EF00264B74"
             BuildableName = "LosApp.app"
-            BlueprintName = "LosApp"
-            ReferencedContainer = "container:LosApp.xcodeproj">
+            BlueprintName = "secretary"
+            ReferencedContainer = "container:secretary.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

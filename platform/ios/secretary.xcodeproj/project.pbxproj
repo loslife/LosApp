@@ -285,9 +285,9 @@
 		18B2EE111946E0EF00264B74 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		18B2EE131946E0EF00264B74 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		18B2EE151946E0EF00264B74 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		18B2EE191946E0EF00264B74 /* LosApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LosApp-Info.plist"; sourceTree = "<group>"; };
+		18B2EE191946E0EF00264B74 /* secretary-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "secretary-Info.plist"; sourceTree = "<group>"; };
 		18B2EE1D1946E0EF00264B74 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		18B2EE1F1946E0EF00264B74 /* LosApp-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LosApp-Prefix.pch"; sourceTree = "<group>"; };
+		18B2EE1F1946E0EF00264B74 /* secretary-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "secretary-Prefix.pch"; sourceTree = "<group>"; };
 		18B2EE201946E0EF00264B74 /* LosAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LosAppDelegate.h; path = LosApp/LosAppDelegate.h; sourceTree = "<group>"; };
 		18B2EE211946E0EF00264B74 /* LosAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = LosAppDelegate.m; path = LosApp/LosAppDelegate.m; sourceTree = "<group>"; };
 		18B2EE231946E0EF00264B74 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = LosApp/Images.xcassets; sourceTree = "<group>"; };
@@ -613,9 +613,9 @@
 			isa = PBXGroup;
 			children = (
 				1866672C1949C37E00A345F7 /* client.p12 */,
-				18B2EE191946E0EF00264B74 /* LosApp-Info.plist */,
+				18B2EE191946E0EF00264B74 /* secretary-Info.plist */,
 				18B2EE1D1946E0EF00264B74 /* main.m */,
-				18B2EE1F1946E0EF00264B74 /* LosApp-Prefix.pch */,
+				18B2EE1F1946E0EF00264B74 /* secretary-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			path = LosApp;
@@ -690,9 +690,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		18B2EE0D1946E0EF00264B74 /* LosApp */ = {
+		18B2EE0D1946E0EF00264B74 /* secretary */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 18B2EE3A1946E0EF00264B74 /* Build configuration list for PBXNativeTarget "LosApp" */;
+			buildConfigurationList = 18B2EE3A1946E0EF00264B74 /* Build configuration list for PBXNativeTarget "secretary" */;
 			buildPhases = (
 				2F977876859A4B40B306FC14 /* Check Pods Manifest.lock */,
 				18B2EE0A1946E0EF00264B74 /* Sources */,
@@ -705,7 +705,7 @@
 			);
 			dependencies = (
 			);
-			name = LosApp;
+			name = secretary;
 			productName = LosApp;
 			productReference = 18B2EE0E1946E0EF00264B74 /* LosApp.app */;
 			productType = "com.apple.product-type.application";
@@ -725,7 +725,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 18B2EE091946E0EF00264B74 /* Build configuration list for PBXProject "LosApp" */;
+			buildConfigurationList = 18B2EE091946E0EF00264B74 /* Build configuration list for PBXProject "secretary" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -738,7 +738,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				18B2EE0D1946E0EF00264B74 /* LosApp */,
+				18B2EE0D1946E0EF00264B74 /* secretary */,
 			);
 		};
 /* End PBXProject section */
@@ -1000,10 +1000,10 @@
 					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "LosApp/LosApp-Prefix.pch";
-				INFOPLIST_FILE = "LosApp/LosApp-Info.plist";
+				GCC_PREFIX_HEADER = "LosApp/secretary-Prefix.pch";
+				INFOPLIST_FILE = "LosApp/secretary-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = secretary;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -1023,10 +1023,10 @@
 					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "LosApp/LosApp-Prefix.pch";
-				INFOPLIST_FILE = "LosApp/LosApp-Info.plist";
+				GCC_PREFIX_HEADER = "LosApp/secretary-Prefix.pch";
+				INFOPLIST_FILE = "LosApp/secretary-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = secretary;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -1036,7 +1036,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		18B2EE091946E0EF00264B74 /* Build configuration list for PBXProject "LosApp" */ = {
+		18B2EE091946E0EF00264B74 /* Build configuration list for PBXProject "secretary" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				18B2EE381946E0EF00264B74 /* Debug */,
@@ -1045,7 +1045,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		18B2EE3A1946E0EF00264B74 /* Build configuration list for PBXNativeTarget "LosApp" */ = {
+		18B2EE3A1946E0EF00264B74 /* Build configuration list for PBXNativeTarget "secretary" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				18B2EE3B1946E0EF00264B74 /* Debug */,
