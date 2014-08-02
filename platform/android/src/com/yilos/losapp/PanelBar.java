@@ -18,11 +18,7 @@ public class PanelBar extends View {
 	 private int ScrHeight;  
      private int ScrWidth;  
      
-    private float screenW, screenH;
- 	private float lastX;
- 	private float lastY;
- 	private Scroller scroller;
- 	private float total_Width = 0;
+     private int yLength;
                        
      private Paint[] arrPaintArc;  
      private Paint PaintText = null;       
@@ -48,10 +44,7 @@ public class PanelBar extends View {
      @SuppressLint("NewApi")
 	public PanelBar(Context context,String[] num,String[] ename){  
          super(context); 
-         
-         scroller = new Scroller(context);
-  		 screenW = this.getWidth();
-  		 screenH = this.getHeight();
+
            
          //解决4.1版本 以下canvas.drawTextOnPath()不显示问题              
          this.setLayerType(View.LAYER_TYPE_SOFTWARE,null);  
@@ -166,67 +159,10 @@ public class PanelBar extends View {
          //canvas.drawLine( initX ,initY  ,ScrWidth - 10  ,initY, PaintText);  
      }
      
-     @Override
- 	public boolean onTouchEvent(MotionEvent event) {
- 		switch (event.getAction()) {
- 		case MotionEvent.ACTION_DOWN:
- 			lastX = event.getX();
- 			lastY = event.getY();
-
- 			return true;
- 		case MotionEvent.ACTION_MOVE:
- 			float newX = event.getX();
- 			float newY = event.getY();
-
- 			scrollBy((int) (0), (int) ((lastY - newY) *2));
- 			lastX = newX;
- 			lastY = newY;
- 			break;
- 		/*case MotionEvent.ACTION_UP:
- 			int scrollX = getScrollX();
- 			int scrollY = getScrollY();
- 			if ((scrollX < 0) && (scrollX < -10 || scrollY > 10)) {
- 				// XY方向超出左边位置
- 				scroller.startScroll(scrollX, scrollY, -scrollX, -scrollY);
- 				invalidate();
- 			} else if ((scrollX > total_Width - screenW)
- 					&& (scrollY < -10 || scrollY > 10)) {
- 				// XY方向超出右边位置
- 				scroller.startScroll(scrollX, scrollY, (int) (total_Width
- 						- screenW - scrollX), -scrollY);
- 				invalidate();
- 			} else if (scrollX < 0) {
- 				// X方向超出左边的位置
- 				scroller.startScroll(scrollX, scrollY, -scrollX, 0);
- 				invalidate();
-
- 			} else if (scrollX > total_Width - screenW) {
- 				// X方向超出右边边的位置
- 				scroller.startScroll(scrollX, scrollY, (int) (total_Width
- 						- screenW - scrollX), 0);
- 				invalidate();
- 			} else if (scrollY < -10 || scrollY > 10) {
- 				// Y方向超出了位置
- 				scroller.startScroll(scrollX, scrollY, 0, -scrollY);
- 				invalidate();
- 			}
- 			break;*/
- 		default:
- 			break;
- 		}
- 		return super.onTouchEvent(event);
- 	}
-
- 	@Override
- 	public void computeScroll() {
- 		if (scroller.computeScrollOffset()) {
- 			// 调用这个下面的条件是由于scroller调用了滑动从而使它激发
- 			scrollTo(scroller.getCurrX(), scroller.getCurrY());
- 			invalidate();
- 			return;
- 		}
- 		super.computeScroll();
- 	}
+    /* @Override
+ 	public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+ 		setMeasuredDimension(800, 100);
+ 	}*/
  }  
 
 

@@ -141,6 +141,7 @@ public class LaunchActivity extends BaseActivity {
 							AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(
 									shopId);
 							last_sync = myshops.get(0).getContactSyncTime();
+							AppContext.getInstance(getBaseContext()).setContactLastSyncTime(last_sync);
 							shopName = myshops.get(0).getEnterprise_name();
 						}
 						else

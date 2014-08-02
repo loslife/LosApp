@@ -131,7 +131,6 @@
             android:id="@+id/system_vcode_tip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="系统已发送验证码至您的手机，接收短信大约需要"
             android:textSize="14.0dip"
             android:textColor="@color/gray_text" />
          <TextView

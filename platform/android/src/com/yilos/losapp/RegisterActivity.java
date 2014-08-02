@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -126,8 +128,6 @@ public class RegisterActivity extends BaseActivity
 				{
 					if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
 					{
-					  operat_next.setEnabled(true);
-					  operat_next.setBackgroundResource(R.drawable.login_btn);
 					  getValidatecode(phoneNum.getText().toString());
 					}
 					else
@@ -136,6 +136,34 @@ public class RegisterActivity extends BaseActivity
 					}
 				}
 			}
+		});
+		
+		validatecode.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void afterTextChanged(Editable s) {
+
+			}
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+
+			}
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				if(!"".equals(s))
+				{
+					operat_next.setEnabled(true);
+					operat_next.setBackgroundResource(R.drawable.login_btn);
+				}
+				else
+				{
+					operat_next.setEnabled(false);
+					operat_next.setBackgroundResource(R.drawable.gray_btn);
+				}
+			}
+
 		});
 		
 		operat_next.setOnClickListener(new OnClickListener() {
@@ -448,8 +476,10 @@ public class RegisterActivity extends BaseActivity
 				if(!forgotpwd)
 				{
 					relativelayout_vcode.setVisibility(View.GONE);
-					system_vcode_tip.setText("短信验证码好像罢工了，请确认输入是您本人号码，以确保使用中的账号与数据安全");
-					system_vcode_tip.setTextColor(color.holo_red_dark);
+					system_vcode_tip.setTextColor(getBaseContext().getResources().getColor(R.color.red));
+					system_vcode_tip.setText("短信验证码好像罢工了，请确认输入是您本人号码，以确保使用中的账号与数据安全。");
+					operat_next.setEnabled(true);
+					operat_next.setBackgroundResource(R.drawable.login_btn);
 				}
 				else
 				{
@@ -463,6 +493,7 @@ public class RegisterActivity extends BaseActivity
 			public void onTick(long millisUntilFinished) {
 				layout_getcode.setVisibility(View.GONE);
 				layout_codetip.setVisibility(View.VISIBLE);
+				system_vcode_tip.setText("系统已发送验证码至您的手机，接收短信大约需要");
 				timecount.setText((--count) 
 						+ "秒");
 			}

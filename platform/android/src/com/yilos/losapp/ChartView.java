@@ -3,11 +3,13 @@ package com.yilos.losapp;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
@@ -17,25 +19,20 @@ import android.widget.Scroller;
 public class ChartView extends View {
 
 	DisplayMetrics dm = getResources().getDisplayMetrics(); 
-	public int XPoint = 120; // 原点的X坐标
+	public int XPoint = 150; // 原点的X坐标
 	public int YPoint = dm.heightPixels+150; // 原点的Y坐标
 	
-	public int XLength = dm.widthPixels-160; // X轴的长度
+	public int XLength = dm.widthPixels-200; // X轴的长度
 	public int YLength = dm.heightPixels/2; // Y轴的长度
+	public int scrollLength = YLength;
 	
 	public int XScale = XLength/6; // X的刻度长度
-	public int YScale = 55; // Y的刻度长度
+	public int YScale = 60; // Y的刻度长度
 	
 	public String[] XLabel; // X的刻度
 	public String[] YLabel; // Y的刻度
 	public int[] Data; // 数据
 
-	private float screenW, screenH;
-	private float lastX;
-	private float lastY;
-	private Scroller scroller;
-	private float total_Width = 0;
-	
 	 final int[] colors = new int[]{           
              R.color.vone,  
              R.color.vtwo,  
@@ -52,16 +49,11 @@ public class ChartView extends View {
 
 	public ChartView(Context context, AttributeSet attr) {
 		super(context, attr);
-		scroller = new Scroller(context);
-		screenW = this.getWidth();
-		screenH = this.getHeight();
+
 	}
 	
 	public ChartView(Context context, String[] XLabels, String[] YLabels, int[] AllData) {
 		super(context);
-		scroller = new Scroller(context);
-		screenW = this.getWidth();
-		screenH = this.getHeight();
 		SetInfo(XLabels, YLabels,AllData);
 	}
 
@@ -76,15 +68,18 @@ public class ChartView extends View {
 		
 		if(XLabels.length==7)
 		{
-			YPoint =getResources().getDisplayMetrics().heightPixels/4+100;
+			YPoint =getResources().getDisplayMetrics().heightPixels/4+200;
+			scrollLength = YLength+150;
 		}
 		else if(XLabels.length==24)
 		{
-			YPoint = getResources().getDisplayMetrics().heightPixels+100;
+			YPoint = getResources().getDisplayMetrics().heightPixels+250;
+			scrollLength = YLength+200;
 		}
 		else
 		{
-			YPoint = getResources().getDisplayMetrics().heightPixels+150;
+			YPoint = getResources().getDisplayMetrics().heightPixels+650;
+			scrollLength = YLength+100;
 		}
 		
 		//TOP3
@@ -94,6 +89,7 @@ public class ChartView extends View {
 		YLabel = new String[]{"0",1*(top_one/5+1)+"",2*(top_one/5+1)+"",3*(top_one/5+1)+"",4*(top_one/5+1)+"",5*(top_one/5+1)+""};
 	}
 
+	@SuppressLint("DrawAllocation")
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);// 重写onDraw方法
@@ -109,7 +105,7 @@ public class ChartView extends View {
 		Paint paint1 = new Paint();
 		paint1.setStyle(Paint.Style.STROKE);
 		paint1.setAntiAlias(true);// 去锯齿
-		paint1.setColor(res.getColor(R.color.black_text));
+		
 		paint1.setTextSize(36); // 设置轴文字大小
 
 		// 设置Y轴(对于系统来讲屏幕的原点在左上角）
@@ -118,8 +114,9 @@ public class ChartView extends View {
 			// canvas.drawLine(XPoint, YPoint - YLength +i * YScale, XPoint + 5,
 			// YPoint - YLength +i * YScale, paint); // 刻度 XPoint+5画出了一条短的小横线
 			try {
-				canvas.drawText(XLabel[i-1], XPoint - XLabel[i-1].length()*20, YPoint - YLength + i
-						* YScale + 5, paint1); // 文字
+				paint1.setColor(res.getColor(R.color.gray_text));
+				canvas.drawText(XLabel[i-1], XPoint - 120, YPoint - YLength + i
+						* YScale+15, paint1); // 文字
 			} catch (Exception e) {
 			}
 		}
@@ -129,8 +126,9 @@ public class ChartView extends View {
 				- YLength, paint); // 轴线
 		for(int i = 0; i < YLabel.length; i++)
 		{
+			paint1.setColor(res.getColor(R.color.black_text));
 			canvas.drawText(YLabel[i], XPoint + i * XScale - 5, YPoint
-					- YLength, paint1); // 文字
+					- YLength-15, paint1); // 文字
 		}
 		for (int i = 0; i < XLabel.length; i++) {
 			/*
@@ -142,8 +140,8 @@ public class ChartView extends View {
 				// 数据值
 				if (i > 0 && YCoord(Data[i - 1]) != -999
 						&& YCoord(Data[i]) != -999) // 保证有效数据
-					canvas.drawLine(YCoord(Data[i - 1])+10, YPoint - YLength + i
-							* YScale, YCoord(Data[i])+10, YPoint - YLength
+					canvas.drawLine(YCoord(Data[i - 1])+8, YPoint - YLength + i
+							* YScale, YCoord(Data[i])+8, YPoint - YLength
 							+ (i + 1) * YScale, paint);
 				if(Data[i]==top_one&&Data[i]!=0)
 	             {
@@ -157,12 +155,16 @@ public class ChartView extends View {
 				 {
 					 paint.setColor(res.getColor(colors[2]));
 				 }
-				
-				canvas.drawCircle(YCoord(Data[i])+10, YPoint - YLength + (i + 1)
-						* YScale, 8, paint);
+
+				canvas.drawRect(new Rect(YCoord(Data[i]),YPoint
+						- YLength + (i + 1) * YScale,YCoord(Data[i])+15,YPoint
+						- YLength + (i + 1) * YScale+15), paint);
 				canvas.drawText(Data[i] + "人", YCoord(Data[i]) + 12, YPoint
 						- YLength + (i + 1) * YScale, paint1); // 文字
-			} catch (Exception e) {
+			} 
+			 catch (Exception e)
+			{
+				 
 			}
 		}
 
@@ -184,66 +186,10 @@ public class ChartView extends View {
 		return y;
 	}
 
+	
 	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		switch (event.getAction()) {
-		case MotionEvent.ACTION_DOWN:
-			lastX = event.getX();
-			lastY = event.getY();
-
-			return true;
-		case MotionEvent.ACTION_MOVE:
-			float newX = event.getX();
-			float newY = event.getY();
-
-			scrollBy((int) (0), (int) ((lastY - newY) *2));
-			lastX = newX;
-			lastY = newY;
-			break;
-		/*case MotionEvent.ACTION_UP:
-			int scrollX = getScrollX();
-			int scrollY = getScrollY();
-			if ((scrollX < 0) && (scrollX < -10 || scrollY > 10)) {
-				// XY方向超出左边位置
-				scroller.startScroll(scrollX, scrollY, -scrollX, -scrollY);
-				invalidate();
-			} else if ((scrollX > total_Width - screenW)
-					&& (scrollY < -10 || scrollY > 10)) {
-				// XY方向超出右边位置
-				scroller.startScroll(scrollX, scrollY, (int) (total_Width
-						- screenW - scrollX), -scrollY);
-				invalidate();
-			} else if (scrollX < 0) {
-				// X方向超出左边的位置
-				scroller.startScroll(scrollX, scrollY, -scrollX, 0);
-				invalidate();
-
-			} else if (scrollX > total_Width - screenW) {
-				// X方向超出右边边的位置
-				scroller.startScroll(scrollX, scrollY, (int) (total_Width
-						- screenW - scrollX), 0);
-				invalidate();
-			} else if (scrollY < -10 || scrollY > 10) {
-				// Y方向超出了位置
-				scroller.startScroll(scrollX, scrollY, 0, -scrollY);
-				invalidate();
-			}
-			break;*/
-		default:
-			break;
-		}
-		return super.onTouchEvent(event);
-	}
-
-	@Override
-	public void computeScroll() {
-		if (scroller.computeScrollOffset()) {
-			// 调用这个下面的条件是由于scroller调用了滑动从而使它激发
-			scrollTo(scroller.getCurrX(), scroller.getCurrY());
-			invalidate();
-			return;
-		}
-		super.computeScroll();
+	public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		setMeasuredDimension(800, scrollLength);
 	}
 
 }

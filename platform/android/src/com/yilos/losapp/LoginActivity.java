@@ -31,6 +31,9 @@ public class LoginActivity extends BaseActivity{
 	
 	private TextView shopName;
 	
+	private String errorCode;
+	public static final String OPRTATE_TYPE = "login";
+	
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
@@ -75,6 +78,7 @@ public class LoginActivity extends BaseActivity{
 		loginBtn.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
+				loginBtn.setEnabled(false);
 				String account = userNameExt.getText().toString();
 				String pwd = pwdExt.getText().toString();
 				//判断输入
@@ -131,14 +135,11 @@ public class LoginActivity extends BaseActivity{
 					main.setClass(LoginActivity.this, LaunchActivity.class);
 					startActivity(main);
 				}
-				else if(msg.what == 0)
+				else
 				{
-					UIHelper.ToastMessage(LoginActivity.this, "登录失败");
+					UIHelper.ToastMessage(getBaseContext(), StringUtils.errorcodeToString(OPRTATE_TYPE, errorCode));
 				}
-				else if(msg.what == -1)
-				{
-					UIHelper.ToastMessage(LoginActivity.this, "登录异常");
-				}
+				loginBtn.setEnabled(true);
 			}
 		};
 		new Thread(){
@@ -153,6 +154,7 @@ public class LoginActivity extends BaseActivity{
 				if(res.getCode()==1)
 				{
 					msg.what = 0;
+					errorCode = res.getResult().getErrorCode();
 				}
 				
 				handle.sendMessage(msg);

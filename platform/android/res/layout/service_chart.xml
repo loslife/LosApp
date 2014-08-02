@@ -45,7 +45,7 @@
             android:layout_width="fill_parent"
             android:layout_height="1px"
             android:layout_alignParentBottom="true"
-            android:background="@color/gray_text" />
+            android:background="@color/lightgray" />
     </RelativeLayout>
 
     <LinearLayout

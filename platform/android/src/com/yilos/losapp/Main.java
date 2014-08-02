@@ -163,6 +163,8 @@ public class Main extends BaseActivity {
 				total = (float) (Math.round(total * 10)) / 10;
 				((TextView) findViewById(R.id.employeetotal)).setText("￥"
 						+ total);
+				loading_begin.setVisibility(View.GONE);
+				mainScrollLayout.setVisibility(View.VISIBLE);
 			}
 
 			if (msg.what == 2) {
@@ -359,6 +361,8 @@ public class Main extends BaseActivity {
 				PanelDountChart panelDountView = new PanelDountChart(
 						getBaseContext(), num2, perName, "business");
 				annularLayout.addView(panelDountView);
+				loading_begin.setVisibility(View.GONE);
+				mainScrollLayout.setVisibility(View.VISIBLE);
 			}
 
 			if (msg.what == 3) {
@@ -421,7 +425,8 @@ public class Main extends BaseActivity {
 						+ total);
 				setOtherListView(otherPercentNum, otherProjectName,
 						otherProjectTotal);
-
+				loading_begin.setVisibility(View.GONE);
+				mainScrollLayout.setVisibility(View.VISIBLE);
 			}
 
 			if (msg.what == 4) {
@@ -482,7 +487,8 @@ public class Main extends BaseActivity {
 						count// 数据
 				);
 				myView.addView(chartView);
-
+				loading_begin.setVisibility(View.GONE);
+				mainScrollLayout.setVisibility(View.VISIBLE);
 			}
 		}
 	};
@@ -553,8 +559,6 @@ public class Main extends BaseActivity {
 				loading_begin.setVisibility(View.VISIBLE);
 				mainScrollLayout.setVisibility(View.GONE);
 				getBcustomerCount();
-				loading_begin.setVisibility(View.GONE);
-				mainScrollLayout.setVisibility(View.VISIBLE);
 			}
 		});
 		
@@ -565,8 +569,6 @@ public class Main extends BaseActivity {
 				loading_begin.setVisibility(View.VISIBLE);
 				mainScrollLayout.setVisibility(View.GONE);
 				getEmployeePerData();
-				/*loading_begin.setVisibility(View.GONE);
-				mainScrollLayout.setVisibility(View.VISIBLE);*/
 			}
 		});
         
@@ -577,9 +579,6 @@ public class Main extends BaseActivity {
 				loading_begin.setVisibility(View.VISIBLE);
 				mainScrollLayout.setVisibility(View.GONE);
 				getServicePerformanceData();
-				
-				loading_begin.setVisibility(View.GONE);
-				mainScrollLayout.setVisibility(View.VISIBLE);
 			}
 		});
         
@@ -590,9 +589,6 @@ public class Main extends BaseActivity {
 				loading_begin.setVisibility(View.VISIBLE);
 				mainScrollLayout.setVisibility(View.GONE);
 				getBizPerformanceData();
-				
-				loading_begin.setVisibility(View.GONE);
-				mainScrollLayout.setVisibility(View.VISIBLE);
 			}
 		});
 
@@ -635,6 +631,8 @@ public class Main extends BaseActivity {
 					timetype.setText("日");
 					showTime.setText(getDateNow());
 				}
+				loading_begin.setVisibility(View.VISIBLE);
+				mainScrollLayout.setVisibility(View.GONE);
 				getShowData();
 			}
 
@@ -680,6 +678,8 @@ public class Main extends BaseActivity {
 				year = String.valueOf(curDate.getYear() + 1900);
 				day = String.valueOf(curDate.getDate());
 				month = String.valueOf(curDate.getMonth() + 1);
+				loading_begin.setVisibility(View.VISIBLE);
+				mainScrollLayout.setVisibility(View.GONE);
 				getShowData();
 			}
 		});
@@ -721,6 +721,8 @@ public class Main extends BaseActivity {
 				year = String.valueOf(curDate.getYear() + 1900);
 				day = String.valueOf(curDate.getDate());
 				month = String.valueOf(curDate.getMonth() + 1);
+				loading_begin.setVisibility(View.VISIBLE);
+				mainScrollLayout.setVisibility(View.GONE);
 				getShowData();
 			}
 		});
@@ -1060,7 +1062,6 @@ public class Main extends BaseActivity {
 		// 查询本地的关联数据
 		List<MyShopBean> myshops = myshopService.queryShops();
 		if (myshops != null && myshops.size() > 0) {
-			
 			shopId = myshops.get(0).getEnterprise_id();
 			title = new String[myshops.size()];
 			shopIds = new String[myshops.size()];
@@ -1070,8 +1071,6 @@ public class Main extends BaseActivity {
 				shopIds[i] = myshops.get(i).getEnterprise_id();
 			}
 			getShowData();
-			loading_begin.setVisibility(View.GONE);
-			mainScrollLayout.setVisibility(View.VISIBLE);
 			noshop.setVisibility(View.GONE);
 		} else {
 			mainScrollLayout.setVisibility(View.GONE);

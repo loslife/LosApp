@@ -64,6 +64,7 @@ public class MemberGoupActivity extends BaseActivity {
 	private TextView loadcountinfo;
 	private TextView reloading;
 	private TextView cancelsearch;
+	
 
 	String[] members;
 	String[] memberNames;
@@ -198,9 +199,7 @@ public class MemberGoupActivity extends BaseActivity {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
-				
-				parentData = memberService.seachRecords(shopId, s.toString());
-				initView();
+				filterData(s.toString());
 			}
 
 		});
@@ -220,6 +219,29 @@ public class MemberGoupActivity extends BaseActivity {
 			}
 		});
 
+	}
+	
+
+	/**
+	 * 根据输入框中的值来过滤数据并更新ListView
+	 * @param filterStr
+	 */
+	private void filterData(String filterStr)
+	{
+		
+		List<String> filterList = new ArrayList<String>();
+		for(int i= 0;i<members.length;i++)
+		{   
+			int p = members[i].indexOf("|");
+			if(members[i].substring(0, p).toUpperCase().contains(filterStr.toUpperCase()))
+			{
+				filterList.add(members[i]);
+			}
+		}
+		String[] nameArr = new String[filterList.size()];    
+		filterList.toArray(nameArr);    
+		lAdp = new ListViewAdp(MemberGoupActivity.this, nameArr,parentData);
+		lvContact.setAdapter(lAdp);
 	}
 
 	private void findView() {
@@ -251,7 +273,7 @@ public class MemberGoupActivity extends BaseActivity {
 				
 					if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
 					{
-					   getMemberContact(shopId,"0");
+					   getMemberContact(shopId,last_sync);
 					}
 				refreshableView.finishRefreshing();
 			}

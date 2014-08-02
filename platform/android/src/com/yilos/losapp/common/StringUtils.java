@@ -312,6 +312,10 @@ public class StringUtils {
 			{
 				errorInfo = "用户名或者密码错误";
 			}
+			else
+			{
+				errorInfo = "登录失败";
+			}
 		}
 		
 		if("checkValidatecode".equals(oprateType))
