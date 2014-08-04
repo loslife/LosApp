@@ -159,10 +159,11 @@
             android:textSize="20.0dip" />
     </RelativeLayout>
 
-    <View
+   <View
         android:layout_width="fill_parent"
-        android:layout_height="12px"
-        android:background="@color/base_bg" />
+        android:layout_height="12.0dip"
+        android:background="@drawable/viewborder"
+    />
 
     <RelativeLayout
         android:layout_width="fill_parent"

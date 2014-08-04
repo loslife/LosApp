@@ -131,14 +131,14 @@
             android:id="@+id/system_vcode_tip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/timecount"
             android:textSize="14.0dip"
             android:textColor="@color/gray_text" />
          <TextView
             android:id="@+id/timecount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignRight="@id/system_vcode_tip"
-            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@id/system_vcode_tip"
             android:text="90秒"
             android:textSize="20.0dip"
             android:textColor="@color/black_text" />
@@ -203,7 +203,7 @@
             android:layout_marginLeft="5dip"
             android:layout_toRightOf="@id/passwordtext"
             android:gravity="center_vertical"
-            android:hint="输入16位一下的字母和数字的组合"
+            android:hint="输入16位以下的字母和数字的组合"
             android:inputType="textPassword"
             android:textColorHint="@color/lightgray"
             android:textSize="16.0dip" 

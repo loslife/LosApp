@@ -5,6 +5,7 @@
     android:layout_height="60dip" >  
   
     <LinearLayout  
+        android:id="@+id/pullrefresh"
         android:layout_width="200dip"  
         android:layout_height="60dip"  
         android:layout_centerInParent="true"  

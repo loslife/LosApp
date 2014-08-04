@@ -4,8 +4,8 @@
     <solid android:color="@color/base_bg" />  
   
     <stroke  
-        android:width="0.01dp"  
-        android:color="@color/graywhite"/>  
+        android:width="0.03dp"  
+        android:color="@color/lightgray"/>  
   
     <padding  
         android:bottom="1dp"  

@@ -109,7 +109,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1" >
 
-            <com.yilos.losapp.view.RefreshableView
+            <com.yilos.secretary.view.RefreshableView
                 android:id="@+id/refreshable_view"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -124,9 +124,9 @@
                     android:dividerHeight="1px"
                     android:scrollbars="none" >
                 </ListView>
-            </com.yilos.losapp.view.RefreshableView>
+            </com.yilos.secretary.view.RefreshableView>
 
-            <com.yilos.losapp.common.SideBar
+            <com.yilos.secretary.common.SideBar
                 android:id="@+id/sideBar"
                 android:layout_width="20dp"
                 android:layout_height="fill_parent"
