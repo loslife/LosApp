@@ -149,20 +149,16 @@ public class PanelBar extends View {
          for(i=0; i< 6 ; i++)   
          {                          
              startx=  initX + (i+1) * lnSpace;  
-             endx = startx;  
-             //canvas.drawLine( startx  ,initY ,startx ,initY + lnSpace, PaintText);  
-             //canvas.drawLine( startx  ,initY ,startx ,endy, PaintText);  
-             //文字右移10位  
-             //canvas.drawText(Integer.toString(i + 1), startx - 10,initY + lnSpace, PaintText);                         
+             endx = startx;                      
          }  
          // X 轴            
          //canvas.drawLine( initX ,initY  ,ScrWidth - 10  ,initY, PaintText);  
      }
      
-    /* @Override
+    @Override
  	public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
  		setMeasuredDimension(800, 100);
- 	}*/
+ 	}
  }  
 
 

@@ -23,7 +23,7 @@ public class ChartView extends View {
 	public int YPoint = dm.heightPixels+150; // 原点的Y坐标
 	
 	public int XLength = dm.widthPixels-200; // X轴的长度
-	public int YLength = dm.heightPixels/2; // Y轴的长度
+	public int YLength = dm.heightPixels/2+200; // Y轴的长度
 	public int scrollLength = YLength;
 	
 	public int XScale = XLength/6; // X的刻度长度
@@ -76,10 +76,23 @@ public class ChartView extends View {
 			YPoint = getResources().getDisplayMetrics().heightPixels+250;
 			scrollLength = YLength+200;
 		}
-		else
+		else if(XLabels.length==31)
 		{
+			
 			YPoint = getResources().getDisplayMetrics().heightPixels+650;
 			scrollLength = YLength+100;
+		}
+		else if(XLabels.length==30)
+		{
+			
+			YPoint = getResources().getDisplayMetrics().heightPixels+600;
+			scrollLength = YLength+100;
+		}
+		else
+		{
+			
+			YPoint = getResources().getDisplayMetrics().heightPixels+500;
+			scrollLength = YLength+300;
 		}
 		
 		//TOP3

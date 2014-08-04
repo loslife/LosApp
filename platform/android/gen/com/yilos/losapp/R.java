@@ -188,7 +188,8 @@ public final class R {
         public static final int up=0x7f02003f;
         public static final int updateicon=0x7f020040;
         public static final int username=0x7f020041;
-        public static final int widget_bar_bg=0x7f020042;
+        public static final int viewborder=0x7f020042;
+        public static final int widget_bar_bg=0x7f020043;
     }
     public static final class id {
         public static final int aboutlos=0x7f08009a;

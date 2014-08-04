@@ -2,11 +2,13 @@ package com.yilos.losapp;
 
 import com.yilos.losapp.common.ChartCalc;
 
+import android.annotation.SuppressLint;
 import android.content.Context;  
 import android.content.res.Resources;
 import android.graphics.Canvas;  
 import android.graphics.Color;  
 import android.graphics.Paint;  
+import android.graphics.Rect;
 import android.graphics.RectF;  
 import android.util.DisplayMetrics;  
 import android.view.View;  
@@ -46,11 +48,12 @@ public PanelDountChart(Context context,float arr[],String textName[],String perT
     }  
   
       
-    public void onDraw(Canvas canvas){  
+    @SuppressLint("DrawAllocation")
+	public void onDraw(Canvas canvas){  
         //画布背景  
         canvas.drawColor(Color.WHITE);                  
             
-        float cirX = ScrWidth / 2;    
+        float cirX = ScrWidth / 4;    
         float cirY = ScrHeight/ 8;    
         float radius = ScrWidth/6;//150;    
                                     
@@ -88,29 +91,17 @@ public PanelDountChart(Context context,float arr[],String textName[],String perT
             //计算百分比标签  
             xcalc.CalcArcEndPointXY(cirX, cirY, radius - radius/2/2, CurrPer + Percentage/2); 
             
-            float textX = 0.0f;
-            float textY = 0.0f;
-            if(xcalc.getPosX()>cirX)
-            {
-            	textX = xcalc.getPosX()+40;
-            }
-            else
-            {
-            	textX = xcalc.getPosX()-280;
-            }
-            
-            if(xcalc.getPosY()>cirY)
-            {
-            	textY = xcalc.getPosY()+10;
-            }
-            else
-            {
-            	textY = xcalc.getPosY();
-            }
+            int textX = ScrWidth*1/2+50;
+            int textY = ScrHeight/ 8-(ScrWidth/6)*4/7+50*i+15;
             
             //标识  
             if(arrPer[i]!=0.0f)
             {
+            	 if(strPer[i].length()>5)
+            	 {
+            		 strPer[i] = strPer[i].substring(0, 5)+"...";
+            	 }
+            	 canvas.drawRect(new Rect(textX-30, textY-30 ,textX, textY), PaintArc);
             	 canvas.drawText(strPer[i]+Float.toString(arrPer[i])+"%",textX, textY ,PaintLabel);    
             }
                      
