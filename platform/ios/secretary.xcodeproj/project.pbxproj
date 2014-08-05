@@ -281,7 +281,7 @@
 		18AFE61F1953F6520083C972 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		18AFE625195527290083C972 /* LosDropDown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LosDropDown.h; sourceTree = "<group>"; };
 		18AFE626195527290083C972 /* LosDropDown.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LosDropDown.m; sourceTree = "<group>"; };
-		18B2EE0E1946E0EF00264B74 /* LosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		18B2EE0E1946E0EF00264B74 /* secretary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = secretary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18B2EE111946E0EF00264B74 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		18B2EE131946E0EF00264B74 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		18B2EE151946E0EF00264B74 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -591,7 +591,7 @@
 		18B2EE0F1946E0EF00264B74 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				18B2EE0E1946E0EF00264B74 /* LosApp.app */,
+				18B2EE0E1946E0EF00264B74 /* secretary.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -707,7 +707,7 @@
 			);
 			name = secretary;
 			productName = LosApp;
-			productReference = 18B2EE0E1946E0EF00264B74 /* LosApp.app */;
+			productReference = 18B2EE0E1946E0EF00264B74 /* secretary.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
