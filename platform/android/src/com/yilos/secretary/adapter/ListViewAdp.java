@@ -109,7 +109,8 @@ public class ListViewAdp extends BaseAdapter implements SectionIndexer {
 		}
 		//平均消费
 		String averageConsume =  memberData.get(Integer.valueOf(p)).getAverageConsume();
-		averageConsume = "平均消费"+averageConsume+"元";
+		
+		averageConsume = "平均消费"+(float) (Math.round(Float.valueOf(averageConsume) * 10)) / 10+"元";
 		//会员卡
 		String cards = memberData.get(Integer.valueOf(p)).getCardStr();
 		if(cards.length()>11)

@@ -20,20 +20,20 @@
     <TextView
         android:id="@+id/btn_login"
         android:layout_width="120.0dip"
-        android:layout_height="48.0dip"
+        android:layout_height="45.0dip"
         android:layout_alignLeft="@+id/view1"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="70.0dip"
+        android:layout_marginBottom="60.0dip"
         android:background="@drawable/login_btn"
         android:gravity="center"
         android:text="登录"
         android:textColor="@android:color/white"
-        android:textSize="22.0dip" />
+        android:textSize="20.0dip" />
 
     <TextView
         android:id="@+id/btn_register"
         android:layout_width="120.0dip"
-        android:layout_height="48.0dip"
+        android:layout_height="45.0dip"
         android:layout_alignBaseline="@+id/btn_login"
         android:layout_alignBottom="@+id/btn_login"
         android:layout_toRightOf="@+id/view2"
@@ -41,6 +41,6 @@
         android:gravity="center"
         android:text="注册"
         android:textColor="@android:color/white"
-        android:textSize="22.0dip" />
+        android:textSize="20.0dip" />
 
 </RelativeLayout>

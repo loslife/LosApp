@@ -11,11 +11,13 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -164,6 +166,8 @@ public class Main extends BaseActivity {
 				total = (float) (Math.round(total * 10)) / 10;
 				((TextView) findViewById(R.id.employeetotal)).setText("￥"
 						+ total);
+				lefttime.setEnabled(true);
+				righttime.setEnabled(true);
 				loading_begin.setVisibility(View.GONE);
 				mainScrollLayout.setVisibility(View.VISIBLE);
 			}
@@ -256,13 +260,13 @@ public class Main extends BaseActivity {
 						: bizPerformance.getRecharge();
 				((TextView) findViewById(R.id.biztotal)).setText("￥" + total);
 				((TextView) findViewById(R.id.sevicedata)).setText("￥"
-						+ sevicedata);
+						+ (float) (Math.round(Float.valueOf(sevicedata) * 10)) / 10);
 				((TextView) findViewById(R.id.saledata))
-						.setText("￥" + saledata);
+						.setText("￥" + (float) (Math.round(Float.valueOf(saledata) * 10)) / 10);
 				((TextView) findViewById(R.id.carddata))
-						.setText("￥" + carddata);
+						.setText("￥" + (float) (Math.round(Float.valueOf(carddata) * 10)) / 10);
 				((TextView) findViewById(R.id.rechargedata)).setText("￥"
-						+ rechargedata);
+						+ (float) (Math.round(Float.valueOf(rechargedata) * 10)) / 10);
 
 				((TextView) findViewById(R.id.sevicedata))
 						.setTextColor(getResources()
@@ -286,18 +290,22 @@ public class Main extends BaseActivity {
 				((ImageView) findViewById(R.id.rechargeicon))
 						.setImageResource(R.drawable.down);
 
+				comparePrevNewcard = (float)(Math.round(Float.valueOf(comparePrevNewcard) * 10)) / 10;
+				comparePrevRecharge = (float)(Math.round(Float.valueOf(comparePrevRecharge) * 10)) / 10;
+				comparePrevService = (float)(Math.round(Float.valueOf(comparePrevService) * 10)) / 10;
+				comparePrevProduct = (float)(Math.round(Float.valueOf(comparePrevProduct) * 10)) / 10;
 				((TextView) findViewById(R.id.toprev_sevicedata)).setText("比上"
 						+ timetype.getText().toString() + ": "
-						+ comparePrevService + " " + percent_service + "%");
+						+comparePrevService+ " " + percent_service + "%");
 				((TextView) findViewById(R.id.toprev_saledata)).setText("比上"
 						+ timetype.getText().toString() + ": "
-						+ comparePrevProduct + " " + percent_product + "%");
+						+ comparePrevProduct+ " " + percent_product + "%");
 				((TextView) findViewById(R.id.toprev_carddata)).setText("比上"
 						+ timetype.getText().toString() + ": "
-						+ comparePrevNewcard + " " + percent_newcard + "%");
+						+ comparePrevNewcard+ " " + percent_newcard + "%");
 				((TextView) findViewById(R.id.toprev_rechargedata))
 						.setText("比上" + timetype.getText().toString() + ": "
-								+ comparePrevRecharge + " " + percent_recharge
+								+ comparePrevRecharge+ " " + percent_recharge
 								+ "%");
 
 				if (comparePrevService > 0.0) {
@@ -362,6 +370,8 @@ public class Main extends BaseActivity {
 				PanelDountChart panelDountView = new PanelDountChart(
 						getBaseContext(), num2, perName, "business");
 				annularLayout.addView(panelDountView);
+				lefttime.setEnabled(true);
+				righttime.setEnabled(true);
 				loading_begin.setVisibility(View.GONE);
 				mainScrollLayout.setVisibility(View.VISIBLE);
 			}
@@ -426,6 +436,8 @@ public class Main extends BaseActivity {
 						+ total);
 				setOtherListView(otherPercentNum, otherProjectName,
 						otherProjectTotal);
+				lefttime.setEnabled(true);
+				righttime.setEnabled(true);
 				loading_begin.setVisibility(View.GONE);
 				mainScrollLayout.setVisibility(View.VISIBLE);
 			}
@@ -488,6 +500,8 @@ public class Main extends BaseActivity {
 						count// 数据
 				);
 				myView.addView(chartView);
+				lefttime.setEnabled(true);
+				righttime.setEnabled(true);
 				loading_begin.setVisibility(View.GONE);
 				mainScrollLayout.setVisibility(View.VISIBLE);
 			}
@@ -506,7 +520,7 @@ public class Main extends BaseActivity {
 			for (int i = 0; i < otherProjectName.length; i++) {
 				String otherName = (i + 4) + "." + otherProjectName[i];
 				String otherpercent = otherPercentNum[i] + "%";
-				String otherTotal = "￥" + otherProjectTotal[i];
+				String otherTotal = "￥" + (float) (Math.round(Float.valueOf(otherProjectTotal[i]) * 10)) / 10 ;
 				if (otherName.length() > 12) {
 					otherName = otherName.substring(0, 10) + "...";
 				}
@@ -643,7 +657,7 @@ public class Main extends BaseActivity {
 
 			@Override
 			public void onClick(View v) {
-
+				lefttime.setEnabled(false);
 				String showtime = "";
 				Date curDate;
 				if (dateType == "month") {
@@ -689,6 +703,7 @@ public class Main extends BaseActivity {
 
 			@Override
 			public void onClick(View v) {
+				righttime.setEnabled(false);
 				String showtime = "";
 				Date curDate;
 				if (dateType == "month") {
@@ -1143,5 +1158,19 @@ public class Main extends BaseActivity {
 
 		return cal;
 	}
+	
+	@Override  
+    public boolean onKeyDown(int keyCode, KeyEvent event) {  
+        if (keyCode == KeyEvent.KEYCODE_BACK) {  
+        	  Intent i = new Intent(Intent.ACTION_MAIN);
+        	  i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        	  i.addCategory(Intent.CATEGORY_HOME);
+        	  startActivity(i);
+             
+            return false;  
+        } else {  
+            return super.onKeyDown(keyCode, event);  
+        }  
+    }  
 
 }

@@ -152,10 +152,10 @@ public class PanelBar extends View {
          //canvas.drawLine( initX ,initY  ,ScrWidth - 10  ,initY, PaintText);  
      }
      
-    @Override
+   /* @Override
  	public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
  		setMeasuredDimension(800, 100);
- 	}
+ 	}*/
  }  
 
 

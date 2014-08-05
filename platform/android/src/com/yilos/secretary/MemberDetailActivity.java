@@ -123,7 +123,7 @@ public class MemberDetailActivity extends BaseActivity
 		 }
 		
 		 
-		 totalConsume.setText("￥"+Float.valueOf(memberInfo.getTotalConsume()));
+		 totalConsume.setText("￥"+(float) (Math.round(Float.valueOf(memberInfo.getTotalConsume()) * 100)) / 100);
 		 memberNo.setText(memberInfo.getMemberNo());
 		 joinDate.setText(memberInfo.getJoinDate());
 		 if(null!=memberInfo.getJoinDate()&&!"".equals(memberInfo.getJoinDate()))
@@ -132,7 +132,7 @@ public class MemberDetailActivity extends BaseActivity
 			 joinDate.setText(DateUtil.dateToString(joinDatestr.toPlainString(),"yyyy年MM月dd日"));
 		 }
 		 phoneMobile.setText(memberInfo.getPhoneMobile());
-		 averageConsume.setText("￥"+Float.valueOf(memberInfo.getAverageConsume()));
+		 averageConsume.setText("￥"+(float) (Math.round(Float.valueOf(memberInfo.getAverageConsume()) * 10)) / 10);
 		 
 	 }
 

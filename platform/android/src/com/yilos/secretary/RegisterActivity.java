@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -535,5 +536,14 @@ public class RegisterActivity extends BaseActivity
 		};
 		countDownTimer.start();
 	}
+	
+	@Override  
+    public boolean onKeyDown(int keyCode, KeyEvent event) {  
+        if (keyCode == KeyEvent.KEYCODE_BACK) {  
+            return false;  
+        } else {  
+            return super.onKeyDown(keyCode, event);  
+        }  
+    }  
 
 }

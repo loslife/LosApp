@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -182,4 +183,18 @@ public class SettingActivity extends BaseActivity {
 			}
 		});
 	}
+	
+	@Override  
+    public boolean onKeyDown(int keyCode, KeyEvent event) {  
+        if (keyCode == KeyEvent.KEYCODE_BACK) {  
+        	  Intent i = new Intent(Intent.ACTION_MAIN);
+        	  i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        	  i.addCategory(Intent.CATEGORY_HOME);
+        	  startActivity(i);
+             
+            return false;  
+        } else {  
+            return super.onKeyDown(keyCode, event);  
+        }  
+    }  
 }

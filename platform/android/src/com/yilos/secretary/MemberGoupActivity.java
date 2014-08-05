@@ -14,6 +14,7 @@ import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -473,5 +474,19 @@ public class MemberGoupActivity extends BaseActivity {
 			}
 		});
 	}
+	
+	@Override  
+    public boolean onKeyDown(int keyCode, KeyEvent event) {  
+        if (keyCode == KeyEvent.KEYCODE_BACK) {  
+        	  Intent i = new Intent(Intent.ACTION_MAIN);
+        	  i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        	  i.addCategory(Intent.CATEGORY_HOME);
+        	  startActivity(i);
+             
+            return false;  
+        } else {  
+            return super.onKeyDown(keyCode, event);  
+        }  
+    }  
 
 }

@@ -7,6 +7,7 @@ import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.yilos.secretary.bean.ServerMemberResponse;
@@ -27,6 +28,9 @@ public class LoginActivity extends BaseActivity{
 	private TextView shopName;
 	
 	private String errorCode;
+	
+	private ProgressBar loginingbar;
+	
 	public static final String OPRTATE_TYPE = "login";
 	
 	public void onCreate(Bundle savedInstanceState)
@@ -43,6 +47,8 @@ public class LoginActivity extends BaseActivity{
 		loginBtn = (TextView)findViewById(R.id.btn_signin);
 		findPassword = (TextView)findViewById(R.id.tv_forgot_password);
 		shopName = (TextView)findViewById(R.id.shopname);
+		loginingbar = (ProgressBar)findViewById(R.id.loginingbar);
+		loginingbar.setVisibility(View.GONE);
 		shopName.setText("登录");
 		
 		findViewById(R.id.headmore).setVisibility(View.GONE);
@@ -82,6 +88,8 @@ public class LoginActivity extends BaseActivity{
 				}
 				if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
 				{
+					loginBtn.setText("正在登录...");
+					loginingbar.setVisibility(View.VISIBLE);
 					loginUser(account,pwd);
 				}
 				else
@@ -118,8 +126,9 @@ public class LoginActivity extends BaseActivity{
 			{
 				if(msg.what== 1)
 				{
+					loginBtn.setVisibility(View.GONE);
+					loginingbar.setVisibility(View.GONE);
 					//提示登录成功
-					
 					AppContext.getInstance(getBaseContext()).setUserAccount(userName);
 					//跳转到主界面
 					Intent main = new Intent();
@@ -131,6 +140,8 @@ public class LoginActivity extends BaseActivity{
 					UIHelper.ToastMessage(getBaseContext(), StringUtils.errorcodeToString(OPRTATE_TYPE, errorCode));
 				}
 				loginBtn.setEnabled(true);
+				loginingbar.setVisibility(View.GONE);
+				loginBtn.setText("登录");
 			}
 		};
 		new Thread(){

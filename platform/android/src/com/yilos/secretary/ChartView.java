@@ -198,7 +198,7 @@ public class ChartView extends View {
 	
 	@Override
 	public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		setMeasuredDimension(800, scrollLength);
+		setMeasuredDimension(dm.widthPixels, scrollLength);
 	}
 
 }

@@ -60,15 +60,7 @@ public class BaseActivity extends Activity
         startActivity(intent);
     }
     
-   /* @Override  
-    public boolean onKeyDown(int keyCode, KeyEvent event) {  
-        if (keyCode == KeyEvent.KEYCODE_BACK) {  
-            exit();  
-            return false;  
-        } else {  
-            return super.onKeyDown(keyCode, event);  
-        }  
-    }  */
+    
     
     /**
      * 退出系统
