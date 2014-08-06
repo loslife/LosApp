@@ -158,6 +158,19 @@
             android:textColor="@color/black_text" />
     </RelativeLayout>
     
+    <LinearLayout
+      android:id="@+id/noshop"
+      android:layout_width="fill_parent"
+	  android:layout_height="fill_parent"
+	  android:gravity="center"
+	  android:visibility="gone">
+          <TextView android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:textColor="@color/gray_text"
+	                android:textSize="16.0dip"
+	                android:text="您尚未关联任何店铺，点击'添加关联'"/>
+      </LinearLayout>
+     
    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="100.0dip"

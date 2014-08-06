@@ -163,7 +163,7 @@ public class LinkShopActivity extends BaseActivity
 				if(inputlinkshop.getVisibility()!=View.GONE)
 				{
 					inputlinkshop.setVisibility(View.GONE);
-					linkshopinputbtn.setText("关联店铺");
+					linkshopinputbtn.setText("添加关联");
 				}
 				else
 				{
@@ -223,6 +223,7 @@ public class LinkShopActivity extends BaseActivity
                             public void onClick(DialogInterface dialog, int which) {
                             	myshopService.modifyDisplay(myshops.get(p).getEnterprise_id(), "1");
                             	unlinkShop(AppContext.getInstance(getBaseContext()).getUserAccount(), myshops.get(p).getEnterprise_id());
+                            	
                             	button.setText("恢复关联");
                             }  
                         })  
@@ -292,6 +293,11 @@ public class LinkShopActivity extends BaseActivity
                             public void onClick(DialogInterface dialog, int which) {
                             	isRecoveryLink = true;
                             	linkShop(AppContext.getInstance(getBaseContext()).getUserAccount(), myDisconnectShops.get(p).getEnterprise_account());
+                            	if(AppContext.getInstance(getBaseContext()).getCurrentDisplayShopId()==null)
+            					{
+            						AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(shopId);
+            						AppContext.getInstance(getBaseContext()).setShopName(myDisconnectShops.get(p).getEnterprise_name());
+            					}
                             }  
                         })  
                         .setNegativeButton("否", new DialogInterface.OnClickListener() {    

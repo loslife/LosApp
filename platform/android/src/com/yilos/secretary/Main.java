@@ -119,14 +119,16 @@ public class Main extends BaseActivity {
 		setContentView(R.layout.main);
 		shopId = AppContext.getInstance(getBaseContext())
 				.getCurrentDisplayShopId();
+		if(null==shopId)
+		{
+			shopId = "";
+		}
 		initView();
 		initData();
 	}
 
 	public void onResume() {
 		super.onResume();
-		shopId = AppContext.getInstance(getBaseContext())
-				.getCurrentDisplayShopId();
 		initData();
 	}
 
@@ -370,6 +372,14 @@ public class Main extends BaseActivity {
 				PanelDountChart panelDountView = new PanelDountChart(
 						getBaseContext(), num2, perName, "business");
 				annularLayout.addView(panelDountView);
+				if(bizPerformance.getTotal()==null||Float.valueOf(bizPerformance.getTotal())==0.0f)
+				{
+					((LinearLayout)findViewById(R.id.business_empty)).setVisibility(View.VISIBLE);
+				}
+				else
+				{
+					((LinearLayout)findViewById(R.id.business_empty)).setVisibility(View.GONE);
+				}
 				lefttime.setEnabled(true);
 				righttime.setEnabled(true);
 				loading_begin.setVisibility(View.GONE);
@@ -436,6 +446,14 @@ public class Main extends BaseActivity {
 						+ total);
 				setOtherListView(otherPercentNum, otherProjectName,
 						otherProjectTotal);
+				if(total==0.0f)
+				{
+					((LinearLayout)findViewById(R.id.service_empty)).setVisibility(View.VISIBLE);
+				}
+				else
+				{
+					((LinearLayout)findViewById(R.id.service_empty)).setVisibility(View.GONE);
+				}
 				lefttime.setEnabled(true);
 				righttime.setEnabled(true);
 				loading_begin.setVisibility(View.GONE);
@@ -557,7 +575,7 @@ public class Main extends BaseActivity {
 		service_refresh = (ImageView) findViewById(R.id.service_refresh);
 		business_refresh = (ImageView) findViewById(R.id.business_refresh);
 		loading_begin = (LinearLayout) findViewById(R.id.loading_begin);
-		loading_begin.setVisibility(View.VISIBLE);
+		
 		
 		mainScrollLayout = (ScrollLayout) findViewById(R.id.main_scrolllayout);
 		noshop = (LinearLayout) findViewById(R.id.noshop);
@@ -1078,7 +1096,8 @@ public class Main extends BaseActivity {
 		// 查询本地的关联数据
 		List<MyShopBean> myshops = myshopService.queryShops();
 		if (myshops != null && myshops.size() > 0) {
-			shopId = myshops.get(0).getEnterprise_id();
+			loading_begin.setVisibility(View.VISIBLE);
+			
 			title = new String[myshops.size()];
 			shopIds = new String[myshops.size()];
 			for (int i = 0; i < myshops.size(); i++) {
@@ -1086,11 +1105,15 @@ public class Main extends BaseActivity {
 						: myshops.get(i).getEnterprise_name();
 				shopIds[i] = myshops.get(i).getEnterprise_id();
 			}
+			
+		    shopId = myshops.get(0).getEnterprise_id();
 			getShowData();
+
 			noshop.setVisibility(View.GONE);
 		} else {
 			mainScrollLayout.setVisibility(View.GONE);
 			noshop.setVisibility(View.VISIBLE);
+			shopname.setText("我的店铺");
 		}
 		if (title == null || !(title.length > 0)) {
 			select_shop.setVisibility(View.GONE);
@@ -1122,6 +1145,10 @@ public class Main extends BaseActivity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
+				if(shopId.equals(shopIds[arg2]))
+				{
+					return;
+				}
 				shopname.setText(title[arg2]);
 				AppContext.getInstance(getBaseContext()).setShopName(
 						title[arg2]);

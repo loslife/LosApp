@@ -47,7 +47,16 @@
             android:layout_alignParentBottom="true"
             android:background="@color/lightgray" />
     </RelativeLayout>
-
+    
+    <LinearLayout
+        android:id="@+id/business_empty"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/white"
+        android:orientation="horizontal" 
+        android:visibility="gone">
+    </LinearLayout>
+    
     <LinearLayout
         android:id="@+id/annularLayout"
         android:layout_width="fill_parent"
@@ -57,6 +66,7 @@
     </LinearLayout>
     
     <View
+        android:id="@+id/midview"
         android:layout_width="fill_parent"
         android:layout_height="12.0dip"
         android:background="@drawable/viewborder"

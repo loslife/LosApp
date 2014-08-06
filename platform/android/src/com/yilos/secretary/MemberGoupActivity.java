@@ -67,7 +67,7 @@ public class MemberGoupActivity extends BaseActivity {
 	private TextView reloading;
 	private TextView cancelsearch;
 	private LinearLayout pullrefresh;
-	
+	private LinearLayout noshop;
 
 	String[] members;
 	String[] memberNames;
@@ -105,19 +105,15 @@ public class MemberGoupActivity extends BaseActivity {
 
 		memberService = new MemberService(getBaseContext());
 		shoptitle = AppContext.getInstance(getBaseContext()).getShopName();
+		shopId = AppContext.getInstance(getBaseContext())
+				.getCurrentDisplayShopId();
 	}
 
 	public void onResume() {
 		super.onResume();
 		getdata();
 	}
-	
-	public void onPause()
-	  {
-		  super.onPause();
-		  shopId = AppContext.getInstance(getBaseContext())
-					.getCurrentDisplayShopId();
-	  }
+
 	
 	final Handler handle = new Handler() {
 			
@@ -147,10 +143,10 @@ public class MemberGoupActivity extends BaseActivity {
 	};
 
 	public void initView() {
-		
+
 		if (null != parentData && parentData.size() > 0) 
 		{
-			
+			noshop.setVisibility(View.GONE);
 		    layout_loadingmember.setVisibility(View.GONE);
 			layout_memberlist.setVisibility(View.VISIBLE);
 			members = null;
@@ -181,7 +177,7 @@ public class MemberGoupActivity extends BaseActivity {
 				}
 			});
 		} else {
-			if(!(seachmemberext.getText().length()>0))
+			if(null != shopId && !"".equals(shopId)&&!(seachmemberext.getText().length()>0))
 			{
 			   layout_loadingmember.setVisibility(View.VISIBLE);
 			   layout_memberlist.setVisibility(View.GONE);
@@ -231,7 +227,6 @@ public class MemberGoupActivity extends BaseActivity {
 	 */
 	private void filterData(String filterStr)
 	{
-		
 		List<String> filterList = new ArrayList<String>();
 		for(int i= 0;i<members.length;i++)
 		{   
@@ -264,9 +259,10 @@ public class MemberGoupActivity extends BaseActivity {
 		cancelsearch = (TextView) findViewById(R.id.cancelsearch);
 		 pullrefresh =  (LinearLayout) findViewById(R.id.pullrefresh);
 		shopname = (TextView) findViewById(R.id.shopname);
+		noshop = (LinearLayout) findViewById(R.id.noshop);
 		shopname.setText(AppContext.getInstance(getBaseContext()).getShopName());
 		findViewById(R.id.goback).setVisibility(View.GONE);
-		membercount.setText("共有"+parentData.size()+"名会员");
+		
 		pullrefresh.setVisibility(View.GONE);
 		initIndexBar();
 		refreshableView.setOnRefreshListener(new PullToRefreshListener() {
@@ -364,17 +360,14 @@ public class MemberGoupActivity extends BaseActivity {
 
 	public void getdata() 
 	{
+		findView();
+		
 		last_sync = AppContext.getInstance(getBaseContext())
 				.getContactLastSyncTime();
-		shopId = AppContext.getInstance(getBaseContext())
-				.getCurrentDisplayShopId();
+	    
 		memberService = new MemberService(getBaseContext());
 		myshopService = new MyshopManageService(getBaseContext());
-		if (null != shopId && !"".equals(shopId)) {
-			parentData = memberService.queryMembers(shopId);
-		}
-
-		myshopService = new MyshopManageService(getBaseContext());
+		
 		// 查询本地的关联数据
 		List<MyShopBean> myshops = myshopService.queryShops();
 		if (myshops != null && myshops.size() > 0) {
@@ -384,8 +377,19 @@ public class MemberGoupActivity extends BaseActivity {
 				title[i] = myshops.get(i).getEnterprise_name()==null?"":myshops.get(i).getEnterprise_name();
 				shopIds[i] = myshops.get(i).getEnterprise_id();
 			}
+			shopId = myshops.get(0).getEnterprise_id();
+			parentData = memberService.queryMembers(shopId);
+			membercount.setText("共有"+parentData.size()+"名会员");
 		}
-		findView();
+		else
+		{
+			noshop.setVisibility(View.VISIBLE);
+			shopname.setText("我的店铺");
+			layout_loadingmember.setVisibility(View.GONE);
+			parentData = null;
+			shopId ="";
+		}
+
 		initView();
 	}
 	
