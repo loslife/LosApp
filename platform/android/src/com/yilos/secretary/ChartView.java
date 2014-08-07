@@ -64,31 +64,31 @@ public class ChartView extends View {
 		
 		if(XLabels.length==7)
 		{
-			YPoint =getResources().getDisplayMetrics().heightPixels/4+200;
-			scrollLength = YLength+150;
+			YPoint =YLength+100;
+			scrollLength = YLength+200;
 		}
 		else if(XLabels.length==24)
 		{
-			YPoint = getResources().getDisplayMetrics().heightPixels+250;
+			YPoint = YLength+100;
 			scrollLength = YLength+200;
 		}
 		else if(XLabels.length==31)
 		{
 			
-			YPoint = getResources().getDisplayMetrics().heightPixels+650;
-			scrollLength = YLength+100;
+			YPoint = YLength+100;
+			scrollLength = YLength+200;
 		}
 		else if(XLabels.length==30)
 		{
 			
-			YPoint = getResources().getDisplayMetrics().heightPixels+600;
-			scrollLength = YLength+100;
+			YPoint = YLength+100;
+			scrollLength =YLength+200;
 		}
 		else
 		{
 			
-			YPoint = getResources().getDisplayMetrics().heightPixels+500;
-			scrollLength = YLength+300;
+			YPoint = YLength+100;
+			scrollLength = YLength+200;
 		}
 		
 		//TOP3
@@ -198,7 +198,7 @@ public class ChartView extends View {
 	
 	@Override
 	public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		setMeasuredDimension(dm.widthPixels, scrollLength);
+		setMeasuredDimension(dm.widthPixels,  scrollLength);
 	}
 
 }

@@ -61,7 +61,7 @@ public class AppContext extends Application {
 	 */
 	public ServerMemberResponse loginVerify(String account, String pwd)  {
 		
-		return ApiClient.login(this, account, pwd);
+		return ApiClient.login(getApplicationContext(), account, pwd);
 	}
 	
 	/**
@@ -72,11 +72,11 @@ public class AppContext extends Application {
 	 */
     public ServerMemberResponse register(String account, String pwd)  {
 		
-		return ApiClient.register(this, account, pwd);
+		return ApiClient.register(getApplicationContext(), account, pwd);
 	}
     
     public ServerMemberResponse findPwd(String account, String pwd){
-    	return ApiClient.findPassword(this, account, pwd);
+    	return ApiClient.findPassword(getApplicationContext(), account, pwd);
     }
 	
     /**
@@ -86,7 +86,7 @@ public class AppContext extends Application {
      */
     public ServerMemberResponse getValidatecode(String phoneNumber,String codeTyep)  {
 		
-		return ApiClient.getValidateCode(this, phoneNumber,codeTyep);
+		return ApiClient.getValidateCode(getApplicationContext(), phoneNumber,codeTyep);
 	}
     
     /**
@@ -96,7 +96,7 @@ public class AppContext extends Application {
      */
     public ServerMemberResponse checkValidatecode(String phoneNumber,String checkType,String code)  {
 		
-		return ApiClient.checkValidateCode(this, phoneNumber, checkType,code);
+		return ApiClient.checkValidateCode(getApplicationContext(), phoneNumber, checkType,code);
 	}
     
     
@@ -107,12 +107,12 @@ public class AppContext extends Application {
      */
     public ServerMemberResponse checkUserAccount(String phoneNumber)
     {
-    	return ApiClient.checkUserAccount(this, phoneNumber);
+    	return ApiClient.checkUserAccount(getApplicationContext(), phoneNumber);
     }
     
     public ServerMemberResponse modifyPwd(String phoneNumber,String pwd,String newpwd)
     {
-    	return ApiClient.modifyUserPwd(this, phoneNumber,pwd,newpwd);
+    	return ApiClient.modifyUserPwd(getApplicationContext(), phoneNumber,pwd,newpwd);
     }
     
     /**
@@ -122,7 +122,7 @@ public class AppContext extends Application {
      */
     public ServerMemberResponse checkShopAccount(String phoneNumber)
     {
-    	return ApiClient.checkShopAccount(this, phoneNumber);
+    	return ApiClient.checkShopAccount(getApplicationContext(), phoneNumber);
     }
     
     /**
@@ -132,7 +132,7 @@ public class AppContext extends Application {
      */
     public ServerMemberResponse getMembersContacts(String shopId,String lasSyncTime)
     {
-    	return ApiClient.getMembersContacts(this, shopId,lasSyncTime);
+    	return ApiClient.getMembersContacts(getApplicationContext(), shopId,lasSyncTime);
     }
     
     /**
@@ -142,7 +142,7 @@ public class AppContext extends Application {
      */
     public ServerMemberResponse getMembersCount(String shopId)
     {
-    	return ApiClient.getMembersCount(this, shopId);
+    	return ApiClient.getMembersCount(getApplicationContext(), shopId);
     }
     
     /**
@@ -152,7 +152,7 @@ public class AppContext extends Application {
      */
     public ServerMemberResponse getMyshopList(String phoneNumber)
     {
-    	return ApiClient.getMyshopList(this, phoneNumber);
+    	return ApiClient.getMyshopList(getApplicationContext(), phoneNumber);
     }
     
     /**
@@ -163,7 +163,7 @@ public class AppContext extends Application {
      */
     public ServerMemberResponse linkshop(String userAccount,String shopAccount)
     {
-    	return ApiClient.linkshop(appContext, userAccount, shopAccount);
+    	return ApiClient.linkshop(getApplicationContext(), userAccount, shopAccount);
     }
     
     /**
@@ -174,7 +174,7 @@ public class AppContext extends Application {
      */
     public ServerMemberResponse undoLinkshop(String userAccount,String shopId)
     {
-    	return ApiClient.undoLinkshop(appContext, userAccount, shopId);
+    	return ApiClient.undoLinkshop(getApplicationContext(), userAccount, shopId);
     }
     
     /**
@@ -183,7 +183,7 @@ public class AppContext extends Application {
      */
     public ServerManageResponse getReportsData(String shopid,String year,String month,String type,String day,String report)
     {
-    	return ApiClient.getReports(appContext, shopid,year, month, type, day, report);
+    	return ApiClient.getReports(getApplicationContext(), shopid,year, month, type, day, report);
     }
     
     /**
@@ -191,7 +191,7 @@ public class AppContext extends Application {
      */
     public ServerVersionResponse checkVersion(String version)
     {
-    	return ApiClient.checkApkVersion(appContext, version);
+    	return ApiClient.checkApkVersion(getApplicationContext(), version);
     }
 	/**
 	 * 用户是否登录

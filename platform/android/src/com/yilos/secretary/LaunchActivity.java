@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.yilos.secretary.R;
 import com.yilos.secretary.bean.MyShopBean;
@@ -19,9 +21,8 @@ import com.yilos.secretary.service.MyshopManageService;
 
 public class LaunchActivity extends BaseActivity {
 
-	private MemberService memberService;
-
 	private MyshopManageService myshopService;
+	private LinearLayout loading_begin;
 
 	private String shopName;
 
@@ -35,9 +36,10 @@ public class LaunchActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.launch);
+		loading_begin = (LinearLayout) findViewById(R.id.loading_begin);
 		Handler x = new Handler();// 定义一个handle对象
 		userAccount = AppContext.getInstance(getBaseContext()).getUserAccount();
-		
+		loading_begin.setVisibility(View.VISIBLE);
 		initdata(); 
 	}
 
@@ -49,6 +51,7 @@ public class LaunchActivity extends BaseActivity {
 			if(isLogin)
 			{
 				toMain();
+				loading_begin.setVisibility(View.GONE);
 			}
 			else
 			{
@@ -58,7 +61,7 @@ public class LaunchActivity extends BaseActivity {
 			}
 			
 			if (msg.what == 1) {
-				
+				loading_begin.setVisibility(View.GONE);
 				UIHelper.ToastMessage(getBaseContext(), "登录成功");
 				AppContext.getInstance(getBaseContext()).setLogin(true);
 				toMain();
@@ -78,7 +81,6 @@ public class LaunchActivity extends BaseActivity {
 		String userAccount = AppContext.getInstance(getBaseContext())
 				.getUserAccount();
 		SDBHelper.createDB(LaunchActivity.this, userAccount + ".db");
-		memberService = new MemberService(getBaseContext());
 		myshopService = new MyshopManageService(getBaseContext());
 		
 	

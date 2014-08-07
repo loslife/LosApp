@@ -38,7 +38,7 @@
             android:gravity="center"
             android:text=""
             android:textColor="@color/black_text"
-            android:textSize="20.0dip" />
+            style="@android:style/TextAppearance.Medium"  />
 
         <ImageView
             android:id="@+id/righttime"
@@ -56,7 +56,7 @@
             android:gravity="center"
             android:text="日"
             android:textColor="@color/blue_text"
-            android:textSize="20.0dip" />
+            style="@android:style/TextAppearance.Medium"  />
     </LinearLayout>
     <include layout="@layout/loadingbar"/>
       <com.yilos.secretary.common.ScrollLayout 

@@ -1131,13 +1131,13 @@ public class Main extends BaseActivity {
 		popupWindow = new PopupWindow(Main.this);
 		popupWindow.setBackgroundDrawable(new BitmapDrawable());
 		popupWindow
-				.setWidth(getWindowManager().getDefaultDisplay().getWidth() / 2);
-		popupWindow.setHeight(300);
+				.setWidth(getWindowManager().getDefaultDisplay().getWidth() / 3);
+		popupWindow.setHeight(title.length*72);
 		popupWindow.setOutsideTouchable(true);
 		popupWindow.setFocusable(true);
 		popupWindow.setContentView(layout);
 		// showAsDropDown会把里面的view作为参照物，满屏幕parent
-		popupWindow.showAtLocation(findViewById(R.id.headmore), Gravity.LEFT
+		popupWindow.showAtLocation(findViewById(R.id.headmore), Gravity.CENTER
 				| Gravity.TOP, x, y);// 需要指定Gravity，默认情况是center.
 
 		listView.setOnItemClickListener(new OnItemClickListener() {
@@ -1147,6 +1147,8 @@ public class Main extends BaseActivity {
 					long arg3) {
 				if(shopId.equals(shopIds[arg2]))
 				{
+					popupWindow.dismiss();
+					popupWindow = null;
 					return;
 				}
 				shopname.setText(title[arg2]);

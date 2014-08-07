@@ -12,6 +12,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 
 public class PanelBar extends View {
+	 DisplayMetrics dm = getResources().getDisplayMetrics();
 	 private int ScrHeight;  
      private int ScrWidth;  
      
@@ -152,10 +153,10 @@ public class PanelBar extends View {
          //canvas.drawLine( initX ,initY  ,ScrWidth - 10  ,initY, PaintText);  
      }
      
-   /* @Override
+   @Override
  	public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
- 		setMeasuredDimension(800, 100);
- 	}*/
+ 		setMeasuredDimension(dm.widthPixels, 100);
+ 	}
  }  
 
 

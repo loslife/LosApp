@@ -73,24 +73,28 @@ public class ModifyPwdActivity  extends BaseActivity
 				if(StringUtils.isEmpty(oldpwd))
 				{
 					UIHelper.ToastMessage(v.getContext(), "请输入原始密码");
+					modifybtn.setEnabled(false);
 					return;
 				}
 				if(StringUtils.isEmpty(newPwd))
 				{
 					UIHelper.ToastMessage(v.getContext(), "请输入新密码");
+					modifybtn.setEnabled(false);
 					return;
 				}
 				if(StringUtils.isEmpty(cPwd))
 				{
 					UIHelper.ToastMessage(v.getContext(), "请再次确认输入密码");
+					modifybtn.setEnabled(false);
 					return;
 				}
 				if(!cPwd.equals(newPwd))
 				{
 					UIHelper.ToastMessage(v.getContext(), "两次输入的新密码不一致");
+					modifybtn.setEnabled(false);
 					return;
 				}
-				modifybtn.setEnabled(false);
+				
 				modifyPwd(phoneNo,oldpwd,newPwd);
 					
 				}

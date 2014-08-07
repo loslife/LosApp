@@ -41,13 +41,10 @@ public class LinkShopActivity extends BaseActivity
 	private TextView linkshopbtn;
 	private LinearLayout  inputlinkshop;
 	private TextView linkshopinputbtn;
-	private TextView timecount;
+
 	private ImageView  headmore;
 	private TextView title;
-	
-    private RelativeLayout layout_getcode;
-	private RelativeLayout layout_codetip;
-	
+
 	private CountDownTimer countDownTimer;
 	private MyshopManageService myshopService;
 	private MemberService memberService;
@@ -81,15 +78,23 @@ public class LinkShopActivity extends BaseActivity
 		inputlinkshop = (LinearLayout)findViewById(R.id.inputlinkshop);
 		linkshopinputbtn = (TextView)findViewById(R.id.linkshopinputbtn);
 		headmore = (ImageView)findViewById(R.id.headmore);
-		layout_getcode = (RelativeLayout)findViewById(R.id.layout_getcode);
-		layout_codetip = (RelativeLayout)findViewById(R.id.layout_codetip);
-		timecount = (TextView)findViewById(R.id.timecount);
+
 		headmore.setVisibility(View.GONE);
+		inputlinkshop.setVisibility(View.GONE);
 		title = (TextView)findViewById(R.id.shopname);
 		title.setText("关联店铺");
 		//设置店铺列表
 		setShopListView();
 		setUnShopListView();
+		if(!(myshops.size()>0)&&!(myDisconnectShops.size()>0))
+		{
+			((LinearLayout)findViewById(R.id.noshop)).setVisibility(View.VISIBLE);
+			inputlinkshop.setVisibility(View.GONE);
+		}
+		else
+		{
+			((LinearLayout)findViewById(R.id.noshop)).setVisibility(View.GONE);
+		}
 		
 		findViewById(R.id.goback).setOnClickListener(new OnClickListener() {
 			@Override
@@ -101,6 +106,7 @@ public class LinkShopActivity extends BaseActivity
 		reqValidatecode.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				reqValidatecode.setEnabled(false);
 				String phoneNo = phoneNum.getText().toString();
 				if(StringUtils.isEmpty(phoneNo))
 				{
@@ -116,8 +122,8 @@ public class LinkShopActivity extends BaseActivity
 					{
 						UIHelper.ToastMessage(v.getContext(), "网络连接不可用，请检查网络设置");
 					}
-					
 				}
+				reqValidatecode.setEnabled(true);
 			}
 		});
 		
@@ -142,7 +148,10 @@ public class LinkShopActivity extends BaseActivity
 				}
 				
 					if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
-					{   //校验验证码
+					{   
+						findViewById(R.id.linkbar).setVisibility(View.VISIBLE) ;
+						
+						//校验验证码
 						checkValidatecode(phoneNo,code);
 						
 					}
@@ -164,13 +173,23 @@ public class LinkShopActivity extends BaseActivity
 				{
 					inputlinkshop.setVisibility(View.GONE);
 					linkshopinputbtn.setText("添加关联");
+					if(!(myshops.size()>0)&&!(myDisconnectShops.size()>0))
+					{
+						((LinearLayout)findViewById(R.id.noshop)).setVisibility(View.VISIBLE);
+					}
+					else
+					{
+						((LinearLayout)findViewById(R.id.noshop)).setVisibility(View.GONE);
+					}
+					
 				}
 				else
 				{
 					inputlinkshop.setVisibility(View.VISIBLE);
 					linkshopinputbtn.setText("取消");
+					((LinearLayout)findViewById(R.id.noshop)).setVisibility(View.GONE);
 				}
-				
+
 			}
 		});
 	}
@@ -223,7 +242,7 @@ public class LinkShopActivity extends BaseActivity
                             public void onClick(DialogInterface dialog, int which) {
                             	myshopService.modifyDisplay(myshops.get(p).getEnterprise_id(), "1");
                             	unlinkShop(AppContext.getInstance(getBaseContext()).getUserAccount(), myshops.get(p).getEnterprise_id());
-                            	
+                            	findViewById(R.id.linkbar).setVisibility(View.GONE) ;
                             	button.setText("恢复关联");
                             }  
                         })  
@@ -258,7 +277,8 @@ public class LinkShopActivity extends BaseActivity
         	{
         		shopName = shopName.substring(0, 10)+"...";
         	}
-            HashMap<String, Object> map = new HashMap<String, Object>();  
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            map.put("linkicon", R.drawable.unlinkicon);  
             map.put("linkshopname", shopName);  
             listItem.add(map);  
         } 
@@ -267,9 +287,9 @@ public class LinkShopActivity extends BaseActivity
         SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,//数据源   
             R.layout.shop_item,//ListItem的XML实现  
             //动态数组与ImageItem对应的子项          
-            new String[] {"linkshopname"},   
+            new String[] {"linkicon","linkshopname"},   
             //ImageItem的XML文件里面的一个ImageView,两个TextView ID  
-            new int[] {R.id.linkshopname}  
+            new int[] {R.id.linkicon,R.id.linkshopname}  
         )
         {  
             //在这个重写的函数里设置 每个 item 中按钮的响应事件  
@@ -499,7 +519,7 @@ public class LinkShopActivity extends BaseActivity
 				{
 					UIHelper.ToastMessage(LinkShopActivity.this, "获取验证码失败");
 				}
-				
+				reqValidatecode.setEnabled(true);
 			}
 		};
 		new Thread()
@@ -542,6 +562,7 @@ public class LinkShopActivity extends BaseActivity
 					UIHelper.ToastMessage(getBaseContext(), StringUtils.errorcodeToString("checkValidatecode", errorCode));
 				}
 				linkshopbtn.setEnabled(true);
+				findViewById(R.id.linkbar).setVisibility(View.GONE) ;
 			}
 		};
 		new Thread()
@@ -578,16 +599,17 @@ public class LinkShopActivity extends BaseActivity
 
 			@Override
 			public void onFinish() {
-				layout_getcode.setVisibility(View.VISIBLE);
-				layout_codetip.setVisibility(View.GONE);
+				reqValidatecode.setText("获取验证码");
+				((View)findViewById(R.id.viewline)).setVisibility(View.VISIBLE);
+				reqValidatecode.setTextColor(getBaseContext().getResources().getColor(R.color.blue_text));
 			}
 
 			@Override
 			public void onTick(long millisUntilFinished) {
-				layout_getcode.setVisibility(View.GONE);
-				layout_codetip.setVisibility(View.VISIBLE);
-				timecount.setText((--count) 
-						+ "秒");
+				reqValidatecode.setText((--count) 
+						+ "秒重发");
+				((View)findViewById(R.id.viewline)).setVisibility(View.GONE);
+				reqValidatecode.setTextColor(getBaseContext().getResources().getColor(R.color.gray_text));
 			}
 		};
 		countDownTimer.start();
