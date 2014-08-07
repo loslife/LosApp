@@ -3,9 +3,29 @@
     android:layout_width="match_parent"  
     android:layout_height="match_parent"  
     tools:context=".LaunchActivity"   
-    android:gravity="center"  
+    android:layout_gravity="center"  
     android:background="@drawable/loading"  
     >  
-   
-      
+
+   <LinearLayout
+       android:id="@+id/loading_begin"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_gravity="center"
+       android:gravity="center"
+       android:orientation="vertical" >
+
+       <ProgressBar
+           style="@android:style/Widget.ProgressBar.Large.Inverse"
+           android:layout_width="wrap_content"
+           android:layout_height="36.0dip"
+           android:gravity="center"
+           android:indeterminate="true" />
+
+          <TextView android:text="正在初始化数据，稍后进入..." 
+            android:id="@+id/loadcountinfo" 
+            android:layout_width="wrap_content" 
+            android:textColor="@color/gray_text"
+            android:layout_height="wrap_content"></TextView>
+</LinearLayout>   
 </FrameLayout>  

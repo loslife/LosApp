@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.yilos.losapp"
+    package="com.yilos.secretary"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -27,14 +27,14 @@
         </activity>
         <activity android:name=".LoginActivity" android:screenOrientation="portrait"/>
         <activity android:name=".Main" android:screenOrientation="portrait" android:launchMode="singleTask"/>
-        <activity android:name=".RegisterActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".RegisterActivity" android:screenOrientation="portrait" />
         <activity android:name=".MemberGoupActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
-        <activity android:name=".SettingActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".SettingActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
         <activity android:name=".MemberDetailActivity" android:screenOrientation="portrait"/>
         <activity android:name=".LinkShopActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ModifyPwdActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".MainTabActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
-        <activity android:name=".LaunchActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
+        <activity android:name=".MainTabActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".LaunchActivity" android:screenOrientation="portrait"/>
         <activity android:name=".AboutLosActivity" android:screenOrientation="portrait"/>
         <activity android:name=".UpdateApkVersionActivity" android:screenOrientation="portrait"/>
         

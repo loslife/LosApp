@@ -22,7 +22,14 @@
             android:gravity="fill_vertical"
             android:text="经营业绩"
             android:textColor="@color/black_text"
-            android:textSize="20.0dip" />
+            style="@android:style/TextAppearance.Medium"  />
+        <ImageView
+                android:id="@+id/business_refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="20.0dip"
+                android:layout_toRightOf="@id/charviewtitle"
+                android:layout_centerVertical="true"
+                android:src="@drawable/refresh" />
         
         <TextView
             android:id="@+id/biztotal"
@@ -32,15 +39,24 @@
              android:layout_alignParentRight="true"
             android:text="￥0.00"
             android:textColor="@color/black_text"
-            android:textSize="20.0dip" />
+            style="@android:style/TextAppearance.Medium"  />
 
         <View
             android:layout_width="fill_parent"
             android:layout_height="1px"
             android:layout_alignParentBottom="true"
-            android:background="@color/gray_text" />
+            android:background="@color/lightgray" />
     </RelativeLayout>
-
+    
+    <LinearLayout
+        android:id="@+id/business_empty"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/white"
+        android:orientation="horizontal" 
+        android:visibility="gone">
+    </LinearLayout>
+    
     <LinearLayout
         android:id="@+id/annularLayout"
         android:layout_width="fill_parent"
@@ -50,8 +66,10 @@
     </LinearLayout>
     
     <View
+        android:id="@+id/midview"
         android:layout_width="fill_parent"
         android:layout_height="12.0dip"
+        android:background="@drawable/viewborder"
     />
     
     <LinearLayout
@@ -77,7 +95,7 @@
                 android:layout_toRightOf="@+id/sevicesicon"
                 android:text="服务业绩"
                 android:textColor="@color/black"
-                android:textSize="20.0dip" />
+                style="@android:style/TextAppearance.Medium"  />
             
             <TextView
                 android:id="@+id/sevicedata"
@@ -86,7 +104,7 @@
                 android:layout_alignParentRight="true"
                 android:text="￥0.0"
                 android:textColor="@color/gray_text"
-                android:textSize="20.0dip" />
+                style="@android:style/TextAppearance.Medium"  />
             
             <TextView
                 android:id="@+id/toprev_sevicedata"
@@ -136,7 +154,7 @@
                 android:layout_toRightOf="@+id/saleicon"
                 android:text="卖品业绩"
                 android:textColor="@color/black"
-                android:textSize="20.0dip" />
+                style="@android:style/TextAppearance.Medium"  />
             
             <TextView
                 android:id="@+id/saledata"
@@ -145,7 +163,7 @@
                 android:layout_alignParentRight="true"
                 android:text="￥0.0"
                 android:textColor="@color/gray_text"
-                android:textSize="20.0dip" />
+                style="@android:style/TextAppearance.Medium"  />
             
             <TextView
                 android:id="@+id/toprev_saledata"
@@ -184,7 +202,7 @@
                 android:layout_toRightOf="@+id/cardicon"
                 android:text="开卡业绩"
                 android:textColor="@color/black"
-                android:textSize="20.0dip" />
+                style="@android:style/TextAppearance.Medium"  />
             
             <TextView
                 android:id="@+id/carddata"
@@ -193,7 +211,7 @@
                 android:layout_alignParentRight="true"
                 android:text="￥0.0"
                 android:textColor="@color/gray_text"
-                android:textSize="20.0dip" />
+                style="@android:style/TextAppearance.Medium"  />
             
             <TextView
                 android:id="@+id/toprev_carddata"
@@ -220,7 +238,7 @@
                 android:layout_alignParentRight="true"
                 android:text="￥0.0"
                 android:textColor="@color/gray_text"
-                android:textSize="20.0dip" />
+                style="@android:style/TextAppearance.Medium"  />
             
             <TextView
                 android:id="@+id/toprev_rechargedata"
@@ -243,7 +261,7 @@
                 android:layout_alignParentTop="true"
                 android:text="充值业绩"
                 android:textColor="@color/black"
-                android:textSize="20.0dip" />
+                style="@android:style/TextAppearance.Medium"  />
             
              <ImageView
                 android:id="@+id/rechargeicon"

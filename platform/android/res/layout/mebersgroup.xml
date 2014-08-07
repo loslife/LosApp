@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="加载会员信息"
-            android:textSize="20.0dip"
+            style="@android:style/TextAppearance.Medium" 
             android:textColor="@color/blue_text" />
          <View
             android:layout_width="110.0dip"
@@ -30,6 +30,20 @@
             android:layout_alignParentBottom="true"
             android:background="@color/blue_text" />
      </LinearLayout>
+     
+      <LinearLayout
+      android:id="@+id/noshop"
+      android:layout_width="fill_parent"
+	  android:layout_height="fill_parent"
+	  android:gravity="center"
+	  android:background="@color/base_bg"
+	  android:visibility="gone">
+          <TextView android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:textColor="@color/gray_text"
+	                android:textSize="16.0dip"
+	                android:text="您尚未添加关联店铺，去设置-关联店铺添加"/>
+      </LinearLayout>
      
     <include layout="@layout/loadingbar"/>
     
@@ -77,6 +91,7 @@
             android:background="@color/lightgray"
             android:gravity="center"
             android:paddingLeft="15.0dip" 
+            android:paddingRight="15.0dip" 
             android:visibility="gone"
             android:orientation="horizontal">
             <EditText
@@ -86,6 +101,7 @@
                 android:layout_weight="5"
                 android:background="@drawable/searchborder"
                 android:drawableLeft="@drawable/search"
+               
                 android:gravity="center_vertical"
                 android:textColor="@color/black_text"
                 android:textSize="16.0dip" 
@@ -107,7 +123,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1" >
 
-            <com.yilos.losapp.view.RefreshableView
+            <com.yilos.secretary.view.RefreshableView
                 android:id="@+id/refreshable_view"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -122,9 +138,9 @@
                     android:dividerHeight="1px"
                     android:scrollbars="none" >
                 </ListView>
-            </com.yilos.losapp.view.RefreshableView>
+            </com.yilos.secretary.view.RefreshableView>
 
-            <com.yilos.losapp.common.SideBar
+            <com.yilos.secretary.common.SideBar
                 android:id="@+id/sideBar"
                 android:layout_width="20dp"
                 android:layout_height="fill_parent"

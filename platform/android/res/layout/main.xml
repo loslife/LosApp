@@ -38,7 +38,7 @@
             android:gravity="center"
             android:text=""
             android:textColor="@color/black_text"
-            android:textSize="20.0dip" />
+            style="@android:style/TextAppearance.Medium"  />
 
         <ImageView
             android:id="@+id/righttime"
@@ -56,27 +56,23 @@
             android:gravity="center"
             android:text="日"
             android:textColor="@color/blue_text"
-            android:textSize="20.0dip" />
-
+            style="@android:style/TextAppearance.Medium"  />
     </LinearLayout>
-
-      <com.yilos.losapp.common.ScrollLayout 
+    <include layout="@layout/loadingbar"/>
+      <com.yilos.secretary.common.ScrollLayout 
       android:id="@+id/main_scrolllayout"    
 	  android:layout_width="fill_parent"    
 	  android:layout_height="0dip"
    	  android:layout_weight="1"
+   	  android:visibility="gone"
       >
         
+     <include layout="@layout/business_chart" />     
      <include layout="@layout/employee_chart" />
-     
-     <include layout="@layout/traffic_chart" />
-            
-     <include layout="@layout/business_chart" />
-     
      <include layout="@layout/service_chart" />
-   
-     
-    </com.yilos.losapp.common.ScrollLayout>
+     <include layout="@layout/traffic_chart" />
+
+    </com.yilos.secretary.common.ScrollLayout>
     
       <LinearLayout
       android:id="@+id/noshop"

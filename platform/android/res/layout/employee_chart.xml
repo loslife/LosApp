@@ -21,7 +21,16 @@
                 android:gravity="fill_vertical"
                 android:text="员工业绩"
                 android:textColor="@color/black_text"
-                android:textSize="20.0dip" />
+                style="@android:style/TextAppearance.Medium"  />
+
+            <ImageView
+                android:id="@+id/employee_refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="20.0dip"
+                android:layout_toRightOf="@id/charviewtitle"
+                android:layout_centerVertical="true"
+                android:src="@drawable/refresh" />
+
             <TextView
             android:id="@+id/employeetotal"
             android:layout_width="wrap_content"
@@ -30,19 +39,21 @@
             android:layout_alignParentRight="true"
             android:text="￥0.00"
             android:textColor="@color/black_text"
-            android:textSize="20.0dip" />
+            style="@android:style/TextAppearance.Medium"  />
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1px"
                 android:layout_alignParentBottom="true"
-                android:background="@color/gray_text" />
+                android:background="@color/lightgray" />
     </RelativeLayout>
-
+    
     <LinearLayout
         android:id="@+id/columnarLayout"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:layout_height="350.0dip"
+        android:orientation="horizontal" 
+        android:scrollbars="vertical"
+        >
     </LinearLayout> 
 
 

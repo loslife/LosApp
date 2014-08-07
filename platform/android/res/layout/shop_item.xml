@@ -7,6 +7,7 @@
     android:orientation="horizontal" >
     
     <ImageView 
+        android:id="@+id/linkicon"
         android:layout_width="wrap_content"
         android:layout_height="36.0dip"
         android:src="@drawable/linkicon"
@@ -20,9 +21,18 @@
     android:gravity="center_vertical"
     android:layout_weight="6"
     android:textColor="@color/black_text"
-    android:textSize="20.0dip"
+    style="@android:style/TextAppearance.Medium" 
     />
-
+     <ProgressBar
+            android:id="@+id/listbar"
+            style="@android:style/Widget.ProgressBar.Small.Inverse"
+            android:background="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="36.0dip"
+            android:layout_gravity="center"
+            android:indeterminate="true" 
+            android:visibility="gone"
+            />
     <TextView
         android:id="@+id/linkbtn"
         android:layout_height="30.0dip"
@@ -31,6 +41,6 @@
         android:gravity="center"
         android:text="解除关联" 
         android:textColor="@color/white"
-        android:textSize="20.0dip"/>
+        style="@android:style/TextAppearance.Medium" />
 
 </LinearLayout>
