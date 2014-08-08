@@ -31,6 +31,8 @@ public class AppContext extends Application {
 	
 	private boolean  isFirstRun;
 	
+	private boolean  isChangeShop;
+	
 	@Override
 	public void onCreate() {
 		super.onCreate(); 
@@ -260,6 +262,15 @@ public class AppContext extends Application {
 	public void setFirstRun(boolean isFirstRun) {
 		this.isFirstRun = isFirstRun;
 	}
+
+	public boolean isChangeShop() {
+		return isChangeShop;
+	}
+
+	public void setChangeShop(boolean isChangeShop) {
+		this.isChangeShop = isChangeShop;
+	}
+	
 	
 	
 }

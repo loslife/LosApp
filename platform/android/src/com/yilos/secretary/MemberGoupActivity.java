@@ -17,6 +17,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
@@ -80,6 +81,7 @@ public class MemberGoupActivity extends BaseActivity {
 	private LinearLayout layout;
 	private ListView listView;
 	private String title[] = null;
+	private String titleList[] = null;
 	private String shopIds[] = null;
 
 	private MemberService memberService;
@@ -372,9 +374,12 @@ public class MemberGoupActivity extends BaseActivity {
 		List<MyShopBean> myshops = myshopService.queryShops();
 		if (myshops != null && myshops.size() > 0) {
 			title = new String[myshops.size()];
+			titleList = new String[myshops.size()];
 			shopIds = new String[myshops.size()];
 			for (int i = 0; i < myshops.size(); i++) {
-				title[i] = myshops.get(i).getEnterprise_name()==null?"":myshops.get(i).getEnterprise_name();
+				title[i] = myshops.get(i).getEnterprise_name()==null?"我的店铺":myshops.get(i).getEnterprise_name();
+				titleList[i] = myshops.get(i).getEnterprise_name() == null ? "• 我的店铺"
+						: "• " + myshops.get(i).getEnterprise_name();
 				shopIds[i] = myshops.get(i).getEnterprise_id();
 			}
 			shopId = myshops.get(0).getEnterprise_id();
@@ -447,34 +452,58 @@ public class MemberGoupActivity extends BaseActivity {
 				R.layout.dialog, null);
 		listView = (ListView) layout.findViewById(R.id.lv_dialog);
 		listView.setAdapter(new ArrayAdapter<String>(getBaseContext(),
-				R.layout.text, R.id.tv_text, title));
+				R.layout.text, R.id.tv_text, titleList ){
+					// 在这个重写的函数里设置 每个 item 中按钮的响应事件
+					@Override
+					public View getView(int position, View convertView, ViewGroup parent) {
+						final View view=super.getView(position, convertView, parent);  
+						if(shopIds[position] .equals(shopId) )
+						{
+							((TextView)view.findViewById(R.id.tv_text)).setTextColor(getBaseContext().getResources().getColor(R.color.paneldount_one));
+						}
+						else
+						{
+							((TextView)view.findViewById(R.id.tv_text)).setTextColor(getBaseContext().getResources().getColor(R.color.blue_text));
+						}
+						
+						return view;
+					}
+				});
 
 		popupWindow = new PopupWindow(getBaseContext());
 		popupWindow.setBackgroundDrawable(new BitmapDrawable());
 		popupWindow
 				.setWidth(getWindowManager().getDefaultDisplay().getWidth() / 2);
-		popupWindow.setHeight(300);
+		popupWindow.setHeight(title.length * 80);
 		popupWindow.setOutsideTouchable(true);
 		popupWindow.setFocusable(true);
 		popupWindow.setContentView(layout);
 		// showAsDropDown会把里面的view作为参照物，所以要那满屏幕parent
 		popupWindow.showAtLocation(findViewById(R.id.headmore), Gravity.LEFT
 				| Gravity.TOP, x, y);// 需要指定Gravity，默认情况是center.
-
+		((ImageView)findViewById(R.id.headmore)).setImageResource(R.drawable.retract);
 		listView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
+				if (shopId.equals(shopIds[arg2])) {
+					popupWindow.dismiss();
+					popupWindow = null;
+					((ImageView)findViewById(R.id.headmore)).setImageResource(R.drawable.select_shop);
+					return;
+				}
 				shoptitle = title[arg2];
 				AppContext.getInstance(getBaseContext()).setShopName(title[arg2]);
 				AppContext.getInstance(getBaseContext())
 						.setCurrentDisplayShopId(shopIds[arg2]);
+				AppContext.getInstance(getBaseContext()).setChangeShop(true);
 				shopId = shopIds[arg2];
 				parentData = memberService.queryMembers(shopIds[arg2]);
 				initView();
 				popupWindow.dismiss();
 				popupWindow = null;
+				((ImageView)findViewById(R.id.headmore)).setImageResource(R.drawable.select_shop);
 			}
 		});
 	}

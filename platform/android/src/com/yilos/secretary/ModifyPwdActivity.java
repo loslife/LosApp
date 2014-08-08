@@ -29,6 +29,10 @@ public class ModifyPwdActivity  extends BaseActivity
 	private ImageView headmore;
 	
 	private TextView  shopname;
+	 
+	private static final String OPRATE_TYPE = "modifypwd";
+	
+	private String errorCode;
 
 
 	public void onCreate(Bundle savedInstanceState)
@@ -125,7 +129,7 @@ public class ModifyPwdActivity  extends BaseActivity
 				}
 				if(msg.what==0)
 				{
-					UIHelper.ToastMessage(ModifyPwdActivity.this, "修改密码失败");
+					UIHelper.ToastMessage(getBaseContext(), StringUtils.errorcodeToString(OPRATE_TYPE, errorCode));
 				}
 				modifybtn.setEnabled(true);
 			}
@@ -143,6 +147,7 @@ public class ModifyPwdActivity  extends BaseActivity
 				if(res.getCode()==1)
 				{
 					msg.what = 0;
+					errorCode = res.getResult().getErrorCode();
 				}
 				handle.sendMessage(msg);
 			}

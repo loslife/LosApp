@@ -37,6 +37,8 @@
         <activity android:name=".LaunchActivity" android:screenOrientation="portrait"/>
         <activity android:name=".AboutLosActivity" android:screenOrientation="portrait"/>
         <activity android:name=".UpdateApkVersionActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".LayerActivity" android:theme="@style/Transparent"/>
+        
         
     </application>
 

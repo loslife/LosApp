@@ -398,6 +398,7 @@ public class LinkShopActivity extends BaseActivity
 					if(AppContext.getInstance(getBaseContext()).getCurrentDisplayShopId()==null)
 					{
 						AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(shopId);
+						AppContext.getInstance(getBaseContext()).setChangeShop(true);
 					}
 					
 					if(AppContext.getInstance(getBaseContext()).getShopName()==null)
@@ -428,6 +429,17 @@ public class LinkShopActivity extends BaseActivity
 					setShopListView();
 					setUnShopListView();
 					UIHelper.ToastMessage(getBaseContext(), "解除关联成功");
+					myshops = myshopService.queryShops();
+				    if(!(myshops.size()>0))
+				    {
+				    	AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(null);
+				    	AppContext.getInstance(getBaseContext()).setChangeShop(true);
+				    }
+				    
+				    if(shopid.equals(AppContext.getInstance(getBaseContext()).getCurrentDisplayShopId()))
+				    {
+				    	AppContext.getInstance(getBaseContext()).setChangeShop(true);
+				    }
 				}
 				if(msg.what==0)
 				{

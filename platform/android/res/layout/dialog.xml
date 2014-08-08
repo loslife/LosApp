@@ -8,6 +8,8 @@
         android:id="@+id/lv_dialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:divider="@color/graywhite"
+        android:dividerHeight="1px"
         android:listSelector="@drawable/grouplist_item_bg_normal" >
     </ListView>
 

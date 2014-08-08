@@ -63,6 +63,12 @@ public class RegisterActivity extends BaseActivity
 	private boolean isUserExist = false;
 	
 	private boolean forgotpwd;
+	
+    private static final String REGISTER = "register";
+    
+    private static final String FIND_PWD = "findpwd";
+	
+	private String errorCode;
 
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -390,7 +396,7 @@ public class RegisterActivity extends BaseActivity
 				}
 				if(msg.what==0)
 				{
-					UIHelper.ToastMessage(RegisterActivity.this, "注册失败");
+					UIHelper.ToastMessage(getBaseContext(), StringUtils.errorcodeToString(REGISTER, errorCode));
 				}
 				registration.setEnabled(true);
 			}
@@ -408,6 +414,7 @@ public class RegisterActivity extends BaseActivity
 				if(res.getCode()==1)
 				{
 					msg.what = 0;
+					errorCode = res.getResult().getErrorCode();
 				}
 				handle.sendMessage(msg);
 			}
@@ -429,7 +436,7 @@ public class RegisterActivity extends BaseActivity
 				}
 				if(msg.what==0)
 				{
-					UIHelper.ToastMessage(RegisterActivity.this, "找回失败");
+					UIHelper.ToastMessage(getBaseContext(), StringUtils.errorcodeToString(FIND_PWD, errorCode));
 				}
 				registration.setEnabled(true);
 			}
@@ -447,6 +454,7 @@ public class RegisterActivity extends BaseActivity
 				if(res.getCode()==1)
 				{
 					msg.what = 0;
+					errorCode = res.getResult().getErrorCode();
 				}
 				handle.sendMessage(msg);
 			}

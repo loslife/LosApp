@@ -294,7 +294,23 @@ public class StringUtils {
 		{
 			if("501".equals(errorCode))
 			{
+				errorInfo = "旧密码错误";
+			}
+			else
+			{
+				errorInfo = "修改失败";
+			}
+		}
+		
+		if("findpwd".equals(oprateType))
+		{
+			if("501".equals(errorCode))
+			{
 				errorInfo = "用户不存在";
+			}
+			else
+			{
+				errorInfo = "找回失败";
 			}
 		}
 		
@@ -315,6 +331,18 @@ public class StringUtils {
 			else
 			{
 				errorInfo = "登录失败";
+			}
+		}
+		
+		if("register".equals(oprateType))
+		{
+			if("500".equals(errorCode))
+			{
+				errorInfo = "用户已存在";
+			}
+			else
+			{
+				errorInfo = "注册失败";
 			}
 		}
 		

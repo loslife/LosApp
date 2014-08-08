@@ -78,7 +78,7 @@ public class Main extends BaseActivity {
 	private ImageView lefttime;
 	private ImageView righttime;
 	private TextView timetype;
-	
+
 	private ImageView customs_refresh;
 	private ImageView employee_refresh;
 	private ImageView service_refresh;
@@ -89,6 +89,7 @@ public class Main extends BaseActivity {
 	private ListView listView;
 	private LinearLayout loading_begin;
 	private String title[] = null;
+	private String titleList[] = null;
 	private String shopIds[] = null;
 
 	private String dateType = "day";
@@ -119,17 +120,29 @@ public class Main extends BaseActivity {
 		setContentView(R.layout.main);
 		shopId = AppContext.getInstance(getBaseContext())
 				.getCurrentDisplayShopId();
-		if(null==shopId)
-		{
+		if (null == shopId) {
 			shopId = "";
 		}
+		Intent intent = new Intent(getBaseContext(), LayerActivity.class);  
+        startActivity(intent); 
+		
 		initView();
 		initData();
 	}
 
 	public void onResume() {
 		super.onResume();
-		initData();
+		shopId = AppContext.getInstance(getBaseContext())
+				.getCurrentDisplayShopId();
+		if (null == shopId) {
+			shopId = "";
+		}
+		if(AppContext.getInstance(getBaseContext()).isChangeShop())
+		{
+			initData();
+			AppContext.getInstance(getBaseContext()).setChangeShop(false);
+		}
+		
 	}
 
 	Handler handle = new Handler() {
@@ -262,13 +275,18 @@ public class Main extends BaseActivity {
 						: bizPerformance.getRecharge();
 				((TextView) findViewById(R.id.biztotal)).setText("￥" + total);
 				((TextView) findViewById(R.id.sevicedata)).setText("￥"
-						+ (float) (Math.round(Float.valueOf(sevicedata) * 10)) / 10);
-				((TextView) findViewById(R.id.saledata))
-						.setText("￥" + (float) (Math.round(Float.valueOf(saledata) * 10)) / 10);
-				((TextView) findViewById(R.id.carddata))
-						.setText("￥" + (float) (Math.round(Float.valueOf(carddata) * 10)) / 10);
-				((TextView) findViewById(R.id.rechargedata)).setText("￥"
-						+ (float) (Math.round(Float.valueOf(rechargedata) * 10)) / 10);
+						+ (float) (Math.round(Float.valueOf(sevicedata) * 10))
+						/ 10);
+				((TextView) findViewById(R.id.saledata)).setText("￥"
+						+ (float) (Math.round(Float.valueOf(saledata) * 10))
+						/ 10);
+				((TextView) findViewById(R.id.carddata)).setText("￥"
+						+ (float) (Math.round(Float.valueOf(carddata) * 10))
+						/ 10);
+				((TextView) findViewById(R.id.rechargedata))
+						.setText("￥"
+								+ (float) (Math.round(Float
+										.valueOf(rechargedata) * 10)) / 10);
 
 				((TextView) findViewById(R.id.sevicedata))
 						.setTextColor(getResources()
@@ -292,22 +310,26 @@ public class Main extends BaseActivity {
 				((ImageView) findViewById(R.id.rechargeicon))
 						.setImageResource(R.drawable.down);
 
-				comparePrevNewcard = (float)(Math.round(Float.valueOf(comparePrevNewcard) * 10)) / 10;
-				comparePrevRecharge = (float)(Math.round(Float.valueOf(comparePrevRecharge) * 10)) / 10;
-				comparePrevService = (float)(Math.round(Float.valueOf(comparePrevService) * 10)) / 10;
-				comparePrevProduct = (float)(Math.round(Float.valueOf(comparePrevProduct) * 10)) / 10;
+				comparePrevNewcard = (float) (Math.round(Float
+						.valueOf(comparePrevNewcard) * 10)) / 10;
+				comparePrevRecharge = (float) (Math.round(Float
+						.valueOf(comparePrevRecharge) * 10)) / 10;
+				comparePrevService = (float) (Math.round(Float
+						.valueOf(comparePrevService) * 10)) / 10;
+				comparePrevProduct = (float) (Math.round(Float
+						.valueOf(comparePrevProduct) * 10)) / 10;
 				((TextView) findViewById(R.id.toprev_sevicedata)).setText("比上"
 						+ timetype.getText().toString() + ": "
-						+comparePrevService+ " " + percent_service + "%");
+						+ comparePrevService + " " + percent_service + "%");
 				((TextView) findViewById(R.id.toprev_saledata)).setText("比上"
 						+ timetype.getText().toString() + ": "
-						+ comparePrevProduct+ " " + percent_product + "%");
+						+ comparePrevProduct + " " + percent_product + "%");
 				((TextView) findViewById(R.id.toprev_carddata)).setText("比上"
 						+ timetype.getText().toString() + ": "
-						+ comparePrevNewcard+ " " + percent_newcard + "%");
+						+ comparePrevNewcard + " " + percent_newcard + "%");
 				((TextView) findViewById(R.id.toprev_rechargedata))
 						.setText("比上" + timetype.getText().toString() + ": "
-								+ comparePrevRecharge+ " " + percent_recharge
+								+ comparePrevRecharge + " " + percent_recharge
 								+ "%");
 
 				if (comparePrevService > 0.0) {
@@ -372,13 +394,13 @@ public class Main extends BaseActivity {
 				PanelDountChart panelDountView = new PanelDountChart(
 						getBaseContext(), num2, perName, "business");
 				annularLayout.addView(panelDountView);
-				if(bizPerformance.getTotal()==null||Float.valueOf(bizPerformance.getTotal())==0.0f)
-				{
-					((LinearLayout)findViewById(R.id.business_empty)).setVisibility(View.VISIBLE);
-				}
-				else
-				{
-					((LinearLayout)findViewById(R.id.business_empty)).setVisibility(View.GONE);
+				if (bizPerformance.getTotal() == null
+						|| Float.valueOf(bizPerformance.getTotal()) == 0.0f) {
+					((LinearLayout) findViewById(R.id.business_empty))
+							.setVisibility(View.VISIBLE);
+				} else {
+					((LinearLayout) findViewById(R.id.business_empty))
+							.setVisibility(View.GONE);
 				}
 				lefttime.setEnabled(true);
 				righttime.setEnabled(true);
@@ -446,13 +468,12 @@ public class Main extends BaseActivity {
 						+ total);
 				setOtherListView(otherPercentNum, otherProjectName,
 						otherProjectTotal);
-				if(total==0.0f)
-				{
-					((LinearLayout)findViewById(R.id.service_empty)).setVisibility(View.VISIBLE);
-				}
-				else
-				{
-					((LinearLayout)findViewById(R.id.service_empty)).setVisibility(View.GONE);
+				if (total == 0.0f) {
+					((LinearLayout) findViewById(R.id.service_empty))
+							.setVisibility(View.VISIBLE);
+				} else {
+					((LinearLayout) findViewById(R.id.service_empty))
+							.setVisibility(View.GONE);
 				}
 				lefttime.setEnabled(true);
 				righttime.setEnabled(true);
@@ -538,7 +559,9 @@ public class Main extends BaseActivity {
 			for (int i = 0; i < otherProjectName.length; i++) {
 				String otherName = (i + 4) + "." + otherProjectName[i];
 				String otherpercent = otherPercentNum[i] + "%";
-				String otherTotal = "￥" + (float) (Math.round(Float.valueOf(otherProjectTotal[i]) * 10)) / 10 ;
+				String otherTotal = "￥"
+						+ (float) (Math.round(Float
+								.valueOf(otherProjectTotal[i]) * 10)) / 10;
 				if (otherName.length() > 12) {
 					otherName = otherName.substring(0, 10) + "...";
 				}
@@ -575,18 +598,17 @@ public class Main extends BaseActivity {
 		service_refresh = (ImageView) findViewById(R.id.service_refresh);
 		business_refresh = (ImageView) findViewById(R.id.business_refresh);
 		loading_begin = (LinearLayout) findViewById(R.id.loading_begin);
-		
-		
+
 		mainScrollLayout = (ScrollLayout) findViewById(R.id.main_scrolllayout);
 		noshop = (LinearLayout) findViewById(R.id.noshop);
 
 		shopname.setText(AppContext.getInstance(getBaseContext()).getShopName());
 		showTime.setText(getDateNow());
-
-		findViewById(R.id.goback).setVisibility(View.GONE);
 		
+		findViewById(R.id.goback).setVisibility(View.GONE);
+
 		customs_refresh.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				loading_begin.setVisibility(View.VISIBLE);
@@ -594,9 +616,9 @@ public class Main extends BaseActivity {
 				getBcustomerCount();
 			}
 		});
-		
+
 		employee_refresh.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				loading_begin.setVisibility(View.VISIBLE);
@@ -604,9 +626,9 @@ public class Main extends BaseActivity {
 				getEmployeePerData();
 			}
 		});
-        
+
 		service_refresh.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				loading_begin.setVisibility(View.VISIBLE);
@@ -614,9 +636,9 @@ public class Main extends BaseActivity {
 				getServicePerformanceData();
 			}
 		});
-        
+
 		business_refresh.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				loading_begin.setVisibility(View.VISIBLE);
@@ -624,7 +646,6 @@ public class Main extends BaseActivity {
 				getBizPerformanceData();
 			}
 		});
-
 
 		select_shop.setOnClickListener(new OnClickListener() {
 			@Override
@@ -1097,16 +1118,19 @@ public class Main extends BaseActivity {
 		List<MyShopBean> myshops = myshopService.queryShops();
 		if (myshops != null && myshops.size() > 0) {
 			loading_begin.setVisibility(View.VISIBLE);
-			
+
 			title = new String[myshops.size()];
+			titleList = new String[myshops.size()];
 			shopIds = new String[myshops.size()];
 			for (int i = 0; i < myshops.size(); i++) {
-				title[i] = myshops.get(i).getEnterprise_name() == null ? ""
+				title[i] = myshops.get(i).getEnterprise_name() == null ? "我的店铺"
 						: myshops.get(i).getEnterprise_name();
+				titleList[i] = myshops.get(i).getEnterprise_name() == null ? "• 我的店铺"
+						: "• " + myshops.get(i).getEnterprise_name();
 				shopIds[i] = myshops.get(i).getEnterprise_id();
 			}
-			
-		    shopId = myshops.get(0).getEnterprise_id();
+
+			shopId = myshops.get(0).getEnterprise_id();
 			getShowData();
 
 			noshop.setVisibility(View.GONE);
@@ -1118,7 +1142,7 @@ public class Main extends BaseActivity {
 		if (title == null || !(title.length > 0)) {
 			select_shop.setVisibility(View.GONE);
 		}
-		
+
 	}
 
 	public void showPopupWindow(int x, int y) {
@@ -1126,13 +1150,28 @@ public class Main extends BaseActivity {
 				R.layout.dialog, null);
 		listView = (ListView) layout.findViewById(R.id.lv_dialog);
 		listView.setAdapter(new ArrayAdapter<String>(Main.this, R.layout.text,
-				R.id.tv_text, title));
+				R.id.tv_text, titleList) {
+			// 在这个重写的函数里设置 每个 item 中按钮的响应事件
+			@Override
+			public View getView(int position, View convertView, ViewGroup parent) {
+				final View view=super.getView(position, convertView, parent);  
+				if(shopIds[position] .equals(shopId) )
+				{
+					((TextView)view.findViewById(R.id.tv_text)).setTextColor(getBaseContext().getResources().getColor(R.color.paneldount_one));
+				}
+				else
+				{
+					((TextView)view.findViewById(R.id.tv_text)).setTextColor(getBaseContext().getResources().getColor(R.color.blue_text));
+				}
+				return view;
+			}
+		});
 
 		popupWindow = new PopupWindow(Main.this);
 		popupWindow.setBackgroundDrawable(new BitmapDrawable());
 		popupWindow
 				.setWidth(getWindowManager().getDefaultDisplay().getWidth() / 3);
-		popupWindow.setHeight(title.length*72);
+		popupWindow.setHeight(title.length * 80);
 		popupWindow.setOutsideTouchable(true);
 		popupWindow.setFocusable(true);
 		popupWindow.setContentView(layout);
@@ -1140,15 +1179,16 @@ public class Main extends BaseActivity {
 		popupWindow.showAtLocation(findViewById(R.id.headmore), Gravity.CENTER
 				| Gravity.TOP, x, y);// 需要指定Gravity，默认情况是center.
 
+		((ImageView)findViewById(R.id.headmore)).setImageResource(R.drawable.retract);
 		listView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				if(shopId.equals(shopIds[arg2]))
-				{
+				if (shopId.equals(shopIds[arg2])) {
 					popupWindow.dismiss();
 					popupWindow = null;
+					((ImageView)findViewById(R.id.headmore)).setImageResource(R.drawable.select_shop);
 					return;
 				}
 				shopname.setText(title[arg2]);
@@ -1158,6 +1198,7 @@ public class Main extends BaseActivity {
 						.setCurrentDisplayShopId(shopIds[arg2]);
 				shopId = shopIds[arg2];
 				getShowData();
+				((ImageView)findViewById(R.id.headmore)).setImageResource(R.drawable.select_shop);
 				popupWindow.dismiss();
 				popupWindow = null;
 			}
@@ -1187,19 +1228,19 @@ public class Main extends BaseActivity {
 
 		return cal;
 	}
-	
-	@Override  
-    public boolean onKeyDown(int keyCode, KeyEvent event) {  
-        if (keyCode == KeyEvent.KEYCODE_BACK) {  
-        	  Intent i = new Intent(Intent.ACTION_MAIN);
-        	  i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        	  i.addCategory(Intent.CATEGORY_HOME);
-        	  startActivity(i);
-             
-            return false;  
-        } else {  
-            return super.onKeyDown(keyCode, event);  
-        }  
-    }  
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			Intent i = new Intent(Intent.ACTION_MAIN);
+			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			i.addCategory(Intent.CATEGORY_HOME);
+			startActivity(i);
+
+			return false;
+		} else {
+			return super.onKeyDown(keyCode, event);
+		}
+	}
 
 }

@@ -40,6 +40,6 @@
 	<color name="paneldount_two">#f9d05c</color>
 	<color name="paneldount_three">#55d6ff</color>
 	<color name="paneldount_four">#8679c9</color>
-	
+	<color name="transparent_background">#60ffffff</color>
 	      
 </resources>
