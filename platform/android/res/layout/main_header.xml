@@ -37,6 +37,6 @@
         android:gravity="fill_vertical"
         android:text=""
         android:textColor="@color/white"
-        android:textSize="20.0dip" />
+        android:textSize="36px" />
 
 </RelativeLayout>

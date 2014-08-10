@@ -30,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
@@ -78,6 +79,7 @@ public class Main extends BaseActivity {
 	private ImageView lefttime;
 	private ImageView righttime;
 	private TextView timetype;
+	private ScrollView charscrollview;
 
 	private ImageView customs_refresh;
 	private ImageView employee_refresh;
@@ -123,9 +125,7 @@ public class Main extends BaseActivity {
 		if (null == shopId) {
 			shopId = "";
 		}
-		Intent intent = new Intent(getBaseContext(), LayerActivity.class);  
-        startActivity(intent); 
-		
+
 		initView();
 		initData();
 	}
@@ -136,6 +136,12 @@ public class Main extends BaseActivity {
 				.getCurrentDisplayShopId();
 		if (null == shopId) {
 			shopId = "";
+		}
+		if(AppContext.getInstance(getBaseContext()).isFirstRun()&&!"".equals(shopId))
+		{
+			AppContext.getInstance(getBaseContext()).setFirstRun(false);
+			Intent intent = new Intent(getBaseContext(), LayerActivity.class);  
+	        startActivity(intent); 
 		}
 		if(AppContext.getInstance(getBaseContext()).isChangeShop())
 		{
@@ -544,6 +550,10 @@ public class Main extends BaseActivity {
 				loading_begin.setVisibility(View.GONE);
 				mainScrollLayout.setVisibility(View.VISIBLE);
 			}
+
+		    charscrollview = (ScrollView)findViewById(R.id.charscrollview);
+		    charscrollview.smoothScrollBy(getResources().getDisplayMetrics().widthPixels, getResources().getDisplayMetrics().heightPixels*1/4+360);
+
 		}
 	};
 

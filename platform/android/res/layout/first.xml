@@ -28,7 +28,7 @@
         android:gravity="center"
         android:text="登录"
         android:textColor="@android:color/white"
-        style="@android:style/TextAppearance.Medium"  />
+        android:textSize="30px" />
 
     <TextView
         android:id="@+id/btn_register"
@@ -41,6 +41,6 @@
         android:gravity="center"
         android:text="注册"
         android:textColor="@android:color/white"
-        style="@android:style/TextAppearance.Medium"  />
+        android:textSize="30px" />
 
 </RelativeLayout>

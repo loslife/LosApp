@@ -215,6 +215,7 @@ public final class R {
         public static final int carddata=0x7f080015;
         public static final int cardicon=0x7f080014;
         public static final int cardtype=0x7f080080;
+        public static final int charscrollview=0x7f0800b6;
         public static final int charviewtitle=0x7f080005;
         public static final int checknettip=0x7f08004b;
         public static final int checkvcodelayout=0x7f080029;
@@ -233,7 +234,7 @@ public final class R {
         public static final int customerprice=0x7f080086;
         public static final int customs_refresh=0x7f0800b4;
         public static final int description=0x7f080097;
-        public static final int directionstext=0x7f0800ba;
+        public static final int directionstext=0x7f0800bb;
         public static final int emailtext=0x7f080002;
         public static final int employee_refresh=0x7f080022;
         public static final int employeetotal=0x7f080023;
@@ -285,10 +286,10 @@ public final class R {
         public static final int modfiypwd=0x7f0800a4;
         public static final int modfiypwdicon=0x7f0800a3;
         public static final int msgtomember=0x7f080088;
-        public static final int myView=0x7f0800b6;
+        public static final int myView=0x7f0800b7;
         public static final int newpassword=0x7f08008c;
         public static final int newpasswordtext=0x7f08008b;
-        public static final int newversiontitle=0x7f0800b9;
+        public static final int newversiontitle=0x7f0800ba;
         public static final int noshop=0x7f08003e;
         public static final int oldPassword=0x7f08008a;
         public static final int oldpwdtext=0x7f080089;
@@ -371,14 +372,14 @@ public final class R {
         public static final int twoline=0x7f08005d;
         public static final int unshoplist=0x7f080048;
         public static final int unshoplist_midview=0x7f080047;
-        public static final int updateapk=0x7f0800b8;
+        public static final int updateapk=0x7f0800b9;
         public static final int updated_at=0x7f080098;
         public static final int updateicon=0x7f0800a9;
         public static final int updateversionbtn=0x7f0800aa;
         public static final int usernametext=0x7f08004e;
         public static final int validatecode=0x7f08002e;
         public static final int validatecodetext=0x7f08002d;
-        public static final int versioninfo=0x7f0800b7;
+        public static final int versioninfo=0x7f0800b8;
         public static final int versiontext=0x7f0800ab;
         public static final int view1=0x7f080025;
         public static final int view2=0x7f080026;
@@ -439,10 +440,9 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f07000a;
-        public static final int ChoicePreferenceButton=0x7f070007;
-        public static final int MMFontTipInList=0x7f070009;
-        public static final int MMFontTitleInList=0x7f070008;
+        public static final int AppBaseTheme=0x7f070009;
+        public static final int MMFontTipInList=0x7f070008;
+        public static final int MMFontTitleInList=0x7f070007;
         public static final int MMFriendListItem=0x7f070005;
         public static final int MMListCatalog=0x7f070006;
         public static final int MMListItem=0x7f070004;

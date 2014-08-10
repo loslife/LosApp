@@ -69,7 +69,7 @@ public PanelDountChart(Context context,float arr[],String textName[],String perT
           
         Paint PaintLabel = new Paint();
         PaintLabel.setColor(Color.GRAY);
-        PaintLabel.setTextSize(36);        
+        PaintLabel.setTextSize(30);        
            
         //位置计算类    
         ChartCalc xcalc = new ChartCalc();      
@@ -101,7 +101,7 @@ public PanelDountChart(Context context,float arr[],String textName[],String perT
             	 {
             		 strPer[i] = strPer[i].substring(0, 5)+"...";
             	 }
-            	 canvas.drawRect(new Rect(textX-30, textY-30 ,textX, textY), PaintArc);
+            	 canvas.drawRect(new Rect(textX-24, textY-24 ,textX, textY), PaintArc);
             	 canvas.drawText(strPer[i]+Float.toString(arrPer[i])+"%",textX, textY ,PaintLabel);    
             }
                      

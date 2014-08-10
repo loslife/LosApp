@@ -11,7 +11,9 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.ScrollView;
 
+@SuppressLint("NewApi")
 public class ChartView extends View {
 
 	DisplayMetrics dm = getResources().getDisplayMetrics(); 
@@ -115,7 +117,7 @@ public class ChartView extends View {
 		paint1.setStyle(Paint.Style.STROKE);
 		paint1.setAntiAlias(true);// 去锯齿
 		
-		paint1.setTextSize(36); // 设置轴文字大小
+		paint1.setTextSize(30); // 设置轴文字大小
 
 		// 设置Y轴(对于系统来讲屏幕的原点在左上角）
 		canvas.drawLine(XPoint, YPoint - YLength, XPoint, YPoint, paint); // 轴线
@@ -177,7 +179,6 @@ public class ChartView extends View {
 			}
 		}
 
-		paint.setTextSize(16);
 	}
 
 	private int YCoord(int y0) // 计算绘制时的Y坐标，无数据时返回-999
@@ -198,7 +199,7 @@ public class ChartView extends View {
 	
 	@Override
 	public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		setMeasuredDimension(dm.widthPixels,  scrollLength);
+		setMeasuredDimension(dm.widthPixels,  scrollLength);//
 	}
 
 }

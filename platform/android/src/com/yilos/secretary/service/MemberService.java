@@ -28,20 +28,6 @@ public class MemberService {
 	public void handleMembers(ContactsRecords recotds)
 	{
 		//添加
-		/*String[] members = new String[recotds.getAdd().size()];
-		for (int i = 0; i < recotds.getAdd().size(); i++) {
-			members[i] = recotds.getAdd().get(i).getName() + "|" + i;
-		}
-		Arrays.sort(members, new Pinyin_Comparator());
-		List<MemberBean> parentData = new ArrayList<MemberBean>();
-		for(String name:members)
-		{
-			int i = name.indexOf("|");
-			String p = members[i].substring(i + 1,
-					members[i].length());
-		
-			parentData.add(recotds.getAdd().get(Integer.valueOf(p)));
-		}	*/
 		addMembers(recotds.getAdd());
 		
 		//更新

@@ -1,16 +1,11 @@
 package com.yilos.secretary;
-
 import android.app.Activity;  
-import android.graphics.Color;  
 import android.os.Bundle;  
-import android.view.Gravity;  
-import android.view.ViewGroup;  
 import android.view.Window;  
-import android.view.WindowManager;
 import android.widget.FrameLayout;  
 import android.widget.TextView;  
   
-public class LayerActivity extends Activity {  
+public class LoadingActivity extends Activity {  
   
     private FrameLayout layout = null;  
     private TextView textView = null;  

@@ -31,7 +31,7 @@
             android:gravity="center"
             android:text="手机号"
             android:textColor="@color/gray_text"
-            style="@android:style/TextAppearance.Medium"  />
+            android:textSize="30px" />
 
         <View
             android:layout_width="1px"
@@ -69,7 +69,7 @@
             android:gravity="center"
             android:text="验证码"
             android:textColor="@color/gray_text"
-            style="@android:style/TextAppearance.Medium" 
+            android:textSize="30px"
              />
 
         <View
@@ -108,7 +108,7 @@
             android:layout_alignParentBottom="true"
             android:gravity="center"
             android:text="获取验证码"
-            style="@android:style/TextAppearance.Medium" 
+            android:textSize="30px"
             android:textColor="@color/blue_text" />
          <View
             android:layout_width="106.0dip"
@@ -140,7 +140,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/system_vcode_tip"
             android:text="90秒"
-            style="@android:style/TextAppearance.Medium" 
+            android:textSize="30px"
             android:textColor="@color/black_text" />
     </RelativeLayout>
     
@@ -159,7 +159,7 @@
         android:background="@drawable/login_btn"
         android:gravity="center"
         android:text="下一步,设置密码"
-        android:textSize="20.0dip"
+        android:textSize="30px"
         android:textColor="@color/white" />
     </RelativeLayout>
     </LinearLayout>
@@ -188,7 +188,7 @@
             android:gravity="center"
             android:text="密码"
             android:textColor="@color/gray_text"
-            style="@android:style/TextAppearance.Medium"  />
+            android:textSize="30px" />
 
         <View
             android:layout_width="1px"
@@ -226,7 +226,7 @@
             android:gravity="center"
             android:text="确认密码"
             android:textColor="@color/gray_text"
-            style="@android:style/TextAppearance.Medium"  />
+            android:textSize="30px" />
 
         <View
             android:layout_width="1px"
@@ -265,7 +265,7 @@
         android:background="@drawable/login_btn"
         android:gravity="center"
         android:text="完成"
-        android:textSize="20.0dip"
+        android:textSize="30px"
         android:textColor="@android:color/white" />
     </RelativeLayout>
     

@@ -27,7 +27,7 @@
             <ImageView
                 android:id="@+id/linkshopicon"
                 android:layout_width="wrap_content"
-                android:layout_height="48.0dip"
+                android:layout_height="36.0dip"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_weight="1"
@@ -43,7 +43,7 @@
                 android:gravity="fill_vertical"
                 android:text="关联店铺"
                 android:textColor="@color/black"
-                android:textSize="20.0dip" />
+                android:textSize="30px" />
 
             <View
                 android:layout_width="fill_parent"
@@ -63,7 +63,7 @@
             <ImageView
                 android:id="@+id/modfiypwdicon"
                 android:layout_width="wrap_content"
-                android:layout_height="48.0dip"
+                android:layout_height="36.0dip"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_weight="1"
@@ -79,7 +79,7 @@
                 android:gravity="fill_vertical"
                 android:text="修改密码"
                 android:textColor="@color/black"
-                android:textSize="20.0dip" />
+                android:textSize="30px" />
 
             <View
                 android:layout_width="fill_parent"
@@ -99,7 +99,7 @@
             <ImageView
                 android:id="@+id/aboutlosicon"
                 android:layout_width="wrap_content"
-                android:layout_height="48.0dip"
+                android:layout_height="36.0dip"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_weight="1"
@@ -115,7 +115,7 @@
                 android:gravity="fill_vertical"
                 android:text="关于乐斯"
                 android:textColor="@color/black"
-                android:textSize="20.0dip" />
+                android:textSize="30px" />
 
             <View
                 android:layout_width="fill_parent"
@@ -135,7 +135,7 @@
             <ImageView
                 android:id="@+id/updateicon"
                 android:layout_width="wrap_content"
-                android:layout_height="48.0dip"
+                android:layout_height="36.0dip"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_weight="1"
@@ -151,7 +151,7 @@
                 android:gravity="fill_vertical"
                 android:text="版本更新"
                 android:textColor="@color/black_text"
-                android:textSize="20.0dip" />
+                android:textSize="30px" />
 
             <TextView
                 android:id="@+id/versiontext"
@@ -162,7 +162,7 @@
                 android:gravity="fill_vertical"
                 android:text="当前已是最新版本"
                 android:textColor="@color/gray_text"
-                android:textSize="16.0dip" />
+                android:textSize="30px" />
 
         </RelativeLayout>
 
@@ -178,7 +178,7 @@
             <ImageView
                 android:id="@+id/exiticon"
                 android:layout_width="wrap_content"
-                android:layout_height="48.0dip"
+                android:layout_height="36.0dip"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_weight="1"
@@ -194,7 +194,7 @@
                 android:gravity="fill_vertical"
                 android:text="退出登录"
                 android:textColor="@color/black"
-                android:textSize="20.0dip" />
+                android:textSize="30px" />
         </RelativeLayout>
     </LinearLayout>
     

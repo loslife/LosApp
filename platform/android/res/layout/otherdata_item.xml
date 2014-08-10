@@ -12,7 +12,7 @@
     android:layout_height="36.0dip"
     android:paddingLeft="10.0dip" 
     android:textColor="@color/gray_text"
-    style="@android:style/TextAppearance.Medium" 
+    android:textSize="30px"
     />
 
     <TextView
@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_weight="3"
         android:textColor="@color/gray_text"
-        style="@android:style/TextAppearance.Medium" 
+        android:textSize="30px"
         android:gravity="left"/>
     
     <TextView
@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_weight="3"
         android:textColor="@color/blue_text"
-        style="@android:style/TextAppearance.Medium" 
+        android:textSize="30px"
         android:gravity="left"/>
 
 </LinearLayout>

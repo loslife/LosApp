@@ -17,7 +17,7 @@
 
         <TextView
             android:id="@+id/linkshopinputbtn"
-            style="@android:style/TextAppearance.Medium"
+            android:textSize="30px"
             android:layout_width="fill_parent"
             android:layout_height="48.0dip"
             android:layout_gravity="center_horizontal"
@@ -132,13 +132,13 @@
 
             <TextView
                 android:id="@+id/btn_validatecode"
-                style="@android:style/TextAppearance.Medium"
                 android:layout_width="106.0dip"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:gravity="center"
                 android:text="获取验证码"
+                android:textSize="30px"
                 android:textColor="@drawable/texturl" />
 
             <View
@@ -161,13 +161,13 @@
 
             <TextView
                 android:id="@+id/linkshopbtn"
-                style="@android:style/TextAppearance.Medium"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/login_btn"
                 android:gravity="center"
                 android:text="立即关联"
+                android:textSize="30px"
                 android:textColor="@color/white" />
 
             <ProgressBar

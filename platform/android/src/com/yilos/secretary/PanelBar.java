@@ -33,10 +33,9 @@ public class PanelBar extends View {
      
      float numSpace = 0.0f;
        
-     //饼图演示用的比例,实际使用中，即为外部传入的比例参数  
      final float arrPer[] = new float[]{20f,30f,10f,40f};  
        
-     //柱形图演示用的比例,实际使用中，即为外部传入的比例参数  
+     //柱形
      private  String[] arrNum = null;  
      
      @SuppressLint("NewApi")
@@ -82,44 +81,44 @@ public class PanelBar extends View {
      }  
        
      public void onDraw(Canvas canvas){  
+    	 Resources res = this.getResources();
          //画布背景  
          canvas.drawColor(Color.WHITE);      
            
-         arrPaintArc[3].setTextSize(40);  
+         arrPaintArc[3].setTextSize(30);  
            
          int i= 0;         
            
          int lnWidth = 0; //标识线宽度  
-         int lnSpace = 75; //标识间距  
+         int lnSpace = 95; //标识间距  
            
-         int startx = 200;  
+         int startx = 160;  
          int endx = startx + 20;  
            
-         int starty = 320;  
-         int endy = 280;  
+         int starty = 500;  
+         int endy = 100*arrNum.length;  
            
          int initX = startx;  
          int initY = starty;  
            
-         int rectHeight = 60; //柱形框高度  
-           
-   
+         int rectHeight = 70; //柱形框高度 
+
          /////////////////////////  
          //横向柱形图  
          ///////////////////////////  
          
-           
+         boolean fff = true;  
          // Y 轴  传入参数及柱形  
          for(i=0; i<arrNum.length; i++)   
          {                 
-             starty =  70 + i* lnSpace; //起始线要提高一位  
+             starty =  100+ i* lnSpace; //起始线要提高一位  
              endy = starty-rectHeight;  
-               
-             
+
              //文字 偏移，下移10  
-             canvas.drawText("￥"+(float) (Math.round(Float.valueOf(arrNum[i])* 10)) / 10, initX + (Float.valueOf(arrNum[i]) /numSpace) * lnSpace+10,endy+40, arrPaintArc[3]);
+             arrPaintArc[3].setColor(res.getColor(R.color.base_bg));   
+             canvas.drawText("￥"+(float) (Math.round(Float.valueOf(arrNum[i])* 10)) / 10, initX + (Float.valueOf(arrNum[i]) /numSpace) * (lnSpace-20)+10,endy+40, arrPaintArc[3]);
              
-             canvas.drawText(name[i], initX-name[i].length()*40-10,endy+40, arrPaintArc[3]);
+             canvas.drawText(name[i], 30,endy+40, arrPaintArc[3]);
              
              Paint  paint = null;
              if(i<3)
@@ -128,20 +127,21 @@ public class PanelBar extends View {
              }
              else
              {
+            	 arrPaintArc[3].setColor(res.getColor(colors[3] ));   
             	 paint = arrPaintArc[3];
              }
              //柱形  
              canvas.drawRect(initX   ,endy,  
-                         initX + (Float.valueOf(arrNum[i]) /numSpace) * lnSpace ,endy+rectHeight, paint);    
+                         initX + (Float.valueOf(arrNum[i]) /numSpace) * (lnSpace-20),endy+rectHeight, paint);    
                             
          }  
          //canvas.drawLine( startx ,starty - 30 ,initX ,initY , PaintText);  
          // Y 轴  
          if(arrNum.length>0)
          {
-        	 canvas.drawLine( startx ,ScrHeight-350,initX ,30, PaintText);  
+        	 canvas.drawLine( startx ,starty,initX ,100-rectHeight, PaintText);  
          }
-        
+         
             
          // X 轴 刻度与标识                  
          for(i=0; i< 6 ; i++)   
@@ -155,7 +155,7 @@ public class PanelBar extends View {
      
    @Override
  	public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
- 		setMeasuredDimension(dm.widthPixels, dm.heightPixels);
+ 		setMeasuredDimension(dm.widthPixels, arrNum.length*95+20);
  	}
  }  
 

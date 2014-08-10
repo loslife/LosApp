@@ -28,6 +28,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -250,7 +251,7 @@ public class LinkShopActivity extends BaseActivity
                             public void onClick(DialogInterface dialog, int which) {
                             	myshopService.modifyDisplay(myshops.get(p).getEnterprise_id(), "1");
                             	unlinkShop(AppContext.getInstance(getBaseContext()).getUserAccount(), myshops.get(p).getEnterprise_id());
-                            	findViewById(R.id.linkbar).setVisibility(View.GONE) ;
+                            	((ProgressBar)view.findViewById(R.id.listbar)).setVisibility(View.VISIBLE) ;
                             	button.setText("恢复关联");
                             }  
                         })  
@@ -327,6 +328,7 @@ public class LinkShopActivity extends BaseActivity
                         .setPositiveButton("是", new DialogInterface.OnClickListener() {  
                             public void onClick(DialogInterface dialog, int which) {
                             	isRecoveryLink = true;
+                            	((ProgressBar)view.findViewById(R.id.listbar)).setVisibility(View.VISIBLE) ;
                             	linkShop(AppContext.getInstance(getBaseContext()).getUserAccount(), myDisconnectShops.get(p).getEnterprise_account());
                             	if(AppContext.getInstance(getBaseContext()).getCurrentDisplayShopId()==null)
             					{
