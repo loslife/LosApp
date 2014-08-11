@@ -395,10 +395,6 @@ public class ApiClient
 	public static ServerMemberResponse getMembersContacts(Context appContext,String enterpriseId,String lasSyncTime)
 	{
 
-		ServerMemberResponse res = new ServerMemberResponse();
-		res.setCode(0);
-		ContactsResult rt = new ContactsResult();
-		res.setResult(rt);
 		if(lasSyncTime==null)
 		{
 			lasSyncTime = "0";

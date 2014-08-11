@@ -79,7 +79,7 @@ public class MemberDBManager {
       
         cv.put("id", person.getId()); 
         cv.put("name", person.getName()); 
-        cv.put("enterprise_id", person.getEnterprise_id()); 
+        cv.put("enterprise_id", AppContext.getInstance(context).getCurrentDisplayShopId()); 
         cv.put("create_date", person.getCreate_date());
         cv.put("modify_date", person.getModify_date());
         cv.put("birthday", person.getBirthday());
