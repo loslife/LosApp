@@ -21,7 +21,7 @@
                 style="@style/MMFontTitleInList"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="30px"
+                android:textSize="@dimen/Text_size_m"
              />
             <TextView
                 android:id="@+id/membercards"
@@ -30,8 +30,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:layout_marginRight="15.0dip"
-                android:textColor="@color/black_text"
-                android:textSize="30px"
+                android:textColor="@color/gray_text"
+                android:textSize="@dimen/Text_size_s"
              />
              <TextView
                 android:id="@+id/consumeinfo"
@@ -40,7 +40,7 @@
                 android:layout_below="@id/contactitem_nick"
                 android:layout_marginTop="15.0dip"
                 android:textColor="@color/gray_text"
-                android:textSize="24px"
+                android:textSize="@dimen/Text_size_s"
                 android:singleLine="true" />
     </RelativeLayout>
 

@@ -85,7 +85,7 @@ public class PanelBar extends View {
          //画布背景  
          canvas.drawColor(Color.WHITE);      
            
-         arrPaintArc[3].setTextSize(30);  
+         arrPaintArc[3].setTextSize(getResources().getDimension(R.dimen.Text_size_m));  
            
          int i= 0;         
            
@@ -115,7 +115,7 @@ public class PanelBar extends View {
              endy = starty-rectHeight;  
 
              //文字 偏移，下移10  
-             arrPaintArc[3].setColor(res.getColor(R.color.base_bg));   
+             arrPaintArc[3].setColor(res.getColor(R.color.gray_text));   
              canvas.drawText("￥"+(float) (Math.round(Float.valueOf(arrNum[i])* 10)) / 10, initX + (Float.valueOf(arrNum[i]) /numSpace) * (lnSpace-20)+10,endy+40, arrPaintArc[3]);
              
              canvas.drawText(name[i], 30,endy+40, arrPaintArc[3]);

@@ -238,6 +238,7 @@ public class LinkShopActivity extends BaseActivity
                 final int p=position;  
                 final View view=super.getView(position, convertView, parent);  
                 final TextView button=(TextView)view.findViewById(R.id.linkbtn);  
+                ((ProgressBar)view.findViewById(R.id.listbar)).setVisibility(View.GONE) ;
                 button.setOnClickListener(new OnClickListener() {  
                       
                     @Override  
@@ -249,10 +250,9 @@ public class LinkShopActivity extends BaseActivity
                         .setMessage("解除关联后，您将看不到<"+myshops.get(p).getEnterprise_name()+">的任何信息，是否解除？")  
                         .setPositiveButton("是", new DialogInterface.OnClickListener() {  
                             public void onClick(DialogInterface dialog, int which) {
+                            	((ProgressBar)view.findViewById(R.id.listbar)).setVisibility(View.VISIBLE) ;
                             	myshopService.modifyDisplay(myshops.get(p).getEnterprise_id(), "1");
                             	unlinkShop(AppContext.getInstance(getBaseContext()).getUserAccount(), myshops.get(p).getEnterprise_id());
-                            	((ProgressBar)view.findViewById(R.id.listbar)).setVisibility(View.VISIBLE) ;
-                            	button.setText("恢复关联");
                             }  
                         })  
                         .setNegativeButton("否", new DialogInterface.OnClickListener() {    
@@ -316,6 +316,7 @@ public class LinkShopActivity extends BaseActivity
                 final TextView button=(TextView)view.findViewById(R.id.linkbtn); 
                 button.setText("恢复关联");
                 button.setBackgroundResource(R.drawable.login_btn);
+                ((ProgressBar)view.findViewById(R.id.listbar)).setVisibility(View.GONE) ;
                 button.setOnClickListener(new OnClickListener() {  
                       
                     @Override  
@@ -370,6 +371,9 @@ public class LinkShopActivity extends BaseActivity
 				}
 				if(msg.what==0)
 				{
+					//设置店铺列表
+					setShopListView();
+					setUnShopListView();
 					UIHelper.ToastMessage(getBaseContext(), StringUtils.errorcodeToString(OPRTATE_TYPE, errorCode));
 				}
 			}
@@ -442,9 +446,13 @@ public class LinkShopActivity extends BaseActivity
 				    {
 				    	AppContext.getInstance(getBaseContext()).setChangeShop(true);
 				    }
+				   
 				}
 				if(msg.what==0)
 				{
+					//设置店铺列表
+					setShopListView();
+					setUnShopListView();
 					UIHelper.ToastMessage(getBaseContext(), StringUtils.errorcodeToString("undolinkshop", errorCode));
 				}
 			}

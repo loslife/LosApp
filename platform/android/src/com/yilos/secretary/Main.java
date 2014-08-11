@@ -30,7 +30,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
@@ -74,12 +73,12 @@ public class Main extends BaseActivity {
 	private ImageView select_shop;
 
 	private TextView shopname;
+	
 
 	private TextView showTime;
 	private ImageView lefttime;
 	private ImageView righttime;
 	private TextView timetype;
-	private ScrollView charscrollview;
 
 	private ImageView customs_refresh;
 	private ImageView employee_refresh;
@@ -125,6 +124,12 @@ public class Main extends BaseActivity {
 		if (null == shopId) {
 			shopId = "";
 		}
+		
+		if(!"".equals(shopId)&&AppContext.getInstance(getBaseContext()).isFirstRun())
+		{
+			Intent intent = new Intent(getBaseContext(), LayerActivity.class);  
+	        startActivity(intent); 
+		}
 
 		initView();
 		initData();
@@ -136,12 +141,6 @@ public class Main extends BaseActivity {
 				.getCurrentDisplayShopId();
 		if (null == shopId) {
 			shopId = "";
-		}
-		if(AppContext.getInstance(getBaseContext()).isFirstRun()&&!"".equals(shopId))
-		{
-			AppContext.getInstance(getBaseContext()).setFirstRun(false);
-			Intent intent = new Intent(getBaseContext(), LayerActivity.class);  
-	        startActivity(intent); 
 		}
 		if(AppContext.getInstance(getBaseContext()).isChangeShop())
 		{
@@ -415,10 +414,22 @@ public class Main extends BaseActivity {
 			}
 
 			if (msg.what == 3) {
+				
 				float total = 0.0f;
-				int length = servicePerformanceList.size();
-				float[] percentNum = new float[4];
-				String[] projectName = new String[4];
+				List<String> cateNameList = new ArrayList<String>();
+				List<Float> cateTotalList = new ArrayList<Float>();
+				for (ServicePerformanceBean bean : servicePerformanceList) {
+					// newcard":13000,"recharge":10,"service":1900,"product":200
+					total += Float.valueOf(bean.getTotal());
+					if(!cateNameList.contains(bean.getProject_cateName()))
+					{
+						cateNameList.add(bean.getProject_cateName());
+					}
+				}
+				int length = cateNameList.size();
+				
+				float[] percentNum = new float[cateNameList.size()];
+				String[] projectName = new String[cateNameList.size()];
 				float otherPercentTotal = 0.0f;
 
 				float[] otherPercentNum = null;
@@ -431,36 +442,80 @@ public class Main extends BaseActivity {
 					((TextView) findViewById(R.id.othertext)).setText("其他");
 				}
 
-				for (ServicePerformanceBean bean : servicePerformanceList) {
-					// newcard":13000,"recharge":10,"service":1900,"product":200
-					total += Float.valueOf(bean.getTotal());
-				}
-
 				for (int i = 0; i < length; i++) {
-					if (i < 3) {
-						float percent = Float.valueOf(servicePerformanceList
-								.get(i).getTotal()) / total;
-						percentNum[i] = (float) (Math.round(percent * 1000)) / 10;
-						projectName[i] = servicePerformanceList.get(i)
-								.getProject_name();
-					} else {
+				
+						for(ServicePerformanceBean bean :servicePerformanceList)
+						{
+							if(bean.getProject_cateName().equals(cateNameList.get(i)))
+							{
+								percentNum[i] += (float) (Math.round(Float.valueOf(bean.getTotal()) / total * 1000)) / 10;
+								projectName[i] = percentNum[i]+"|"+cateNameList.get(i);
+							}
+						}
+						
+					
+					/*else {
+						
+						for(ServicePerformanceBean bean :servicePerformanceList)
+						{
+							if(bean.getProject_cateName().equals(cateNameList.get(i)))
+							{
+								percentNum[i] += (float) (Math.round(Float.valueOf(servicePerformanceList
+										.get(i).getTotal()) / total * 1000)) / 10;
+								projectName[i] = cateNameList.get(i);
+								
+								otherPercentNum[(i - 3)] += (float) (Math
+										.round(Float.valueOf(bean.getTotal()) / total * 1000)) / 10;
+								otherProjectName[(i - 3)] = cateNameList.get(i);
+								otherProjectTotal[(i - 3)] = bean.getTotal();
+							}
+						}
 
-						float percent = Float.valueOf(servicePerformanceList
-								.get(i).getTotal()) / total;
-						otherPercentNum[(i - 3)] = (float) (Math
-								.round(percent * 1000)) / 10;
-						otherProjectName[(i - 3)] = servicePerformanceList.get(
-								i).getProject_name();
-						otherProjectTotal[(i - 3)] = servicePerformanceList
-								.get(i).getTotal();
+						
 						// 其他总数
 						otherPercentTotal += otherPercentNum[(i - 3)];
 						percentNum[3] = (float) (Math
 								.round(otherPercentTotal * 10)) / 10;
 						projectName[3] = "其他";
-					}
+					}*/
 
 				}
+				if(length>0)
+				{
+					String[] numSort = new String[percentNum.length];
+					numSort = StringUtils.bubbleSort(projectName);
+					for (int i = 0; i < percentNum.length; i++) {
+						int index = numSort[i].indexOf("|");
+						percentNum[i] = Float.valueOf(numSort[i].substring(0, index));
+						projectName[i] = numSort[i].substring(index + 1,
+								numSort[i].length());
+						
+					}
+					//qita
+					for (int i = 0; i < percentNum.length; i++) {
+						if(i>2)
+						{
+							otherPercentNum[(i - 3)] = percentNum[i];
+							otherProjectName[(i - 3)] = projectName[i];
+							float otherTotal = 0.0f;
+							for(ServicePerformanceBean bean :servicePerformanceList)
+							{
+								if(bean.getProject_cateName().equals(projectName[i]))
+								{
+									otherTotal += Float.valueOf(bean.getTotal());
+								}
+							}
+							otherProjectTotal[(i - 3)] = String.valueOf(otherTotal);
+							// 其他总数
+							otherPercentTotal += otherPercentNum[(i - 3)];
+							percentNum[3] = (float) (Math
+									.round(otherPercentTotal * 10)) / 10;
+							projectName[3] = "其他";
+						}
+						
+					}
+				}
+				
 
 				// 环形图
 				annular2Layout = (LinearLayout) findViewById(R.id.annular2Layout);
@@ -550,10 +605,6 @@ public class Main extends BaseActivity {
 				loading_begin.setVisibility(View.GONE);
 				mainScrollLayout.setVisibility(View.VISIBLE);
 			}
-
-		    charscrollview = (ScrollView)findViewById(R.id.charscrollview);
-		    charscrollview.smoothScrollBy(getResources().getDisplayMetrics().widthPixels, getResources().getDisplayMetrics().heightPixels*1/4+360);
-
 		}
 	};
 
@@ -614,6 +665,7 @@ public class Main extends BaseActivity {
 
 		shopname.setText(AppContext.getInstance(getBaseContext()).getShopName());
 		showTime.setText(getDateNow());
+		select_shop.setTag(R.drawable.select_shop);
 		
 		findViewById(R.id.goback).setVisibility(View.GONE);
 
@@ -663,8 +715,22 @@ public class Main extends BaseActivity {
 				select_shop.getRight();
 				int y = select_shop.getBottom() * 2;
 				int x = getWindowManager().getDefaultDisplay().getWidth() / 2;
+				ImageView imageView = (ImageView) v;
+				Integer integer = (Integer) imageView.getTag();
+				integer = integer == null ? 0 : integer;
+				if(integer==R.drawable.select_shop)
+				{
+					select_shop.setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.retract));
+					select_shop.setTag(R.drawable.retract);
+				}
+				else
+				{
+					select_shop.setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.select_shop));
+					select_shop.setTag(R.drawable.select_shop);
+				}
 
 				showPopupWindow(x, y);
+				
 			}
 		});
 
@@ -1189,7 +1255,6 @@ public class Main extends BaseActivity {
 		popupWindow.showAtLocation(findViewById(R.id.headmore), Gravity.CENTER
 				| Gravity.TOP, x, y);// 需要指定Gravity，默认情况是center.
 
-		((ImageView)findViewById(R.id.headmore)).setImageResource(R.drawable.retract);
 		listView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -1198,7 +1263,7 @@ public class Main extends BaseActivity {
 				if (shopId.equals(shopIds[arg2])) {
 					popupWindow.dismiss();
 					popupWindow = null;
-					((ImageView)findViewById(R.id.headmore)).setImageResource(R.drawable.select_shop);
+					select_shop.setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.select_shop));
 					return;
 				}
 				shopname.setText(title[arg2]);
@@ -1208,7 +1273,7 @@ public class Main extends BaseActivity {
 						.setCurrentDisplayShopId(shopIds[arg2]);
 				shopId = shopIds[arg2];
 				getShowData();
-				((ImageView)findViewById(R.id.headmore)).setImageResource(R.drawable.select_shop);
+				select_shop.setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.select_shop));
 				popupWindow.dismiss();
 				popupWindow = null;
 			}

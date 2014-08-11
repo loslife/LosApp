@@ -51,77 +51,9 @@ public final class R {
         public static final int yellow=0x7f040005;
     }
     public static final class dimen {
-        public static final int dialog_bottom_margin=0x7f050003;
-        public static final int dialog_btn_close_right_margin=0x7f050004;
-        public static final int dialog_btn_close_top_margin=0x7f050005;
-        /**  sina weibo sdk 
-         */
-        public static final int dialog_left_margin=0x7f050000;
-        public static final int dialog_right_margin=0x7f050002;
-        public static final int dialog_title_height=0x7f050007;
-        public static final int dialog_title_logo_left_margin=0x7f050006;
-        public static final int dialog_top_margin=0x7f050001;
-        /**  GreenDroid UI Tool 
-         */
-        public static final int gd_arrow_offset=0x7f050008;
-        public static final int space_1=0x7f050040;
-        public static final int space_10=0x7f050037;
-        public static final int space_11=0x7f050036;
-        public static final int space_12=0x7f050035;
-        public static final int space_13=0x7f050034;
-        public static final int space_14=0x7f050033;
-        public static final int space_15=0x7f050032;
-        public static final int space_16=0x7f050031;
-        public static final int space_17=0x7f050030;
-        public static final int space_18=0x7f05002f;
-        public static final int space_19=0x7f05002e;
-        public static final int space_2=0x7f05003f;
-        public static final int space_20=0x7f05002d;
-        public static final int space_21=0x7f05002c;
-        public static final int space_22=0x7f05002b;
-        public static final int space_23=0x7f05002a;
-        public static final int space_24=0x7f050029;
-        public static final int space_25=0x7f050028;
-        public static final int space_26=0x7f050027;
-        public static final int space_27=0x7f050026;
-        public static final int space_28=0x7f050025;
-        public static final int space_29=0x7f050024;
-        public static final int space_3=0x7f05003e;
-        public static final int space_30=0x7f050023;
-        public static final int space_4=0x7f05003d;
-        public static final int space_5=0x7f05003c;
-        public static final int space_6=0x7f05003b;
-        public static final int space_7=0x7f05003a;
-        public static final int space_8=0x7f050039;
-        public static final int space_9=0x7f050038;
-        public static final int text_size_10=0x7f05001f;
-        public static final int text_size_11=0x7f05001e;
-        public static final int text_size_12=0x7f05001d;
-        public static final int text_size_13=0x7f05001c;
-        public static final int text_size_14=0x7f05001b;
-        public static final int text_size_15=0x7f05001a;
-        public static final int text_size_16=0x7f050019;
-        public static final int text_size_17=0x7f050018;
-        public static final int text_size_18=0x7f050017;
-        public static final int text_size_19=0x7f050016;
-        public static final int text_size_20=0x7f050015;
-        public static final int text_size_21=0x7f050014;
-        public static final int text_size_22=0x7f050013;
-        public static final int text_size_23=0x7f050012;
-        public static final int text_size_24=0x7f050011;
-        public static final int text_size_25=0x7f050010;
-        public static final int text_size_26=0x7f05000f;
-        public static final int text_size_27=0x7f05000e;
-        public static final int text_size_28=0x7f05000d;
-        public static final int text_size_29=0x7f05000c;
-        public static final int text_size_30=0x7f05000b;
-        public static final int text_size_31=0x7f05000a;
-        /**  OSChina APP 
-         */
-        public static final int text_size_32=0x7f050009;
-        public static final int text_size_7=0x7f050022;
-        public static final int text_size_8=0x7f050021;
-        public static final int text_size_9=0x7f050020;
+        public static final int Text_size_m=0x7f050001;
+        public static final int Text_size_s=0x7f050000;
+        public static final int Text_size_x=0x7f050002;
     }
     public static final class drawable {
         public static final int aboutlos=0x7f020000;

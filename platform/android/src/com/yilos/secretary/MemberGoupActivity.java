@@ -215,7 +215,19 @@ public class MemberGoupActivity extends BaseActivity {
 				select_shop.getRight();
 				int y = select_shop.getBottom() * 2;
 				int x = getWindowManager().getDefaultDisplay().getWidth() / 2;
-
+				ImageView imageView = (ImageView) v;
+				Integer integer = (Integer) imageView.getTag();
+				integer = integer == null ? 0 : integer;
+				if(integer==R.drawable.select_shop)
+				{
+					select_shop.setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.retract));
+					select_shop.setTag(R.drawable.retract);
+				}
+				else
+				{
+					select_shop.setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.select_shop));
+					select_shop.setTag(R.drawable.select_shop);
+				}
 				showPopupWindow(x, y);
 			}
 		});
@@ -382,7 +394,8 @@ public class MemberGoupActivity extends BaseActivity {
 						: "• " + myshops.get(i).getEnterprise_name();
 				shopIds[i] = myshops.get(i).getEnterprise_id();
 			}
-			shopId = myshops.get(0).getEnterprise_id();
+			shopId = AppContext.getInstance(getBaseContext())
+					.getCurrentDisplayShopId();
 			parentData = memberService.queryMembers(shopId);
 			membercount.setText("共有"+parentData.size()+"名会员");
 		}
@@ -473,13 +486,13 @@ public class MemberGoupActivity extends BaseActivity {
 		popupWindow = new PopupWindow(getBaseContext());
 		popupWindow.setBackgroundDrawable(new BitmapDrawable());
 		popupWindow
-				.setWidth(getWindowManager().getDefaultDisplay().getWidth() / 2);
+				.setWidth(getWindowManager().getDefaultDisplay().getWidth() / 3);
 		popupWindow.setHeight(title.length * 80);
 		popupWindow.setOutsideTouchable(true);
 		popupWindow.setFocusable(true);
 		popupWindow.setContentView(layout);
 		// showAsDropDown会把里面的view作为参照物，所以要那满屏幕parent
-		popupWindow.showAtLocation(findViewById(R.id.headmore), Gravity.LEFT
+		popupWindow.showAtLocation(findViewById(R.id.headmore), Gravity.CENTER
 				| Gravity.TOP, x, y);// 需要指定Gravity，默认情况是center.
 		((ImageView)findViewById(R.id.headmore)).setImageResource(R.drawable.retract);
 		listView.setOnItemClickListener(new OnItemClickListener() {
@@ -494,7 +507,8 @@ public class MemberGoupActivity extends BaseActivity {
 					return;
 				}
 				shoptitle = title[arg2];
-				AppContext.getInstance(getBaseContext()).setShopName(title[arg2]);
+				shopname.setText(shoptitle);
+				AppContext.getInstance(getBaseContext()).setShopName(shoptitle);
 				AppContext.getInstance(getBaseContext())
 						.setCurrentDisplayShopId(shopIds[arg2]);
 				AppContext.getInstance(getBaseContext()).setChangeShop(true);

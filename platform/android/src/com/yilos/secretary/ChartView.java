@@ -117,7 +117,7 @@ public class ChartView extends View {
 		paint1.setStyle(Paint.Style.STROKE);
 		paint1.setAntiAlias(true);// 去锯齿
 		
-		paint1.setTextSize(30); // 设置轴文字大小
+		paint1.setTextSize(getResources().getDimension(R.dimen.Text_size_m)); // 设置轴文字大小
 
 		// 设置Y轴(对于系统来讲屏幕的原点在左上角）
 		canvas.drawLine(XPoint, YPoint - YLength, XPoint, YPoint, paint); // 轴线

@@ -69,7 +69,7 @@ public PanelDountChart(Context context,float arr[],String textName[],String perT
           
         Paint PaintLabel = new Paint();
         PaintLabel.setColor(Color.GRAY);
-        PaintLabel.setTextSize(30);        
+        PaintLabel.setTextSize(getResources().getDimension(R.dimen.Text_size_m));        
            
         //位置计算类    
         ChartCalc xcalc = new ChartCalc();      

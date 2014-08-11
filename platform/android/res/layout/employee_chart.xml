@@ -21,7 +21,7 @@
                 android:gravity="fill_vertical"
                 android:text="员工业绩"
                 android:textColor="@color/black_text"
-                android:textSize="30px" />
+                android:textSize="@dimen/Text_size_m" />
 
             <ImageView
                 android:id="@+id/employee_refresh"
@@ -39,7 +39,7 @@
             android:layout_alignParentRight="true"
             android:text="￥0.00"
             android:textColor="@color/black_text"
-            android:textSize="30px" />
+            android:textSize="@dimen/Text_size_m" />
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1px"

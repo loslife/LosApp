@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.graphics.Color;  
 import android.os.Bundle;  
 import android.view.Gravity;  
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;  
 import android.view.Window;  
 import android.view.WindowManager;
@@ -26,6 +28,15 @@ public class LayerActivity extends Activity {
     private void initViews() {  
   
         layout = (FrameLayout) findViewById(R.id.layout);  
+        textView = (TextView) findViewById(R.id.konw);
+        
+        textView.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 
         /*if(textView==null){  
             textView = new TextView(LayerActivity.this);  

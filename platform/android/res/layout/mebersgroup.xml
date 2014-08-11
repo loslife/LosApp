@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="加载会员信息"
-            android:textSize="30px"
+            android:textSize="@dimen/Text_size_m"
             android:textColor="@color/blue_text" />
          <View
             android:layout_width="110.0dip"
