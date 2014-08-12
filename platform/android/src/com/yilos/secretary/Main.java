@@ -16,6 +16,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
@@ -89,6 +91,7 @@ public class Main extends BaseActivity {
 	private LinearLayout layout;
 	private ListView listView;
 	private LinearLayout loading_begin;
+	private ScrollView charscrollview;
 	private String title[] = null;
 	private String titleList[] = null;
 	private String shopIds[] = null;
@@ -186,8 +189,7 @@ public class Main extends BaseActivity {
 				total = (float) (Math.round(total * 10)) / 10;
 				((TextView) findViewById(R.id.employeetotal)).setText("￥"
 						+ total);
-				lefttime.setEnabled(true);
-				righttime.setEnabled(true);
+				setButtonEnabled(true);
 				loading_begin.setVisibility(View.GONE);
 				mainScrollLayout.setVisibility(View.VISIBLE);
 			}
@@ -407,8 +409,7 @@ public class Main extends BaseActivity {
 					((LinearLayout) findViewById(R.id.business_empty))
 							.setVisibility(View.GONE);
 				}
-				lefttime.setEnabled(true);
-				righttime.setEnabled(true);
+				setButtonEnabled(true);
 				loading_begin.setVisibility(View.GONE);
 				mainScrollLayout.setVisibility(View.VISIBLE);
 			}
@@ -452,32 +453,6 @@ public class Main extends BaseActivity {
 								projectName[i] = percentNum[i]+"|"+cateNameList.get(i);
 							}
 						}
-						
-					
-					/*else {
-						
-						for(ServicePerformanceBean bean :servicePerformanceList)
-						{
-							if(bean.getProject_cateName().equals(cateNameList.get(i)))
-							{
-								percentNum[i] += (float) (Math.round(Float.valueOf(servicePerformanceList
-										.get(i).getTotal()) / total * 1000)) / 10;
-								projectName[i] = cateNameList.get(i);
-								
-								otherPercentNum[(i - 3)] += (float) (Math
-										.round(Float.valueOf(bean.getTotal()) / total * 1000)) / 10;
-								otherProjectName[(i - 3)] = cateNameList.get(i);
-								otherProjectTotal[(i - 3)] = bean.getTotal();
-							}
-						}
-
-						
-						// 其他总数
-						otherPercentTotal += otherPercentNum[(i - 3)];
-						percentNum[3] = (float) (Math
-								.round(otherPercentTotal * 10)) / 10;
-						projectName[3] = "其他";
-					}*/
 
 				}
 				if(length>0)
@@ -536,8 +511,7 @@ public class Main extends BaseActivity {
 					((LinearLayout) findViewById(R.id.service_empty))
 							.setVisibility(View.GONE);
 				}
-				lefttime.setEnabled(true);
-				righttime.setEnabled(true);
+				setButtonEnabled(true);
 				loading_begin.setVisibility(View.GONE);
 				mainScrollLayout.setVisibility(View.VISIBLE);
 			}
@@ -545,7 +519,7 @@ public class Main extends BaseActivity {
 			if (msg.what == 4) {
 				DateUtil dateUtil = new DateUtil();
 				String[] yNum = dateUtil.getDayarr(year, month, dateType);
-
+				DisplayMetrics dm = getResources().getDisplayMetrics(); 
 				int walkinCount = 0;
 				int memberCount = 0;
 				int[] count = new int[yNum.length];
@@ -600,8 +574,7 @@ public class Main extends BaseActivity {
 						count// 数据
 				);
 				myView.addView(chartView);
-				lefttime.setEnabled(true);
-				righttime.setEnabled(true);
+				setButtonEnabled(true);
 				loading_begin.setVisibility(View.GONE);
 				mainScrollLayout.setVisibility(View.VISIBLE);
 			}
@@ -738,6 +711,7 @@ public class Main extends BaseActivity {
 
 			@Override
 			public void onClick(View v) {
+				setButtonEnabled(false);
 				if ("日".equals(timetype.getText().toString())) {
 					dateType = "week";
 					timetype.setText("周");
@@ -772,7 +746,7 @@ public class Main extends BaseActivity {
 
 			@Override
 			public void onClick(View v) {
-				lefttime.setEnabled(false);
+				setButtonEnabled(false);
 				String showtime = "";
 				Date curDate;
 				if (dateType == "month") {
@@ -818,7 +792,7 @@ public class Main extends BaseActivity {
 
 			@Override
 			public void onClick(View v) {
-				righttime.setEnabled(false);
+				setButtonEnabled(false);
 				String showtime = "";
 				Date curDate;
 				if (dateType == "month") {
@@ -1206,13 +1180,16 @@ public class Main extends BaseActivity {
 				shopIds[i] = myshops.get(i).getEnterprise_id();
 			}
 
-			shopId = myshops.get(0).getEnterprise_id();
+			shopId = AppContext.getInstance(getBaseContext())
+					.getCurrentDisplayShopId();
 			getShowData();
 
 			noshop.setVisibility(View.GONE);
+			findViewById(R.id.date_header).setVisibility(View.VISIBLE);
 		} else {
 			mainScrollLayout.setVisibility(View.GONE);
 			noshop.setVisibility(View.VISIBLE);
+			findViewById(R.id.date_header).setVisibility(View.GONE);
 			shopname.setText("我的店铺");
 		}
 		if (title == null || !(title.length > 0)) {
@@ -1247,7 +1224,15 @@ public class Main extends BaseActivity {
 		popupWindow.setBackgroundDrawable(new BitmapDrawable());
 		popupWindow
 				.setWidth(getWindowManager().getDefaultDisplay().getWidth() / 3);
-		popupWindow.setHeight(title.length * 80);
+		if(title.length <5)
+		{
+			popupWindow.setHeight(title.length * (getWindowManager().getDefaultDisplay().getWidth() / 10)+10);
+		}
+		else
+		{
+			popupWindow.setHeight(5 * (getWindowManager().getDefaultDisplay().getWidth() / 10)+10);
+		}
+		
 		popupWindow.setOutsideTouchable(true);
 		popupWindow.setFocusable(true);
 		popupWindow.setContentView(layout);
@@ -1278,6 +1263,26 @@ public class Main extends BaseActivity {
 				popupWindow = null;
 			}
 		});
+	}
+	
+	public void setButtonEnabled(boolean flag)
+	{
+		timetype.setEnabled(flag);
+		lefttime.setEnabled(flag);
+		righttime.setEnabled(flag);
+		if(!flag)
+		{
+			lefttime.setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.graytoleft));
+			righttime.setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.graytoright));
+			timetype.setTextColor(getBaseContext().getResources().getColor(R.color.gray_text));
+		}
+		else
+		{
+			lefttime.setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.toleft));
+			righttime.setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.toright));
+			timetype.setTextColor(getBaseContext().getResources().getColor(R.color.blue_text));
+		}
+		
 	}
 
 	public String getDateNow() {

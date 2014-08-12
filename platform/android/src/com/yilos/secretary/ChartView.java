@@ -25,7 +25,7 @@ public class ChartView extends View {
 	public int scrollLength = YLength;
 	
 	public int XScale = XLength/6; // X的刻度长度
-	public int YScale = 60; // Y的刻度长度
+	public int YScale = XScale; // Y的刻度长度
 	
 	public String[] XLabel; // X的刻度
 	public String[] YLabel; // Y的刻度

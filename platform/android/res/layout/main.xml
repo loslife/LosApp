@@ -9,7 +9,7 @@
         layout="@layout/main_header" />
     
       <LinearLayout
-        android:id="@+id/main_relativelayout_header"
+        android:id="@+id/date_header"
         android:layout_width="fill_parent"
         android:layout_height="50dip"
         android:background="@color/gray_bg"

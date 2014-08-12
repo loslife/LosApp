@@ -250,9 +250,15 @@ public class LinkShopActivity extends BaseActivity
                         .setMessage("解除关联后，您将看不到<"+myshops.get(p).getEnterprise_name()+">的任何信息，是否解除？")  
                         .setPositiveButton("是", new DialogInterface.OnClickListener() {  
                             public void onClick(DialogInterface dialog, int which) {
-                            	((ProgressBar)view.findViewById(R.id.listbar)).setVisibility(View.VISIBLE) ;
-                            	myshopService.modifyDisplay(myshops.get(p).getEnterprise_id(), "1");
-                            	unlinkShop(AppContext.getInstance(getBaseContext()).getUserAccount(), myshops.get(p).getEnterprise_id());
+                            	if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
+            					{ 
+                            		((ProgressBar)view.findViewById(R.id.listbar)).setVisibility(View.VISIBLE) ;
+                                	unlinkShop(AppContext.getInstance(getBaseContext()).getUserAccount(), myshops.get(p).getEnterprise_id());
+            					}
+                            	else
+            					{
+                            		UIHelper.ToastMessage(getBaseContext(), "网络连接不可用，请检查网络设置");
+            					}
                             }  
                         })  
                         .setNegativeButton("否", new DialogInterface.OnClickListener() {    
@@ -328,14 +334,21 @@ public class LinkShopActivity extends BaseActivity
                         .setMessage("是否恢复对<"+myDisconnectShops.get(p).getEnterprise_name()+">的关联？")  
                         .setPositiveButton("是", new DialogInterface.OnClickListener() {  
                             public void onClick(DialogInterface dialog, int which) {
-                            	isRecoveryLink = true;
-                            	((ProgressBar)view.findViewById(R.id.listbar)).setVisibility(View.VISIBLE) ;
-                            	linkShop(AppContext.getInstance(getBaseContext()).getUserAccount(), myDisconnectShops.get(p).getEnterprise_account());
-                            	if(AppContext.getInstance(getBaseContext()).getCurrentDisplayShopId()==null)
-            					{
-            						AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(shopId);
-            						AppContext.getInstance(getBaseContext()).setShopName(myDisconnectShops.get(p).getEnterprise_name());
+                            	if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
+            					{ 
+                            		isRecoveryLink = true;
+                                	((ProgressBar)view.findViewById(R.id.listbar)).setVisibility(View.VISIBLE) ;
+                                	linkShop(AppContext.getInstance(getBaseContext()).getUserAccount(), myDisconnectShops.get(p).getEnterprise_account());
+                                	if(AppContext.getInstance(getBaseContext()).getCurrentDisplayShopId()==null)
+                					{
+                						AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(shopId);
+                						AppContext.getInstance(getBaseContext()).setShopName(myDisconnectShops.get(p).getEnterprise_name());
+                					}
             					}
+                            	else
+                            	{
+                            		UIHelper.ToastMessage(getBaseContext(), "网络连接不可用，请检查网络设置");
+                            	}
                             }  
                         })  
                         .setNegativeButton("否", new DialogInterface.OnClickListener() {    
@@ -432,6 +445,7 @@ public class LinkShopActivity extends BaseActivity
 				if(msg.what==1)
 				{
 					//设置店铺列表
+					myshopService.modifyDisplay(shopid, "1");
 					setShopListView();
 					setUnShopListView();
 					UIHelper.ToastMessage(getBaseContext(), "解除关联成功");
@@ -500,44 +514,6 @@ public class LinkShopActivity extends BaseActivity
 		}.start();
 	}
 	
-	/**
-	 * 检查用户是否存在
-	 *//*
-	private boolean checkShopAccount(final String phoneNumber) 
-	{
-		final Handler handle =new Handler(){
-			public void handleMessage(Message msg)
-			{
-				if(msg.what==1)
-				{
-					isUserExist = true;
-				}
-				if(msg.what==0)
-				{
-					isUserExist = false;
-					UIHelper.ToastMessage(getBaseContext(), "关联的店铺不存在");
-				}
-			}
-		};
-		new Thread()
-		{
-			public void run(){
-				AppContext ac = (AppContext)getApplication(); 
-				Message msg = new Message();
-				ServerMemberResponse res = ac.checkShopAccount(phoneNumber);
-				if(res.isSucess())
-				{
-					msg.what = 1;
-				}
-				if(res.getCode()==1)
-				{
-					msg.what = 0;
-				}
-				handle.sendMessage(msg);
-			}
-		}.start();
-		return isUserExist;
-	}*/
 	
 	/**
 	 * 获取验证码

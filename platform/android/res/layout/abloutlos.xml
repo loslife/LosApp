@@ -34,9 +34,9 @@ Cooperation)整体解决方案。\n
 的服务是我们不懈的追求，客户的满意度是对我们\n
 最大的肯定与褒奖。"
             android:textColor="@color/gray_text"
-            android:textScaleX="1.02"
+            style="@style/aboutlos"
             android:lineSpacingExtra="1.5dip"
-            style="@android:style/TextAppearance.Small" />
+            />
     </RelativeLayout>
 
     <RelativeLayout

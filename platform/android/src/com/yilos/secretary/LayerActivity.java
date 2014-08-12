@@ -10,11 +10,12 @@ import android.view.ViewGroup;
 import android.view.Window;  
 import android.view.WindowManager;
 import android.widget.FrameLayout;  
+import android.widget.LinearLayout;
 import android.widget.TextView;  
   
 public class LayerActivity extends Activity {  
   
-    private FrameLayout layout = null;  
+    private LinearLayout layout = null;  
     private TextView textView = null;  
   
     public void onCreate(Bundle savedInstanceState) {  
@@ -27,7 +28,7 @@ public class LayerActivity extends Activity {
   
     private void initViews() {  
   
-        layout = (FrameLayout) findViewById(R.id.layout);  
+        layout = (LinearLayout) findViewById(R.id.layout);  
         textView = (TextView) findViewById(R.id.konw);
         
         textView.setOnClickListener(new OnClickListener() {

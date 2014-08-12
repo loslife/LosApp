@@ -19,7 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
 {
 
     // 数据库版本号
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 1;
     
     SQLiteDatabase db;
     

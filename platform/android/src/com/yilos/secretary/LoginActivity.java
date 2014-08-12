@@ -1,5 +1,8 @@
 package com.yilos.secretary;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -73,14 +76,22 @@ public class LoginActivity extends BaseActivity{
 			
 			public void onClick(View v) {
 				loginBtn.setEnabled(false);
+				  
 				String account = userNameExt.getText().toString();
 				String pwd = pwdExt.getText().toString();
+				
 				//判断输入
 				if(StringUtils.isEmpty(account)){
-					UIHelper.ToastMessage(v.getContext(), "请输入用户名");
+					UIHelper.ToastMessage(v.getContext(), "请输入手机号");
 					loginBtn.setEnabled(true);
 					return;
 				}
+				if(!StringUtils.isPhoneMobile(account)){
+					UIHelper.ToastMessage(v.getContext(), "手机号格式错误");
+					loginBtn.setEnabled(true);
+					return;
+				}
+				
 				if(StringUtils.isEmpty(pwd)){
 					UIHelper.ToastMessage(v.getContext(), "请输入密码");
 					loginBtn.setEnabled(true);
@@ -94,7 +105,7 @@ public class LoginActivity extends BaseActivity{
 				}
 				else
 				{
-					UIHelper.ToastMessage(v.getContext(), "当前网络不佳，请检查网络");
+					UIHelper.ToastMessage(v.getContext(), "网络连接不可用，请检查网络");
 					loginBtn.setEnabled(true);
 					return;
 				}
@@ -111,9 +122,25 @@ public class LoginActivity extends BaseActivity{
 			
 			@Override
 			public void onClick(View v) {
+				String account = userNameExt.getText().toString();
+				String pwd = pwdExt.getText().toString();
+				
+				//判断输入
+				if(StringUtils.isEmpty(account)){
+					UIHelper.ToastMessage(v.getContext(), "请输入手机号");
+					loginBtn.setEnabled(true);
+					return;
+				}
+				if(!StringUtils.isPhoneMobile(account)){
+					UIHelper.ToastMessage(v.getContext(), "手机号格式错误");
+					loginBtn.setEnabled(true);
+					return;
+				}
+				
 				Intent forgotpwd = new Intent();
 				forgotpwd.setClass(LoginActivity.this, RegisterActivity.class);
 				forgotpwd.putExtra("forgotpwd", true);
+				forgotpwd.putExtra("phoneNumber", userNameExt.getText().toString());
 				startActivity(forgotpwd);
 			}
 		});

@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import com.yilos.secretary.R;
 import com.yilos.secretary.bean.MemberBean;
 import com.yilos.secretary.common.DateUtil;
+import com.yilos.secretary.common.StringUtils;
+import com.yilos.secretary.common.UIHelper;
 import com.yilos.secretary.service.MemberService;
 
 import android.app.Activity;
@@ -87,8 +89,13 @@ public class MemberDetailActivity extends BaseActivity
 		 teltomember.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+					if(!StringUtils.isPhoneMobile(memberInfo.getPhoneMobile()))
+					{
+						UIHelper.ToastMessage(getBaseContext(), "会员手机号码格式有误");
+						return;
+					}
 				    Intent intent = new Intent();
-				    intent.setAction(Intent.ACTION_CALL);
+				    intent.setAction(Intent.ACTION_DIAL);
 				    intent.setData(Uri.parse("tel:"+ memberInfo.getPhoneMobile()));
 				    startActivity(intent);				
 			}

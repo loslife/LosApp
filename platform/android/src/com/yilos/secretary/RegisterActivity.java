@@ -115,6 +115,7 @@ public class RegisterActivity extends BaseActivity
 		if(forgotpwd)
 		{
 			shopName.setText("找回密码");
+			phoneNum.setText(getIntent().getStringExtra("phoneNumber"));
 		}
 		else
 		{
@@ -210,6 +211,12 @@ public class RegisterActivity extends BaseActivity
 					return;
 				}
 				
+				if(!StringUtils.isPhoneMobile(phoneNo)){
+					UIHelper.ToastMessage(v.getContext(), "手机号格式错误");
+					operat_next.setEnabled(true);
+					return;
+				}
+				
 				//短信验证码好像罢工了，请确认输入是您本人号码，以确保使用中的账号与数据安全
 				if(relativelayout_vcode.getVisibility()==View.GONE)
 				{
@@ -272,12 +279,12 @@ public class RegisterActivity extends BaseActivity
 				if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
 				{
 					//注册
-					if(!forgotpwd&&!checkMobileNumber(phoneNo))
+					if(!forgotpwd)
 					{
 						userRegister(phoneNo,pwd);
 					}
 					//忘记密码
-					if(forgotpwd&&checkMobileNumber(phoneNo))
+					if(forgotpwd)
 					{
 						forgotPwd(phoneNo,pwd);
 					}
@@ -537,6 +544,7 @@ public class RegisterActivity extends BaseActivity
 			public void onTick(long millisUntilFinished) {
 				layout_getcode.setVisibility(View.GONE);
 				layout_codetip.setVisibility(View.VISIBLE);
+				timecount.setVisibility(View.VISIBLE);
 				system_vcode_tip.setText("系统已发送验证码，接收短信大约需要");
 				timecount.setText((--count) 
 						+ "秒");

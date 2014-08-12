@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -176,6 +177,13 @@ public class StringUtils {
 		if (email == null || email.trim().length() == 0)
 			return false;
 		return emailer.matcher(email).matches();
+	}
+	
+	public static boolean isPhoneMobile(String phoneNumber)
+	{
+		Pattern  p = Pattern.compile("^[1][3,4,5,8][0-9]{9}$");
+		Matcher m = p.matcher(phoneNumber);
+		return m.matches();
 	}
 
 	/**

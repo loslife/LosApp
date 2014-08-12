@@ -17,12 +17,12 @@
     
     <RelativeLayout 
     android:id="@+id/goback"
-    android:layout_width="60.0dip"
-    android:layout_height="50dip">
+    android:layout_width="50.0dip"
+    android:layout_height="50dip"
+    android:background="@drawable/back_bg">
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="22.0dip"
-        android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_weight="1"
         android:paddingLeft="10.0dip"

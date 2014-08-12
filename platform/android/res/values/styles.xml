@@ -3,7 +3,9 @@
     <style name="notitle">
         <item name="android:windowNoTitle">true</item>
     </style>
-
+   <style name="aboutlos" parent="android:style/TextAppearance.Small">
+        <item name="android:textScaleX">1.02</item>
+    </style>
     <style name="Transparent" parent="android:style/Theme.Dialog">
 	  <item name="android:windowBackground">@android:color/transparent</item>
 	  <item name="android:windowNoTitle">true</item>

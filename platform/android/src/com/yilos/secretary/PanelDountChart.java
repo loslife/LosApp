@@ -95,15 +95,14 @@ public PanelDountChart(Context context,float arr[],String textName[],String perT
             int textY = ScrHeight/ 8-(ScrWidth/6)*4/7+50*i+15;
             
             //标识  
-            if(arrPer[i]!=0.0f)
-            {
+            
             	 if(strPer[i].length()>5)
             	 {
             		 strPer[i] = strPer[i].substring(0, 5)+"...";
             	 }
             	 canvas.drawRect(new Rect(textX-24, textY-24 ,textX, textY), PaintArc);
             	 canvas.drawText(strPer[i]+Float.toString(arrPer[i])+"%",textX, textY ,PaintLabel);    
-            }
+            
                      
             //下次的起始角度    
             CurrPer += Percentage;    

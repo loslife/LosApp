@@ -1,0 +1,7 @@
+<resources>
+
+    <style name="aboutlos" parent="android:style/TextAppearance.Small">
+        <item name="android:textScaleX">1.09</item>
+    </style>
+
+</resources>
