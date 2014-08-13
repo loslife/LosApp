@@ -40,6 +40,8 @@ public class MemberDetailActivity extends BaseActivity
     private TextView cardtype;
     
     private ImageView headmore;
+    
+    private ImageView sexicon;
 	
 	private TextView  shopname;
 	
@@ -63,6 +65,7 @@ public class MemberDetailActivity extends BaseActivity
 	 public void initView()
 	 {
 		 memberName = (TextView)findViewById(R.id.memberName);
+		 sexicon = (ImageView)findViewById(R.id.sexicon);
 		 latestConsumeTime = (TextView)findViewById(R.id.consumetimes);
 		 birthday = (TextView)findViewById(R.id.birthday);
 	     totalConsume = (TextView)findViewById(R.id.consumetotal);
@@ -114,6 +117,13 @@ public class MemberDetailActivity extends BaseActivity
 	 public void initData()
 	 {
 		 memberName.setText(memberInfo.getName());
+		 
+		 String sexFlag = memberInfo.getSex()==null?"0":memberInfo.getSex();
+		 if("1".equals(sexFlag))
+		 {
+			 sexicon.setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.manicon));
+		 }
+
 		 cardtype.setText(memberInfo.getCardStr());
 		 latestConsumeTime.setText(memberInfo.getLatestConsumeTime());
 		 if(null!=memberInfo.getLatestConsumeTime()&&!"".equals(memberInfo.getLatestConsumeTime()))

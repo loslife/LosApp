@@ -249,12 +249,28 @@ public class Main extends BaseActivity {
 
 						percent_newcard = (Math
 								.round((comparePrevNewcard / prev_newcard) * 1000)) / 10;
+						if(!(prev_newcard>0))
+						{
+							percent_newcard = 100.0f;
+						}
 						percent_recharge = (Math
 								.round((comparePrevRecharge / prev_recharge) * 1000)) / 10;
+						if(!(prev_recharge>0))
+						{
+							percent_recharge = 100.0f;
+						}
 						percent_service = (Math
 								.round((comparePrevService / prev_service) * 1000)) / 10;
+						if(!(prev_service>0))
+						{
+							percent_service = 100.0f;
+						}
 						percent_product = (Math
 								.round((comparePrevProduct / prev_product) * 1000)) / 10;
+						if(!(prev_product>0))
+						{
+							percent_product = 100.0f;
+						}
 					} else {
 						comparePrevNewcard = Float.valueOf(bizPerformance
 								.getNewcard());
@@ -345,10 +361,6 @@ public class Main extends BaseActivity {
 					((TextView) findViewById(R.id.sevicedata))
 							.setTextColor(getResources().getColor(
 									R.color.orange_bg));
-					((TextView) findViewById(R.id.toprev_sevicedata))
-							.setText("比上" + timetype.getText().toString()
-									+ ": +" + comparePrevService + " +"
-									+ percent_service + "%");
 				}
 
 				if (comparePrevProduct > 0.0) {
@@ -357,10 +369,6 @@ public class Main extends BaseActivity {
 					((TextView) findViewById(R.id.saledata))
 							.setTextColor(getResources().getColor(
 									R.color.orange_bg));
-					((TextView) findViewById(R.id.toprev_saledata))
-							.setText("比上" + timetype.getText().toString()
-									+ ": +" + comparePrevProduct + " +"
-									+ percent_product + "%");
 				}
 
 				if (comparePrevNewcard > 0.0) {
@@ -369,10 +377,6 @@ public class Main extends BaseActivity {
 					((TextView) findViewById(R.id.carddata))
 							.setTextColor(getResources().getColor(
 									R.color.orange_bg));
-					((TextView) findViewById(R.id.toprev_carddata))
-							.setText("比上" + timetype.getText().toString()
-									+ ": +" + comparePrevNewcard + " +"
-									+ percent_newcard + "%");
 				}
 
 				if (comparePrevRecharge > 0.0) {
@@ -381,10 +385,6 @@ public class Main extends BaseActivity {
 					((TextView) findViewById(R.id.rechargedata))
 							.setTextColor(getResources().getColor(
 									R.color.orange_bg));
-					((TextView) findViewById(R.id.toprev_rechargedata))
-							.setText("比上" + timetype.getText().toString()
-									+ ": +" + comparePrevRecharge + " +"
-									+ percent_recharge + "%");
 				}
 
 				newcard = (float) (Math.round(newcard * 1000)) / 10;
@@ -1010,8 +1010,16 @@ public class Main extends BaseActivity {
 			if (bizPerformanceList.size() > 0) {
 				bizPerformance = bizPerformanceList.get(0);
 			}
+			else
+			{
+				bizPerformance.setTotal("0.0");
+			}
 			if (prevPerformanceList.size() > 0) {
 				prevBizPerformance = prevPerformanceList.get(0);
+			}
+			else
+			{
+				prevBizPerformance.setTotal("0.0");
 			}
 
 			Message msg = new Message();
@@ -1183,19 +1191,17 @@ public class Main extends BaseActivity {
 			shopId = AppContext.getInstance(getBaseContext())
 					.getCurrentDisplayShopId();
 			getShowData();
-
+			select_shop.setVisibility(View.VISIBLE);
 			noshop.setVisibility(View.GONE);
 			findViewById(R.id.date_header).setVisibility(View.VISIBLE);
 		} else {
+			select_shop.setVisibility(View.GONE);
 			mainScrollLayout.setVisibility(View.GONE);
 			noshop.setVisibility(View.VISIBLE);
 			findViewById(R.id.date_header).setVisibility(View.GONE);
 			shopname.setText("我的店铺");
 		}
-		if (title == null || !(title.length > 0)) {
-			select_shop.setVisibility(View.GONE);
-		}
-
+		
 	}
 
 	public void showPopupWindow(int x, int y) {

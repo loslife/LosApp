@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.yilos.secretary.R;
 import com.yilos.secretary.bean.ServerMemberResponse;
+import com.yilos.secretary.common.NetworkUtil;
 import com.yilos.secretary.common.StringUtils;
 import com.yilos.secretary.common.UIHelper;
 
@@ -98,8 +99,16 @@ public class ModifyPwdActivity  extends BaseActivity
 					modifybtn.setEnabled(false);
 					return;
 				}
-				
-				modifyPwd(phoneNo,oldpwd,newPwd);
+				if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
+				{
+				  modifyPwd(phoneNo,oldpwd,newPwd);
+				}
+				else
+				{
+					UIHelper.ToastMessage(v.getContext(), "网络连接不可用，请检查网络");
+					modifybtn.setEnabled(false);
+					return;
+				}
 					
 				}
 	

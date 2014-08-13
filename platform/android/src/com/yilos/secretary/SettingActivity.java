@@ -6,6 +6,7 @@ import java.util.List;
 import com.yilos.secretary.R;
 import com.yilos.secretary.bean.ServerMemberResponse;
 import com.yilos.secretary.bean.ServerVersionResponse;
+import com.yilos.secretary.common.Constants;
 import com.yilos.secretary.common.NetworkUtil;
 
 import android.app.AlertDialog;
@@ -77,7 +78,7 @@ public class SettingActivity extends BaseActivity {
 			public void run() {
 				AppContext ac = (AppContext) getApplication();
 				Message msg = new Message();
-				ServerVersionResponse res = ac.checkVersion("1");
+				ServerVersionResponse res = ac.checkVersion(Constants.VERSION);
 				if (res.isSucess()) {
 					if("yes".equals(res.getResult().getHas_new_version()))
 					{
@@ -87,6 +88,7 @@ public class SettingActivity extends BaseActivity {
 						msg.what = 0;
 					}else
 					{
+						verion =Constants.VERSION;
 						msg.what = 1;
 					}
 				} else {

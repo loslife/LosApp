@@ -138,7 +138,7 @@ public class ChartView extends View {
 		for(int i = 0; i < YLabel.length; i++)
 		{
 			paint1.setColor(res.getColor(R.color.black_text));
-			canvas.drawText(YLabel[i], XPoint + i * XScale - 5, YPoint
+			canvas.drawText(YLabel[i], XPoint + i * XScale +15, YPoint
 					- YLength-15, paint1); // 文字
 		}
 		for (int i = 0; i < XLabel.length; i++) {
@@ -151,8 +151,8 @@ public class ChartView extends View {
 				// 数据值
 				if (i > 0 && YCoord(Data[i - 1]) != -999
 						&& YCoord(Data[i]) != -999) // 保证有效数据
-					canvas.drawLine(YCoord(Data[i - 1])+8, YPoint - YLength + i
-							* YScale, YCoord(Data[i])+8, YPoint - YLength
+					canvas.drawLine(YCoord(Data[i - 1])+30, YPoint - YLength + i
+							* YScale, YCoord(Data[i])+30, YPoint - YLength
 							+ (i + 1) * YScale, paint);
 				if(Data[i]==top_one&&Data[i]!=0)
 	             {
@@ -167,11 +167,11 @@ public class ChartView extends View {
 					 paint.setColor(res.getColor(colors[2]));
 				 }
 
-				canvas.drawRect(new Rect(YCoord(Data[i]),YPoint
-						- YLength + (i + 1) * YScale,YCoord(Data[i])+15,YPoint
-						- YLength + (i + 1) * YScale+15), paint);
-				canvas.drawText(Data[i] + "人", YCoord(Data[i]) + 12, YPoint
-						- YLength + (i + 1) * YScale, paint1); // 文字
+				canvas.drawRect(new Rect(YCoord(Data[i])+20,YPoint
+						- YLength + (i + 1) * YScale,YCoord(Data[i])+40,YPoint
+						- YLength + (i + 1) * YScale+20), paint);
+				canvas.drawText(Data[i] + "人", YCoord(Data[i]) + 40, YPoint
+						- YLength + (i + 1) * YScale+10, paint1); // 文字
 			} 
 			 catch (Exception e)
 			{

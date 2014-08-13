@@ -45,7 +45,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
     
     public static final String MYSHOP_SQL = "CREATE TABLE IF NOT EXISTS t_myshops (id integer primary key autoincrement, enterprise_id varchar(64), enterprise_name varchar(64), contact_latest_sync REAL, report_latest_sync REAL,enterprise_account varchar(32),display varchar(8), create_date REAL,order_number INTEGER);";
     
-    public static final String MEMBER_SQL = "CREATE TABLE IF NOT EXISTS t_members (id varchar(64) primary key, enterprise_id varchar(64), name varchar(32), birthday REAL, phoneMobile varchar(16), joinDate REAL, memberNo varchar(32), latestConsumeTime REAL, totalConsume REAL, averageConsume REAL,cardStr varchar(128), create_date REAL, modify_date REAL);";
+    public static final String MEMBER_SQL = "CREATE TABLE IF NOT EXISTS t_members (id varchar(64) primary key, enterprise_id varchar(64), name varchar(32),sex varchar(8), birthday REAL, phoneMobile varchar(16), joinDate REAL, memberNo varchar(32), latestConsumeTime REAL, totalConsume REAL, averageConsume REAL,cardStr varchar(128), create_date REAL, modify_date REAL);";
 
     public static final String EMPLOYEE_DAY_SQL = "CREATE TABLE IF NOT EXISTS employee_performance_day (id integer primary key autoincrement, record_id varchar(64), enterprise_id varchar(64), total REAL, cash REAL, card REAL, bank REAL, service REAL, product REAL, newcard REAL, recharge REAL, create_date REAL, modify_date REAL,  employee_name varchar(16), year integer, month integer, day integer);";
 

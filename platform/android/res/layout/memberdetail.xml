@@ -28,7 +28,7 @@
             android:textSize="@dimen/Text_size_m" />
 
         <ImageView
-            android:id="@+id/linkshopicon"
+            android:id="@+id/sexicon"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_alignParentRight="true"
@@ -204,7 +204,10 @@
             android:gravity="center_vertical"
             android:text="TextView"
             android:textColor="@color/black_text"
-            android:textSize="@dimen/Text_size_m" />
+            android:textSize="@dimen/Text_size_m" 
+            android:ellipsize="end"
+            android:lines="2"
+            />
     </RelativeLayout>
 
     <RelativeLayout

@@ -35,6 +35,8 @@ public class MemberBean  implements Serializable
     
     private String cardStr;
     
+    private String sex;
+    
     
 	public String getName() {
 		return name;
@@ -42,6 +44,14 @@ public class MemberBean  implements Serializable
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
 	}
 
 	public String getCreate_date() {

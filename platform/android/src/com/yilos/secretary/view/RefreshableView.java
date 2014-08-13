@@ -288,7 +288,10 @@ public class RefreshableView extends LinearLayout implements OnTouchListener {
      */  
     public void finishRefreshing() {  
         currentStatus = STATUS_REFRESH_FINISHED;  
-        preferences.edit().putLong(UPDATED_AT + mId, System.currentTimeMillis()).commit();  
+        if(NetworkUtil.checkNetworkIsOk(getContext()) != NetworkUtil.NONE)
+		{
+           preferences.edit().putLong(UPDATED_AT + mId, System.currentTimeMillis()).commit();
+		}
         new HideHeaderTask().execute();  
     }  
   
@@ -403,11 +406,7 @@ public class RefreshableView extends LinearLayout implements OnTouchListener {
             String value = timeIntoFormat + "年";  
             updateAtValue = String.format(getResources().getString(R.string.updated_at), value);  
         } 
-        if(NetworkUtil.checkNetworkIsOk(context) == NetworkUtil.NONE)
-		{
-        	 updateAtValue = "无法刷新，网络连接不可用，请检查网络设置"; 
-        	 description.setText("");
-		}
+        
         updateAt.setText(updateAtValue);  
     }  
   

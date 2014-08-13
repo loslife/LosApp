@@ -40,10 +40,11 @@ public class MemberDBManager {
             	
              try {  
             	db.beginTransaction();  //开始事务  
-                db.execSQL("INSERT INTO t_members VALUES(?, ?, ?, ?,?,?,?,?,?,?,?,?,?)", 
+                db.execSQL("INSERT INTO t_members VALUES(?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?)", 
                 		new Object[]{person.getId(), 
                 		AppContext.getInstance(context).getCurrentDisplayShopId(),
                 		person.getName(),
+                		person.getSex(),
                 		person.getBirthday(),
                 		person.getPhoneMobile(),
                 		person.getJoinDate(),
@@ -82,6 +83,7 @@ public class MemberDBManager {
         cv.put("enterprise_id", AppContext.getInstance(context).getCurrentDisplayShopId()); 
         cv.put("create_date", person.getCreate_date());
         cv.put("modify_date", person.getModify_date());
+        cv.put("sex",person.getSex());
         cv.put("birthday", person.getBirthday());
         cv.put("phoneMobile", person.getPhoneMobile());
         cv.put("joinDate", person.getJoinDate());
@@ -118,7 +120,7 @@ public class MemberDBManager {
             person.setEnterprise_id(c.getString(c.getColumnIndex("enterprise_id")));
             person.setCreate_date(c.getString(c.getColumnIndex("create_date")));
             person.setModify_date(c.getString(c.getColumnIndex("modify_date")));
-            
+            person.setSex(c.getString(c.getColumnIndex("sex")));
             person.setBirthday(c.getString(c.getColumnIndex("birthday")));
             person.setPhoneMobile(c.getString(c.getColumnIndex("phoneMobile")));
             person.setJoinDate(c.getString(c.getColumnIndex("joinDate")));
@@ -150,7 +152,7 @@ public class MemberDBManager {
             person.setEnterprise_id(c.getString(c.getColumnIndex("enterprise_id")));
             person.setCreate_date(c.getString(c.getColumnIndex("create_date")));
             person.setModify_date(c.getString(c.getColumnIndex("modify_date")));
-            
+            person.setSex(c.getString(c.getColumnIndex("sex")));
             person.setBirthday(c.getString(c.getColumnIndex("birthday")));
             person.setPhoneMobile(c.getString(c.getColumnIndex("phoneMobile")));
             person.setJoinDate(c.getString(c.getColumnIndex("joinDate")));
@@ -182,7 +184,7 @@ public class MemberDBManager {
             person.setEnterprise_id(c.getString(c.getColumnIndex("enterprise_id")));
             person.setCreate_date(c.getString(c.getColumnIndex("create_date")));
             person.setModify_date(c.getString(c.getColumnIndex("modify_date")));
-            
+            person.setSex(c.getString(c.getColumnIndex("sex")));
             person.setBirthday(c.getString(c.getColumnIndex("birthday")));
             person.setPhoneMobile(c.getString(c.getColumnIndex("phoneMobile")));
             person.setJoinDate(c.getString(c.getColumnIndex("joinDate")));

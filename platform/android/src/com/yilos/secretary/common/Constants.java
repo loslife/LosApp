@@ -19,6 +19,8 @@ public class Constants
 	
 	public static final long ONE_MB_SIZE = 1024L * 1024;
 	
+	public static final String VERSION = "1";
+	
 	//http://192.168.1.104:5000/svc/checkCode/15019432710?u=register&c=200957
 	//http://192.168.1.104:5000/svc/getCode/15019432710?u=attach
 	//var LEGAL_USAGE = ["attach", "register", "reset_password", "register_losapp"];
