@@ -103,6 +103,8 @@
                 android:gravity="center_vertical"
                 android:textColor="@color/black_text"
                 android:textSize="@dimen/Text_size_m" 
+                android:hint="搜索"
+                android:textColorHint="@color/gray_text"
                 android:textCursorDrawable="@null"/>
             
             <TextView  

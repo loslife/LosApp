@@ -154,6 +154,16 @@ public class ChartView extends View {
 					canvas.drawLine(YCoord(Data[i - 1])+30, YPoint - YLength + i
 							* YScale, YCoord(Data[i])+30, YPoint - YLength
 							+ (i + 1) * YScale, paint);
+				
+			} 
+			 catch (Exception e)
+			{
+				 
+			}
+		}
+		for (int i = 0; i < XLabel.length; i++) {
+
+				paint.setColor(res.getColor(colors[3]));
 				if(Data[i]==top_one&&Data[i]!=0)
 	             {
 	                 paint.setColor(res.getColor(colors[0]));
@@ -168,17 +178,11 @@ public class ChartView extends View {
 				 }
 
 				canvas.drawRect(new Rect(YCoord(Data[i])+20,YPoint
-						- YLength + (i + 1) * YScale,YCoord(Data[i])+40,YPoint
-						- YLength + (i + 1) * YScale+20), paint);
+						- YLength + (i + 1) * YScale-10,YCoord(Data[i])+40,YPoint
+						- YLength + (i + 1) * YScale+10), paint);
 				canvas.drawText(Data[i] + "人", YCoord(Data[i]) + 40, YPoint
 						- YLength + (i + 1) * YScale+10, paint1); // 文字
 			} 
-			 catch (Exception e)
-			{
-				 
-			}
-		}
-
 	}
 
 	private int YCoord(int y0) // 计算绘制时的Y坐标，无数据时返回-999

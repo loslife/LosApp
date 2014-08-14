@@ -37,6 +37,8 @@ public class MemberBean  implements Serializable
     
     private String sex;
     
+    private String entity_id;
+    
     
 	public String getName() {
 		return name;
@@ -148,6 +150,14 @@ public class MemberBean  implements Serializable
 
 	public void setCardStr(String cardStr) {
 		this.cardStr = cardStr;
+	}
+
+	public String getEntity_id() {
+		return entity_id;
+	}
+
+	public void setEntity_id(String entity_id) {
+		this.entity_id = entity_id;
 	}
 
 	

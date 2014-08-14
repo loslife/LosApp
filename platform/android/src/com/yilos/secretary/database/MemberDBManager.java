@@ -100,7 +100,7 @@ public class MemberDBManager {
      * @param person 
      */  
     public void delete(MemberBean person) {  
-        db.delete("t_members", "id = ?", new String[]{String.valueOf(person.getId())});  
+        db.delete("t_members", "id = ?", new String[]{String.valueOf(person.getEntity_id())});  
     }  
       
     /** 

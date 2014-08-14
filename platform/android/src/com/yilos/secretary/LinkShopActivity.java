@@ -190,7 +190,6 @@ public class LinkShopActivity extends BaseActivity
 					linkshopinputbtn.setText("取消");
 					((LinearLayout)findViewById(R.id.noshop)).setVisibility(View.GONE);
 				}
-
 			}
 		});
 	}
@@ -378,6 +377,8 @@ public class LinkShopActivity extends BaseActivity
 					//设置店铺列表
 					setShopListView();
 					setUnShopListView();
+					inputlinkshop.setVisibility(View.GONE);
+					linkshopinputbtn.setText("添加关联");
 					UIHelper.ToastMessage(getBaseContext(), "关联成功");
 					phoneNum.setText("");
 					validatecode.setText("");

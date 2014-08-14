@@ -244,7 +244,7 @@ public class RefreshableView extends LinearLayout implements OnTouchListener {
                 }  
                 break;  
             case MotionEvent.ACTION_UP:  
-            default:  
+            default:
                 if (currentStatus == STATUS_RELEASE_TO_REFRESH) {  
                     // 松手时如果是释放立即刷新状态，就去调用正在刷新的任务  
                     new RefreshingTask().execute();  

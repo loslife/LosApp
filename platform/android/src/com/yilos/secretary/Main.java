@@ -31,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.PopupWindow.OnDismissListener;
 import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -155,47 +156,12 @@ public class Main extends BaseActivity {
 
 	Handler handle = new Handler() {
 		public void handleMessage(Message msg) {
-
+			
+			//服务业绩
 			if (msg.what == 1) {
-				String[] num = new String[employPerList.size()];
-				String[] name = new String[employPerList.size()];
-				float total = 0.0f;
-
-				// 柱状图
-				for (int i = 0; i < employPerList.size(); i++) {
-					String totalnum = employPerList.get(i).getTotal();
-					if (null == totalnum || "".equals(totalnum)) {
-						totalnum = "0";
-					}
-					num[i] = totalnum + "|"
-							+ employPerList.get(i).getEmployee_name();
-					;
-					total += Float.valueOf(employPerList.get(i).getTotal());
-				}
-				String[] numSort = new String[employPerList.size()];
-				numSort = StringUtils.bubbleSort(num);
-				for (int i = 0; i < num.length; i++) {
-					int index = numSort[i].indexOf("|");
-					name[i] = numSort[i].substring(index + 1,
-							numSort[i].length());
-					num[i] = numSort[i].substring(0, index);
-				}
-
-				columnarLayout = (LinearLayout) findViewById(R.id.columnarLayout);
-				columnarLayout.removeAllViews();
-				view = new PanelBar(getBaseContext(), num, name);
-				columnarLayout.addView(view);
-
-				total = (float) (Math.round(total * 10)) / 10;
-				((TextView) findViewById(R.id.employeetotal)).setText("￥"
-						+ total);
-				setButtonEnabled(true);
-				loading_begin.setVisibility(View.GONE);
-				mainScrollLayout.setVisibility(View.VISIBLE);
-			}
-
-			if (msg.what == 2) {
-
+				//员工业绩
+				getEmployeePerData();
+				
 				float newcard = 0.0f;
 				float recharge = 0.0f;
 				float service = 0.0f;
@@ -217,6 +183,15 @@ public class Main extends BaseActivity {
 				float percent_service = 0.0f;
 				float percent_product = 0.0f;
 
+				if (bizPerformance.getTotal() == null
+						|| Float.valueOf(bizPerformance.getTotal()) == 0.0f) {
+					((LinearLayout) findViewById(R.id.business_empty))
+							.setVisibility(View.VISIBLE);
+				} else {
+					((LinearLayout) findViewById(R.id.business_empty))
+							.setVisibility(View.GONE);
+				}
+				
 				if (null != bizPerformance.get_id()) {
 					// newcard":13000,"recharge":10,"service":1900,"product":200
 					newcard = Float.valueOf(bizPerformance.getNewcard())
@@ -251,25 +226,25 @@ public class Main extends BaseActivity {
 								.round((comparePrevNewcard / prev_newcard) * 1000)) / 10;
 						if(!(prev_newcard>0))
 						{
-							percent_newcard = 100.0f;
+							percent_newcard = +100.0f;
 						}
 						percent_recharge = (Math
 								.round((comparePrevRecharge / prev_recharge) * 1000)) / 10;
 						if(!(prev_recharge>0))
 						{
-							percent_recharge = 100.0f;
+							percent_recharge = +100.0f;
 						}
 						percent_service = (Math
 								.round((comparePrevService / prev_service) * 1000)) / 10;
 						if(!(prev_service>0))
 						{
-							percent_service = 100.0f;
+							percent_service = +100.0f;
 						}
 						percent_product = (Math
 								.round((comparePrevProduct / prev_product) * 1000)) / 10;
 						if(!(prev_product>0))
 						{
-							percent_product = 100.0f;
+							percent_product = +100.0f;
 						}
 					} else {
 						comparePrevNewcard = Float.valueOf(bizPerformance
@@ -343,16 +318,16 @@ public class Main extends BaseActivity {
 						.valueOf(comparePrevProduct) * 10)) / 10;
 				((TextView) findViewById(R.id.toprev_sevicedata)).setText("比上"
 						+ timetype.getText().toString() + ": "
-						+ comparePrevService + " " + percent_service + "%");
+						+ comparePrevService + " " + showPercent(percent_service) + "%");
 				((TextView) findViewById(R.id.toprev_saledata)).setText("比上"
 						+ timetype.getText().toString() + ": "
-						+ comparePrevProduct + " " + percent_product + "%");
+						+ comparePrevProduct + " " + showPercent(percent_product) + "%");
 				((TextView) findViewById(R.id.toprev_carddata)).setText("比上"
 						+ timetype.getText().toString() + ": "
-						+ comparePrevNewcard + " " + percent_newcard + "%");
+						+ comparePrevNewcard + " " + showPercent(percent_newcard) + "%");
 				((TextView) findViewById(R.id.toprev_rechargedata))
 						.setText("比上" + timetype.getText().toString() + ": "
-								+ comparePrevRecharge + " " + percent_recharge
+								+ comparePrevRecharge + " " + showPercent(percent_recharge)
 								+ "%");
 
 				if (comparePrevService > 0.0) {
@@ -401,21 +376,61 @@ public class Main extends BaseActivity {
 				PanelDountChart panelDountView = new PanelDountChart(
 						getBaseContext(), num2, perName, "business");
 				annularLayout.addView(panelDountView);
-				if (bizPerformance.getTotal() == null
-						|| Float.valueOf(bizPerformance.getTotal()) == 0.0f) {
-					((LinearLayout) findViewById(R.id.business_empty))
-							.setVisibility(View.VISIBLE);
-				} else {
-					((LinearLayout) findViewById(R.id.business_empty))
-							.setVisibility(View.GONE);
-				}
+				
 				setButtonEnabled(true);
 				loading_begin.setVisibility(View.GONE);
 				mainScrollLayout.setVisibility(View.VISIBLE);
 			}
 
-			if (msg.what == 3) {
+			//员工业绩
+			if (msg.what == 2) {
 				
+				//卖品业绩
+				getServicePerformanceData();
+				
+				String[] num = new String[employPerList.size()];
+				String[] name = new String[employPerList.size()];
+				float total = 0.0f;
+
+				// 柱状图
+				for (int i = 0; i < employPerList.size(); i++) {
+					String totalnum = employPerList.get(i).getTotal();
+					if (null == totalnum || "".equals(totalnum)) {
+						totalnum = "0";
+					}
+					num[i] = totalnum + "|"
+							+ employPerList.get(i).getEmployee_name();
+					;
+					total += Float.valueOf(employPerList.get(i).getTotal());
+				}
+				String[] numSort = new String[employPerList.size()];
+				numSort = StringUtils.bubbleSort(num);
+				for (int i = 0; i < num.length; i++) {
+					int index = numSort[i].indexOf("|");
+					name[i] = numSort[i].substring(index + 1,
+							numSort[i].length());
+					num[i] = numSort[i].substring(0, index);
+				}
+
+				columnarLayout = (LinearLayout) findViewById(R.id.columnarLayout);
+				columnarLayout.removeAllViews();
+				view = new PanelBar(getBaseContext(), num, name);
+				columnarLayout.addView(view);
+
+				total = (float) (Math.round(total * 10)) / 10;
+				((TextView) findViewById(R.id.employeetotal)).setText("￥"
+						+ total);
+				setButtonEnabled(true);
+				loading_begin.setVisibility(View.GONE);
+				mainScrollLayout.setVisibility(View.VISIBLE);
+			}
+
+			
+
+			//卖品业绩
+			if (msg.what == 3) {
+				//客流量
+				getBcustomerCount();
 				float total = 0.0f;
 				List<String> cateNameList = new ArrayList<String>();
 				List<Float> cateTotalList = new ArrayList<Float>();
@@ -516,10 +531,10 @@ public class Main extends BaseActivity {
 				mainScrollLayout.setVisibility(View.VISIBLE);
 			}
 
+			//客流量
 			if (msg.what == 4) {
 				DateUtil dateUtil = new DateUtil();
 				String[] yNum = dateUtil.getDayarr(year, month, dateType);
-				DisplayMetrics dm = getResources().getDisplayMetrics(); 
 				int walkinCount = 0;
 				int memberCount = 0;
 				int[] count = new int[yNum.length];
@@ -537,7 +552,7 @@ public class Main extends BaseActivity {
 								break;
 							}
 
-							else if (i == Integer.valueOf(bean.getDay())
+							else if ((i+1) == Integer.valueOf(bean.getDay())
 									&& "month".equals(dateType)) {
 								walkinCount += Integer.valueOf(bean.getTemp());
 								memberCount += Integer
@@ -646,9 +661,10 @@ public class Main extends BaseActivity {
 
 			@Override
 			public void onClick(View v) {
+				setButtonEnabled(false);
 				loading_begin.setVisibility(View.VISIBLE);
 				mainScrollLayout.setVisibility(View.GONE);
-				getBcustomerCount();
+				getShowData();	
 			}
 		});
 
@@ -656,9 +672,10 @@ public class Main extends BaseActivity {
 
 			@Override
 			public void onClick(View v) {
+				setButtonEnabled(false);
 				loading_begin.setVisibility(View.VISIBLE);
 				mainScrollLayout.setVisibility(View.GONE);
-				getEmployeePerData();
+				getShowData();
 			}
 		});
 
@@ -666,9 +683,10 @@ public class Main extends BaseActivity {
 
 			@Override
 			public void onClick(View v) {
+				setButtonEnabled(false);
 				loading_begin.setVisibility(View.VISIBLE);
 				mainScrollLayout.setVisibility(View.GONE);
-				getServicePerformanceData();
+				getShowData();
 			}
 		});
 
@@ -676,9 +694,10 @@ public class Main extends BaseActivity {
 
 			@Override
 			public void onClick(View v) {
+				setButtonEnabled(false);
 				loading_begin.setVisibility(View.VISIBLE);
 				mainScrollLayout.setVisibility(View.GONE);
-				getBizPerformanceData();
+				getShowData();
 			}
 		});
 
@@ -838,10 +857,8 @@ public class Main extends BaseActivity {
 	 * 获得数据
 	 */
 	private void getShowData() {
-		getEmployeePerData();
+		//服务业绩
 		getBizPerformanceData();
-		getServicePerformanceData();
-		getBcustomerCount();
 	}
 
 	/**
@@ -880,7 +897,7 @@ public class Main extends BaseActivity {
 
 						employeePerService.addEmployeePer(employPerList,
 								tableName);
-						msg.what = 1;
+						msg.what = 2;
 						handle.sendMessage(msg);
 					}
 				}
@@ -903,7 +920,7 @@ public class Main extends BaseActivity {
 						"employee_performance_week");
 			}
 			Message msg = new Message();
-			msg.what = 1;
+			msg.what = 2;
 			handle.sendMessage(msg);
 		}
 	}
@@ -964,7 +981,7 @@ public class Main extends BaseActivity {
 								tableName);
 						bizPerformanceService.addBizPerformance(
 								prevBizPerformance, tableName);
-						msg.what = 2;
+						msg.what = 1;
 						handle.sendMessage(msg);
 					}
 				}
@@ -1023,7 +1040,7 @@ public class Main extends BaseActivity {
 			}
 
 			Message msg = new Message();
-			msg.what = 2;
+			msg.what = 1;
 			handle.sendMessage(msg);
 		}
 	}
@@ -1227,6 +1244,13 @@ public class Main extends BaseActivity {
 		});
 
 		popupWindow = new PopupWindow(Main.this);
+		popupWindow.setOnDismissListener(new OnDismissListener() {
+			@Override
+			public void onDismiss() {
+				select_shop.setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.select_shop));
+				select_shop.setTag(R.drawable.select_shop);
+			}
+		});
 		popupWindow.setBackgroundDrawable(new BitmapDrawable());
 		popupWindow
 				.setWidth(getWindowManager().getDefaultDisplay().getWidth() / 3);
@@ -1299,6 +1323,16 @@ public class Main extends BaseActivity {
 		month = String.valueOf(curDate.getMonth() + 1);
 		String str = formatter.format(curDate);
 		return str;
+	}
+	
+	public String showPercent(float percent)
+	{
+		if(percent>0.0f)
+		{
+			return "+"+percent;
+		}
+		
+		return String.valueOf(percent);
 	}
 
 	public Calendar dateToCal(String in, SimpleDateFormat format) {

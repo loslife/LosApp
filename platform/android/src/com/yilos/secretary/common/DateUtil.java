@@ -182,7 +182,7 @@ public class DateUtil {
 				days[i-1]= String.valueOf(i);
 				if("day".equals(dateType))
 				{
-					days[i-1] =  days[i-1]+":00";
+					days[i-1] =  (i-1)+":00";
 				}
 			}
 

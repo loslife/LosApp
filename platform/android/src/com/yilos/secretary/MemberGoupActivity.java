@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
@@ -21,13 +23,16 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.PopupWindow.OnDismissListener;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -139,12 +144,14 @@ public class MemberGoupActivity extends BaseActivity {
 				if(msg.what==2)
 				{
 					loading_begin.setVisibility(View.GONE);
+					seachmemberext.setText("");
 					getdata();
 				}
 				
 				if(msg.what==3)
 				{
 					UIHelper.ToastMessage(getBaseContext(), "网络不给力");
+					seachmemberext.setText("");
 				}
 			}
 	};
@@ -280,24 +287,24 @@ public class MemberGoupActivity extends BaseActivity {
 		findViewById(R.id.goback).setVisibility(View.GONE);
 		loading_begin.setVisibility(View.GONE);
 		pullrefresh.setVisibility(View.GONE);
+		
 		initIndexBar();
 		refreshableView.setOnRefreshListener(new PullToRefreshListener() {
 			@Override
 			public void onRefresh() {
-				
+				    
 					if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
 					{
-					   getMemberContact(shopId,last_sync);
+					   getMemberContact(shopId,last_sync); 
 					}
 					else
 					{
-						getdata();
+						getMemberContact(shopId,last_sync);
 						Message msg = new Message();
 						msg.what=3;
 						handle.sendMessage(msg);
 					}
-
-				refreshableView.finishRefreshing();
+					refreshableView.finishRefreshing();
 			}
 		}, 0);
        loadingmember.setOnClickListener(new OnClickListener() {
@@ -308,7 +315,28 @@ public class MemberGoupActivity extends BaseActivity {
 				layout_loadingmember.setVisibility(View.GONE);
 				if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
 				{
-					getMemberCounts(shopId);
+					if(NetworkUtil.checkNetworkIsOk(getBaseContext())==NetworkUtil.WIFI)
+					{
+    	                 getMemberCounts(shopId);
+					}
+					else
+					{
+						 //警告框  
+                        new AlertDialog.Builder(MemberGoupActivity.this)  
+                        .setMessage("您当前使用的是非wifi网络，加载速度比较慢，建议您在wifi环境下加载会员。是否继续？")  
+                        .setPositiveButton("是", new DialogInterface.OnClickListener() {  
+                            public void onClick(DialogInterface dialog, int which) {
+                            	  getMemberCounts(shopId);
+                            }  
+                        })  
+                        .setNegativeButton("否", new DialogInterface.OnClickListener() {    
+                            public void onClick(DialogInterface dialog, int whichButton) {    
+                            }    
+                        })  
+                        .create()  
+                        .show();  
+					}
+					
 				}
 				else
 				{
@@ -346,12 +374,15 @@ public class MemberGoupActivity extends BaseActivity {
 		public void onClick(View v) {
 			member_seach.setVisibility(View.VISIBLE);
 			seach_layout.setVisibility(View.GONE);
+			seachmemberext.requestFocus();
+			((InputMethodManager)getSystemService(INPUT_METHOD_SERVICE)).toggleSoftInput(0,InputMethodManager.HIDE_NOT_ALWAYS);
 		}
 	   });
        
        cancelsearch.setOnClickListener(new OnClickListener() {
    		@Override
    		public void onClick(View v) {
+   			seachmemberext.setText("");
    			member_seach.setVisibility(View.GONE);
    			seach_layout.setVisibility(View.VISIBLE);
    			parentData = memberService.queryMembers(shopId);
@@ -434,17 +465,24 @@ public class MemberGoupActivity extends BaseActivity {
 			public void run() {
 				AppContext ac = (AppContext) getApplication();
 				Message msg = new Message();
-
-				ServerMemberResponse res = ac.getMembersContacts(linkshopId, lasSync);
-				if (res.isSucess()) {
-					memberService.handleMembers(res.getResult().getRecords());
-					last_sync = String.valueOf(res.getResult().getLast_sync());
-					myshopService.updateLatestSync(last_sync, linkshopId,
-							"Contacts");
-					AppContext.getInstance(getBaseContext())
-							.setContactLastSyncTime(last_sync);
-						msg.what = 2;
+				if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
+				{
+					ServerMemberResponse res = ac.getMembersContacts(linkshopId, lasSync);
+					if (res.isSucess()) {
+						memberService.handleMembers(res.getResult().getRecords());
+						last_sync = String.valueOf(res.getResult().getLast_sync());
+						myshopService.updateLatestSync(last_sync, linkshopId,
+								"Contacts");
+						AppContext.getInstance(getBaseContext())
+								.setContactLastSyncTime(last_sync);
+							msg.what = 2;
+					}
 				}
+				else
+				{
+					msg.what = 2;
+				}
+				
 				handle.sendMessage(msg);
 			}
 		}.start();
@@ -496,10 +534,24 @@ public class MemberGoupActivity extends BaseActivity {
 				});
 
 		popupWindow = new PopupWindow(getBaseContext());
+		popupWindow.setOnDismissListener(new OnDismissListener() {
+			@Override
+			public void onDismiss() {
+				select_shop.setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.select_shop));
+				select_shop.setTag(R.drawable.select_shop);
+			}
+		});
 		popupWindow.setBackgroundDrawable(new BitmapDrawable());
 		popupWindow
 				.setWidth(getWindowManager().getDefaultDisplay().getWidth() / 3);
-		popupWindow.setHeight(title.length * 80);
+		if(title.length <5)
+		{
+			popupWindow.setHeight(title.length * (getWindowManager().getDefaultDisplay().getWidth() / 10)+10);
+		}
+		else
+		{
+			popupWindow.setHeight(5 * (getWindowManager().getDefaultDisplay().getWidth() / 10)+10);
+		}
 		popupWindow.setOutsideTouchable(true);
 		popupWindow.setFocusable(true);
 		popupWindow.setContentView(layout);
