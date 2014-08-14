@@ -144,8 +144,9 @@ public class MemberGoupActivity extends BaseActivity {
 				if(msg.what==2)
 				{
 					loading_begin.setVisibility(View.GONE);
-					seachmemberext.setText("");
 					getdata();
+					seachmemberext.setText("");
+					
 				}
 				
 				if(msg.what==3)

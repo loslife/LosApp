@@ -146,6 +146,8 @@ public class Main extends BaseActivity {
 		if (null == shopId) {
 			shopId = "";
 		}
+		//查询店名
+		queiryTitleList();
 		if(AppContext.getInstance(getBaseContext()).isChangeShop())
 		{
 			initData();
@@ -1190,6 +1192,28 @@ public class Main extends BaseActivity {
 		userAccount = AppContext.getInstance(getBaseContext()).getUserAccount();
 		shopname.setText(AppContext.getInstance(getBaseContext()).getShopName());
 		// 查询本地的关联数据
+		queiryTitleList();
+		List<MyShopBean> myshops = myshopService.queryShops();
+		if (titleList != null && titleList.length > 0) {
+			shopId = myshops.get(0).getEnterprise_id();
+			AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(shopId);
+			shopname.setText(title[0]);
+			getShowData();
+			select_shop.setVisibility(View.VISIBLE);
+			noshop.setVisibility(View.GONE);
+			findViewById(R.id.date_header).setVisibility(View.VISIBLE);
+		} else {
+			select_shop.setVisibility(View.GONE);
+			mainScrollLayout.setVisibility(View.GONE);
+			noshop.setVisibility(View.VISIBLE);
+			findViewById(R.id.date_header).setVisibility(View.GONE);
+			shopname.setText("我的店铺");
+		}
+		
+	}
+	
+	public void queiryTitleList()
+	{
 		List<MyShopBean> myshops = myshopService.queryShops();
 		if (myshops != null && myshops.size() > 0) {
 			loading_begin.setVisibility(View.VISIBLE);
@@ -1204,21 +1228,7 @@ public class Main extends BaseActivity {
 						: "• " + myshops.get(i).getEnterprise_name();
 				shopIds[i] = myshops.get(i).getEnterprise_id();
 			}
-
-			shopId = AppContext.getInstance(getBaseContext())
-					.getCurrentDisplayShopId();
-			getShowData();
-			select_shop.setVisibility(View.VISIBLE);
-			noshop.setVisibility(View.GONE);
-			findViewById(R.id.date_header).setVisibility(View.VISIBLE);
-		} else {
-			select_shop.setVisibility(View.GONE);
-			mainScrollLayout.setVisibility(View.GONE);
-			noshop.setVisibility(View.VISIBLE);
-			findViewById(R.id.date_header).setVisibility(View.GONE);
-			shopname.setText("我的店铺");
 		}
-		
 	}
 
 	public void showPopupWindow(int x, int y) {
