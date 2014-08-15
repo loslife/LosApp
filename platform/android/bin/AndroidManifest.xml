@@ -11,8 +11,10 @@
      <uses-permission android:name="android.permission.CALL_PHONE" />
      <uses-permission android:name="android.permission.SEND_SMS" />
      <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+     <uses-permission android:name="android.permission.GET_TASKS" />    
     <application
         android:allowBackup="true"
+        android:persistent="true"
         android:name=".AppContext"
         android:icon="@drawable/ic_losapp"
         android:label="@string/app_name"
@@ -20,27 +22,34 @@
         >
         <activity android:name=".FirstActivity"
                   android:label="@string/app_name"
-                  android:screenOrientation="portrait">
+                  android:screenOrientation="portrait"
+                  >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"></action>
                 <category android:name="android.intent.category.LAUNCHER"></category>
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".Main" android:screenOrientation="portrait" android:launchMode="singleTask"/>
-        <activity android:name=".RegisterActivity" android:screenOrientation="portrait" />
-        <activity android:name=".MemberGoupActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
-        <activity android:name=".SettingActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
+        <activity android:name=".LoginActivity" android:screenOrientation="portrait" android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".Main" android:screenOrientation="portrait"  android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".RegisterActivity" android:screenOrientation="portrait" android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".MemberGoupActivity" android:screenOrientation="portrait"  android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".SettingActivity" android:screenOrientation="portrait" android:configChanges="orientation|keyboardHidden"/>
         <activity android:name=".MemberDetailActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".LinkShopActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ModifyPwdActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".MainTabActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".LaunchActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".AboutLosActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".UpdateApkVersionActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".LayerActivity" android:theme="@style/Transparent"/>
-        
-        
+        <activity android:name=".LinkShopActivity" android:screenOrientation="portrait" android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".ModifyPwdActivity" android:screenOrientation="portrait" android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".MainTabActivity" android:screenOrientation="portrait" android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".LaunchActivity" android:screenOrientation="portrait" android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".AboutLosActivity" android:screenOrientation="portrait" android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".UpdateApkVersionActivity" android:screenOrientation="portrait" android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".LayerActivity" android:theme="@style/Transparent" android:configChanges="orientation|keyboardHidden"/>
+        <service    
+            android:name=".service.HeartbeatService"    
+            android:label="QServer"    
+            android:persistent="true" >    
+            <intent-filter>    
+                <action android:name="HeartbeatService" />    
+            </intent-filter>    
+        </service>  
     </application>
 
 </manifest>

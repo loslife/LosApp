@@ -45,7 +45,6 @@ public class BaseActivity extends Activity
     public void onDestroy()
     {
         super.onDestroy();
-        ActivityControlUtil.remove(this);
     }
     
     /**

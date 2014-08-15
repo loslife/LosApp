@@ -121,7 +121,9 @@ public class Main extends BaseActivity {
 
 	@SuppressWarnings("deprecation")
 	public void onCreate(Bundle savedInstanceState) {
+		
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.main);
 		shopId = AppContext.getInstance(getBaseContext())
 				.getCurrentDisplayShopId();
@@ -134,7 +136,7 @@ public class Main extends BaseActivity {
 			Intent intent = new Intent(getBaseContext(), LayerActivity.class);  
 	        startActivity(intent); 
 		}
-
+       
 		initView();
 		initData();
 	}
@@ -146,6 +148,8 @@ public class Main extends BaseActivity {
 		if (null == shopId) {
 			shopId = "";
 		}
+		//查询店名
+		queiryTitleList();
 		if(AppContext.getInstance(getBaseContext()).isChangeShop())
 		{
 			initData();
@@ -633,6 +637,7 @@ public class Main extends BaseActivity {
 			list.setAdapter(listItemAdapter);
 		}
 	}
+	
 
 	public void initView() {
 
@@ -857,6 +862,8 @@ public class Main extends BaseActivity {
 	 * 获得数据
 	 */
 	private void getShowData() {
+		loading_begin.setVisibility(View.VISIBLE);
+		mainScrollLayout.setVisibility(View.GONE);
 		//服务业绩
 		getBizPerformanceData();
 	}
@@ -1190,23 +1197,9 @@ public class Main extends BaseActivity {
 		userAccount = AppContext.getInstance(getBaseContext()).getUserAccount();
 		shopname.setText(AppContext.getInstance(getBaseContext()).getShopName());
 		// 查询本地的关联数据
+		queiryTitleList();
 		List<MyShopBean> myshops = myshopService.queryShops();
-		if (myshops != null && myshops.size() > 0) {
-			loading_begin.setVisibility(View.VISIBLE);
-
-			title = new String[myshops.size()];
-			titleList = new String[myshops.size()];
-			shopIds = new String[myshops.size()];
-			for (int i = 0; i < myshops.size(); i++) {
-				title[i] = myshops.get(i).getEnterprise_name() == null ? "我的店铺"
-						: myshops.get(i).getEnterprise_name();
-				titleList[i] = myshops.get(i).getEnterprise_name() == null ? "• 我的店铺"
-						: "• " + myshops.get(i).getEnterprise_name();
-				shopIds[i] = myshops.get(i).getEnterprise_id();
-			}
-
-			shopId = AppContext.getInstance(getBaseContext())
-					.getCurrentDisplayShopId();
+		if (titleList != null && titleList.length > 0) {
 			getShowData();
 			select_shop.setVisibility(View.VISIBLE);
 			noshop.setVisibility(View.GONE);
@@ -1219,6 +1212,27 @@ public class Main extends BaseActivity {
 			shopname.setText("我的店铺");
 		}
 		
+	}
+	
+	public void queiryTitleList()
+	{
+		
+		List<MyShopBean> myshops = myshopService.queryShops();
+		if (myshops != null && myshops.size() > 0) {
+			title = new String[myshops.size()];
+			titleList = new String[myshops.size()];
+			shopIds = new String[myshops.size()];
+			for (int i = 0; i < myshops.size(); i++) {
+				title[i] = myshops.get(i).getEnterprise_name() == null ? "我的店铺"
+						: myshops.get(i).getEnterprise_name();
+				titleList[i] = myshops.get(i).getEnterprise_name() == null ? "• 我的店铺"
+						: "• " + myshops.get(i).getEnterprise_name();
+				shopIds[i] = myshops.get(i).getEnterprise_id();
+			}
+			shopname.setText(title[0]);
+			shopId = myshops.get(0).getEnterprise_id();
+			AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(shopId);
+		}
 	}
 
 	public void showPopupWindow(int x, int y) {

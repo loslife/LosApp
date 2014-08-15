@@ -18,7 +18,18 @@ public class FirstActivity extends BaseActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.first);
-		initView();
+		boolean isLogin = AppContext.getInstance(getBaseContext()).isLogin();
+		if(isLogin)
+		{
+			Intent loginIntent = new Intent();
+			loginIntent.setClass(getBaseContext(), LaunchActivity.class);
+			startActivity(loginIntent);
+		}
+		else
+		{
+			initView();	
+		}
+		
 	}
 	
 	private void initView()

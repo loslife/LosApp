@@ -144,8 +144,9 @@ public class MemberGoupActivity extends BaseActivity {
 				if(msg.what==2)
 				{
 					loading_begin.setVisibility(View.GONE);
-					seachmemberext.setText("");
 					getdata();
+					seachmemberext.setText("");
+					
 				}
 				
 				if(msg.what==3)
@@ -435,8 +436,8 @@ public class MemberGoupActivity extends BaseActivity {
 						: "• " + myshops.get(i).getEnterprise_name();
 				shopIds[i] = myshops.get(i).getEnterprise_id();
 			}
-			shopId = AppContext.getInstance(getBaseContext())
-					.getCurrentDisplayShopId();
+			shopId = myshops.get(0).getEnterprise_id();
+			shopname.setText(title[0]);
 			parentData = memberService.queryMembers(shopId);
 			membercount.setText("共有"+parentData.size()+"名会员");
 			select_shop.setVisibility(View.VISIBLE);

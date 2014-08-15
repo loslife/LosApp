@@ -104,7 +104,7 @@ public class PanelDountChart extends View {
 				if (i < 4) {
 					canvas.drawRect(new Rect(textX - 24, textY - 24, textX,
 							textY), PaintArc);
-					canvas.drawText(strPer[i] + " " + Float.toString(arrPer[i])
+					canvas.drawText("  "+strPer[i] + " " + Float.toString(arrPer[i])
 							+ "%", textX, textY, PaintLabel);
 				}
 

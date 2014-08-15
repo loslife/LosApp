@@ -242,13 +242,13 @@ public class LinkShopActivity extends BaseActivity
                       
                     @Override  
                     public void onClick(View v) {  
-                          
                         //警告框  
                         new AlertDialog.Builder(LinkShopActivity.this)  
                         .setTitle("解除关联")  
                         .setMessage("解除关联后，您将看不到<"+myshops.get(p).getEnterprise_name()+">的任何信息，是否解除？")  
                         .setPositiveButton("是", new DialogInterface.OnClickListener() {  
                             public void onClick(DialogInterface dialog, int which) {
+                            	button.setEnabled(false); 
                             	if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
             					{ 
                             		((ProgressBar)view.findViewById(R.id.listbar)).setVisibility(View.VISIBLE) ;
@@ -257,6 +257,7 @@ public class LinkShopActivity extends BaseActivity
                             	else
             					{
                             		UIHelper.ToastMessage(getBaseContext(), "网络连接不可用，请检查网络设置");
+                            		button.setEnabled(true);
             					}
                             }  
                         })  
@@ -326,13 +327,14 @@ public class LinkShopActivity extends BaseActivity
                       
                     @Override  
                     public void onClick(View v) {  
-                          
+                    	
                         //警告框  
                         new AlertDialog.Builder(LinkShopActivity.this)  
                         .setTitle("恢复关联")  
                         .setMessage("是否恢复对<"+myDisconnectShops.get(p).getEnterprise_name()+">的关联？")  
                         .setPositiveButton("是", new DialogInterface.OnClickListener() {  
                             public void onClick(DialogInterface dialog, int which) {
+                            	button.setEnabled(false); 
                             	if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
             					{ 
                             		isRecoveryLink = true;
@@ -347,6 +349,7 @@ public class LinkShopActivity extends BaseActivity
                             	else
                             	{
                             		UIHelper.ToastMessage(getBaseContext(), "网络连接不可用，请检查网络设置");
+                            		button.setEnabled(true);
                             	}
                             }  
                         })  
@@ -382,6 +385,7 @@ public class LinkShopActivity extends BaseActivity
 					UIHelper.ToastMessage(getBaseContext(), "关联成功");
 					phoneNum.setText("");
 					validatecode.setText("");
+					linkshopbtn.setEnabled(true);
 				}
 				if(msg.what==0)
 				{
@@ -389,6 +393,7 @@ public class LinkShopActivity extends BaseActivity
 					setShopListView();
 					setUnShopListView();
 					UIHelper.ToastMessage(getBaseContext(), StringUtils.errorcodeToString(OPRTATE_TYPE, errorCode));
+					linkshopbtn.setEnabled(true);
 				}
 			}
 		};
@@ -533,7 +538,7 @@ public class LinkShopActivity extends BaseActivity
 				{
 					UIHelper.ToastMessage(LinkShopActivity.this, "获取验证码失败");
 				}
-				reqValidatecode.setEnabled(true);
+				
 			}
 		};
 		new Thread()
@@ -574,8 +579,9 @@ public class LinkShopActivity extends BaseActivity
 				if(msg.what==0)
 				{
 					UIHelper.ToastMessage(getBaseContext(), StringUtils.errorcodeToString("checkValidatecode", errorCode));
+					linkshopbtn.setEnabled(true);
 				}
-				linkshopbtn.setEnabled(true);
+				
 				findViewById(R.id.linkbar).setVisibility(View.GONE) ;
 			}
 		};

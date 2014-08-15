@@ -484,8 +484,9 @@ public class RegisterActivity extends BaseActivity
 				if(msg.what==0)
 				{
 					UIHelper.ToastMessage(RegisterActivity.this, "获取验证码失败");
+					reqValidatecode.setEnabled(true);
 				}
-				reqValidatecode.setEnabled(true);
+				
 			}
 		};
 		new Thread()

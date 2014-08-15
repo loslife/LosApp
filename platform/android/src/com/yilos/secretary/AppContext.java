@@ -8,6 +8,8 @@ import com.yilos.secretary.bean.ServerVersionResponse;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 
 public class AppContext extends Application {
 	
@@ -33,6 +35,9 @@ public class AppContext extends Application {
 	
 	private boolean  isChangeShop;
 	
+	private static SharedPreferences preferences;  
+	
+	
 	@Override
 	public void onCreate() {
 		super.onCreate(); 
@@ -42,8 +47,8 @@ public class AppContext extends Application {
 	/**
 	 * 初始化
 	 */
-	private void init(){
-
+	private void init(){    
+		
 	}
 	
 	 public static synchronized AppContext getInstance(Context ctx)
@@ -52,6 +57,7 @@ public class AppContext extends Application {
 	        {
 	        	appContext = new AppContext();
 	        }
+	        preferences =ctx.getApplicationContext().getSharedPreferences("userinfo",0);  
 	        return appContext;
 	    }
 	
@@ -200,35 +206,52 @@ public class AppContext extends Application {
 	 * @return
 	 */
 	public boolean isLogin() {
+		login = preferences.getBoolean("islogin", false); 
 		return login;
 	}
 	
 	public void setLogin(boolean islogin) {
+		Editor edit=preferences.edit();  
+        edit.putBoolean("islogin", islogin);  
+        edit.commit();
 		this.login = islogin;
 	}
 
 	public String getDBName() {
+		DBName=preferences.getString("dBName", "");  
 		return DBName;
 	}
 
 	public void setDBName(String dBName) {
+		Editor edit=preferences.edit();  
+        edit.putString("dBName", dBName);  
+        edit.commit(); 
 		DBName = dBName;
 	}
 
-	public String getUserAccount() {
+	public String getUserAccount() {  
+		userAccount=preferences.getString("userAccount", "");  
 		return userAccount;
 	}
 
 	public void setUserAccount(String userAccount) {
 		this.userAccount = userAccount;
+		 Editor edit=preferences.edit();  
+         edit.putString("userAccount", userAccount);  
+         edit.commit(); 
 	}
 
 	public String getCurrentDisplayShopId() {
+		currentDisplayShopId=preferences.getString("shoip", "");  
 		return currentDisplayShopId;
 	}
 
 	public void setCurrentDisplayShopId(String currentDisplayShopId) {
 		this.currentDisplayShopId = currentDisplayShopId;
+		
+		 Editor edit=preferences.edit();  
+         edit.putString("shoip", currentDisplayShopId);  
+         edit.commit(); 
 	}
 
 	public String getContactLastSyncTime() {
@@ -252,6 +275,7 @@ public class AppContext extends Application {
 	}
 
 	public void setShopName(String shopName) {
+		
 		this.shopName = shopName;
 	}
 

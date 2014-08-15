@@ -14,9 +14,9 @@ public class MyShopDBManager {
 	private DatabaseHelper helper;  
     private SQLiteDatabase db;  
       
-    public MyShopDBManager(Context context) {  
-        helper = new DatabaseHelper(context);  
-        db = helper.getWritableDatabase();  
+    public MyShopDBManager(Context context) {
+    		 helper = new DatabaseHelper(context);  
+    	     db = helper.getWritableDatabase();   
     }  
       
     /** 
@@ -86,7 +86,8 @@ public class MyShopDBManager {
      */  
     public List<MyShopBean> queryLinkshop() {  
         ArrayList<MyShopBean> shops = new ArrayList<MyShopBean>();  
-        Cursor c = queryLinkRecords();  
+        Cursor c = queryLinkRecords();
+        System.out.println("");
         while (c.moveToNext()) {  
         	
         	MyShopBean shop = new MyShopBean();  
@@ -131,7 +132,7 @@ public class MyShopDBManager {
      * @return  Cursor 
      */  
     public Cursor queryLinkRecords() {  
-        Cursor c = db.rawQuery("SELECT * FROM t_myshops where display = 0", null);  
+        Cursor c = db.rawQuery("SELECT * FROM t_myshops where display = 0", null); 
         return c;  
     } 
     

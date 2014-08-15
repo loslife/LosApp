@@ -62,7 +62,10 @@ public class LaunchActivity extends BaseActivity {
 			
 			if (msg.what == 1) {
 				loading_begin.setVisibility(View.GONE);
-				UIHelper.ToastMessage(getBaseContext(), "登录成功");
+				if(!AppContext.getInstance(getBaseContext()).isLogin())
+				{
+					UIHelper.ToastMessage(getBaseContext(), "登录成功");
+				}
 				AppContext.getInstance(getBaseContext()).setLogin(true);
 				toMain();
 			}
