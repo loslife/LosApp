@@ -122,9 +122,10 @@ public class LinkShopActivity extends BaseActivity
 					else
 					{
 						UIHelper.ToastMessage(v.getContext(), "网络连接不可用，请检查网络设置");
+						reqValidatecode.setEnabled(true);
 					}
 				}
-				reqValidatecode.setEnabled(true);
+				
 			}
 		});
 		
@@ -154,7 +155,6 @@ public class LinkShopActivity extends BaseActivity
 						
 						//校验验证码
 						checkValidatecode(phoneNo,code);
-						
 					}
 					else
 					{
@@ -410,6 +410,13 @@ public class LinkShopActivity extends BaseActivity
 					myshop.setEnterprise_id(shopId);
 					myshop.setEnterprise_name(res.getResult().getEnterprise_name());
 					myshop.setEnterprise_account(shopAccount);
+					myshops = myshopService.queryShops();
+					if(myshops.size()==0)
+					{
+						AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(shopId);
+						AppContext.getInstance(getBaseContext()).setShopName(myshop.getEnterprise_name());
+						AppContext.getInstance(getBaseContext()).setChangeShop(true);
+					}
 					if(isRecoveryLink)
 					{
 						myshopService.modifyDisplay(shopId, "0");
@@ -419,17 +426,8 @@ public class LinkShopActivity extends BaseActivity
 					{
 						myshopService.addShop(myshop);	
 					}
-
-					if(AppContext.getInstance(getBaseContext()).getCurrentDisplayShopId()==null)
-					{
-						AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(shopId);
-						AppContext.getInstance(getBaseContext()).setChangeShop(true);
-					}
 					
-					if(AppContext.getInstance(getBaseContext()).getShopName()==null)
-					{
-						AppContext.getInstance(getBaseContext()).setShopName(myshop.getEnterprise_name());
-					}
+
 					msg.what = 1;
 				}
 				if(res.getCode()==1)
@@ -460,11 +458,18 @@ public class LinkShopActivity extends BaseActivity
 				    {
 				    	AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(null);
 				    	AppContext.getInstance(getBaseContext()).setChangeShop(true);
+				    	AppContext.getInstance(getBaseContext()).setShopName("我的店铺");
 				    }
 				    
 				    if(shopid.equals(AppContext.getInstance(getBaseContext()).getCurrentDisplayShopId()))
 				    {
+				    	AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(null);
 				    	AppContext.getInstance(getBaseContext()).setChangeShop(true);
+				    	if(myshops.size()>0)
+				    	{
+				    		AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(myshops.get(0).getEnterprise_id());
+					    	AppContext.getInstance(getBaseContext()).setShopName(myshops.get(0).getEnterprise_name());
+				    	}
 				    }
 				   
 				}

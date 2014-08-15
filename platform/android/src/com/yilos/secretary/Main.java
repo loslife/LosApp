@@ -26,7 +26,6 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -42,13 +41,11 @@ import com.yilos.secretary.bean.BizPerformanceBean;
 import com.yilos.secretary.bean.EmployeePerBean;
 import com.yilos.secretary.bean.MyShopBean;
 import com.yilos.secretary.bean.ServerManageResponse;
-import com.yilos.secretary.bean.ServerMemberResponse;
 import com.yilos.secretary.bean.ServicePerformanceBean;
 import com.yilos.secretary.common.DateUtil;
 import com.yilos.secretary.common.NetworkUtil;
 import com.yilos.secretary.common.ScrollLayout;
 import com.yilos.secretary.common.StringUtils;
-import com.yilos.secretary.common.UIHelper;
 import com.yilos.secretary.service.BizPerformanceService;
 import com.yilos.secretary.service.CustomerCountService;
 import com.yilos.secretary.service.EmployeePerService;
@@ -58,6 +55,7 @@ import com.yilos.secretary.service.ProductPerformanceService;
 public class Main extends BaseActivity {
 
 	private String shopId;
+	private String shoptitle;
 
 	private MyshopManageService myshopService;
 	private EmployeePerService employeePerService;
@@ -125,6 +123,15 @@ public class Main extends BaseActivity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.main);
+       
+		initView();
+		initData();
+	}
+
+	public void onResume() {
+		super.onResume();
+		
+		shoptitle = AppContext.getInstance(getBaseContext()).getShopName();
 		shopId = AppContext.getInstance(getBaseContext())
 				.getCurrentDisplayShopId();
 		if (null == shopId) {
@@ -135,18 +142,6 @@ public class Main extends BaseActivity {
 		{
 			Intent intent = new Intent(getBaseContext(), LayerActivity.class);  
 	        startActivity(intent); 
-		}
-       
-		initView();
-		initData();
-	}
-
-	public void onResume() {
-		super.onResume();
-		shopId = AppContext.getInstance(getBaseContext())
-				.getCurrentDisplayShopId();
-		if (null == shopId) {
-			shopId = "";
 		}
 		//查询店名
 		queiryTitleList();
@@ -382,8 +377,6 @@ public class Main extends BaseActivity {
 				annularLayout.addView(panelDountView);
 				
 				setButtonEnabled(true);
-				loading_begin.setVisibility(View.GONE);
-				mainScrollLayout.setVisibility(View.VISIBLE);
 			}
 
 			//员工业绩
@@ -425,8 +418,6 @@ public class Main extends BaseActivity {
 				((TextView) findViewById(R.id.employeetotal)).setText("￥"
 						+ total);
 				setButtonEnabled(true);
-				loading_begin.setVisibility(View.GONE);
-				mainScrollLayout.setVisibility(View.VISIBLE);
 			}
 
 			
@@ -531,8 +522,6 @@ public class Main extends BaseActivity {
 							.setVisibility(View.GONE);
 				}
 				setButtonEnabled(true);
-				loading_begin.setVisibility(View.GONE);
-				mainScrollLayout.setVisibility(View.VISIBLE);
 			}
 
 			//客流量
@@ -1199,13 +1188,14 @@ public class Main extends BaseActivity {
 		// 查询本地的关联数据
 		queiryTitleList();
 		List<MyShopBean> myshops = myshopService.queryShops();
-		if (titleList != null && titleList.length > 0) {
+		if (myshops != null && myshops.size() > 0) {
 			getShowData();
 			select_shop.setVisibility(View.VISIBLE);
 			noshop.setVisibility(View.GONE);
 			findViewById(R.id.date_header).setVisibility(View.VISIBLE);
 		} else {
 			select_shop.setVisibility(View.GONE);
+			loading_begin.setVisibility(View.GONE);
 			mainScrollLayout.setVisibility(View.GONE);
 			noshop.setVisibility(View.VISIBLE);
 			findViewById(R.id.date_header).setVisibility(View.GONE);
@@ -1229,9 +1219,7 @@ public class Main extends BaseActivity {
 						: "• " + myshops.get(i).getEnterprise_name();
 				shopIds[i] = myshops.get(i).getEnterprise_id();
 			}
-			shopname.setText(title[0]);
-			shopId = myshops.get(0).getEnterprise_id();
-			AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(shopId);
+			shopname.setText(shoptitle==null?"我的店铺":shoptitle);
 		}
 	}
 

@@ -5,13 +5,16 @@ import com.yilos.secretary.api.ApiClient;
 import com.yilos.secretary.bean.ServerManageResponse;
 import com.yilos.secretary.bean.ServerMemberResponse;
 import com.yilos.secretary.bean.ServerVersionResponse;
+import com.yilos.secretary.common.ActivityControlUtil;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
-public class AppContext extends Application {
+public class AppContext extends Application implements
+Thread.UncaughtExceptionHandler{
 	
 	private boolean login = false;	//登录状态
 	
@@ -42,6 +45,8 @@ public class AppContext extends Application {
 	public void onCreate() {
 		super.onCreate(); 
         init();
+        //设置Thread Exception Handler
+      	Thread.setDefaultUncaughtExceptionHandler(this);
 	}
 
 	/**
@@ -60,6 +65,17 @@ public class AppContext extends Application {
 	        preferences =ctx.getApplicationContext().getSharedPreferences("userinfo",0);  
 	        return appContext;
 	    }
+	 
+		public void uncaughtException(Thread thread, Throwable ex) {
+			//保存登出状态
+	    	AppContext.getInstance(getBaseContext()).setLogin(false);
+	        ActivityControlUtil.finishAllActivities();// finish所有Activity
+			System.exit(0);
+			Intent intent = new Intent(this, FirstActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+			Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
+		}
 	
 	/**
 	 * 登录验证

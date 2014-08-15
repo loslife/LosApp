@@ -68,9 +68,7 @@ public class ActivityControlUtil {
         {
             for (Activity activity : activityList)
             {
-
                 activity.finish();
-
             }
         }
 
