@@ -122,9 +122,10 @@ public class LinkShopActivity extends BaseActivity
 					else
 					{
 						UIHelper.ToastMessage(v.getContext(), "网络连接不可用，请检查网络设置");
+						reqValidatecode.setEnabled(true);
 					}
 				}
-				reqValidatecode.setEnabled(true);
+				
 			}
 		});
 		

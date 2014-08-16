@@ -436,8 +436,8 @@ public class MemberGoupActivity extends BaseActivity {
 						: "• " + myshops.get(i).getEnterprise_name();
 				shopIds[i] = myshops.get(i).getEnterprise_id();
 			}
-			shopId = myshops.get(0).getEnterprise_id();
-			shopname.setText(title[0]);
+			shopId = AppContext.getInstance(getBaseContext())
+					.getCurrentDisplayShopId();
 			parentData = memberService.queryMembers(shopId);
 			membercount.setText("共有"+parentData.size()+"名会员");
 			select_shop.setVisibility(View.VISIBLE);

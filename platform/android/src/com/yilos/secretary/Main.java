@@ -1229,8 +1229,8 @@ public class Main extends BaseActivity {
 						: "• " + myshops.get(i).getEnterprise_name();
 				shopIds[i] = myshops.get(i).getEnterprise_id();
 			}
-			shopname.setText(title[0]);
-			shopId = myshops.get(0).getEnterprise_id();
+			shopId = AppContext.getInstance(getBaseContext())
+					.getCurrentDisplayShopId();
 			AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(shopId);
 		}
 	}
