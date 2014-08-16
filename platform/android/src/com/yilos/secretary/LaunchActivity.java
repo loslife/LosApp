@@ -94,6 +94,8 @@ public class LaunchActivity extends BaseActivity {
 			else
 			{
 				UIHelper.ToastMessage(getBaseContext(), "网络链接不可用，初始化失败");
+			    Intent intent = new Intent(LaunchActivity.this, LoginActivity.class);
+	            startActivity(intent);
 			}
 
 	}

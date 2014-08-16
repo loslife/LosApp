@@ -5,13 +5,19 @@ import com.yilos.secretary.api.ApiClient;
 import com.yilos.secretary.bean.ServerManageResponse;
 import com.yilos.secretary.bean.ServerMemberResponse;
 import com.yilos.secretary.bean.ServerVersionResponse;
+import com.yilos.secretary.common.ActivityControlUtil;
+import com.yilos.secretary.common.UIHelper;
+import com.yilos.secretary.exception.CrashHandler;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.os.Looper;
+import android.widget.Toast;
 
-public class AppContext extends Application {
+public class AppContext extends Application{
 	
 	private boolean login = false;	//登录状态
 	
@@ -42,6 +48,11 @@ public class AppContext extends Application {
 	public void onCreate() {
 		super.onCreate(); 
         init();
+        //设置Thread Exception Handler
+      	//Thread.setDefaultUncaughtExceptionHandler(this);
+        
+        CrashHandler crashHandler = CrashHandler.getInstance();  
+        crashHandler.init(getApplicationContext()); 
 	}
 
 	/**
@@ -60,6 +71,21 @@ public class AppContext extends Application {
 	        preferences =ctx.getApplicationContext().getSharedPreferences("userinfo",0);  
 	        return appContext;
 	    }
+	 /*
+		public void uncaughtException(Thread thread, Throwable ex) {
+			//保存登出状态
+			handleException(ex);
+	    	AppContext.getInstance(getBaseContext()).setLogin(false);
+	        ActivityControlUtil.finishAllActivities();// finish所有Activity
+			System.exit(0);
+			Intent intent = new Intent(this, LoginActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+			Intent.FLAG_ACTIVITY_NEW_TASK);
+			intent.putExtra("exceptionLogout", "yes");
+			startActivity(intent);
+		}
+		*/
+		
 	
 	/**
 	 * 登录验证
@@ -255,27 +281,38 @@ public class AppContext extends Application {
 	}
 
 	public String getContactLastSyncTime() {
+		contactLastSyncTime=preferences.getString("contactLastSyncTime", "");
 		return contactLastSyncTime;
 	}
 
 	public void setContactLastSyncTime(String contactLastSyncTime) {
+		Editor edit=preferences.edit();  
+        edit.putString("contactLastSyncTime", contactLastSyncTime);  
+        edit.commit(); 
 		this.contactLastSyncTime = contactLastSyncTime;
 	}
 
 	public String getReportLastSyncTime() {
+		reportLastSyncTime=preferences.getString("reportLastSyncTime", "");
 		return reportLastSyncTime;
 	}
 
 	public void setReportLastSyncTime(String reportLastSyncTime) {
+		Editor edit=preferences.edit();  
+        edit.putString("reportLastSyncTime", reportLastSyncTime);  
+        edit.commit(); 
 		this.reportLastSyncTime = reportLastSyncTime;
 	}
 
 	public String getShopName() {
+		shopName=preferences.getString("shopName", "");
 		return shopName;
 	}
 
 	public void setShopName(String shopName) {
-		
+		Editor edit=preferences.edit();  
+        edit.putString("shopName", shopName);  
+        edit.commit(); 
 		this.shopName = shopName;
 	}
 

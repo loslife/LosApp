@@ -536,6 +536,7 @@ public class RegisterActivity extends BaseActivity
 				{
 					layout_getcode.setVisibility(View.VISIBLE);
 					layout_codetip.setVisibility(View.GONE);
+					reqValidatecode.setEnabled(true);
 				}
 				
 				timecount.setVisibility(View.GONE);

@@ -53,7 +53,7 @@ public class LoginActivity extends BaseActivity{
 		loginingbar = (ProgressBar)findViewById(R.id.loginingbar);
 		loginingbar.setVisibility(View.GONE);
 		shopName.setText("登录");
-		
+
 		findViewById(R.id.headmore).setVisibility(View.GONE);
 		
 		if(getIntent().getStringExtra("phoneNumber")!=null)

@@ -111,13 +111,13 @@ public class MemberGoupActivity extends BaseActivity {
 		setContentView(R.layout.mebersgroup);
 
 		memberService = new MemberService(getBaseContext());
-		shoptitle = AppContext.getInstance(getBaseContext()).getShopName();
-		shopId = AppContext.getInstance(getBaseContext())
-				.getCurrentDisplayShopId();
 	}
 
 	public void onResume() {
 		super.onResume();
+		shoptitle = AppContext.getInstance(getBaseContext()).getShopName();
+		shopId = AppContext.getInstance(getBaseContext())
+				.getCurrentDisplayShopId();
 		getdata();
 	}
 
@@ -436,8 +436,8 @@ public class MemberGoupActivity extends BaseActivity {
 						: "• " + myshops.get(i).getEnterprise_name();
 				shopIds[i] = myshops.get(i).getEnterprise_id();
 			}
-			shopId = AppContext.getInstance(getBaseContext())
-					.getCurrentDisplayShopId();
+
+			shopname.setText(shoptitle==null?"我的店铺":shoptitle);
 			parentData = memberService.queryMembers(shopId);
 			membercount.setText("共有"+parentData.size()+"名会员");
 			select_shop.setVisibility(View.VISIBLE);
@@ -579,6 +579,7 @@ public class MemberGoupActivity extends BaseActivity {
 				AppContext.getInstance(getBaseContext()).setChangeShop(true);
 				shopId = shopIds[arg2];
 				parentData = memberService.queryMembers(shopIds[arg2]);
+				membercount.setText("共有"+parentData.size()+"名会员");
 				initView();
 				popupWindow.dismiss();
 				popupWindow = null;

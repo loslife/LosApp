@@ -1,6 +1,7 @@
 package com.yilos.secretary;
 
 import com.yilos.secretary.R;
+import com.yilos.secretary.common.UIHelper;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ public class FirstActivity extends BaseActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.first);
+		
 		boolean isLogin = AppContext.getInstance(getBaseContext()).isLogin();
 		if(isLogin)
 		{

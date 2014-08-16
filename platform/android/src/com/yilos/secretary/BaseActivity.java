@@ -73,16 +73,18 @@ public class BaseActivity extends Activity
         } 
     	else
     	{
-    		lgout();
+    		logout();
     	}
     }
     
-    public void lgout()
+    public void logout()
     {
     	//保存登出状态
     	AppContext.getInstance(getBaseContext()).setLogin(false);
         ActivityControlUtil.finishAllActivities();// finish所有Activity
-        System.exit(0);
+        Intent logout = new Intent();
+        logout.setClass(getBaseContext(), FirstActivity.class);
+		startActivity(logout);
     }
 
 }

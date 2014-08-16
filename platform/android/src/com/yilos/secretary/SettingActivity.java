@@ -173,7 +173,7 @@ public class SettingActivity extends BaseActivity {
                 .setMessage("退出不删除任何历史数据，下次登陆仍然可以使用本账号（"+AppContext.getInstance(getBaseContext()).getUserAccount()+"）。")  
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {  
                     public void onClick(DialogInterface dialog, int which) {
-                    	lgout();
+                    	logout();
                     }  
                 })  
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {    
