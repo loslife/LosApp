@@ -9,7 +9,7 @@
         android:layout_height="36.0dip"
         android:layout_gravity="center"
         android:gravity="center_vertical"
-        android:ellipsize="middle"
+        android:ellipsize="end"
         android:singleLine="true"
         android:textColor="@color/blue_text"
         android:textSize="16sp" />

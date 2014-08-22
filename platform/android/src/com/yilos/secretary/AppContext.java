@@ -51,8 +51,8 @@ public class AppContext extends Application{
         //设置Thread Exception Handler
       	//Thread.setDefaultUncaughtExceptionHandler(this);
         
-        CrashHandler crashHandler = CrashHandler.getInstance();  
-        crashHandler.init(getApplicationContext()); 
+        /*CrashHandler crashHandler = CrashHandler.getInstance();  
+        crashHandler.init(getApplicationContext()); */
 	}
 
 	/**
@@ -325,10 +325,14 @@ public class AppContext extends Application{
 	}
 
 	public boolean isChangeShop() {
+		isChangeShop = preferences.getBoolean("isChangeShop", false); 
 		return isChangeShop;
 	}
 
 	public void setChangeShop(boolean isChangeShop) {
+		Editor edit=preferences.edit();  
+        edit.putBoolean("isChangeShop", isChangeShop);  
+        edit.commit();
 		this.isChangeShop = isChangeShop;
 	}
 	

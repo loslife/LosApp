@@ -34,9 +34,7 @@ public class MainTabActivity extends TabActivity implements OnCheckedChangeListe
         this.mainIntent = new Intent(this,Main.class);
         this.concactsIntent = new Intent(this,MemberGoupActivity.class); 
         this.settingCIntent = new Intent(this,SettingActivity.class);
-        AppContext.getInstance(getBaseContext()).setShopName(getIntent().getStringExtra("shopName"));
-       
-          
+
         ((RadioButton)findViewById(R.id.contacts)).setOnCheckedChangeListener(this);  
         ((RadioButton) findViewById(R.id.setting)).setOnCheckedChangeListener(this);  
         ((RadioButton) findViewById(R.id.operate)).setOnCheckedChangeListener(this);

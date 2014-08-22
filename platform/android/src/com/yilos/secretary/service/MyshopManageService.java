@@ -56,6 +56,11 @@ public class MyshopManageService {
 		return myShopDB.queryUnLinkshop();
 	}
 	
+	public List<MyShopBean> getAllLinkshop()
+	{
+		return myShopDB.queryAllLinkshop();
+	}
+	
 	public void modifyDisplay(String shopId,String disFlag)
 	{
 		myShopDB.updateDisplay(shopId, disFlag);

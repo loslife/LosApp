@@ -6,7 +6,7 @@ import android.os.Environment;
 
 public class Constants 
 {
-	public static final String SERVICE_IP = "www.yilos.com"; //"121.40.75.73";//"www.yilos.com";
+	public static final String SERVICE_IP = "112.124.28.115"; //"112.124.28.115";//"www.yilos.com";
 	
 	public static final String HTTPS_SERVICE_ADDRESS = "https://" + SERVICE_IP
 			+ "/svc/";
@@ -15,7 +15,7 @@ public class Constants
 	
 	public static final String YILOS_SDPATH = SD_PATH+File.separator+"yilos/losapp/";
 	
-	public static final String YILOS_NAILSHOP_LOGPATH = SD_PATH+File.separator+"yilos/nailshop/log/";
+	public static final String YILOS_NAILSHOP_LOGPATH = YILOS_SDPATH+"/log/";
 	
 	public static final long ONE_MB_SIZE = 1024L * 1024;
 	

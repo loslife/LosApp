@@ -8,9 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -46,6 +44,7 @@ import com.yilos.secretary.common.DateUtil;
 import com.yilos.secretary.common.NetworkUtil;
 import com.yilos.secretary.common.ScrollLayout;
 import com.yilos.secretary.common.StringUtils;
+import com.yilos.secretary.common.UIHelper;
 import com.yilos.secretary.service.BizPerformanceService;
 import com.yilos.secretary.service.CustomerCountService;
 import com.yilos.secretary.service.EmployeePerService;
@@ -99,6 +98,8 @@ public class Main extends BaseActivity {
 
 	public static final int WIDTH = 280;
 	public static final int HEIGHT = 250;
+	//获取4张报表，等于4则表示已全部获取
+	public static  int GETDATA_COUNT = 0;
 
 	private PanelBar view;
 	private LinearLayout columnarLayout;
@@ -136,6 +137,10 @@ public class Main extends BaseActivity {
 		}
 		initView();
 		initData();
+		if (NetworkUtil.checkNetworkIsOk(getBaseContext()) == NetworkUtil.NONE) 
+		{
+			UIHelper.ToastMessage(getBaseContext(), "网络连接不可用，请检查网络");
+		}
 	}
 
 	public void onResume() {
@@ -163,9 +168,8 @@ public class Main extends BaseActivity {
 			
 			//服务业绩
 			if (msg.what == 1) {
-				//员工业绩
-				getEmployeePerData();
 				
+				++GETDATA_COUNT;
 				float newcard = 0.0f;
 				float recharge = 0.0f;
 				float service = 0.0f;
@@ -386,10 +390,7 @@ public class Main extends BaseActivity {
 
 			//员工业绩
 			if (msg.what == 2) {
-				
-				//卖品业绩
-				getServicePerformanceData();
-				
+				++GETDATA_COUNT;
 				String[] num = new String[employPerList.size()];
 				String[] name = new String[employPerList.size()];
 				float total = 0.0f;
@@ -429,8 +430,7 @@ public class Main extends BaseActivity {
 
 			//卖品业绩
 			if (msg.what == 3) {
-				//客流量
-				getBcustomerCount();
+				++GETDATA_COUNT;
 				float total = 0.0f;
 				List<String> cateNameList = new ArrayList<String>();
 				List<Float> cateTotalList = new ArrayList<Float>();
@@ -468,7 +468,6 @@ public class Main extends BaseActivity {
 								projectName[i] = percentNum[i]+"|"+cateNameList.get(i);
 							}
 						}
-
 				}
 				if(length>0)
 				{
@@ -531,6 +530,7 @@ public class Main extends BaseActivity {
 
 			//客流量
 			if (msg.what == 4) {
+				++GETDATA_COUNT;
 				DateUtil dateUtil = new DateUtil();
 				String[] yNum = dateUtil.getDayarr(year, month, dateType);
 				int walkinCount = 0;
@@ -590,6 +590,62 @@ public class Main extends BaseActivity {
 				setButtonEnabled(true);
 				loading_begin.setVisibility(View.GONE);
 				mainScrollLayout.setVisibility(View.VISIBLE);
+				
+			}
+			//将数据入库
+			if(GETDATA_COUNT==4)
+			{
+				
+				//保存服务业绩
+				bizPerformanceService.deltel(year,
+						(Integer.valueOf(month) - 1) + "", day,
+						dateType, "biz_performance_"+dateType);
+
+				if(prevBizPerformance.get_id()!=null)
+				{
+					bizPerformanceService.deltel(prevBizPerformance.getYear(),
+							prevBizPerformance.getMonth(), prevBizPerformance.getDay(), dateType, "biz_performance_"+dateType);
+				}
+				
+				
+				bizPerformanceService.addBizPerformance(bizPerformance,
+						"biz_performance_"+dateType);
+				bizPerformanceService.addBizPerformance(
+						prevBizPerformance, "biz_performance_"+dateType);
+				
+				//保存员工
+				employeePerService.deltel(year,
+						(Integer.valueOf(month) - 1) + "", day,
+						dateType, "employee_performance_"+dateType);
+
+				employeePerService.addEmployeePer(employPerList,
+						"employee_performance_"+dateType);
+				
+				//保存卖品
+				productPerformanceService.deltel(year,
+						(Integer.valueOf(month) - 1) + "", day,
+						dateType, "service_performance_"+dateType);
+				productPerformanceService.addProductPerformance(
+						servicePerformanceList, "service_performance_"+dateType);
+				
+				//保存客流量
+				customerCountService.deltel(year,
+						(Integer.valueOf(month) - 1) + "", day,
+						dateType, "customer_count_"+dateType);
+				customerCountService.addCustomerCount(
+						customerCountList, "customer_count_"+dateType);
+				
+				//保存完成后，赋值0
+				GETDATA_COUNT = 0;
+				
+				if ("日".equals(timetype.getText().toString())) 
+				{
+					//设置客流量的滚动条
+					charscrollview = (ScrollView)findViewById(R.id.charscrollview);
+					DisplayMetrics dm = getResources().getDisplayMetrics();
+					charscrollview.smoothScrollTo(dm.widthPixels, (dm.widthPixels-200)*2+60-(dm.widthPixels-200)/6);	
+				}
+				
 			}
 		}
 	};
@@ -860,6 +916,12 @@ public class Main extends BaseActivity {
 		mainScrollLayout.setVisibility(View.GONE);
 		//服务业绩
 		getBizPerformanceData();
+		//员工业绩
+		getEmployeePerData();
+		//卖品业绩
+		getServicePerformanceData();
+		//客流量
+		getBcustomerCount();
 	}
 
 	/**
@@ -892,12 +954,7 @@ public class Main extends BaseActivity {
 						}
 						// employeePerService.deltel(year, month, day, dateType,
 						// tableName);
-						employeePerService.deltel(year,
-								(Integer.valueOf(month) - 1) + "", day,
-								dateType, tableName);
-
-						employeePerService.addEmployeePer(employPerList,
-								tableName);
+						
 						msg.what = 2;
 						handle.sendMessage(msg);
 					}
@@ -966,22 +1023,7 @@ public class Main extends BaseActivity {
 						}
 						// employeePerService.deltel(year, month, day, dateType,
 						// tableName);
-						int delprevMonth = Integer.valueOf(month) - 2;
-						int delpevYear = Integer.valueOf(year);
-						if (delprevMonth == -1) {
-							delprevMonth = 12;
-							delpevYear = Integer.valueOf(year) - 1;
-						}
-
-						bizPerformanceService.deltel(year,
-								(Integer.valueOf(month) - 1) + "", day,
-								dateType, tableName);
-						bizPerformanceService.deltel(delpevYear + "",
-								delprevMonth + "", day, dateType, tableName);
-						bizPerformanceService.addBizPerformance(bizPerformance,
-								tableName);
-						bizPerformanceService.addBizPerformance(
-								prevBizPerformance, tableName);
+						
 						msg.what = 1;
 						handle.sendMessage(msg);
 					}
@@ -1030,6 +1072,7 @@ public class Main extends BaseActivity {
 			}
 			else
 			{
+				bizPerformance = new BizPerformanceBean(); 
 				bizPerformance.setTotal("0.0");
 			}
 			if (prevPerformanceList.size() > 0) {
@@ -1037,6 +1080,7 @@ public class Main extends BaseActivity {
 			}
 			else
 			{
+				prevBizPerformance = new BizPerformanceBean(); 
 				prevBizPerformance.setTotal("0.0");
 			}
 
@@ -1050,9 +1094,7 @@ public class Main extends BaseActivity {
 	 * 产品业绩
 	 */
 	public void getServicePerformanceData() {
-		System.out.println("NetworkUtil    START: ");
 		if (NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE) {
-	    System.out.println("NetworkUtil    END: ");
 			new Thread() {
 				public void run() {
 					AppContext ac = (AppContext) getApplication();
@@ -1061,10 +1103,8 @@ public class Main extends BaseActivity {
 					// ServerManageResponse res = ac.getReportsData(shopId,
 					// year,
 					// month, dateType, day,"employee");
-					System.out.println("GETDATA    START: ");
 					ServerManageResponse res = ac.getReportsData(shopId, year,
 							month, dateType, day, "service");
-					System.out.println("GETDATA    END: ");
 					if (res.isSucess()) {
 
 						String tableName = "service_performance_day";
@@ -1086,13 +1126,7 @@ public class Main extends BaseActivity {
 						}
 						// employeePerService.deltel(year, month, day, dateType,
 						// tableName);
-						System.out.println("SQL    START: ");
-						productPerformanceService.deltel(year,
-								(Integer.valueOf(month) - 1) + "", day,
-								dateType, tableName);
-						System.out.println("SQL    END: ");
-						productPerformanceService.addProductPerformance(
-								servicePerformanceList, tableName);
+						
 						msg.what = 3;
 						handle.sendMessage(msg);
 					}
@@ -1151,11 +1185,7 @@ public class Main extends BaseActivity {
 						}
 						// employeePerService.deltel(year, month, day, dateType,
 						// tableName);
-						customerCountService.deltel(year,
-								(Integer.valueOf(month) - 1) + "", day,
-								dateType, tableName);
-						customerCountService.addCustomerCount(
-								customerCountList, tableName);
+						
 						msg.what = 4;
 						handle.sendMessage(msg);
 					}
@@ -1266,7 +1296,7 @@ public class Main extends BaseActivity {
 		});
 		popupWindow.setBackgroundDrawable(new BitmapDrawable());
 		popupWindow
-				.setWidth(getWindowManager().getDefaultDisplay().getWidth() / 3);
+				.setWidth(getWindowManager().getDefaultDisplay().getWidth()*2/ 5);
 		if(title.length <5)
 		{
 			popupWindow.setHeight(title.length * (getWindowManager().getDefaultDisplay().getWidth() / 10)+10);

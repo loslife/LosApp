@@ -281,7 +281,7 @@ public class StringUtils {
 	
 	public static String errorcodeToString(String oprateType,String errorCode)
 	{
-		String errorInfo = "";
+		String errorInfo = "操作失败";
 		if("linkshop".equals(oprateType))
 		{
 			if("501".equals(errorCode))

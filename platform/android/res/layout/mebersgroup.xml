@@ -80,7 +80,7 @@
                 android:layout_height="36.0dip"
                 android:gravity="center"
                 android:textColor="@color/gray_text"
-                android:textSize="16.0dip" />
+                android:textSize="@dimen/Text_size_m" />
             </LinearLayout>
         </RelativeLayout>
         

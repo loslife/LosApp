@@ -160,5 +160,28 @@ public class MemberBean  implements Serializable
 		this.entity_id = entity_id;
 	}
 
+	@Override
+	public String toString() {
+		return "MemberBean [id=" + id + ", name=" + name + ", enterprise_id="
+				+ enterprise_id + ", create_date=" + create_date
+				+ ", modify_date=" + modify_date + ", latestConsumeTime="
+				+ latestConsumeTime + ", birthday=" + birthday
+				+ ", totalConsume=" + totalConsume + ", memberNo=" + memberNo
+				+ ", joinDate=" + joinDate + ", phoneMobile=" + phoneMobile
+				+ ", averageConsume=" + averageConsume + ", cardStr=" + cardStr
+				+ ", sex=" + sex + ", entity_id=" + entity_id + "]";
+	}
+
+	public boolean equals(Object o){  
+        if (this==o) return true;  
+        if (!(o instanceof MemberBean)) return false;  
+        final MemberBean other = (MemberBean)o;  
+          
+        if(this.toString().equals(other.toString()))  
+            return true;  
+        else  
+            return false;  
+          
+    }
 	
 }

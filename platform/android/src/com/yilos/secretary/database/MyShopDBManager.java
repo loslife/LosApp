@@ -80,14 +80,10 @@ public class MyShopDBManager {
         db.delete("t_myshops", "id = ?", new String[]{String.valueOf(shop.getId())});  
     }  
       
-    /** 
-     * query all persons
-     * @return List<MemberBean> 
-     */  
+
     public List<MyShopBean> queryLinkshop() {  
         ArrayList<MyShopBean> shops = new ArrayList<MyShopBean>();  
         Cursor c = queryLinkRecords();
-        System.out.println("");
         while (c.moveToNext()) {  
         	
         	MyShopBean shop = new MyShopBean();  
@@ -126,6 +122,27 @@ public class MyShopDBManager {
         c.close();  
         return shops;  
     }  
+    
+    public List<MyShopBean> queryAllLinkshop() {  
+        ArrayList<MyShopBean> shops = new ArrayList<MyShopBean>();  
+        Cursor c = queryAllRecords();
+        while (c.moveToNext()) {  
+        	
+        	MyShopBean shop = new MyShopBean();  
+        	shop.setId(c.getInt(c.getColumnIndex("id")));  
+        	shop.setEnterprise_name(c.getString(c.getColumnIndex("enterprise_name")));  
+        	shop.setEnterprise_id(c.getString(c.getColumnIndex("enterprise_id")));
+        	shop.setCreate_date(c.getString(c.getColumnIndex("create_date")));
+        	shop.setOrder(c.getInt(c.getColumnIndex("order_number")));
+        	shop.setContactSyncTime(c.getString(c.getColumnIndex("contact_latest_sync")));
+        	shop.setReportSyncTime(c.getString(c.getColumnIndex("report_latest_sync")));
+        	shop.setEnterprise_account(c.getString(c.getColumnIndex("enterprise_account")));
+        	
+        	shops.add(shop);  
+        }  
+        c.close();  
+        return shops;  
+    }  
       
     /** 
      * query member
@@ -138,6 +155,11 @@ public class MyShopDBManager {
     
     public Cursor queryUnLinkRecords() {  
         Cursor c = db.rawQuery("SELECT * FROM t_myshops where display = 1", null);  
+        return c;  
+    }
+    
+    public Cursor queryAllRecords() {  
+        Cursor c = db.rawQuery("SELECT * FROM t_myshops", null);  
         return c;  
     }
       

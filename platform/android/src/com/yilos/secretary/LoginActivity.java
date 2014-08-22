@@ -159,6 +159,7 @@ public class LoginActivity extends BaseActivity{
 					AppContext.getInstance(getBaseContext()).setUserAccount(userName);
 					//跳转到主界面
 					Intent main = new Intent();
+					main.putExtra("forwardClass", "LoginActivity");
 					main.setClass(LoginActivity.this, LaunchActivity.class);
 					startActivity(main);
 				}

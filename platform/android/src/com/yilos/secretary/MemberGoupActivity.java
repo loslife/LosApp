@@ -109,12 +109,12 @@ public class MemberGoupActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.mebersgroup);
-
 		memberService = new MemberService(getBaseContext());
 	}
 
 	public void onResume() {
 		super.onResume();
+		
 		shoptitle = AppContext.getInstance(getBaseContext()).getShopName();
 		shopId = AppContext.getInstance(getBaseContext())
 				.getCurrentDisplayShopId();
@@ -129,16 +129,28 @@ public class MemberGoupActivity extends BaseActivity {
 				{
 					String memberLoadInfo = "本店共有"+count+"位会员，正在努力为你加载中...";
 					loadcountinfo.setText(memberLoadInfo);
-					if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
+					
+					if("0".equals(count))
 					{
-					   getMemberContact(shopId,"0");
+						UIHelper.ToastMessage(getBaseContext(), "该店铺还未有会员");
+						loading_begin.setVisibility(View.GONE);
+						layout_loadingmember.setVisibility(View.VISIBLE);
 					}
 					else
 					{
-						//加载失败检查网络
-						layout_loadingfail.setVisibility(View.VISIBLE);
-						loading_begin.setVisibility(View.GONE);
+						if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
+						{
+						   getMemberContact(shopId,"0");
+						}
+						else
+						{
+							//加载失败检查网络
+							layout_loadingfail.setVisibility(View.VISIBLE);
+							loading_begin.setVisibility(View.GONE);
+						}
 					}
+					
+					
 				}
 				
 				if(msg.what==2)
@@ -377,6 +389,7 @@ public class MemberGoupActivity extends BaseActivity {
 			seach_layout.setVisibility(View.GONE);
 			seachmemberext.requestFocus();
 			((InputMethodManager)getSystemService(INPUT_METHOD_SERVICE)).toggleSoftInput(0,InputMethodManager.HIDE_NOT_ALWAYS);
+			seachmemberext.setHint("共有"+parentData.size()+"名会员");
 		}
 	   });
        
@@ -438,9 +451,13 @@ public class MemberGoupActivity extends BaseActivity {
 			}
 
 			shopname.setText(shoptitle==null?"我的店铺":shoptitle);
-			parentData = memberService.queryMembers(shopId);
-			membercount.setText("共有"+parentData.size()+"名会员");
 			select_shop.setVisibility(View.VISIBLE);
+			if(!parentData.equals(memberService.queryMembers(shopId)))
+			{
+				 parentData = memberService.queryMembers(shopId);
+			     initView();  
+			}
+			membercount.setText("共有"+parentData.size()+"名会员");
 		}
 		else
 		{
@@ -451,8 +468,8 @@ public class MemberGoupActivity extends BaseActivity {
 			parentData = null;
 			shopId ="";
 		}
-
-		initView();
+   
+		
 	}
 	
 

@@ -158,7 +158,7 @@
         android:layout_gravity="center_horizontal"
         android:background="@drawable/login_btn"
         android:gravity="center"
-        android:text="下一步,设置密码"
+        android:text="下一步，设置密码"
         android:textSize="@dimen/Text_size_m"
         android:textColor="@color/white" />
     </RelativeLayout>

@@ -37,29 +37,25 @@ public class LaunchActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.launch);
 		loading_begin = (LinearLayout) findViewById(R.id.loading_begin);
-		Handler x = new Handler();// 定义一个handle对象
 		userAccount = AppContext.getInstance(getBaseContext()).getUserAccount();
-		loading_begin.setVisibility(View.VISIBLE);
-		initdata(); 
+		
+		if("LoginActivity".equals(getIntent().getStringExtra("forwardClass")))
+		{
+			loading_begin.setVisibility(View.VISIBLE);
+			initdata(); 
+		}
+		else
+		{
+			 Intent intent = new Intent(LaunchActivity.this, MainTabActivity.class);
+	         startActivity(intent);
+		}
+		
 	}
 
 	final Handler handle = new Handler() {
 		
 		public void handleMessage(Message msg) {
-			
-			boolean isLogin = AppContext.getInstance(getBaseContext()).isLogin();
-			if(isLogin)
-			{
-				toMain();
-				loading_begin.setVisibility(View.GONE);
-			}
-			else
-			{
-				// 未登录，跳转到登录页面
-                Intent intent = new Intent(LaunchActivity.this, LoginActivity.class);
-                startActivity(intent);
-			}
-			
+
 			if (msg.what == 1) {
 				loading_begin.setVisibility(View.GONE);
 				if(!AppContext.getInstance(getBaseContext()).isLogin())
@@ -67,6 +63,7 @@ public class LaunchActivity extends BaseActivity {
 					UIHelper.ToastMessage(getBaseContext(), "登录成功");
 				}
 				AppContext.getInstance(getBaseContext()).setLogin(true);
+				AppContext.getInstance(getBaseContext()).setChangeShop(true);
 				toMain();
 			}
 			if (msg.what == 0) {
@@ -123,7 +120,7 @@ public class LaunchActivity extends BaseActivity {
 				ServerMemberResponse res = ac.getMyshopList(userAccount);
 				if (res.isSucess()) {
 					
-					myshops = myshopService.queryShops();
+					myshops = myshopService.getAllLinkshop();
 
 						for(int i =0;i<res.getResult().getMyShopList().size();i++)
 						{
@@ -150,11 +147,13 @@ public class LaunchActivity extends BaseActivity {
 									shopId);
 							last_sync = myshops.get(0).getContactSyncTime();
 							AppContext.getInstance(getBaseContext()).setContactLastSyncTime(last_sync);
-							shopName = myshops.get(0).getEnterprise_name();
+							shopName = myshops.get(0).getEnterprise_name()==null?"我的店铺":myshops.get(0).getEnterprise_name();
+							AppContext.getInstance(getBaseContext()).setShopName(shopName);
 						}
 						else
 						{
-							shopName ="";
+							shopName ="我的店铺";
+							AppContext.getInstance(getBaseContext()).setShopName(shopName);
 						}
 
 					msg.what = 1;

@@ -339,6 +339,7 @@ public class LinkShopActivity extends BaseActivity
                             	if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
             					{ 
                             		isRecoveryLink = true;
+                            		shopId = myDisconnectShops.get(p).getEnterprise_id();
                                 	((ProgressBar)view.findViewById(R.id.listbar)).setVisibility(View.VISIBLE) ;
                                 	linkShop(AppContext.getInstance(getBaseContext()).getUserAccount(), myDisconnectShops.get(p).getEnterprise_account());
                                 	if(AppContext.getInstance(getBaseContext()).getCurrentDisplayShopId()==null)
@@ -428,13 +429,28 @@ public class LinkShopActivity extends BaseActivity
 						myshopService.addShop(myshop);	
 					}
 					
-
 					msg.what = 1;
 				}
 				if(res.getCode()==1)
-				{
-					msg.what = 0;
+				{	
 					errorCode = res.getResult().getErrorCode();
+					if("503".equals(errorCode)&&isRecoveryLink)
+					{
+						myshopService.modifyDisplay(shopId, "0");
+						isRecoveryLink = false;
+						myshops = myshopService.queryShops();
+						if(myshops.size()==0)
+						{
+							AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(shopId);
+							AppContext.getInstance(getBaseContext()).setShopName(res.getResult().getEnterprise_name());
+							AppContext.getInstance(getBaseContext()).setChangeShop(true);
+						}
+						msg.what = 1;
+					}
+					else
+					{
+						msg.what = 0;
+					}
 				} 
 				handle.sendMessage(msg);
 			}
@@ -495,8 +511,14 @@ public class LinkShopActivity extends BaseActivity
 				}
 				if(res.getCode()==1)
 				{
-					msg.what = 0;
 					errorCode = res.getResult().getErrorCode();
+					if("501".equals(errorCode))
+					{
+						msg.what = 1;
+					}else
+					{
+						msg.what = 0;
+					}
 				}
 				handle.sendMessage(msg);
 			}

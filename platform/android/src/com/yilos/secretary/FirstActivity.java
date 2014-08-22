@@ -25,6 +25,7 @@ public class FirstActivity extends BaseActivity
 		{
 			Intent loginIntent = new Intent();
 			loginIntent.setClass(getBaseContext(), LaunchActivity.class);
+			loginIntent.putExtra("forwardClass", "FirstActivity");
 			startActivity(loginIntent);
 		}
 		else
