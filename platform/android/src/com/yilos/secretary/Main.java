@@ -117,6 +117,17 @@ public class Main extends BaseActivity {
 	private String day;
 
 	private String month;
+	
+	 /*private class InitdataThread extends Thread {  
+         
+	        @Override  
+	        public void run() {  
+	        	initData(); 
+	        } 
+	    };  */
+	  
+	//用来登录的线程  
+	//private InitdataThread initdataThread = new InitdataThread();  
 
 	@SuppressWarnings("deprecation")
 	public void onCreate(Bundle savedInstanceState) {
@@ -124,8 +135,20 @@ public class Main extends BaseActivity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.main);
+		
 		shopId = AppContext.getInstance(getBaseContext())
 				.getCurrentDisplayShopId();
+		myshopService = new MyshopManageService(getBaseContext());
+		employeePerService = new EmployeePerService(getBaseContext());
+		productPerformanceService = new ProductPerformanceService(
+				getBaseContext());
+		bizPerformanceService = new BizPerformanceService(getBaseContext());
+		customerCountService = new CustomerCountService(getBaseContext());
+		userAccount = AppContext.getInstance(getBaseContext()).getUserAccount();
+		
+		//进程被杀后，需要重新加载
+		AppContext.getInstance(getBaseContext()).setChangeShop(true);
+		
 		if (null == shopId) {
 			shopId = "";
 		}
@@ -135,12 +158,9 @@ public class Main extends BaseActivity {
 			Intent intent = new Intent(getBaseContext(), LayerActivity.class);  
 	        startActivity(intent); 
 		}
+
 		initView();
-		initData();
-		if (NetworkUtil.checkNetworkIsOk(getBaseContext()) == NetworkUtil.NONE) 
-		{
-			UIHelper.ToastMessage(getBaseContext(), "网络连接不可用，请检查网络");
-		}
+		getlocalData();
 	}
 
 	public void onResume() {
@@ -152,16 +172,15 @@ public class Main extends BaseActivity {
 		if (null == shopId) {
 			shopId = "";
 		}
-
-		//查询店名
-		queiryTitleList();
 		if(AppContext.getInstance(getBaseContext()).isChangeShop())
 		{
-			initData();
+			//initdataThread.start();
+			initData(); 
 			AppContext.getInstance(getBaseContext()).setChangeShop(false);
 		}
-		
 	}
+	
+	
 
 	Handler handle = new Handler() {
 		public void handleMessage(Message msg) {
@@ -404,7 +423,7 @@ public class Main extends BaseActivity {
 					num[i] = totalnum + "|"
 							+ employPerList.get(i).getEmployee_name();
 					;
-					total += Float.valueOf(employPerList.get(i).getTotal());
+					total += Float.valueOf(employPerList.get(i).getTotal()==null?"0.0":employPerList.get(i).getTotal());
 				}
 				String[] numSort = new String[employPerList.size()];
 				numSort = StringUtils.bubbleSort(num);
@@ -417,7 +436,7 @@ public class Main extends BaseActivity {
 
 				columnarLayout = (LinearLayout) findViewById(R.id.columnarLayout);
 				columnarLayout.removeAllViews();
-				view = new PanelBar(getBaseContext(), num, name);
+				PanelBar view = new PanelBar(getBaseContext(), num, name);
 				columnarLayout.addView(view);
 
 				total = (float) (Math.round(total * 10)) / 10;
@@ -710,6 +729,9 @@ public class Main extends BaseActivity {
 		showTime.setText(getDateNow());
 		select_shop.setTag(R.drawable.select_shop);
 		
+		((LinearLayout) findViewById(R.id.business_empty))
+		.setVisibility(View.VISIBLE);
+		
 		findViewById(R.id.goback).setVisibility(View.GONE);
 
 		customs_refresh.setOnClickListener(new OnClickListener() {
@@ -809,8 +831,6 @@ public class Main extends BaseActivity {
 					timetype.setText("日");
 					showTime.setText(getDateNow());
 				}
-				loading_begin.setVisibility(View.VISIBLE);
-				mainScrollLayout.setVisibility(View.GONE);
 				getShowData();
 			}
 
@@ -912,23 +932,48 @@ public class Main extends BaseActivity {
 	 * 获得数据
 	 */
 	private void getShowData() {
-		loading_begin.setVisibility(View.VISIBLE);
-		mainScrollLayout.setVisibility(View.GONE);
+
+		System.out.println("getShowData ==========================");
+		if (NetworkUtil.checkNetworkIsOk(getBaseContext()) == NetworkUtil.NONE) 
+		{
+			System.out.println("getShowData ******************************");
+			getlocalData();
+		}
+		else
+		{
+			loading_begin.setVisibility(View.VISIBLE);
+			mainScrollLayout.setVisibility(View.GONE);
+			//服务业绩
+			getNetBizPerformanceData();
+			//员工业绩
+			getNetEmployeePerData();
+			//卖品业绩
+			getNetServicePerformanceData();
+			//客流量
+			getNetBcustomerCount();
+		}
+		
+	}
+	
+	public void getlocalData()
+	{
 		//服务业绩
-		getBizPerformanceData();
+		getLocalBizPerformanceData();
 		//员工业绩
-		getEmployeePerData();
+		getLocalEmployeePerData();
 		//卖品业绩
-		getServicePerformanceData();
+		getLocalServicePerformanceData();
 		//客流量
-		getBcustomerCount();
+		getLocalBcustomerCount();
 	}
 
+	
+	
 	/**
 	 * 员工业绩
 	 */
-	public void getEmployeePerData() {
-		if (NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE) {
+	public void getNetEmployeePerData() {
+
 			new Thread() {
 				public void run() {
 					AppContext ac = (AppContext) getApplication();
@@ -960,7 +1005,14 @@ public class Main extends BaseActivity {
 					}
 				}
 			}.start();
-		} else {
+		
+	}
+	
+	/**
+	 * 员工本地业绩
+	 */
+	public void getLocalEmployeePerData() {
+		
 			shopId = AppContext.getInstance(getBaseContext())
 					.getCurrentDisplayShopId();
 			// 获取本地数据
@@ -980,14 +1032,12 @@ public class Main extends BaseActivity {
 			Message msg = new Message();
 			msg.what = 2;
 			handle.sendMessage(msg);
-		}
 	}
 
 	/**
 	 * 服务业绩
 	 */
-	public void getBizPerformanceData() {
-		if (NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE) {
+	public void getNetBizPerformanceData() {
 			new Thread() {
 				public void run() {
 					AppContext ac = (AppContext) getApplication();
@@ -1029,7 +1079,10 @@ public class Main extends BaseActivity {
 					}
 				}
 			}.start();
-		} else {
+	}
+	
+	//获取本地服务业绩
+	public void getLocalBizPerformanceData() {
 			shopId = AppContext.getInstance(getBaseContext())
 					.getCurrentDisplayShopId();
 			List<BizPerformanceBean> bizPerformanceList = null;
@@ -1087,14 +1140,13 @@ public class Main extends BaseActivity {
 			Message msg = new Message();
 			msg.what = 1;
 			handle.sendMessage(msg);
-		}
 	}
 
 	/**
 	 * 产品业绩
 	 */
-	public void getServicePerformanceData() {
-		if (NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE) {
+	public void getNetServicePerformanceData() {
+		
 			new Thread() {
 				public void run() {
 					AppContext ac = (AppContext) getApplication();
@@ -1132,7 +1184,11 @@ public class Main extends BaseActivity {
 					}
 				}
 			}.start();
-		} else {
+		
+	}
+	
+	public void getLocalServicePerformanceData() {
+		
 			shopId = AppContext.getInstance(getBaseContext())
 					.getCurrentDisplayShopId();
 			if (dateType == "day") {
@@ -1153,14 +1209,13 @@ public class Main extends BaseActivity {
 			Message msg = new Message();
 			msg.what = 3;
 			handle.sendMessage(msg);
-		}
+		
 	}
 
 	/**
 	 * 客流量
 	 */
-	public void getBcustomerCount() {
-		if (NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE) {
+	public void getNetBcustomerCount() {
 			new Thread() {
 				public void run() {
 					AppContext ac = (AppContext) getApplication();
@@ -1192,7 +1247,11 @@ public class Main extends BaseActivity {
 
 				}
 			}.start();
-		} else {
+	}
+	
+	
+	public void getLocalBcustomerCount() {
+
 			shopId = AppContext.getInstance(getBaseContext())
 					.getCurrentDisplayShopId();
 			if (dateType == "day") {
@@ -1212,20 +1271,11 @@ public class Main extends BaseActivity {
 			Message msg = new Message();
 			msg.what = 4;
 			handle.sendMessage(msg);
-		}
+		
 	}
 
 	public void initData() {
 
-		myshopService = new MyshopManageService(getBaseContext());
-		employeePerService = new EmployeePerService(getBaseContext());
-		productPerformanceService = new ProductPerformanceService(
-				getBaseContext());
-		bizPerformanceService = new BizPerformanceService(getBaseContext());
-		customerCountService = new CustomerCountService(getBaseContext());
-
-		userAccount = AppContext.getInstance(getBaseContext()).getUserAccount();
-		shopname.setText(AppContext.getInstance(getBaseContext()).getShopName());
 		// 查询本地的关联数据
 		queiryTitleList();
 		List<MyShopBean> myshops = myshopService.queryShops();
@@ -1254,13 +1304,20 @@ public class Main extends BaseActivity {
 			titleList = new String[myshops.size()];
 			shopIds = new String[myshops.size()];
 			for (int i = 0; i < myshops.size(); i++) {
-				title[i] = myshops.get(i).getEnterprise_name() == null ? "我的店铺"
-						: myshops.get(i).getEnterprise_name();
-				titleList[i] = myshops.get(i).getEnterprise_name() == null ? "• 我的店铺"
-						: "• " + myshops.get(i).getEnterprise_name();
+				title[i] = myshops.get(i).getEnterprise_name() ;
+				titleList[i] =  "• " + myshops.get(i).getEnterprise_name();
+				if(myshops.get(i).getEnterprise_name()==null ||"".equals(myshops.get(i).getEnterprise_name()))
+				{
+					title[i] =  "我的店铺";
+					titleList[i] = "• 我的店铺";
+				}
 				shopIds[i] = myshops.get(i).getEnterprise_id();
 			}
-			shopname.setText(shoptitle==null?"我的店铺":shoptitle);
+			if(shoptitle==null ||"".equals(shoptitle))
+			{
+				shoptitle = "我的店铺";
+			}
+			shopname.setText(shoptitle);
 		}
 	}
 

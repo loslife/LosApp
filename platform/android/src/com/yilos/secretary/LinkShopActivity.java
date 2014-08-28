@@ -13,9 +13,11 @@ import com.yilos.secretary.common.UIHelper;
 import com.yilos.secretary.service.MemberService;
 import com.yilos.secretary.service.MyshopManageService;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -233,7 +235,8 @@ public class LinkShopActivity extends BaseActivity
         )
         {  
             //在这个重写的函数里设置 每个 item 中按钮的响应事件  
-            @Override  
+            @SuppressLint("NewApi")
+			@Override  
             public View getView(int position, View convertView,ViewGroup parent) {  
                 final int p=position;  
                 final View view=super.getView(position, convertView, parent);  
@@ -243,13 +246,21 @@ public class LinkShopActivity extends BaseActivity
                       
                     @Override  
                     public void onClick(View v) {  
+                    	button.setEnabled(false); 
                         //警告框  
                         new AlertDialog.Builder(LinkShopActivity.this)  
                         .setTitle("解除关联")  
-                        .setMessage("解除关联后，您将看不到<"+myshops.get(p).getEnterprise_name()+">的任何信息，是否解除？")  
+                        .setMessage("解除关联后，您将看不到<"+myshops.get(p).getEnterprise_name()+">的任何信息，是否解除？") 
+                        .setOnDismissListener(new OnDismissListener() {
+							
+							@Override
+							public void onDismiss(DialogInterface dialog) {
+								button.setEnabled(true);
+							}
+						})
                         .setPositiveButton("是", new DialogInterface.OnClickListener() {  
                             public void onClick(DialogInterface dialog, int which) {
-                            	button.setEnabled(false); 
+                            	
                             	if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
             					{ 
                             		((ProgressBar)view.findViewById(R.id.listbar)).setVisibility(View.VISIBLE) ;
@@ -263,7 +274,8 @@ public class LinkShopActivity extends BaseActivity
                             }  
                         })  
                         .setNegativeButton("否", new DialogInterface.OnClickListener() {    
-                            public void onClick(DialogInterface dialog, int whichButton) {    
+                            public void onClick(DialogInterface dialog, int whichButton) {  
+                            	button.setEnabled(true);
                             }    
                         })  
                         .create()  
@@ -326,16 +338,24 @@ public class LinkShopActivity extends BaseActivity
                 ((ProgressBar)view.findViewById(R.id.listbar)).setVisibility(View.GONE) ;
                 button.setOnClickListener(new OnClickListener() {  
                       
-                    @Override  
+                    @SuppressLint("NewApi")
+					@Override  
                     public void onClick(View v) {  
-                    	
+                    	button.setEnabled(false); 
                         //警告框  
                         new AlertDialog.Builder(LinkShopActivity.this)  
                         .setTitle("恢复关联")  
                         .setMessage("是否恢复对<"+myDisconnectShops.get(p).getEnterprise_name()+">的关联？")  
+                        .setOnDismissListener(new OnDismissListener() {
+							
+							@Override
+							public void onDismiss(DialogInterface dialog) {
+								button.setEnabled(true);
+							}
+						})
                         .setPositiveButton("是", new DialogInterface.OnClickListener() {  
                             public void onClick(DialogInterface dialog, int which) {
-                            	button.setEnabled(false); 
+                            
                             	if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
             					{ 
                             		isRecoveryLink = true;
@@ -354,13 +374,16 @@ public class LinkShopActivity extends BaseActivity
                             		button.setEnabled(true);
                             	}
                             }  
+                            
                         })  
                         .setNegativeButton("否", new DialogInterface.OnClickListener() {    
-                            public void onClick(DialogInterface dialog, int whichButton) {    
+                            public void onClick(DialogInterface dialog, int whichButton) { 
+                            	button.setEnabled(true);
                             }    
                         })  
                         .create()  
                         .show();  
+                        
                     }  
                 });  
                 return view;  

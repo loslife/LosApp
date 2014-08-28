@@ -42,14 +42,21 @@ public class LaunchActivity extends BaseActivity {
 		if("LoginActivity".equals(getIntent().getStringExtra("forwardClass")))
 		{
 			loading_begin.setVisibility(View.VISIBLE);
-			initdata(); 
 		}
 		else
 		{
 			 Intent intent = new Intent(LaunchActivity.this, MainTabActivity.class);
 	         startActivity(intent);
 		}
+	}
+	
+	public void onResume() {
+		super.onResume();
 		
+		if("LoginActivity".equals(getIntent().getStringExtra("forwardClass")))
+		{
+			initdata(); 
+		}
 	}
 
 	final Handler handle = new Handler() {
@@ -82,8 +89,6 @@ public class LaunchActivity extends BaseActivity {
 				.getUserAccount();
 		SDBHelper.createDB(LaunchActivity.this, userAccount + ".db");
 		myshopService = new MyshopManageService(getBaseContext());
-		
-	
 			if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
 			{
 			   getLinkShop();
@@ -94,7 +99,7 @@ public class LaunchActivity extends BaseActivity {
 			    Intent intent = new Intent(LaunchActivity.this, LoginActivity.class);
 	            startActivity(intent);
 			}
-
+			System.out.println("LaunchActivity NetworkUtil **************************");
 	}
 
 	/**
@@ -147,7 +152,15 @@ public class LaunchActivity extends BaseActivity {
 									shopId);
 							last_sync = myshops.get(0).getContactSyncTime();
 							AppContext.getInstance(getBaseContext()).setContactLastSyncTime(last_sync);
-							shopName = myshops.get(0).getEnterprise_name()==null?"我的店铺":myshops.get(0).getEnterprise_name();
+							if(myshops.get(0).getEnterprise_name()==null ||"".equals(myshops.get(0).getEnterprise_name()))
+							{
+								shopName = "我的店铺";
+							}
+							else
+							{
+								shopName = myshops.get(0).getEnterprise_name();
+							}
+
 							AppContext.getInstance(getBaseContext()).setShopName(shopName);
 						}
 						else

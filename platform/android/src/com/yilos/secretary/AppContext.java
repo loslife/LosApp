@@ -51,8 +51,8 @@ public class AppContext extends Application{
         //设置Thread Exception Handler
       	//Thread.setDefaultUncaughtExceptionHandler(this);
         
-        /*CrashHandler crashHandler = CrashHandler.getInstance();  
-        crashHandler.init(getApplicationContext()); */
+        CrashHandler crashHandler = CrashHandler.getInstance();  
+        crashHandler.init(getApplicationContext()); 
 	}
 
 	/**

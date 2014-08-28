@@ -92,7 +92,7 @@ public class PanelBar extends View {
          int lnWidth = 0; //标识线宽度  
          int lnSpace = ScrHeight/15; //标识间距  
            
-         int startx = ScrWidth/5;  
+         int startx = ScrWidth/5+20;  
          int endx = startx + 20;  
            
          int starty = 500;  
@@ -106,8 +106,6 @@ public class PanelBar extends View {
          /////////////////////////  
          //横向柱形图  
          ///////////////////////////  
-         
-         boolean fff = true;  
          // Y 轴  传入参数及柱形  
          for(i=0; i<arrNum.length; i++)   
          {                 
@@ -156,7 +154,16 @@ public class PanelBar extends View {
    @Override
  	public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 	   DisplayMetrics dm = getResources().getDisplayMetrics();
- 		setMeasuredDimension(dm.widthPixels, arrNum.length*(dm.heightPixels/15)+20);
+	   
+	   if(arrNum.length*(dm.heightPixels/15)+20 >dm.heightPixels)
+	   {
+		   setMeasuredDimension(dm.widthPixels, dm.heightPixels);  
+	   }
+	   else
+	   {
+		   setMeasuredDimension(dm.widthPixels, arrNum.length*(dm.heightPixels/15)+20); 
+	   }
+ 		
  	}
  }  
 
