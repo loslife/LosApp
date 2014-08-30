@@ -76,47 +76,14 @@ public class NetworkUtil
 	 * @param callback
 	 */
 	public static int checkNetworkIsOk(Context context) {
+		
 		networkState = getNetworkState(context);
+		
 		if (NONE == networkState) {
 			return NONE;
-		} else {
-			Thread thread = new Thread() {
-				public void run() {
-					GetMethod postMethod = new GetMethod(
-							Constants.SERVICE_ADDRESS);
-					try {
-						HttpClient httpClient = new HttpClient();
-						// 请求超时
-						httpClient.getParams().setParameter(
-								CoreConnectionPNames.CONNECTION_TIMEOUT, 3000);
-						// 读取超时
-						httpClient.getParams().setParameter(
-								CoreConnectionPNames.SO_TIMEOUT, 3000);
-						// TODO 目前只判断返回的是否为404，后续还需要根据错误码判断
-						if (HttpStatus.SC_NOT_FOUND == httpClient
-								.executeMethod(postMethod)) {
-							networkState = NONE;
-						}
-					} catch (Exception e) {
-						LOGGER.error("检查网络连接异常", e);
-						// 网络连接不可用
-						networkState = NONE;
-					} finally {
-						// 释放连接
-						if (null != postMethod) {
-							postMethod.releaseConnection();
-						}
-					}
-				};
-			};
-			thread.start();
-			try {
-				thread.join();
-			} catch (Exception e) {
-				LOGGER.error("检查网络连接异常", e);
-			}
-			return networkState;
-		}
+		} 
+		
+	    return networkState;
 	}
 
 }

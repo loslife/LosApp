@@ -109,6 +109,7 @@ public class Main extends BaseActivity {
 
 	private ScrollLayout mainScrollLayout;
 	private LinearLayout noshop;
+	private Handler handle;
 
 	public static long datetime;
 
@@ -160,6 +161,7 @@ public class Main extends BaseActivity {
 		}
 
 		initView();
+		this.initChartViewData();
 		getlocalData();
 	}
 
@@ -174,500 +176,501 @@ public class Main extends BaseActivity {
 		}
 		if(AppContext.getInstance(getBaseContext()).isChangeShop())
 		{
-			//initdataThread.start();
 			initData(); 
 			AppContext.getInstance(getBaseContext()).setChangeShop(false);
 		}
 	}
 	
 	
-
-	Handler handle = new Handler() {
-		public void handleMessage(Message msg) {
-			
-			//服务业绩
-			if (msg.what == 1) {
+	private void initChartViewData() {
+		handle = new Handler() {
+			public void handleMessage(Message msg) {
 				
-				++GETDATA_COUNT;
-				float newcard = 0.0f;
-				float recharge = 0.0f;
-				float service = 0.0f;
-				float product = 0.0f;
-				float total = 0.0f;
-
-				float comparePrevNewcard = 0.0f;
-				float comparePrevRecharge = 0.0f;
-				float comparePrevService = 0.0f;
-				float comparePrevProduct = 0.0f;
-
-				float prev_newcard = 0.0f;
-				float prev_recharge = 0.0f;
-				float prev_service = 0.0f;
-				float prev_product = 0.0f;
-
-				float percent_newcard = 0.0f;
-				float percent_recharge = 0.0f;
-				float percent_service = 0.0f;
-				float percent_product = 0.0f;
-
-				if (bizPerformance.getTotal() == null
-						|| Float.valueOf(bizPerformance.getTotal()) == 0.0f) {
-					((LinearLayout) findViewById(R.id.business_empty))
-							.setVisibility(View.VISIBLE);
-				} else {
-					((LinearLayout) findViewById(R.id.business_empty))
-							.setVisibility(View.GONE);
-				}
-				
-				if (null != bizPerformance.get_id()) {
-					// newcard":13000,"recharge":10,"service":1900,"product":200
-					newcard = Float.valueOf(bizPerformance.getNewcard())
-							/ Float.valueOf(bizPerformance.getTotal());
-					recharge = Float.valueOf(bizPerformance.getRecharge())
-							/ Float.valueOf(bizPerformance.getTotal());
-					service = Float.valueOf(bizPerformance.getService())
-							/ Float.valueOf(bizPerformance.getTotal());
-					product = Float.valueOf(bizPerformance.getProduct())
-							/ Float.valueOf(bizPerformance.getTotal());
-					total = Float.valueOf(bizPerformance.getTotal());
-					total = (float) (Math.round(total * 10)) / 10;
-					if (null != prevBizPerformance.get_id()) {
-						prev_newcard = Float.valueOf(prevBizPerformance
-								.getNewcard());
-						comparePrevNewcard = Float.valueOf(bizPerformance
-								.getNewcard()) - prev_newcard;
-						prev_recharge = Float.valueOf(prevBizPerformance
-								.getRecharge());
-						comparePrevRecharge = Float.valueOf(bizPerformance
-								.getRecharge()) - prev_recharge;
-						prev_service = Float.valueOf(prevBizPerformance
-								.getService());
-						comparePrevService = Float.valueOf(bizPerformance
-								.getService()) - prev_service;
-						prev_product = Float.valueOf(prevBizPerformance
-								.getProduct());
-						comparePrevProduct = Float.valueOf(bizPerformance
-								.getProduct()) - prev_product;
-
-						percent_newcard = (Math
-								.round((comparePrevNewcard / prev_newcard) * 1000)) / 10;
-						if(!(prev_newcard>0))
-						{
-							percent_newcard = +100.0f;
-						}
-						percent_recharge = (Math
-								.round((comparePrevRecharge / prev_recharge) * 1000)) / 10;
-						if(!(prev_recharge>0))
-						{
-							percent_recharge = +100.0f;
-						}
-						percent_service = (Math
-								.round((comparePrevService / prev_service) * 1000)) / 10;
-						if(!(prev_service>0))
-						{
-							percent_service = +100.0f;
-						}
-						percent_product = (Math
-								.round((comparePrevProduct / prev_product) * 1000)) / 10;
-						if(!(prev_product>0))
-						{
-							percent_product = +100.0f;
-						}
+				//服务业绩
+				if (msg.what == 1) {
+					
+					++GETDATA_COUNT;
+					float newcard = 0.0f;
+					float recharge = 0.0f;
+					float service = 0.0f;
+					float product = 0.0f;
+					float total = 0.0f;
+	
+					float comparePrevNewcard = 0.0f;
+					float comparePrevRecharge = 0.0f;
+					float comparePrevService = 0.0f;
+					float comparePrevProduct = 0.0f;
+	
+					float prev_newcard = 0.0f;
+					float prev_recharge = 0.0f;
+					float prev_service = 0.0f;
+					float prev_product = 0.0f;
+	
+					float percent_newcard = 0.0f;
+					float percent_recharge = 0.0f;
+					float percent_service = 0.0f;
+					float percent_product = 0.0f;
+	
+					if (bizPerformance.getTotal() == null
+							|| Float.valueOf(bizPerformance.getTotal()) == 0.0f) {
+						((LinearLayout) findViewById(R.id.business_empty))
+								.setVisibility(View.VISIBLE);
 					} else {
-						comparePrevNewcard = Float.valueOf(bizPerformance
-								.getNewcard());
-						comparePrevRecharge = Float.valueOf(bizPerformance
-								.getRecharge());
-						comparePrevService = Float.valueOf(bizPerformance
-								.getService());
-						comparePrevProduct = Float.valueOf(bizPerformance
-								.getProduct());
-
-						percent_newcard = 100.0f;
-						percent_recharge = 100.0f;
-						percent_service = 100.0f;
-						percent_product = 100.0f;
+						((LinearLayout) findViewById(R.id.business_empty))
+								.setVisibility(View.GONE);
 					}
-				}
-
-				String sevicedata = bizPerformance.getService() == null ? "0.0"
-						: bizPerformance.getService();
-				String saledata = bizPerformance.getProduct() == null ? "0.0"
-						: bizPerformance.getProduct();
-				String carddata = bizPerformance.getNewcard() == null ? "0.0"
-						: bizPerformance.getNewcard();
-				String rechargedata = bizPerformance.getRecharge() == null ? "0.0"
-						: bizPerformance.getRecharge();
-				((TextView) findViewById(R.id.biztotal)).setText("￥" + total);
-				((TextView) findViewById(R.id.sevicedata)).setText("￥"
-						+ (float) (Math.round(Float.valueOf(sevicedata) * 10))
-						/ 10);
-				((TextView) findViewById(R.id.saledata)).setText("￥"
-						+ (float) (Math.round(Float.valueOf(saledata) * 10))
-						/ 10);
-				((TextView) findViewById(R.id.carddata)).setText("￥"
-						+ (float) (Math.round(Float.valueOf(carddata) * 10))
-						/ 10);
-				((TextView) findViewById(R.id.rechargedata))
-						.setText("￥"
-								+ (float) (Math.round(Float
-										.valueOf(rechargedata) * 10)) / 10);
-
-				((TextView) findViewById(R.id.sevicedata))
-						.setTextColor(getResources()
-								.getColor(R.color.gray_text));
-				((TextView) findViewById(R.id.saledata))
-						.setTextColor(getResources()
-								.getColor(R.color.gray_text));
-				((TextView) findViewById(R.id.carddata))
-						.setTextColor(getResources()
-								.getColor(R.color.gray_text));
-				((TextView) findViewById(R.id.rechargedata))
-						.setTextColor(getResources()
-								.getColor(R.color.gray_text));
-
-				((ImageView) findViewById(R.id.sevicesicon))
-						.setImageResource(R.drawable.down);
-				((ImageView) findViewById(R.id.saleicon))
-						.setImageResource(R.drawable.down);
-				((ImageView) findViewById(R.id.cardicon))
-						.setImageResource(R.drawable.down);
-				((ImageView) findViewById(R.id.rechargeicon))
-						.setImageResource(R.drawable.down);
-
-				comparePrevNewcard = (float) (Math.round(Float
-						.valueOf(comparePrevNewcard) * 10)) / 10;
-				comparePrevRecharge = (float) (Math.round(Float
-						.valueOf(comparePrevRecharge) * 10)) / 10;
-				comparePrevService = (float) (Math.round(Float
-						.valueOf(comparePrevService) * 10)) / 10;
-				comparePrevProduct = (float) (Math.round(Float
-						.valueOf(comparePrevProduct) * 10)) / 10;
-				((TextView) findViewById(R.id.toprev_sevicedata)).setText("比上"
-						+ timetype.getText().toString() + ": "
-						+ comparePrevService + " " + showPercent(percent_service) + "%");
-				((TextView) findViewById(R.id.toprev_saledata)).setText("比上"
-						+ timetype.getText().toString() + ": "
-						+ comparePrevProduct + " " + showPercent(percent_product) + "%");
-				((TextView) findViewById(R.id.toprev_carddata)).setText("比上"
-						+ timetype.getText().toString() + ": "
-						+ comparePrevNewcard + " " + showPercent(percent_newcard) + "%");
-				((TextView) findViewById(R.id.toprev_rechargedata))
-						.setText("比上" + timetype.getText().toString() + ": "
-								+ comparePrevRecharge + " " + showPercent(percent_recharge)
-								+ "%");
-
-				if (comparePrevService > 0.0) {
-					((ImageView) findViewById(R.id.sevicesicon))
-							.setImageResource(R.drawable.up);
-					((TextView) findViewById(R.id.sevicedata))
-							.setTextColor(getResources().getColor(
-									R.color.orange_bg));
-				}
-
-				if (comparePrevProduct > 0.0) {
-					((ImageView) findViewById(R.id.saleicon))
-							.setImageResource(R.drawable.up);
-					((TextView) findViewById(R.id.saledata))
-							.setTextColor(getResources().getColor(
-									R.color.orange_bg));
-				}
-
-				if (comparePrevNewcard > 0.0) {
-					((ImageView) findViewById(R.id.cardicon))
-							.setImageResource(R.drawable.up);
-					((TextView) findViewById(R.id.carddata))
-							.setTextColor(getResources().getColor(
-									R.color.orange_bg));
-				}
-
-				if (comparePrevRecharge > 0.0) {
-					((ImageView) findViewById(R.id.rechargeicon))
-							.setImageResource(R.drawable.up);
-					((TextView) findViewById(R.id.rechargedata))
-							.setTextColor(getResources().getColor(
-									R.color.orange_bg));
-				}
-
-				newcard = (float) (Math.round(newcard * 1000)) / 10;
-				recharge = (float) (Math.round(recharge * 1000)) / 10;
-				service = (float) (Math.round(service * 1000)) / 10;
-				product = (float) (Math.round(product * 1000)) / 10;
-
-				String[] perName = { "开卡业绩", "充值业绩", "服务业绩", "卖品业绩" };
-				// 环形图
-				float[] num2 = new float[] { newcard, recharge, service,
-						product };
-				annularLayout = (LinearLayout) findViewById(R.id.annularLayout);
-				annularLayout.removeAllViews();
-				PanelDountChart panelDountView = new PanelDountChart(
-						getBaseContext(), num2, perName, "business");
-				annularLayout.addView(panelDountView);
-				
-				setButtonEnabled(true);
-			}
-
-			//员工业绩
-			if (msg.what == 2) {
-				++GETDATA_COUNT;
-				String[] num = new String[employPerList.size()];
-				String[] name = new String[employPerList.size()];
-				float total = 0.0f;
-
-				// 柱状图
-				for (int i = 0; i < employPerList.size(); i++) {
-					String totalnum = employPerList.get(i).getTotal();
-					if (null == totalnum || "".equals(totalnum)) {
-						totalnum = "0";
-					}
-					num[i] = totalnum + "|"
-							+ employPerList.get(i).getEmployee_name();
-					;
-					total += Float.valueOf(employPerList.get(i).getTotal()==null?"0.0":employPerList.get(i).getTotal());
-				}
-				String[] numSort = new String[employPerList.size()];
-				numSort = StringUtils.bubbleSort(num);
-				for (int i = 0; i < num.length; i++) {
-					int index = numSort[i].indexOf("|");
-					name[i] = numSort[i].substring(index + 1,
-							numSort[i].length());
-					num[i] = numSort[i].substring(0, index);
-				}
-
-				columnarLayout = (LinearLayout) findViewById(R.id.columnarLayout);
-				columnarLayout.removeAllViews();
-				PanelBar view = new PanelBar(getBaseContext(), num, name);
-				columnarLayout.addView(view);
-
-				total = (float) (Math.round(total * 10)) / 10;
-				((TextView) findViewById(R.id.employeetotal)).setText("￥"
-						+ total);
-				setButtonEnabled(true);
-			}
-
-			
-
-			//卖品业绩
-			if (msg.what == 3) {
-				++GETDATA_COUNT;
-				float total = 0.0f;
-				List<String> cateNameList = new ArrayList<String>();
-				List<Float> cateTotalList = new ArrayList<Float>();
-				for (ServicePerformanceBean bean : servicePerformanceList) {
-					// newcard":13000,"recharge":10,"service":1900,"product":200
-					total += Float.valueOf(bean.getTotal());
-					if(!cateNameList.contains(bean.getProject_cateName()))
-					{
-						cateNameList.add(bean.getProject_cateName());
-					}
-				}
-				int length = cateNameList.size();
-				
-				float[] percentNum = new float[cateNameList.size()];
-				String[] projectName = new String[cateNameList.size()];
-				float otherPercentTotal = 0.0f;
-
-				float[] otherPercentNum = null;
-				String[] otherProjectName = null;
-				String[] otherProjectTotal = null;
-				if (length - 3 > 0) {
-					otherPercentNum = new float[length - 3];
-					otherProjectName = new String[length - 3];
-					otherProjectTotal = new String[length - 3];
-					((TextView) findViewById(R.id.othertext)).setText("其他");
-				}
-
-				for (int i = 0; i < length; i++) {
-				
-						for(ServicePerformanceBean bean :servicePerformanceList)
-						{
-							if(bean.getProject_cateName().equals(cateNameList.get(i)))
+					
+					if (null != bizPerformance.get_id()) {
+						// newcard":13000,"recharge":10,"service":1900,"product":200
+						newcard = Float.valueOf(bizPerformance.getNewcard())
+								/ Float.valueOf(bizPerformance.getTotal());
+						recharge = Float.valueOf(bizPerformance.getRecharge())
+								/ Float.valueOf(bizPerformance.getTotal());
+						service = Float.valueOf(bizPerformance.getService())
+								/ Float.valueOf(bizPerformance.getTotal());
+						product = Float.valueOf(bizPerformance.getProduct())
+								/ Float.valueOf(bizPerformance.getTotal());
+						total = Float.valueOf(bizPerformance.getTotal());
+						total = (float) (Math.round(total * 10)) / 10;
+						if (null != prevBizPerformance.get_id()) {
+							prev_newcard = Float.valueOf(prevBizPerformance
+									.getNewcard());
+							comparePrevNewcard = Float.valueOf(bizPerformance
+									.getNewcard()) - prev_newcard;
+							prev_recharge = Float.valueOf(prevBizPerformance
+									.getRecharge());
+							comparePrevRecharge = Float.valueOf(bizPerformance
+									.getRecharge()) - prev_recharge;
+							prev_service = Float.valueOf(prevBizPerformance
+									.getService());
+							comparePrevService = Float.valueOf(bizPerformance
+									.getService()) - prev_service;
+							prev_product = Float.valueOf(prevBizPerformance
+									.getProduct());
+							comparePrevProduct = Float.valueOf(bizPerformance
+									.getProduct()) - prev_product;
+	
+							percent_newcard = (Math
+									.round((comparePrevNewcard / prev_newcard) * 1000)) / 10;
+							if(!(prev_newcard>0))
 							{
-								percentNum[i] += (float) (Math.round(Float.valueOf(bean.getTotal()) / total * 1000)) / 10;
-								projectName[i] = percentNum[i]+"|"+cateNameList.get(i);
+								percent_newcard = +100.0f;
 							}
+							percent_recharge = (Math
+									.round((comparePrevRecharge / prev_recharge) * 1000)) / 10;
+							if(!(prev_recharge>0))
+							{
+								percent_recharge = +100.0f;
+							}
+							percent_service = (Math
+									.round((comparePrevService / prev_service) * 1000)) / 10;
+							if(!(prev_service>0))
+							{
+								percent_service = +100.0f;
+							}
+							percent_product = (Math
+									.round((comparePrevProduct / prev_product) * 1000)) / 10;
+							if(!(prev_product>0))
+							{
+								percent_product = +100.0f;
+							}
+						} else {
+							comparePrevNewcard = Float.valueOf(bizPerformance
+									.getNewcard());
+							comparePrevRecharge = Float.valueOf(bizPerformance
+									.getRecharge());
+							comparePrevService = Float.valueOf(bizPerformance
+									.getService());
+							comparePrevProduct = Float.valueOf(bizPerformance
+									.getProduct());
+	
+							percent_newcard = 100.0f;
+							percent_recharge = 100.0f;
+							percent_service = 100.0f;
+							percent_product = 100.0f;
 						}
-				}
-				if(length>0)
-				{
-					String[] numSort = new String[percentNum.length];
-					numSort = StringUtils.bubbleSort(projectName);
-					for (int i = 0; i < percentNum.length; i++) {
-						int index = numSort[i].indexOf("|");
-						percentNum[i] = Float.valueOf(numSort[i].substring(0, index));
-						projectName[i] = numSort[i].substring(index + 1,
-								numSort[i].length());
-						
 					}
-					//qita
-					for (int i = 0; i < percentNum.length; i++) {
-						if(i>2)
+	
+					String sevicedata = bizPerformance.getService() == null ? "0.0"
+							: bizPerformance.getService();
+					String saledata = bizPerformance.getProduct() == null ? "0.0"
+							: bizPerformance.getProduct();
+					String carddata = bizPerformance.getNewcard() == null ? "0.0"
+							: bizPerformance.getNewcard();
+					String rechargedata = bizPerformance.getRecharge() == null ? "0.0"
+							: bizPerformance.getRecharge();
+					((TextView) findViewById(R.id.biztotal)).setText("￥" + total);
+					((TextView) findViewById(R.id.sevicedata)).setText("￥"
+							+ (float) (Math.round(Float.valueOf(sevicedata) * 10))
+							/ 10);
+					((TextView) findViewById(R.id.saledata)).setText("￥"
+							+ (float) (Math.round(Float.valueOf(saledata) * 10))
+							/ 10);
+					((TextView) findViewById(R.id.carddata)).setText("￥"
+							+ (float) (Math.round(Float.valueOf(carddata) * 10))
+							/ 10);
+					((TextView) findViewById(R.id.rechargedata))
+							.setText("￥"
+									+ (float) (Math.round(Float
+											.valueOf(rechargedata) * 10)) / 10);
+	
+					((TextView) findViewById(R.id.sevicedata))
+							.setTextColor(getResources()
+									.getColor(R.color.gray_text));
+					((TextView) findViewById(R.id.saledata))
+							.setTextColor(getResources()
+									.getColor(R.color.gray_text));
+					((TextView) findViewById(R.id.carddata))
+							.setTextColor(getResources()
+									.getColor(R.color.gray_text));
+					((TextView) findViewById(R.id.rechargedata))
+							.setTextColor(getResources()
+									.getColor(R.color.gray_text));
+	
+					((ImageView) findViewById(R.id.sevicesicon))
+							.setImageResource(R.drawable.down);
+					((ImageView) findViewById(R.id.saleicon))
+							.setImageResource(R.drawable.down);
+					((ImageView) findViewById(R.id.cardicon))
+							.setImageResource(R.drawable.down);
+					((ImageView) findViewById(R.id.rechargeicon))
+							.setImageResource(R.drawable.down);
+	
+					comparePrevNewcard = (float) (Math.round(Float
+							.valueOf(comparePrevNewcard) * 10)) / 10;
+					comparePrevRecharge = (float) (Math.round(Float
+							.valueOf(comparePrevRecharge) * 10)) / 10;
+					comparePrevService = (float) (Math.round(Float
+							.valueOf(comparePrevService) * 10)) / 10;
+					comparePrevProduct = (float) (Math.round(Float
+							.valueOf(comparePrevProduct) * 10)) / 10;
+					((TextView) findViewById(R.id.toprev_sevicedata)).setText("比上"
+							+ timetype.getText().toString() + ": "
+							+ comparePrevService + " " + showPercent(percent_service) + "%");
+					((TextView) findViewById(R.id.toprev_saledata)).setText("比上"
+							+ timetype.getText().toString() + ": "
+							+ comparePrevProduct + " " + showPercent(percent_product) + "%");
+					((TextView) findViewById(R.id.toprev_carddata)).setText("比上"
+							+ timetype.getText().toString() + ": "
+							+ comparePrevNewcard + " " + showPercent(percent_newcard) + "%");
+					((TextView) findViewById(R.id.toprev_rechargedata))
+							.setText("比上" + timetype.getText().toString() + ": "
+									+ comparePrevRecharge + " " + showPercent(percent_recharge)
+									+ "%");
+	
+					if (comparePrevService > 0.0) {
+						((ImageView) findViewById(R.id.sevicesicon))
+								.setImageResource(R.drawable.up);
+						((TextView) findViewById(R.id.sevicedata))
+								.setTextColor(getResources().getColor(
+										R.color.orange_bg));
+					}
+	
+					if (comparePrevProduct > 0.0) {
+						((ImageView) findViewById(R.id.saleicon))
+								.setImageResource(R.drawable.up);
+						((TextView) findViewById(R.id.saledata))
+								.setTextColor(getResources().getColor(
+										R.color.orange_bg));
+					}
+	
+					if (comparePrevNewcard > 0.0) {
+						((ImageView) findViewById(R.id.cardicon))
+								.setImageResource(R.drawable.up);
+						((TextView) findViewById(R.id.carddata))
+								.setTextColor(getResources().getColor(
+										R.color.orange_bg));
+					}
+	
+					if (comparePrevRecharge > 0.0) {
+						((ImageView) findViewById(R.id.rechargeicon))
+								.setImageResource(R.drawable.up);
+						((TextView) findViewById(R.id.rechargedata))
+								.setTextColor(getResources().getColor(
+										R.color.orange_bg));
+					}
+	
+					newcard = (float) (Math.round(newcard * 1000)) / 10;
+					recharge = (float) (Math.round(recharge * 1000)) / 10;
+					service = (float) (Math.round(service * 1000)) / 10;
+					product = (float) (Math.round(product * 1000)) / 10;
+	
+					String[] perName = { "开卡业绩", "充值业绩", "服务业绩", "卖品业绩" };
+					// 环形图
+					float[] num2 = new float[] { newcard, recharge, service,
+							product };
+					annularLayout = (LinearLayout) findViewById(R.id.annularLayout);
+					annularLayout.removeAllViews();
+					PanelDountChart panelDountView = new PanelDountChart(
+							getBaseContext(), num2, perName, "business");
+					annularLayout.addView(panelDountView);
+					
+					setButtonEnabled(true);
+				}
+	
+				//员工业绩
+				if (msg.what == 2) {
+					++GETDATA_COUNT;
+					String[] num = new String[employPerList.size()];
+					String[] name = new String[employPerList.size()];
+					float total = 0.0f;
+	
+					// 柱状图
+					for (int i = 0; i < employPerList.size(); i++) {
+						String totalnum = employPerList.get(i).getTotal();
+						if (null == totalnum || "".equals(totalnum)) {
+							totalnum = "0";
+						}
+						num[i] = totalnum + "|"
+								+ employPerList.get(i).getEmployee_name();
+						;
+						total += Float.valueOf(employPerList.get(i).getTotal()==null?"0.0":employPerList.get(i).getTotal());
+					}
+					String[] numSort = new String[employPerList.size()];
+					numSort = StringUtils.bubbleSort(num);
+					for (int i = 0; i < num.length; i++) {
+						int index = numSort[i].indexOf("|");
+						name[i] = numSort[i].substring(index + 1,
+								numSort[i].length());
+						num[i] = numSort[i].substring(0, index);
+					}
+	
+					columnarLayout = (LinearLayout) findViewById(R.id.columnarLayout);
+					columnarLayout.removeAllViews();
+					PanelBar view = new PanelBar(getBaseContext(), num, name);
+					columnarLayout.addView(view);
+	
+					total = (float) (Math.round(total * 10)) / 10;
+					((TextView) findViewById(R.id.employeetotal)).setText("￥"
+							+ total);
+					setButtonEnabled(true);
+				}
+	
+				
+	
+				//卖品业绩
+				if (msg.what == 3) {
+					++GETDATA_COUNT;
+					float total = 0.0f;
+					List<String> cateNameList = new ArrayList<String>();
+					List<Float> cateTotalList = new ArrayList<Float>();
+					for (ServicePerformanceBean bean : servicePerformanceList) {
+						// newcard":13000,"recharge":10,"service":1900,"product":200
+						total += Float.valueOf(bean.getTotal());
+						if(!cateNameList.contains(bean.getProject_cateName()))
 						{
-							otherPercentNum[(i - 3)] = percentNum[i];
-							otherProjectName[(i - 3)] = projectName[i];
-							float otherTotal = 0.0f;
+							cateNameList.add(bean.getProject_cateName());
+						}
+					}
+					int length = cateNameList.size();
+					
+					float[] percentNum = new float[cateNameList.size()];
+					String[] projectName = new String[cateNameList.size()];
+					float otherPercentTotal = 0.0f;
+	
+					float[] otherPercentNum = null;
+					String[] otherProjectName = null;
+					String[] otherProjectTotal = null;
+					if (length - 3 > 0) {
+						otherPercentNum = new float[length - 3];
+						otherProjectName = new String[length - 3];
+						otherProjectTotal = new String[length - 3];
+						((TextView) findViewById(R.id.othertext)).setText("其他");
+					}
+	
+					for (int i = 0; i < length; i++) {
+					
 							for(ServicePerformanceBean bean :servicePerformanceList)
 							{
-								if(bean.getProject_cateName().equals(projectName[i]))
+								if(bean.getProject_cateName().equals(cateNameList.get(i)))
 								{
-									otherTotal += Float.valueOf(bean.getTotal());
+									percentNum[i] += (float) (Math.round(Float.valueOf(bean.getTotal()) / total * 1000)) / 10;
+									projectName[i] = percentNum[i]+"|"+cateNameList.get(i);
 								}
 							}
-							otherProjectTotal[(i - 3)] = String.valueOf(otherTotal);
-							// 其他总数
-							otherPercentTotal += otherPercentNum[(i - 3)];
-							percentNum[3] = (float) (Math
-									.round(otherPercentTotal * 10)) / 10;
-							projectName[3] = "其他";
-						}
-						
 					}
-				}
-				
-
-				// 环形图
-				annular2Layout = (LinearLayout) findViewById(R.id.annular2Layout);
-				annular2Layout.removeAllViews();
-				PanelDountChart panelDountView = new PanelDountChart(
-						getBaseContext(), percentNum, projectName, "service");
-				annular2Layout.addView(panelDountView);
-
-				total = (float) (Math.round(total * 10)) / 10;
-				((TextView) findViewById(R.id.servicetotal)).setText("￥"
-						+ total);
-				setOtherListView(otherPercentNum, otherProjectName,
-						otherProjectTotal);
-				if (total == 0.0f) {
-					((LinearLayout) findViewById(R.id.service_empty))
-							.setVisibility(View.VISIBLE);
-				} else {
-					((LinearLayout) findViewById(R.id.service_empty))
-							.setVisibility(View.GONE);
-				}
-				setButtonEnabled(true);
-			}
-
-			//客流量
-			if (msg.what == 4) {
-				++GETDATA_COUNT;
-				DateUtil dateUtil = new DateUtil();
-				String[] yNum = dateUtil.getDayarr(year, month, dateType);
-				int walkinCount = 0;
-				int memberCount = 0;
-				int[] count = new int[yNum.length];
-				for (int i = 0; i < yNum.length; i++) {
-					count[i] = 0;
-					for (BcustomerCountBean bean : customerCountList) {
-						if (null != bean.get_id()) {
-							if (i == bean.getHour() && "day".equals(dateType)) {
-								walkinCount += Integer.valueOf(bean.getTemp());
-								memberCount += Integer
-										.valueOf(bean.getMember());
-								int daytotal = Integer.valueOf(bean.getTemp())
-										+ Integer.valueOf(bean.getMember());
-								count[i] = daytotal;
-								break;
+					if(length>0)
+					{
+						String[] numSort = new String[percentNum.length];
+						numSort = StringUtils.bubbleSort(projectName);
+						for (int i = 0; i < percentNum.length; i++) {
+							int index = numSort[i].indexOf("|");
+							percentNum[i] = Float.valueOf(numSort[i].substring(0, index));
+							projectName[i] = numSort[i].substring(index + 1,
+									numSort[i].length());
+							
+						}
+						//qita
+						for (int i = 0; i < percentNum.length; i++) {
+							if(i>2)
+							{
+								otherPercentNum[(i - 3)] = (float) (Math.round(percentNum[i]* 10)) / 10;
+								otherProjectName[(i - 3)] = projectName[i];
+								float otherTotal = 0.0f;
+								for(ServicePerformanceBean bean :servicePerformanceList)
+								{
+									if(bean.getProject_cateName().equals(projectName[i]))
+									{
+										otherTotal += Float.valueOf(bean.getTotal());
+									}
+								}
+								otherProjectTotal[(i - 3)] = String.valueOf(otherTotal);
+								// 其他总数
+								otherPercentTotal += otherPercentNum[(i - 3)];
+								percentNum[3] = (float) (Math
+										.round(otherPercentTotal * 10)) / 10;
+								projectName[3] = "其他";
 							}
-
-							else if ((i+1) == Integer.valueOf(bean.getDay())
-									&& "month".equals(dateType)) {
-								walkinCount += Integer.valueOf(bean.getTemp());
-								memberCount += Integer
-										.valueOf(bean.getMember());
-								int daytotal = Integer.valueOf(bean.getTemp())
-										+ Integer.valueOf(bean.getMember());
-								count[i] = daytotal;
-								break;
-							}
-
-							else if ("week".equals(dateType)
-									&& Integer.valueOf(yNum[i].substring(3,
-											yNum[i].length())) == Integer
-											.valueOf(bean.getDay())) {
-								walkinCount += Integer.valueOf(bean.getTemp());
-								memberCount += Integer
-										.valueOf(bean.getMember());
-								int daytotal = Integer.valueOf(bean.getTemp())
-										+ Integer.valueOf(bean.getMember());
-								count[i] = daytotal;
-								break;
-							}
+							
 						}
 					}
+					
+	
+					// 环形图
+					annular2Layout = (LinearLayout) findViewById(R.id.annular2Layout);
+					annular2Layout.removeAllViews();
+					PanelDountChart panelDountView = new PanelDountChart(
+							getBaseContext(), percentNum, projectName, "service");
+					annular2Layout.addView(panelDountView);
+	
+					total = (float) (Math.round(total * 10)) / 10;
+					((TextView) findViewById(R.id.servicetotal)).setText("￥"
+							+ total);
+					setOtherListView(otherPercentNum, otherProjectName,
+							otherProjectTotal);
+					if (total == 0.0f) {
+						((LinearLayout) findViewById(R.id.service_empty))
+								.setVisibility(View.VISIBLE);
+					} else {
+						((LinearLayout) findViewById(R.id.service_empty))
+								.setVisibility(View.GONE);
+					}
+					setButtonEnabled(true);
 				}
-				((TextView) findViewById(R.id.personNum)).setText("会员"
-						+ memberCount + "人次  散客" + walkinCount + "人次");
-
-				// 折线图
-				myView = (LinearLayout) findViewById(R.id.myView);
-				myView.removeAllViews();
-				ChartView chartView = new ChartView(getBaseContext(), yNum, // Y轴刻度
-						new String[] { "0", "10", "20", "30", "40", "50" }, // X轴刻度
-						count// 数据
-				);
-				myView.addView(chartView);
-				setButtonEnabled(true);
-				loading_begin.setVisibility(View.GONE);
-				mainScrollLayout.setVisibility(View.VISIBLE);
-				
-			}
-			//将数据入库
-			if(GETDATA_COUNT==4)
-			{
-				
-				//保存服务业绩
-				bizPerformanceService.deltel(year,
-						(Integer.valueOf(month) - 1) + "", day,
-						dateType, "biz_performance_"+dateType);
-
-				if(prevBizPerformance.get_id()!=null)
+	
+				//客流量
+				if (msg.what == 4) {
+					++GETDATA_COUNT;
+					DateUtil dateUtil = new DateUtil();
+					String[] yNum = dateUtil.getDayarr(year, month, dateType);
+					int walkinCount = 0;
+					int memberCount = 0;
+					int[] count = new int[yNum.length];
+					for (int i = 0; i < yNum.length; i++) {
+						count[i] = 0;
+						for (BcustomerCountBean bean : customerCountList) {
+							if (null != bean.get_id()) {
+								if (i == bean.getHour() && "day".equals(dateType)) {
+									walkinCount += Integer.valueOf(bean.getTemp());
+									memberCount += Integer
+											.valueOf(bean.getMember());
+									int daytotal = Integer.valueOf(bean.getTemp())
+											+ Integer.valueOf(bean.getMember());
+									count[i] = daytotal;
+									break;
+								}
+	
+								else if ((i+1) == Integer.valueOf(bean.getDay())
+										&& "month".equals(dateType)) {
+									walkinCount += Integer.valueOf(bean.getTemp());
+									memberCount += Integer
+											.valueOf(bean.getMember());
+									int daytotal = Integer.valueOf(bean.getTemp())
+											+ Integer.valueOf(bean.getMember());
+									count[i] = daytotal;
+									break;
+								}
+	
+								else if ("week".equals(dateType)
+										&& Integer.valueOf(yNum[i].substring(3,
+												yNum[i].length())) == Integer
+												.valueOf(bean.getDay())) {
+									walkinCount += Integer.valueOf(bean.getTemp());
+									memberCount += Integer
+											.valueOf(bean.getMember());
+									int daytotal = Integer.valueOf(bean.getTemp())
+											+ Integer.valueOf(bean.getMember());
+									count[i] = daytotal;
+									break;
+								}
+							}
+						}
+					}
+					((TextView) findViewById(R.id.personNum)).setText("会员"
+							+ memberCount + "人次  散客" + walkinCount + "人次");
+	
+					// 折线图
+					myView = (LinearLayout) findViewById(R.id.myView);
+					myView.removeAllViews();
+					ChartView chartView = new ChartView(getBaseContext(), yNum, // Y轴刻度
+							new String[] { "0", "10", "20", "30", "40", "50" }, // X轴刻度
+							count// 数据
+					);
+					myView.addView(chartView);
+					setButtonEnabled(true);
+					loading_begin.setVisibility(View.GONE);
+					mainScrollLayout.setVisibility(View.VISIBLE);
+					
+				}
+				//将数据入库
+				if(GETDATA_COUNT==4)
 				{
-					bizPerformanceService.deltel(prevBizPerformance.getYear(),
-							prevBizPerformance.getMonth(), prevBizPerformance.getDay(), dateType, "biz_performance_"+dateType);
+					
+					//保存服务业绩
+					bizPerformanceService.deltel(year,
+							(Integer.valueOf(month) - 1) + "", day,
+							dateType, "biz_performance_"+dateType);
+	
+					if(prevBizPerformance.get_id()!=null)
+					{
+						bizPerformanceService.deltel(prevBizPerformance.getYear(),
+								prevBizPerformance.getMonth(), prevBizPerformance.getDay(), dateType, "biz_performance_"+dateType);
+					}
+					
+					
+					bizPerformanceService.addBizPerformance(bizPerformance,
+							"biz_performance_"+dateType);
+					bizPerformanceService.addBizPerformance(
+							prevBizPerformance, "biz_performance_"+dateType);
+					
+					
+					//保存员工
+					employeePerService.deltel(year,
+							(Integer.valueOf(month) - 1) + "", day,
+							dateType, "employee_performance_"+dateType);
+	
+					employeePerService.addEmployeePer(employPerList,
+							"employee_performance_"+dateType);
+					
+					//保存卖品
+					productPerformanceService.deltel(year,
+							(Integer.valueOf(month) - 1) + "", day,
+							dateType, "service_performance_"+dateType);
+					productPerformanceService.addProductPerformance(
+							servicePerformanceList, "service_performance_"+dateType);
+					
+					//保存客流量
+					customerCountService.deltel(year,
+							(Integer.valueOf(month) - 1) + "", day,
+							dateType, "customer_count_"+dateType);
+					customerCountService.addCustomerCount(
+							customerCountList, "customer_count_"+dateType);
+					
+					//保存完成后，赋值0
+					GETDATA_COUNT = 0;
+					
+					if ("日".equals(timetype.getText().toString())) 
+					{
+						//设置客流量的滚动条
+						charscrollview = (ScrollView)findViewById(R.id.charscrollview);
+						DisplayMetrics dm = getResources().getDisplayMetrics();
+						charscrollview.smoothScrollTo(dm.widthPixels, (dm.widthPixels-200)*2+60-(dm.widthPixels-200)/6);	
+					}
+					
 				}
-				
-				
-				bizPerformanceService.addBizPerformance(bizPerformance,
-						"biz_performance_"+dateType);
-				bizPerformanceService.addBizPerformance(
-						prevBizPerformance, "biz_performance_"+dateType);
-				
-				//保存员工
-				employeePerService.deltel(year,
-						(Integer.valueOf(month) - 1) + "", day,
-						dateType, "employee_performance_"+dateType);
-
-				employeePerService.addEmployeePer(employPerList,
-						"employee_performance_"+dateType);
-				
-				//保存卖品
-				productPerformanceService.deltel(year,
-						(Integer.valueOf(month) - 1) + "", day,
-						dateType, "service_performance_"+dateType);
-				productPerformanceService.addProductPerformance(
-						servicePerformanceList, "service_performance_"+dateType);
-				
-				//保存客流量
-				customerCountService.deltel(year,
-						(Integer.valueOf(month) - 1) + "", day,
-						dateType, "customer_count_"+dateType);
-				customerCountService.addCustomerCount(
-						customerCountList, "customer_count_"+dateType);
-				
-				//保存完成后，赋值0
-				GETDATA_COUNT = 0;
-				
-				if ("日".equals(timetype.getText().toString())) 
-				{
-					//设置客流量的滚动条
-					charscrollview = (ScrollView)findViewById(R.id.charscrollview);
-					DisplayMetrics dm = getResources().getDisplayMetrics();
-					charscrollview.smoothScrollTo(dm.widthPixels, (dm.widthPixels-200)*2+60-(dm.widthPixels-200)/6);	
-				}
-				
 			}
-		}
-	};
+		};
+	}
 
 	private void setOtherListView(float[] otherPercentNum,
 			String[] otherProjectName, String[] otherProjectTotal) {
@@ -933,10 +936,8 @@ public class Main extends BaseActivity {
 	 */
 	private void getShowData() {
 
-		System.out.println("getShowData ==========================");
 		if (NetworkUtil.checkNetworkIsOk(getBaseContext()) == NetworkUtil.NONE) 
 		{
-			System.out.println("getShowData ******************************");
 			getlocalData();
 		}
 		else
@@ -976,6 +977,7 @@ public class Main extends BaseActivity {
 
 			new Thread() {
 				public void run() {
+					
 					AppContext ac = (AppContext) getApplication();
 					Message msg = new Message();
 
@@ -1040,15 +1042,13 @@ public class Main extends BaseActivity {
 	public void getNetBizPerformanceData() {
 			new Thread() {
 				public void run() {
+					
 					AppContext ac = (AppContext) getApplication();
 					Message msg = new Message();
-					// 100048101900800200?year=2014&month=6&day=8&type=day&report=employee
-					// ServerManageResponse res = ac.getReportsData(shopId,
-					// year,
-					// month, dateType, day,"employee");
-
+					
 					ServerManageResponse res = ac.getReportsData(shopId, year,
 							month, dateType, day, "business");
+					
 					if (res.isSucess()) {
 
 						String tableName = "biz_performance_day";
@@ -1149,12 +1149,9 @@ public class Main extends BaseActivity {
 		
 			new Thread() {
 				public void run() {
+					
 					AppContext ac = (AppContext) getApplication();
 					Message msg = new Message();
-					// 100048101900800200?year=2014&month=6&day=8&type=day&report=employee
-					// ServerManageResponse res = ac.getReportsData(shopId,
-					// year,
-					// month, dateType, day,"employee");
 					ServerManageResponse res = ac.getReportsData(shopId, year,
 							month, dateType, day, "service");
 					if (res.isSucess()) {
@@ -1218,6 +1215,7 @@ public class Main extends BaseActivity {
 	public void getNetBcustomerCount() {
 			new Thread() {
 				public void run() {
+					
 					AppContext ac = (AppContext) getApplication();
 					Message msg = new Message();
 					ServerManageResponse res = ac.getReportsData(shopId, year,
@@ -1280,10 +1278,10 @@ public class Main extends BaseActivity {
 		queiryTitleList();
 		List<MyShopBean> myshops = myshopService.queryShops();
 		if (myshops != null && myshops.size() > 0) {
-			getShowData();
 			select_shop.setVisibility(View.VISIBLE);
 			noshop.setVisibility(View.GONE);
 			findViewById(R.id.date_header).setVisibility(View.VISIBLE);
+			getShowData();
 		} else {
 			select_shop.setVisibility(View.GONE);
 			loading_begin.setVisibility(View.GONE);
