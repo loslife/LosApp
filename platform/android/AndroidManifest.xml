@@ -42,14 +42,7 @@
         <activity android:name=".AboutLosActivity" android:screenOrientation="portrait" android:configChanges="orientation|keyboardHidden"/>
         <activity android:name=".UpdateApkVersionActivity" android:screenOrientation="portrait" android:configChanges="orientation|keyboardHidden"/>
         <activity android:name=".LayerActivity" android:theme="@style/Transparent" android:configChanges="orientation|keyboardHidden"/>
-        <service    
-            android:name=".service.HeartbeatService"    
-            android:label="QServer"    
-            android:persistent="true" >    
-            <intent-filter>    
-                <action android:name="HeartbeatService" />    
-            </intent-filter>    
-        </service>  
+        
     </application>
 
 </manifest>

@@ -48,8 +48,6 @@ public class AppContext extends Application{
 	public void onCreate() {
 		super.onCreate(); 
         init();
-        //设置Thread Exception Handler
-      	//Thread.setDefaultUncaughtExceptionHandler(this);
         
         CrashHandler crashHandler = CrashHandler.getInstance();  
         crashHandler.init(getApplicationContext()); 

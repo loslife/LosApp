@@ -99,7 +99,6 @@ public class LaunchActivity extends BaseActivity {
 			    Intent intent = new Intent(LaunchActivity.this, LoginActivity.class);
 	            startActivity(intent);
 			}
-			System.out.println("LaunchActivity NetworkUtil **************************");
 	}
 
 	/**

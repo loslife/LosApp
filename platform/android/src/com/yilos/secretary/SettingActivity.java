@@ -64,6 +64,7 @@ public class SettingActivity extends BaseActivity {
 			if(msg.what==0)
 			{
 				versiontext.setText("检测到有新版本");
+				versionUpdate.setEnabled(true);
 			}
 			if(msg.what==1)
 			{
@@ -78,6 +79,7 @@ public class SettingActivity extends BaseActivity {
 			public void run() {
 				AppContext ac = (AppContext) getApplication();
 				Message msg = new Message();
+				versionUpdate.setEnabled(false);
 				ServerVersionResponse res = ac.checkVersion(Constants.VERSION);
 				if (res.isSucess()) {
 					if("yes".equals(res.getResult().getHas_new_version()))

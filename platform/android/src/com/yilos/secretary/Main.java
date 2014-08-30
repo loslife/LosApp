@@ -666,7 +666,6 @@ public class Main extends BaseActivity {
 						DisplayMetrics dm = getResources().getDisplayMetrics();
 						charscrollview.smoothScrollTo(dm.widthPixels, (dm.widthPixels-200)*2+60-(dm.widthPixels-200)/6);	
 					}
-					
 				}
 			}
 		};
@@ -879,8 +878,6 @@ public class Main extends BaseActivity {
 				year = String.valueOf(curDate.getYear() + 1900);
 				day = String.valueOf(curDate.getDate());
 				month = String.valueOf(curDate.getMonth() + 1);
-				loading_begin.setVisibility(View.VISIBLE);
-				mainScrollLayout.setVisibility(View.GONE);
 				getShowData();
 			}
 		});
@@ -923,8 +920,6 @@ public class Main extends BaseActivity {
 				year = String.valueOf(curDate.getYear() + 1900);
 				day = String.valueOf(curDate.getDate());
 				month = String.valueOf(curDate.getMonth() + 1);
-				loading_begin.setVisibility(View.VISIBLE);
-				mainScrollLayout.setVisibility(View.GONE);
 				getShowData();
 			}
 		});

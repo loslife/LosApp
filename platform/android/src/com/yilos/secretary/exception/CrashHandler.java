@@ -16,6 +16,7 @@ import java.util.Map;
 import com.yilos.secretary.AppContext;
 import com.yilos.secretary.LoginActivity;
 import com.yilos.secretary.common.ActivityControlUtil;
+import com.yilos.secretary.common.Constants;
   
 import android.content.Context;  
 import android.content.Intent;
@@ -119,9 +120,9 @@ public class CrashHandler implements UncaughtExceptionHandler {
             }  
         }.start();  
         //收集设备参数信息   
-        //collectDeviceInfo(mContext);  
+        collectDeviceInfo(mContext);  
         //保存日志文件   
-        //saveCrashInfo2File(ex);  
+        saveCrashInfo2File(ex);  
         return true;  
     }  
       
@@ -185,7 +186,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
             String time = formatter.format(new Date());  
             String fileName = "crash-" + time + "-" + timestamp + ".log";  
             if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {  
-                String path = "/sdcard/crash/";  
+                String path = Constants.YILOS_NAILSHOP_LOGPATH;  
                 File dir = new File(path);  
                 if (!dir.exists()) {  
                     dir.mkdirs();  
