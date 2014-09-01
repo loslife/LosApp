@@ -2,6 +2,8 @@ package com.yilos.secretary;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,9 +12,11 @@ import android.os.Message;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.yilos.secretary.common.LoggerManager;
 import com.yilos.secretary.R;
 import com.yilos.secretary.bean.MyShopBean;
 import com.yilos.secretary.bean.ServerMemberResponse;
+import com.yilos.secretary.common.LoggerFactory;
 import com.yilos.secretary.common.NetworkUtil;
 import com.yilos.secretary.common.UIHelper;
 import com.yilos.secretary.database.SDBHelper;
@@ -20,7 +24,8 @@ import com.yilos.secretary.service.MemberService;
 import com.yilos.secretary.service.MyshopManageService;
 
 public class LaunchActivity extends BaseActivity {
-
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(LaunchActivity.class);
 	private MyshopManageService myshopService;
 	private LinearLayout loading_begin;
 
@@ -71,6 +76,10 @@ public class LaunchActivity extends BaseActivity {
 				}
 				AppContext.getInstance(getBaseContext()).setLogin(true);
 				AppContext.getInstance(getBaseContext()).setChangeShop(true);
+				// WIFI环境下，上传日志文件
+				if (NetworkUtil.WIFI == NetworkUtil.getNetworkState(getBaseContext())) {
+					LoggerManager.uploadLoggerFile(getApplicationContext(), 0);
+				}
 				toMain();
 			}
 			if (msg.what == 0) {

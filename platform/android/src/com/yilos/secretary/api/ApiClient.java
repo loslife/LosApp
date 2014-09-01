@@ -472,7 +472,8 @@ public class ApiClient
 	 */
 	public static ServerManageResponse getReports(Context appContext,String shopid,String year,String month,String type,String day,String report)
 	{
-		String json = _get(appContext,MessageFormat.format(Constants.SYNCREPORTS_URL, shopid,year,month,day,type,report));
+		//改为一次拉取所有 去除report参数
+		String json = _get(appContext,MessageFormat.format(Constants.SYNCREPORTS_URL, shopid,year,month,day,type));
 		Gson gson = new Gson();
 		ServerManageResponse resp ;
 		try

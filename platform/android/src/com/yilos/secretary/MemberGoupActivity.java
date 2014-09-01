@@ -102,7 +102,7 @@ public class MemberGoupActivity extends BaseActivity {
 	private String count;
 
 	private TextView shopname;
-	private ImageView select_shop;
+	private LinearLayout select_shop;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -233,20 +233,20 @@ public class MemberGoupActivity extends BaseActivity {
 		select_shop.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				select_shop.getRight();
-				int y = select_shop.getBottom() * 2;
+				((ImageView)findViewById(R.id.headmore)).getRight();
+				int y = ((ImageView)findViewById(R.id.headmore)).getBottom() * 2;
 				int x = getWindowManager().getDefaultDisplay().getWidth() / 2;
 				ImageView imageView = (ImageView) v;
 				Integer integer = (Integer) imageView.getTag();
 				integer = integer == null ? 0 : integer;
 				if(integer==R.drawable.select_shop)
 				{
-					select_shop.setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.retract));
+					((ImageView)findViewById(R.id.headmore)).setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.retract));
 					select_shop.setTag(R.drawable.retract);
 				}
 				else
 				{
-					select_shop.setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.select_shop));
+					((ImageView)findViewById(R.id.headmore)).setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.select_shop));
 					select_shop.setTag(R.drawable.select_shop);
 				}
 				showPopupWindow(x, y);
@@ -295,7 +295,7 @@ public class MemberGoupActivity extends BaseActivity {
 		 pullrefresh =  (LinearLayout) findViewById(R.id.pullrefresh);
 		shopname = (TextView) findViewById(R.id.shopname);
 		noshop = (LinearLayout) findViewById(R.id.noshop);
-		select_shop = (ImageView) findViewById(R.id.headmore);
+		select_shop = (LinearLayout) findViewById(R.id.select_shop_layout);
 		shopname.setText(AppContext.getInstance(getBaseContext()).getShopName());
 		findViewById(R.id.goback).setVisibility(View.GONE);
 		loading_begin.setVisibility(View.GONE);
@@ -555,7 +555,7 @@ public class MemberGoupActivity extends BaseActivity {
 		popupWindow.setOnDismissListener(new OnDismissListener() {
 			@Override
 			public void onDismiss() {
-				select_shop.setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.select_shop));
+				((ImageView)findViewById(R.id.headmore)).setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.select_shop));
 				select_shop.setTag(R.drawable.select_shop);
 			}
 		});

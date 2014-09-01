@@ -1,13 +1,16 @@
 package com.yilos.secretary;
 
 
+import java.util.Properties;
+
 import com.yilos.secretary.api.ApiClient;
+import com.yilos.secretary.api.AppConfig;
 import com.yilos.secretary.bean.ServerManageResponse;
 import com.yilos.secretary.bean.ServerMemberResponse;
 import com.yilos.secretary.bean.ServerVersionResponse;
 import com.yilos.secretary.common.ActivityControlUtil;
+import com.yilos.secretary.common.CrashHandler;
 import com.yilos.secretary.common.UIHelper;
-import com.yilos.secretary.exception.CrashHandler;
 
 import android.app.Application;
 import android.content.Context;
@@ -230,87 +233,77 @@ public class AppContext extends Application{
 	 * @return
 	 */
 	public boolean isLogin() {
-		login = preferences.getBoolean("islogin", false); 
+		login = "0".equals(getProperty("islogin"))?false:true; 
 		return login;
 	}
 	
 	public void setLogin(boolean islogin) {
-		Editor edit=preferences.edit();  
-        edit.putBoolean("islogin", islogin);  
-        edit.commit();
+        String flag = "0";
+        if(islogin)
+        {
+        	flag = "1";
+        }
+		setProperty("islogin", flag); 
 		this.login = islogin;
 	}
 
 	public String getDBName() {
-		DBName=preferences.getString("dBName", "");  
+		DBName=getProperty("dBName");  
 		return DBName;
 	}
 
 	public void setDBName(String dBName) {
-		Editor edit=preferences.edit();  
-        edit.putString("dBName", dBName);  
-        edit.commit(); 
+		setProperty("dBName", dBName);  
 		DBName = dBName;
 	}
 
 	public String getUserAccount() {  
-		userAccount=preferences.getString("userAccount", "");  
+		userAccount=getProperty("userAccount");  
 		return userAccount;
 	}
 
 	public void setUserAccount(String userAccount) {
 		this.userAccount = userAccount;
-		 Editor edit=preferences.edit();  
-         edit.putString("userAccount", userAccount);  
-         edit.commit(); 
+		 setProperty("userAccount", userAccount);  
 	}
 
 	public String getCurrentDisplayShopId() {
-		currentDisplayShopId=preferences.getString("shoip", "");  
+		currentDisplayShopId=getProperty("shoip");  
 		return currentDisplayShopId;
 	}
 
 	public void setCurrentDisplayShopId(String currentDisplayShopId) {
 		this.currentDisplayShopId = currentDisplayShopId;
-		
-		 Editor edit=preferences.edit();  
-         edit.putString("shoip", currentDisplayShopId);  
-         edit.commit(); 
+		 setProperty("shoip", currentDisplayShopId);  
 	}
 
 	public String getContactLastSyncTime() {
-		contactLastSyncTime=preferences.getString("contactLastSyncTime", "");
+		contactLastSyncTime=getProperty("contactLastSyncTime");
 		return contactLastSyncTime;
 	}
 
 	public void setContactLastSyncTime(String contactLastSyncTime) {
-		Editor edit=preferences.edit();  
-        edit.putString("contactLastSyncTime", contactLastSyncTime);  
-        edit.commit(); 
+		setProperty("contactLastSyncTime", contactLastSyncTime);  
 		this.contactLastSyncTime = contactLastSyncTime;
 	}
 
 	public String getReportLastSyncTime() {
-		reportLastSyncTime=preferences.getString("reportLastSyncTime", "");
+		reportLastSyncTime=getProperty("reportLastSyncTime");
 		return reportLastSyncTime;
 	}
 
 	public void setReportLastSyncTime(String reportLastSyncTime) {
-		Editor edit=preferences.edit();  
-        edit.putString("reportLastSyncTime", reportLastSyncTime);  
-        edit.commit(); 
+		setProperty("reportLastSyncTime", reportLastSyncTime);  
 		this.reportLastSyncTime = reportLastSyncTime;
 	}
 
 	public String getShopName() {
-		shopName=preferences.getString("shopName", "");
+		shopName=getProperty("shopName");
 		return shopName;
 	}
 
 	public void setShopName(String shopName) {
-		Editor edit=preferences.edit();  
-        edit.putString("shopName", shopName);  
-        edit.commit(); 
+		setProperty("shopName", shopName);  
 		this.shopName = shopName;
 	}
 
@@ -323,17 +316,40 @@ public class AppContext extends Application{
 	}
 
 	public boolean isChangeShop() {
-		isChangeShop = preferences.getBoolean("isChangeShop", false); 
+		isChangeShop = "0".equals(getProperty("isChangeShop"))?false:true; 
 		return isChangeShop;
 	}
 
 	public void setChangeShop(boolean isChangeShop) {
-		Editor edit=preferences.edit();  
-        edit.putBoolean("isChangeShop", isChangeShop);  
-        edit.commit();
+        String flag = "0";
+        if(isChangeShop)
+        {
+        	flag = "1";
+        }
+		setProperty("isChangeShop", flag);  
+
 		this.isChangeShop = isChangeShop;
 	}
+
+	public void setProperties(Properties ps){
+		AppConfig.getAppConfig(this).set(ps);
+	}
+
+	public Properties getProperties(){
+		return AppConfig.getAppConfig(this).get();
+	}
 	
+	public void setProperty(String key,String value){
+		if(null!=value)
+		{
+			AppConfig.getAppConfig(this).set(key, value);
+		}
+	}
 	
-	
+	public String getProperty(String key){
+		return AppConfig.getAppConfig(this).get(key);
+	}
+	public void removeProperty(String...key){
+		AppConfig.getAppConfig(this).remove(key);
+	}
 }

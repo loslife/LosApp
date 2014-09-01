@@ -11,7 +11,7 @@ import de.mindpipe.android.logging.log4j.LogConfigurator;
 
 public class LoggerFactory {
 
-	public static final String LOGGERFILENAME = "losAppLog.log";
+	public static final String LOGGERFILENAME = "secretaryAppLog.log";
 	private static boolean hasInitLogFlag = false;
 
 	private LoggerFactory() {

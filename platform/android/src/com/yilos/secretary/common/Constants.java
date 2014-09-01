@@ -6,7 +6,7 @@ import android.os.Environment;
 
 public class Constants 
 {
-	public static final String SERVICE_IP = "112.124.28.115"; //"112.124.28.115";//"www.yilos.com";
+	public static final String SERVICE_IP = "www.yilos.com"; //"112.124.28.115";//"www.yilos.com";
 	
 	public static final String HTTPS_SERVICE_ADDRESS = "https://" + SERVICE_IP
 			+ "/svc/";
@@ -16,6 +16,8 @@ public class Constants
 	public static final String YILOS_SDPATH = SD_PATH+File.separator+"yilos/losapp/";
 	
 	public static final String YILOS_NAILSHOP_LOGPATH = YILOS_SDPATH+"/log/";
+	
+	public static final String FILE_SUFFIX_ZIP = ".zip";
 	
 	public static final long ONE_MB_SIZE = 1024L * 1024;
 	
@@ -43,6 +45,12 @@ public class Constants
 	
 	public static final String SERVICE_ADDRESS = "http://" + SERVICE_IP
 			+ "/svc/";
+	
+	/**
+	 * 日志文件上传服务
+	 */
+	public static final String LOGGER_UPLOAD_SERVICE = HTTPS_SERVICE_ADDRESS
+			+ "upload/logger-upload";
 	
 	/**
 	 * 获取验证码
@@ -120,7 +128,7 @@ public class Constants
 	/**
 	 * 同步经营数据
 	 */
-	public static final String SYNCREPORTS_URL = "https://"+SERVICE_IP+"/svc/report/probe/query/{0}?year={1}&month={2}&day={3}&type={4}&report={5}";
+	public static final String SYNCREPORTS_URL = "https://"+SERVICE_IP+"/svc/report/probe/query/{0}?year={1}&month={2}&day={3}&type={4}";
 	
 	
 

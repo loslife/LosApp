@@ -2,15 +2,20 @@ package com.yilos.secretary.common;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 
+import org.apache.log4j.Logger;
 
+import com.yilos.secretary.AppContext;
 import com.yilos.secretary.BaseApplication;
+import com.yilos.secretary.LoginActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Looper;
+import android.widget.Toast;
 
 public class CrashHandler implements UncaughtExceptionHandler {
-	/*private static final Logger LOGGER = LoggerFactory
-			.getLogger(CrashHandler.class);*/
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(CrashHandler.class);
 	// 系统默认的UncaughtException处理类
 	private Thread.UncaughtExceptionHandler mDefaultHandler;
 	// CrashHandler实例
@@ -52,10 +57,18 @@ public class CrashHandler implements UncaughtExceptionHandler {
 			try {
 				Thread.sleep(3000);
 			} catch (InterruptedException e) {
-				//LOGGER.error("", e);
+				LOGGER.error("", e);
 			}
-			// 退出程序
-			BaseApplication.getInstance().exit();
+            //退出程序  
+	           
+            AppContext.getInstance(mContext).setLogin(false);
+            ActivityControlUtil.finishAllActivities();// finish所有Activity
+            android.os.Process.killProcess(android.os.Process.myPid());  
+            System.exit(0); 
+            Intent intent = new Intent(mContext, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+            Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(intent);
 		}
 	}
 
@@ -74,14 +87,14 @@ public class CrashHandler implements UncaughtExceptionHandler {
 			@Override
 			public void run() {
 				Looper.prepare();
-				/*Toast.makeText(mContext,
-						mContext.getString(R.string.abnormal_exit_program),
-						Toast.LENGTH_LONG).show();*/
+				Toast.makeText(mContext,
+						"程序出现异常，即将退出。",
+						Toast.LENGTH_LONG).show();
 				Looper.loop();
 			}
 		}.start();
 		// 记录日志
-		//LOGGER.error("程序出现异常，即将退出。", ex);
+		LOGGER.error("程序出现异常，即将退出。", ex);
 		return true;
 	}
 }
