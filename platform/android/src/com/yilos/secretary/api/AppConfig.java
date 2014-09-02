@@ -4,6 +4,7 @@ package com.yilos.secretary.api;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.Properties;
 
 import com.yilos.secretary.common.Constants;
@@ -52,11 +53,11 @@ public class AppConfig {
 	}
 
 	public Properties get() {
-		FileInputStream fis = null;
+		InputStream fis = null;
 		Properties props = new Properties();
 		try {
-			String  file_path =  FILEPATH+"/"+FILENAME;
-			fis = new FileInputStream(file_path);
+			String path = FILEPATH+File.separator+FILENAME;
+			fis = new FileInputStream(path);
 			props.load(fis);
 		} catch (Exception e) {
 		} finally {
@@ -84,8 +85,7 @@ public class AppConfig {
 			{ 
 				f.createNewFile(); // 创建文件
 			}
-			
-			fos = new FileOutputStream(f);
+			fos = new FileOutputStream(file_path);
 
 			p.store(fos, null);
 			fos.flush();

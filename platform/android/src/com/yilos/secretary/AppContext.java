@@ -233,7 +233,7 @@ public class AppContext extends Application{
 	 * @return
 	 */
 	public boolean isLogin() {
-		login = "0".equals(getProperty("islogin"))?false:true; 
+		login = "1".equals(getProperty("islogin"))?true:false; 
 		return login;
 	}
 	
@@ -308,15 +308,22 @@ public class AppContext extends Application{
 	}
 
 	public boolean isFirstRun() {
+		isFirstRun = "1".equals(getProperty("isFirstRun"))?true:false; 
 		return isFirstRun;
 	}
 
 	public void setFirstRun(boolean isFirstRun) {
+		 String flag = "0";
+	        if(isFirstRun)
+	        {
+	        	flag = "1";
+	        }
+	    setProperty("isFirstRun", flag); 
 		this.isFirstRun = isFirstRun;
 	}
 
 	public boolean isChangeShop() {
-		isChangeShop = "0".equals(getProperty("isChangeShop"))?false:true; 
+		isChangeShop = "1".equals(getProperty("isChangeShop"))?true:false; 
 		return isChangeShop;
 	}
 

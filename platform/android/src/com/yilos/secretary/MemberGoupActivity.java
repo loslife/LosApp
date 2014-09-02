@@ -103,6 +103,8 @@ public class MemberGoupActivity extends BaseActivity {
 
 	private TextView shopname;
 	private LinearLayout select_shop;
+	
+	private String shopListViewId = "0";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -127,7 +129,7 @@ public class MemberGoupActivity extends BaseActivity {
 			public void handleMessage(Message msg) {
 				if(msg.what==1)
 				{
-					String memberLoadInfo = "本店共有"+count+"位会员，正在努力为你加载中...";
+					String memberLoadInfo = "本店共有"+count+"位会员，正在努力为您加载中...";
 					loadcountinfo.setText(memberLoadInfo);
 					
 					if("0".equals(count))
@@ -149,8 +151,6 @@ public class MemberGoupActivity extends BaseActivity {
 							loading_begin.setVisibility(View.GONE);
 						}
 					}
-					
-					
 				}
 				
 				if(msg.what==2)
@@ -173,6 +173,7 @@ public class MemberGoupActivity extends BaseActivity {
 
 		if (null != parentData && parentData.size() > 0) 
 		{
+			shopListViewId = parentData.get(0).getEnterprise_id();
 			noshop.setVisibility(View.GONE);
 		    layout_loadingmember.setVisibility(View.GONE);
 			layout_memberlist.setVisibility(View.VISIBLE);
@@ -236,7 +237,7 @@ public class MemberGoupActivity extends BaseActivity {
 				((ImageView)findViewById(R.id.headmore)).getRight();
 				int y = ((ImageView)findViewById(R.id.headmore)).getBottom() * 2;
 				int x = getWindowManager().getDefaultDisplay().getWidth() / 2;
-				ImageView imageView = (ImageView) v;
+				LinearLayout imageView = (LinearLayout) v;
 				Integer integer = (Integer) imageView.getTag();
 				integer = integer == null ? 0 : integer;
 				if(integer==R.drawable.select_shop)
@@ -298,7 +299,7 @@ public class MemberGoupActivity extends BaseActivity {
 		select_shop = (LinearLayout) findViewById(R.id.select_shop_layout);
 		shopname.setText(AppContext.getInstance(getBaseContext()).getShopName());
 		findViewById(R.id.goback).setVisibility(View.GONE);
-		loading_begin.setVisibility(View.GONE);
+		
 		pullrefresh.setVisibility(View.GONE);
 		
 		initIndexBar();
@@ -343,13 +344,14 @@ public class MemberGoupActivity extends BaseActivity {
                             }  
                         })  
                         .setNegativeButton("否", new DialogInterface.OnClickListener() {    
-                            public void onClick(DialogInterface dialog, int whichButton) {    
+                            public void onClick(DialogInterface dialog, int whichButton) {  
+                            	loading_begin.setVisibility(View.GONE);
+                				layout_loadingmember.setVisibility(View.VISIBLE);
                             }    
                         })  
                         .create()  
                         .show();  
 					}
-					
 				}
 				else
 				{
@@ -452,15 +454,18 @@ public class MemberGoupActivity extends BaseActivity {
 
 			shopname.setText(shoptitle==null?"我的店铺":shoptitle);
 			select_shop.setVisibility(View.VISIBLE);
-			if(!parentData.equals(memberService.queryMembers(shopId)))
-			{
-				 parentData = memberService.queryMembers(shopId);
-			     initView();  
-			}
+		    parentData = memberService.queryMembers(shopId);
+		    if("0".equals(shopListViewId)||!shopListViewId.equals(shopId))
+		    {
+		    	initView();
+		    }
+			
 			membercount.setText("共有"+parentData.size()+"名会员");
 		}
 		else
 		{
+			shopListViewId = "0";
+			loading_begin.setVisibility(View.GONE);
 			select_shop.setVisibility(View.GONE);
 			noshop.setVisibility(View.VISIBLE);
 			shopname.setText("我的店铺");
@@ -561,7 +566,7 @@ public class MemberGoupActivity extends BaseActivity {
 		});
 		popupWindow.setBackgroundDrawable(new BitmapDrawable());
 		popupWindow
-				.setWidth(getWindowManager().getDefaultDisplay().getWidth() / 3);
+				.setWidth(getWindowManager().getDefaultDisplay().getWidth()*2 / 5);
 		if(title.length <5)
 		{
 			popupWindow.setHeight(title.length * (getWindowManager().getDefaultDisplay().getWidth() / 10)+10);

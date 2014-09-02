@@ -145,6 +145,7 @@ public class Main extends BaseActivity {
 				&& AppContext.getInstance(getBaseContext()).isFirstRun()) {
 			Intent intent = new Intent(getBaseContext(), LayerActivity.class);
 			startActivity(intent);
+			AppContext.getInstance(getBaseContext()).setFirstRun(false);
 		}
 
 		initView();
@@ -161,6 +162,8 @@ public class Main extends BaseActivity {
 		if (null == shopId) {
 			shopId = "";
 		}
+		// 查询本地的关联数据
+	    queiryTitleList();
 		if (AppContext.getInstance(getBaseContext()).isChangeShop()) {
 			initData();
 			AppContext.getInstance(getBaseContext()).setChangeShop(false);
@@ -236,6 +239,11 @@ public class Main extends BaseActivity {
 											- (dm.widthPixels - 200) / 6);
 						}
 					}
+				}
+				if(msg.what == 2)
+				{
+					loading_begin.setVisibility(View.GONE);
+					mainScrollLayout.setVisibility(View.VISIBLE);	
 				}
 			}
 		};
@@ -737,8 +745,8 @@ public class Main extends BaseActivity {
 				((ImageView)findViewById(R.id.headmore)).getRight();
 				int y = ((ImageView)findViewById(R.id.headmore)).getBottom() * 2;
 				int x = getWindowManager().getDefaultDisplay().getWidth() / 2;
-				ImageView imageView = (ImageView) v;
-				Integer integer = (Integer) imageView.getTag();
+				LinearLayout image = (LinearLayout) v;
+				Integer integer = (Integer) image.getTag();
 				integer = integer == null ? 0 : integer;
 				if (integer == R.drawable.select_shop) {
 					((ImageView)findViewById(R.id.headmore)).setImageDrawable(getBaseContext()
@@ -975,8 +983,8 @@ public class Main extends BaseActivity {
 				}
 				else
 				{
-					loading_begin.setVisibility(View.GONE);
-					mainScrollLayout.setVisibility(View.VISIBLE);	
+					msg.what = 0;
+					handle.sendMessage(msg);
 				}
 			}
 		}.start();
@@ -1105,8 +1113,6 @@ public class Main extends BaseActivity {
 
 	public void initData() {
 
-		// 查询本地的关联数据
-		queiryTitleList();
 		List<MyShopBean> myshops = myshopService.queryShops();
 		if (myshops != null && myshops.size() > 0) {
 			select_shop.setVisibility(View.VISIBLE);
@@ -1121,7 +1127,6 @@ public class Main extends BaseActivity {
 			findViewById(R.id.date_header).setVisibility(View.GONE);
 			shopname.setText("我的店铺");
 		}
-
 	}
 
 	public void queiryTitleList() {
@@ -1205,7 +1210,10 @@ public class Main extends BaseActivity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				if (shopId.equals(shopIds[arg2])) {
-					popupWindow.dismiss();
+					if(null!=popupWindow)
+					{
+					   popupWindow.dismiss();
+					}
 					popupWindow = null;
 					((ImageView)findViewById(R.id.headmore))
 							.setImageDrawable(getBaseContext().getResources()
