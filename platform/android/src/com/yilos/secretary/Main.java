@@ -163,18 +163,18 @@ public class Main extends BaseActivity {
 			shopId = "";
 		}
 		// 查询本地的关联数据
-	    queiryTitleList();
+		queiryTitleList();
 		if (AppContext.getInstance(getBaseContext()).isChangeShop()) {
 			initData();
 			AppContext.getInstance(getBaseContext()).setChangeShop(false);
 		}
+
 	}
 
 	private void initChartViewData() {
 		handle = new Handler() {
 			public void handleMessage(Message msg) {
-				if (msg.what == 1) 
-				{
+				if (msg.what == 1) {
 					// 服务业绩
 					setBizPerformanceChartView();
 
@@ -183,13 +183,12 @@ public class Main extends BaseActivity {
 					setServicePerChartView();
 
 					setCustomerCountChartView();
-					
-					if (NetworkUtil.checkNetworkIsOk(getBaseContext()) == NetworkUtil.NONE) 
-					{
+
+					if (NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE) {
 						// 保存服务业绩
 						bizPerformanceService.deltel(year,
-								(Integer.valueOf(month) - 1) + "", day, dateType,
-								"biz_performance_" + dateType);
+								(Integer.valueOf(month) - 1) + "", day,
+								dateType, "biz_performance_" + dateType);
 
 						if (prevBizPerformance.get_id() != null) {
 							bizPerformanceService.deltel(
@@ -201,50 +200,49 @@ public class Main extends BaseActivity {
 
 						bizPerformanceService.addBizPerformance(bizPerformance,
 								"biz_performance_" + dateType);
-						bizPerformanceService.addBizPerformance(prevBizPerformance,
-								"biz_performance_" + dateType);
+						bizPerformanceService.addBizPerformance(
+								prevBizPerformance, "biz_performance_"
+										+ dateType);
 
 						// 保存员工
 						employeePerService.deltel(year,
-								(Integer.valueOf(month) - 1) + "", day, dateType,
-								"employee_performance_" + dateType);
+								(Integer.valueOf(month) - 1) + "", day,
+								dateType, "employee_performance_" + dateType);
 
 						employeePerService.addEmployeePer(employPerList,
 								"employee_performance_" + dateType);
 
 						// 保存卖品
 						productPerformanceService.deltel(year,
-								(Integer.valueOf(month) - 1) + "", day, dateType,
-								"service_performance_" + dateType);
+								(Integer.valueOf(month) - 1) + "", day,
+								dateType, "service_performance_" + dateType);
 						productPerformanceService.addProductPerformance(
 								servicePerformanceList, "service_performance_"
 										+ dateType);
 
 						// 保存客流量
 						customerCountService.deltel(year,
-								(Integer.valueOf(month) - 1) + "", day, dateType,
-								"customer_count_" + dateType);
-						customerCountService.addCustomerCount(customerCountList,
-								"customer_count_" + dateType);
-
-						// 保存完成后，赋值0
-						GETDATA_COUNT = 0;
-
-						if ("日".equals(timetype.getText().toString())) {
-							// 设置客流量的滚动条
-							charscrollview = (ScrollView) findViewById(R.id.charscrollview);
-							DisplayMetrics dm = getResources().getDisplayMetrics();
-							charscrollview.smoothScrollTo(dm.widthPixels,
-									(dm.widthPixels - 200) * 2 + 60
-											- (dm.widthPixels - 200) / 6);
-						}
+								(Integer.valueOf(month) - 1) + "", day,
+								dateType, "customer_count_" + dateType);
+						customerCountService
+								.addCustomerCount(customerCountList,
+										"customer_count_" + dateType);
 					}
 				}
-				if(msg.what == 2)
-				{
+				if (msg.what == 0) {
 					loading_begin.setVisibility(View.GONE);
-					mainScrollLayout.setVisibility(View.VISIBLE);	
+					mainScrollLayout.setVisibility(View.VISIBLE);
 				}
+
+				if ("日".equals(timetype.getText().toString())) {
+					// 设置客流量的滚动条
+					charscrollview = (ScrollView) findViewById(R.id.charscrollview);
+					DisplayMetrics dm = getResources().getDisplayMetrics();
+					charscrollview.smoothScrollTo(dm.widthPixels,
+							(dm.widthPixels - 200) * 2 + 60
+									- (dm.widthPixels - 200) / 6);
+				}
+
 			}
 		};
 	}
@@ -742,18 +740,19 @@ public class Main extends BaseActivity {
 		select_shop.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				((ImageView)findViewById(R.id.headmore)).getRight();
-				int y = ((ImageView)findViewById(R.id.headmore)).getBottom() * 2;
+				((ImageView) findViewById(R.id.headmore)).getRight();
+				int y = ((ImageView) findViewById(R.id.headmore)).getBottom() * 2;
 				int x = getWindowManager().getDefaultDisplay().getWidth() / 2;
 				LinearLayout image = (LinearLayout) v;
 				Integer integer = (Integer) image.getTag();
 				integer = integer == null ? 0 : integer;
 				if (integer == R.drawable.select_shop) {
-					((ImageView)findViewById(R.id.headmore)).setImageDrawable(getBaseContext()
-							.getResources().getDrawable(R.drawable.retract));
+					((ImageView) findViewById(R.id.headmore))
+							.setImageDrawable(getBaseContext().getResources()
+									.getDrawable(R.drawable.retract));
 					select_shop.setTag(R.drawable.retract);
 				} else {
-					((ImageView)findViewById(R.id.headmore))
+					((ImageView) findViewById(R.id.headmore))
 							.setImageDrawable(getBaseContext().getResources()
 									.getDrawable(R.drawable.select_shop));
 					select_shop.setTag(R.drawable.select_shop);
@@ -980,9 +979,7 @@ public class Main extends BaseActivity {
 
 					msg.what = 1;
 					handle.sendMessage(msg);
-				}
-				else
-				{
+				} else {
 					msg.what = 0;
 					handle.sendMessage(msg);
 				}
@@ -1065,7 +1062,7 @@ public class Main extends BaseActivity {
 
 	}
 
-	//获取本地 卖品业绩
+	// 获取本地 卖品业绩
 	public void getLocalServicePerformanceData() {
 
 		shopId = AppContext.getInstance(getBaseContext())
@@ -1086,7 +1083,7 @@ public class Main extends BaseActivity {
 
 	}
 
-	//获取本地 客流量
+	// 获取本地 客流量
 	public void getLocalBcustomerCount() {
 
 		shopId = AppContext.getInstance(getBaseContext())
@@ -1180,8 +1177,9 @@ public class Main extends BaseActivity {
 		popupWindow.setOnDismissListener(new OnDismissListener() {
 			@Override
 			public void onDismiss() {
-				((ImageView)findViewById(R.id.headmore)).setImageDrawable(getBaseContext().getResources()
-						.getDrawable(R.drawable.select_shop));
+				((ImageView) findViewById(R.id.headmore))
+						.setImageDrawable(getBaseContext().getResources()
+								.getDrawable(R.drawable.select_shop));
 				select_shop.setTag(R.drawable.select_shop);
 			}
 		});
@@ -1210,12 +1208,11 @@ public class Main extends BaseActivity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				if (shopId.equals(shopIds[arg2])) {
-					if(null!=popupWindow)
-					{
-					   popupWindow.dismiss();
+					if (null != popupWindow) {
+						popupWindow.dismiss();
 					}
 					popupWindow = null;
-					((ImageView)findViewById(R.id.headmore))
+					((ImageView) findViewById(R.id.headmore))
 							.setImageDrawable(getBaseContext().getResources()
 									.getDrawable(R.drawable.select_shop));
 					return;
@@ -1227,8 +1224,9 @@ public class Main extends BaseActivity {
 						.setCurrentDisplayShopId(shopIds[arg2]);
 				shopId = shopIds[arg2];
 				getShowData();
-				((ImageView)findViewById(R.id.headmore)).setImageDrawable(getBaseContext().getResources()
-						.getDrawable(R.drawable.select_shop));
+				((ImageView) findViewById(R.id.headmore))
+						.setImageDrawable(getBaseContext().getResources()
+								.getDrawable(R.drawable.select_shop));
 				popupWindow.dismiss();
 				popupWindow = null;
 			}
