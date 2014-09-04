@@ -39,6 +39,9 @@ import com.yilos.secretary.bean.EmployeePerBean;
 import com.yilos.secretary.bean.MyShopBean;
 import com.yilos.secretary.bean.ServerManageResponse;
 import com.yilos.secretary.bean.ServicePerformanceBean;
+import com.yilos.secretary.chartview.EmployeeChartView;
+import com.yilos.secretary.chartview.ServiceGoodsChartView;
+import com.yilos.secretary.chartview.TrafficChartView;
 import com.yilos.secretary.common.DateUtil;
 import com.yilos.secretary.common.NetworkUtil;
 import com.yilos.secretary.common.ScrollLayout;
@@ -99,7 +102,7 @@ public class Main extends BaseActivity {
 	// 获取4张报表，等于4则表示已全部获取
 	public static int GETDATA_COUNT = 0;
 
-	private PanelBar view;
+	private EmployeeChartView view;
 	private LinearLayout columnarLayout;
 	private LinearLayout annularLayout;
 	private LinearLayout annular2Layout;
@@ -434,7 +437,7 @@ public class Main extends BaseActivity {
 		float[] num2 = new float[] { newcard, recharge, service, product };
 		annularLayout = (LinearLayout) findViewById(R.id.annularLayout);
 		annularLayout.removeAllViews();
-		PanelDountChart panelDountView = new PanelDountChart(getBaseContext(),
+		ServiceGoodsChartView panelDountView = new ServiceGoodsChartView(getBaseContext(),
 				num2, perName, "business");
 		annularLayout.addView(panelDountView);
 
@@ -515,7 +518,7 @@ public class Main extends BaseActivity {
 		// 环形图
 		annular2Layout = (LinearLayout) findViewById(R.id.annular2Layout);
 		annular2Layout.removeAllViews();
-		PanelDountChart panelDountView = new PanelDountChart(getBaseContext(),
+		ServiceGoodsChartView panelDountView = new ServiceGoodsChartView(getBaseContext(),
 				percentNum, projectName, "service");
 		annular2Layout.addView(panelDountView);
 
@@ -560,7 +563,7 @@ public class Main extends BaseActivity {
 
 		columnarLayout = (LinearLayout) findViewById(R.id.columnarLayout);
 		columnarLayout.removeAllViews();
-		PanelBar view = new PanelBar(getBaseContext(), num, name);
+		EmployeeChartView view = new EmployeeChartView(getBaseContext(), num, name);
 		columnarLayout.addView(view);
 
 		total = (float) (Math.round(total * 10)) / 10;
@@ -619,7 +622,7 @@ public class Main extends BaseActivity {
 		// 折线图
 		myView = (LinearLayout) findViewById(R.id.myView);
 		myView.removeAllViews();
-		ChartView chartView = new ChartView(getBaseContext(), yNum, // Y轴刻度
+		TrafficChartView chartView = new TrafficChartView(getBaseContext(), yNum, // Y轴刻度
 				new String[] { "0", "10", "20", "30", "40", "50" }, // X轴刻度
 				count// 数据
 		);

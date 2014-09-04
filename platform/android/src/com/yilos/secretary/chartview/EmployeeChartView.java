@@ -1,4 +1,8 @@
-package com.yilos.secretary;
+package com.yilos.secretary.chartview;
+
+import com.yilos.secretary.R;
+import com.yilos.secretary.R.color;
+import com.yilos.secretary.R.dimen;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,7 +15,7 @@ import android.graphics.Typeface;
 import android.util.DisplayMetrics;
 import android.view.View;
 
-public class PanelBar extends View {
+public class EmployeeChartView extends View {
 	 DisplayMetrics dm = getResources().getDisplayMetrics();
 	 private int ScrHeight;  
      private int ScrWidth;  
@@ -39,7 +43,7 @@ public class PanelBar extends View {
      private  String[] arrNum = null;  
      
      @SuppressLint("NewApi")
-	public PanelBar(Context context,String[] num,String[] ename){  
+	public EmployeeChartView(Context context,String[] num,String[] ename){  
          super(context); 
 
            

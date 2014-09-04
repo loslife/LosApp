@@ -1,6 +1,10 @@
-package com.yilos.secretary;
+package com.yilos.secretary.chartview;
 
 import java.util.Arrays;
+
+import com.yilos.secretary.R;
+import com.yilos.secretary.R.color;
+import com.yilos.secretary.R.dimen;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -14,7 +18,7 @@ import android.view.View;
 import android.widget.ScrollView;
 
 @SuppressLint("NewApi")
-public class ChartView extends View {
+public class TrafficChartView extends View {
 
 	DisplayMetrics dm = getResources().getDisplayMetrics(); 
 	public int XPoint = 150; // 原点的X坐标
@@ -45,12 +49,12 @@ public class ChartView extends View {
 	 int top_two = 0;
 	 int top_three = 0;
 
-	public ChartView(Context context, AttributeSet attr) {
+	public TrafficChartView(Context context, AttributeSet attr) {
 		super(context, attr);
 
 	}
 	
-	public ChartView(Context context, String[] XLabels, String[] YLabels, int[] AllData) {
+	public TrafficChartView(Context context, String[] XLabels, String[] YLabels, int[] AllData) {
 		super(context);
 		SetInfo(XLabels, YLabels,AllData);
 	}

@@ -1,4 +1,6 @@
-package com.yilos.secretary;
+package com.yilos.secretary.chartview;
+
+import com.yilos.secretary.Main;
 
 import android.content.Context;
 import android.graphics.Canvas;

@@ -1,4 +1,4 @@
-package com.yilos.secretary;
+package com.yilos.secretary.chartview;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,9 +11,12 @@ import android.graphics.RectF;
 import android.util.DisplayMetrics;
 import android.view.View;
 
+import com.yilos.secretary.R;
+import com.yilos.secretary.R.color;
+import com.yilos.secretary.R.dimen;
 import com.yilos.secretary.common.ChartCalc;
 
-public class PanelDountChart extends View {
+public class ServiceGoodsChartView extends View {
 
 	private int ScrWidth, ScrHeight;
 
@@ -25,7 +28,7 @@ public class PanelDountChart extends View {
 
 	private String strPer[] = null;
 
-	public PanelDountChart(Context context, float arr[], String textName[],
+	public ServiceGoodsChartView(Context context, float arr[], String textName[],
 			String perType) {
 		super(context);
 

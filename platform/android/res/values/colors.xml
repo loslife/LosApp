@@ -35,6 +35,9 @@
 	<color name="black_text">#202529</color>
 	<color name="orange_bg">#e36e42</color>
 	<color name="orange_down">#fca788</color>
+	<color name="blue_down">#026b94</color>
+	<color name="gray_down">#e7ecf0</color>
+	<color name="white_down">#f4f6f8</color>
 	
 	<color name="paneldount_one">#e36e42</color>
 	<color name="paneldount_two">#f9d05c</color>
