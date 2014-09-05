@@ -137,7 +137,7 @@
                     android:divider="@color/graywhite"
                     android:dividerHeight="1px"
                     android:scrollbars="none"
-                     android:listSelector="@color/white" >
+                    android:listSelector="@color/white" >
                 </ListView>
             </com.yilos.secretary.view.RefreshableView>
 

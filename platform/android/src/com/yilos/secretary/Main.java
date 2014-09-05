@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
@@ -52,8 +53,9 @@ import com.yilos.secretary.service.CustomerCountService;
 import com.yilos.secretary.service.EmployeePerService;
 import com.yilos.secretary.service.MyshopManageService;
 import com.yilos.secretary.service.ProductPerformanceService;
+import com.yilos.secretary.view.RefreshLayoutableView;
 
-public class Main extends BaseActivity {
+public class Main extends BaseActivity  implements RefreshLayoutableView.RefreshListener {
 
 	private String shopId;
 	private String shoptitle;
@@ -107,6 +109,7 @@ public class Main extends BaseActivity {
 	private LinearLayout annularLayout;
 	private LinearLayout annular2Layout;
 	private LinearLayout myView;
+	private RefreshLayoutableView mRefreshableView;
 
 	private ScrollLayout mainScrollLayout;
 	private LinearLayout noshop;
@@ -235,6 +238,11 @@ public class Main extends BaseActivity {
 				if (msg.what == 0) {
 					loading_begin.setVisibility(View.GONE);
 					mainScrollLayout.setVisibility(View.VISIBLE);
+				}
+				if(msg.what==2)
+				{
+					mRefreshableView.finishRefresh();
+					Toast.makeText(mContext, R.string.toast_text, Toast.LENGTH_SHORT).show();
 				}
 
 				if ("日".equals(timetype.getText().toString())) {
@@ -683,7 +691,7 @@ public class Main extends BaseActivity {
 		service_refresh = (ImageView) findViewById(R.id.service_refresh);
 		business_refresh = (ImageView) findViewById(R.id.business_refresh);
 		loading_begin = (LinearLayout) findViewById(R.id.loading_begin);
-
+		mRefreshableView = (RefreshLayoutableView) findViewById(R.id.refresh_root);
 		mainScrollLayout = (ScrollLayout) findViewById(R.id.main_scrolllayout);
 		noshop = (LinearLayout) findViewById(R.id.noshop);
 
@@ -695,7 +703,7 @@ public class Main extends BaseActivity {
 				.setVisibility(View.VISIBLE);
 
 		findViewById(R.id.goback).setVisibility(View.GONE);
-
+		mRefreshableView.setRefreshListener(this);
 		customs_refresh.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -1302,6 +1310,11 @@ public class Main extends BaseActivity {
 		} else {
 			return super.onKeyDown(keyCode, event);
 		}
+	}
+
+	@Override
+	public void onRefresh(RefreshLayoutableView view) {
+		handle.sendEmptyMessageDelayed(2, 2000);
 	}
 
 }

@@ -58,6 +58,7 @@
             android:textSize="@dimen/Text_size_m" />
     </LinearLayout>
     <include layout="@layout/loadingbar"/>
+  
       <com.yilos.secretary.common.ScrollLayout 
       android:id="@+id/main_scrolllayout"    
 	  android:layout_width="fill_parent"    
@@ -72,7 +73,7 @@
      <include layout="@layout/traffic_chart" />
 
     </com.yilos.secretary.common.ScrollLayout>
-    
+ 
       <LinearLayout
       android:id="@+id/noshop"
       android:layout_width="fill_parent"
