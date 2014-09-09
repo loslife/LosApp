@@ -13,6 +13,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -66,6 +67,7 @@ public class MemberGoupActivity extends BaseActivity {
 	private LinearLayout layout_loadingmember;
 	private LinearLayout layout_memberlist;
 	private RefreshableView refreshableView;
+	private SwipeRefreshLayout swipeRefreshLayout; 
 	private TextView loadingmember;
 	private LinearLayout loading_begin;
 	private RelativeLayout layout_loadingfail;
@@ -321,6 +323,8 @@ public class MemberGoupActivity extends BaseActivity {
 					refreshableView.finishRefreshing();
 			}
 		}, 0);
+		
+		
        loadingmember.setOnClickListener(new OnClickListener() {
 			
 			@Override

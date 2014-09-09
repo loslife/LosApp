@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.ScrollView;
@@ -55,7 +56,7 @@ import com.yilos.secretary.service.MyshopManageService;
 import com.yilos.secretary.service.ProductPerformanceService;
 import com.yilos.secretary.view.RefreshLayoutableView;
 
-public class Main extends BaseActivity  implements RefreshLayoutableView.RefreshListener {
+public class Main extends BaseActivity{
 
 	private String shopId;
 	private String shoptitle;
@@ -89,9 +90,14 @@ public class Main extends BaseActivity  implements RefreshLayoutableView.Refresh
 	private ImageView business_refresh;
 
 	private PopupWindow popupWindow;
+	
+	private RelativeLayout lefttime_layout;
+	private RelativeLayout righttime_layout;
+	private RelativeLayout timetype_layout;
 	private LinearLayout layout;
 	private ListView listView;
 	private LinearLayout loading_begin;
+	
 	private ScrollView charscrollview;
 	private String title[] = null;
 	private String titleList[] = null;
@@ -109,7 +115,6 @@ public class Main extends BaseActivity  implements RefreshLayoutableView.Refresh
 	private LinearLayout annularLayout;
 	private LinearLayout annular2Layout;
 	private LinearLayout myView;
-	private RefreshLayoutableView mRefreshableView;
 
 	private ScrollLayout mainScrollLayout;
 	private LinearLayout noshop;
@@ -241,7 +246,6 @@ public class Main extends BaseActivity  implements RefreshLayoutableView.Refresh
 				}
 				if(msg.what==2)
 				{
-					mRefreshableView.finishRefresh();
 					Toast.makeText(mContext, R.string.toast_text, Toast.LENGTH_SHORT).show();
 				}
 
@@ -691,8 +695,10 @@ public class Main extends BaseActivity  implements RefreshLayoutableView.Refresh
 		service_refresh = (ImageView) findViewById(R.id.service_refresh);
 		business_refresh = (ImageView) findViewById(R.id.business_refresh);
 		loading_begin = (LinearLayout) findViewById(R.id.loading_begin);
-		mRefreshableView = (RefreshLayoutableView) findViewById(R.id.refresh_root);
 		mainScrollLayout = (ScrollLayout) findViewById(R.id.main_scrolllayout);
+		lefttime_layout = (RelativeLayout) findViewById(R.id.lefttime_layout);
+		righttime_layout = (RelativeLayout) findViewById(R.id.righttime_layout);
+		timetype_layout = (RelativeLayout) findViewById(R.id.timetype_layout);
 		noshop = (LinearLayout) findViewById(R.id.noshop);
 
 		shopname.setText(AppContext.getInstance(getBaseContext()).getShopName());
@@ -703,7 +709,6 @@ public class Main extends BaseActivity  implements RefreshLayoutableView.Refresh
 				.setVisibility(View.VISIBLE);
 
 		findViewById(R.id.goback).setVisibility(View.GONE);
-		mRefreshableView.setRefreshListener(this);
 		customs_refresh.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -774,7 +779,7 @@ public class Main extends BaseActivity  implements RefreshLayoutableView.Refresh
 			}
 		});
 
-		timetype.setOnClickListener(new OnClickListener() {
+		timetype_layout.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -807,7 +812,7 @@ public class Main extends BaseActivity  implements RefreshLayoutableView.Refresh
 
 		});
 
-		lefttime.setOnClickListener(new OnClickListener() {
+		lefttime_layout.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -851,7 +856,7 @@ public class Main extends BaseActivity  implements RefreshLayoutableView.Refresh
 			}
 		});
 
-		righttime.setOnClickListener(new OnClickListener() {
+		righttime_layout.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -1310,11 +1315,6 @@ public class Main extends BaseActivity  implements RefreshLayoutableView.Refresh
 		} else {
 			return super.onKeyDown(keyCode, event);
 		}
-	}
-
-	@Override
-	public void onRefresh(RefreshLayoutableView view) {
-		handle.sendEmptyMessageDelayed(2, 2000);
 	}
 
 }
