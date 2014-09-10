@@ -14,7 +14,8 @@
         android:layout_height="50dip"
         android:background="@color/gray_bg"
         android:gravity="center"
-        android:orientation="horizontal" >
+        android:orientation="horizontal" 
+        android:visibility="gone">
 
         <TextView
             android:layout_width="0dp"
@@ -83,7 +84,6 @@
     </LinearLayout>
 
     <include layout="@layout/loadingbar" />
-
     <com.yilos.secretary.common.ScrollLayout
         android:id="@+id/main_scrolllayout"
         android:layout_width="fill_parent"
@@ -99,7 +99,6 @@
 
         <include layout="@layout/traffic_chart" />
     </com.yilos.secretary.common.ScrollLayout>
-
     <LinearLayout
         android:id="@+id/noshop"
         android:layout_width="fill_parent"

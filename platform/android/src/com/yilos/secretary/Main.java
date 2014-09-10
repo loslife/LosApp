@@ -18,8 +18,8 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -27,14 +27,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 import android.widget.PopupWindow.OnDismissListener;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.yilos.secretary.R;
 import com.yilos.secretary.bean.BcustomerCountBean;
 import com.yilos.secretary.bean.BizPerformanceBean;
 import com.yilos.secretary.bean.EmployeePerBean;
@@ -48,7 +47,6 @@ import com.yilos.secretary.common.DateUtil;
 import com.yilos.secretary.common.NetworkUtil;
 import com.yilos.secretary.common.ScrollLayout;
 import com.yilos.secretary.common.StringUtils;
-import com.yilos.secretary.common.UIHelper;
 import com.yilos.secretary.service.BizPerformanceService;
 import com.yilos.secretary.service.CustomerCountService;
 import com.yilos.secretary.service.EmployeePerService;
@@ -56,7 +54,8 @@ import com.yilos.secretary.service.MyshopManageService;
 import com.yilos.secretary.service.ProductPerformanceService;
 import com.yilos.secretary.view.RefreshLayoutableView;
 
-public class Main extends BaseActivity{
+public class Main extends BaseActivity implements
+RefreshLayoutableView.RefreshListener{
 
 	private String shopId;
 	private String shoptitle;
@@ -94,6 +93,7 @@ public class Main extends BaseActivity{
 	private RelativeLayout lefttime_layout;
 	private RelativeLayout righttime_layout;
 	private RelativeLayout timetype_layout;
+	private RefreshLayoutableView mRefreshableView;
 	private LinearLayout layout;
 	private ListView listView;
 	private LinearLayout loading_begin;
@@ -246,6 +246,12 @@ public class Main extends BaseActivity{
 				}
 				if(msg.what==2)
 				{
+					Toast.makeText(mContext, R.string.toast_text, Toast.LENGTH_SHORT).show();
+				}
+				
+				if(msg.what==3)
+				{
+					mRefreshableView.finishRefresh();
 					Toast.makeText(mContext, R.string.toast_text, Toast.LENGTH_SHORT).show();
 				}
 
@@ -700,6 +706,8 @@ public class Main extends BaseActivity{
 		righttime_layout = (RelativeLayout) findViewById(R.id.righttime_layout);
 		timetype_layout = (RelativeLayout) findViewById(R.id.timetype_layout);
 		noshop = (LinearLayout) findViewById(R.id.noshop);
+		mRefreshableView = (RefreshLayoutableView) findViewById(R.id.refresh_root);
+		mRefreshableView.setRefreshListener(this);
 
 		shopname.setText(AppContext.getInstance(getBaseContext()).getShopName());
 		showTime.setText(getDateNow());
@@ -1315,6 +1323,11 @@ public class Main extends BaseActivity{
 		} else {
 			return super.onKeyDown(keyCode, event);
 		}
+	}
+
+	@Override
+	public void onRefresh(RefreshLayoutableView view) {
+		handle.sendEmptyMessageDelayed(3, 2000);		
 	}
 
 }

@@ -78,13 +78,6 @@
 		            android:textSize="10sp" />
 		    </LinearLayout>
 		</LinearLayout>
-
-		<View
-		    android:layout_width="fill_parent"
-		    android:layout_height="5dp"
-		    android:layout_alignParentBottom="true"
-		    android:background="#ffc8b67a" />
-
 	</RelativeLayout>
 
 </LinearLayout>

@@ -35,7 +35,7 @@ public class RefreshLayoutableView extends LinearLayout {
     private Scroller scroller;
     private View refreshView;
     private ImageView refreshIndicatorView;
-    private int refreshTargetTop = -60;
+    private int refreshTargetTop = -80;
     private ProgressBar bar;
     private TextView downTextView;
     private TextView timeTextView;
@@ -132,8 +132,6 @@ public class RefreshLayoutableView extends LinearLayout {
     public boolean onTouchEvent(MotionEvent event) {
         
         int y= (int) event.getRawY();
-        
-        
         switch (event.getAction()) {
         case MotionEvent.ACTION_DOWN:
             //记录下y坐标
@@ -153,10 +151,8 @@ public class RefreshLayoutableView extends LinearLayout {
             break;
             
         case MotionEvent.ACTION_UP:
-            Log.i(TAG, "ACTION_UP");
-            
+            Log.i(TAG, "ACTION_UP");  
             fling();
-            
             break;
         }
         return true;
@@ -167,7 +163,6 @@ public class RefreshLayoutableView extends LinearLayout {
      * up事件处理
      */
     private void fling() {
-        // TODO Auto-generated method stub
         LinearLayout.LayoutParams lp = (LayoutParams) refreshView.getLayoutParams();
         Log.i(TAG, "fling()" + lp.topMargin);
         if(lp.topMargin > 0){//拉到了触发可刷新事件
@@ -187,7 +182,6 @@ public class RefreshLayoutableView extends LinearLayout {
          invalidate();
     }
     private void refresh() {
-        // TODO Auto-generated method stub
          LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams)this.refreshView.getLayoutParams();
          int i = lp.topMargin;
          reFreshTimeLayout.setVisibility(View.GONE);
@@ -208,7 +202,6 @@ public class RefreshLayoutableView extends LinearLayout {
      */
     @Override
     public void computeScroll() {
-        // TODO Auto-generated method stub
         if(scroller.computeScrollOffset()){
             int i = this.scroller.getCurrY();
               LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams)this.refreshView.getLayoutParams();
@@ -224,12 +217,11 @@ public class RefreshLayoutableView extends LinearLayout {
      * @param moveY
      */
     private void doMovement(int moveY) {
-        // TODO Auto-generated method stub
         LinearLayout.LayoutParams lp = (LayoutParams) refreshView.getLayoutParams();
         if(moveY>0){
             //获取view的上边距
             float f1 =lp.topMargin;
-            float f2 = moveY * 0.3F;
+            float f2 = moveY * 0.5F;
             int i = (int)(f1+f2);
             //修改上边距
             lp.topMargin = i;
@@ -241,7 +233,7 @@ public class RefreshLayoutableView extends LinearLayout {
         else 
         {
             float f1 =lp.topMargin;
-            int i=(int)(f1+moveY*0.9F);
+            int i=(int)(f1+moveY*1.2F);
             Log.i("aa", String.valueOf(i));
             if(i>=refreshTargetTop)
             {
@@ -267,10 +259,10 @@ public class RefreshLayoutableView extends LinearLayout {
         bar.setVisibility(View.GONE);
         if(lp.topMargin >  0){
             downTextView.setText(R.string.refresh_release_text);
-            //refreshIndicatorView.setImageResource(R.drawable.refresh_arrow_up);
+            refreshIndicatorView.setImageResource(R.drawable.arrow_up);
         }else{
             downTextView.setText(R.string.refresh_down_text);
-            //refreshIndicatorView.setImageResource(R.drawable.refresh_arrow_down);
+            refreshIndicatorView.setImageResource(R.drawable.arrow);
         }
             
     }
