@@ -35,7 +35,7 @@ public class RefreshLayoutableView extends LinearLayout {
     private Scroller scroller;
     private View refreshView;
     private ImageView refreshIndicatorView;
-    private int refreshTargetTop = -80;
+    private int refreshTargetTop = -120;
     private ProgressBar bar;
     private TextView downTextView;
     private TextView timeTextView;
@@ -102,8 +102,8 @@ public class RefreshLayoutableView extends LinearLayout {
      * @param time
      */
     private void setLastRefreshTimeText() {
-        // TODO Auto-generated method stub
-        reFreshTimeLayout.setVisibility(View.VISIBLE);
+        String updateTimeStr = "最后更新时间:";
+    	reFreshTimeLayout.setVisibility(View.VISIBLE);
         Calendar NowTime=Calendar.getInstance();
         long l=NowTime.getTimeInMillis()-LastRefreshTime.getTimeInMillis();
         int days=new Long(l/(1000*60*60*24)).intValue();
@@ -111,53 +111,23 @@ public class RefreshLayoutableView extends LinearLayout {
         int min=new Long(l/(1000*60)).intValue();
         if(days!=0)
         {
-            timeTextView.setText(days+"天"); 
+            timeTextView.setText(updateTimeStr+days+"天前"); 
         }
         else  if(hour!=0)
         {
-            timeTextView.setText(hour+"小时"); 
+            timeTextView.setText(updateTimeStr+hour+"小时前"); 
         }
         else if(min!=0)
         {
-            timeTextView.setText(min+"分钟"); 
+            timeTextView.setText(updateTimeStr+min+"分钟前"); 
         }
-       
-         
+        else
+        {
+        	 timeTextView.setText(updateTimeStr+"0分钟前"); 
+        }
+
         //timeTextView.setText(time);
     }
-
-
-    
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        
-        int y= (int) event.getRawY();
-        switch (event.getAction()) {
-        case MotionEvent.ACTION_DOWN:
-            //记录下y坐标
-            lastY = y;
-            break;
-
-        case MotionEvent.ACTION_MOVE:
-            Log.i(TAG, "ACTION_MOVE");
-            //y移动坐标
-            int m = y - lastY;
-            if(((m < 6) && (m > -1)) || (!isDragging )){
-                setLastRefreshTimeText();
-                 doMovement(m);
-            }
-            //记录下此刻y坐标
-            this.lastY = y;
-            break;
-            
-        case MotionEvent.ACTION_UP:
-            Log.i(TAG, "ACTION_UP");  
-            fling();
-            break;
-        }
-        return true;
-    }
-
 
     /**
      * up事件处理
@@ -171,9 +141,7 @@ public class RefreshLayoutableView extends LinearLayout {
             returnInitState();
         }
     }
-    
 
-    
     private void returnInitState() {
         // TODO Auto-generated method stub
          LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams)this.refreshView.getLayoutParams();
@@ -184,11 +152,12 @@ public class RefreshLayoutableView extends LinearLayout {
     private void refresh() {
          LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams)this.refreshView.getLayoutParams();
          int i = lp.topMargin;
-         reFreshTimeLayout.setVisibility(View.GONE);
+         //reFreshTimeLayout.setVisibility(View.GONE);
          refreshIndicatorView.setVisibility(View.GONE);
          bar.setVisibility(View.VISIBLE);
-         timeTextView.setVisibility(View.GONE);
-         downTextView.setVisibility(View.GONE);
+         //timeTextView.setVisibility(View.GONE);
+         //downTextView.setVisibility(View.GONE);
+         downTextView.setText("正在为你更新");
          scroller.startScroll(0, i, 0, 0-i);
          invalidate();
          if(refreshListener !=null){
@@ -221,7 +190,7 @@ public class RefreshLayoutableView extends LinearLayout {
         if(moveY>0){
             //获取view的上边距
             float f1 =lp.topMargin;
-            float f2 = moveY * 0.5F;
+            float f2 = moveY * 1.0F;
             int i = (int)(f1+f2);
             //修改上边距
             lp.topMargin = i;
@@ -325,6 +294,38 @@ public class RefreshLayoutableView extends LinearLayout {
         }
         return false;
     }
+    
+    
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        
+        int y= (int) event.getRawY();
+        switch (event.getAction()) {
+        case MotionEvent.ACTION_DOWN:
+            //记录下y坐标
+            lastY = y;
+            break;
+
+        case MotionEvent.ACTION_MOVE:
+            Log.i(TAG, "ACTION_MOVE");
+            //y移动坐标
+            int m = y - lastY;
+            if(((m < 6) && (m > -1)) || (!isDragging )){
+                setLastRefreshTimeText();
+                 doMovement(m);
+            }
+            //记录下此刻y坐标
+            this.lastY = y;
+            break;
+            
+        default:
+            Log.i(TAG, "ACTION_UP");  
+            fling();
+            break;
+        }
+        return true;
+    }
+
     private boolean canScroll() {
         // TODO Auto-generated method stub
         View childView;
@@ -352,7 +353,7 @@ public class RefreshLayoutableView extends LinearLayout {
     }
     /**
      * 刷新监听接口
-     * @author Nono
+     * 
      *
      */
     public interface RefreshListener{

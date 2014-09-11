@@ -93,7 +93,10 @@ RefreshLayoutableView.RefreshListener{
 	private RelativeLayout lefttime_layout;
 	private RelativeLayout righttime_layout;
 	private RelativeLayout timetype_layout;
-	private RefreshLayoutableView mRefreshableView;
+	private RefreshLayoutableView mRefreshBusinessView;
+	private RefreshLayoutableView mRefreshEmployeeView;
+	private RefreshLayoutableView mRefreshServiceView;
+	private RefreshLayoutableView mRefreshTrafficView;
 	private LinearLayout layout;
 	private ListView listView;
 	private LinearLayout loading_begin;
@@ -251,7 +254,10 @@ RefreshLayoutableView.RefreshListener{
 				
 				if(msg.what==3)
 				{
-					mRefreshableView.finishRefresh();
+					mRefreshBusinessView.finishRefresh();
+					mRefreshEmployeeView.finishRefresh();
+					mRefreshServiceView.finishRefresh();
+					mRefreshTrafficView.finishRefresh();
 					Toast.makeText(mContext, R.string.toast_text, Toast.LENGTH_SHORT).show();
 				}
 
@@ -290,7 +296,7 @@ RefreshLayoutableView.RefreshListener{
 		float percent_recharge = 0.0f;
 		float percent_service = 0.0f;
 		float percent_product = 0.0f;
-
+	
 		if (bizPerformance.getTotal() == null
 				|| Float.valueOf(bizPerformance.getTotal()) == 0.0f) {
 			((LinearLayout) findViewById(R.id.business_empty))
@@ -451,6 +457,9 @@ RefreshLayoutableView.RefreshListener{
 		product = (float) (Math.round(product * 1000)) / 10;
 
 		String[] perName = { "开卡业绩", "充值业绩", "服务业绩", "卖品业绩" };
+		
+		mRefreshBusinessView = (RefreshLayoutableView) findViewById(R.id.refresh_business);
+		mRefreshBusinessView.setRefreshListener(this);
 		// 环形图
 		float[] num2 = new float[] { newcard, recharge, service, product };
 		annularLayout = (LinearLayout) findViewById(R.id.annularLayout);
@@ -532,7 +541,8 @@ RefreshLayoutableView.RefreshListener{
 
 			}
 		}
-
+		mRefreshServiceView = (RefreshLayoutableView) findViewById(R.id.refresh_service);
+		mRefreshServiceView.setRefreshListener(this);
 		// 环形图
 		annular2Layout = (LinearLayout) findViewById(R.id.annular2Layout);
 		annular2Layout.removeAllViews();
@@ -578,7 +588,8 @@ RefreshLayoutableView.RefreshListener{
 			name[i] = numSort[i].substring(index + 1, numSort[i].length());
 			num[i] = numSort[i].substring(0, index);
 		}
-
+		mRefreshEmployeeView = (RefreshLayoutableView) findViewById(R.id.refresh_employee);
+		mRefreshEmployeeView.setRefreshListener(this);
 		columnarLayout = (LinearLayout) findViewById(R.id.columnarLayout);
 		columnarLayout.removeAllViews();
 		EmployeeChartView view = new EmployeeChartView(getBaseContext(), num, name);
@@ -637,6 +648,8 @@ RefreshLayoutableView.RefreshListener{
 		((TextView) findViewById(R.id.personNum)).setText("会员" + memberCount
 				+ "人次  散客" + walkinCount + "人次");
 
+		mRefreshTrafficView = (RefreshLayoutableView) findViewById(R.id.refresh_traffic);
+		mRefreshTrafficView.setRefreshListener(this);
 		// 折线图
 		myView = (LinearLayout) findViewById(R.id.myView);
 		myView.removeAllViews();
@@ -706,9 +719,7 @@ RefreshLayoutableView.RefreshListener{
 		righttime_layout = (RelativeLayout) findViewById(R.id.righttime_layout);
 		timetype_layout = (RelativeLayout) findViewById(R.id.timetype_layout);
 		noshop = (LinearLayout) findViewById(R.id.noshop);
-		mRefreshableView = (RefreshLayoutableView) findViewById(R.id.refresh_root);
-		mRefreshableView.setRefreshListener(this);
-
+		
 		shopname.setText(AppContext.getInstance(getBaseContext()).getShopName());
 		showTime.setText(getDateNow());
 		select_shop.setTag(R.drawable.select_shop);

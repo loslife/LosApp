@@ -222,7 +222,6 @@ public class ScrollLayout extends ViewGroup
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
-		//Log.e(TAG, "onInterceptTouchEvent-slop:" + mTouchSlop);
 		final int action = ev.getAction();
 		if ((action == MotionEvent.ACTION_MOVE)
 				&& (mTouchState != TOUCH_STATE_REST)) {
