@@ -160,13 +160,14 @@ public class MemberGoupActivity extends BaseActivity {
 					loading_begin.setVisibility(View.GONE);
 					getdata();
 					seachmemberext.setText("");
-					
+					refreshableView.finishRefreshing();
 				}
 				
 				if(msg.what==3)
 				{
 					UIHelper.ToastMessage(getBaseContext(), "网络不给力");
 					seachmemberext.setText("");
+					refreshableView.finishRefreshing();
 				}
 			}
 	};
@@ -320,7 +321,7 @@ public class MemberGoupActivity extends BaseActivity {
 						msg.what=3;
 						handle.sendMessage(msg);
 					}
-					refreshableView.finishRefreshing();
+					
 			}
 		}, 0);
 		

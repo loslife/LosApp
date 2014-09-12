@@ -70,6 +70,27 @@ public class DatabaseHelper extends SQLiteOpenHelper
     public static final String CUSTOMER_MONTH_SQL = "CREATE TABLE IF NOT EXISTS customer_count_month (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), walkin integer, member integer, year integer, month integer, day integer, hour integer, dateTime REAL);";
     
     public static final String CUSTOMER_WEEK_SQL = "CREATE TABLE IF NOT EXISTS customer_count_week (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), walkin integer, member integer, year integer, month integer, day integer, hour integer, dateTime REAL);";
+    
+    public static final String INCOME_DAY_PERFORMANCE = "CREATE TABLE IF NOT EXISTS income_performance_day(id INTEGER NOT NULL primary key AUTOINCREMENT,enterprise_id varchar(64),"
+            +"total_income REAL,total_prepay REAL,total_paidin REAL,total_paidin_bank REAL,total_paidin_cash REAL,"
+            + "service_cash REAL,service_bank REAL,product_cash REAL,product_bank REAL,card REAL,newcard_cash REAL,"
+            + "newcard_bank REAL,rechargecard_cash REAL,rechargecard_bank REAL,year integer, month integer, day integer, "
+            + "create_date REAL,modify_date REAL,syncindex REAL,synctag INTEGER,status integer,def_str1 varchar(32),"
+            + "def_int1 REAL,def_int2 REAL,def_int3 REAL);";
+    
+    public static final String INCOME_WEEK_PERFORMANCE = "CREATE TABLE IF NOT EXISTS income_performance_week(id INTEGER NOT NULL primary key AUTOINCREMENT,enterprise_id varchar(64),"
+            +"total_income REAL,total_prepay REAL,total_paidin REAL,total_paidin_bank REAL,total_paidin_cash REAL,"
+            + "service_cash REAL,service_bank REAL,product_cash REAL,product_bank REAL,card REAL,newcard_cash REAL,"
+            + "newcard_bank REAL,rechargecard_cash REAL,rechargecard_bank REAL,year integer, month integer, day integer, "
+            + "create_date REAL,modify_date REAL,syncindex REAL,synctag INTEGER,status integer,def_str1 varchar(32),"
+            + "def_int1 REAL,def_int2 REAL,def_int3 REAL);";
+    
+    public static final String INCOME_MONTH_PERFORMANCE = "CREATE TABLE IF NOT EXISTS income_performance_month(id INTEGER NOT NULL primary key AUTOINCREMENT,enterprise_id varchar(64),"
+            +"total_income REAL,total_prepay REAL,total_paidin REAL,total_paidin_bank REAL,total_paidin_cash REAL,"
+            + "service_cash REAL,service_bank REAL,product_cash REAL,product_bank REAL,card REAL,newcard_cash REAL,"
+            + "newcard_bank REAL,rechargecard_cash REAL,rechargecard_bank REAL,year integer, month integer, day integer, "
+            + "create_date REAL,modify_date REAL,syncindex REAL,synctag INTEGER,status integer,def_str1 varchar(32),"
+            + "def_int1 REAL,def_int2 REAL,def_int3 REAL);";
 
     
     // 构造函数，调用父类SQLiteOpenHelper的构造函数
@@ -119,6 +140,10 @@ public class DatabaseHelper extends SQLiteOpenHelper
         db.execSQL(CUSTOMER_DAY_SQL);
         db.execSQL(CUSTOMER_MONTH_SQL);
         db.execSQL(CUSTOMER_WEEK_SQL);
+        
+        db.execSQL(INCOME_DAY_PERFORMANCE);
+        db.execSQL(INCOME_WEEK_PERFORMANCE);
+        db.execSQL(INCOME_MONTH_PERFORMANCE);
 
         // 即便程序修改重新运行，只要数据库已经创建过，就不会再进入这个onCreate方法
     }
@@ -145,6 +170,10 @@ public class DatabaseHelper extends SQLiteOpenHelper
         db.execSQL("DROP TABLE IF EXISTS " + CUST_COUNT_DAY);
         db.execSQL("DROP TABLE IF EXISTS " + CUSTOMER_MONTH_SQL);
         db.execSQL("DROP TABLE IF EXISTS " + CUSTOMER_WEEK_SQL);
+
+        db.execSQL("DROP TABLE IF EXISTS " + INCOME_DAY_PERFORMANCE);
+        db.execSQL("DROP TABLE IF EXISTS " + INCOME_WEEK_PERFORMANCE);
+        db.execSQL("DROP TABLE IF EXISTS " + INCOME_MONTH_PERFORMANCE);
 
         onCreate(db);
     }

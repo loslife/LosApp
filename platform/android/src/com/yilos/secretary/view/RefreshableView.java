@@ -387,23 +387,23 @@ public class RefreshableView extends LinearLayout implements OnTouchListener {
             updateAtValue = getResources().getString(R.string.updated_just_now);  
         } else if (timePassed < ONE_HOUR) {  
             timeIntoFormat = timePassed / ONE_MINUTE;  
-            String value = timeIntoFormat + "分钟";  
+            String value = timeIntoFormat + "分钟前";  
             updateAtValue = String.format(getResources().getString(R.string.updated_at), value);  
         } else if (timePassed < ONE_DAY) {  
             timeIntoFormat = timePassed / ONE_HOUR;  
-            String value = timeIntoFormat + "小时";  
+            String value = timeIntoFormat + "小时前";  
             updateAtValue = String.format(getResources().getString(R.string.updated_at), value);  
         } else if (timePassed < ONE_MONTH) {  
             timeIntoFormat = timePassed / ONE_DAY;  
-            String value = timeIntoFormat + "天";  
+            String value = timeIntoFormat + "天前";  
             updateAtValue = String.format(getResources().getString(R.string.updated_at), value);  
         } else if (timePassed < ONE_YEAR) {  
             timeIntoFormat = timePassed / ONE_MONTH;  
-            String value = timeIntoFormat + "个月";  
+            String value = timeIntoFormat + "个月前";  
             updateAtValue = String.format(getResources().getString(R.string.updated_at), value);  
         } else {  
             timeIntoFormat = timePassed / ONE_YEAR;  
-            String value = timeIntoFormat + "年";  
+            String value = timeIntoFormat + "年前";  
             updateAtValue = String.format(getResources().getString(R.string.updated_at), value);  
         } 
         

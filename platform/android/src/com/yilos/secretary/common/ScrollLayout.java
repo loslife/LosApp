@@ -3,6 +3,7 @@ package com.yilos.secretary.common;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
@@ -163,7 +164,7 @@ public class ScrollLayout extends ViewGroup
 		final float y = event.getY();
 		switch (action) {
 		case MotionEvent.ACTION_DOWN:
-			//Log.e(TAG, "event down!");
+			Log.i(TAG, "event down!");
 			if (!mScroller.isFinished()) {
 				mScroller.abortAnimation();
 			}
@@ -175,6 +176,7 @@ public class ScrollLayout extends ViewGroup
 			
 			break;
 		case MotionEvent.ACTION_MOVE:
+			Log.i(TAG, "event move!");
 			int deltaX = (int) (mLastMotionX - x);
 			
 			//---------------New Code----------------------
@@ -188,7 +190,7 @@ public class ScrollLayout extends ViewGroup
 			scrollBy(deltaX, 0);
 			break;
 		case MotionEvent.ACTION_UP:
-			//Log.e(TAG, "event : up");
+			Log.i(TAG, "event up!");
 			// if (mTouchState == TOUCH_STATE_SCROLLING) {
 			final VelocityTracker velocityTracker = mVelocityTracker;
 			velocityTracker.computeCurrentVelocity(1000);
@@ -231,10 +233,16 @@ public class ScrollLayout extends ViewGroup
 		final float y = ev.getY();
 		switch (action) {
 		case MotionEvent.ACTION_MOVE:
+			
 			final int xDiff = (int) Math.abs(mLastMotionX - x);
-			if (xDiff > mTouchSlop) {
+			final int yDiff = (int) Math.abs(mLastMotionY - y);
+			double z=Math.sqrt(xDiff*xDiff+yDiff*yDiff);
+            int jiaodu=Math.round((float)(Math.asin(yDiff/z)/Math.PI*180));//角度
+            
+			if (mLastMotionX !=x&&jiaodu<=45) {
 				mTouchState = TOUCH_STATE_SCROLLING;
 			}
+			
 			break;
 		case MotionEvent.ACTION_DOWN:
 			mLastMotionX = x;

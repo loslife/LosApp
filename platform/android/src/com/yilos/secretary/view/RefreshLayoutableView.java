@@ -134,7 +134,6 @@ public class RefreshLayoutableView extends LinearLayout {
      */
     private void fling() {
         LinearLayout.LayoutParams lp = (LayoutParams) refreshView.getLayoutParams();
-        Log.i(TAG, "fling()" + lp.topMargin);
         if(lp.topMargin > 0){//拉到了触发可刷新事件
             refresh();  
         }else{
@@ -164,6 +163,7 @@ public class RefreshLayoutableView extends LinearLayout {
              refreshListener.onRefresh(this);
              isRefreshing = true;
          }
+         LastRefreshTime=Calendar.getInstance();
     }
     
     /**
@@ -190,10 +190,10 @@ public class RefreshLayoutableView extends LinearLayout {
         if(moveY>0){
             //获取view的上边距
             float f1 =lp.topMargin;
-            float f2 = moveY * 1.0F;
+            float f2 = moveY * 0.9F;
             int i = (int)(f1+f2);
             //修改上边距
-            lp.topMargin = i;
+            lp.topMargin = 60;
             //修改后刷新
             refreshView.setLayoutParams(lp);
             refreshView.invalidate();
@@ -299,18 +299,26 @@ public class RefreshLayoutableView extends LinearLayout {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         
-        int y= (int) event.getRawY();
+        int y = (int) event.getRawY();
+        int x =  (int) event.getRawX();
         switch (event.getAction()) {
         case MotionEvent.ACTION_DOWN:
             //记录下y坐标
             lastY = y;
+            lastX = x;
             break;
 
         case MotionEvent.ACTION_MOVE:
             Log.i(TAG, "ACTION_MOVE");
             //y移动坐标
             int m = y - lastY;
-            if(((m < 6) && (m > -1)) || (!isDragging )){
+            
+            float mx=Math.abs(x-lastX);
+            float my=Math.abs(y-lastY);
+            double z=Math.sqrt(mx*mx+my*my);
+            
+            int jiaodu=Math.round((float)(Math.asin(my/z)/Math.PI*180));//角度
+            if((m>0 && jiaodu>45) || (!isDragging )){
                 setLastRefreshTimeText();
                  doMovement(m);
             }
