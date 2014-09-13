@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.content.Context;
 
+import com.yilos.secretary.AppContext;
 import com.yilos.secretary.bean.BcustomerCountBean;
 import com.yilos.secretary.database.CustomerCountDBManager;
 
@@ -39,5 +40,27 @@ public class CustomerCountService
 	{
 		customerCountDBManager.deleteBydate( year, month, day, type, tableName);
 	}
+	
+	// 获取本地 客流量
+		public List<BcustomerCountBean> getLocalBcustomerCount(String dateType,String year,String month,String day) {
+			List<BcustomerCountBean>  countList;
+			
+			if (dateType == "day") {
+				countList = queryListBydate(year,
+						(Integer.valueOf(month) - 1) + "", day, dateType,
+						"customer_count_day");
+			} else if (dateType == "month") {
+				countList = queryListBydate(year,
+						(Integer.valueOf(month) - 1) + "", day, dateType,
+						"customer_count_month");
+			} else {
+				countList = queryListBydate(year,
+						(Integer.valueOf(month) - 1) + "", day, dateType,
+						"customer_count_week");
+			}
+
+			return countList;
+
+		}
 
 }

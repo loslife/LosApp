@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.content.Context;
 
+import com.yilos.secretary.AppContext;
 import com.yilos.secretary.bean.ServicePerformanceBean;
 import com.yilos.secretary.database.ServicePerformanceDBManager;
 
@@ -39,5 +40,27 @@ public class ProductPerformanceService
 	{
 		servicePerformanceDB.deleteBydate( year, month, day, type, tableName);
 	}
+	
+	// 获取本地 卖品业绩
+		public List<ServicePerformanceBean> getLocalServicePerformanceData(String dateType,String year,String month,String day) {
+
+			List<ServicePerformanceBean> serviceList;
+			
+			if ("day".equals(dateType)) {
+				serviceList = queryListBydate(
+						year, (Integer.valueOf(month) - 1) + "", day, dateType,
+						"service_performance_day");
+			} else if ("month".equals(dateType)) {
+				serviceList = queryListBydate(
+						year, (Integer.valueOf(month) - 1) + "", day, dateType,
+						"service_performance_month");
+			} else {
+				serviceList = queryListBydate(
+						year, (Integer.valueOf(month) - 1) + "", day, dateType,
+						"service_performance_week");
+			}
+			
+			return serviceList;
+		}
 
 }

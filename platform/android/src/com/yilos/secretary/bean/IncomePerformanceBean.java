@@ -3,7 +3,7 @@ package com.yilos.secretary.bean;
 public class IncomePerformanceBean 
 {
 	
-	private String  id;
+	private String  _id;
 	private String  create_date ;
 	private String  enterprise_id;
 	private String total_income;
@@ -28,18 +28,18 @@ public class IncomePerformanceBean
 	private String syncindex;
 	
 	private String synctag;
-	private String status;
+	private int status;
 	private String def_str1;
 	private String def_int1;
 	private String def_int2;
 	private String def_int3;
 	
 	
-	public String getId() {
-		return id;
+	public String get_id() {
+		return _id;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void set_id(String _id) {
+		this._id = _id;
 	}
 	public String getCreate_date() {
 		return create_date;
@@ -173,10 +173,12 @@ public class IncomePerformanceBean
 	public void setSynctag(String synctag) {
 		this.synctag = synctag;
 	}
-	public String getStatus() {
+	
+	
+	public int getStatus() {
 		return status;
 	}
-	public void setStatus(String status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 	public String getDef_str1() {
