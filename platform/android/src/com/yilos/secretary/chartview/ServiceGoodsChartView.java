@@ -83,7 +83,8 @@ public class ServiceGoodsChartView extends View {
 				Percentage = (float) (Math.round(Percentage * 100)) / 100;
 				// 分配颜色
 				Resources res = this.getResources();
-
+				
+				
 				PaintArc.setColor(res.getColor(arrColorRgb[i]));
 
 				// 在饼图中显示所占比例
@@ -119,6 +120,56 @@ public class ServiceGoodsChartView extends View {
 		// 画圆心
 		PaintArc.setColor(Color.WHITE);
 		canvas.drawCircle(cirX, cirY, radius * 4 / 7, PaintArc);
+		
+		float CurrPer2 = 0.0f;
+		int k = 0;
+		int arrColorRgb2[] = { R.color.vone, R.color.vtwo, R.color.vthree,
+				R.color.vgeneral};
+		float arcLeft2 = cirX - radius*4 / 7;
+		float arcTop2 = cirY - radius*4 / 7;
+		float arcRight2 = cirX + radius*4 / 7;
+		float arcBottom2 = cirY + radius*4 / 7;
+		RectF arcRF02 = new RectF(arcLeft2, arcTop2, arcRight2, arcBottom2);
+		for (k = 0; k < arrPer.length; k++) {
+			// 将百分比转换为饼图显示角度
+			if (k < 4) {
+				Percentage = 360 * (arrPer[k] / 100);
+
+				Percentage = (float) (Math.round(Percentage * 100)) / 100;
+				// 分配颜色
+				Resources res = this.getResources();
+
+				PaintArc.setColor(res.getColor(arrColorRgb2[k]));
+
+				// 在饼图中显示所占比例
+				canvas.drawArc(arcRF02, CurrPer2, Percentage, true, PaintArc);
+				// 计算百分比标签
+				xcalc.CalcArcEndPointXY(cirX, cirY, radius * 4 / 7,
+						CurrPer2 + Percentage / 2);
+
+				int textX = ScrWidth * 1 / 2 + 50;
+				int textY = ScrHeight / 8 - (ScrWidth / 6) * 4 / 7 + 50 * k
+						+ 15;
+
+				// 标识
+
+				if (strPer[k].length() > 5) {
+					strPer[k] = strPer[k].substring(0, 5) + "...";
+				}
+
+				arrPer[k] = (float) (Math.round(arrPer[k] * 10)) / 10;
+
+				if (k < 4) {
+					canvas.drawRect(new Rect(textX - 24, textY - 24, textX,
+							textY), PaintArc);
+					canvas.drawText("  "+strPer[k] + " " + Float.toString(arrPer[k])
+							+ "%", textX, textY, PaintLabel);
+				}
+
+				// 下次的起始角度
+				CurrPer2 += Percentage;
+			}
+		}
 
 	}
 }
