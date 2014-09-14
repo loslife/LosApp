@@ -91,13 +91,7 @@
         android:layout_weight="1"
         android:visibility="gone" >
 
-        <include layout="@layout/business_chart" />
-
-        <include layout="@layout/employee_chart" />
-
-        <include layout="@layout/service_chart" />
-
-        <include layout="@layout/traffic_chart" />
+        
     </com.yilos.secretary.common.ScrollLayout>
     <LinearLayout
         android:id="@+id/noshop"

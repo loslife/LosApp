@@ -123,6 +123,11 @@ public class Main extends BaseActivity implements
 	private LinearLayout annularLayout;
 	private LinearLayout annular2Layout;
 	private LinearLayout myView;
+	
+	private View bizPerformanceView;
+	private View employPerView;
+	private View servicePerView;
+	private View customerCountView;
 
 	private ScrollLayout mainScrollLayout;
 	private LinearLayout noshop;
@@ -196,24 +201,20 @@ public class Main extends BaseActivity implements
 				if (msg.what == 1) {
 					// 服务业绩
 					BizPerformanceView bview = new BizPerformanceView();
-					View bizPerformanceView  = LayoutInflater.from(mContext).inflate(R.layout.business_chart, null);
-					bview.setBizPerformanceChartView(mContext,bizPerformanceView, timetype,
+					bview.setBizPerformanceChartView(getBaseContext(),bizPerformanceView, timetype,
 					bizPerformance,prevBizPerformance);
 					
 					//员工业绩
 					EmployPerView eview = new EmployPerView();
-					View employPerView  = LayoutInflater.from(mContext).inflate(R.layout.employee_chart, null);
-					eview.setEmployPerChartView(mContext, employPerView, employPerList);
+					eview.setEmployPerChartView(getBaseContext(), employPerView, employPerList);
 
 					//卖品业绩
 					ServicePerView sview = new ServicePerView();
-					View servicePerView  = LayoutInflater.from(mContext).inflate(R.layout.service_chart, null);
-					sview.setServicePerChartView(mContext, servicePerView, servicePerformanceList);
+					sview.setServicePerChartView(getBaseContext(), servicePerView, servicePerformanceList);
 					
 					//客流量
 					CustomerCountView cview = new CustomerCountView();
-					View customerCountView  = LayoutInflater.from(mContext).inflate(R.layout.traffic_chart, null);
-					cview.setCustomerCountChartView(mContext, customerCountView,
+					cview.setCustomerCountChartView(getBaseContext(), customerCountView,
 							customerCountList, year,
 							month, day, dateType);
 					
@@ -314,6 +315,13 @@ public class Main extends BaseActivity implements
 		righttime_layout = (RelativeLayout) findViewById(R.id.righttime_layout);
 		timetype_layout = (RelativeLayout) findViewById(R.id.timetype_layout);
 		noshop = (LinearLayout) findViewById(R.id.noshop);
+		
+		
+		
+		bizPerformanceView  = LayoutInflater.from(getBaseContext()).inflate(R.layout.business_chart, mainScrollLayout);
+		employPerView  = LayoutInflater.from(getBaseContext()).inflate(R.layout.employee_chart, mainScrollLayout);
+		servicePerView  = LayoutInflater.from(getBaseContext()).inflate(R.layout.service_chart, mainScrollLayout);
+		customerCountView  = LayoutInflater.from(getBaseContext()).inflate(R.layout.traffic_chart, mainScrollLayout);
 
 		shopname.setText(AppContext.getInstance(getBaseContext()).getShopName());
 		showTime.setText(getDateNow());
@@ -335,7 +343,7 @@ public class Main extends BaseActivity implements
 		mRefreshTrafficView.setRefreshListener(this);
 
 		findViewById(R.id.goback).setVisibility(View.GONE);
-		customs_refresh.setOnClickListener(new OnClickListener() {
+		/*customs_refresh.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -377,7 +385,7 @@ public class Main extends BaseActivity implements
 				mainScrollLayout.setVisibility(View.GONE);
 				getShowData();
 			}
-		});
+		});*/
 
 		select_shop.setOnClickListener(new OnClickListener() {
 			@Override

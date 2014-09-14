@@ -43,9 +43,24 @@ public class BizPerformanceView {
 				|| Float.valueOf(bizPerformance.getTotal()) == 0.0f) {
 			((LinearLayout) v.findViewById(R.id.business_empty))
 					.setVisibility(View.VISIBLE);
+			((LinearLayout) v.findViewById(R.id.annularLayout))
+			.setVisibility(View.GONE);
+			((View) v.findViewById(R.id.midview))
+			.setVisibility(View.GONE);
+			((LinearLayout) v.findViewById(R.id.performacncetext))
+			.setVisibility(View.GONE);
+			((TextView) v.findViewById(R.id.biztotal)).setText("￥0.0");
+			
+			return;
 		} else {
 			((LinearLayout) v.findViewById(R.id.business_empty))
 					.setVisibility(View.GONE);
+			((LinearLayout) v.findViewById(R.id.annularLayout))
+			.setVisibility(View.VISIBLE);
+			((View) v.findViewById(R.id.midview))
+			.setVisibility(View.VISIBLE);
+			((LinearLayout) v.findViewById(R.id.performacncetext))
+			.setVisibility(View.VISIBLE);
 		}
 
 		if (null != bizPerformance.get_id()) {

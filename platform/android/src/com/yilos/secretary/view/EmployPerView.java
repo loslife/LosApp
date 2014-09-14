@@ -40,10 +40,11 @@ public class EmployPerView {
 				num[i] = numSort[i].substring(0, index);
 			}
 			
-			LinearLayout columnarLayout = (LinearLayout) v.findViewById(R.id.columnarLayout);
-			columnarLayout.removeAllViews();
+			
 			EmployeeChartView view = new EmployeeChartView(context, num,
 					name);
+			LinearLayout columnarLayout = (LinearLayout) v.findViewById(R.id.columnarLayout);
+			columnarLayout.removeAllViews();
 			columnarLayout.addView(view);
 
 			total = (float) (Math.round(total * 10)) / 10;
