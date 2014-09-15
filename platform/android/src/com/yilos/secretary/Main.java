@@ -105,7 +105,12 @@ public class Main extends BaseActivity implements
 	private LinearLayout layout;
 	private ListView listView;
 	private LinearLayout loading_begin;
-
+	
+	private View bizPerformanceView ;
+	private View employPerView ;
+	private View servicePerView ;
+	private View customerCountView ;
+	
 	private ScrollView charscrollview;
 	private String title[] = null;
 	private String titleList[] = null;
@@ -196,24 +201,24 @@ public class Main extends BaseActivity implements
 				if (msg.what == 1) {
 					// 服务业绩
 					BizPerformanceView bview = new BizPerformanceView();
-					View bizPerformanceView  = LayoutInflater.from(mContext).inflate(R.layout.business_chart, null);
-					bview.setBizPerformanceChartView(mContext,bizPerformanceView, timetype,
-					bizPerformance,prevBizPerformance);
+					bizPerformanceView  = LayoutInflater.from(mContext).inflate(R.layout.business_chart, null);
+					bview.setBizPerformanceChartView(getBaseContext(),bizPerformanceView, timetype,
+					bizPerformance,prevBizPerformance,annularLayout);
 					
 					//员工业绩
 					EmployPerView eview = new EmployPerView();
-					View employPerView  = LayoutInflater.from(mContext).inflate(R.layout.employee_chart, null);
-					eview.setEmployPerChartView(mContext, employPerView, employPerList);
+					employPerView  = LayoutInflater.from(getBaseContext()).inflate(R.layout.employee_chart, null);
+					eview.setEmployPerChartView(getBaseContext(), employPerView, employPerList,columnarLayout);
 
 					//卖品业绩
 					ServicePerView sview = new ServicePerView();
-					View servicePerView  = LayoutInflater.from(mContext).inflate(R.layout.service_chart, null);
-					sview.setServicePerChartView(mContext, servicePerView, servicePerformanceList);
+					servicePerView  = LayoutInflater.from(getBaseContext()).inflate(R.layout.service_chart, null);
+					sview.setServicePerChartView(getBaseContext(), servicePerView, servicePerformanceList);
 					
 					//客流量
 					CustomerCountView cview = new CustomerCountView();
-					View customerCountView  = LayoutInflater.from(mContext).inflate(R.layout.traffic_chart, null);
-					cview.setCustomerCountChartView(mContext, customerCountView,
+					customerCountView  = LayoutInflater.from(mContext).inflate(R.layout.traffic_chart, null);
+					cview.setCustomerCountChartView(getBaseContext(), customerCountView,
 							customerCountList, year,
 							month, day, dateType);
 					

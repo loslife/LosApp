@@ -141,9 +141,9 @@ public class DatabaseHelper extends SQLiteOpenHelper
         db.execSQL(CUSTOMER_MONTH_SQL);
         db.execSQL(CUSTOMER_WEEK_SQL);
         
-        db.execSQL(INCOME_DAY_PERFORMANCE);
+        /*db.execSQL(INCOME_DAY_PERFORMANCE);
         db.execSQL(INCOME_WEEK_PERFORMANCE);
-        db.execSQL(INCOME_MONTH_PERFORMANCE);
+        db.execSQL(INCOME_MONTH_PERFORMANCE);*/
 
         // 即便程序修改重新运行，只要数据库已经创建过，就不会再进入这个onCreate方法
     }
@@ -171,9 +171,9 @@ public class DatabaseHelper extends SQLiteOpenHelper
         db.execSQL("DROP TABLE IF EXISTS " + CUSTOMER_MONTH_SQL);
         db.execSQL("DROP TABLE IF EXISTS " + CUSTOMER_WEEK_SQL);
 
-        db.execSQL("DROP TABLE IF EXISTS " + INCOME_DAY_PERFORMANCE);
+        /*db.execSQL("DROP TABLE IF EXISTS " + INCOME_DAY_PERFORMANCE);
         db.execSQL("DROP TABLE IF EXISTS " + INCOME_WEEK_PERFORMANCE);
-        db.execSQL("DROP TABLE IF EXISTS " + INCOME_MONTH_PERFORMANCE);
+        db.execSQL("DROP TABLE IF EXISTS " + INCOME_MONTH_PERFORMANCE);*/
 
         onCreate(db);
     }
