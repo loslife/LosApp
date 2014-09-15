@@ -44,5 +44,14 @@
 	<color name="paneldount_three">#55d6ff</color>
 	<color name="paneldount_four">#8679c9</color>
 	<color name="transparent_background">#60ffffff</color>
+	
+	<color name="blue_inside">#48bbe8</color>
+	<color name="blue_outside_1">#7ecfee</color>
+	<color name="blue_outside_2">#b0dff2</color>
+	<color name="blue_outside_3">#cfedf9</color>
+	
+	<color name="orange_inside">#70dde2</color>
+	<color name="orange_outside_1">#c1fffe</color>
+	<color name="orange_outside_2">#8ef2f1</color>
 	      
 </resources>

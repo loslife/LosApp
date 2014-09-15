@@ -38,6 +38,7 @@ import android.widget.Toast;
 import com.yilos.secretary.bean.BcustomerCountBean;
 import com.yilos.secretary.bean.BizPerformanceBean;
 import com.yilos.secretary.bean.EmployeePerBean;
+import com.yilos.secretary.bean.IncomePerformanceBean;
 import com.yilos.secretary.bean.MyShopBean;
 import com.yilos.secretary.bean.ServerManageResponse;
 import com.yilos.secretary.bean.ServicePerformanceBean;
@@ -56,6 +57,7 @@ import com.yilos.secretary.service.ProductPerformanceService;
 import com.yilos.secretary.view.BizPerformanceView;
 import com.yilos.secretary.view.CustomerCountView;
 import com.yilos.secretary.view.EmployPerView;
+import com.yilos.secretary.view.IncomePerformanceView;
 import com.yilos.secretary.view.RefreshLayoutableView;
 import com.yilos.secretary.view.ServicePerView;
 
@@ -74,6 +76,8 @@ public class Main extends BaseActivity implements
 	private List<ServicePerformanceBean> servicePerformanceList;
 	private BizPerformanceBean bizPerformance;
 	private BizPerformanceBean prevBizPerformance;
+	private IncomePerformanceBean incomeperformance;
+	private IncomePerformanceBean prevIncomePerformance;
 	private List<EmployeePerBean> employPerList;
 	private List<BcustomerCountBean> customerCountList;
 
@@ -128,6 +132,7 @@ public class Main extends BaseActivity implements
 	private View employPerView;
 	private View servicePerView;
 	private View customerCountView;
+	private View incomePerView;
 
 	private ScrollLayout mainScrollLayout;
 	private LinearLayout noshop;
@@ -217,6 +222,12 @@ public class Main extends BaseActivity implements
 					cview.setCustomerCountChartView(getBaseContext(), customerCountView,
 							customerCountList, year,
 							month, day, dateType);
+					//经营收入
+					IncomePerformanceView iview = new IncomePerformanceView();
+					incomeperformance = null;
+					prevIncomePerformance = null;
+					iview.setIncomePerChartView(getBaseContext(), incomePerView, timetype, incomeperformance, prevIncomePerformance);
+					
 					
 					setButtonEnabled(true);
 					loading_begin.setVisibility(View.GONE);
@@ -316,12 +327,11 @@ public class Main extends BaseActivity implements
 		timetype_layout = (RelativeLayout) findViewById(R.id.timetype_layout);
 		noshop = (LinearLayout) findViewById(R.id.noshop);
 		
-		
-		
 		bizPerformanceView  = LayoutInflater.from(getBaseContext()).inflate(R.layout.business_chart, mainScrollLayout);
 		employPerView  = LayoutInflater.from(getBaseContext()).inflate(R.layout.employee_chart, mainScrollLayout);
 		servicePerView  = LayoutInflater.from(getBaseContext()).inflate(R.layout.service_chart, mainScrollLayout);
 		customerCountView  = LayoutInflater.from(getBaseContext()).inflate(R.layout.traffic_chart, mainScrollLayout);
+		incomePerView = LayoutInflater.from(getBaseContext()).inflate(R.layout.incomeperformance_chart, mainScrollLayout); 
 
 		shopname.setText(AppContext.getInstance(getBaseContext()).getShopName());
 		showTime.setText(getDateNow());

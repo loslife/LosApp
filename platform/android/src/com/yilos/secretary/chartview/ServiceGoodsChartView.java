@@ -121,7 +121,7 @@ public class ServiceGoodsChartView extends View {
 		PaintArc.setColor(Color.WHITE);
 		canvas.drawCircle(cirX, cirY, radius * 4 / 7, PaintArc);
 		
-		float CurrPer2 = 0.0f;
+		/*float CurrPer2 = 0.0f;
 		int k = 0;
 		int arrColorRgb2[] = { R.color.vone, R.color.vtwo, R.color.vthree,
 				R.color.vgeneral};
@@ -170,6 +170,6 @@ public class ServiceGoodsChartView extends View {
 				CurrPer2 += Percentage;
 			}
 		}
-
+*/
 	}
 }

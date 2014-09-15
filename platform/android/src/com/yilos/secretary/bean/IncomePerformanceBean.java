@@ -6,20 +6,20 @@ public class IncomePerformanceBean
 	private String  _id;
 	private String  create_date ;
 	private String  enterprise_id;
-	private String total_income;
-	private String total_prepay;
-	private String total_paidin;
-	private String total_paidin_bank;
-	private String total_paidin_cash;
-	private String service_cash;
-	private String service_bank;
-	private String product_cash;
-	private String product_bank;
-	private String card;
-	private String newcard_cash;
-	private String newcard_bank;
-	private String rechargecard_cash;
-	private String rechargecard_bank;
+	private String total_income;//收入
+	private String total_prepay;//预付
+	private String total_paidin;//实收
+	private String total_paidin_bank;//实收银行
+	private String total_paidin_cash;//实收现金
+	private String service_cash;//服务现金
+	private String service_bank;//服务银行
+	private String product_cash;//卖品现金
+	private String product_bank;//卖品银行
+	private String card;//划卡
+	private String newcard_cash;//开卡现金
+	private String newcard_bank;//开卡银行
+	private String rechargecard_cash;//充值现金
+	private String rechargecard_bank;//充值银行
 	
 	private String year;
 	private String month;

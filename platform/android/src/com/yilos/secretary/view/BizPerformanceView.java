@@ -16,7 +16,7 @@ public class BizPerformanceView {
 	// 绘制服务业绩
 	public void setBizPerformanceChartView(Context context,View v, TextView timetype,
 			BizPerformanceBean bizPerformance,
-			BizPerformanceBean prevBizPerformance,LinearLayout annularLayout) {
+			BizPerformanceBean prevBizPerformance) {
 		
 		float newcard = 0.0f;
 		float recharge = 0.0f;
@@ -217,7 +217,7 @@ public class BizPerformanceView {
 
 		// 环形图
 		float[] num2 = new float[] { newcard, recharge, service, product };
-		annularLayout = (LinearLayout) v.findViewById(R.id.annularLayout);
+		LinearLayout annularLayout = (LinearLayout) v.findViewById(R.id.annularLayout);
 		annularLayout.removeAllViews();
 		ServiceGoodsChartView panelDountView = new ServiceGoodsChartView(
 				context, num2, perName, "business");
