@@ -85,12 +85,14 @@
     </LinearLayout>
     
     <View
+        android:id="@+id/servicemidview"
         android:layout_width="fill_parent"
         android:layout_height="12.0dip"
         android:background="@drawable/viewborder"
     />
     
     <LinearLayout
+        android:id="@+id/otherservice"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:paddingLeft="20.0dip"

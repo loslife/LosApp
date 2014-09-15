@@ -15,7 +15,7 @@ import com.yilos.secretary.common.StringUtils;
 public class EmployPerView {
 
 	    // 绘制员工业绩报表
-		public void setEmployPerChartView(Context context,View v,List<EmployeePerBean> employPerList,LinearLayout columnarLayout) {
+		public void setEmployPerChartView(Context context,View v,List<EmployeePerBean> employPerList) {
 			String[] num = new String[employPerList.size()];
 			String[] name = new String[employPerList.size()];
 			float total = 0.0f;
@@ -40,10 +40,11 @@ public class EmployPerView {
 				num[i] = numSort[i].substring(0, index);
 			}
 			
-			columnarLayout = (LinearLayout) v.findViewById(R.id.columnarLayout);
-			columnarLayout.removeAllViews();
+			
 			EmployeeChartView view = new EmployeeChartView(context, num,
 					name);
+			LinearLayout columnarLayout = (LinearLayout) v.findViewById(R.id.columnarLayout);
+			columnarLayout.removeAllViews();
 			columnarLayout.addView(view);
 
 			total = (float) (Math.round(total * 10)) / 10;

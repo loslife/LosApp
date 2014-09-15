@@ -101,9 +101,22 @@ public class ServicePerView {
 			if (total == 0.0f) {
 				((LinearLayout) v.findViewById(R.id.service_empty))
 						.setVisibility(View.VISIBLE);
+				((LinearLayout) v.findViewById(R.id.annular2Layout))
+				.setVisibility(View.GONE);
+				((View) v.findViewById(R.id.servicemidview))
+				.setVisibility(View.GONE);
+				((LinearLayout) v.findViewById(R.id.otherservice))
+				.setVisibility(View.GONE);
+				return;
 			} else {
 				((LinearLayout) v.findViewById(R.id.service_empty))
 						.setVisibility(View.GONE);
+				((LinearLayout) v.findViewById(R.id.annular2Layout))
+				.setVisibility(View.VISIBLE);
+				((View) v.findViewById(R.id.servicemidview))
+				.setVisibility(View.VISIBLE);
+				((LinearLayout) v.findViewById(R.id.otherservice))
+				.setVisibility(View.VISIBLE);
 			}
 		}
 		
