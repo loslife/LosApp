@@ -1,6 +1,10 @@
 package com.yilos.secretary.bean;
 
-
+/**
+ * 
+ * 会员信息列表结果解析
+ *
+ */
 public class ServerMemberResponse
 {
 

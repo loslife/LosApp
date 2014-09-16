@@ -19,7 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
 {
 
     // 数据库版本号
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     
     SQLiteDatabase db;
     
@@ -42,6 +42,10 @@ public class DatabaseHelper extends SQLiteOpenHelper
     public static final String CUST_COUNT_DAY = "customer_count_day";
     public static final String CUST_COUNT_MONTH = "customer_count_month";
     public static final String CUST_COUNT_WEEK = "customer_count_week";
+    
+    public static final String INCOME_PERFORMANCE_DAY = "income_performance_day";
+    public static final String INCOME_PERFORMANCE_MONTH = "income_performance_month";
+    public static final String INCOME_PERFORMANCE_WEEK = "income_performance_week";
     
     public static final String MYSHOP_SQL = "CREATE TABLE IF NOT EXISTS t_myshops (id integer primary key autoincrement, enterprise_id varchar(64), enterprise_name varchar(64), contact_latest_sync REAL, report_latest_sync REAL,enterprise_account varchar(32),display varchar(8), create_date REAL,order_number INTEGER);";
     
@@ -141,9 +145,9 @@ public class DatabaseHelper extends SQLiteOpenHelper
         db.execSQL(CUSTOMER_MONTH_SQL);
         db.execSQL(CUSTOMER_WEEK_SQL);
         
-        /*db.execSQL(INCOME_DAY_PERFORMANCE);
+        db.execSQL(INCOME_DAY_PERFORMANCE);
         db.execSQL(INCOME_WEEK_PERFORMANCE);
-        db.execSQL(INCOME_MONTH_PERFORMANCE);*/
+        db.execSQL(INCOME_MONTH_PERFORMANCE);
 
         // 即便程序修改重新运行，只要数据库已经创建过，就不会再进入这个onCreate方法
     }
@@ -168,12 +172,12 @@ public class DatabaseHelper extends SQLiteOpenHelper
         db.execSQL("DROP TABLE IF EXISTS " + BIZ_PER_MONTH);
         
         db.execSQL("DROP TABLE IF EXISTS " + CUST_COUNT_DAY);
-        db.execSQL("DROP TABLE IF EXISTS " + CUSTOMER_MONTH_SQL);
-        db.execSQL("DROP TABLE IF EXISTS " + CUSTOMER_WEEK_SQL);
+        db.execSQL("DROP TABLE IF EXISTS " + CUST_COUNT_MONTH);
+        db.execSQL("DROP TABLE IF EXISTS " + CUST_COUNT_WEEK);
 
-        /*db.execSQL("DROP TABLE IF EXISTS " + INCOME_DAY_PERFORMANCE);
-        db.execSQL("DROP TABLE IF EXISTS " + INCOME_WEEK_PERFORMANCE);
-        db.execSQL("DROP TABLE IF EXISTS " + INCOME_MONTH_PERFORMANCE);*/
+        db.execSQL("DROP TABLE IF EXISTS " + INCOME_PERFORMANCE_DAY);
+        db.execSQL("DROP TABLE IF EXISTS " + INCOME_PERFORMANCE_WEEK);
+        db.execSQL("DROP TABLE IF EXISTS " + INCOME_PERFORMANCE_MONTH);
 
         onCreate(db);
     }

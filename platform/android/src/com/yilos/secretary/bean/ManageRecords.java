@@ -13,6 +13,8 @@ public class ManageRecords
 	
 	public BcustomerCount b_customer_count;
 	
+	public IncomePerformance tb_income_performance;
+	
 	 public static class TbservicePerformance {
 		 
 		    private List<ServicePerformanceBean> day = new ArrayList<ServicePerformanceBean>();
@@ -137,6 +139,40 @@ public class ManageRecords
 			}
 			
 	 }
+	 
+	 public static class IncomePerformance {
+		 
+		    private IncomePerformanceBean day = new IncomePerformanceBean();
+			
+            private IncomePerformanceBean week = new IncomePerformanceBean();
+			
+			private IncomePerformanceBean month = new IncomePerformanceBean();
+
+			public IncomePerformanceBean getDay() {
+				return day;
+			}
+
+			public void setDay(IncomePerformanceBean day) {
+				this.day = day;
+			}
+
+			public IncomePerformanceBean getWeek() {
+				return week;
+			}
+
+			public void setWeek(IncomePerformanceBean week) {
+				this.week = week;
+			}
+
+			public IncomePerformanceBean getMonth() {
+				return month;
+			}
+
+			public void setMonth(IncomePerformanceBean month) {
+				this.month = month;
+			}
+
+	 }
 
 	public TbbizPerformance getTb_biz_performance() {
 		return tb_biz_performance;
@@ -169,6 +205,14 @@ public class ManageRecords
 
 	public void setB_customer_count(BcustomerCount b_customer_count) {
 		this.b_customer_count = b_customer_count;
+	}
+
+	public IncomePerformance getTb_income_performance() {
+		return tb_income_performance;
+	}
+
+	public void setTb_income_performance(IncomePerformance tb_income_performance) {
+		this.tb_income_performance = tb_income_performance;
 	}
 	 
 	 

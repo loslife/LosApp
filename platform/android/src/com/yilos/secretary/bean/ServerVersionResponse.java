@@ -1,5 +1,10 @@
 package com.yilos.secretary.bean;
 
+/**
+ * 
+ * 版本判断结果解析
+ *
+ */
 public class ServerVersionResponse 
 {
 

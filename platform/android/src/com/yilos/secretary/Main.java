@@ -2,13 +2,10 @@ package com.yilos.secretary;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -31,7 +28,6 @@ import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,15 +39,13 @@ import com.yilos.secretary.bean.MyShopBean;
 import com.yilos.secretary.bean.ServerManageResponse;
 import com.yilos.secretary.bean.ServicePerformanceBean;
 import com.yilos.secretary.chartview.EmployeeChartView;
-import com.yilos.secretary.chartview.ServiceGoodsChartView;
-import com.yilos.secretary.chartview.TrafficChartView;
 import com.yilos.secretary.common.DateUtil;
 import com.yilos.secretary.common.NetworkUtil;
 import com.yilos.secretary.common.ScrollLayout;
-import com.yilos.secretary.common.StringUtils;
 import com.yilos.secretary.service.BizPerformanceService;
 import com.yilos.secretary.service.CustomerCountService;
 import com.yilos.secretary.service.EmployeePerService;
+import com.yilos.secretary.service.IncomePerformanceService;
 import com.yilos.secretary.service.MyshopManageService;
 import com.yilos.secretary.service.ProductPerformanceService;
 import com.yilos.secretary.view.BizPerformanceView;
@@ -72,6 +66,7 @@ public class Main extends BaseActivity implements
 	private ProductPerformanceService productPerformanceService;
 	private BizPerformanceService bizPerformanceService;
 	private CustomerCountService customerCountService;
+	private IncomePerformanceService incomeperformancService;
 
 	private List<ServicePerformanceBean> servicePerformanceList;
 	private BizPerformanceBean bizPerformance;
@@ -92,11 +87,6 @@ public class Main extends BaseActivity implements
 	private ImageView righttime;
 	private TextView timetype;
 
-	private ImageView customs_refresh;
-	private ImageView employee_refresh;
-	private ImageView service_refresh;
-	private ImageView business_refresh;
-
 	private PopupWindow popupWindow;
 
 	private RelativeLayout lefttime_layout;
@@ -106,6 +96,7 @@ public class Main extends BaseActivity implements
 	private RefreshLayoutableView mRefreshEmployeeView;
 	private RefreshLayoutableView mRefreshServiceView;
 	private RefreshLayoutableView mRefreshTrafficView;
+	private RefreshLayoutableView mRefreshIncomeView;
 	private LinearLayout layout;
 	private ListView listView;
 	private LinearLayout loading_begin;
@@ -121,12 +112,6 @@ public class Main extends BaseActivity implements
 	public static final int HEIGHT = 250;
 	// 获取4张报表，等于4则表示已全部获取
 	public static int GETDATA_COUNT = 0;
-
-	private EmployeeChartView view;
-	private LinearLayout columnarLayout;
-	private LinearLayout annularLayout;
-	private LinearLayout annular2Layout;
-	private LinearLayout myView;
 	
 	private View bizPerformanceView;
 	private View employPerView;
@@ -150,7 +135,6 @@ public class Main extends BaseActivity implements
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.main);
 
 		shopId = AppContext.getInstance(getBaseContext())
@@ -161,6 +145,7 @@ public class Main extends BaseActivity implements
 				getBaseContext());
 		bizPerformanceService = new BizPerformanceService(getBaseContext());
 		customerCountService = new CustomerCountService(getBaseContext());
+		incomeperformancService = new IncomePerformanceService(getBaseContext());
 		userAccount = AppContext.getInstance(getBaseContext()).getUserAccount();
 
 		// 进程被杀后，需要重新加载
@@ -169,14 +154,12 @@ public class Main extends BaseActivity implements
 		if (null == shopId) {
 			shopId = "";
 		}
-
 		if (!"".equals(shopId)
 				&& AppContext.getInstance(getBaseContext()).isFirstRun()) {
 			Intent intent = new Intent(getBaseContext(), LayerActivity.class);
 			startActivity(intent);
 			AppContext.getInstance(getBaseContext()).setFirstRun(false);
 		}
-
 		initView();
 		this.initChartViewData();
 		getlocalData();
@@ -197,7 +180,6 @@ public class Main extends BaseActivity implements
 			initData();
 			AppContext.getInstance(getBaseContext()).setChangeShop(false);
 		}
-
 	}
 
 	private void initChartViewData() {
@@ -206,33 +188,37 @@ public class Main extends BaseActivity implements
 				if (msg.what == 1) {
 					// 服务业绩
 					BizPerformanceView bview = new BizPerformanceView();
-					bview.setBizPerformanceChartView(getBaseContext(),bizPerformanceView, timetype,
-					bizPerformance,prevBizPerformance);
-					
-					//员工业绩
-					EmployPerView eview = new EmployPerView();
-					eview.setEmployPerChartView(getBaseContext(), employPerView, employPerList);
+					bview.setBizPerformanceChartView(getBaseContext(),
+							bizPerformanceView, timetype, bizPerformance,
+							prevBizPerformance);
 
-					//卖品业绩
+					// 员工业绩
+					EmployPerView eview = new EmployPerView();
+					eview.setEmployPerChartView(getBaseContext(),
+							employPerView, employPerList);
+
+					// 卖品业绩
 					ServicePerView sview = new ServicePerView();
-					sview.setServicePerChartView(getBaseContext(), servicePerView, servicePerformanceList);
-					
-					//客流量
+					sview.setServicePerChartView(getBaseContext(),
+							servicePerView, servicePerformanceList);
+
+					// 客流量
 					CustomerCountView cview = new CustomerCountView();
-					cview.setCustomerCountChartView(getBaseContext(), customerCountView,
-							customerCountList, year,
-							month, day, dateType);
-					//经营收入
-					IncomePerformanceView iview = new IncomePerformanceView();
-					incomeperformance = null;
-					prevIncomePerformance = null;
-					iview.setIncomePerChartView(getBaseContext(), incomePerView, timetype, incomeperformance, prevIncomePerformance);
+					cview.setCustomerCountChartView(getBaseContext(),
+							customerCountView, customerCountList, year, month,
+							day, dateType);
+					// 经营收入
 					
-					
+					IncomePerformanceView iview = new IncomePerformanceView(); 
+					iview.setIncomePerChartView(getBaseContext(),
+					      incomePerView, timetype, incomeperformance,
+					      prevIncomePerformance);
+					 
+
 					setButtonEnabled(true);
 					loading_begin.setVisibility(View.GONE);
 					mainScrollLayout.setVisibility(View.VISIBLE);
-					
+
 					if (NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE) {
 						// 保存服务业绩
 						bizPerformanceService.deltel(year,
@@ -276,6 +262,25 @@ public class Main extends BaseActivity implements
 						customerCountService
 								.addCustomerCount(customerCountList,
 										"customer_count_" + dateType);
+						
+						// 保存经营收入
+						incomeperformancService.deltel(year,
+								(Integer.valueOf(month) - 1) + "", day,
+								dateType, "income_performance_" + dateType);
+
+						if (prevBizPerformance.get_id() != null) {
+							incomeperformancService.deltel(
+									prevIncomePerformance.getYear(),
+									prevIncomePerformance.getMonth(),
+									prevIncomePerformance.getDay(), dateType,
+									"income_performance_" + dateType);
+						}
+
+						incomeperformancService.addIncomePerformance(incomeperformance,
+								"income_performance_" + dateType);
+						incomeperformancService.addIncomePerformance(
+								prevIncomePerformance, "income_performance_"
+										+ dateType);
 					}
 				}
 				if (msg.what == 0) {
@@ -292,6 +297,7 @@ public class Main extends BaseActivity implements
 					mRefreshEmployeeView.finishRefresh();
 					mRefreshServiceView.finishRefresh();
 					mRefreshTrafficView.finishRefresh();
+					mRefreshIncomeView.finishRefresh();
 					Toast.makeText(mContext, R.string.toast_text,
 							Toast.LENGTH_SHORT).show();
 				}
@@ -316,22 +322,23 @@ public class Main extends BaseActivity implements
 		lefttime = (ImageView) findViewById(R.id.lefttime);
 		righttime = (ImageView) findViewById(R.id.righttime);
 		timetype = (TextView) findViewById(R.id.timetype);
-		customs_refresh = (ImageView) findViewById(R.id.customs_refresh);
-		employee_refresh = (ImageView) findViewById(R.id.employee_refresh);
-		service_refresh = (ImageView) findViewById(R.id.service_refresh);
-		business_refresh = (ImageView) findViewById(R.id.business_refresh);
 		loading_begin = (LinearLayout) findViewById(R.id.loading_begin);
 		mainScrollLayout = (ScrollLayout) findViewById(R.id.main_scrolllayout);
 		lefttime_layout = (RelativeLayout) findViewById(R.id.lefttime_layout);
 		righttime_layout = (RelativeLayout) findViewById(R.id.righttime_layout);
 		timetype_layout = (RelativeLayout) findViewById(R.id.timetype_layout);
 		noshop = (LinearLayout) findViewById(R.id.noshop);
-		
-		bizPerformanceView  = LayoutInflater.from(getBaseContext()).inflate(R.layout.business_chart, mainScrollLayout);
-		employPerView  = LayoutInflater.from(getBaseContext()).inflate(R.layout.employee_chart, mainScrollLayout);
-		servicePerView  = LayoutInflater.from(getBaseContext()).inflate(R.layout.service_chart, mainScrollLayout);
-		customerCountView  = LayoutInflater.from(getBaseContext()).inflate(R.layout.traffic_chart, mainScrollLayout);
-		incomePerView = LayoutInflater.from(getBaseContext()).inflate(R.layout.incomeperformance_chart, mainScrollLayout); 
+
+		bizPerformanceView = LayoutInflater.from(getBaseContext()).inflate(
+				R.layout.business_chart, mainScrollLayout);
+		employPerView = LayoutInflater.from(getBaseContext()).inflate(
+				R.layout.employee_chart, mainScrollLayout);
+		servicePerView = LayoutInflater.from(getBaseContext()).inflate(
+				R.layout.service_chart, mainScrollLayout);
+		customerCountView = LayoutInflater.from(getBaseContext()).inflate(
+				R.layout.traffic_chart, mainScrollLayout);
+		incomePerView = LayoutInflater.from(getBaseContext()).inflate(
+				R.layout.incomeperformance_chart, mainScrollLayout);
 
 		shopname.setText(AppContext.getInstance(getBaseContext()).getShopName());
 		showTime.setText(getDateNow());
@@ -339,64 +346,24 @@ public class Main extends BaseActivity implements
 
 		((LinearLayout) findViewById(R.id.business_empty))
 				.setVisibility(View.VISIBLE);
-		
+
 		mRefreshBusinessView = (RefreshLayoutableView) findViewById(R.id.refresh_business);
 		mRefreshBusinessView.setRefreshListener(this);
-		
+
 		mRefreshServiceView = (RefreshLayoutableView) findViewById(R.id.refresh_service);
 		mRefreshServiceView.setRefreshListener(this);
-		
+
 		mRefreshEmployeeView = (RefreshLayoutableView) findViewById(R.id.refresh_employee);
 		mRefreshEmployeeView.setRefreshListener(this);
-		
+
 		mRefreshTrafficView = (RefreshLayoutableView) findViewById(R.id.refresh_traffic);
 		mRefreshTrafficView.setRefreshListener(this);
+		
+		mRefreshIncomeView = (RefreshLayoutableView) findViewById(R.id.refresh_income);
+		mRefreshIncomeView.setRefreshListener(this);
 
 		findViewById(R.id.goback).setVisibility(View.GONE);
-		/*customs_refresh.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				setButtonEnabled(false);
-				loading_begin.setVisibility(View.VISIBLE);
-				mainScrollLayout.setVisibility(View.GONE);
-				getShowData();
-			}
-		});
-
-		employee_refresh.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				setButtonEnabled(false);
-				loading_begin.setVisibility(View.VISIBLE);
-				mainScrollLayout.setVisibility(View.GONE);
-				getShowData();
-			}
-		});
-
-		service_refresh.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				setButtonEnabled(false);
-				loading_begin.setVisibility(View.VISIBLE);
-				mainScrollLayout.setVisibility(View.GONE);
-				getShowData();
-			}
-		});
-
-		business_refresh.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				setButtonEnabled(false);
-				loading_begin.setVisibility(View.VISIBLE);
-				mainScrollLayout.setVisibility(View.GONE);
-				getShowData();
-			}
-		});*/
-
+		
 		select_shop.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -417,9 +384,7 @@ public class Main extends BaseActivity implements
 									.getDrawable(R.drawable.select_shop));
 					select_shop.setTag(R.drawable.select_shop);
 				}
-
 				showPopupWindow(x, y);
-
 			}
 		});
 
@@ -534,7 +499,6 @@ public class Main extends BaseActivity implements
 					showtime = formatter.format(curDate);
 					showTime.setText(showtime);
 				}
-				// 100048101900800200?year=2014&month=6&day=8&type=day&report=employee
 				year = String.valueOf(curDate.getYear() + 1900);
 				day = String.valueOf(curDate.getDate());
 				month = String.valueOf(curDate.getMonth() + 1);
@@ -558,7 +522,6 @@ public class Main extends BaseActivity implements
 			// 获取报表
 			getNetChartData();
 		}
-
 	}
 
 	public void getlocalData() {
@@ -577,6 +540,13 @@ public class Main extends BaseActivity implements
 		customerCountList = customerCountService.getLocalBcustomerCount(
 				dateType, year, month, day);
 
+		 // 经营收入
+		 incomeperformance = incomeperformancService.getLocalIncomePerformanceData( dateType,
+		 year, month, day, 0);
+		 
+		 prevIncomePerformance = incomeperformancService.getLocalIncomePerformanceData( dateType,
+		 year, month, day, 1);
+		 
 		Message msg = new Message();
 		msg.what = 1;
 		handle.sendMessage(msg);
@@ -586,13 +556,10 @@ public class Main extends BaseActivity implements
 	 * 获取报表数据
 	 */
 	public void getNetChartData() {
-
 		new Thread() {
 			public void run() {
-
 				AppContext ac = (AppContext) getApplication();
 				Message msg = new Message();
-
 				ServerManageResponse res = ac.getReportsData(shopId, year,
 						month, dateType, day, null);
 				if (res.isSucess()) {
@@ -614,6 +581,11 @@ public class Main extends BaseActivity implements
 						customerCountList = res.getResult().getCurrent()
 								.getB_customer_count().getHours();
 
+						incomeperformance = res.getResult().getCurrent()
+								.getTb_income_performance().getDay();
+						prevIncomePerformance = res.getResult().getPrev()
+								.getTb_income_performance().getDay();
+
 					} else if (dateType == "month") {
 
 						bizPerformance = res.getResult().getCurrent()
@@ -630,6 +602,11 @@ public class Main extends BaseActivity implements
 						customerCountList = res.getResult().getCurrent()
 								.getB_customer_count().getDays();
 
+						incomeperformance = res.getResult().getCurrent()
+								.getTb_income_performance().getMonth();
+						prevIncomePerformance = res.getResult().getPrev()
+								.getTb_income_performance().getMonth();
+
 					} else {
 
 						bizPerformance = res.getResult().getCurrent()
@@ -645,8 +622,12 @@ public class Main extends BaseActivity implements
 
 						customerCountList = res.getResult().getCurrent()
 								.getB_customer_count().getDays();
-					}
 
+						incomeperformance = res.getResult().getCurrent()
+								.getTb_income_performance().getWeek();
+						prevIncomePerformance = res.getResult().getPrev()
+								.getTb_income_performance().getWeek();
+					}
 					msg.what = 1;
 					handle.sendMessage(msg);
 				} else {
@@ -744,7 +725,6 @@ public class Main extends BaseActivity implements
 			popupWindow.setHeight(5 * (getWindowManager().getDefaultDisplay()
 					.getWidth() / 10) + 10);
 		}
-
 		popupWindow.setOutsideTouchable(true);
 		popupWindow.setFocusable(true);
 		popupWindow.setContentView(layout);
@@ -802,7 +782,6 @@ public class Main extends BaseActivity implements
 			timetype.setTextColor(getBaseContext().getResources().getColor(
 					R.color.blue_text));
 		}
-
 	}
 
 	public String getDateNow() {
@@ -815,8 +794,6 @@ public class Main extends BaseActivity implements
 		return str;
 	}
 
-	
-
 	public Calendar dateToCal(String in, SimpleDateFormat format) {
 
 		Date date;
@@ -827,7 +804,6 @@ public class Main extends BaseActivity implements
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-
 		return cal;
 	}
 
@@ -838,7 +814,6 @@ public class Main extends BaseActivity implements
 			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			i.addCategory(Intent.CATEGORY_HOME);
 			startActivity(i);
-
 			return false;
 		} else {
 			return super.onKeyDown(keyCode, event);

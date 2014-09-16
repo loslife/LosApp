@@ -1,5 +1,10 @@
 package com.yilos.secretary.bean;
 
+/**
+ * 
+ * 报表结果解析
+ *
+ */
 public class ServerManageResponse 
 {
     private int code;

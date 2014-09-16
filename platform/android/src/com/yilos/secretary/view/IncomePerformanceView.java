@@ -18,22 +18,6 @@ public class IncomePerformanceView {
 				IncomePerformanceBean incomeperformance,
 				IncomePerformanceBean prevIncomePerformance) {
 			
-			/*
-			private String total_income;//收入
-			private String total_prepay;//预付
-			private String total_paidin;//实收
-			private String total_paidin_bank;//实收银行
-			private String total_paidin_cash;//实收现金
-			private String service_cash;//服务现金
-			private String service_bank;//服务银行
-			private String product_cash;//卖品现金
-			private String product_bank;//卖品银行
-			private String card;//划卡
-			private String newcard_cash;//开卡现金
-			private String newcard_bank;//开卡银行
-			private String rechargecard_cash;//充值现金
-			private String rechargecard_bank;//充值银行
-*/			
 			float total_income = 0.0f;//收入
 			float total_prepay = 0.0f;//预付
 			float total_paidin = 0.0f;//实收
@@ -49,9 +33,10 @@ public class IncomePerformanceView {
 			float prev_prepay = 0.0f;
 			float prev_paidin = 0.0f;
 
-			float percent_income= 0.0f;
-			float percent_prepay = 0.0f;
-			float percent_paidin = 0.0f;
+			//增长
+			float percent_income_add= 0.0f;
+			float percent_prepay_add = 0.0f;
+			float percent_paidin_add = 0.0f;
 
 			if (incomeperformance.get_id()== null
 					) {
@@ -78,9 +63,17 @@ public class IncomePerformanceView {
 			}
 
 			if (null != incomeperformance.get_id()) {
-				total_income = Float.valueOf(incomeperformance.getTotal_income());//收入
-				total_prepay = Float.valueOf(incomeperformance.getTotal_prepay());;//预付
-				total_paidin = Float.valueOf(incomeperformance.getTotal_paidin());;//实收
+				total_income = Float.valueOf(incomeperformance.getTotal_income()==null?"0.0":incomeperformance.getTotal_income());//收入
+				total_prepay = Float.valueOf(incomeperformance.getTotal_prepay()==null?"0.0":incomeperformance.getTotal_prepay());;//预付
+				total_paidin = Float.valueOf(incomeperformance.getTotal_paidin()==null?"0.0":incomeperformance.getTotal_paidin());;//实收
+				
+				((TextView) v.findViewById(R.id.incomedata)).setText("￥"
+						+ (float) (Math.round(total_income * 10)) / 10);
+				((TextView) v.findViewById(R.id.prepaydata)).setText("￥"
+						+ (float) (Math.round(total_prepay * 10)) / 10);
+				((TextView) v.findViewById(R.id.paidindata)).setText("￥"
+						+ (float) (Math.round(total_paidin * 10)) / 10);
+				
 				total = total_income+total_prepay;
 				total = (float) (Math.round(total * 10)) / 10;
 				if (null != prevIncomePerformance.get_id()) {
@@ -93,11 +86,12 @@ public class IncomePerformanceView {
 					comparePrevPrepay = total_prepay - prev_prepay;
 					comparePrevPaidin = total_paidin - prev_paidin;
 					
-					percent_income = (Math
+					//增长
+					percent_income_add = (Math
 							.round((comparePrevIncome / prev_income) * 1000)) / 10;
-					percent_prepay =  (Math
+					percent_prepay_add =  (Math
 							.round((comparePrevPrepay / prev_prepay) * 1000)) / 10;
-					percent_paidin =  (Math
+					percent_paidin_add =  (Math
 							.round((comparePrevPaidin / prev_paidin) * 1000)) / 10;
 
 				} else {
@@ -105,137 +99,141 @@ public class IncomePerformanceView {
 					comparePrevPrepay = total_prepay;
 					comparePrevPaidin = total_paidin;
 					
-					percent_income = 100.0f;
-					percent_prepay = 100.0f;
-					percent_paidin = 100.0f;
+					percent_income_add = 100.0f;
+					percent_prepay_add = 100.0f;
+					percent_paidin_add = 100.0f;
 				}
 			}
-			((TextView) v.findViewById(R.id.biztotal)).setText("￥" + total);
+			((TextView) v.findViewById(R.id.incometotal)).setText("￥" + total);
 			
-		/*	float total_paidin_bank = 0.0f;//实收银行
-			float total_paidin_cash = 0.0f;//实收现金
-			float service_cash = 0.0f;//服务现金
-			float service_bank = 0.0f;//服务银行
-			float product_cash = 0.0f;//卖品现金
-			float product_bank = 0.0f;//卖品银行
-			float card = 0.0f;//划卡
-			float newcard_cash = 0.0f;//开卡现金
-			float newcard_bank = 0.0f;//开卡银行
-			float rechargecard_cash = 0.0f;//充值现金
-			float rechargecard_bank = 0.0f;//充值银行
-*/			
+			//增长
+			float percentForIncome= 0.0f;
+			float percentForPrepay = 0.0f;
+		
 			String total_paidin_bank = incomeperformance.getTotal_paidin_bank() == null ? "0.0"
 					: incomeperformance.getTotal_paidin_bank();
-			String total_paidin_cash =incomeperformance.getTotal_paidin_bank() == null ? "0.0"
-					: incomeperformance.getTotal_paidin_bank();
+			String total_paidin_cash =incomeperformance.getTotal_paidin_cash() == null ? "0.0"
+					: incomeperformance.getTotal_paidin_cash();
 			
 			String service_cash = incomeperformance.getService_cash() == null ? "0.0"
 					: incomeperformance.getService_cash();
 			String service_bank = incomeperformance.getService_bank() == null ? "0.0"
 					: incomeperformance.getService_bank();
+			float percentForService = (Float.valueOf(service_cash)+ Float.valueOf(service_bank))/total;//服务
 			
 			String product_cash = incomeperformance.getProduct_cash() == null ? "0.0"
 					: incomeperformance.getProduct_cash();
 			String product_bank = incomeperformance.getProduct_bank() == null ? "0.0"
 					: incomeperformance.getProduct_bank();
+			float percentForProductCash = (Float.valueOf(product_cash)+ Float.valueOf(product_bank))/total;//卖品
+			
+			String card = incomeperformance.getCard() == null ? "0.0"
+					: incomeperformance.getCard();
+			float percentForCard = Float.valueOf(card)/total;//划卡
+			
+			//收入比重
+			percentForIncome = percentForService+percentForProductCash+percentForCard;
 			
 			String newcard_cash = incomeperformance.getNewcard_cash() == null ? "0.0"
 					: incomeperformance.getNewcard_cash();
 			String newcard_bank = incomeperformance.getNewcard_bank() == null ? "0.0"
 					: incomeperformance.getNewcard_bank();
+			float percentForNewcardCash = (Float.valueOf(newcard_cash)+ Float.valueOf(newcard_bank))/total;//开卡
 			
 			String rechargecard_cash = incomeperformance.getRechargecard_cash() == null ? "0.0"
 					: incomeperformance.getRechargecard_cash();
 			String rechargecard_bank = incomeperformance.getRechargecard_bank() == null ? "0.0"
 					: incomeperformance.getRechargecard_bank();
+			float percentForRechargecard = (Float.valueOf(rechargecard_cash)+ Float.valueOf(rechargecard_bank))/total;//充值
 			
-			String card = incomeperformance.getCard() == null ? "0.0"
-					: incomeperformance.getCard();
+			//预付款比重
+			percentForPrepay = percentForNewcardCash+percentForRechargecard;
 			
+			((TextView) v.findViewById(R.id.product_num)).setText("￥"
+					+ (float) (Math.round(Float.valueOf(product_cash) * 10)) / 10
+					+"/"+(float) (Math.round(Float.valueOf(product_bank) * 10)) / 10);
 			
-			/*((TextView) v.findViewById(R.id.sevicedata)).setText("￥"
-					+ (float) (Math.round(Float.valueOf(sevicedata) * 10)) / 10);
-			((TextView) v.findViewById(R.id.saledata)).setText("￥"
-					+ (float) (Math.round(Float.valueOf(saledata) * 10)) / 10);
-			((TextView) v.findViewById(R.id.carddata)).setText("￥"
-					+ (float) (Math.round(Float.valueOf(carddata) * 10)) / 10);
-			((TextView) v.findViewById(R.id.rechargedata)).setText("￥"
-					+ (float) (Math.round(Float.valueOf(rechargedata) * 10)) / 10);*/
+			((TextView) v.findViewById(R.id.service_num)).setText("￥"
+					+ (float) (Math.round(Float.valueOf(service_cash) * 10)) / 10
+					+"/"+ (float) (Math.round(Float.valueOf(service_bank) * 10)) / 10);
+			
+			((TextView) v.findViewById(R.id.rechargecard_num)).setText("￥"
+					+ (float) (Math.round(Float.valueOf(rechargecard_cash) * 10)) / 10
+					+"/"+ (float) (Math.round(Float.valueOf(rechargecard_bank) * 10)) / 10);
 
-			((TextView) v.findViewById(R.id.sevicedata))
+			((TextView) v.findViewById(R.id.newcard_num)).setText("￥"
+					+ (float) (Math.round(Float.valueOf(newcard_cash) * 10)) / 10
+					+"/"+(float) (Math.round(Float.valueOf(newcard_bank) * 10)) / 10);
+			
+			((TextView) v.findViewById(R.id.paidin_cash_num)).setText("￥"
+					+ (float) (Math.round(Float.valueOf(total_paidin_cash) * 10)) / 10);
+			
+			((TextView) v.findViewById(R.id.paidin_bank_num)).setText("￥"
+					+ (float) (Math.round(Float.valueOf(total_paidin_bank) * 10)) / 10);
+			
+			((TextView) v.findViewById(R.id.card_num)).setText("￥"
+					+ (float) (Math.round(Float.valueOf(card) * 10)) / 10);
+			
+			((TextView) v.findViewById(R.id.incomedata))
 					.setTextColor(context.getResources().getColor(R.color.gray_text));
-			((TextView) v.findViewById(R.id.saledata)).setTextColor(context.getResources()
+			((TextView) v.findViewById(R.id.prepaydata)).setTextColor(context.getResources()
 					.getColor(R.color.gray_text));
-			((TextView) v.findViewById(R.id.carddata)).setTextColor(context.getResources()
+			((TextView) v.findViewById(R.id.paidindata)).setTextColor(context.getResources()
 					.getColor(R.color.gray_text));
-			((TextView) v.findViewById(R.id.rechargedata))
-					.setTextColor(context.getResources().getColor(R.color.gray_text));
 
-			((ImageView) v.findViewById(R.id.sevicesicon))
+			((ImageView) v.findViewById(R.id.incomeicon))
 					.setImageResource(R.drawable.down);
-			((ImageView) v.findViewById(R.id.saleicon))
+			((ImageView) v.findViewById(R.id.prepayicon))
 					.setImageResource(R.drawable.down);
-			((ImageView) v.findViewById(R.id.cardicon))
+			((ImageView) v.findViewById(R.id.paidinicon))
 					.setImageResource(R.drawable.down);
-			((ImageView) v.findViewById(R.id.rechargeicon))
-					.setImageResource(R.drawable.down);
+			
+			if (comparePrevIncome > 0.0) {
+				((ImageView) v.findViewById(R.id.incomeicon))
+						.setImageResource(R.drawable.up);
+				((TextView) v.findViewById(R.id.incomedata))
+						.setTextColor(context.getResources().getColor(R.color.orange_bg));
+			}
 
-			/*comparePrevNewcard = (float) (Math.round(Float
-					.valueOf(comparePrevNewcard) * 10)) / 10;
-			comparePrevRecharge = (float) (Math.round(Float
-					.valueOf(comparePrevRecharge) * 10)) / 10;
-			comparePrevService = (float) (Math.round(Float
-					.valueOf(comparePrevService) * 10)) / 10;
-			comparePrevProduct = (float) (Math.round(Float
-					.valueOf(comparePrevProduct) * 10)) / 10;
-			((TextView) v.findViewById(R.id.toprev_sevicedata)).setText("比上"
-					+ timetype.getText().toString() + ": " + comparePrevService
-					+ " " + showPercent(percent_service) + "%");
+			if (comparePrevPrepay > 0.0) {
+				((ImageView) v.findViewById(R.id.prepayicon))
+						.setImageResource(R.drawable.up);
+				((TextView) v.findViewById(R.id.prepaydata))
+						.setTextColor(context.getResources().getColor(R.color.orange_bg));
+			}
+
+			if (comparePrevPaidin > 0.0) {
+				((ImageView) v.findViewById(R.id.paidinicon))
+						.setImageResource(R.drawable.up);
+				((TextView) v.findViewById(R.id.paidindata))
+						.setTextColor(context.getResources().getColor(R.color.orange_bg));
+			}
+			
+			comparePrevIncome = (float) (Math.round(Float
+					.valueOf(comparePrevIncome) * 10)) / 10;
+			comparePrevPrepay = (float) (Math.round(Float
+					.valueOf(comparePrevPrepay) * 10)) / 10;
+			comparePrevPaidin = (float) (Math.round(Float
+					.valueOf(comparePrevPaidin) * 10)) / 10;
+			
+			((TextView) v.findViewById(R.id.toprev_incomedata)).setText("比上"
+					+ timetype.getText().toString() + ": " + comparePrevIncome
+					+ " " + showPercent(percent_income_add) + "%");
 			((TextView) v.findViewById(R.id.toprev_saledata)).setText("比上"
-					+ timetype.getText().toString() + ": " + comparePrevProduct
-					+ " " + showPercent(percent_product) + "%");
-			((TextView) v.findViewById(R.id.toprev_carddata)).setText("比上"
-					+ timetype.getText().toString() + ": " + comparePrevNewcard
-					+ " " + showPercent(percent_newcard) + "%");
-			((TextView) v.findViewById(R.id.toprev_rechargedata)).setText("比上"
-					+ timetype.getText().toString() + ": " + comparePrevRecharge
-					+ " " + showPercent(percent_recharge) + "%");
+					+ timetype.getText().toString() + ": " + comparePrevPrepay
+					+ " " + showPercent(percent_prepay_add) + "%");
+			((TextView) v.findViewById(R.id.toprev_paidindata)).setText("比上"
+					+ timetype.getText().toString() + ": " + comparePrevPaidin
+					+ " " + showPercent(percent_paidin_add) + "%");
 
-			if (comparePrevService > 0.0) {
-				((ImageView) v.findViewById(R.id.sevicesicon))
-						.setImageResource(R.drawable.up);
-				((TextView) v.findViewById(R.id.sevicedata))
-						.setTextColor(context.getResources().getColor(R.color.orange_bg));
-			}
-
-			if (comparePrevProduct > 0.0) {
-				((ImageView) v.findViewById(R.id.saleicon))
-						.setImageResource(R.drawable.up);
-				((TextView) v.findViewById(R.id.saledata))
-						.setTextColor(context.getResources().getColor(R.color.orange_bg));
-			}
-
-			if (comparePrevNewcard > 0.0) {
-				((ImageView) v.findViewById(R.id.cardicon))
-						.setImageResource(R.drawable.up);
-				((TextView) v.findViewById(R.id.carddata))
-						.setTextColor(context.getResources().getColor(R.color.orange_bg));
-			}
-
-			if (comparePrevRecharge > 0.0) {
-				((ImageView) v.findViewById(R.id.rechargeicon))
-						.setImageResource(R.drawable.up);
-				((TextView) v.findViewById(R.id.rechargedata))
-						.setTextColor(context.getResources().getColor(R.color.orange_bg));
-			}
-
+			/*
 			newcard = (float) (Math.round(newcard * 1000)) / 10;
 			recharge = (float) (Math.round(recharge * 1000)) / 10;
 			service = (float) (Math.round(service * 1000)) / 10;
 			product = (float) (Math.round(product * 1000)) / 10;
 			*/
-			float incomePercent[] = { 50.0f, 15.0f, 5.0f };
-			float performancePercent[] = { 15.0f, 15.0f };
+			float incomePercent[] ={ percentForService,percentForProductCash,percentForCard};
+			float performancePercent[] = { percentForNewcardCash,percentForRechargecard};
 			LinearLayout annularLayout = (LinearLayout) v.findViewById(R.id.income_annularLayout);
 			annularLayout.removeAllViews();
 			IncomePerChartView panelDountView = new IncomePerChartView(
@@ -247,7 +245,6 @@ public class IncomePerformanceView {
 			if (percent > 0.0f) {
 				return "+" + percent;
 			}
-
 			return String.valueOf(percent);
 		}
 }

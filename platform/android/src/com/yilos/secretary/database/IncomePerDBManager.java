@@ -183,7 +183,7 @@ public class IncomePerDBManager
         	bean.setCreate_date(c.getString(c.getColumnIndex("create_date")));
         	bean.setModify_date(c.getString(c.getColumnIndex("modify_date")));
         	bean.setSyncindex(c.getString(c.getColumnIndex("syncindex")));
-        	bean.setSynctag(c.getString(c.getColumnIndex("synctag")));
+        	bean.setSynctag(c.getInt(c.getColumnIndex("synctag")));
         	bean.setStatus(c.getInt(c.getColumnIndex("status")));
         	bean.setDef_str1(c.getString(c.getColumnIndex("def_str1")));
         	bean.setDef_int1(c.getString(c.getColumnIndex("def_int1")));

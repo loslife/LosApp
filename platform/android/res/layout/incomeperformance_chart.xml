@@ -5,7 +5,7 @@
     android:gravity="center_horizontal"
     android:orientation="vertical" >
 
-   <com.yilos.secretary.view.RefreshLayoutableView
+    <com.yilos.secretary.view.RefreshLayoutableView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/refresh_income"
         android:layout_width="fill_parent"
@@ -15,14 +15,14 @@
         <ScrollView
             android:id="@+id/scroll_view_root"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" 
-            android:background="@color/white"> 
+            android:layout_height="fill_parent"
+            android:background="@color/white" >
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:gravity="center_horizontal"
                 android:background="@color/white"
+                android:gravity="center_horizontal"
                 android:orientation="vertical" >
 
                 <RelativeLayout
@@ -46,7 +46,7 @@
                     <ImageView
                         android:id="@+id/income_refresh"
                         android:layout_width="wrap_content"
-                        android:layout_height="16.0dip"
+                        android:layout_height="@dimen/Text_size_m"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="5.0dip"
                         android:layout_toRightOf="@id/charviewtitle"
@@ -68,15 +68,15 @@
                         android:layout_alignParentBottom="true"
                         android:background="@color/lightgray" />
                 </RelativeLayout>
-                
-                 <LinearLayout
-        android:id="@+id/income_empty"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:visibility="gone" >
-    </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/income_empty"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:visibility="gone" >
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/income_annularLayout"
@@ -103,21 +103,31 @@
 
                     <RelativeLayout
                         android:layout_width="fill_parent"
-                        android:layout_height="50.0dip"
+                        android:layout_height="120.0dip"
                         android:layout_marginTop="10.0dip" >
 
+                        <ImageView
+                            android:id="@+id/incomeicon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@+id/incomedata"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_weight="1"
+                            android:src="@drawable/down" />
+
                         <TextView
-                            android:id="@+id/sevice"
+                            android:id="@+id/income"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="12.0dip"
-                            android:layout_toRightOf="@+id/sevicesicon"
-                            android:text="服务业绩"
+                            android:layout_toRightOf="@+id/incomeicon"
+                            android:text="收入"
                             android:textColor="@color/black"
                             android:textSize="@dimen/Text_size_m" />
 
                         <TextView
-                            android:id="@+id/sevicedata"
+                            android:id="@+id/incomedata"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -126,129 +136,119 @@
                             android:textSize="@dimen/Text_size_m" />
 
                         <TextView
-                            android:id="@+id/toprev_sevicedata"
+                            android:id="@+id/toprev_incomedata"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_below="@+id/sevicesicon"
-                            android:layout_marginLeft="24.0dip"
-                            android:layout_marginTop="2.0dip"
+                            android:layout_alignLeft="@+id/income"
+                            android:layout_below="@+id/incomeicon"
                             android:gravity="fill_vertical"
-                            android:text=""
-                            android:textColor="@color/gray_text"
-                            android:textSize="16.0dip" />
-
-                        <ImageView
-                            android:id="@+id/sevicesicon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignBottom="@+id/sevicedata"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentTop="true"
-                            android:layout_weight="1"
-                            android:src="@drawable/down" />
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="50.0dip" >
-
-                        <ImageView
-                            android:id="@+id/saleicon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignBottom="@+id/saledata"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentTop="true"
-                            android:layout_weight="1"
-                            android:src="@drawable/down" />
-
-                        <TextView
-                            android:id="@+id/sale"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="12.0dip"
-                            android:layout_toRightOf="@+id/saleicon"
-                            android:text="卖品业绩"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/Text_size_m" />
-
-                        <TextView
-                            android:id="@+id/saledata"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:text="￥0.0"
+                            android:text="比上月"
                             android:textColor="@color/gray_text"
                             android:textSize="@dimen/Text_size_m" />
 
-                        <TextView
-                            android:id="@+id/toprev_saledata"
+                        <View
                             android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            android:layout_alignParentBottom="true"
-                            android:layout_below="@+id/saleicon"
-                            android:layout_marginLeft="24.0dip"
-                            android:layout_marginTop="2.0dip"
-                            android:gravity="fill_vertical"
-                            android:text=""
-                            android:textColor="@color/gray_text"
-                            android:textSize="16.0dip" />
-                    </RelativeLayout>
+                            android:layout_height="1px"
+                            android:layout_below="@+id/toprev_incomedata"
+                            android:background="@color/gray" />
 
-                    <RelativeLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="50.0dip" >
-
-                        <ImageView
-                            android:id="@+id/cardicon"
-                            android:layout_width="wrap_content"
+                        <TextView
+                            android:id="@+id/product"
+                            android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:layout_alignBottom="@+id/carddata"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentTop="true"
-                            android:layout_weight="1"
-                            android:src="@drawable/down" />
+                            android:layout_below="@+id/service"
+                            android:layout_marginLeft="24.0dip"
+                            android:layout_marginTop="5.0dip"
+                            android:gravity="fill_vertical"
+                            android:text="卖品现金/银行卡 "
+                            android:textColor="@color/gray_text"
+                            android:textSize="@dimen/Text_size_m" />
 
                         <TextView
                             android:id="@+id/card"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="12.0dip"
-                            android:layout_toRightOf="@+id/cardicon"
-                            android:text="开卡业绩"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/Text_size_m" />
-
-                        <TextView
-                            android:id="@+id/carddata"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:text="￥0.0"
-                            android:textColor="@color/gray_text"
-                            android:textSize="@dimen/Text_size_m" />
-
-                        <TextView
-                            android:id="@+id/toprev_carddata"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_below="@+id/cardicon"
+                            android:layout_below="@+id/product"
                             android:layout_marginLeft="24.0dip"
-                            android:layout_marginTop="2.0dip"
+                            android:layout_marginTop="5.0dip"
                             android:gravity="fill_vertical"
-                            android:text=""
+                            android:text="划卡消费 "
                             android:textColor="@color/gray_text"
-                            android:textSize="16.0dip" />
+                            android:textSize="@dimen/Text_size_m" />
+
+                        <TextView
+                            android:id="@+id/product_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBaseline="@+id/product"
+                            android:layout_alignBottom="@+id/product"
+                            android:layout_alignParentRight="true"
+                            android:text="￥38.0/￥58.0"
+                            android:textColor="@color/gray_text"
+                            android:textSize="@dimen/Text_size_m" />
+
+                        <TextView
+                            android:id="@+id/service_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBaseline="@+id/service"
+                            android:layout_alignBottom="@+id/service"
+                            android:layout_alignParentRight="true"
+                            android:text="￥38.0/￥58.0"
+                            android:textColor="@color/gray_text"
+                            android:textSize="@dimen/Text_size_m" />
+
+                        <TextView
+                            android:id="@+id/card_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBaseline="@+id/card"
+                            android:layout_alignBottom="@+id/card"
+                            android:layout_alignParentRight="true"
+                            android:text="￥58.0"
+                            android:textColor="@color/gray_text"
+                            android:textSize="@dimen/Text_size_m" />
+
+                        <TextView
+                            android:id="@+id/service"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignLeft="@+id/product"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@+id/toprev_incomedata"
+                             android:layout_marginTop="5.0dip"
+                            android:gravity="fill_vertical"
+                            android:text="服务现金/银行卡"
+                            android:textColor="@color/gray_text"
+                            android:textSize="@dimen/Text_size_m" />
+
                     </RelativeLayout>
 
                     <RelativeLayout
                         android:layout_width="fill_parent"
-                        android:layout_height="50.0dip" >
+                        android:layout_height="100.0dip" >
+                        <ImageView
+                            android:id="@+id/prepayicon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@+id/prepaydata"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_weight="1"
+                            android:src="@drawable/down" />
 
                         <TextView
-                            android:id="@+id/rechargedata"
+                            android:id="@+id/prepay"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12.0dip"
+                            android:layout_toRightOf="@+id/prepayicon"
+                            android:text="预付款"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/Text_size_m" />
+
+                        <TextView
+                            android:id="@+id/prepaydata"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -257,41 +257,168 @@
                             android:textSize="@dimen/Text_size_m" />
 
                         <TextView
-                            android:id="@+id/toprev_rechargedata"
+                            android:id="@+id/toprev_prepaydata"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_below="@+id/rechargeicon"
-                            android:layout_marginLeft="24.0dip"
-                            android:layout_marginTop="2.0dip"
+                            android:layout_alignLeft="@+id/prepay"
+                            android:layout_below="@+id/prepayicon"
                             android:gravity="fill_vertical"
-                            android:text=""
+                            android:text="比上月"
                             android:textColor="@color/gray_text"
-                            android:textSize="16.0dip" />
-
-                        <TextView
-                            android:id="@+id/recharge"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignLeft="@+id/toprev_rechargedata"
-                            android:layout_alignParentTop="true"
-                            android:text="充值业绩"
-                            android:textColor="@color/black"
                             android:textSize="@dimen/Text_size_m" />
 
-                        <ImageView
-                            android:id="@+id/rechargeicon"
+                        <View
+                            android:layout_width="fill_parent"
+                            android:layout_height="1px"
+                            android:layout_below="@+id/toprev_prepaydata"
+                            android:background="@color/gray" />
+
+                        <TextView
+                            android:id="@+id/rechargecard"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/newcard"
+                            android:layout_marginLeft="24.0dip"
+                            android:layout_marginTop="5.0dip"
+                            android:gravity="fill_vertical"
+                            android:text="充值现金/银行卡 "
+                            android:textColor="@color/gray_text"
+                            android:textSize="@dimen/Text_size_m" />
+
+                        <TextView
+                            android:id="@+id/rechargecard_num"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignBottom="@+id/rechargedata"
+                            android:layout_alignBaseline="@+id/rechargecard"
+                            android:layout_alignBottom="@+id/rechargecard"
+                            android:layout_alignParentRight="true"
+                            android:text="￥38.0/￥58.0"
+                            android:textColor="@color/gray_text"
+                            android:textSize="@dimen/Text_size_m" />
+
+                        <TextView
+                            android:id="@+id/newcard_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBaseline="@+id/newcard"
+                            android:layout_alignBottom="@+id/newcard"
+                            android:layout_alignParentRight="true"
+                            android:text="￥38.0/￥58.0"
+                            android:textColor="@color/gray_text"
+                            android:textSize="@dimen/Text_size_m" />
+
+                        <TextView
+                            android:id="@+id/newcard"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignLeft="@+id/rechargecard"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@+id/toprev_prepaydata"
+                            android:gravity="fill_vertical"
+                            android:text="开卡现金/银行卡"
+                             android:layout_marginTop="5.0dip"
+                            android:textColor="@color/gray_text"
+                            android:textSize="@dimen/Text_size_m" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="100dp" >
+
+                        <ImageView
+                            android:id="@+id/paidinicon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@+id/paidindata"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentTop="true"
                             android:layout_weight="1"
                             android:src="@drawable/down" />
+
+                        <TextView
+                            android:id="@+id/paidin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12.0dip"
+                            android:layout_toRightOf="@+id/paidinicon"
+                            android:text="实收"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/Text_size_m" />
+
+                        <TextView
+                            android:id="@+id/paidindata"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:text="￥0.0"
+                            android:textColor="@color/gray_text"
+                            android:textSize="@dimen/Text_size_m" />
+
+                        <TextView
+                            android:id="@+id/toprev_paidindata"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignLeft="@+id/paidin"
+                            android:layout_below="@+id/paidinicon"
+                            android:gravity="fill_vertical"
+                            android:text="比上月"
+                            android:textColor="@color/gray_text"
+                            android:textSize="@dimen/Text_size_m" />
+
+                        <View
+                            android:layout_width="fill_parent"
+                            android:layout_height="1px"
+                            android:layout_below="@+id/toprev_paidindata"
+                            android:background="@color/gray" />
+
+                        <TextView
+                            android:id="@+id/paidin_bank"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignLeft="@+id/paidin_cash"
+                            android:layout_below="@+id/paidin_cash"
+                            android:layout_marginTop="5.0dip"
+                            android:gravity="fill_vertical"
+                            android:text="银行卡 "
+                            android:textColor="@color/gray_text"
+                            android:textSize="@dimen/Text_size_m" />
+
+                        <TextView
+                            android:id="@+id/paidin_bank_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@+id/paidin_cash"
+                            android:text="￥38.0"
+                            android:textColor="@color/gray_text"
+                            android:textSize="@dimen/Text_size_m" />
+
+                        <TextView
+                            android:id="@+id/paidin_cash_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_above="@+id/paidin_bank"
+                            android:layout_alignParentRight="true"
+                            android:text="￥38.0"
+                            android:textColor="@color/gray_text"
+                            android:textSize="@dimen/Text_size_m" />
+
+                        <TextView
+                            android:id="@+id/paidin_cash"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignLeft="@+id/toprev_paidindata"
+                            android:layout_alignParentRight="true"
+                             android:layout_marginTop="5.0dip"
+                            android:layout_below="@+id/toprev_paidindata"
+                            android:gravity="fill_vertical"
+                            android:text="现金"
+                            android:textColor="@color/gray_text"
+                            android:textSize="@dimen/Text_size_m" />
                     </RelativeLayout>
                 </LinearLayout>
             </LinearLayout>
-       </ScrollView>
-      </com.yilos.secretary.view.RefreshLayoutableView>
+        </ScrollView>
+    </com.yilos.secretary.view.RefreshLayoutableView>
 
 </LinearLayout>

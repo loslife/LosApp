@@ -27,7 +27,7 @@ public class IncomePerformanceBean
 	private String modify_date;
 	private String syncindex;
 	
-	private String synctag;
+	private int synctag;
 	private int status;
 	private String def_str1;
 	private String def_int1;
@@ -167,14 +167,14 @@ public class IncomePerformanceBean
 	public void setSyncindex(String syncindex) {
 		this.syncindex = syncindex;
 	}
-	public String getSynctag() {
+	
+	
+	public int getSynctag() {
 		return synctag;
 	}
-	public void setSynctag(String synctag) {
+	public void setSynctag(int synctag) {
 		this.synctag = synctag;
 	}
-	
-	
 	public int getStatus() {
 		return status;
 	}
