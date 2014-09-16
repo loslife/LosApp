@@ -38,7 +38,6 @@ import com.yilos.secretary.bean.IncomePerformanceBean;
 import com.yilos.secretary.bean.MyShopBean;
 import com.yilos.secretary.bean.ServerManageResponse;
 import com.yilos.secretary.bean.ServicePerformanceBean;
-import com.yilos.secretary.chartview.EmployeeChartView;
 import com.yilos.secretary.common.DateUtil;
 import com.yilos.secretary.common.NetworkUtil;
 import com.yilos.secretary.common.ScrollLayout;
@@ -208,13 +207,11 @@ public class Main extends BaseActivity implements
 							customerCountView, customerCountList, year, month,
 							day, dateType);
 					// 经营收入
-					
 					IncomePerformanceView iview = new IncomePerformanceView(); 
 					iview.setIncomePerChartView(getBaseContext(),
 					      incomePerView, timetype, incomeperformance,
 					      prevIncomePerformance);
 					 
-
 					setButtonEnabled(true);
 					loading_begin.setVisibility(View.GONE);
 					mainScrollLayout.setVisibility(View.VISIBLE);
@@ -418,7 +415,6 @@ public class Main extends BaseActivity implements
 				}
 				getShowData();
 			}
-
 		});
 
 		lefttime_layout.setOnClickListener(new OnClickListener() {
@@ -795,7 +791,6 @@ public class Main extends BaseActivity implements
 	}
 
 	public Calendar dateToCal(String in, SimpleDateFormat format) {
-
 		Date date;
 		Calendar cal = Calendar.getInstance();
 		try {
