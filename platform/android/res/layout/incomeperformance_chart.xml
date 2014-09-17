@@ -43,15 +43,6 @@
                         android:textColor="@color/black_text"
                         android:textSize="@dimen/Text_size_m" />
 
-                    <ImageView
-                        android:id="@+id/income_refresh"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/Text_size_m"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="5.0dip"
-                        android:layout_toRightOf="@id/charviewtitle"
-                        android:src="@drawable/refresh" />
-
                     <TextView
                         android:id="@+id/incometotal"
                         android:layout_width="wrap_content"
@@ -60,7 +51,8 @@
                         android:gravity="fill_vertical"
                         android:text="￥0.00"
                         android:textColor="@color/black_text"
-                        android:textSize="@dimen/Text_size_m" />
+                        android:textSize="@dimen/Text_size_m" 
+                        android:visibility="gone"/>
 
                     <View
                         android:layout_width="fill_parent"
@@ -87,13 +79,13 @@
                 </LinearLayout>
 
                 <View
-                    android:id="@+id/midview"
+                    android:id="@+id/incomemidview"
                     android:layout_width="fill_parent"
                     android:layout_height="12.0dip"
                     android:background="@drawable/viewborder" />
 
                 <LinearLayout
-                    android:id="@+id/performacncetext"
+                    android:id="@+id/incomedetail"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:background="@color/white"
@@ -132,7 +124,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:text="￥0.0"
-                            android:textColor="@color/gray_text"
+                            android:textColor="@color/black_text"
                             android:textSize="@dimen/Text_size_m" />
 
                         <TextView
@@ -183,7 +175,7 @@
                             android:layout_alignBaseline="@+id/product"
                             android:layout_alignBottom="@+id/product"
                             android:layout_alignParentRight="true"
-                            android:text="￥38.0/￥58.0"
+                            android:text="￥0.0/￥0.0"
                             android:textColor="@color/gray_text"
                             android:textSize="@dimen/Text_size_m" />
 
@@ -194,7 +186,7 @@
                             android:layout_alignBaseline="@+id/service"
                             android:layout_alignBottom="@+id/service"
                             android:layout_alignParentRight="true"
-                            android:text="￥38.0/￥58.0"
+                            android:text="￥0.0/￥0.0"
                             android:textColor="@color/gray_text"
                             android:textSize="@dimen/Text_size_m" />
 
@@ -205,7 +197,7 @@
                             android:layout_alignBaseline="@+id/card"
                             android:layout_alignBottom="@+id/card"
                             android:layout_alignParentRight="true"
-                            android:text="￥58.0"
+                            android:text="￥0.0"
                             android:textColor="@color/gray_text"
                             android:textSize="@dimen/Text_size_m" />
 
@@ -253,7 +245,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:text="￥0.0"
-                            android:textColor="@color/gray_text"
+                            android:textColor="@color/black_text"
                             android:textSize="@dimen/Text_size_m" />
 
                         <TextView
@@ -292,7 +284,7 @@
                             android:layout_alignBaseline="@+id/rechargecard"
                             android:layout_alignBottom="@+id/rechargecard"
                             android:layout_alignParentRight="true"
-                            android:text="￥38.0/￥58.0"
+                            android:text="￥0.0/￥0.0"
                             android:textColor="@color/gray_text"
                             android:textSize="@dimen/Text_size_m" />
 
@@ -303,7 +295,7 @@
                             android:layout_alignBaseline="@+id/newcard"
                             android:layout_alignBottom="@+id/newcard"
                             android:layout_alignParentRight="true"
-                            android:text="￥38.0/￥58.0"
+                            android:text="￥0.0/￥0.0"
                             android:textColor="@color/gray_text"
                             android:textSize="@dimen/Text_size_m" />
 
@@ -351,7 +343,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:text="￥0.0"
-                            android:textColor="@color/gray_text"
+                            android:textColor="@color/black_text"
                             android:textSize="@dimen/Text_size_m" />
 
                         <TextView
@@ -389,7 +381,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_below="@+id/paidin_cash"
-                            android:text="￥38.0"
+                            android:text="￥0.0"
                             android:textColor="@color/gray_text"
                             android:textSize="@dimen/Text_size_m" />
 
@@ -399,7 +391,7 @@
                             android:layout_height="wrap_content"
                             android:layout_above="@+id/paidin_bank"
                             android:layout_alignParentRight="true"
-                            android:text="￥38.0"
+                            android:text="￥0.0"
                             android:textColor="@color/gray_text"
                             android:textSize="@dimen/Text_size_m" />
 

@@ -25,12 +25,12 @@ public class IncomePerChartView extends View {
 			R.color.blue_outside_2, R.color.blue_outside_3,
 			R.color.orange_outside_1, R.color.orange_outside_2 };
 
-	private String incomePerStr[] = { "经营", "预付款" };
+	private String incomePerStr[] = { "收入", "预付款" };
 	private String incomeStr[] = { "服务现金/银行卡", "卖品现金/银行卡", "划卡消费" };
 	private String performanceStr[] = { "开卡现金/银行卡", "充值现金/银行卡" };
 
-	private float incomePercent[] = { 50.0f, 15.0f, 5.0f };
-	private float performancePercent[] = { 15.0f, 15.0f };
+	private float incomePercent[] = null;
+	private float performancePercent[] = null;
 	private float[] totalPercent = new float[2];
 
 	private String strPer[] = null;
@@ -43,10 +43,8 @@ public class IncomePerChartView extends View {
 		DisplayMetrics dm = getResources().getDisplayMetrics();
 		ScrHeight = dm.heightPixels;
 		ScrWidth = dm.widthPixels;
-		/*
-		 * this.incomePercent = incomePercent; this.performancePercent =
-		 * performancePercent;
-		 */
+		this.incomePercent = incomePercent;
+		this.performancePercent = performancePercent;
 	}
 
 	@SuppressLint("DrawAllocation")
@@ -97,7 +95,6 @@ public class IncomePerChartView extends View {
 				percent = (float) (Math.round(performancePercent[i - 3] * 10)) / 10;
 				totalPercent[1] += performancePercent[i - 3];
 			}
-
 			Percentage = (float) (Math.round(Percentage * 100)) / 100;
 			// 分配颜色
 			Resources res = this.getResources();
@@ -155,7 +152,6 @@ public class IncomePerChartView extends View {
 
 			int textX = ScrWidth * 1 / 2 + 50;
 			int textY = ScrHeight / 8 - (ScrWidth / 6) * 4 / 7 + 50 * k + 15;
-
 
 			float incomePercent = (float) (Math.round(totalPercent[k] * 10)) / 10;
 

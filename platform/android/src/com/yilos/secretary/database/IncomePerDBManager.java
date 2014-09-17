@@ -46,12 +46,12 @@ public class IncomePerDBManager
     	{
               if(null!=bean.get_id())
               {
-            	db.execSQL("INSERT INTO "+tableName+" VALUES(?,?,?"
+            	db.execSQL("INSERT INTO "+tableName+" VALUES(?,?,?,"
 	            +"?,?,?,?,?,"
 	            + "?,?,?,?,?,?,"
 	            + "?,?,?,?,?,?,"
 	            + "?,?,?,?,?,?,"
-	            + "?,?,?)",
+	            + "?,?)",
       				    new Object[]{bean.get_id(),
       					shopId,
       					bean.getTotal_income(),
@@ -63,7 +63,6 @@ public class IncomePerDBManager
       					bean.getService_bank(),
       					bean.getProduct_cash(),
       					bean.getProduct_bank(),
-      					bean.getModify_date(),
       					bean.getCard(),
       					bean.getNewcard_cash(),
       					bean.getNewcard_bank(),

@@ -10,5 +10,5 @@
     <string name="time_error">时间有问题</string>
     <string name="refresh_down_text">下拉可刷新</string>
 	<string name="refresh_release_text">松开可刷新</string>
-	<string name="toast_text">ScrollView下拉刷新完毕</string>
+	<string name="toast_text">下拉更新完成</string>
 </resources>

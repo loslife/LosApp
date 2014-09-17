@@ -68,7 +68,7 @@ public class IncomePerformanceService {
 			} else if (dateType == "month") {
 				incomePerformanceList = queryListBydate(year,
 						(Integer.valueOf(month) - 1) + "", day, dateType,
-						"biz_performance_month");
+						"income_performance_month");
 				prevIncomePerformanceList = queryListBydate(pevYear + "", prevMonth + "",
 						day, dateType, "income_performance_month");
 			} else {

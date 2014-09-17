@@ -44,15 +44,6 @@
                         android:textColor="@color/black_text"
                         android:textSize="@dimen/Text_size_m" />
 
-                    <ImageView
-                        android:id="@+id/employee_refresh"
-                        android:layout_width="wrap_content"
-                        android:layout_height="16.0dip"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="5.0dip"
-                        android:layout_toRightOf="@id/charviewtitle"
-                        android:src="@drawable/refresh" />
-
                     <TextView
                         android:id="@+id/employeetotal"
                         android:layout_width="wrap_content"

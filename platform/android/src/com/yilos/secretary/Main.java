@@ -41,6 +41,7 @@ import com.yilos.secretary.bean.ServicePerformanceBean;
 import com.yilos.secretary.common.DateUtil;
 import com.yilos.secretary.common.NetworkUtil;
 import com.yilos.secretary.common.ScrollLayout;
+import com.yilos.secretary.common.UIHelper;
 import com.yilos.secretary.service.BizPerformanceService;
 import com.yilos.secretary.service.CustomerCountService;
 import com.yilos.secretary.service.EmployeePerService;
@@ -125,9 +126,7 @@ public class Main extends BaseActivity implements
 	public static long datetime;
 
 	private String year;
-
 	private String day;
-
 	private String month;
 
 	@SuppressWarnings("deprecation")
@@ -185,6 +184,13 @@ public class Main extends BaseActivity implements
 		handle = new Handler() {
 			public void handleMessage(Message msg) {
 				if (msg.what == 1) {
+					
+					// 经营收入
+					IncomePerformanceView iview = new IncomePerformanceView(); 
+					iview.setIncomePerChartView(getBaseContext(),
+					      incomePerView, timetype, incomeperformance,
+					      prevIncomePerformance);
+					
 					// 服务业绩
 					BizPerformanceView bview = new BizPerformanceView();
 					bview.setBizPerformanceChartView(getBaseContext(),
@@ -206,12 +212,7 @@ public class Main extends BaseActivity implements
 					cview.setCustomerCountChartView(getBaseContext(),
 							customerCountView, customerCountList, year, month,
 							day, dateType);
-					// 经营收入
-					IncomePerformanceView iview = new IncomePerformanceView(); 
-					iview.setIncomePerChartView(getBaseContext(),
-					      incomePerView, timetype, incomeperformance,
-					      prevIncomePerformance);
-					 
+					
 					setButtonEnabled(true);
 					loading_begin.setVisibility(View.GONE);
 					mainScrollLayout.setVisibility(View.VISIBLE);
@@ -265,7 +266,7 @@ public class Main extends BaseActivity implements
 								(Integer.valueOf(month) - 1) + "", day,
 								dateType, "income_performance_" + dateType);
 
-						if (prevBizPerformance.get_id() != null) {
+						if (prevIncomePerformance.get_id() != null) {
 							incomeperformancService.deltel(
 									prevIncomePerformance.getYear(),
 									prevIncomePerformance.getMonth(),
@@ -279,26 +280,16 @@ public class Main extends BaseActivity implements
 								prevIncomePerformance, "income_performance_"
 										+ dateType);
 					}
+					viewFinishRefresh();
 				}
 				if (msg.what == 0) {
 					loading_begin.setVisibility(View.GONE);
 					mainScrollLayout.setVisibility(View.VISIBLE);
 				}
 				if (msg.what == 2) {
-					Toast.makeText(mContext, R.string.toast_text,
-							Toast.LENGTH_SHORT).show();
+					viewFinishRefresh();
+					UIHelper.ToastMessage(getBaseContext(), "网络不给力");
 				}
-
-				if (msg.what == 3) {
-					mRefreshBusinessView.finishRefresh();
-					mRefreshEmployeeView.finishRefresh();
-					mRefreshServiceView.finishRefresh();
-					mRefreshTrafficView.finishRefresh();
-					mRefreshIncomeView.finishRefresh();
-					Toast.makeText(mContext, R.string.toast_text,
-							Toast.LENGTH_SHORT).show();
-				}
-
 				if ("日".equals(timetype.getText().toString())) {
 					// 设置客流量的滚动条
 					charscrollview = (ScrollView) findViewById(R.id.charscrollview);
@@ -326,6 +317,8 @@ public class Main extends BaseActivity implements
 		timetype_layout = (RelativeLayout) findViewById(R.id.timetype_layout);
 		noshop = (LinearLayout) findViewById(R.id.noshop);
 
+		incomePerView = LayoutInflater.from(getBaseContext()).inflate(
+				R.layout.incomeperformance_chart, mainScrollLayout);
 		bizPerformanceView = LayoutInflater.from(getBaseContext()).inflate(
 				R.layout.business_chart, mainScrollLayout);
 		employPerView = LayoutInflater.from(getBaseContext()).inflate(
@@ -334,15 +327,16 @@ public class Main extends BaseActivity implements
 				R.layout.service_chart, mainScrollLayout);
 		customerCountView = LayoutInflater.from(getBaseContext()).inflate(
 				R.layout.traffic_chart, mainScrollLayout);
-		incomePerView = LayoutInflater.from(getBaseContext()).inflate(
-				R.layout.incomeperformance_chart, mainScrollLayout);
-
+		
 		shopname.setText(AppContext.getInstance(getBaseContext()).getShopName());
 		showTime.setText(getDateNow());
 		select_shop.setTag(R.drawable.select_shop);
 
 		((LinearLayout) findViewById(R.id.business_empty))
 				.setVisibility(View.VISIBLE);
+		
+		mRefreshIncomeView = (RefreshLayoutableView) findViewById(R.id.refresh_income);
+		mRefreshIncomeView.setRefreshListener(this);
 
 		mRefreshBusinessView = (RefreshLayoutableView) findViewById(R.id.refresh_business);
 		mRefreshBusinessView.setRefreshListener(this);
@@ -356,9 +350,6 @@ public class Main extends BaseActivity implements
 		mRefreshTrafficView = (RefreshLayoutableView) findViewById(R.id.refresh_traffic);
 		mRefreshTrafficView.setRefreshListener(this);
 		
-		mRefreshIncomeView = (RefreshLayoutableView) findViewById(R.id.refresh_income);
-		mRefreshIncomeView.setRefreshListener(this);
-
 		findViewById(R.id.goback).setVisibility(View.GONE);
 		
 		select_shop.setOnClickListener(new OnClickListener() {
@@ -817,6 +808,21 @@ public class Main extends BaseActivity implements
 
 	@Override
 	public void onRefresh(RefreshLayoutableView view) {
-		handle.sendEmptyMessageDelayed(3, 2000);
+		if (NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE) {
+			getNetChartData();
+		}
+		else
+		{
+			handle.sendEmptyMessageDelayed(2, 2000l);
+		}
+	}
+	
+	public void viewFinishRefresh()
+	{
+		mRefreshIncomeView.finishRefresh();
+		mRefreshBusinessView.finishRefresh();
+		mRefreshEmployeeView.finishRefresh();
+		mRefreshServiceView.finishRefresh();
+		mRefreshTrafficView.finishRefresh();
 	}
 }
