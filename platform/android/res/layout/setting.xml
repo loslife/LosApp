@@ -153,16 +153,13 @@
                 android:textColor="@color/black_text"
                 android:textSize="@dimen/Text_size_m" />
 
-            <TextView
-                android:id="@+id/versiontext"
+            <ImageView
+                android:id="@+id/versionflag"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_alignParentRight="true"
-                android:layout_weight="5"
-                android:gravity="fill_vertical"
-                android:text="当前已是最新版本"
-                android:textColor="@color/gray_text"
-                android:textSize="@dimen/Text_size_m" />
+                android:layout_weight="1"
+                android:src="@drawable/righticon"/>
 
         </RelativeLayout>
 

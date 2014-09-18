@@ -38,7 +38,7 @@ public class SettingActivity extends BaseActivity {
 
 	private RelativeLayout lgout;
 	
-	private TextView versiontext;
+	private ImageView versionIcon;
 	
 	private String verion;
 	
@@ -63,12 +63,14 @@ public class SettingActivity extends BaseActivity {
 		{
 			if(msg.what==0)
 			{
-				versiontext.setText("检测到有新版本");
+				versionIcon.setImageDrawable(getBaseContext().getResources()
+						.getDrawable(R.drawable.red_dot));
 				versionUpdate.setEnabled(true);
 			}
 			if(msg.what==1)
 			{
-				versiontext.setText("当前版本已是最新版本");
+				versionIcon.setImageDrawable(getBaseContext().getResources()
+						.getDrawable(R.drawable.righticon));
 				versionUpdate.setEnabled(false);
 			}
 		}
@@ -115,7 +117,7 @@ public class SettingActivity extends BaseActivity {
 		aboutlos = (RelativeLayout) findViewById(R.id.relativelayout_aboutlos);
 		lgout = (RelativeLayout) findViewById(R.id.relativelayout_lgout);
 		versionUpdate = (RelativeLayout) findViewById(R.id.relativelayout_update);
-		versiontext = (TextView)findViewById(R.id.versiontext);
+		versionIcon = (ImageView)findViewById(R.id.versionflag);
 		findViewById(R.id.goback).setVisibility(View.GONE);
 
 		linkShop.setOnClickListener(new OnClickListener() {
@@ -167,8 +169,6 @@ public class SettingActivity extends BaseActivity {
 
 			@Override
 			public void onClick(View v) {
-				  
-                
                 //警告框  
                 new AlertDialog.Builder(SettingActivity.this) 
                 .setTitle("退出应用")  

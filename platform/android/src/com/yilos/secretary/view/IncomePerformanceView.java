@@ -238,7 +238,7 @@ public class IncomePerformanceView {
 		((TextView) v.findViewById(R.id.toprev_incomedata)).setText("比上"
 				+ timetype.getText().toString() + ": " + comparePrevIncome
 				+ " " + showPercent(percent_income_add) + "%");
-		((TextView) v.findViewById(R.id.toprev_saledata)).setText("比上"
+		((TextView) v.findViewById(R.id.toprev_prepaydata)).setText("比上"
 				+ timetype.getText().toString() + ": " + comparePrevPrepay
 				+ " " + showPercent(percent_prepay_add) + "%");
 		((TextView) v.findViewById(R.id.toprev_paidindata)).setText("比上"
