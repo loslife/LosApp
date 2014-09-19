@@ -3,9 +3,6 @@ package com.yilos.secretary.view;
 
 import java.util.Calendar;
 
-import com.yilos.secretary.R;
-
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -20,14 +17,12 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.Scroller;
 import android.widget.TextView;
-import android.widget.LinearLayout.LayoutParams;
+
+import com.yilos.secretary.R;
 
 
 /**
  * 刷新控制view
- * 
- * 
- * 
  */
 public class RefreshLayoutableView extends LinearLayout {
 
@@ -35,7 +30,7 @@ public class RefreshLayoutableView extends LinearLayout {
     private Scroller scroller;
     private View refreshView;
     private ImageView refreshIndicatorView;
-    private int refreshTargetTop = -120;
+    private int refreshTargetTop = -140;
     private ProgressBar bar;
     private TextView downTextView;
     private TextView timeTextView;
@@ -193,7 +188,7 @@ public class RefreshLayoutableView extends LinearLayout {
             float f2 = moveY * 0.9F;
             int i = (int)(f1+f2);
             //修改上边距
-            lp.topMargin = 60;
+            lp.topMargin = 80;
             //修改后刷新
             refreshView.setLayoutParams(lp);
             refreshView.invalidate();
@@ -233,7 +228,6 @@ public class RefreshLayoutableView extends LinearLayout {
             downTextView.setText(R.string.refresh_down_text);
             refreshIndicatorView.setImageResource(R.drawable.arrow);
         }
-            
     }
 
     public void setRefreshEnabled(boolean b) {

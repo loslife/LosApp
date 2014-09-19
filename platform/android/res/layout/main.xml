@@ -3,7 +3,7 @@
     android:id="@+id/main"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/base_bg"
+     android:background="@color/white"
     android:orientation="vertical" >
 
     <include layout="@layout/main_header" />
@@ -98,6 +98,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:gravity="center"
+        android:background="@color/base_bg"
         android:visibility="gone" >
 
         <TextView

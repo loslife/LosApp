@@ -107,7 +107,8 @@ public class MemberGoupActivity extends BaseActivity {
 	private LinearLayout select_shop;
 	
 	private String shopListViewId = "0";
-
+	
+	private boolean isRefreshing = false;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -160,7 +161,11 @@ public class MemberGoupActivity extends BaseActivity {
 					loading_begin.setVisibility(View.GONE);
 					getdata();
 					seachmemberext.setText("");
-					refreshableView.finishRefreshing();
+					if(isRefreshing)
+					{
+						refreshableView.finishRefreshing();
+						isRefreshing = false;
+					}
 				}
 				
 				if(msg.what==3)
@@ -168,6 +173,7 @@ public class MemberGoupActivity extends BaseActivity {
 					UIHelper.ToastMessage(getBaseContext(), "网络不给力");
 					seachmemberext.setText("");
 					refreshableView.finishRefreshing();
+					isRefreshing = false;
 				}
 			}
 	};
@@ -310,6 +316,7 @@ public class MemberGoupActivity extends BaseActivity {
 			@Override
 			public void onRefresh() {
 				    
+				     isRefreshing = true;
 					if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
 					{
 					   getMemberContact(shopId,last_sync); 

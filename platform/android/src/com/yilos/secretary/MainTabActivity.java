@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.RadioButton;
@@ -47,8 +45,7 @@ public class MainTabActivity extends TabActivity implements OnCheckedChangeListe
     @SuppressLint("ResourceAsColor")
 	@Override  
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {  
-    	Animation animation = null;
-    	animation = new TranslateAnimation(0, 0, 0, 0);
+    	
         if(isChecked){  
             switch (buttonView.getId()) {  
             case R.id.operate: 

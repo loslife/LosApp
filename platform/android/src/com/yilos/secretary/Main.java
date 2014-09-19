@@ -751,9 +751,9 @@ public class Main extends BaseActivity implements
 	}
 
 	public void setButtonEnabled(boolean flag) {
-		timetype.setEnabled(flag);
-		lefttime.setEnabled(flag);
-		righttime.setEnabled(flag);
+		timetype_layout.setEnabled(flag);
+		lefttime_layout.setEnabled(flag);
+		righttime_layout.setEnabled(flag);
 		if (!flag) {
 			lefttime.setImageDrawable(getBaseContext().getResources()
 					.getDrawable(R.drawable.graytoleft));
