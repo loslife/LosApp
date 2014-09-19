@@ -15,7 +15,7 @@
         android:background="@color/gray_bg"
         android:gravity="center"
         android:orientation="horizontal" 
-        android:visibility="gone">
+        >
 
         <TextView
             android:layout_width="0dp"
@@ -42,9 +42,9 @@
             android:id="@+id/showtime"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:layout_weight="6"
+            android:layout_weight="8"
             android:gravity="center"
-            android:text=""
+            android:text="09月14日--09月15日"
             android:textColor="@color/black_text"
             android:textSize="@dimen/Text_size_m" />
 
