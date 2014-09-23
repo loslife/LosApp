@@ -58,6 +58,7 @@
 		18666748194A9FFF00A345F7 /* RegisterStep1View.m in Sources */ = {isa = PBXBuildFile; fileRef = 18666747194A9FFF00A345F7 /* RegisterStep1View.m */; };
 		1866674D194AD1BA00A345F7 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866674C194AD1BA00A345F7 /* Reachability.m */; };
 		18666754194AD52400A345F7 /* StringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 18666753194AD52400A345F7 /* StringUtils.m */; };
+		186B6FDF19D1232C00A65D37 /* Script_100_110.m in Sources */ = {isa = PBXBuildFile; fileRef = 186B6FDE19D1232C00A65D37 /* Script_100_110.m */; };
 		186C35C31975124800633AE4 /* LosBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35C21975124800633AE4 /* LosBaseView.m */; };
 		186C35C6197535C400633AE4 /* LoginOrRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35C5197535C400633AE4 /* LoginOrRegisterViewController.m */; };
 		186C35C9197535F600633AE4 /* LoginOrRegisterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35C8197535F600633AE4 /* LoginOrRegisterView.m */; };
@@ -208,6 +209,9 @@
 		1866674C194AD1BA00A345F7 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		18666752194AD52400A345F7 /* StringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringUtils.h; sourceTree = "<group>"; };
 		18666753194AD52400A345F7 /* StringUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringUtils.m; sourceTree = "<group>"; };
+		186B6FDC19D122F100A65D37 /* UpdateScript.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UpdateScript.h; sourceTree = "<group>"; };
+		186B6FDD19D1232C00A65D37 /* Script_100_110.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Script_100_110.h; sourceTree = "<group>"; };
+		186B6FDE19D1232C00A65D37 /* Script_100_110.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Script_100_110.m; sourceTree = "<group>"; };
 		186C35C11975124800633AE4 /* LosBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LosBaseView.h; sourceTree = "<group>"; };
 		186C35C21975124800633AE4 /* LosBaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LosBaseView.m; sourceTree = "<group>"; };
 		186C35C4197535C400633AE4 /* LoginOrRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginOrRegisterViewController.h; sourceTree = "<group>"; };
@@ -438,6 +442,7 @@
 			children = (
 				1866671A1949B2E900A345F7 /* UpdateHelper.h */,
 				1866671B1949B2E900A345F7 /* UpdateHelper.m */,
+				186B6FDC19D122F100A65D37 /* UpdateScript.h */,
 			);
 			name = update;
 			sourceTree = "<group>";
@@ -477,6 +482,15 @@
 				1866674C194AD1BA00A345F7 /* Reachability.m */,
 			);
 			path = Reachability;
+			sourceTree = "<group>";
+		};
+		186B6FDB19D122A900A65D37 /* update.scripts */ = {
+			isa = PBXGroup;
+			children = (
+				186B6FDD19D1232C00A65D37 /* Script_100_110.h */,
+				186B6FDE19D1232C00A65D37 /* Script_100_110.m */,
+			);
+			name = update.scripts;
 			sourceTree = "<group>";
 		};
 		186C35C01975121E00633AE4 /* views.base */ = {
@@ -630,6 +644,7 @@
 				1844725B195C0B9300B4A543 /* dao */,
 				18AFE620195434500083C972 /* datasource */,
 				1866671D1949C2B200A345F7 /* utils */,
+				186B6FDB19D122A900A65D37 /* update.scripts */,
 				186667191949B2D700A345F7 /* update */,
 				186C35C01975121E00633AE4 /* views.base */,
 				1866670C194992F500A345F7 /* views */,
@@ -836,6 +851,7 @@
 				186667121949A9D000A345F7 /* BootstrapView.m in Sources */,
 				184472831963F18B00B4A543 /* LosBarChart.m in Sources */,
 				1844729C196820D100B4A543 /* PerformanceCompareView.m in Sources */,
+				186B6FDF19D1232C00A65D37 /* Script_100_110.m in Sources */,
 				186667151949ACD600A345F7 /* VersionInfo.m in Sources */,
 				184473041974D90600B4A543 /* EnterpriseListView.m in Sources */,
 				184472C0196F8DC200B4A543 /* CustomerCount.m in Sources */,
