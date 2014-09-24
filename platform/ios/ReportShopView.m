@@ -82,35 +82,11 @@
         NSUInteger count = [dataSource itemCount];
         CGFloat itemHeight = footerHeight / count;
         
-        ReportDateStatus *dateStatus = [ReportDateStatus sharedInstance];
-        DateDisplayType type = dateStatus.dateType;
-        
         for(int i = 0; i < count; i++){
             
             BusinessPerformance *item = [dataSource itemAtIndex:i];
             
-            NSString *value = [NSString stringWithFormat:@"￥%.1f", item.value];
-            
-            NSString *compareText;
-            if(item.increased){
-                if(type == DateDisplayTypeDay){
-                    compareText = [NSString stringWithFormat:@"比昨日：+%.1f +%.f%%", item.compareToPrev, item.compareToPrevRatio * 100];
-                }else if(type == DateDisplayTypeMonth){
-                    compareText = [NSString stringWithFormat:@"比上月：+%.1f +%.f%%", item.compareToPrev, item.compareToPrevRatio * 100];
-                }else{
-                    compareText = [NSString stringWithFormat:@"比上周：+%.1f +%.f%%", item.compareToPrev, item.compareToPrevRatio * 100];
-                }
-            }else{
-                if(type == DateDisplayTypeDay){
-                    compareText = [NSString stringWithFormat:@"比昨日：-%.1f -%.f%%", item.compareToPrev, item.compareToPrevRatio * 100];
-                }else if(type == DateDisplayTypeMonth){
-                    compareText = [NSString stringWithFormat:@"比上月：-%.1f -%.f%%", item.compareToPrev, item.compareToPrevRatio * 100];
-                }else{
-                    compareText = [NSString stringWithFormat:@"比上周：-%.1f -%.f%%", item.compareToPrev, item.compareToPrevRatio * 100];
-                }
-            }
-            
-            PerformanceCompareView *label = [[PerformanceCompareView alloc] initWithFrame:CGRectMake(0, itemHeight * i, 320, itemHeight) Title:item.title CompareText:compareText Value:value Increase:item.increased];
+            PerformanceCompareView *label = [[PerformanceCompareView alloc] initWithFrame:CGRectMake(0, itemHeight * i, 320, itemHeight) Title:item.title Compare:item.compareToPrev CompareRatio:item.compareToPrevRatio Value:item.value Increase:item.increased];
             [footer addSubview:label];
         }
         

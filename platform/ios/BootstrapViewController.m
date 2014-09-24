@@ -172,6 +172,12 @@
     
     NSString *sql14 = @"CREATE TABLE IF NOT EXISTS customer_count_week (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), walkin integer, member integer, year integer, month integer, day integer, hour integer, dateTime REAL);";
     
+    NSString *sql15 = @"CREATE TABLE IF NOT EXISTS income_performance_day (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), total_income REAL, total_prepay REAL, total_paidin REAL, total_paidin_bank REAL, total_paidin_cash REAL, service_cash REAL, service_bank REAL, product_cash REAL, product_bank REAL, card REAL, newcard_cash REAL, newcard_bank REAL, rechargecard_cash REAL, rechargecard_bank REAL, year integer, month integer, day integer, create_date REAL, modify_date REAL);";
+    
+    NSString *sql16 = @"CREATE TABLE IF NOT EXISTS income_performance_month (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), total_income REAL, total_prepay REAL, total_paidin REAL, total_paidin_bank REAL, total_paidin_cash REAL, service_cash REAL, service_bank REAL, product_cash REAL, product_bank REAL, card REAL, newcard_cash REAL, newcard_bank REAL, rechargecard_cash REAL, rechargecard_bank REAL, year integer, month integer, day integer, create_date REAL, modify_date REAL);";
+    
+    NSString *sql17 = @"CREATE TABLE IF NOT EXISTS income_performance_week (id varchar(64) NOT NULL primary key, enterprise_id varchar(64), total_income REAL, total_prepay REAL, total_paidin REAL, total_paidin_bank REAL, total_paidin_cash REAL, service_cash REAL, service_bank REAL, product_cash REAL, product_bank REAL, card REAL, newcard_cash REAL, newcard_bank REAL, rechargecard_cash REAL, rechargecard_bank REAL, year integer, month integer, day integer, create_date REAL, modify_date REAL);";
+    
     NSString *dbFilePath = [PathResolver databaseFilePath];
     FMDatabase *db = [FMDatabase databaseWithPath:dbFilePath];
     [db open];
@@ -190,6 +196,9 @@
     [db executeUpdate:sql12];
     [db executeUpdate:sql13];
     [db executeUpdate:sql14];
+    [db executeUpdate:sql15];
+    [db executeUpdate:sql16];
+    [db executeUpdate:sql17];
     
     [db close];
 }

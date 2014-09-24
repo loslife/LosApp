@@ -121,7 +121,7 @@
 
 -(void) startTick
 {
-    tick = 60;
+    tick = 90;
     timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(countdown) userInfo:nil repeats:YES];
 }
 
@@ -130,6 +130,10 @@
     tick--;
     
     if(tick > 0){
+        
+        RegisterStep1View *myView = (RegisterStep1View*)self.view;
+        NSString *title = [NSString stringWithFormat:@"验证码已发送至您的手机，接收短信大约需要%d秒", tick];
+        myView.sentMessage.text = title;
         return;
     }
     

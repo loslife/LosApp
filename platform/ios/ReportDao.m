@@ -457,4 +457,154 @@
     }];
 }
 
+-(NSMutableArray*) queryIncomeByDate:(NSDate*)date EnterpriseId:(NSString*)enterpriseId Type:(int)type
+{
+    NSMutableArray *result = [NSMutableArray arrayWithCapacity:1];
+    
+    NSString *query_day = @"select * from income_performance_day where enterprise_id = :eid and year = :year and month = :month and day = :day;";
+    
+    NSString *query_month = @"select * from income_performance_month where enterprise_id = :eid and year = :year and month = :month;";
+    
+    NSString *query_week = @"select * from income_performance_week where enterprise_id = :eid and year = :year and month = :month and day = :day;";
+    
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    
+    __block NSDateComponents* components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:date];
+    NSInteger year = [components year];
+    NSInteger month = [components month];
+    NSInteger day = [components day];
+    
+    [dbHelper inDatabase:^(FMDatabase* db){
+        
+        FMResultSet *rs;
+        FMResultSet *rs2;
+        
+        if(type == 0){
+            
+            NSDate *yesterday = [TimesHelper yesterdayOfDay:date];
+            components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:yesterday];
+            NSInteger yearOfYesterday = [components year];
+            NSInteger monthOfYesterday = [components month];
+            NSInteger dayOfYesterday = [components day];
+            
+            rs = [db executeQuery:query_day, enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
+            rs2 = [db executeQuery:query_day, enterpriseId, [NSNumber numberWithLong:yearOfYesterday], [NSNumber numberWithLong:monthOfYesterday], [NSNumber numberWithLong:dayOfYesterday]];
+            
+        }else if(type == 1){
+            
+            NSDate *previousMonth = [TimesHelper previousMonthOfDate:date];
+            components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth fromDate:previousMonth];
+            NSInteger yearOfPreviousMonth = [components year];
+            NSInteger monthOfPreviousMonth = [components month];
+            
+            rs = [db executeQuery:query_month, enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month]];
+            rs2 = [db executeQuery:query_month, enterpriseId, [NSNumber numberWithLong:yearOfPreviousMonth], [NSNumber numberWithLong:monthOfPreviousMonth]];
+            
+        }else{
+            
+            NSDate *sunday = [TimesHelper firstDayOfWeek:date];
+            components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:sunday];
+            NSInteger yearOfSunday = [components year];
+            NSInteger monthOfSunday = [components month];
+            NSInteger dayOfSunday = [components day];
+            
+            NSDate *previousSunday = [TimesHelper previousSundayOfDate:date];
+            components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:previousSunday];
+            NSInteger yearOfPreviousSunday = [components year];
+            NSInteger monthOfPreviousSunday = [components month];
+            NSInteger dayOfPreviousSunday = [components day];
+            
+            rs = [db executeQuery:query_week, enterpriseId, [NSNumber numberWithLong:yearOfSunday], [NSNumber numberWithLong:monthOfSunday], [NSNumber numberWithLong:dayOfSunday]];
+            rs2 = [db executeQuery:query_week, enterpriseId, [NSNumber numberWithLong:yearOfPreviousSunday], [NSNumber numberWithLong:monthOfPreviousSunday], [NSNumber numberWithLong:dayOfPreviousSunday]];
+        }
+        
+        [result addObject:[self assembleIncomeFromRS:rs]];
+        [result addObject:[self assembleIncomeFromRS:rs2]];
+        
+        [rs close];
+        [rs2 close];
+    }];
+    
+    return result;
+}
+
+-(NSDictionary*) assembleIncomeFromRS:(FMResultSet*)rs
+{
+    if([rs next]){
+        
+        NSMutableDictionary *record = [NSMutableDictionary dictionary];
+        
+        [record setObject:[rs objectForColumnName:@"id"] forKey:@"_id"];
+        [record setObject:[rs objectForColumnName:@"rechargecard_bank"] forKey:@"rechargecard_bank"];
+        [record setObject:[rs objectForColumnName:@"rechargecard_cash"] forKey:@"rechargecard_cash"];
+        [record setObject:[rs objectForColumnName:@"card"] forKey:@"card"];
+        [record setObject:[rs objectForColumnName:@"total_paidin_bank"] forKey:@"total_paidin_bank"];
+        [record setObject:[rs objectForColumnName:@"total_paidin_cash"] forKey:@"total_paidin_cash"];
+        [record setObject:[rs objectForColumnName:@"service_cash"] forKey:@"service_cash"];
+        [record setObject:[rs objectForColumnName:@"total_income"] forKey:@"total_income"];
+        [record setObject:[rs objectForColumnName:@"newcard_cash"] forKey:@"newcard_cash"];
+        [record setObject:[rs objectForColumnName:@"product_cash"] forKey:@"product_cash"];
+        [record setObject:[rs objectForColumnName:@"service_bank"] forKey:@"service_bank"];
+        [record setObject:[rs objectForColumnName:@"total_prepay"] forKey:@"total_prepay"];
+        [record setObject:[rs objectForColumnName:@"total_paidin"] forKey:@"total_paidin"];
+        [record setObject:[rs objectForColumnName:@"product_bank"] forKey:@"product_bank"];
+        [record setObject:[rs objectForColumnName:@"newcard_bank"] forKey:@"newcard_bank"];
+        
+        return record;
+    }
+    
+    return [NSDictionary dictionary];
+}
+
+-(void) insertIncome:(NSDictionary*)entity type:(NSString*)type
+{
+    NSString *tableName = [NSString stringWithFormat:@"income_performance_%@", type];
+    
+    NSString *query = [NSString stringWithFormat:@"select count(1) as count from %@ where year = :year and month = :month and day = :day and enterprise_id = :eid", tableName];
+    
+    NSString *insert = [NSString stringWithFormat:@"insert into %@ (id, enterprise_id, total_income, total_prepay, total_paidin, total_paidin_bank, total_paidin_cash, service_cash, service_bank, product_cash, product_bank, card, newcard_cash, newcard_bank, rechargecard_cash, rechargecard_bank, year, month, day, create_date) values (:id, :eid, :ti, :tpre, :tpi, :tpib, :tpic, :sc, :sb, :pc, :pb, :card, :nc, :nb, :rc, :rb, :year, :month, :day, :createDate);", tableName];
+    
+    NSString *update = [NSString stringWithFormat:@"update %@ set total_income = :ti, total_prepay = :tpre, total_paidin = :tpi, total_paidin_bank = :tpib, total_paidin_cash = :tpic, service_cash = :sc, service_bank = :sb, product_cash = :pc, product_bank = :pb, card = :card, newcard_cash = :nc, newcard_bank = :nb, rechargecard_cash = :rc, rechargecard_bank = :rb, modify_date = :mdate where year = :year and month = :month and day = :day and enterprise_id = :eid;", tableName];
+    
+    NSNumber *now = [NSNumber numberWithLongLong:[TimesHelper now]];
+    
+    [dbHelper inDatabase:^(FMDatabase* db){
+        
+        [db beginTransaction];
+        
+        NSString *_id = [entity objectForKey:@"_id"];
+        NSNumber *createDate = [entity objectForKey:@"create_date"];
+        NSString *enterpriseId = [entity objectForKey:@"enterprise_id"];
+        NSNumber *year = [entity objectForKey:@"year"];
+        NSNumber *month = [NSNumber numberWithInt:[[entity objectForKey:@"month"] intValue] + 1];
+        NSNumber *day = [entity objectForKey:@"day"];
+        NSNumber *rechargeBank = [entity objectForKey:@"rechargecard_bank"];
+        NSNumber *rechargeCash = [entity objectForKey:@"rechargecard_cash"];
+        NSNumber *card = [entity objectForKey:@"card"];
+        NSNumber *paidinBank = [entity objectForKey:@"total_paidin_bank"];
+        NSNumber *paidinCash = [entity objectForKey:@"total_paidin_cash"];
+        NSNumber *serviceCash = [entity objectForKey:@"service_cash"];
+        NSNumber *totalIncome = [entity objectForKey:@"total_income"];
+        NSNumber *newCash = [entity objectForKey:@"newcard_cash"];
+        NSNumber *productCash = [entity objectForKey:@"product_cash"];
+        NSNumber *serviceBank = [entity objectForKey:@"service_bank"];
+        NSNumber *totalPrepay = [entity objectForKey:@"total_prepay"];
+        NSNumber *totalPaidin = [entity objectForKey:@"total_paidin"];
+        NSNumber *productBank = [entity objectForKey:@"product_bank"];
+        NSNumber *newBank = [entity objectForKey:@"newcard_bank"];
+        
+        FMResultSet *rs = [db executeQuery:query, year, month, day, enterpriseId];
+        [rs next];
+        int count = [[rs objectForColumnName:@"count"] intValue];
+        if(count == 0){
+            [db executeUpdate:insert, _id, enterpriseId, totalIncome, totalPrepay, totalPaidin, paidinBank, paidinCash, serviceCash, serviceBank, productCash, productBank, card, newCash, newBank, rechargeCash, rechargeBank, year, month, day, createDate];
+        }else{
+            [db executeUpdate:update, totalIncome, totalPrepay, totalPaidin, paidinBank, paidinCash, serviceCash, serviceBank, productCash, productBank, card, newCash, newBank, rechargeCash, rechargeBank, now, year, month, day, enterpriseId];
+        }
+        [rs close];
+        
+        [db commit];
+    }];
+}
+
 @end

@@ -1,7 +1,6 @@
 #import "ReportView.h"
 #import "ReportDateStatus.h"
 #import "LosTimePicker.h"
-#import "ReportEmployeeView.h"
 #import "LosStyles.h"
 
 @implementation ReportView
@@ -47,18 +46,21 @@
         [loading addSubview:message];
         
         dataArea = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 104, 320, contentHeight)];
-        dataArea.contentSize = CGSizeMake(1280, contentHeight);
+        dataArea.contentSize = CGSizeMake(1600, contentHeight);
         dataArea.pagingEnabled = YES;
         dataArea.showsHorizontalScrollIndicator = NO;
         
-        ReportShopView *shop = [[ReportShopView alloc] initWithFrame:CGRectMake(0, 0, 320, contentHeight) DataSource:controller.shopDataSource];
+        ReportIncomeView *income = [[ReportIncomeView alloc] initWithFrame:CGRectMake(0, 0, 320, contentHeight) DataSource:controller.incomeDataSource];
         
-        ReportEmployeeView *employee = [[ReportEmployeeView alloc] initWithFrame:CGRectMake(320, 0, 320, contentHeight) DataSource:controller.employeeDataSource];
+        ReportShopView *shop = [[ReportShopView alloc] initWithFrame:CGRectMake(320, 0, 320, contentHeight) DataSource:controller.shopDataSource];
         
-        ReportServiceView *service = [[ReportServiceView alloc] initWithFrame:CGRectMake(640, 0, 320, contentHeight) DataSource:controller.serviceDataSource];
+        ReportEmployeeView *employee = [[ReportEmployeeView alloc] initWithFrame:CGRectMake(640, 0, 320, contentHeight) DataSource:controller.employeeDataSource];
         
-        ReportCustomView *custom = [[ReportCustomView alloc] initWithFrame:CGRectMake(960, 0, 320, contentHeight) DataSource:controller.customDataSource];
+        ReportServiceView *service = [[ReportServiceView alloc] initWithFrame:CGRectMake(960, 0, 320, contentHeight) DataSource:controller.serviceDataSource];
         
+        ReportCustomView *custom = [[ReportCustomView alloc] initWithFrame:CGRectMake(1280, 0, 320, contentHeight) DataSource:controller.customDataSource];
+        
+        [dataArea addSubview:income];
         [dataArea addSubview:shop];
         [dataArea addSubview:employee];
         [dataArea addSubview:service];

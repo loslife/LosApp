@@ -32,6 +32,7 @@
         self.shopDataSource = [[ReportShopDataSource alloc] init];
         self.serviceDataSource = [[ReportServiceDataSource alloc] init];
         self.customDataSource = [[ReportCustomDataSource alloc] init];
+        self.incomeDataSource = [[ReportIncomeDataSource alloc] init];
         
         self.navigationItem.rightBarButtonItem = [[SwitchShopButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20) Delegate:self];
         
@@ -141,6 +142,11 @@
         
         dispatch_group_enter(group);
         [self.customDataSource loadFromServer:flag block:^(BOOL flag){
+            dispatch_group_leave(group);
+        }];
+        
+        dispatch_group_enter(group);
+        [self.incomeDataSource loadFromServer:flag block:^(BOOL flag){
             dispatch_group_leave(group);
         }];
         
