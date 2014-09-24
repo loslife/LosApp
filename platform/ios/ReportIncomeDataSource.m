@@ -5,6 +5,29 @@
 #import "LosAppUrls.h"
 #import "LosHttpHelper.h"
 
+@interface CompareResult : NSObject
+
+@property BOOL increased;
+@property double compareToPrev;
+@property double compareToPrevRatio;
+
+@end
+
+@implementation CompareResult
+
+-(id) initWithIncreased:(BOOL)increased number:(double)number ratio:(double)ratio
+{
+    self = [super init];
+    if(self){
+        self.increased = increased;
+        self.compareToPrev = number;
+        self.compareToPrevRatio = ratio;
+    }
+    return self;
+}
+
+@end
+
 @implementation ReportIncomeDataSource
 
 {
@@ -69,14 +92,88 @@
 
 -(void) assembleFromRecord1:(NSDictionary*)record1 Record2:(NSDictionary*)record2
 {
+    income = nil;
     
+    if(![record1 objectForKey:@"_id"]){
+        return;
+    }
+
+    income = [[Income alloc] init];
+    income.serviceBank = [[record1 objectForKey:@"service_bank"] doubleValue];
+    income.serviceCash = [[record1 objectForKey:@"service_cash"] doubleValue];
+    income.productBank = [[record1 objectForKey:@"product_bank"] doubleValue];
+    income.productCash = [[record1 objectForKey:@"product_cash"] doubleValue];
+    income.card = [[record1 objectForKey:@"card"] doubleValue];
+    income.totalIncome = [[record1 objectForKey:@"total_income"] doubleValue];
+    income.rechargeBank = [[record1 objectForKey:@"rechargecard_bank"] doubleValue];
+    income.rechargeCash = [[record1 objectForKey:@"rechargecard_cash"] doubleValue];
+    income.newcardBank = [[record1 objectForKey:@"newcard_bank"] doubleValue];
+    income.newcardCash = [[record1 objectForKey:@"newcard_cash"] doubleValue];
+    income.totalPrepay = [[record1 objectForKey:@"total_prepay"] doubleValue];
+    income.paidinBank = [[record1 objectForKey:@"total_paidin_bank"] doubleValue];
+    income.paidinCash = [[record1 objectForKey:@"total_paidin_cash"] doubleValue];
+    income.totalPaidin = [[record1 objectForKey:@"total_paidin"] doubleValue];
+    income.incomeRatio = income.totalIncome / (income.totalIncome + income.totalPrepay);
+    income.prepayRatio = 1 - income.incomeRatio;
+    
+    double incomePrev;
+    double prepayPrev;
+    double paidinPrev;
+    
+    if([record2 objectForKey:@"_id"]){
+        incomePrev = [[record2 objectForKey:@"total_income"] doubleValue];
+        prepayPrev = [[record2 objectForKey:@"total_prepay"] doubleValue];
+        paidinPrev = [[record2 objectForKey:@"total_paidin"] doubleValue];
+    }else{
+        incomePrev = 0;
+        prepayPrev = 0;
+        paidinPrev = 0;
+    }
+    
+    CompareResult *incomeCompare = [self assembleCompareWithCurrentValue:income.totalIncome prevValue:incomePrev];
+    income.incomeCompareToPrev = incomeCompare.compareToPrev;
+    income.incomeCompareToPrevRatio = incomeCompare.compareToPrevRatio;
+    income.incomeIncreased = incomeCompare.increased;
+    
+    CompareResult *prepayCompare = [self assembleCompareWithCurrentValue:income.totalPrepay prevValue:prepayPrev];
+    income.prepayCompareToPrev = prepayCompare.compareToPrev;
+    income.prepayCompareToPrevRatio = prepayCompare.compareToPrevRatio;
+    income.prepayIncreased = prepayCompare.increased;
+    
+    CompareResult *paidinCompare = [self assembleCompareWithCurrentValue:income.totalPaidin prevValue:paidinPrev];
+    income.paidinCompareToPrev = paidinCompare.compareToPrev;
+    income.paidinCompareToPrevRatio = paidinCompare.compareToPrevRatio;
+    income.paidinIncreased = paidinCompare.increased;
+}
+
+-(CompareResult*) assembleCompareWithCurrentValue:(double)current prevValue:(double)previous
+{
+    CompareResult *result = [[CompareResult alloc] init];
+    
+    if(current >= previous){
+        result.increased = YES;
+    }else{
+        result.increased = NO;
+    }
+    
+    result.compareToPrev = abs(current - previous);
+    
+    if(previous != 0){
+        result.compareToPrevRatio = result.compareToPrev / previous;
+    }else if(current == 0){
+        result.compareToPrevRatio = 0;
+    }else{
+        result.compareToPrevRatio = 1;
+    }
+    
+    return result;
 }
 
 #pragma mark - ReportIncomeViewDataSource
 
 -(BOOL) hasData
 {
-    return YES;
+    return (income != nil);
 }
 
 -(Income*) domainModel
