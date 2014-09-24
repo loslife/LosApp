@@ -6,6 +6,7 @@
 #import "ReportServiceDataSource.h"
 #import "ReportCustomDataSource.h"
 #import "InteractiveView.h"
+#import "ReportIncomeDataSource.h"
 
 @interface ReportViewController : UIViewController<LosTimePickerDelegate, SwitchShopButtonDelegate, InteractiveViewDelegate>
 
@@ -13,6 +14,7 @@
 @property ReportShopDataSource *shopDataSource;
 @property ReportServiceDataSource *serviceDataSource;
 @property ReportCustomDataSource *customDataSource;
+@property ReportIncomeDataSource *incomeDataSource;
 
 -(void) onSingleTap;
 

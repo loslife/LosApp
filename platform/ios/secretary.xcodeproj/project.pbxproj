@@ -59,6 +59,9 @@
 		1866674D194AD1BA00A345F7 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1866674C194AD1BA00A345F7 /* Reachability.m */; };
 		18666754194AD52400A345F7 /* StringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 18666753194AD52400A345F7 /* StringUtils.m */; };
 		186B6FDF19D1232C00A65D37 /* Script_100_110.m in Sources */ = {isa = PBXBuildFile; fileRef = 186B6FDE19D1232C00A65D37 /* Script_100_110.m */; };
+		186B6FE219D170F900A65D37 /* Income.m in Sources */ = {isa = PBXBuildFile; fileRef = 186B6FE119D170F900A65D37 /* Income.m */; };
+		186B6FE519D17E9900A65D37 /* ReportIncomeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186B6FE419D17E9900A65D37 /* ReportIncomeView.m */; };
+		186B6FE819D1854300A65D37 /* ReportIncomeDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 186B6FE719D1854300A65D37 /* ReportIncomeDataSource.m */; };
 		186C35C31975124800633AE4 /* LosBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35C21975124800633AE4 /* LosBaseView.m */; };
 		186C35C6197535C400633AE4 /* LoginOrRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35C5197535C400633AE4 /* LoginOrRegisterViewController.m */; };
 		186C35C9197535F600633AE4 /* LoginOrRegisterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C35C8197535F600633AE4 /* LoginOrRegisterView.m */; };
@@ -212,6 +215,12 @@
 		186B6FDC19D122F100A65D37 /* UpdateScript.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UpdateScript.h; sourceTree = "<group>"; };
 		186B6FDD19D1232C00A65D37 /* Script_100_110.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Script_100_110.h; sourceTree = "<group>"; };
 		186B6FDE19D1232C00A65D37 /* Script_100_110.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Script_100_110.m; sourceTree = "<group>"; };
+		186B6FE019D170F900A65D37 /* Income.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Income.h; sourceTree = "<group>"; };
+		186B6FE119D170F900A65D37 /* Income.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Income.m; sourceTree = "<group>"; };
+		186B6FE319D17E9900A65D37 /* ReportIncomeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportIncomeView.h; sourceTree = "<group>"; };
+		186B6FE419D17E9900A65D37 /* ReportIncomeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportIncomeView.m; sourceTree = "<group>"; };
+		186B6FE619D1854300A65D37 /* ReportIncomeDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportIncomeDataSource.h; sourceTree = "<group>"; };
+		186B6FE719D1854300A65D37 /* ReportIncomeDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportIncomeDataSource.m; sourceTree = "<group>"; };
 		186C35C11975124800633AE4 /* LosBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LosBaseView.h; sourceTree = "<group>"; };
 		186C35C21975124800633AE4 /* LosBaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LosBaseView.m; sourceTree = "<group>"; };
 		186C35C4197535C400633AE4 /* LoginOrRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginOrRegisterViewController.h; sourceTree = "<group>"; };
@@ -413,6 +422,8 @@
 				184472AD196CF11000B4A543 /* ReportServiceView.m */,
 				1844726E1962509B00B4A543 /* ReportCustomView.h */,
 				1844726F1962509B00B4A543 /* ReportCustomView.m */,
+				186B6FE319D17E9900A65D37 /* ReportIncomeView.h */,
+				186B6FE419D17E9900A65D37 /* ReportIncomeView.m */,
 				186C35DC1976746B00633AE4 /* ContactNeverLoadView.h */,
 				186C35DD1976746B00633AE4 /* ContactNeverLoadView.m */,
 				186C35E51978CF7700633AE4 /* ContactLoadingView.h */,
@@ -551,6 +562,8 @@
 				184472B6196D299600B4A543 /* ServicePerformance.m */,
 				184472BE196F8DC200B4A543 /* CustomerCount.h */,
 				184472BF196F8DC200B4A543 /* CustomerCount.m */,
+				186B6FE019D170F900A65D37 /* Income.h */,
+				186B6FE119D170F900A65D37 /* Income.m */,
 			);
 			name = domain;
 			sourceTree = "<group>";
@@ -570,6 +583,8 @@
 				186C366A197D018B00633AE4 /* ReportServiceDataSource.m */,
 				186C366C197D05C500633AE4 /* ReportCustomDataSource.h */,
 				186C366D197D05C500633AE4 /* ReportCustomDataSource.m */,
+				186B6FE619D1854300A65D37 /* ReportIncomeDataSource.h */,
+				186B6FE719D1854300A65D37 /* ReportIncomeDataSource.m */,
 			);
 			name = datasource;
 			sourceTree = "<group>";
@@ -854,6 +869,7 @@
 				186B6FDF19D1232C00A65D37 /* Script_100_110.m in Sources */,
 				186667151949ACD600A345F7 /* VersionInfo.m in Sources */,
 				184473041974D90600B4A543 /* EnterpriseListView.m in Sources */,
+				186B6FE519D17E9900A65D37 /* ReportIncomeView.m in Sources */,
 				184472C0196F8DC200B4A543 /* CustomerCount.m in Sources */,
 				186C35C6197535C400633AE4 /* LoginOrRegisterViewController.m in Sources */,
 				186C3656197A20D400633AE4 /* MJRefreshHeaderView.m in Sources */,
@@ -912,6 +928,8 @@
 				18CE3C271985F49A00A3152D /* SystemDao.m in Sources */,
 				1844724E1958429000B4A543 /* PasswordView.m in Sources */,
 				18B2EE221946E0EF00264B74 /* LosAppDelegate.m in Sources */,
+				186B6FE819D1854300A65D37 /* ReportIncomeDataSource.m in Sources */,
+				186B6FE219D170F900A65D37 /* Income.m in Sources */,
 				186C35D51976208600633AE4 /* ResetStep1ViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
