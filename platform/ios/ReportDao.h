@@ -10,5 +10,7 @@
 -(void) batchInsertServicePerformance:(NSArray*)array type:(NSString*)type;
 -(NSMutableArray*) queryCustomerCountByDate:(NSDate*)date EnterpriseId:(NSString*)enterpriseId Type:(int)type;
 -(void) batchInsertCustomerCount:(NSArray*)array type:(NSString*)type;
+-(NSMutableArray*) queryIncomeByDate:(NSDate*)date EnterpriseId:(NSString*)enterpriseId Type:(int)type;
+-(void) insertIncome:(NSDictionary*)entity type:(NSString*)type;
 
 @end

@@ -1,41 +1,75 @@
 #import "ReportIncomeDataSource.h"
+#import "ReportDao.h"
+#import "UserData.h"
+#import "ReportDateStatus.h"
+#import "LosAppUrls.h"
+#import "LosHttpHelper.h"
 
 @implementation ReportIncomeDataSource
 
 {
     Income *income;
+    ReportDao *dao;
+    LosHttpHelper *httpHelper;
+}
+
+-(id) init
+{
+    self = [super init];
+    if(self){
+        income = nil;
+        dao = [[ReportDao alloc] init];
+        httpHelper = [[LosHttpHelper alloc] init];
+    }
+    return self;
 }
 
 -(void) loadFromServer:(BOOL)flag block:(void(^)(BOOL))block
 {
-    income = [[Income alloc] init];
-    income.serviceBank = 2222;
-    income.serviceCash = 4000;
-    income.productBank = 222;
-    income.productCash = 33;
-    income.card = 2422;
-    income.totalIncome = 8899;
-    income.rechargeBank = 1000;
-    income.rechargeCash = 2000;
-    income.newcardBank = 3000;
-    income.newcardCash = 4000;
-    income.totalPrepay = 10000;
-    income.paidinBank = 444;
-    income.paidinCash = 10000;
-    income.totalPaidin = 10444;
-    income.incomeRatio = 0.4;
-    income.incomeCompareToPrev = 2000;
-    income.incomeCompareToPrevRatio = 0.4;
-    income.incomeIncreased = YES;
-    income.prepayRatio = 0.6;
-    income.prepayCompareToPrev = 3000;
-    income.prepayCompareToPrevRatio = 0.5;
-    income.prepayIncreased = NO;
-    income.paidinCompareToPrev = 1000;
-    income.paidinCompareToPrevRatio = 0.1;
-    income.paidinIncreased = YES;
+    UserData *userData = [UserData load];
+    NSString *currentEnterpriseId = userData.enterpriseId;
+    
+    ReportDateStatus *status = [ReportDateStatus sharedInstance];
+    
+    if(!flag){
         
-    block(YES);
+        NSArray *array = [dao queryIncomeByDate:status.date EnterpriseId:currentEnterpriseId Type:status.dateType];
+        [self assembleFromRecord1:[array objectAtIndex:0] Record2:[array objectAtIndex:1]];
+        block(YES);
+        
+    }else{
+        
+        NSString *url = [NSString stringWithFormat:FETCH_REPORT_URL, currentEnterpriseId, [status yearStr], [status monthStr], [status dayStr], [status typeStr], @"income"];
+        
+        [httpHelper getSecure:url completionHandler:^(NSDictionary *response){
+            
+            NSDictionary *result = [response objectForKey:@"result"];
+            
+            NSDictionary *current = [result objectForKey:@"current"];
+            NSDictionary *biz = [current objectForKey:@"tb_income_performance"];
+            NSDictionary *record = [biz objectForKey:[status typeStr]];
+            
+            NSDictionary *prev = [result objectForKey:@"prev"];
+            NSDictionary *biz2 = [prev objectForKey:@"tb_income_performance"];
+            NSDictionary *record2 = [biz2 objectForKey:[status typeStr]];
+            
+            if([record objectForKey:@"_id"]){
+                [dao insertIncome:record type:[status typeStr]];
+            }
+            
+            if([record2 objectForKey:@"_id"]){
+                [dao insertIncome:record2 type:[status typeStr]];
+            }
+            
+            [self assembleFromRecord1:record Record2:record2];
+            block(YES);
+        }];
+    }
+}
+
+-(void) assembleFromRecord1:(NSDictionary*)record1 Record2:(NSDictionary*)record2
+{
+    
 }
 
 #pragma mark - ReportIncomeViewDataSource
