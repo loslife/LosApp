@@ -67,15 +67,16 @@
     if([dataSource hasData]){
         
         main = [[UIView alloc] initWithFrame:CGRectMake(0, 40, 320, chartHeight)];
+        [self addSubview:main];
         
         LosLineChart *chart = [[LosLineChart alloc] initWithFrame:CGRectMake(0, 0, 320, 0) dataSource:dataSource];
         [main addSubview:chart];
         
-        [self addSubview:main];
-        
         ReportDateStatus *status = [ReportDateStatus sharedInstance];
         if(status.dateType == DateDisplayTypeDay){
             [self setContentOffset:CGPointMake(0, 360) animated:YES];
+        }else{
+            [self setContentOffset:CGPointMake(0, 0) animated:YES];
         }
     }
 }
