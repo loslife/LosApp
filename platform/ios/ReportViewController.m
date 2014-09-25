@@ -7,6 +7,7 @@
 #import "ReportDateStatus.h"
 #import "NoShopView.h"
 #import "ReportViewBase.h"
+#import "MJRefresh.h"
 
 @implementation ReportViewController
 
@@ -215,6 +216,7 @@
     view.button.enabled = NO;
     [self loadReport:^{
         view.button.enabled = YES;
+        [view headerEndRefreshing];
     }];
 }
 

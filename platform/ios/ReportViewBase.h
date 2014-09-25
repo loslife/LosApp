@@ -1,6 +1,6 @@
 #import <UIKit/UIKit.h>
 
-@interface ReportViewBase : UIView
+@interface ReportViewBase : UIScrollView
 
 @property UIButton *button;
 
