@@ -30,18 +30,16 @@
         label.textAlignment = NSTextAlignmentLeft;
         label.textColor = [UIColor colorWithRed:32/255.0f green:37/255.0f blue:41/255.0f alpha:1.0f];
         
-        self.button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        self.button.frame = CGRectMake(80, 11, 20, 18);
-        self.button.tintColor = BLUE1;
-        [self.button setImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
-        [self.button addTarget:self action:@selector(refreshButtonDidPressed) forControlEvents:UIControlEventTouchUpInside];
+        CALayer *bottomBorder = [CALayer layer];
+        bottomBorder.frame = CGRectMake(0, header.frame.size.height - 1, header.frame.size.width, .5);
+        bottomBorder.backgroundColor = [UIColor grayColor].CGColor;
+        [header.layer addSublayer:bottomBorder];
         
         total = [[UILabel alloc] initWithFrame:CGRectMake(140, 0, 140, 40)];
         total.textAlignment = NSTextAlignmentRight;
         total.textColor = [UIColor colorWithRed:32/255.0f green:37/255.0f blue:41/255.0f alpha:1.0f];
         
         [header addSubview:label];
-        [header addSubview:self.button];
         [header addSubview:total];
         
         [self addSubview:header];
@@ -51,43 +49,40 @@
 
 -(void) drawRect:(CGRect)rect
 {
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    CGContextSetLineWidth(ctx, .1f);
-    CGContextMoveToPoint(ctx, 20, 39.5);
-    CGContextAddLineToPoint(ctx, 300, 39.5);
-    CGContextStrokePath(ctx);
-    
     total.text = [dataSource total];
     
     [main removeFromSuperview];
     
+    CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;// 568 in 4-inch，480 in 3.5-inch
+    CGFloat contentHeight = screenHeight - 153;
+    
+    CGFloat mainHeight = contentHeight - 40;
+    CGFloat pieHeight = round(mainHeight * 0.4);
+    CGFloat barHeight = 10;
+    CGFloat footerHeight = [dataSource itemCount] == 0 ? 0: ([dataSource itemCount] + 1) * 40;
+    
+    if((40 + pieHeight + barHeight + footerHeight) > contentHeight){
+        self.contentSize = CGSizeMake(320, 40 + pieHeight + barHeight + footerHeight);
+    }else{
+        self.contentSize = CGSizeMake(320, contentHeight + 10);
+    }
+    
     if([dataSource hasData]){
         
-        CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;// 568 in 4-inch，480 in 3.5-inch
-        CGFloat mainHeight = screenHeight - 193;
+        main = [[UIView alloc] initWithFrame:CGRectMake(0, 40, 320, pieHeight + barHeight + footerHeight)];
         
-        main = [[UIView alloc] initWithFrame:CGRectMake(0, 40, 320, mainHeight)];
-        
-        CGFloat pieHeight = round(mainHeight * 0.4);
         LosPieChart *pie = [[LosPieChart alloc] initWithFrame:CGRectMake(0, 0, 320, pieHeight) Delegate:dataSource];
-        [main addSubview:pie];
         
         UILabel *bar = [[UILabel alloc] initWithFrame:CGRectMake(0, pieHeight, 320, 10)];
         bar.backgroundColor = GRAY1;
         bar.layer.borderColor = GRAY2.CGColor;
         bar.layer.borderWidth = .5f;
-        [main addSubview:bar];
         
         NSUInteger count = [dataSource itemCount];
+        UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, pieHeight + 10, 320, footerHeight)];
         
-        CGFloat footerHeight = mainHeight - pieHeight - 10;
-        UIScrollView *footer = [[UIScrollView alloc] initWithFrame:CGRectMake(0, pieHeight + 10, 320, footerHeight)];
-        
-        if(count == 0){
-            footer.contentSize = CGSizeMake(320, 0);
-        }else{
-            footer.contentSize = CGSizeMake(320, 40 * (count + 1));
-        }
+        [main addSubview:pie];
+        [main addSubview:bar];
         [main addSubview:footer];
         
         if(count != 0){
