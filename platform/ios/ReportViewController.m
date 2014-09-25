@@ -213,9 +213,7 @@
 {
     ReportViewBase *view = (ReportViewBase*)notification.object;
     
-    view.button.enabled = NO;
     [self loadReport:^{
-        view.button.enabled = YES;
         [view headerEndRefreshing];
     }];
 }

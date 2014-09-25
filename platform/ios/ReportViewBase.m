@@ -17,11 +17,6 @@
     [self setNeedsDisplay];
 }
 
--(void) refreshButtonDidPressed
-{
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"refresh_report_event" object:self];
-}
-
 -(void) sendRefreshNotification
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refresh_report_event" object:self];
