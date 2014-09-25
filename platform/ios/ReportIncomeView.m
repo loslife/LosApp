@@ -7,7 +7,13 @@
 
 {
     id<ReportIncomeViewDataSource, LosPieChartDelegate> dataSource;
-    UIScrollView *main;
+    UIView *main;
+    
+    CGFloat mainHeight;
+    CGFloat headerHeight;
+    CGFloat pieHeight;
+    CGFloat barHeight;
+    CGFloat footerHeight;
 }
 
 -(id) initWithFrame:(CGRect)frame DataSource:(id<ReportIncomeViewDataSource, LosPieChartDelegate>)ds
@@ -16,26 +22,27 @@
     
     if (self) {
         
+        headerHeight = 40;
+        mainHeight = frame.size.height - headerHeight;
+        pieHeight = round(mainHeight * 0.4);
+        barHeight = 10;
+        footerHeight = 300;
+        
+        self.contentSize = CGSizeMake(320, headerHeight + pieHeight + barHeight + footerHeight);
+        
         dataSource = ds;
         
         self.backgroundColor = [UIColor whiteColor];
         
-        UIView *header = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 280, 40)];
-        header.userInteractionEnabled = YES;
+        UILabel *header = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 280, headerHeight)];
+        header.text = @"经营收入";
+        header.textAlignment = NSTextAlignmentLeft;
+        header.textColor = [UIColor colorWithRed:32/255.0f green:37/255.0f blue:41/255.0f alpha:1.0f];
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 80, 40)];
-        label.text = @"经营收入";
-        label.textAlignment = NSTextAlignmentLeft;
-        label.textColor = [UIColor colorWithRed:32/255.0f green:37/255.0f blue:41/255.0f alpha:1.0f];
-        
-        self.button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        self.button.frame = CGRectMake(80, 11, 20, 18);
-        self.button.tintColor = BLUE1;
-        [self.button setImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
-        [self.button addTarget:self action:@selector(refreshButtonDidPressed) forControlEvents:UIControlEventTouchUpInside];
-        
-        [header addSubview:label];
-        [header addSubview:self.button];
+        CALayer *bottomBorder = [CALayer layer];
+        bottomBorder.frame = CGRectMake(0, header.frame.size.height - 1, header.frame.size.width, .5);
+        bottomBorder.backgroundColor = [UIColor grayColor].CGColor;
+        [header.layer addSublayer:bottomBorder];
         
         [self addSubview:header];
     }
@@ -44,25 +51,11 @@
 
 -(void) drawRect:(CGRect)rect
 {
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    CGContextSetLineWidth(ctx, .1f);
-    CGContextMoveToPoint(ctx, 20, 39.5);
-    CGContextAddLineToPoint(ctx, 300, 39.5);
-    CGContextStrokePath(ctx);
-    
     [main removeFromSuperview];
     
     if([dataSource hasData]){
         
-        CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;// 568 in 4-inch，480 in 3.5-inch
-        CGFloat mainHeight = screenHeight - 193;
-        
-        CGFloat pieHeight = round(mainHeight * 0.4);
-        CGFloat barHeight = 10;
-        CGFloat footerHeight = 300;
-        
-        main = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 40, 320, mainHeight)];
-        main.contentSize = CGSizeMake(320, pieHeight + barHeight + footerHeight);
+        main = [[UIView alloc] initWithFrame:CGRectMake(0, 40, 320, mainHeight)];
         
         LosPieChart *pie = [[LosPieChart alloc] initWithFrame:CGRectMake(0, 0, 320, pieHeight) Delegate:dataSource];
         

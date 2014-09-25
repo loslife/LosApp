@@ -10,6 +10,12 @@
     
     UILabel *total;
     UIView *main;
+    
+    CGFloat mainHeight;
+    CGFloat headerHeight;
+    CGFloat pieHeight;
+    CGFloat barHeight;
+    CGFloat footerHeight;
 }
 
 -(id) initWithFrame:(CGRect)frame DataSource:(id<ReportShopViewDataSource, LosPieChartDelegate>)ds
@@ -17,6 +23,14 @@
     self = [super initWithFrame:frame];
     if (self) {
     
+        headerHeight = 40;
+        mainHeight = frame.size.height - headerHeight;
+        pieHeight = round(mainHeight * 0.4);
+        barHeight = 10;
+        footerHeight = mainHeight - pieHeight - 10;
+        
+        self.contentSize = CGSizeMake(320, frame.size.height + 10);
+        
         dataSource = ds;
         
         self.backgroundColor = [UIColor whiteColor];
@@ -29,18 +43,16 @@
         label.textAlignment = NSTextAlignmentLeft;
         label.textColor = [UIColor colorWithRed:32/255.0f green:37/255.0f blue:41/255.0f alpha:1.0f];
         
-        self.button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        self.button.frame = CGRectMake(80, 11, 20, 18);
-        self.button.tintColor = BLUE1;
-        [self.button setImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
-        [self.button addTarget:self action:@selector(refreshButtonDidPressed) forControlEvents:UIControlEventTouchUpInside];
+        CALayer *bottomBorder = [CALayer layer];
+        bottomBorder.frame = CGRectMake(0, header.frame.size.height - 1, header.frame.size.width, .5);
+        bottomBorder.backgroundColor = [UIColor grayColor].CGColor;
+        [header.layer addSublayer:bottomBorder];
         
         total = [[UILabel alloc] initWithFrame:CGRectMake(140, 0, 140, 40)];
         total.textAlignment = NSTextAlignmentRight;
         total.textColor = [UIColor colorWithRed:32/255.0f green:37/255.0f blue:41/255.0f alpha:1.0f];
         
         [header addSubview:label];
-        [header addSubview:self.button];
         [header addSubview:total];
         
         [self addSubview:header];
@@ -50,25 +62,13 @@
 
 -(void) drawRect:(CGRect)rect
 {
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    CGContextSetLineWidth(ctx, .1f);
-    CGContextMoveToPoint(ctx, 20, 39.5);
-    CGContextAddLineToPoint(ctx, 300, 39.5);
-    CGContextStrokePath(ctx);
-    
     total.text = [dataSource total];
     
     [main removeFromSuperview];
     
     if([dataSource hasData]){
         
-        CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;// 568 in 4-inch，480 in 3.5-inch
-        CGFloat mainHeight = screenHeight - 193;
-        
         main = [[UIView alloc] initWithFrame:CGRectMake(0, 40, 320, mainHeight)];
-        
-        CGFloat pieHeight = round(mainHeight * 0.4);
-        CGFloat footerHeight = mainHeight - pieHeight - 10;
         
         LosPieChart *pie = [[LosPieChart alloc] initWithFrame:CGRectMake(0, 0, 320, pieHeight) Delegate:dataSource];
         
@@ -86,7 +86,7 @@
             
             BusinessPerformance *item = [dataSource itemAtIndex:i];
             
-            PerformanceCompareView *label = [[PerformanceCompareView alloc] initWithFrame:CGRectMake(0, itemHeight * i, 320, itemHeight) Title:item.title Compare:item.compareToPrev CompareRatio:item.compareToPrevRatio Value:item.value Increase:item.increased];
+            PerformanceCompareView *label = [[PerformanceCompareView alloc] initWithFrame:CGRectMake(0, itemHeight * i + 10, 320, itemHeight) Title:item.title Compare:item.compareToPrev CompareRatio:item.compareToPrevRatio Value:item.value Increase:item.increased];
             [footer addSubview:label];
         }
         

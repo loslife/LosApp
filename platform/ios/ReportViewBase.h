@@ -1,10 +1,7 @@
 #import <UIKit/UIKit.h>
 
-@interface ReportViewBase : UIView
-
-@property UIButton *button;
+@interface ReportViewBase : UIScrollView
 
 -(void) reload;
--(void) refreshButtonDidPressed;
 
 @end
