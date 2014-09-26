@@ -19,7 +19,7 @@
         self.tableView.delegate = ds;
         self.tableView.separatorInset = UIEdgeInsetsZero;
         self.tableView.sectionIndexColor = [UIColor grayColor];
-        [self.tableView addHeaderWithTarget:controller action:@selector(pullToRefresh)];
+        [self.tableView addHeaderWithTarget:controller action:@selector(pullToRefresh) dateKey:@"mjrefresh_date_contact"];
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:controller action:@selector(onSingleTap)];
         [tap setNumberOfTapsRequired:1];

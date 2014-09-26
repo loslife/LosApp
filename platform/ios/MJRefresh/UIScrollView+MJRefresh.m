@@ -66,6 +66,12 @@ static char MJRefreshFooterViewKey;
     self.header.beginRefreshingCallback = callback;
 }
 
+- (void)addHeaderWithCallback:(void (^)())callback dateKey:(NSString*)dateKey
+{
+    [self addHeaderWithCallback:callback];
+    self.header.dateKey = dateKey;
+}
+
 /**
  *  添加一个下拉刷新头部控件
  *
@@ -84,6 +90,12 @@ static char MJRefreshFooterViewKey;
     // 2.设置目标和回调方法
     self.header.beginRefreshingTaget = target;
     self.header.beginRefreshingAction = action;
+}
+
+- (void)addHeaderWithTarget:(id)target action:(SEL)action dateKey:(NSString*)dateKey
+{
+    [self addHeaderWithTarget:target action:action];
+    self.header.dateKey = dateKey;
 }
 
 /**
@@ -122,6 +134,11 @@ static char MJRefreshFooterViewKey;
 - (BOOL)isHeaderHidden
 {
     return self.header.isHidden;
+}
+
+- (BOOL)isHeaderRefreshing
+{
+    return self.header.isRefreshing;
 }
 
 #pragma mark - 上拉刷新
@@ -199,5 +216,73 @@ static char MJRefreshFooterViewKey;
 - (BOOL)isFooterHidden
 {
     return self.footer.isHidden;
+}
+
+- (BOOL)isFooterRefreshing
+{
+    return self.footer.isRefreshing;
+}
+
+/**
+ *  文字
+ */
+- (void)setFooterPullToRefreshText:(NSString *)footerPullToRefreshText
+{
+    self.footer.pullToRefreshText = footerPullToRefreshText;
+}
+
+- (NSString *)footerPullToRefreshText
+{
+    return self.footer.pullToRefreshText;
+}
+
+- (void)setFooterReleaseToRefreshText:(NSString *)footerReleaseToRefreshText
+{
+    self.footer.releaseToRefreshText = footerReleaseToRefreshText;
+}
+
+- (NSString *)footerReleaseToRefreshText
+{
+    return self.footer.releaseToRefreshText;
+}
+
+- (void)setFooterRefreshingText:(NSString *)footerRefreshingText
+{
+    self.footer.refreshingText = footerRefreshingText;
+}
+
+- (NSString *)footerRefreshingText
+{
+    return self.footer.refreshingText;
+}
+
+- (void)setHeaderPullToRefreshText:(NSString *)headerPullToRefreshText
+{
+    self.header.pullToRefreshText = headerPullToRefreshText;
+}
+
+- (NSString *)headerPullToRefreshText
+{
+    return self.header.pullToRefreshText;
+}
+
+- (void)setHeaderReleaseToRefreshText:(NSString *)headerReleaseToRefreshText
+{
+    self.header.releaseToRefreshText = headerReleaseToRefreshText;
+}
+
+- (NSString *)headerReleaseToRefreshText
+{
+    return self.header.releaseToRefreshText;
+}
+
+- (void)setHeaderRefreshingText:(NSString *)headerRefreshingText
+{
+    self.header.refreshingText = headerRefreshingText;
+}
+
+- (NSString *)headerRefreshingText
+{
+    return self.header.refreshingText;
 }
 @end
