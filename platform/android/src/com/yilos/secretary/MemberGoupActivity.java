@@ -109,6 +109,9 @@ public class MemberGoupActivity extends BaseActivity {
 	private String shopListViewId = "0";
 	
 	private boolean isRefreshing = false;
+	
+	private boolean isLoading = false;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -119,11 +122,18 @@ public class MemberGoupActivity extends BaseActivity {
 
 	public void onResume() {
 		super.onResume();
-		
-		shoptitle = AppContext.getInstance(getBaseContext()).getShopName();
-		shopId = AppContext.getInstance(getBaseContext())
-				.getCurrentDisplayShopId();
-		getdata();
+		if(!isLoading)
+		{
+			shoptitle = AppContext.getInstance(getBaseContext()).getShopName();
+			shopId = AppContext.getInstance(getBaseContext())
+					.getCurrentDisplayShopId();
+			getdata();
+		}
+		else
+		{
+			loading_begin.setVisibility(View.VISIBLE);
+			layout_loadingmember.setVisibility(View.GONE);
+		}
 	}
 
 	
@@ -140,6 +150,7 @@ public class MemberGoupActivity extends BaseActivity {
 						UIHelper.ToastMessage(getBaseContext(), "该店铺还未有会员");
 						loading_begin.setVisibility(View.GONE);
 						layout_loadingmember.setVisibility(View.VISIBLE);
+						isLoading = false;
 					}
 					else
 					{
@@ -159,8 +170,10 @@ public class MemberGoupActivity extends BaseActivity {
 				if(msg.what==2)
 				{
 					loading_begin.setVisibility(View.GONE);
+					noshop.setVisibility(View.GONE);
 					getdata();
 					seachmemberext.setText("");
+					isLoading = false;
 					if(isRefreshing)
 					{
 						refreshableView.finishRefreshing();
@@ -183,7 +196,6 @@ public class MemberGoupActivity extends BaseActivity {
 		if (null != parentData && parentData.size() > 0) 
 		{
 			shopListViewId = parentData.get(0).getEnterprise_id();
-			noshop.setVisibility(View.GONE);
 		    layout_loadingmember.setVisibility(View.GONE);
 			layout_memberlist.setVisibility(View.VISIBLE);
 			members = null;
@@ -328,7 +340,6 @@ public class MemberGoupActivity extends BaseActivity {
 						msg.what=3;
 						handle.sendMessage(msg);
 					}
-					
 			}
 		}, 0);
 		
@@ -343,6 +354,7 @@ public class MemberGoupActivity extends BaseActivity {
 				{
 					if(NetworkUtil.checkNetworkIsOk(getBaseContext())==NetworkUtil.WIFI)
 					{
+						 isLoading = true;
     	                 getMemberCounts(shopId);
 					}
 					else
@@ -353,6 +365,7 @@ public class MemberGoupActivity extends BaseActivity {
                         .setPositiveButton("是", new DialogInterface.OnClickListener() {  
                             public void onClick(DialogInterface dialog, int which) {
                             	  getMemberCounts(shopId);
+                            	  isLoading = true;
                             }  
                         })  
                         .setNegativeButton("否", new DialogInterface.OnClickListener() {    
@@ -467,7 +480,7 @@ public class MemberGoupActivity extends BaseActivity {
 			shopname.setText(shoptitle==null?"我的店铺":shoptitle);
 			select_shop.setVisibility(View.VISIBLE);
 		    parentData = memberService.queryMembers(shopId);
-		    if("0".equals(shopListViewId)||!shopListViewId.equals(shopId))
+		    if("0".equals(shopListViewId)||!shopListViewId.equals(shopId)||isRefreshing)
 		    {
 		    	initView();
 		    }
@@ -485,8 +498,7 @@ public class MemberGoupActivity extends BaseActivity {
 			parentData = null;
 			shopId ="";
 		}
-   
-		
+
 	}
 	
 

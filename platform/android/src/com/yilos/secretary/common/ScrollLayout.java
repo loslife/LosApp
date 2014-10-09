@@ -181,7 +181,7 @@ public class ScrollLayout extends ViewGroup
 			
 			//---------------New Code----------------------
 			int deltaY = (int) (mLastMotionY - y);
-			if(Math.abs(deltaX) < 200 && Math.abs(deltaY) > 10)
+			if(Math.abs(deltaX) < 260 && Math.abs(deltaY) >3)
 				break;
 			mLastMotionY = y;
 			//-------------------------------------
