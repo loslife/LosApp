@@ -84,15 +84,12 @@
     </LinearLayout>
 
     <include layout="@layout/loadingbar" />
-    <com.yilos.secretary.common.ScrollLayout
+    
+    <android.support.v4.view.ViewPager
         android:id="@+id/main_scrolllayout"
         android:layout_width="fill_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1"
-        android:visibility="gone" >
-
-        
-    </com.yilos.secretary.common.ScrollLayout>
+        android:layout_height="wrap_content"/>
+    
     <LinearLayout
         android:id="@+id/noshop"
         android:layout_width="fill_parent"

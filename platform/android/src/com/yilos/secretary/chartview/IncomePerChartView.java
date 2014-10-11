@@ -73,8 +73,9 @@ public class IncomePerChartView extends View {
 
 		// 位置计算类
 		ChartCalc xcalc = new ChartCalc();
-
 		float Percentage = 0.0f;
+/*
+		
 		float CurrPer = 0.0f;
 		int i = 0;
 		int length = incomePercent.length + performancePercent.length;
@@ -107,14 +108,14 @@ public class IncomePerChartView extends View {
 			xcalc.CalcArcEndPointXY(cirX, cirY, radius - radius / 2 / 2,
 					CurrPer + Percentage / 2);
 
-			/*
-			 * int textX = ScrWidth * 1 / 2 + 50; int textY = ScrHeight / 8 -
-			 * (ScrWidth / 6) * 4 / 7 + 50 * i + 15;
-			 * 
-			 * canvas.drawRect(new Rect(textX - 24, textY - 24, textX, textY),
-			 * PaintArc); canvas.drawText("  " + textStr + " " +
-			 * Float.toString(percent) + "%", textX, textY, PaintLabel);
-			 */
+			
+			 int textX = ScrWidth * 1 / 2 + 50; int textY = ScrHeight / 8 -
+			 (ScrWidth / 6) * 4 / 7 + 50 * i + 15;
+			  
+			 canvas.drawRect(new Rect(textX - 24, textY - 24, textX, textY),
+			 PaintArc); canvas.drawText("  " + textStr + " " +
+			 Float.toString(percent) + "%", textX, textY, PaintLabel);
+			 
 
 			// 下次的起始角度
 			CurrPer += Percentage;
@@ -123,20 +124,30 @@ public class IncomePerChartView extends View {
 
 		// 画圆心
 		PaintArc.setColor(Color.WHITE);
-		canvas.drawCircle(cirX, cirY, radius * 5 / 7, PaintArc);
+		canvas.drawCircle(cirX, cirY, radius * 5 / 7, PaintArc);*/
 
 		float CurrPer2 = 0.0f;
 		int k = 0;
 		int arrColorRgb2[] = { R.color.blue_inside, R.color.orange_inside };
-		float arcLeft2 = cirX - radius * 5 / 7;
-		float arcTop2 = cirY - radius * 5 / 7;
-		float arcRight2 = cirX + radius * 5 / 7;
-		float arcBottom2 = cirY + radius * 5 / 7;
+		float arcLeft2 = cirX - radius;
+		float arcTop2 = cirY - radius;
+		float arcRight2 = cirX + radius;
+		float arcBottom2 = cirY + radius;
 		RectF arcRF02 = new RectF(arcLeft2, arcTop2, arcRight2, arcBottom2);
 		for (k = 0; k < 2; k++) {
+			
 			// 将百分比转换为饼图显示角度
-
-			Percentage = 360 * (totalPercent[k] / 100);
+			float incomePerforPercent = 0.0f;
+			if(k==0)
+			{
+				Percentage = 360 * (incomePercent[0] / 100);
+				incomePerforPercent = (float) (Math.round(incomePercent[0] * 10)) / 10;
+			}else
+			{
+				Percentage = 360 * (performancePercent[0] / 100);
+				incomePerforPercent = (float) (Math.round(performancePercent[0] * 10)) / 10;
+			}
+			
 
 			Percentage = (float) (Math.round(Percentage * 100)) / 100;
 			// 分配颜色
@@ -153,13 +164,13 @@ public class IncomePerChartView extends View {
 			int textX = ScrWidth * 1 / 2 + 50;
 			int textY = ScrHeight / 8 - (ScrWidth / 6) * 4 / 7 + 50 * k + 15;
 
-			float incomePercent = (float) (Math.round(totalPercent[k] * 10)) / 10;
+			
 
 			canvas.drawRect(new Rect(textX - 24, textY - 24, textX, textY),
 					PaintArc);
 			canvas.drawText(
 					"  " + incomePerStr[k] + " "
-							+ Float.toString(incomePercent) + "%", textX,
+							+ Float.toString(incomePerforPercent) + "%", textX,
 					textY, PaintLabel);
 
 			// 下次的起始角度

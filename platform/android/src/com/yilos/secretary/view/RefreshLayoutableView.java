@@ -64,7 +64,6 @@ public class RefreshLayoutableView extends LinearLayout {
         
     }
     private void init() {
-        // TODO Auto-generated method stub
         //滑动对象，
         LastRefreshTime=Calendar.getInstance();
         scroller = new Scroller(mContext);
@@ -118,7 +117,6 @@ public class RefreshLayoutableView extends LinearLayout {
         	 timeTextView.setText(updateTimeStr+"0分钟前"); 
         }
 
-        //timeTextView.setText(time);
     }
 
     /**
@@ -179,13 +177,13 @@ public class RefreshLayoutableView extends LinearLayout {
      */
     private void doMovement(int moveY) {
         LinearLayout.LayoutParams lp = (LayoutParams) refreshView.getLayoutParams();
-        if(moveY>0){
+        if(moveY>3){
             //获取view的上边距
             float f1 =lp.topMargin;
             float f2 = moveY * 0.9F;
             int i = (int)(f1+f2);
             //修改上边距
-            lp.topMargin = 80;
+            lp.topMargin = i;
             //修改后刷新
             refreshView.setLayoutParams(lp);
             refreshView.invalidate();
@@ -302,13 +300,8 @@ public class RefreshLayoutableView extends LinearLayout {
             Log.i(TAG, "ACTION_MOVE");
             //y移动坐标
             int m = y - lastY;
-            
-            float mx=Math.abs(x-lastX);
-            float my=Math.abs(y-lastY);
-            double z=Math.sqrt(mx*mx+my*my);
-            
-            int jiaodu=Math.round((float)(Math.asin(my/z)/Math.PI*180));//角度
-            if((m>0 && jiaodu>45) || (!isDragging )){
+
+            if((m>0) || (!isDragging )){
                 setLastRefreshTimeText();
                  doMovement(m);
             }

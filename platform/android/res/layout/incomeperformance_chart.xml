@@ -95,7 +95,7 @@
 
                     <RelativeLayout
                         android:layout_width="fill_parent"
-                        android:layout_height="120.0dip"
+                        android:layout_height="50.0dip"
                         android:layout_marginTop="10.0dip" >
 
                         <ImageView
@@ -131,13 +131,15 @@
                             android:id="@+id/toprev_incomedata"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2.0dip"
                             android:layout_alignLeft="@+id/income"
                             android:layout_below="@+id/incomeicon"
+                            android:layout_alignParentBottom="true"
                             android:gravity="fill_vertical"
                             android:text="比上月"
                             android:textColor="@color/gray_text"
                             android:textSize="@dimen/Text_size_m" />
-
+<!-- 
                         <View
                             android:layout_width="fill_parent"
                             android:layout_height="1px"
@@ -212,13 +214,13 @@
                             android:gravity="fill_vertical"
                             android:text="服务现金/银行卡"
                             android:textColor="@color/gray_text"
-                            android:textSize="@dimen/Text_size_m" />
+                            android:textSize="@dimen/Text_size_m" /> -->
 
                     </RelativeLayout>
 
                     <RelativeLayout
                         android:layout_width="fill_parent"
-                        android:layout_height="100.0dip" >
+                        android:layout_height="50.0dip" >
                         <ImageView
                             android:id="@+id/prepayicon"
                             android:layout_width="wrap_content"
@@ -252,13 +254,15 @@
                             android:id="@+id/toprev_prepaydata"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2.0dip"
                             android:layout_alignLeft="@+id/prepay"
                             android:layout_below="@+id/prepayicon"
+                            android:layout_alignParentBottom="true"
                             android:gravity="fill_vertical"
                             android:text="比上月"
                             android:textColor="@color/gray_text"
                             android:textSize="@dimen/Text_size_m" />
-
+<!-- 
                         <View
                             android:layout_width="fill_parent"
                             android:layout_height="1px"
@@ -310,12 +314,12 @@
                             android:text="开卡现金/银行卡"
                              android:layout_marginTop="5.0dip"
                             android:textColor="@color/gray_text"
-                            android:textSize="@dimen/Text_size_m" />
+                            android:textSize="@dimen/Text_size_m" /> -->
                     </RelativeLayout>
 
                     <RelativeLayout
                         android:layout_width="fill_parent"
-                        android:layout_height="100dp" >
+                        android:layout_height="50.0dip" >
 
                         <ImageView
                             android:id="@+id/paidinicon"
@@ -350,14 +354,16 @@
                             android:id="@+id/toprev_paidindata"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2.0dip"
                             android:layout_alignLeft="@+id/paidin"
                             android:layout_below="@+id/paidinicon"
+                            android:layout_alignParentBottom="true"
                             android:gravity="fill_vertical"
                             android:text="比上月"
                             android:textColor="@color/gray_text"
                             android:textSize="@dimen/Text_size_m" />
 
-                        <View
+                        <!-- <View
                             android:layout_width="fill_parent"
                             android:layout_height="1px"
                             android:layout_below="@+id/toprev_paidindata"
@@ -406,7 +412,7 @@
                             android:gravity="fill_vertical"
                             android:text="现金"
                             android:textColor="@color/gray_text"
-                            android:textSize="@dimen/Text_size_m" />
+                            android:textSize="@dimen/Text_size_m" /> -->
                     </RelativeLayout>
                 </LinearLayout>
             </LinearLayout>

@@ -2,6 +2,7 @@ package com.yilos.secretary;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -11,6 +12,10 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Parcelable;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -29,7 +34,6 @@ import android.widget.PopupWindow.OnDismissListener;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.yilos.secretary.bean.BcustomerCountBean;
 import com.yilos.secretary.bean.BizPerformanceBean;
@@ -40,7 +44,6 @@ import com.yilos.secretary.bean.ServerManageResponse;
 import com.yilos.secretary.bean.ServicePerformanceBean;
 import com.yilos.secretary.common.DateUtil;
 import com.yilos.secretary.common.NetworkUtil;
-import com.yilos.secretary.common.ScrollLayout;
 import com.yilos.secretary.common.UIHelper;
 import com.yilos.secretary.service.BizPerformanceService;
 import com.yilos.secretary.service.CustomerCountService;
@@ -76,12 +79,8 @@ public class Main extends BaseActivity implements
 	private List<EmployeePerBean> employPerList;
 	private List<BcustomerCountBean> customerCountList;
 
-	private String userAccount;
-
 	private LinearLayout select_shop;
-
 	private TextView shopname;
-
 	private TextView showTime;
 	private ImageView lefttime;
 	private ImageView righttime;
@@ -105,12 +104,11 @@ public class Main extends BaseActivity implements
 	private String title[] = null;
 	private String titleList[] = null;
 	private String shopIds[] = null;
-
 	private String dateType = "day";
 
 	public static final int WIDTH = 280;
 	public static final int HEIGHT = 250;
-	// 获取4张报表，等于4则表示已全部获取
+	// 获取5张报表，等于5则表示已全部获取
 	public static int GETDATA_COUNT = 0;
 	
 	private View bizPerformanceView;
@@ -118,8 +116,11 @@ public class Main extends BaseActivity implements
 	private View servicePerView;
 	private View customerCountView;
 	private View incomePerView;
+	
+	private ViewPager viewPager;  
+	private ArrayList<View> pageViews;  
 
-	private ScrollLayout mainScrollLayout;
+	private ViewPager mainScrollLayout;
 	private LinearLayout noshop;
 	private Handler handle;
 
@@ -144,7 +145,6 @@ public class Main extends BaseActivity implements
 		bizPerformanceService = new BizPerformanceService(getBaseContext());
 		customerCountService = new CustomerCountService(getBaseContext());
 		incomeperformancService = new IncomePerformanceService(getBaseContext());
-		userAccount = AppContext.getInstance(getBaseContext()).getUserAccount();
 
 		// 进程被杀后，需要重新加载
 		AppContext.getInstance(getBaseContext()).setChangeShop(true);
@@ -292,7 +292,7 @@ public class Main extends BaseActivity implements
 				}
 				if ("日".equals(timetype.getText().toString())) {
 					// 设置客流量的滚动条
-					charscrollview = (ScrollView) findViewById(R.id.charscrollview);
+					charscrollview = (ScrollView) mRefreshTrafficView.findViewById(R.id.charscrollview);
 					DisplayMetrics dm = getResources().getDisplayMetrics();
 					charscrollview.smoothScrollTo(dm.widthPixels,
 							(dm.widthPixels - 200) * 2 + 60
@@ -311,43 +311,53 @@ public class Main extends BaseActivity implements
 		righttime = (ImageView) findViewById(R.id.righttime);
 		timetype = (TextView) findViewById(R.id.timetype);
 		loading_begin = (LinearLayout) findViewById(R.id.loading_begin);
-		mainScrollLayout = (ScrollLayout) findViewById(R.id.main_scrolllayout);
+		mainScrollLayout = (ViewPager) findViewById(R.id.main_scrolllayout);
 		lefttime_layout = (RelativeLayout) findViewById(R.id.lefttime_layout);
 		righttime_layout = (RelativeLayout) findViewById(R.id.righttime_layout);
 		timetype_layout = (RelativeLayout) findViewById(R.id.timetype_layout);
 		noshop = (LinearLayout) findViewById(R.id.noshop);
 
 		incomePerView = LayoutInflater.from(getBaseContext()).inflate(
-				R.layout.incomeperformance_chart, mainScrollLayout);
+				R.layout.incomeperformance_chart, null);
 		bizPerformanceView = LayoutInflater.from(getBaseContext()).inflate(
-				R.layout.business_chart, mainScrollLayout);
+				R.layout.business_chart, null);
 		employPerView = LayoutInflater.from(getBaseContext()).inflate(
-				R.layout.employee_chart, mainScrollLayout);
+				R.layout.employee_chart, null);
 		servicePerView = LayoutInflater.from(getBaseContext()).inflate(
-				R.layout.service_chart, mainScrollLayout);
+				R.layout.service_chart, null);
 		customerCountView = LayoutInflater.from(getBaseContext()).inflate(
-				R.layout.traffic_chart, mainScrollLayout);
+				R.layout.traffic_chart, null);
+		
+		pageViews = new ArrayList<View>();  
+        pageViews.add(incomePerView);  
+        pageViews.add(bizPerformanceView);  
+        pageViews.add(employPerView);  
+        pageViews.add(servicePerView);
+        pageViews.add(customerCountView); 
+  
+        mainScrollLayout.setAdapter(new GuidePageAdapter());  
+        mainScrollLayout.setOnPageChangeListener(new GuidePageChangeListener());  
 		
 		shopname.setText(AppContext.getInstance(getBaseContext()).getShopName());
 		showTime.setText(getDateNow());
 		select_shop.setTag(R.drawable.select_shop);
 
-		((LinearLayout) findViewById(R.id.business_empty))
-				.setVisibility(View.VISIBLE);
+		/*((LinearLayout) findViewById(R.id.business_empty))
+				.setVisibility(View.VISIBLE);*/
 		
-		mRefreshIncomeView = (RefreshLayoutableView) findViewById(R.id.refresh_income);
+		mRefreshIncomeView = (RefreshLayoutableView) incomePerView.findViewById(R.id.refresh_income);
 		mRefreshIncomeView.setRefreshListener(this);
 
-		mRefreshBusinessView = (RefreshLayoutableView) findViewById(R.id.refresh_business);
+		mRefreshBusinessView = (RefreshLayoutableView) bizPerformanceView.findViewById(R.id.refresh_business);
 		mRefreshBusinessView.setRefreshListener(this);
 
-		mRefreshServiceView = (RefreshLayoutableView) findViewById(R.id.refresh_service);
+		mRefreshServiceView = (RefreshLayoutableView) servicePerView.findViewById(R.id.refresh_service);
 		mRefreshServiceView.setRefreshListener(this);
 
-		mRefreshEmployeeView = (RefreshLayoutableView) findViewById(R.id.refresh_employee);
+		mRefreshEmployeeView = (RefreshLayoutableView) employPerView.findViewById(R.id.refresh_employee);
 		mRefreshEmployeeView.setRefreshListener(this);
 
-		mRefreshTrafficView = (RefreshLayoutableView) findViewById(R.id.refresh_traffic);
+		mRefreshTrafficView = (RefreshLayoutableView) customerCountView.findViewById(R.id.refresh_traffic);
 		mRefreshTrafficView.setRefreshListener(this);
 		
 		findViewById(R.id.goback).setVisibility(View.GONE);
@@ -444,7 +454,6 @@ public class Main extends BaseActivity implements
 					showtime = formatter.format(curDate);
 					showTime.setText(showtime);
 				}
-
 				year = String.valueOf(curDate.getYear() + 1900);
 				day = String.valueOf(curDate.getDate());
 				month = String.valueOf(curDate.getMonth() + 1);
@@ -825,4 +834,67 @@ public class Main extends BaseActivity implements
 		mRefreshServiceView.finishRefresh();
 		mRefreshTrafficView.finishRefresh();
 	}
+	
+    /** 指引页面Adapter */
+    class GuidePageAdapter extends PagerAdapter {  
+    	  
+        @Override  
+        public int getCount() {  
+            return pageViews.size();  
+        }  
+  
+        @Override  
+        public boolean isViewFromObject(View arg0, Object arg1) {  
+            return arg0 == arg1;  
+        }  
+  
+        @Override  
+        public int getItemPosition(Object object) {  
+            return super.getItemPosition(object);  
+        }  
+  
+        @Override  
+        public void destroyItem(View arg0, int arg1, Object arg2) {   
+            ((ViewPager) arg0).removeView(pageViews.get(arg1));  
+        }  
+  
+        @Override  
+        public Object instantiateItem(View arg0, int arg1) {  
+            ((ViewPager) arg0).addView(pageViews.get(arg1));  
+            return pageViews.get(arg1);  
+        }  
+  
+        @Override  
+        public void restoreState(Parcelable arg0, ClassLoader arg1) {  
+        }  
+  
+        @Override  
+        public Parcelable saveState() {  
+            return null;  
+        }  
+  
+        @Override  
+        public void startUpdate(View arg0) {  
+        }  
+  
+        @Override  
+        public void finishUpdate(View arg0) {  
+        }  
+    } 
+    
+    /** 指引页面改监听器 */
+    class GuidePageChangeListener implements OnPageChangeListener {  
+  
+        @Override  
+        public void onPageScrollStateChanged(int arg0) {  
+        }  
+  
+        @Override  
+        public void onPageScrolled(int arg0, float arg1, int arg2) {  
+        }  
+  
+        @Override  
+        public void onPageSelected(int arg0) {  
+            }
+        }  
 }
