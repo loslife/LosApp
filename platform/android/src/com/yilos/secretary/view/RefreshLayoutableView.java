@@ -180,7 +180,7 @@ public class RefreshLayoutableView extends LinearLayout {
         if(moveY>3){
             //获取view的上边距
             float f1 =lp.topMargin;
-            float f2 = moveY * 0.9F;
+            float f2 = moveY * 0.3F;
             int i = (int)(f1+f2);
             //修改上边距
             lp.topMargin = i;
@@ -192,8 +192,7 @@ public class RefreshLayoutableView extends LinearLayout {
         else 
         {
             float f1 =lp.topMargin;
-            int i=(int)(f1+moveY*1.2F);
-            Log.i("aa", String.valueOf(i));
+            int i=(int)(f1+moveY*0.6F);
             if(i>=refreshTargetTop)
             {
                 lp.topMargin = i;
@@ -269,7 +268,7 @@ public class RefreshLayoutableView extends LinearLayout {
 
             //记录下此刻y坐标
             this.lastY = y;
-             if(m > 0 &&  canScroll()){
+             if(m > 3 &&  canScroll()){
                  return true;
              }
             break;
