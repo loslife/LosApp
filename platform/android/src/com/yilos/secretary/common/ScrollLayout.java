@@ -26,6 +26,8 @@ public class ScrollLayout extends ViewGroup
 	private int mTouchSlop;
 	private float mLastMotionX;
 	private float mLastMotionY;
+	private float mLastRawX;
+	private float mLastRawY;
     private OnViewChangeListener mOnViewChangeListener;
 
     /**
@@ -162,6 +164,7 @@ public class ScrollLayout extends ViewGroup
 		final int action = event.getAction();
 		final float x = event.getX();
 		final float y = event.getY();
+		float lastyDiff = event.getY();
 		switch (action) {
 		case MotionEvent.ACTION_DOWN:
 			Log.i(TAG, "event down!");
@@ -177,25 +180,31 @@ public class ScrollLayout extends ViewGroup
 			break;
 		case MotionEvent.ACTION_MOVE:
 			Log.i(TAG, "event move!");
+			
 			int deltaX = (int) (mLastMotionX - x);
 			
 			//---------------New Code----------------------
 			int deltaY = (int) (mLastMotionY - y);
-			if(Math.abs(deltaX) < 200 && Math.abs(deltaY) >=2)
+			   Log.i(TAG, "ScrollLayout ACTION_MOVE ===========Math.abs(deltaX)= :"+Math.abs(deltaX)+" Math.abs(deltaY) :"+Math.abs(deltaY));
+			   //10-11 12:03:52.176: I/ScrollLayout(3423): ScrollLayout ACTION_MOVE ===========Math.abs(deltaX)= :6 Math.abs(deltaY) :14
+			lastyDiff = Math.abs(deltaX);
+			if(Math.abs(deltaX) < 200 && Math.abs(deltaY) >=3)
 				break;
 			mLastMotionY = y;
-			//-------------------------------------
-			
 			mLastMotionX = x;
-			scrollBy(deltaX, 0);
+			  
+		    scrollBy(deltaX, 0);   
 			break;
 		case MotionEvent.ACTION_UP:
 			Log.i(TAG, "event up!");
+			mLastMotionY = y;
+			mLastMotionX = x;
 			// if (mTouchState == TOUCH_STATE_SCROLLING) {
 			final VelocityTracker velocityTracker = mVelocityTracker;
 			velocityTracker.computeCurrentVelocity(1000);
 			int velocityX = (int) velocityTracker.getXVelocity();
-			//Log.e(TAG, "velocityX:" + velocityX);
+			
+			Log.i(TAG, "ScrollLayout ACTION_UP ===========velocityX= :"+velocityX);
 			if (velocityX > SNAP_VELOCITY && mCurScreen > 0) {
 				// Fling enough to move left
 				//Log.e(TAG, "snap left");
@@ -231,14 +240,23 @@ public class ScrollLayout extends ViewGroup
 		}
 		final float x = ev.getX();
 		final float y = ev.getY();
+		int rawy = (int) ev.getRawY();
+        int rawx =  (int) ev.getRawX();
 		switch (action) {
 		case MotionEvent.ACTION_MOVE:
 			
 			final int xDiff = (int) Math.abs(mLastMotionX - x);
 			final int yDiff = (int) Math.abs(mLastMotionY - y);
+			final int xRaw= (int) Math.abs(mLastRawX - rawx);
+			final int yRaw = (int) (mLastRawY - rawy);
 			double z=Math.sqrt(xDiff*xDiff+yDiff*yDiff);
             int jiaodu=Math.round((float)(Math.asin(yDiff/z)/Math.PI*180));//角度
-            System.out.println("=====jiaodu :"+jiaodu+", xDiff :"+xDiff);
+            
+            Log.i(TAG, "ScrollLayout ACTION_MOVE ===========jiaodu= :"+jiaodu+ " xDiff ："+xDiff+"  yDiff :"+yDiff);
+            Log.i(TAG, "ScrollLayout ACTION_MOVE ===========:"+ " xRaw ："+xRaw+"  yRaw :"+yRaw);
+            Log.i(TAG, "ScrollLayout ACTION_MOVE ===========:"+ " mLastMotionX ："+mLastMotionX+"  x :"+x);
+            Log.i(TAG, "ScrollLayout ACTION_MOVE ===========:"+ " mLastMotiony ："+mLastMotionY+"  y :"+y);
+            //增加角度
 			if (xDiff>3&&jiaodu<=30) {
 				mTouchState = TOUCH_STATE_SCROLLING;
 			}
@@ -247,6 +265,8 @@ public class ScrollLayout extends ViewGroup
 		case MotionEvent.ACTION_DOWN:
 			mLastMotionX = x;
 			mLastMotionY = y;
+			mLastRawX = rawx;
+			mLastRawY = rawy;
 			mTouchState = mScroller.isFinished() ? TOUCH_STATE_REST
 					: TOUCH_STATE_SCROLLING;
 			break;

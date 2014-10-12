@@ -129,6 +129,4 @@ public class Constants
 	 */
 	public static final String SYNCREPORTS_URL = HTTPS_SERVICE_ADDRESS+"report/probe/query/{0}?year={1}&month={2}&day={3}&type={4}";
 	
-	
-
 }

@@ -50,10 +50,12 @@ import com.yilos.secretary.common.SideBar;
 import com.yilos.secretary.common.UIHelper;
 import com.yilos.secretary.service.MemberService;
 import com.yilos.secretary.service.MyshopManageService;
+import com.yilos.secretary.view.RefreshLayoutableView;
 import com.yilos.secretary.view.RefreshableView;
 import com.yilos.secretary.view.RefreshableView.PullToRefreshListener;
 
-public class MemberGoupActivity extends BaseActivity {
+public class MemberGoupActivity extends BaseActivity implements
+RefreshLayoutableView.RefreshListener {
 	private static List<MemberBean> parentData = new ArrayList<MemberBean>();
 
 	private ListView lvContact;
@@ -76,6 +78,7 @@ public class MemberGoupActivity extends BaseActivity {
 	private TextView cancelsearch;
 	private LinearLayout pullrefresh;
 	private LinearLayout noshop;
+	private RefreshLayoutableView refreshContact;
 
 	String[] members;
 	String[] memberNames;
@@ -176,7 +179,8 @@ public class MemberGoupActivity extends BaseActivity {
 					isLoading = false;
 					if(isRefreshing)
 					{
-						refreshableView.finishRefreshing();
+						//refreshableView.finishRefreshing();
+						refreshContact.finishRefresh();
 						isRefreshing = false;
 					}
 				}
@@ -185,7 +189,8 @@ public class MemberGoupActivity extends BaseActivity {
 				{
 					UIHelper.ToastMessage(getBaseContext(), "网络不给力");
 					seachmemberext.setText("");
-					refreshableView.finishRefreshing();
+					refreshContact.finishRefresh();
+					//refreshableView.finishRefreshing();
 					isRefreshing = false;
 				}
 			}
@@ -305,7 +310,7 @@ public class MemberGoupActivity extends BaseActivity {
 		layout_memberlist =  (LinearLayout) findViewById(R.id.layout_memberlist);
 		loadingmember = (TextView) findViewById(R.id.loadingmember);
 		reloading = (TextView) findViewById(R.id.reloading);
-		refreshableView = (RefreshableView) findViewById(R.id.refreshable_view);
+		//refreshableView = (RefreshableView) findViewById(R.id.refreshable_view);
 		seachmemberext = (EditText) findViewById(R.id.seachmemberext);
 		loading_begin = (LinearLayout) findViewById(R.id.loading_begin);
 		loadcountinfo = (TextView) findViewById(R.id.loadcountinfo);
@@ -314,17 +319,20 @@ public class MemberGoupActivity extends BaseActivity {
 		member_seach =  (LinearLayout) findViewById(R.id.member_seach);
 		membercount = (TextView) findViewById(R.id.membercount);
 		cancelsearch = (TextView) findViewById(R.id.cancelsearch);
-		 pullrefresh =  (LinearLayout) findViewById(R.id.pullrefresh);
+		 //pullrefresh =  (LinearLayout) findViewById(R.id.pullrefresh);
 		shopname = (TextView) findViewById(R.id.shopname);
 		noshop = (LinearLayout) findViewById(R.id.noshop);
 		select_shop = (LinearLayout) findViewById(R.id.select_shop_layout);
 		shopname.setText(AppContext.getInstance(getBaseContext()).getShopName());
 		findViewById(R.id.goback).setVisibility(View.GONE);
 		
-		pullrefresh.setVisibility(View.GONE);
+		refreshContact = (RefreshLayoutableView) findViewById(R.id.refresh_contact);
+		refreshContact.setRefreshListener(this);
+		
+		//pullrefresh.setVisibility(View.GONE);
 		
 		initIndexBar();
-		refreshableView.setOnRefreshListener(new PullToRefreshListener() {
+		/*refreshableView.setOnRefreshListener(new PullToRefreshListener() {
 			@Override
 			public void onRefresh() {
 				    
@@ -341,7 +349,7 @@ public class MemberGoupActivity extends BaseActivity {
 						handle.sendMessage(msg);
 					}
 			}
-		}, 0);
+		}, 0);*/
 		
 		
        loadingmember.setOnClickListener(new OnClickListener() {
@@ -646,6 +654,22 @@ public class MemberGoupActivity extends BaseActivity {
         } else {  
             return super.onKeyDown(keyCode, event);  
         }  
-    }  
+    }
+
+	@Override
+	public void onRefresh(RefreshLayoutableView view) {
+		 isRefreshing = true;
+			if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
+			{
+			   getMemberContact(shopId,last_sync); 
+			}
+			else
+			{
+				getMemberContact(shopId,last_sync);
+				Message msg = new Message();
+				msg.what=3;
+				handle.sendMessage(msg);
+			}
+	}  
 
 }

@@ -113,9 +113,9 @@ public class IncomePerformanceView {
 		}
 		((TextView) v.findViewById(R.id.incometotal)).setText("￥" + total);
 
-		// 增长
-		float percentForIncome = 0.0f;
-		float percentForPrepay = 0.0f;
+		// 增长 total_income + total_prepay
+		float percentForIncome = total_income/total;
+		float percentForPrepay = total_prepay/total;
 
 		String total_paidin_bank = incomeperformance.getTotal_paidin_bank() == null ? "0.0"
 				: incomeperformance.getTotal_paidin_bank();
@@ -161,7 +161,7 @@ public class IncomePerformanceView {
 		// 预付款比重
 		percentForPrepay = percentForNewcardCash + percentForRechargecard;
 
-		((TextView) v.findViewById(R.id.product_num)).setText("￥"
+		/*((TextView) v.findViewById(R.id.product_num)).setText("￥"
 				+ (float) (Math.round(Float.valueOf(product_cash) * 10)) / 10
 				+ "/￥" + (float) (Math.round(Float.valueOf(product_bank) * 10))
 				/ 10);
@@ -191,7 +191,7 @@ public class IncomePerformanceView {
 				/ 10);
 
 		((TextView) v.findViewById(R.id.card_num)).setText("￥"
-				+ (float) (Math.round(Float.valueOf(card) * 10)) / 10);
+				+ (float) (Math.round(Float.valueOf(card) * 10)) / 10);*/
 
 		((TextView) v.findViewById(R.id.incomedata)).setTextColor(context
 				.getResources().getColor(R.color.black_text));
@@ -245,19 +245,13 @@ public class IncomePerformanceView {
 				+ timetype.getText().toString() + ": " + comparePrevPaidin
 				+ " " + showPercent(percent_paidin_add) + "%");
 
-		/*
-		 * newcard = (float) (Math.round(newcard * 1000)) / 10; recharge =
-		 * (float) (Math.round(recharge * 1000)) / 10; service = (float)
-		 * (Math.round(service * 1000)) / 10; product = (float)
-		 * (Math.round(product * 1000)) / 10;
-		 */
 		float incomePercent[] = {
-				(float) (Math.round(Float.valueOf(percentForService) * 1000)) / 10,
-				(float) (Math.round(Float.valueOf(percentForProduct) * 1000)) / 10,
-				(float) (Math.round(Float.valueOf(percentForCard) * 1000)) / 10 };
+				(float) (Math.round(Float.valueOf(percentForIncome) * 1000)) / 10
+				/*(float) (Math.round(Float.valueOf(percentForProduct) * 1000)) / 10,
+				(float) (Math.round(Float.valueOf(percentForCard) * 1000)) / 10 */};
 		float performancePercent[] = {
-				(float) (Math.round(Float.valueOf(percentForNewcardCash) * 1000)) / 10,
-				(float) (Math.round(Float.valueOf(percentForRechargecard) * 1000)) / 10 };
+				(float) (Math.round(Float.valueOf(percentForPrepay) * 1000)) / 10
+				/*(float) (Math.round(Float.valueOf(percentForRechargecard) * 1000)) / 10*/ };
 		LinearLayout annularLayout = (LinearLayout) v
 				.findViewById(R.id.income_annularLayout);
 		annularLayout.removeAllViews();
