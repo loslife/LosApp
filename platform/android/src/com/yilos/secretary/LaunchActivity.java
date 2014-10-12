@@ -68,23 +68,24 @@ public class LaunchActivity extends BaseActivity {
 		
 		public void handleMessage(Message msg) {
 
-			if (msg.what == 1) {
-				loading_begin.setVisibility(View.GONE);
-				if(!AppContext.getInstance(getBaseContext()).isLogin())
-				{
-					UIHelper.ToastMessage(getBaseContext(), "登录成功");
-				}
-				AppContext.getInstance(getBaseContext()).setLogin(true);
-				AppContext.getInstance(getBaseContext()).setChangeShop(true);
-				// WIFI环境下，上传日志文件
-				if (NetworkUtil.WIFI == NetworkUtil.getNetworkState(getBaseContext())) {
-					LoggerManager.uploadLoggerFile(getApplicationContext(), 0);
-				}
-				toMain();
-			}
+			/*if (msg.what == 1) {
+				
+			}*/
 			if (msg.what == 0) {
 				UIHelper.ToastMessage(LaunchActivity.this, "初始化数据失败");
 			}
+			loading_begin.setVisibility(View.GONE);
+			if(!AppContext.getInstance(getBaseContext()).isLogin())
+			{
+				UIHelper.ToastMessage(getBaseContext(), "登录成功");
+			}
+			AppContext.getInstance(getBaseContext()).setLogin(true);
+			AppContext.getInstance(getBaseContext()).setChangeShop(true);
+			// WIFI环境下，上传日志文件
+			if (NetworkUtil.WIFI == NetworkUtil.getNetworkState(getBaseContext())) {
+				LoggerManager.uploadLoggerFile(getApplicationContext(), 0);
+			}
+			toMain();
 		}
 
 	};

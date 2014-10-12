@@ -181,7 +181,7 @@ public class ScrollLayout extends ViewGroup
 			
 			//---------------New Code----------------------
 			int deltaY = (int) (mLastMotionY - y);
-			if(Math.abs(deltaX) < 200 && Math.abs(deltaY) > 10)
+			if(Math.abs(deltaX) < 200 && Math.abs(deltaY) >=2)
 				break;
 			mLastMotionY = y;
 			//-------------------------------------
@@ -238,8 +238,8 @@ public class ScrollLayout extends ViewGroup
 			final int yDiff = (int) Math.abs(mLastMotionY - y);
 			double z=Math.sqrt(xDiff*xDiff+yDiff*yDiff);
             int jiaodu=Math.round((float)(Math.asin(yDiff/z)/Math.PI*180));//角度
-            
-			if (mLastMotionX !=x&&jiaodu<=45) {
+            System.out.println("=====jiaodu :"+jiaodu+", xDiff :"+xDiff);
+			if (xDiff>3&&jiaodu<=30) {
 				mTouchState = TOUCH_STATE_SCROLLING;
 			}
 			

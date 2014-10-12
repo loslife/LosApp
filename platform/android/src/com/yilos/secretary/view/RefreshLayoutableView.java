@@ -89,9 +89,6 @@ public class RefreshLayoutableView extends LinearLayout {
         releaseTextString = mContext.getResources().getString(R.string.refresh_release_text);   
     }
 
-
-
-
     /**
      * 设置上次刷新时间
      * @param time
@@ -245,7 +242,7 @@ public class RefreshLayoutableView extends LinearLayout {
     public void finishRefresh(){
          LinearLayout.LayoutParams lp= (LinearLayout.LayoutParams)this.refreshView.getLayoutParams();
             int i = lp.topMargin;
-            refreshIndicatorView.setVisibility(View.VISIBLE);
+            //refreshIndicatorView.setVisibility(View.VISIBLE);
             timeTextView.setVisibility(View.VISIBLE);
             scroller.startScroll(0, i, 0, refreshTargetTop);
             invalidate();
@@ -274,7 +271,7 @@ public class RefreshLayoutableView extends LinearLayout {
 
             //记录下此刻y坐标
             this.lastY = y;
-             if(m > 6 &&  canScroll()){
+             if(m > 0 &&  canScroll()){
                  return true;
              }
             break;
@@ -283,7 +280,6 @@ public class RefreshLayoutableView extends LinearLayout {
             break;
             
     case MotionEvent.ACTION_CANCEL:
-            
             break;
         }
         return false;
@@ -306,13 +302,7 @@ public class RefreshLayoutableView extends LinearLayout {
             Log.i(TAG, "ACTION_MOVE");
             //y移动坐标
             int m = y - lastY;
-            
-            float mx=Math.abs(x-lastX);
-            float my=Math.abs(y-lastY);
-            double z=Math.sqrt(mx*mx+my*my);
-            
-            int jiaodu=Math.round((float)(Math.asin(my/z)/Math.PI*180));//角度
-            if((m>0 && jiaodu>45) || (!isDragging )){
+            if(m>0 || (!isDragging )){
                 setLastRefreshTimeText();
                  doMovement(m);
             }
@@ -329,7 +319,6 @@ public class RefreshLayoutableView extends LinearLayout {
     }
 
     private boolean canScroll() {
-        // TODO Auto-generated method stub
         View childView;
         if(getChildCount()>1){
             childView = this.getChildAt(1);
@@ -361,6 +350,4 @@ public class RefreshLayoutableView extends LinearLayout {
     public interface RefreshListener{
         public void onRefresh(RefreshLayoutableView view);
     }
-
-
 }

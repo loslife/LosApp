@@ -6,7 +6,7 @@ import android.os.Environment;
 
 public class Constants 
 {
-	public static final String SERVICE_IP = "121.40.75.73"; //"42.121.255.30" "112.124.28.115";//"www.yilos.com";"121.40.75.73"
+	public static final String SERVICE_IP = "www.yilos.com"; //"42.121.255.30" "112.124.28.115";//"121.40.75.73""115.29.248.236"
 	
 	public static final String HTTPS_SERVICE_ADDRESS = "https://" + SERVICE_IP
 			+ "/svc/";
@@ -55,80 +55,79 @@ public class Constants
 	/**
 	 * 获取验证码
 	 */
-	public static final String SEND_VALIDATECODE = "https://"+SERVICE_IP+"/svc/getCode/{0}?u={1}";
+	public static final String SEND_VALIDATECODE = HTTPS_SERVICE_ADDRESS+"getCode/{0}?u={1}";
 	
 	/**
 	 * 检查验证码
 	 */
-	public static final String CHECK_VALIDATECODE_SERVICE = "https://"+SERVICE_IP+"/svc/checkCode/{0}?u={1}&c={2}";
+	public static final String CHECK_VALIDATECODE_SERVICE = HTTPS_SERVICE_ADDRESS+"checkCode/{0}?u={1}&c={2}";
 	
 	/**
 	 * 检查店铺的账号
 	 */
-	public static final String CHECHSHOPUSER_SERVICE = "https://"+SERVICE_IP+"/svc/"
+	public static final String CHECHSHOPUSER_SERVICE = HTTPS_SERVICE_ADDRESS
 			+ "oauth/login/checkUser?username=";
 	
 	/**
 	 * 注册
 	 */
-	public static final String REGISTER_URL = "https://" +SERVICE_IP
-			+ "/svc/losapp/register";
+	public static final String REGISTER_URL = HTTPS_SERVICE_ADDRESS
+			+ "losapp/register";
 	
 	/**
 	 * 登录
 	 */
-	public static final String LOGIN_URL ="https://" +SERVICE_IP
-			+ "/svc/losapp/login";
+	public static final String LOGIN_URL =HTTPS_SERVICE_ADDRESS
+			+ "losapp/login";
 	
 	/**
 	 * 修改密码
 	 */
-	public static final String MODIFYPWD_URL ="https://"+SERVICE_IP
-			+ "/svc/losapp/modifyPassword";
+	public static final String MODIFYPWD_URL =HTTPS_SERVICE_ADDRESS
+			+ "losapp/modifyPassword";
 	
 	/**
 	 * 找回密码
 	 */
-	public static final String FINDPWD_URL ="https://"+SERVICE_IP
-	+"/svc/losapp/resetPassword";
+	public static final String FINDPWD_URL =HTTPS_SERVICE_ADDRESS
+	+"losapp/resetPassword";
 	
 	/**
 	 * 获取会员通讯录
 	 */
-	public static final String GET_MEMBERS_URL = "https://" +SERVICE_IP
-			+ "/svc/"
+	public static final String GET_MEMBERS_URL = HTTPS_SERVICE_ADDRESS
 			+ "losapp/syncMembers/{0}?v={1}&t={2}";
 	
 	/**
 	 * 获取会员的数量
 	 */
-	public static final String GET_MEMBERS_COUNT = "https://"+SERVICE_IP+"/svc/losapp/countMembers/{0}";
+	public static final String GET_MEMBERS_COUNT = HTTPS_SERVICE_ADDRESS+"losapp/countMembers/{0}";
 	
 	/**
 	 * 查询已关联的店铺
 	 */
-	public static final String GET_APPENDSHOP_RECORD = "https://"+SERVICE_IP+"/svc/losapp/attachEnterprises/{0}";
+	public static final String GET_APPENDSHOP_RECORD = HTTPS_SERVICE_ADDRESS+"losapp/attachEnterprises/{0}";
 	
 	/**
 	 * 关联店铺
 	 */
-	public static final String APPENDSHOP_URL = "https://"+SERVICE_IP+"/svc/losapp/appendEnterprise";
+	public static final String APPENDSHOP_URL = HTTPS_SERVICE_ADDRESS+"losapp/appendEnterprise";
 	
 	/**
 	 * 取消关联
 	 */
-	public static final String UNDOAPPENDSHOP_URL = "https://"+SERVICE_IP+"/svc/losapp/undoAppendEnterprise";
+	public static final String UNDOAPPENDSHOP_URL = HTTPS_SERVICE_ADDRESS+"losapp/undoAppendEnterprise";
 	
 	/**
 	 * 
 	 */
-	public static final String CHECKNEWVERSION_URL = "https://"+SERVICE_IP+"/svc/losapp/checkNewVersion/{0}";
+	public static final String CHECKNEWVERSION_URL = HTTPS_SERVICE_ADDRESS+"losapp/checkNewVersion/{0}";
 
 	
 	/**
 	 * 同步经营数据
 	 */
-	public static final String SYNCREPORTS_URL = "https://"+SERVICE_IP+"/svc/report/probe/query/{0}?year={1}&month={2}&day={3}&type={4}";
+	public static final String SYNCREPORTS_URL = HTTPS_SERVICE_ADDRESS+"report/probe/query/{0}?year={1}&month={2}&day={3}&type={4}";
 	
 	
 

@@ -269,6 +269,10 @@ public class AppContext extends Application{
 
 	public String getCurrentDisplayShopId() {
 		currentDisplayShopId=getProperty("shoip");  
+		if(null == currentDisplayShopId)
+		{
+			currentDisplayShopId = "";
+		}
 		return currentDisplayShopId;
 	}
 
