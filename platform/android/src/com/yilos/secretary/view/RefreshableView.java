@@ -339,7 +339,7 @@ public class RefreshableView extends LinearLayout implements OnTouchListener {
                 arrow.setVisibility(View.VISIBLE);  
                 progressBar.setVisibility(View.GONE);  
                 rotateArrow();  
-            } else if (currentStatus == STATUS_REFRESHING) {  
+            } else if (currentStatus == STATUS_REFRESHING) { 
                 description.setText(getResources().getString(R.string.refreshing));  
                 progressBar.setVisibility(View.VISIBLE);  
                 arrow.clearAnimation();  

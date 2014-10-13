@@ -97,7 +97,21 @@ public class ListViewAdp extends BaseAdapter implements SectionIndexer {
 				members[position].length());
 		
 		//最后消费时间
-		String latestConsumeTime = memberData.get(Integer.valueOf(p)).getLatestConsumeTime();
+		String latestConsumeTime = "";
+		//平均消费
+		String averageConsume = "";
+		//会员卡
+		String cards ="";
+		if(memberData.get(Integer.valueOf(p))!=null)
+		{
+			//最后消费时间
+			latestConsumeTime = memberData.get(Integer.valueOf(p)).getLatestConsumeTime();
+			//平均消费
+			averageConsume =  memberData.get(Integer.valueOf(p)).getAverageConsume();
+			//会员卡
+			cards = memberData.get(Integer.valueOf(p)).getCardStr();
+		}
+		
 		if(null==latestConsumeTime||"".equals(latestConsumeTime))
 		{
 			latestConsumeTime = "未消费";
@@ -107,12 +121,10 @@ public class ListViewAdp extends BaseAdapter implements SectionIndexer {
 			BigDecimal latestConsumeTimetr = new BigDecimal(latestConsumeTime); 
 			latestConsumeTime = "最近消费"+DateUtil.dateToString(latestConsumeTimetr.toPlainString(),"yyyy年MM月dd日");
 		}
-		//平均消费
-		String averageConsume =  memberData.get(Integer.valueOf(p)).getAverageConsume();
+		
 		
 		averageConsume = "平均消费"+(float) (Math.round(Float.valueOf(averageConsume) * 10)) / 10+"元";
-		//会员卡
-		String cards = memberData.get(Integer.valueOf(p)).getCardStr();
+		
 		if(cards.length()>11)
 		{
 			cards = cards.substring(0, 11)+"...";

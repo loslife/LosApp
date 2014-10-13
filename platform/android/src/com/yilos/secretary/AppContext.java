@@ -44,6 +44,8 @@ public class AppContext extends Application{
 	
 	private boolean  isChangeShop;
 	
+	private boolean isChangeContact;
+	
 	private static SharedPreferences preferences;  
 	
 	
@@ -340,6 +342,24 @@ public class AppContext extends Application{
 		setProperty("isChangeShop", flag);  
 
 		this.isChangeShop = isChangeShop;
+	}
+	
+	
+	
+
+	public boolean isChangeContact() {
+		isChangeContact = "1".equals(getProperty("isChangeContact"))?true:false; 
+		return isChangeContact;
+	}
+
+	public void setChangeContact(boolean isChangeContact) {
+		    String flag = "0";
+	        if(isChangeContact)
+	        {
+	        	flag = "1";
+	        }
+			setProperty("isChangeContact", flag);  
+			this.isChangeContact = isChangeShop;
 	}
 
 	public void setProperties(Properties ps){

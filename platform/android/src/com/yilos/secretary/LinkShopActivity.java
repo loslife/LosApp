@@ -441,6 +441,7 @@ public class LinkShopActivity extends BaseActivity
 						AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(shopId);
 						AppContext.getInstance(getBaseContext()).setShopName(myshop.getEnterprise_name());
 						AppContext.getInstance(getBaseContext()).setChangeShop(true);
+						AppContext.getInstance(getBaseContext()).setChangeContact(true);
 					}
 					if(isRecoveryLink)
 					{
@@ -467,6 +468,7 @@ public class LinkShopActivity extends BaseActivity
 							AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(shopId);
 							AppContext.getInstance(getBaseContext()).setShopName(res.getResult().getEnterprise_name());
 							AppContext.getInstance(getBaseContext()).setChangeShop(true);
+							AppContext.getInstance(getBaseContext()).setChangeContact(true);
 						}
 						msg.what = 1;
 					}
@@ -498,6 +500,7 @@ public class LinkShopActivity extends BaseActivity
 				    {
 				    	AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(null);
 				    	AppContext.getInstance(getBaseContext()).setChangeShop(true);
+				    	AppContext.getInstance(getBaseContext()).setChangeContact(true);
 				    	AppContext.getInstance(getBaseContext()).setShopName("我的店铺");
 				    }
 				    
@@ -505,6 +508,7 @@ public class LinkShopActivity extends BaseActivity
 				    {
 				    	AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(null);
 				    	AppContext.getInstance(getBaseContext()).setChangeShop(true);
+				    	AppContext.getInstance(getBaseContext()).setChangeContact(true);
 				    	if(myshops.size()>0)
 				    	{
 				    		AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(myshops.get(0).getEnterprise_id());

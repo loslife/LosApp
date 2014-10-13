@@ -215,8 +215,7 @@ public class Main extends BaseActivity implements
 					
 					setButtonEnabled(true);
 					loading_begin.setVisibility(View.GONE);
-					mainScrollLayout.setVisibility(View.VISIBLE);
-
+					
 					if (NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE) {
 						// 保存服务业绩
 						bizPerformanceService.deltel(year,
@@ -284,20 +283,20 @@ public class Main extends BaseActivity implements
 				}
 				if (msg.what == 0) {
 					loading_begin.setVisibility(View.GONE);
-					mainScrollLayout.setVisibility(View.VISIBLE);
+					findViewById(R.id.main_viewpager).setVisibility(View.VISIBLE);
 				}
 				if (msg.what == 2) {
 					viewFinishRefresh();
 					UIHelper.ToastMessage(getBaseContext(), "网络不给力");
 				}
-				if ("日".equals(timetype.getText().toString())) {
+				/*if ("日".equals(timetype.getText().toString())) {
 					// 设置客流量的滚动条
 					charscrollview = (ScrollView) mRefreshTrafficView.findViewById(R.id.charscrollview);
 					DisplayMetrics dm = getResources().getDisplayMetrics();
 					charscrollview.smoothScrollTo(dm.widthPixels,
 							(dm.widthPixels - 200) * 2 + 60
 									- (dm.widthPixels - 200) / 6);
-				}
+				}*/
 			}
 		};
 	}
@@ -513,7 +512,7 @@ public class Main extends BaseActivity implements
 			getlocalData();
 		} else {
 			loading_begin.setVisibility(View.VISIBLE);
-			mainScrollLayout.setVisibility(View.GONE);
+			findViewById(R.id.main_viewpager).setVisibility(View.GONE);
 
 			// 获取报表
 			getNetChartData();
@@ -641,12 +640,13 @@ public class Main extends BaseActivity implements
 		if (myshops != null && myshops.size() > 0) {
 			select_shop.setVisibility(View.VISIBLE);
 			noshop.setVisibility(View.GONE);
+			findViewById(R.id.main_viewpager).setVisibility(View.VISIBLE);
 			findViewById(R.id.date_header).setVisibility(View.VISIBLE);
 			getShowData();
 		} else {
 			select_shop.setVisibility(View.GONE);
 			loading_begin.setVisibility(View.GONE);
-			mainScrollLayout.setVisibility(View.GONE);
+			findViewById(R.id.main_viewpager).setVisibility(View.GONE);
 			noshop.setVisibility(View.VISIBLE);
 			findViewById(R.id.date_header).setVisibility(View.GONE);
 			shopname.setText("我的店铺");

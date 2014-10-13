@@ -85,10 +85,14 @@
 
     <include layout="@layout/loadingbar" />
     
+    <LinearLayout android:id="@+id/main_viewpager"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
     <android.support.v4.view.ViewPager
         android:id="@+id/main_scrolllayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
+    </LinearLayout>
     
     <LinearLayout
         android:id="@+id/noshop"
