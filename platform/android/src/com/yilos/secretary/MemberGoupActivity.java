@@ -121,6 +121,7 @@ RefreshLayoutableView.RefreshListener {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.mebersgroup);
 		memberService = new MemberService(getBaseContext());
+		myshopService = new MyshopManageService(getBaseContext());
 		AppContext.getInstance(getBaseContext()).setChangeContact(true);
 	}
 
@@ -475,9 +476,6 @@ RefreshLayoutableView.RefreshListener {
 		last_sync = AppContext.getInstance(getBaseContext())
 				.getContactLastSyncTime();
 	    
-		memberService = new MemberService(getBaseContext());
-		myshopService = new MyshopManageService(getBaseContext());
-		
 		// 查询本地的关联数据
 		List<MyShopBean> myshops = myshopService.queryShops();
 		if (myshops != null && myshops.size() > 0) {
