@@ -131,6 +131,7 @@ RefreshLayoutableView.RefreshListener {
 			shoptitle = AppContext.getInstance(getBaseContext()).getShopName();
 			shopId = AppContext.getInstance(getBaseContext())
 					.getCurrentDisplayShopId();
+			queiryTitleList();
 			if(AppContext.getInstance(getBaseContext()).isChangeContact())
 			{
 				getdata();
@@ -480,23 +481,11 @@ RefreshLayoutableView.RefreshListener {
 		// 查询本地的关联数据
 		List<MyShopBean> myshops = myshopService.queryShops();
 		if (myshops != null && myshops.size() > 0) {
-			title = new String[myshops.size()];
-			titleList = new String[myshops.size()];
-			shopIds = new String[myshops.size()];
-			for (int i = 0; i < myshops.size(); i++) {
-				title[i] = myshops.get(i).getEnterprise_name()==null?"我的店铺":myshops.get(i).getEnterprise_name();
-				titleList[i] = myshops.get(i).getEnterprise_name() == null ? "• 我的店铺"
-						: "• " + myshops.get(i).getEnterprise_name();
-				shopIds[i] = myshops.get(i).getEnterprise_id();
-			}
-
-			shopname.setText(shoptitle==null?"我的店铺":shoptitle);
 			select_shop.setVisibility(View.VISIBLE);
 			noshop.setVisibility(View.GONE);
 		    parentData = memberService.queryMembers(shopId);
-		    
+		    shopname.setText(shoptitle);
 		    initView();
-			
 			membercount.setText("共有"+parentData.size()+"名会员");
 		}
 		else
@@ -513,7 +502,29 @@ RefreshLayoutableView.RefreshListener {
 
 	}
 	
-
+	public void queiryTitleList() {
+		List<MyShopBean> myshops = myshopService.queryShops();
+		if (myshops != null && myshops.size() > 0) {
+			title = new String[myshops.size()];
+			titleList = new String[myshops.size()];
+			shopIds = new String[myshops.size()];
+			for (int i = 0; i < myshops.size(); i++) {
+				title[i] = myshops.get(i).getEnterprise_name();
+				titleList[i] = "• " + myshops.get(i).getEnterprise_name();
+				if (myshops.get(i).getEnterprise_name() == null
+						|| "".equals(myshops.get(i).getEnterprise_name())) {
+					title[i] = "我的店铺";
+					titleList[i] = "• 我的店铺";
+				}
+				shopIds[i] = myshops.get(i).getEnterprise_id();
+			}
+			if (shoptitle == null || "".equals(shoptitle)) {
+				shoptitle = "我的店铺";
+			}
+			
+		}
+	}
+	
 	/**
 	 * 获取会员通讯录
 	 * @param linkshopId
