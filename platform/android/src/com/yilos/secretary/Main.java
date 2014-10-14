@@ -196,6 +196,12 @@ public class Main extends BaseActivity implements
 					bview.setBizPerformanceChartView(getBaseContext(),
 							bizPerformanceView, timetype, bizPerformance,
 							prevBizPerformance);
+					
+					incomePerView.findViewById(R.id.updatetip).setVisibility(View.GONE);
+					if(incomeperformance.get_id()==null&&bizPerformance.get_id()!=null)
+					{
+						incomePerView.findViewById(R.id.updatetip).setVisibility(View.VISIBLE);
+					}
 
 					// 员工业绩
 					EmployPerView eview = new EmployPerView();
@@ -215,7 +221,10 @@ public class Main extends BaseActivity implements
 					
 					setButtonEnabled(true);
 					loading_begin.setVisibility(View.GONE);
-					findViewById(R.id.main_viewpager).setVisibility(View.VISIBLE);
+					List<MyShopBean> myshops = myshopService.queryShops();
+					if (myshops != null && myshops.size() > 0) {
+						findViewById(R.id.main_viewpager).setVisibility(View.VISIBLE);
+					}
 					
 					if (NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE) {
 						// 保存服务业绩
@@ -290,20 +299,19 @@ public class Main extends BaseActivity implements
 					viewFinishRefresh();
 					UIHelper.ToastMessage(getBaseContext(), "网络不给力");
 				}
-				/*if ("日".equals(timetype.getText().toString())) {
+				if ("日".equals(timetype.getText().toString())) {
 					// 设置客流量的滚动条
 					charscrollview = (ScrollView) mRefreshTrafficView.findViewById(R.id.charscrollview);
 					DisplayMetrics dm = getResources().getDisplayMetrics();
 					charscrollview.smoothScrollTo(dm.widthPixels,
 							(dm.widthPixels - 200) * 2 + 60
 									- (dm.widthPixels - 200) / 6);
-				}*/
+				}
 			}
 		};
 	}
 
 	public void initView() {
-
 		select_shop = (LinearLayout) findViewById(R.id.select_shop_layout);
 		shopname = (TextView) findViewById(R.id.shopname);
 		showTime = (TextView) findViewById(R.id.showtime);
@@ -342,9 +350,6 @@ public class Main extends BaseActivity implements
 		showTime.setText(getDateNow());
 		select_shop.setTag(R.drawable.select_shop);
 
-		/*((LinearLayout) findViewById(R.id.business_empty))
-				.setVisibility(View.VISIBLE);*/
-		
 		mRefreshIncomeView = (RefreshLayoutableView) incomePerView.findViewById(R.id.refresh_income);
 		mRefreshIncomeView.setRefreshListener(this);
 
@@ -559,10 +564,8 @@ public class Main extends BaseActivity implements
 				ServerManageResponse res = ac.getReportsData(shopId, year,
 						month, dateType, day, null);
 				if (res.isSucess()) {
-
 					// 服务业绩
 					if (dateType == "day") {
-
 						bizPerformance = res.getResult().getCurrent()
 								.getTb_biz_performance().getDay();
 						prevBizPerformance = res.getResult().getPrev()
@@ -636,7 +639,6 @@ public class Main extends BaseActivity implements
 	}
 
 	public void initData() {
-
 		List<MyShopBean> myshops = myshopService.queryShops();
 		if (myshops != null && myshops.size() > 0) {
 			select_shop.setVisibility(View.VISIBLE);
@@ -655,7 +657,6 @@ public class Main extends BaseActivity implements
 	}
 
 	public void queiryTitleList() {
-
 		List<MyShopBean> myshops = myshopService.queryShops();
 		if (myshops != null && myshops.size() > 0) {
 			title = new String[myshops.size()];
@@ -791,6 +792,7 @@ public class Main extends BaseActivity implements
 		return str;
 	}
 
+	//这个方法不可以提出去
 	public Calendar dateToCal(String in, SimpleDateFormat format) {
 		Date date;
 		Calendar cal = Calendar.getInstance();

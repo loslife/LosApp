@@ -64,10 +64,16 @@
                 <LinearLayout
                     android:id="@+id/income_empty"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="match_parent"
                     android:background="@color/white"
-                    android:orientation="horizontal"
-                    android:visibility="gone" >
+                    android:gravity="center"
+                    >
+                    <TextView  
+                        android:id="@+id/updatetip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="关联店铺使用的乐斯美业管家版本较低，\n需要升级最新版本。"
+                        android:visibility="gone"/>
                 </LinearLayout>
 
                 <LinearLayout

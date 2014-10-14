@@ -30,7 +30,7 @@ public class RefreshLayoutableView extends LinearLayout {
     private Scroller scroller;
     private View refreshView;
     private ImageView refreshIndicatorView;
-    private int refreshTargetTop = -140;
+    private int refreshTargetTop = -160;
     private ProgressBar bar;
     private TextView downTextView;
     private TextView timeTextView;
