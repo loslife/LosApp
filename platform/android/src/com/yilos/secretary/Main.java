@@ -215,6 +215,7 @@ public class Main extends BaseActivity implements
 					
 					setButtonEnabled(true);
 					loading_begin.setVisibility(View.GONE);
+					findViewById(R.id.main_viewpager).setVisibility(View.VISIBLE);
 					
 					if (NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE) {
 						// 保存服务业绩
