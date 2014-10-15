@@ -39,6 +39,11 @@ public class BizPerformanceService {
 			String tableName) {
 		bizPerformanceDB.deleteBydate(year, month, day, type, tableName);
 	}
+	
+	public int queryAll(String tableName)
+	{
+		return bizPerformanceDB.queryAll(tableName);
+	}
 
 	// 获取本地服务业绩
 	public BizPerformanceBean getLocalBizPerformanceData(String dateType,

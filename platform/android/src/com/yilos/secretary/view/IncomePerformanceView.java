@@ -1,5 +1,8 @@
 package com.yilos.secretary.view;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,14 +12,23 @@ import android.widget.TextView;
 import com.yilos.secretary.R;
 import com.yilos.secretary.bean.IncomePerformanceBean;
 import com.yilos.secretary.chartview.IncomePerChartView;
+import com.yilos.secretary.common.DateUtil;
+import com.yilos.secretary.service.BizPerformanceService;
+import com.yilos.secretary.service.CustomerCountService;
+import com.yilos.secretary.service.IncomePerformanceService;
 
 public class IncomePerformanceView {
-
+	
+	private BizPerformanceService bizPerformanceService;
+	private IncomePerformanceService incomeperformancService;
+	
 	// 绘制服务业绩 incomeperformance
 	public void setIncomePerChartView(Context context, View v,
 			TextView timetype, IncomePerformanceBean incomeperformance,
 			IncomePerformanceBean prevIncomePerformance) {
 
+		bizPerformanceService = new BizPerformanceService(context);
+		incomeperformancService = new IncomePerformanceService(context);
 		float total_income = 0.0f;// 收入
 		float total_prepay = 0.0f;// 预付
 		float total_paidin = 0.0f;// 实收
@@ -46,6 +58,25 @@ public class IncomePerformanceView {
 			((LinearLayout) v.findViewById(R.id.incomedetail))
 					.setVisibility(View.GONE);
 			((TextView) v.findViewById(R.id.incometotal)).setText("￥0.0");
+ 
+			String income_tableName = "income_performance_day";
+			String biz_tableName = "biz_performance_day";
+			if ("日".equals(timetype.getText().toString())) {
+				income_tableName = "income_performance_day";
+				biz_tableName = "biz_performance_day";
+			} else if ("周".equals(timetype.getText().toString())) {
+				income_tableName = "income_performance_week";
+				biz_tableName = "biz_performance_week";
+			} else {
+				income_tableName = "income_performance_month";
+				biz_tableName = "biz_performance_month";
+			}
+			v.findViewById(R.id.updatetip).setVisibility(View.GONE);
+			if(incomeperformancService.queryAll(income_tableName)==0&&bizPerformanceService.queryAll(biz_tableName)>0)
+			{
+				v.findViewById(R.id.updatetip).setVisibility(View.VISIBLE);
+			}
+
 
 			return;
 		} else {

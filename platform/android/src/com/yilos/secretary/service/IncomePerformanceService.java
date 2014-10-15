@@ -42,6 +42,11 @@ public class IncomePerformanceService {
 		IncomePerDB.deleteBydate( year, month, day, type, tableName);
 	}
 	
+	public int queryAll(String tableName)
+	{
+		return IncomePerDB.queryAll(tableName);
+	}
+	
 	// 获取本地服务业绩
 		public IncomePerformanceBean getLocalIncomePerformanceData(String dateType,
 				String year, String month, String day, int getFlag) {

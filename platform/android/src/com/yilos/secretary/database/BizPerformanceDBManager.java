@@ -197,6 +197,18 @@ public class BizPerformanceDBManager
 		return c;
     }
 
+    public int  queryAll(String tableName)
+    {
+    	String sql = "";
+    	String[] selectionArgs = null ;
+    	sql = "SELECT count(*) FROM "+tableName+" Where enterprise_id = ?";
+    	selectionArgs = new String[]{shopId};
+    	
+    	Cursor c = db.rawQuery(sql, selectionArgs);  
+    	c.moveToFirst();
+        int icount = c.getInt(0);
+		return icount;
+    }
 
 
 }

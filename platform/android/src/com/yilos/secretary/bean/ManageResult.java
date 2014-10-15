@@ -6,6 +6,8 @@ public class ManageResult
 	
 	private  ManageRecords  prev;
 	
+	private  String last_backupDate;
+	
 	private String errorCode;
 
 	
@@ -32,6 +34,14 @@ public class ManageResult
 
 	public void setErrorCode(String errorCode) {
 		this.errorCode = errorCode;
+	}
+
+	public String getLast_backupDate() {
+		return last_backupDate;
+	}
+
+	public void setLast_backupDate(String last_backupDate) {
+		this.last_backupDate = last_backupDate;
 	}
 	
 	

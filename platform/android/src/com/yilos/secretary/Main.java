@@ -196,12 +196,6 @@ public class Main extends BaseActivity implements
 					bview.setBizPerformanceChartView(getBaseContext(),
 							bizPerformanceView, timetype, bizPerformance,
 							prevBizPerformance);
-					
-					incomePerView.findViewById(R.id.updatetip).setVisibility(View.GONE);
-					if(incomeperformance.get_id()==null&&bizPerformance.get_id()!=null)
-					{
-						incomePerView.findViewById(R.id.updatetip).setVisibility(View.VISIBLE);
-					}
 
 					// 员工业绩
 					EmployPerView eview = new EmployPerView();

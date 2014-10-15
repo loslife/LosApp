@@ -481,6 +481,13 @@ RefreshLayoutableView.RefreshListener {
 		if (myshops != null && myshops.size() > 0) {
 			select_shop.setVisibility(View.VISIBLE);
 			noshop.setVisibility(View.GONE);
+			/*for(MyShopBean bean:myshops)
+			{
+				if(shopId.equals(bean.getEnterprise_id()))
+				{
+					last_sync = bean.getLatest_sync();
+				}
+			}*/
 		    parentData = memberService.queryMembers(shopId);
 		    shopname.setText(shoptitle);
 		    initView();
