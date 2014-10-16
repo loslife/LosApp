@@ -1,5 +1,6 @@
 package com.yilos.secretary;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -16,6 +17,8 @@ import com.yilos.secretary.common.LoggerManager;
 import com.yilos.secretary.R;
 import com.yilos.secretary.bean.MyShopBean;
 import com.yilos.secretary.bean.ServerMemberResponse;
+import com.yilos.secretary.bean.ServerVersionResponse;
+import com.yilos.secretary.common.Constants;
 import com.yilos.secretary.common.LoggerFactory;
 import com.yilos.secretary.common.NetworkUtil;
 import com.yilos.secretary.common.UIHelper;
@@ -36,6 +39,14 @@ public class LaunchActivity extends BaseActivity {
 	private String shopId;
 	private String last_sync = "0";
 	private List<MyShopBean> myshops;
+	
+    private String verion;
+	
+	private ArrayList<String> versionDescription = new ArrayList<String>();
+	
+	private String descriptionInfo="";
+	
+	private boolean  IS_HAS_NEWAPK = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,12 +79,35 @@ public class LaunchActivity extends BaseActivity {
 		
 		public void handleMessage(Message msg) {
 
-			/*if (msg.what == 1) {
-				
-			}*/
 			if (msg.what == 0) {
-				UIHelper.ToastMessage(LaunchActivity.this, "初始化数据失败");
+				LOGGER.error("初始化数据失败");
 			}
+			
+			myshops = myshopService.queryShops();
+			if (myshops != null && myshops.size() > 0)
+			{
+				shopId = myshops.get(0).getEnterprise_id();
+				AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(
+						shopId);
+				last_sync = myshops.get(0).getContactSyncTime();
+				AppContext.getInstance(getBaseContext()).setContactLastSyncTime(last_sync);
+				if(myshops.get(0).getEnterprise_name()==null ||"".equals(myshops.get(0).getEnterprise_name()))
+				{
+					shopName = "我的店铺";
+				}
+				else
+				{
+					shopName = myshops.get(0).getEnterprise_name();
+				}
+
+				AppContext.getInstance(getBaseContext()).setShopName(shopName);
+			}
+			else
+			{
+				shopName ="我的店铺";
+				AppContext.getInstance(getBaseContext()).setShopName(shopName);
+			}
+			
 			loading_begin.setVisibility(View.GONE);
 			if(!AppContext.getInstance(getBaseContext()).isLogin())
 			{
@@ -102,6 +136,7 @@ public class LaunchActivity extends BaseActivity {
 			if(NetworkUtil.checkNetworkIsOk(getBaseContext()) != NetworkUtil.NONE)
 			{
 			   getLinkShop();
+			   getNewVersion();
 			}
 			else
 			{
@@ -119,6 +154,22 @@ public class LaunchActivity extends BaseActivity {
 		Intent mainIntent = new Intent();
 		mainIntent.setClass(getApplication(), MainTabActivity.class);
 		mainIntent.putExtra("shopName", shopName);
+		mainIntent.putExtra("is_has_newapk", IS_HAS_NEWAPK);
+		if(IS_HAS_NEWAPK)
+		{
+			mainIntent.putExtra("versionCode", verion);
+			int i = 0;
+			/*versionDescription.add("我的店铺");
+			versionDescription.add("我的店铺");
+			versionDescription.add("我的店铺");*/
+			for(String info:versionDescription)
+			{   
+				i++;
+				descriptionInfo += i+"."+info+"\n";
+			}
+			mainIntent.putExtra("versionDescription", descriptionInfo);
+		}
+		
 		startActivity(mainIntent);
 		LaunchActivity.this.finish();
 	}
@@ -153,37 +204,30 @@ public class LaunchActivity extends BaseActivity {
 								myshopService.addShop(res.getResult().getMyShopList().get(i));
 							}
 						}
-						myshops = myshopService.queryShops();
-						if (myshops != null && myshops.size() > 0)
-						{
-							shopId = myshops.get(0).getEnterprise_id();
-							AppContext.getInstance(getBaseContext()).setCurrentDisplayShopId(
-									shopId);
-							last_sync = myshops.get(0).getContactSyncTime();
-							AppContext.getInstance(getBaseContext()).setContactLastSyncTime(last_sync);
-							if(myshops.get(0).getEnterprise_name()==null ||"".equals(myshops.get(0).getEnterprise_name()))
-							{
-								shopName = "我的店铺";
-							}
-							else
-							{
-								shopName = myshops.get(0).getEnterprise_name();
-							}
-
-							AppContext.getInstance(getBaseContext()).setShopName(shopName);
-						}
-						else
-						{
-							shopName ="我的店铺";
-							AppContext.getInstance(getBaseContext()).setShopName(shopName);
-						}
-
 					msg.what = 1;
 				}
 				if (res.getCode() == 1) {
 					msg.what = 0;
 				}
 				handle.sendMessage(msg);
+			}
+		}.start();
+	}
+	
+	public void getNewVersion() {
+		new Thread() {
+			public void run() {
+				AppContext ac = (AppContext) getApplication();
+				Message msg = new Message();
+				ServerVersionResponse res = ac.checkVersion(Constants.VERSION);
+				if (res.isSucess()) {
+					if("yes".equals(res.getResult().getHas_new_version()))
+					{
+						IS_HAS_NEWAPK = true;
+						verion = res.getResult().getVersion_code();
+						versionDescription = (ArrayList<String>) res.getResult().getFeature_descriptions();
+					}
+				}
 			}
 		}.start();
 	}

@@ -7,8 +7,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -30,6 +33,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -161,6 +165,10 @@ public class Main extends BaseActivity implements
 		initView();
 		this.initChartViewData();
 		getlocalData();
+		if(getIntent().getBooleanExtra("is_has_newapk",false))
+		{
+			newApkDialog();
+		}
 	}
 
 	public void onResume() {
@@ -283,6 +291,14 @@ public class Main extends BaseActivity implements
 								prevIncomePerformance, "income_performance_"
 										+ dateType);
 					}
+					
+					incomePerView.findViewById(R.id.updatetip).setVisibility(View.GONE);
+					if(incomeperformancService.queryAll("income_performance_" + dateType)==0
+							&&bizPerformanceService.queryAll("biz_performance_" + dateType)>0)
+					{
+						incomePerView.findViewById(R.id.updatetip).setVisibility(View.VISIBLE);
+					}
+					
 					viewFinishRefresh();
 				}
 				if (msg.what == 0) {
@@ -430,29 +446,25 @@ public class Main extends BaseActivity implements
 					Calendar c = dateToCal(showTime.getText().toString(),
 							formatter);
 					c.add(c.MONTH, -1);// 得到上个月的月份
-
 					curDate = new Date(c.getTimeInMillis());// 获取当前时间
 					showtime = formatter.format(curDate);
-					showTime.setText(showtime);
 				} else if (dateType == "week") {
 					DateUtil dateUtil = new DateUtil();
 					showtime = dateUtil.getPreviousMonday() + "--"
 							+ dateUtil.getSunday();
 					SimpleDateFormat formatter = new SimpleDateFormat(
 							"yyyy年MM月dd日");
-
 					datetime = dateToCal(dateUtil.getCurDateSunday(), formatter)
 							.getTimeInMillis();
 					curDate = new Date(datetime);
-					showTime.setText(showtime);
 				} else {
 					SimpleDateFormat formatter = new SimpleDateFormat(
 							"yyyy年MM月dd日");
 					curDate = new Date(dateToCal(showTime.getText().toString(),
 							formatter).getTimeInMillis() - 86400000);// 获取当前时间
 					showtime = formatter.format(curDate);
-					showTime.setText(showtime);
 				}
+				showTime.setText(showtime);
 				year = String.valueOf(curDate.getYear() + 1900);
 				day = String.valueOf(curDate.getDate());
 				month = String.valueOf(curDate.getMonth() + 1);
@@ -475,7 +487,6 @@ public class Main extends BaseActivity implements
 					c.add(c.MONTH, +1);// 得到下个月的月份
 					curDate = new Date(c.getTimeInMillis());// 获取当前时间
 					showtime = formatter.format(curDate);
-					showTime.setText(showtime);
 				} else if (dateType == "week") {
 					DateUtil dateUtil = new DateUtil();
 					showtime = dateUtil.getNextMonday() + "--"
@@ -485,15 +496,14 @@ public class Main extends BaseActivity implements
 					datetime = dateToCal(dateUtil.getCurDateSunday(), formatter)
 							.getTimeInMillis();
 					curDate = new Date(datetime);
-					showTime.setText(showtime);
 				} else {
 					SimpleDateFormat formatter = new SimpleDateFormat(
 							"yyyy年MM月dd日");
 					curDate = new Date(dateToCal(showTime.getText().toString(),
 							formatter).getTimeInMillis() + 86400000);// 获取当前时间
 					showtime = formatter.format(curDate);
-					showTime.setText(showtime);
 				}
+				showTime.setText(showtime);
 				year = String.valueOf(curDate.getYear() + 1900);
 				day = String.valueOf(curDate.getDate());
 				month = String.valueOf(curDate.getMonth() + 1);
@@ -725,7 +735,6 @@ public class Main extends BaseActivity implements
 				| Gravity.TOP, x, y);// 需要指定Gravity，默认情况是center.
 
 		listView.setOnItemClickListener(new OnItemClickListener() {
-
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
@@ -830,6 +839,33 @@ public class Main extends BaseActivity implements
 		mRefreshEmployeeView.finishRefresh();
 		mRefreshServiceView.finishRefresh();
 		mRefreshTrafficView.finishRefresh();
+	}
+	
+	public void newApkDialog()
+	{
+		String vsersionInfo = "最新版本：" + getIntent().getStringExtra("versionCode");
+		String dirvectionsList = getIntent().getStringExtra("versionDescription");
+		  
+        //警告框  
+        new AlertDialog.Builder(Main.this)  
+        .setTitle(vsersionInfo)  
+        .setMessage(dirvectionsList) 
+        .setPositiveButton("下载升级", new DialogInterface.OnClickListener() {  
+            public void onClick(DialogInterface dialog, int which) {
+            	String url1 = "http://www.yilos.com/svc/apk/com.yilos.secretary.apk";// /svc/portal/nail/download?type=secretary
+                Intent i1 = new Intent(Intent.ACTION_VIEW);
+                i1.addCategory(Intent.CATEGORY_BROWSABLE);
+                i1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                i1.setData(Uri.parse(url1)); 
+                startActivity(i1);
+            }  
+        })  
+        .setNegativeButton("暂不升级", new DialogInterface.OnClickListener() {    
+            public void onClick(DialogInterface dialog, int whichButton) {  
+            }    
+        })  
+        .create()  
+        .show();  
 	}
 	
     /** 指引页面Adapter */

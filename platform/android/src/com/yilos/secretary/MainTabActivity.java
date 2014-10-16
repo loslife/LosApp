@@ -32,6 +32,15 @@ public class MainTabActivity extends TabActivity implements OnCheckedChangeListe
         ActivityControlUtil.add(this);
           
         this.mainIntent = new Intent(this,Main.class);
+        
+        boolean ishasNewApk = getIntent().getBooleanExtra("is_has_newapk",false);
+		String versionCode = getIntent().getStringExtra("versionCode");
+		String dirvectionsList = getIntent().getStringExtra("versionDescription");
+		
+		mainIntent.putExtra("is_has_newapk", ishasNewApk);
+		mainIntent.putExtra("versionCode", versionCode);
+		mainIntent.putExtra("versionDescription", dirvectionsList);
+		
         this.concactsIntent = new Intent(this,MemberGoupActivity.class); 
         this.settingCIntent = new Intent(this,SettingActivity.class);
 

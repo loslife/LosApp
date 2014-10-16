@@ -270,7 +270,7 @@ public class AppContext extends Application{
 	}
 
 	public String getCurrentDisplayShopId() {
-		currentDisplayShopId=getProperty("shoip");  
+		currentDisplayShopId=getProperty("shopid");  
 		if(null == currentDisplayShopId)
 		{
 			currentDisplayShopId = "";
@@ -280,7 +280,7 @@ public class AppContext extends Application{
 
 	public void setCurrentDisplayShopId(String currentDisplayShopId) {
 		this.currentDisplayShopId = currentDisplayShopId;
-		 setProperty("shoip", currentDisplayShopId);  
+		 setProperty("shopid", currentDisplayShopId);  
 	}
 
 	public String getContactLastSyncTime() {

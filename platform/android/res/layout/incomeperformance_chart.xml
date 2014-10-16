@@ -64,17 +64,22 @@
                 <LinearLayout
                     android:id="@+id/income_empty"
                     android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="fill_parent"
                     android:background="@color/white"
+                    android:orientation="vertical"
                     android:gravity="center"
                     >
+
                     <TextView  
                         android:id="@+id/updatetip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="店铺使用的乐斯美业管家版本较低，请升级最新版本"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:paddingTop="160.0dip"
+                        android:gravity="center"
+                        android:text="店铺使用的乐斯美业管家版本较低，请升级最新版本。"
                         android:textSize="@dimen/Text_size_m"
                         android:visibility="gone"/>
+
                 </LinearLayout>
 
                 <LinearLayout
