@@ -25,7 +25,7 @@ public class ServicePerformanceDBManager
         //因为getWritableDatabase内部调用了mContext.openOrCreateDatabase(mName, 0, mFactory);  
         //所以要确保context已初始化,我们可以把实例化DBManager的步骤放在Activity的onCreate里  
         db = helper.getWritableDatabase();  
-        shopId = AppContext.getInstance(context).getCurrentDisplayShopId();
+
         this.context = context;
     }  
     
@@ -36,6 +36,7 @@ public class ServicePerformanceDBManager
 	
     public void add(List<ServicePerformanceBean> servicePerformanceBean,String tableName)
     {
+        shopId = AppContext.getInstance(context).getCurrentDisplayShopId();
     	db.beginTransaction();
     	try
     	{
@@ -153,7 +154,7 @@ public class ServicePerformanceDBManager
     {
     	String sql = "";
     	String[] selectionArgs = null ;
-    	
+        shopId = AppContext.getInstance(context).getCurrentDisplayShopId();
     	if(!"month".equals(type))
     	{
     		sql = "year = ? and month = ? and day = ? and enterprise_id = ?";
@@ -174,7 +175,7 @@ public class ServicePerformanceDBManager
     {
     	String sql = "";
     	String[] selectionArgs = null ;
-    	
+        shopId = AppContext.getInstance(context).getCurrentDisplayShopId();
     	if(!"month".equals(type))
     	{
     		sql = "SELECT * FROM "+tableName+" Where year = ? and month = ? and day = ? and enterprise_id = ?";

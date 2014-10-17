@@ -26,7 +26,6 @@ public class CustomerCountDBManager
         //因为getWritableDatabase内部调用了mContext.openOrCreateDatabase(mName, 0, mFactory);  
         //所以要确保context已初始化,我们可以把实例化DBManager的步骤放在Activity的onCreate里  
         db = helper.getWritableDatabase();  
-        shopId = AppContext.getInstance(context).getCurrentDisplayShopId();
         this.context = context;
     }  
     
@@ -35,6 +34,7 @@ public class CustomerCountDBManager
 	//member integer, year integer, month integer, day integer, hour integer, create_date REAL);";
     public void add(List<BcustomerCountBean> customerCountList,String tableName)
     {
+    	shopId = AppContext.getInstance(context).getCurrentDisplayShopId();
     	db.beginTransaction();
     	try
     	{
@@ -119,6 +119,7 @@ public class CustomerCountDBManager
     
     public void deleteBydate(String year,String month,String day,String type,String tableName)
     {
+    	shopId = AppContext.getInstance(context).getCurrentDisplayShopId();
     	String sql = "";
     	String[] selectionArgs = null ;
     	
@@ -145,6 +146,7 @@ public class CustomerCountDBManager
     
     public Cursor  queryBydate(String year,String month,String day,String type,String tableName)
     {
+    	shopId = AppContext.getInstance(context).getCurrentDisplayShopId();
     	String sql = "";
     	String[] selectionArgs = null ;
     	

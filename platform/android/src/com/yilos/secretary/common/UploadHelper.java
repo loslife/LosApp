@@ -92,7 +92,7 @@ public class UploadHelper {
 			} catch (IOException e) {
 				LOGGER.error("", e);
 				urlConnection.disconnect();
-				throw new Exception(e);
+				//throw new Exception(e);
 			}
 
 			StringBuilder form = new StringBuilder();
@@ -121,7 +121,7 @@ public class UploadHelper {
 					e1.printStackTrace();
 				}
 				urlConnection.disconnect();
-				throw new Exception(e);
+				//throw new Exception(e);
 			} finally {
 				try {
 					if (null != fStream) {
@@ -162,19 +162,19 @@ public class UploadHelper {
 							"code", ""))) {
 						LOGGER.error("上传文件：" + file.getName() + "失败，status："
 								+ status + "，response： " + result);
-						throw new Exception("上传文件：" + file.getName()
+						/*throw new Exception("上传文件：" + file.getName()
 								+ "失败，status：" + result + "，response： "
-								+ result);
+								+ result);*/
 					}
 				} else {
 					LOGGER.error("上传文件：" + file.getName() + "失败，status："
 							+ result + "，Body： " + result);
-					throw new Exception("上传文件：" + file.getName() + "失败，status："
-							+ result + "，response： " + result);
+					/*throw new Exception("上传文件：" + file.getName() + "失败，status："
+							+ result + "，response： " + result);*/
 				}
 			} catch (Exception e) {
 				LOGGER.error("上传文件：" + file.getName() + "失败", e);
-				throw e;
+				//throw e;
 			} finally {
 				try {
 					if (null != in) {
@@ -189,7 +189,8 @@ public class UploadHelper {
 				}
 			}
 		} else {
-			throw new Exception("文件：" + file.getName() + "不存在");
+			//throw new Exception("文件：" + file.getName() + "不存在");
+			
 		}
 	}
 	
@@ -220,7 +221,7 @@ public class UploadHelper {
 			url = new URL(fileURL);
 		} catch (MalformedURLException e) {
 			LOGGER.error("", e);
-			throw new Exception(e);
+			//throw new Exception(e);
 		}
 		// 下载网络文件
 		int bytesum = 0;

@@ -25,7 +25,6 @@ public class BizPerformanceDBManager
         //因为getWritableDatabase内部调用了mContext.openOrCreateDatabase(mName, 0, mFactory);  
         //所以要确保context已初始化,我们可以把实例化DBManager的步骤放在Activity的onCreate里  
         db = helper.getWritableDatabase();  
-        shopId = AppContext.getInstance(context).getCurrentDisplayShopId();
         this.context = context;
     }  
     
@@ -36,6 +35,7 @@ public class BizPerformanceDBManager
 	
     public void add(BizPerformanceBean bean,String tableName)
     {
+    	shopId = AppContext.getInstance(context).getCurrentDisplayShopId();
     	db.beginTransaction();
     	try
     	{
@@ -160,7 +160,8 @@ public class BizPerformanceDBManager
     {
     	String sql = "";
     	String[] selectionArgs = null ;
-    	
+    	shopId = AppContext.getInstance(context).getCurrentDisplayShopId();
+    	 
     	if(!"month".equals(type))
     	{
     		sql = "year = ? and month = ? and day = ? and enterprise_id = ?";
@@ -181,6 +182,7 @@ public class BizPerformanceDBManager
     {
     	String sql = "";
     	String[] selectionArgs = null ;
+    	shopId = AppContext.getInstance(context).getCurrentDisplayShopId();
     	
     	if(!"month".equals(type))
     	{
@@ -199,6 +201,7 @@ public class BizPerformanceDBManager
 
     public int  queryAll(String tableName)
     {
+    	shopId = AppContext.getInstance(context).getCurrentDisplayShopId();
     	String sql = "";
     	String[] selectionArgs = null ;
     	sql = "SELECT count(*) FROM "+tableName+" Where enterprise_id = ?";

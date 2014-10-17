@@ -753,6 +753,7 @@ public class Main extends BaseActivity implements
 						title[arg2]);
 				AppContext.getInstance(getBaseContext())
 						.setCurrentDisplayShopId(shopIds[arg2]);
+				AppContext.getInstance(getBaseContext()).setChangeContact(true);
 				shopId = shopIds[arg2];
 				getShowData();
 				((ImageView) findViewById(R.id.headmore))

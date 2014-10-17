@@ -25,7 +25,7 @@ public class EmployeePerDBManager
         //因为getWritableDatabase内部调用了mContext.openOrCreateDatabase(mName, 0, mFactory);  
         //所以要确保context已初始化,我们可以把实例化DBManager的步骤放在Activity的onCreate里  
         db = helper.getWritableDatabase();  
-        shopId = AppContext.getInstance(context).getCurrentDisplayShopId();
+        
         this.context = context;
     }  
     
@@ -36,6 +36,7 @@ public class EmployeePerDBManager
     //employee_name varchar(16), year integer, month integer, day integer, week integer
     public void add(List<EmployeePerBean> employeePerBean,String tableName)
     {
+    	shopId = AppContext.getInstance(context).getCurrentDisplayShopId();
     	db.beginTransaction();
     	try
     	{
@@ -168,7 +169,7 @@ public class EmployeePerDBManager
     {
     	String sql = "";
     	String[] selectionArgs = null ;
-    	
+    	shopId = AppContext.getInstance(context).getCurrentDisplayShopId();
     	if(!"month".equals(type))
     	{
     		sql = "year = ? and month = ? and day = ? and enterprise_id = ?";
@@ -189,7 +190,7 @@ public class EmployeePerDBManager
     {
     	String sql = "";
     	String[] selectionArgs = null ;
-    	
+    	shopId = AppContext.getInstance(context).getCurrentDisplayShopId();
     	if(!"month".equals(type))
     	{
     		sql = "SELECT * FROM "+tableName+" Where year = ? and month = ? and day = ? and enterprise_id = ?";
