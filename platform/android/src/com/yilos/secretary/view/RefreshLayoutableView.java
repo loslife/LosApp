@@ -124,7 +124,7 @@ public class RefreshLayoutableView extends LinearLayout {
      */
     private void fling() {
         LinearLayout.LayoutParams lp = (LayoutParams) refreshView.getLayoutParams();
-        if(lp.topMargin > 0){//拉到了触发可刷新事件
+        if(lp.topMargin > 0&&!isRefreshing){//拉到了触发可刷新事件
             refresh();  
         }else{
             returnInitState();
@@ -208,6 +208,8 @@ public class RefreshLayoutableView extends LinearLayout {
             }
         }
         
+        if(!isRefreshing)
+        {
         timeTextView.setVisibility(View.VISIBLE);
 //        if(refreshTime!= null){
 //            setRefreshTime(refreshTime);
@@ -216,13 +218,16 @@ public class RefreshLayoutableView extends LinearLayout {
         
         refreshIndicatorView.setVisibility(View.VISIBLE);
         bar.setVisibility(View.GONE);
-        if(lp.topMargin >  0){
-            downTextView.setText(R.string.refresh_release_text);
-            refreshIndicatorView.setImageResource(R.drawable.arrow_up);
-        }else{
-            downTextView.setText(R.string.refresh_down_text);
-            refreshIndicatorView.setImageResource(R.drawable.arrow);
+        
+        	if(lp.topMargin >  0){
+                downTextView.setText(R.string.refresh_release_text);
+                refreshIndicatorView.setImageResource(R.drawable.arrow_up);
+            }else{
+                downTextView.setText(R.string.refresh_down_text);
+                refreshIndicatorView.setImageResource(R.drawable.arrow);
+            }
         }
+        
     }
 
     public void setRefreshEnabled(boolean b) {
