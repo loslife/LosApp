@@ -23,6 +23,8 @@ public class Constants
 	
 	public static final String VERSION = "1";
 	
+	public static final String DOWNURL = "http://www.yilos.com/svc/apk/com.yilos.secretary.apk";
+	
 	//http://192.168.1.104:5000/svc/checkCode/15019432710?u=register&c=200957
 	//http://192.168.1.104:5000/svc/getCode/15019432710?u=attach
 	//var LEGAL_USAGE = ["attach", "register", "reset_password", "register_losapp"];

@@ -8,6 +8,8 @@ public class ManageResult
 	
 	private  String last_backupDate;
 	
+	private  String versionNumber;
+	
 	private String errorCode;
 
 	
@@ -42,6 +44,14 @@ public class ManageResult
 
 	public void setLast_backupDate(String last_backupDate) {
 		this.last_backupDate = last_backupDate;
+	}
+
+	public String getVersionNumber() {
+		return versionNumber;
+	}
+
+	public void setVersionNumber(String versionNumber) {
+		this.versionNumber = versionNumber;
 	}
 	
 	

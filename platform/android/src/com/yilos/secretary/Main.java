@@ -46,6 +46,7 @@ import com.yilos.secretary.bean.IncomePerformanceBean;
 import com.yilos.secretary.bean.MyShopBean;
 import com.yilos.secretary.bean.ServerManageResponse;
 import com.yilos.secretary.bean.ServicePerformanceBean;
+import com.yilos.secretary.common.Constants;
 import com.yilos.secretary.common.DateUtil;
 import com.yilos.secretary.common.NetworkUtil;
 import com.yilos.secretary.common.UIHelper;
@@ -853,11 +854,10 @@ public class Main extends BaseActivity implements
         .setMessage(dirvectionsList) 
         .setPositiveButton("下载升级", new DialogInterface.OnClickListener() {  
             public void onClick(DialogInterface dialog, int which) {
-            	String url1 = "http://www.yilos.com/svc/apk/com.yilos.secretary.apk";// /svc/portal/nail/download?type=secretary
                 Intent i1 = new Intent(Intent.ACTION_VIEW);
                 i1.addCategory(Intent.CATEGORY_BROWSABLE);
                 i1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                i1.setData(Uri.parse(url1)); 
+                i1.setData(Uri.parse(Constants.DOWNURL)); 
                 startActivity(i1);
             }  
         })  
