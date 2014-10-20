@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<color name="white">#FFFFFF</color>
+	<color name="black">#000000</color>
+	<color name="gray">#808080</color>
+	<color name="red">#FF0000</color>
+	<color name="gold">#FFD700</color>
+	<color name="yellow">#FFFF00</color>
+	<color name="green">#008000</color>
+	<color name="blue">#0000FF</color>
+	<color name="purple">#800080</color>
+	<color name="pink">#FFC0CB</color>
+	<color name="orange">#F4C452</color>
+	<color name="lemonyellow">#FFFACD</color>
+	<color name="graywhite">#F1F1F1</color>
+	<color name="grayslate">#708090</color>
+	<color name="lightblue">#0083FF</color>
+	<color name="aqua">#00FFFF</color>
+	<color name="turquoise">#6BD3D9</color>
+	<color name="hintcolor">#CECECE</color>
+	<color name="crimson">#f46767</color>
+	<color name="aquamarine">#B5E9EC</color>
+	
+	<color name="vone">#ff7a4b</color>
+	<color name="vtwo">#fca788</color>
+	<color name="vthree">#fecfbe</color>
+	<color name="vgeneral">#cad3da</color>
+	
+	<color name="blue_bg">#02a0dd</color>
+	<color name="base_bg">#e7ecf0</color>
+	<color name="gray_text">#728089</color>
+	<color name="gray_bg">#f7f8f9</color>
+	<color name="lightgray">#cad3da</color>
+	<color name="blue_text">#02a0dd</color>
+	<color name="black_text">#202529</color>
+	<color name="orange_bg">#e36e42</color>
+	<color name="orange_down">#fca788</color>
+	<color name="blue_down">#026b94</color>
+	<color name="gray_down">#e7ecf0</color>
+	<color name="white_down">#f4f6f8</color>
+	
+	<color name="paneldount_one">#e36e42</color>
+	<color name="paneldount_two">#f9d05c</color>
+	<color name="paneldount_three">#55d6ff</color>
+	<color name="paneldount_four">#8679c9</color>
+	<color name="transparent_background">#60ffffff</color>
+	
+	<color name="blue_inside">#48bbe8</color>
+	<color name="blue_outside_1">#7ecfee</color>
+	<color name="blue_outside_2">#b0dff2</color>
+	<color name="blue_outside_3">#cfedf9</color>
+	
+	<color name="orange_inside">#70dde2</color>
+	<color name="orange_outside_1">#c1fffe</color>
+	<color name="orange_outside_2">#8ef2f1</color>
+	      
+</resources>

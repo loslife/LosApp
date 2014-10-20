@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/base_bg"
+    android:orientation="vertical" >
+
+    <include
+        android:layout_height="50.0dip"
+        layout="@layout/main_header" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="48.0dip"
+        android:background="@color/white"
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/linkshopinputbtn"
+            android:textSize="@dimen/Text_size_m"
+            android:layout_width="fill_parent"
+            android:layout_height="48.0dip"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:text="添加关联"
+            android:textColor="@color/blue_text" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/noshop"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:visibility="gone" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="您尚未关联任何店铺，点击&apos;添加关联&apos;"
+            android:textColor="@color/gray_text"
+            android:textSize="16.0dip" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/inputlinkshop"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/relativelayout_linkshop"
+            android:layout_width="fill_parent"
+            android:layout_height="48.0dip"
+            android:background="@drawable/textborder" >
+
+            <TextView
+                android:id="@+id/phonetext"
+                style="@android:style/TextAppearance.Medium"
+                android:layout_width="90.0dip"
+                android:layout_height="48.0dip"
+                android:gravity="center"
+                android:text="帐号"
+                android:textColor="@color/gray_text" />
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="48.0dip"
+                android:layout_toRightOf="@id/phonetext"
+                android:background="@color/lightgray" />
+
+            <EditText
+                android:id="@+id/phoneNum"
+                android:layout_width="match_parent"
+                android:layout_height="48.0dip"
+                android:layout_marginLeft="5dip"
+                android:layout_toRightOf="@id/phonetext"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:hint="输入您要关联的帐号"
+                android:inputType="phone"
+                android:textColor="@color/black_text"
+                android:textColorHint="@color/lightgray"
+                android:textCursorDrawable="@null"
+                android:textSize="16.0dip" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativelayout_modfiypwd"
+            android:layout_width="fill_parent"
+            android:layout_height="48.0dip"
+            android:layout_marginTop="12.0dip"
+            android:background="@drawable/textborder" >
+
+            <TextView
+                android:id="@+id/validatecodetext"
+                style="@android:style/TextAppearance.Medium"
+                android:layout_width="90.0dip"
+                android:layout_height="48.0dip"
+                android:gravity="center"
+                android:text="验证码"
+                android:textColor="@color/gray_text" />
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="48.0dip"
+                android:layout_toRightOf="@id/validatecodetext"
+                android:background="@color/lightgray" />
+
+            <EditText
+                android:id="@+id/validatecode"
+                android:layout_width="match_parent"
+                android:layout_height="48.0dip"
+                android:layout_marginLeft="5dip"
+                android:layout_toRightOf="@id/validatecodetext"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:hint="输入验证码"
+                android:inputType="number"
+                android:textColor="@color/black_text"
+                android:textColorHint="@color/lightgray"
+                android:textCursorDrawable="@null"
+                android:textSize="16.0dip" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_getcode"
+            android:layout_width="fill_parent"
+            android:layout_height="24.0dip"
+            android:layout_marginTop="12.0dip" >
+
+            <TextView
+                android:id="@+id/btn_validatecode"
+                android:layout_width="106.0dip"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:text="获取验证码"
+                android:textSize="@dimen/Text_size_m"
+                android:textColor="@drawable/texturl" />
+
+            <View
+                android:id="@+id/viewline"
+                android:layout_width="106.0dip"
+                android:layout_height="1px"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:background="@color/blue_text" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="48.0dip"
+            android:id="@+id/linkshoplayout"
+            android:layout_marginTop="24.0dip"
+            android:gravity="center"
+            android:paddingLeft="20.0dip"
+            android:paddingRight="20.0dip" >
+
+            <TextView
+                android:id="@+id/linkshopbtn"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/login_btn"
+                android:gravity="center"
+                android:text="立即关联"
+                android:textSize="@dimen/Text_size_m"
+                android:textColor="@color/white" />
+
+            <ProgressBar
+                android:id="@+id/linkbar"
+                style="@android:style/Widget.ProgressBar.Small.Inverse"
+                android:layout_width="wrap_content"
+                android:layout_height="36.0dip"
+                android:layout_alignLeft="@+id/linkshopbtn"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="85dp"
+                android:gravity="center"
+                android:indeterminate="true" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linkshoplayout"
+            android:layout_marginTop="10.0dip"
+            android:gravity="center"
+            android:paddingLeft="20.0dip"
+            android:paddingRight="20.0dip" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="50.0dip"
+                android:gravity="left"
+                android:text="小贴士：关联店铺完成后，在手机中可以查看店铺中的实时经营数据以及所有的会员资料信息"
+                android:textColor="@color/gray_text"
+                android:textSize="12.0dip" />
+        </RelativeLayout>
+    </LinearLayout>
+
+     <View
+        android:id="@+id/shoplist_midview"
+        android:layout_width="fill_parent"
+        android:layout_height="12.0dip"
+        android:background="@drawable/viewborder"
+    />
+     
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingLeft="20.0dip"
+        android:paddingRight="20.0dip" >
+
+        <ListView
+            android:id="@+id/shoplist"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:divider="@color/graywhite"
+            android:dividerHeight="1px"
+            android:scrollbars="none" >
+        </ListView>
+    </LinearLayout>
+     <View
+        android:id="@+id/unshoplist_midview"
+        android:layout_width="fill_parent"
+        android:layout_height="12.0dip"
+        android:background="@drawable/viewborder"
+    />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingLeft="20.0dip"
+        android:paddingRight="20.0dip" >
+
+        <ListView
+            android:id="@+id/unshoplist"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:divider="@color/graywhite"
+            android:dividerHeight="1px"
+            android:scrollbars="none" >
+        </ListView>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/shoplistnull"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="你还未关联任何店铺，点击&apos;添加关联&apos;" >
+        </TextView>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/base_bg"
+    android:orientation="vertical" >
+    <include
+        android:layout_height="50.0dip"
+        layout="@layout/main_header" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:orientation="horizontal"
+        android:layout_weight="1"
+    >
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15.0dip"
+            android:text="
+       乐斯作为行业领先的美业管理与客户服务平台解决方案供应商，创始人员来自于世界500强企业海外、国内资深经理人与行业专家，在通讯，软件，管理，咨询，服务等方面积累了丰富的成功经验，并致力于把全球范围内的先进行业管理理念与实践带入美业，助力美业的服务转型与升级。\n
+       乐斯专注于为美业企业提供下一代基于SaaS
+云平台与移动互联网的社会化客户关系管理（So-
+cial CRM），移动门户（Mobile Portal）、精准
+营销(Presicion Marketing)与内部协作(Internal
+Cooperation)整体解决方案。\n
+      客户是乐斯最重要的资产，为客户提供高水准
+的服务是我们不懈的追求，客户的满意度是对我们
+最大的肯定与褒奖。"
+            android:textColor="@color/gray_text"
+            style="@style/aboutlos"
+            android:lineSpacingExtra="1.5dip"
+            android:layout_weight="16"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="200.dip"
+        android:layout_marginTop="30.0dip"
+        android:layout_marginBottom="20.0dip"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tiptext"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20.0dip"
+            android:layout_marginLeft="20.0dip"
+            android:layout_marginRight="0.0dip"
+            android:textSize="14.0dip"
+            android:textColor="@color/gray_text"
+            android:text="如果您有任何的建议或疑问，请联系我们" />
+
+        <TextView
+            android:id="@+id/qqtext"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tiptext"
+            android:layout_marginTop="20.0dip"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="20.0dip"
+            android:layout_marginRight="0.0dip"
+            android:drawableLeft="@drawable/qqicon"
+            android:drawablePadding="10.0dip"
+            android:text="QQ : 19947145502" />
+        
+         <TextView
+            android:id="@+id/emailtext"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/qqtext"
+            android:layout_marginTop="20.0dip"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="20.0dip"
+            android:layout_marginRight="0.0dip"
+            android:drawableLeft="@drawable/emailicon"
+            android:drawablePadding="10.0dip"
+            android:text="邮箱 : service@yilos.com" />
+         
+          <TextView
+            android:id="@+id/phonetext"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/emailtext"
+            android:layout_marginTop="20.0dip"
+            android:layout_marginBottom="20.0dip"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="20.0dip"
+            android:layout_marginRight="0.0dip"
+            android:drawableLeft="@drawable/phoneicon"
+            android:drawablePadding="10.0dip"
+            android:text="电话 : 0755-28890800" />
+    </RelativeLayout>
+
+</LinearLayout>

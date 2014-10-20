@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+     android:background="@color/white"
+    android:orientation="vertical" >
+
+    <include layout="@layout/main_header" />
+
+    <LinearLayout
+        android:id="@+id/date_header"
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:background="@color/gray_bg"
+        android:gravity="center"
+        android:orientation="horizontal" 
+        >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="3" />
+
+        <RelativeLayout
+            android:id="@+id/lefttime_layout"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="2"
+            android:background="@drawable/footbar_bg"
+            android:gravity="center" >
+
+            <ImageView
+                android:id="@+id/lefttime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:src="@drawable/toleft" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/showtime"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="8"
+            android:gravity="center"
+            android:text="09月14日--09月15日"
+            android:textColor="@color/black_text"
+            android:textSize="@dimen/Text_size_m" />
+
+        <RelativeLayout
+            android:id="@+id/righttime_layout"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="2"
+            android:gravity="center" 
+            android:background="@drawable/footbar_bg">
+
+            <ImageView
+                android:id="@+id/righttime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:src="@drawable/toright" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/timetype_layout"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="3"
+            android:gravity="center" 
+            android:background="@drawable/footbar_bg">
+
+            <TextView
+                android:id="@+id/timetype"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:gravity="center"
+                android:text="日"
+                android:textColor="@color/blue_text"
+                android:textSize="@dimen/Text_size_m" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <include layout="@layout/loadingbar" />
+    
+    <LinearLayout android:id="@+id/main_viewpager"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+    <android.support.v4.view.ViewPager
+        android:id="@+id/main_scrolllayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/noshop"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:background="@color/base_bg"
+        android:visibility="gone" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="您尚未添加关联店铺，去设置-关联店铺添加"
+            android:textColor="@color/gray_text"
+            android:textSize="16.0dip" />
+    </LinearLayout>
+
+</LinearLayout>

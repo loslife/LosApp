@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+
+   <com.yilos.secretary.view.RefreshLayoutableView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/refresh_employee"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <ScrollView
+            android:id="@+id/scroll_view_root"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" 
+            android:background="@color/white"> 
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center_horizontal"
+                android:background="@color/white"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:id="@+id/relativelayout_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48.0dip"
+                    android:gravity="center"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="20.0dip" >
+
+                    <TextView
+                        android:id="@+id/charviewtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:gravity="fill_vertical"
+                        android:text="员工业绩"
+                        android:textColor="@color/black_text"
+                        android:textSize="@dimen/Text_size_m" />
+
+                    <TextView
+                        android:id="@+id/employeetotal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_alignParentRight="true"
+                        android:gravity="fill_vertical"
+                        android:text="￥0.00"
+                        android:textColor="@color/black_text"
+                        android:textSize="@dimen/Text_size_m" />
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="1px"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/lightgray" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/columnarLayout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:scrollbars="vertical" >
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </com.yilos.secretary.view.RefreshLayoutableView>
+
+</LinearLayout>

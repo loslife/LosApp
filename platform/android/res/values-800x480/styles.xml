@@ -1,0 +1,17 @@
+<resources>
+
+    <style name="aboutlos" parent="android:style/TextAppearance.Small">
+        <item name="android:textScaleX">1.02</item>
+    </style>
+     <style name="footbar">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:background">@drawable/footbar_bg</item>
+        <item name="android:layout_height">50.0dip</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:button">@null</item>
+        <item name="android:paddingTop">4dip</item>
+        <item name="android:paddingBottom">4dip</item>
+    </style>
+
+</resources>
