@@ -1,5 +1,4 @@
-//#define ServerIP @"www.yilos.com"
-#define ServerIP @"121.40.75.73"
+#define ServerIP @"www.yilos.com"
 #define ServerHost [@"https://" stringByAppendingString:ServerIP]
 
 #define LOGIN_URL [ServerHost stringByAppendingString:@"/svc/losapp/login"]
@@ -16,4 +15,4 @@
 #define REMOVE_ENERPRISE_URL [ServerHost stringByAppendingString:@"/svc/losapp/undoAppendEnterprise"]
 #define COUNT_MEMBERS_URL [ServerHost stringByAppendingString:@"/svc/losapp/countMembers/%@"]
 
-#define VERSION_CODE @"1"
+#define VERSION_CODE @"2"
