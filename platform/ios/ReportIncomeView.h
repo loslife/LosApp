@@ -6,6 +6,7 @@
 
 -(BOOL) hasData;
 -(Income*) domainModel;
+-(BOOL) support;
 
 @end
 

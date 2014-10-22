@@ -34,6 +34,7 @@
     Income *income;
     ReportDao *dao;
     LosHttpHelper *httpHelper;
+    BOOL support;
 }
 
 -(id) init
@@ -58,6 +59,15 @@
         
         NSArray *array = [dao queryIncomeByDate:status.date EnterpriseId:currentEnterpriseId Type:status.dateType];
         [self assembleFromRecord1:[array objectAtIndex:0] Record2:[array objectAtIndex:1]];
+        
+        // 参照经营业绩，判断美业管家是否版本太低
+        if([[array objectAtIndex:0] objectForKey:@"_id"]){
+            support = YES;
+        }else{
+            int count = [dao countBusinessPerformance:status.date EnterpriseId:currentEnterpriseId Type:status.dateType];
+            support = (count == 0);
+        }
+        
         block(YES);
         
     }else{
@@ -85,7 +95,33 @@
             }
             
             [self assembleFromRecord1:record Record2:record2];
-            block(YES);
+            
+            // 参照经营业绩，判断美业管家是否版本太低
+            if([record objectForKey:@"_id"]){
+                
+                support = YES;
+                block(YES);
+            }else{
+                
+                NSString *url = [NSString stringWithFormat:FETCH_REPORT_URL, currentEnterpriseId, [status yearStr], [status monthStr], [status dayStr], [status typeStr], @"business"];
+                
+                [httpHelper getSecure:url completionHandler:^(NSDictionary *response){
+                    
+                    NSDictionary *result = [response objectForKey:@"result"];
+                    
+                    NSDictionary *current = [result objectForKey:@"current"];
+                    NSDictionary *biz = [current objectForKey:@"tb_biz_performance"];
+                    NSDictionary *record = [biz objectForKey:[status typeStr]];
+                    
+                    if([record objectForKey:@"_id"]){
+                        support = NO;
+                    }else{
+                        support = YES;
+                    }
+                    
+                    block(YES);
+                }];
+            }
         }];
     }
 }
@@ -97,7 +133,7 @@
     if(![record1 objectForKey:@"_id"]){
         return;
     }
-
+    
     income = [[Income alloc] init];
     income.serviceBank = [[record1 objectForKey:@"service_bank"] doubleValue];
     income.serviceCash = [[record1 objectForKey:@"service_cash"] doubleValue];
@@ -170,6 +206,11 @@
 }
 
 #pragma mark - ReportIncomeViewDataSource
+
+-(BOOL) support
+{
+    return support;
+}
 
 -(BOOL) hasData
 {

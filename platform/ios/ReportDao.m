@@ -242,6 +242,54 @@
     }];
 }
 
+-(int) countBusinessPerformance:(NSDate*)date EnterpriseId:(NSString*)enterpriseId Type:(int)type
+{
+    NSString *count_day = @"select count(1) as count from biz_performance_day where enterprise_id = :eid and year = :year and month = :month and day = :day;";
+    
+    NSString *count_month = @"select count(1) as count from biz_performance_month where enterprise_id = :eid and year = :year and month = :month;";
+    
+    NSString *count_week = @"select count(1) as count from biz_performance_year where enterprise_id = :eid and year = :year and month = :month and day = :day;";
+    
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    
+    __block NSDateComponents* components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:date];
+    NSInteger year = [components year];
+    NSInteger month = [components month];
+    NSInteger day = [components day];
+    
+    __block int count;
+    
+    [dbHelper inDatabase:^(FMDatabase* db){
+        
+        FMResultSet *rs;
+        
+        if(type == 0){
+            
+            rs = [db executeQuery:count_day, enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month], [NSNumber numberWithLong:day]];
+            
+        }else if(type == 1){
+            
+            rs = [db executeQuery:count_month, enterpriseId, [NSNumber numberWithLong:year], [NSNumber numberWithLong:month]];
+            
+        }else{
+            
+            NSDate *sunday = [TimesHelper firstDayOfWeek:date];
+            components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:sunday];
+            NSInteger yearOfSunday = [components year];
+            NSInteger monthOfSunday = [components month];
+            NSInteger dayOfSunday = [components day];
+            
+            rs = [db executeQuery:count_week, enterpriseId, [NSNumber numberWithLong:yearOfSunday], [NSNumber numberWithLong:monthOfSunday], [NSNumber numberWithLong:dayOfSunday]];
+        }
+        
+        count = [[rs objectForColumnName:@"count"] intValue];
+        
+        [rs close];
+    }];
+    
+    return count;
+}
+
 -(NSArray*) queryServicePerformanceByDate:(NSDate*)date EnterpriseId:(NSString*)enterpriseId Type:(int)type
 {
     NSCalendar* calendar = [NSCalendar currentCalendar];
