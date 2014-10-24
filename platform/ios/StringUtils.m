@@ -44,7 +44,7 @@
 
 +(BOOL) isPhone:(NSString*)phone
 {
-    NSString *phoneRegex = @"^((13)|(15)|(18))\\d{9}$";
+    NSString *phoneRegex = @"^((13)|(15)|(18)|(14)|(17))\\d{9}$";
     NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
     return [phoneTest evaluateWithObject:phone];
 }
