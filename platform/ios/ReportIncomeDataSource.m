@@ -232,10 +232,10 @@
 -(LosPieChartItem*) pieItemAtIndex:(int)index
 {
     if(index == 0){
-        NSString *title = [NSString stringWithFormat:@"收入 %.f%%", income.incomeRatio * 100];
+        NSString *title = [NSString stringWithFormat:@"收入 %.1f%%", income.incomeRatio * 100];
         return [[LosPieChartItem alloc] initWithTitle:title Ratio:income.incomeRatio];
     }else{
-        NSString *title = [NSString stringWithFormat:@"预付款 %.f%%", income.prepayRatio * 100];
+        NSString *title = [NSString stringWithFormat:@"预付款 %.1f%%", income.prepayRatio * 100];
         return [[LosPieChartItem alloc] initWithTitle:title Ratio:income.prepayRatio];
     }
 }

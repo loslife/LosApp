@@ -177,7 +177,7 @@
 {
     if(index < 3){
         ServicePerformance *performance = [self.records objectAtIndex:index];
-        NSString *title = [NSString stringWithFormat:@"%d.%@ %.f%%", index + 1, performance.title, performance.ratio * 100];
+        NSString *title = [NSString stringWithFormat:@"%d.%@ %.1f%%", index + 1, performance.title, performance.ratio * 100];
         return [[LosPieChartItem alloc] initWithTitle:title Ratio:performance.ratio];
     }
     
@@ -187,7 +187,7 @@
         ServicePerformance *performance = [self.records objectAtIndex:i];
         sum += performance.ratio;
     }
-    NSString *title = [NSString stringWithFormat:@"其他 %.f%%", sum * 100];
+    NSString *title = [NSString stringWithFormat:@"其他 %.1f%%", sum * 100];
     return [[LosPieChartItem alloc] initWithTitle:title Ratio:sum];
 }
 
