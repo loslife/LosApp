@@ -8,6 +8,7 @@
 {
     id<ReportIncomeViewDataSource, LosPieChartDelegate> dataSource;
     UIView *main;
+    UILabel *lowVersionHint;
     
     CGFloat mainHeight;
     CGFloat headerHeight;
@@ -52,6 +53,19 @@
 -(void) drawRect:(CGRect)rect
 {
     [main removeFromSuperview];
+    [lowVersionHint removeFromSuperview];
+    
+    // 如果美业管家版本太低，提示用户升级
+    if(![dataSource support]){
+        
+        self.contentSize = CGSizeMake(320, rect.size.height + 10);
+        
+        lowVersionHint = [[UILabel alloc] initWithFrame:CGRectMake(20, 40, 280, mainHeight)];
+        lowVersionHint.text = @"经营收入报表需要美业管家2.3.0";
+        lowVersionHint.textAlignment = NSTextAlignmentCenter;
+        [self addSubview:lowVersionHint];
+        return;
+    }
     
     if([dataSource hasData]){
         

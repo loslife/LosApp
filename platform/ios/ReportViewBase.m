@@ -7,7 +7,7 @@
 {
     self = [super initWithFrame:frame];
     if(self){
-        [self addHeaderWithTarget:self action:@selector(sendRefreshNotification)];
+        [self addHeaderWithTarget:self action:@selector(sendRefreshNotification) dateKey:@"mjrefresh_date_report"];
     }
     return self;
 }
